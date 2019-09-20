@@ -1,0 +1,247 @@
+# ENTITY SENSOR SPECIFICATION
+
+#- platform: unifigateway
+#  host: !secret url_unifi
+#  username: !secret username_unifi
+#  password: !secret password_unifi
+#  monitored_conditions:
+#    - www
+#    - wlan
+#    - alerts
+#    - firmware
+
+# WEBHOOKS SENSOR FOR TRANSLATING PLEX WEBHOOKS TO MQTT
+
+#- platform: mqtt
+#  name: Plex MQTT Sensor Woonkamer
+#  state_topic: "plex/update/sensor"
+#  value_template: '{{ value_json.Event == "media.resume" or value_json.Event == "media.play" }}'
+#  json_attributes_topic: "plex/update/sensor"
+#  json_attributes:
+#    - Player
+#    - UUID
+#    - Account
+#    - Title
+#    - Type
+#    - Image
+#    - Event
+
+# WEATHER PLATFORM
+
+- platform: season
+  type: astronomical
+
+# CUSTOM SENSOR AFVAL
+
+- platform: ophaalkalender
+  resources:
+    - restafval
+    - papier
+    - pmd
+  postcode: !secret zone_home_postcode
+  streetname: !secret zone_home_streetname
+  streetnumber: !secret zone_home_housenumber
+  dateformat: '%Y-%m-%d'
+  dateonly: 1
+
+# SENSORS USED TO DIPLAY ONLY CURRENT TEMPERATURE ON FRONTEND (ELSE YOU HAVE SET TEMPERATURE)
+
+- platform: template
+  sensors:
+    temp_template_evohome_bathroom:
+      value_template: '{{ states.climate.bathroom.attributes.current_temperature | round(1) }}'
+      unit_of_measurement: °C
+      device_class: temperature
+    temp_template_evohome_kitchen:
+      value_template: '{{ states.climate.kitchen.attributes.current_temperature | round(1) }}'
+      unit_of_measurement: °C
+      device_class: temperature
+    temp_template_evohome_living_room:
+      value_template: '{{ states.climate.living_room.attributes.current_temperature | round(1) }}'
+      unit_of_measurement: °C
+      device_class: temperature
+    temp_template_evohome_dressing:
+      value_template: '{{ states.climate.dressing.attributes.current_temperature | round(1) }}'
+      unit_of_measurement: °C
+      device_class: temperature
+    temp_template_evohome_bedroom:
+      value_template: '{{ states.climate.bedroom.attributes.current_temperature | round(1) }}'
+      unit_of_measurement: °C
+      device_class: temperature
+    temp_template_evohome_nursery:
+      value_template: '{{ states.climate.nursery.attributes.current_temperature | round(1) }}'
+      unit_of_measurement: °C
+      device_class: temperature
+
+
+# SENSOR TO RENAME ON AND OFF FOR VISITOR SO IT CAN BE INCLUDED IN GROUP_BEZOEKER
+
+- platform: template
+  sensors:
+    bezoek:
+      value_template: >-
+        {% if is_state("input_boolean.visitor", "on") %}
+          home
+        {% else %}
+          not_home
+        {% endif %}
+
+# SENSOR TO RENAME ON AND OFF FOR KUISDAG CALENDER SO IT CAN BE INCLUDED IN GROUP_BEZOEKER
+
+- platform: template
+  sensors:
+    kuishulp:
+      value_template: >-
+        {% if is_state("calendar.kuishulp_agenda", "on") %}
+          home
+        {% else %}
+          not_home
+        {% endif %}
+
+- platform: template
+  sensors:
+    babysit:
+      value_template: >-
+        {% if is_state("calendar.babysit_agenda", "on") %}
+          home
+        {% else %}
+          not_home
+        {% endif %}
+
+# SENSOR TO MONITOR TRAIN CONNECTION
+
+- platform: nmbs
+  station_from: "Willebroek"
+  station_to: "Mechelen"
+  exclude_vias: true
+  name: nmbs
+
+- platform: nmbs
+  station_from: "Mechelen"
+  station_to: "Willebroek"
+  exclude_vias: true
+  name: nmbs_3
+
+- platform: nmbs
+  station_from: "Brussel-Centraal"
+  station_to: "Mechelen"
+  exclude_vias: true
+  name: nmbs_4
+
+- platform: nmbs
+  station_from: "Mechelen"
+  station_to: "Brussel-Centraal"
+  exclude_vias: true
+  name: nmbs_2
+
+- platform: template
+  sensors:
+    nmbs_template:
+      value_template: '{{ states.sensor.nmbs.attributes.vehicle_id }}'
+    nmbs_template_2:
+      value_template: '{{ states.sensor.nmbs_2.attributes.vehicle_id }}'
+    nmbs_template_3:
+      value_template: '{{ states.sensor.nmbs_3.attributes.vehicle_id }}'
+    nmbs_template_4:
+      value_template: '{{ states.sensor.nmbs_4.attributes.vehicle_id }}'
+
+# SENSORS TO CALCULATE SMAPPEE - STANDARD SMAPPEE NUMBERS ARE WRONG!
+
+- platform: template
+  sensors:
+    water_meter:
+      value_template: "{{ states('sensor.smappee_ons_huisje_water_sensor_1') | int / 2 }}"
+      unit_of_measurement: L
+    gas_meter:
+      value_template: "{{ states('sensor.smappee_ons_huisje_water_sensor_2') | int / 100 }}"
+      unit_of_measurement: m³
+
+- platform: template
+  sensors:
+    water_monthly_peak_last_period:
+      value_template: "{{ states.sensor.water_monthly_peak.attributes.last_period }}"
+      unit_of_measurement: L
+    gas_monthly_peak_last_period:
+      value_template: "{{ states.sensor.gas_monthly_peak.attributes.last_period }}"
+      unit_of_measurement: m³
+    elektricity_monthly_peak_last_period:
+      value_template: "{{ states.sensor.elektricity_monthly_peak.attributes.last_period }}"
+      unit_of_measurement: 'kWh'
+    solar_monthly_peak_last_period:
+      value_template: "{{ states.sensor.solar_monthly_peak.attributes.last_period }}"
+      unit_of_measurement: 'kWh'
+
+- platform: template
+  sensors:
+    elektricity_usage_current_template:
+      value_template: "{{ ((states.sensor.smappee_active_power_template.state | float ) + (states.sensor.solaredge_current_power_template.state | float )) | round(2) }}"
+      unit_of_measurement: 'kWh'
+    elektricity_usage_daily_template:
+      value_template: "{{ ((states.sensor.smappee_ons_huisje_power_today.state | float ) + (states.sensor.solaredge_energy_today_template.state | float )) | round(2) }}"
+      unit_of_measurement: 'kWh'
+
+# SENSORS TO ADAPT SOLAR EDGE & SMAPPEE DISPLAYED UNITS
+
+- platform: template
+  sensors:
+    solaredge_current_power_template:
+      value_template: '{{ (states.sensor.solaredge_current_power.state | float / 1000) | round(2) }}'
+      unit_of_measurement: 'kWh'
+    solaredge_energy_today_template:
+      value_template: '{{ (states.sensor.solaredge_energy_today.state | float / 1000) | round(2) }}'
+      unit_of_measurement: 'kWh'
+    solaredge_energy_this_month_template:
+      value_template: '{{ (states.sensor.solaredge_energy_this_month.state | float / 1000) | round(2) }}'
+      unit_of_measurement: 'kWh'
+    solaredge_energy_this_year_template:
+      value_template: '{{ (states.sensor.solaredge_energy_this_year.state | float / 100000) | round(2) }}'
+      unit_of_measurement: 'MWh'
+    solaredge_lifetime_energy_template:
+      value_template: '{{ (states.sensor.solaredge_lifetime_energy.state | float / 1000000) | round(2) }}'
+      unit_of_measurement: 'MWh'
+    smappee_active_power_template:
+      value_template: '{{ (states.sensor.smappee_ons_huisje_active_power.state | float / 1000) | round(2) }}'
+      unit_of_measurement: 'kWh'
+
+# SENSOR TO FOLLOW SONARR DOWNLOADS
+
+#- platform: sonarr
+#  api_key: !secret api_key_sonarr
+#  host: !secret ip_computer_lan
+#  port: !secret port_sonarr
+#  urlbase: /sonarr
+#  monitored_conditions:
+#    - upcoming
+#    - wanted
+#    - diskspace
+#  include_paths:
+#    - F:\
+#  days: 7
+#  ssl: false
+
+# SENSOR TO CHECK STATE OF RASPBERRY PI
+
+- platform: systemmonitor
+  resources:
+    - type: disk_use_percent
+      arg: /home
+    - type: memory_use_percent
+    - type: processor_use
+    - type: last_boot
+
+# SENSOR TO CONNECT ARLO BABY CAMERA
+
+- platform: arlo
+  monitored_conditions:
+    - temperature
+    - humidity
+    - air_quality
+    - battery_level
+
+# SENSOR TO USE DATE AND TIME
+
+- platform: time_date
+  display_options:
+    - 'time'
+    - 'date'
+    - 'date_time'

@@ -1,0 +1,58 @@
+# CREATION OF INPUT BOOLEANS
+
+# Used to show this in Harmony app
+  light_livingroom:
+
+#Used to keep dressing lights on
+  light_dressing_stay_on:
+
+#Used to turn on/off all lights downstairs
+  light_downstairs:
+
+#used to keep vistor at home without device tracker
+  visitor:
+
+#Used to trigger states with Homekit, Alexa or Google Home
+  trigger_away:
+
+  trigger_home:
+
+  trigger_sleep:
+
+  trigger_morning:
+
+#Used to trigger sensors alexa and trigger routines
+  trigger_just_home_kitchen:
+
+  trigger_just_awake_kitchen:
+
+  trigger_just_sleep_kitchen:
+
+  trigger_just_away_kitchen:
+
+  trigger_just_awake_dressing:
+
+  trigger_just_sleep_dressing:
+
+#Used to turn on/off notifications
+  notify_bert:
+
+  notify_caro:
+
+#Used to make radio follow around the house
+  music_follow:
+
+#Used to stop heating from using shedules
+  heating:
+
+  cooling_upstairs:
+
+  cooling_downstairs:
+
+#Used to stop music, light when playing plex
+  plex_livingroom:
+
+  plex_kitchen:
+
+#Used to stop Dusty from vacuming multiple times a day
+  vacuum_cleaned_today:

@@ -1,0 +1,325 @@
+homeassistant:
+  customize: !include_dir_merge_named customize/
+  customize_domain: !include_dir_merge_named customize_domains/
+
+#lovelace in yaml mode
+lovelace:
+  mode: yaml
+
+# Start with a default configuration (will start new things when available)
+default_config:
+
+# (default)
+automation: !include_dir_merge_list automations/
+
+# (default) Enables configuration UI
+config:
+
+# (default) Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# (default) Enables the frontend (default)
+frontend:
+  javascript_version: latest
+  themes: !include themes.yaml
+
+# (default)
+history: !include history.yaml
+
+# (default)
+logbook: !include logbook.yaml
+
+#(default)
+cloud:
+  alexa:
+    entity_config: !include alexa_entity_config.yaml
+  google_actions:
+    entity_config: !include google_entity_config.yaml
+
+# (default)
+map:
+
+# (default)
+mobile_app:
+
+# (default) Person component
+person:
+
+# (default)
+script: !include_dir_named scripts/
+
+# (default) Track the sun
+sun:
+
+# (default)
+system_health:
+
+# (default) Allows Home Assistant developers to focus on popular components.
+updater:
+  # include_used_components: true
+
+# Discover some devices automatically
+discovery:
+  ignore:
+    - plex_mediaserver
+
+hassio:
+
+ios:
+
+sensor: !include sensors.yaml
+
+zone: !include zones.yaml
+
+group: !include groups.yaml
+
+input_boolean: !include input_booleans.yaml
+
+input_select: !include input_selects.yaml
+
+evohome:
+  username: !secret username_evohome
+  password: !secret password_evohome
+  scan_interval: 120
+
+# CUSTOM COMPONENTS
+hacs:
+  token: !secret api_key_hacs
+  appdaemon: False
+  python_script: False
+  theme: True
+
+#alexa_media:
+#  accounts:
+#    - email: !secret username_alexa
+#      password: !secret password_alexa
+#      url: amazon.co.uk
+
+# Text to speech
+#notify:
+#  - platform: alexa_media
+#    name: alexa_media
+
+# Enables Homekit
+homekit:
+  auto_start: False
+  filter: !include homekit_filter.yaml
+  entity_config: !include homekit_entity_config.yaml
+
+# Enable Frontend Panels/Tabs
+panel_iframe:
+  #GRAFANA Component (Grafical History)
+  grafana:
+    title: Grafana
+    icon: mdi:chart-timeline
+    url: !secret url_grafana
+
+binary_sensor:
+  - platform: template
+    sensors:
+      trigger_just_away_kitchen:
+        device_class: motion
+        entity_id:
+          - input_boolean.trigger_just_away_kitchen
+        value_template: "{{ is_state('input_boolean.trigger_just_away_kitchen', 'on') }}"
+        friendly_name: 'Sensor Just Away Kitchen'
+      trigger_just_home_kitchen:
+        device_class: motion
+        entity_id:
+          - input_boolean.trigger_just_home_kitchen
+        value_template: "{{ is_state('input_boolean.trigger_just_home_kitchen', 'on') }}"
+        friendly_name: 'Sensor Just Home Kitchen'
+      trigger_just_awake_kitchen:
+        device_class: motion
+        entity_id:
+          - input_boolean.trigger_just_awake_kitchen
+        value_template: "{{ is_state('input_boolean.trigger_just_awake_kitchen', 'on') }}"
+        friendly_name: 'Sensor Just Morning Kitchen'
+      trigger_just_sleep_kitchen:
+        device_class: motion
+        entity_id:
+          - input_boolean.trigger_just_sleep_kitchen
+        value_template: "{{ is_state('input_boolean.trigger_just_sleep_kitchen', 'on') }}"
+        friendly_name: 'Sensor Just Sleep Kitchen'
+      trigger_just_awake_dressing:
+        device_class: motion
+        entity_id:
+          - input_boolean.trigger_just_awake_dressing
+        value_template: "{{ is_state('input_boolean.trigger_just_awake_dressing', 'on') }}"
+        friendly_name: 'Sensor Just Morning Dressing'
+      trigger_just_sleep_dressing:
+        device_class: motion
+        entity_id:
+          - input_boolean.trigger_just_sleep_dressing
+        value_template: "{{ is_state('input_boolean.trigger_just_sleep_dressing', 'on') }}"
+        friendly_name: 'Sensor Just Sleep Dressing'
+
+# Enable Utility meter
+utility_meter:
+  elektricity_usage_daily:
+    source: sensor.elektricity_usage_daily_template
+    cycle: daily
+    tariffs:
+      - peak
+  elektricity_monthly:
+    source: sensor.smappee_ons_huisje_power_today
+    cycle: monthly
+    tariffs:
+      - peak
+  elektricity_usage_monthly:
+    source: sensor.elektricity_usage_daily_template
+    cycle: monthly
+    tariffs:
+      - peak
+  solar_monthly:
+    source: sensor.solaredge_energy_this_month_template
+    cycle: monthly
+    tariffs:
+      - peak
+  gas_monthly:
+    source: sensor.gas_meter
+    cycle: monthly
+    tariffs:
+      - peak
+  water_monthly:
+    source: sensor.water_meter
+    cycle: monthly
+    tariffs:
+      - peak
+
+recorder:
+  purge_keep_days: 3
+  purge_interval: 1
+
+influxdb:
+  host: a0d7b954-influxdb
+  port: !secret port_influxdb
+  database: HomeAssistant
+  username: !secret username_influxdb
+  password: !secret password_influxdb
+  max_retries: 3
+  default_measurement: state
+  include: !include influxdb_filter_include.yaml
+  exclude: !include influxdb_filter_exclude.yaml
+
+#camera: !include cameras.yaml
+
+#ffmpeg:
+
+weather:
+  - platform: darksky
+    api_key: !secret api_key_darksky
+    mode: hourly
+
+mqtt:
+  broker: core-mosquitto
+  username: !secret username_mqtt
+  password: !secret password_mqtt
+
+arlo:
+  username: !secret username_arlo
+  password: !secret password_arlo
+
+nest:
+  client_id: !secret client_id_nest
+  client_secret: !secret client_secret_nest
+
+solaredge:
+  api_key: !secret api_key_solar_edge
+  site_id: !secret client_id_solar_edge
+
+#device_tracker:
+#  - platform: unifi
+#    username: !secret username_unifi
+#    password: !secret password_unifi
+#    host: !secret ip_unifi
+#    port: !secret port_unifi
+#    site_id: default
+#    consider_home: 120
+#    verify_ssl: false
+#    new_device_defaults:
+#      track_new_devices: False
+#      hide_if_away: True
+#    monitored_conditions:
+#      - ap_mac
+
+unifi:
+  controllers:
+    - host: Default
+      site: Our home
+      detection_time: 240
+
+vacuum:
+  - platform: roomba
+    host: !secret ip_irobot
+    username: !secret username_irobot
+    password: !secret password_irobot
+    name: Dusty
+    continuous: true
+
+media_player:
+  - platform: samsungtv
+    name: Samsung TV
+    host: !secret ip_tv
+    mac: !secret mac_tv
+  - platform: spotify
+    client_id: !secret client_id_spotify
+    client_secret: !secret client_secret_spotify
+
+smappee:
+  host: !secret ip_smappee
+  client_id: !secret client_id_smappee
+  client_secret: !secret client_secret_smappee
+  username: !secret username_smappee
+  password: !secret password_smappee
+
+# USED FOR CONNECTING TO CALENDARS
+google:
+  client_id: !secret client_id_google
+  client_secret: !secret client_secret_google
+  track_new_calendar: False
+
+#emulated_hue:
+#  host_ip: !secret ip_homeassistant
+#  expose_by_default: false
+#  off_maps_to_on_domains:
+#    - script
+#  exposed_domains:
+#    - switch
+#    - light
+#    - input_boolean
+#  entities: !include emulated_hue_entity_config.yaml
+
+hue:
+  bridges:
+    host: !secret ip_hue
+    filename: phue.conf
+    allow_unreachable: true
+    allow_hue_groups: false
+
+light:
+  platform: limitlessled
+  bridges:
+    - host: !secret ip_milight_bridge_1
+      groups:
+      - number: 1
+        type: bridge-led
+        name: milight_bridge_living_room
+    - host: !secret ip_milight_bridge_2
+      groups:
+      - number: 1
+        type: bridge-led
+        name: milight_bridge_kitchen
+      - number: 1
+        type: rgbww
+        name: milight_kitchen
+      - number: 2
+        type: rgbww
+        name: milight_bathroom
+
+switch:
+  - platform: wake_on_lan
+    mac_address: !secret mac_computer_lan
+    host: !secret ip_computer_lan
+    turn_off:
+      service: script.remote_kitchen_pc_off

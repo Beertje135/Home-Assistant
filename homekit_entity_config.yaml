@@ -1,0 +1,117 @@
+# CONFIGURATION FOR HOMEKIT ENTITIES
+# LIGHTS
+
+light.milight_bridge_living_room:
+  name: Woonkamer Tv Lampje
+light.milight_bridge_kitchen:
+  name: Keuken Tv Lampje
+light.milight_kitchen:
+  name: Keuken LED Strip
+light.milight_bathroom:
+  name: Badkamer LED Strip
+
+light.hue_veranda:
+  name: Veranda Flos Arco
+light.hue_logeerkamer_floor:
+  name: Elmo's Kamer Staanlamp
+light.hue_logeerkamer_ceiling:
+  name: Elmo's Kamer Lamp
+light.hue_woonkamer:
+  name: Woonkamer Lamp
+light.hue_dressing_one:
+  name: Dressing Lamp 1
+light.hue_dressing_two:
+  name: Dressing Lamp 2
+light.hue_dressing_three:
+  name: Dressing Lamp 3
+
+# SWITCHES
+
+switch.smappee_porch:
+  name: Veranda LED Lichtjes
+  type: outlet
+switch.smappee_extra_plug:
+  name: Spacewalker
+  type: outlet
+switch.smappee_living_room:
+  name: Woonkamer LED Lichtjes
+  type: outlet
+switch.smappee_speakers:
+  name: Keuken Speakers
+  type: switch
+switch.wake_on_lan:
+  name: Keuken Computer
+  type: switch
+
+# INPUT BOOLEANS
+
+input_boolean.light_downstairs:
+  name: Ons Huisje Licht Beneden
+input_boolean.visitor:
+  name: Ons Huisje Bezoek
+input_boolean.heating:
+  name: Ons Huisje Verwarming Schema
+input_boolean.trigger_home:
+  name: Ons Huisje Thuis
+input_boolean.trigger_sleep:
+  name: Ons Huisje Slapen
+input_boolean.trigger_morning:
+  name: Ons Huisje Ochtend
+input_boolean.trigger_away:
+  name: Ons Huisje Weg
+input_boolean.music_follow:
+  name: Ons Huisje Muziek Volgen
+input_boolean.light_dressing_stay_on:
+  name: Dressing Licht Aanhouden
+
+# SENSORS
+
+binary_sensor.keuken_sensor_motion:
+  name: Keuken Beweging
+sensor.keuken_sensor_light_level:
+  name: Keuken Lichtniveau
+binary_sensor.dressing_sensor_motion:
+  name: Dressing Beweging
+sensor.dressing_sensor_light_level:
+  name: Dressing Lichtniveau
+binary_sensor.living_sensor_motion:
+  name: Woonkamer Beweging
+sensor.living_sensor_light_level:
+  name: Woonkamer Lichtniveau
+sensor.humidity_arlobaby:
+  name: Arlo Vochtigheid
+sensor.smappee_ons_huisje_water_sensor_temperature:
+  name: Kelder Temperatuur
+sensor.smappee_ons_huisje_water_sensor_humidity:
+  name: Kelder Vochtgheid
+
+# CLIMATE
+
+climate.bedroom:
+  name: Slaapkamer Temperatuur
+climate.bathroom:
+  name: Badkamer Temperatuur
+climate.nursery:
+  name: Elmo's Kamer Temperatuur
+climate.kitchen:
+  name: Keuken Temperatuur
+climate.living_room:
+  name: Woonkamer Temperatuur
+climate.ons_huisje:
+  name: Ons Huisje Temperatuur
+
+# VACUUM
+
+script.vacuum_on:
+  name: Veranda Dusty Start
+script.vacuum_off:
+  name: Veranda Dusty Stop
+input_boolean.vacuum_cleaned_today:
+  name: Veranda Dusty klaar
+
+# DEVICE TRACKERS
+
+device_tracker.router_iphone_bert:
+  name: Bert
+device_tracker.router_iphone_caro:
+  name: Caroline

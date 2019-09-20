@@ -1,0 +1,13 @@
+    entities:
+      - sensor.nmbs
+      - sensor.nmbs_3
+      - sensor.nmbs_2
+      - sensor.nmbs_4
+      - sensor.sonarr_upcoming
+      - sensor.sonarr_wanted
+      - sensor.sonarr_disk_space
+      - sensor.battery_level_arlobaby
+      - sensor.berts_iphone_battery_level
+      - sensor.caroline_battery_level
+      - sensor.my_ipad_battery_level
+      - sensor.my_ipad_battery_state

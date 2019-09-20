@@ -1,0 +1,38 @@
+  bewoners:
+    view: no
+    name: Bewoners
+    icon: mdi:account-multiple
+    control: hidden
+    entities:
+      - person.bert
+      - person.caroline
+
+  bewoners_router:
+    view: no
+    name: Bewoners
+    icon: mdi:account-multiple
+    control: hidden
+    entities:
+      - device_tracker.router_iphone_bert
+      - device_tracker.router_iphone_caro
+
+
+  bezoekers:
+    view: no
+    name: Bezoekers
+    icon: mdi:account-multiple
+    control: hidden
+    entities:
+      - sensor.bezoek
+      - sensor.kuishulp
+      - sensor.babysit
+      - person.mama
+      - person.mark
+      - person.papa
+      - person.karen
+      - person.andy
+      - person.oma
+      - person.thomas
+      - person.niki
+      - person.marcus
+      - person.nancy

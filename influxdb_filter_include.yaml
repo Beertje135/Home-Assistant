@@ -1,0 +1,10 @@
+    domains:
+      - switch
+      - sensor
+      - light
+      - climate
+      - input_boolean
+      - input_select
+      - weather
+      - vacuum
+      - device_tracker

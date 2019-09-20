@@ -1,0 +1,29 @@
+# ENTITY INPUT SELECT SPECIFICATION
+
+# ENTITY INPUT SELECT FOR HOME STATUS
+
+  woning_status:
+    name: WONING
+    options:
+      - Juist Weg
+      - Juist Thuis
+      - Thuis
+      - Weg
+      - Slapen
+      - Juist Wakker
+      - Dag Thuis
+      - Vakantie
+
+# ENTITY INPUT SELECT FOR HARMONY REMOTE
+
+  harmony_hub:
+    name: WOONKAMER TV
+    options:
+      - Powered Off
+      - Alexa
+      - Watch Tv
+      - Watch Plex
+      - Watch Chromecast
+      - Listen Music
+      - Play Nintendo
+      - Play Playstation

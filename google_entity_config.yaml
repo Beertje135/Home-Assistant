@@ -1,0 +1,175 @@
+# CONFIGURATION FOR GOOGLE ENTITIES
+# LIGHTS
+# MILIGHTS
+
+light.milight_bridge_living_room:
+  name: Woonkamer Tv Licht
+  aliases:
+    - Tv Licht
+    - Ambilight
+    - Tv Staanlamp
+  room: Woonkamer
+light.milight_bridge_kitchen:
+  name: Keuken Tv Licht
+  aliases:
+    - Tv Licht
+    - Tv Lamp Keuken
+    - Keuken Tv Lamp
+    - Ambilight Keuken
+  room: Keuken
+light.milight_kitchen:
+  name: Keuken Licht
+  aliases:
+    - Led Strip
+    - Keuken Led
+    - Led Keuken
+  room: Keuken
+light.milight_bathroom:
+  name: Badkamer Licht
+  aliases:
+    - Led Strip
+    - Badkamer Licht Strip
+    - Badkamer Lamp
+    - Lamp Badkamer
+    - Led Badkamer
+  room: Badkamer
+
+# HUE LIGHTS
+
+light.hue_veranda:
+  name: Woonkamer Licht
+  aliases:
+    - Plafond Licht
+  room: Woonkamer
+light.hue_logeerkamer_floor:
+  name: Elmo's Staanlamp
+  aliases:
+    - Staanlamp
+  room: Elmo's Kamer
+light.hue_logeerkamer_ceiling:
+  name: Elmo's Licht
+  aliases:
+    - Plafond Lamp
+    - Elmo's Lamp
+  room: Elmo's Kamer
+light.hue_bibliotheek:
+  name: Bureau Licht
+  aliases:
+    - Bibliotheek Licht
+    - Bibliotheek Lamp
+  room: Bureau
+light.hue_dressing_one:
+  name: Dressing Lamp 1
+  aliases:
+    - Dressing 1
+    - Dressing Licht 1
+  room: Dressing
+light.hue_dressing_two:
+  name: Dressing Lamp 2
+  aliases:
+    - Dressing 2
+    - Dressing Licht 2
+  room: Dressing
+light.hue_dressing_three:
+  name: Dressing Lamp 3
+  aliases:
+    - Dressing 3
+    - Dressing Licht 3
+  room: Dressing
+
+# SWITCHES
+
+switch.smappee_porch:
+  name: Veranda Licht
+  aliases:
+    - Veranda Led
+    - Porch Light
+  room: Veranda
+switch.smappee_extra_plug:
+  name: Extra Plug
+  aliases:
+    - Kerstboom
+    - Christmas tree
+  room: Woonkamer
+switch.smappee_living_room:
+  name: Woonkamer Licht Strip
+  aliases:
+    - Floor Light
+    - Floor Lamp
+    - Light Strip
+  room: Woonkamer
+switch.smappee_speakers:
+  name: Speakers
+  aliases:
+    - Boxen
+    - Kitchen Speakers
+  room: Keuken
+switch.wake_on_lan:
+  name: Computer
+  aliases:
+    - PC
+    - Kitchen PC
+  room: Keuken
+
+# INPUT BOOLEANS
+
+input_boolean.light_downstairs:
+  name: Alle Lichten Beneden
+  aliases:
+    - All Lights Downstairs
+  room: Woning
+input_boolean.visitor:
+  name: Bezoeker
+  aliases:
+    - Visitor
+    - Bezoek
+  room: Woning
+input_boolean.trigger_home:
+  name: Trigger Thuis
+  aliases:
+    - Thuis
+    - Trigger Home
+    - Home
+  room: Woning
+input_boolean.trigger_sleep:
+  name: Trigger Slapen
+  aliases:
+    - Slapen
+    - Trigger Sleep
+    - Sleep
+  room: Woning
+input_boolean.trigger_morning:
+  name: Trigger Ochtend
+  aliases:
+    - Ochtend
+    - Trigger Awake
+    - Awake
+  room: Woning
+input_boolean.trigger_away:
+  name: Trigger Weg
+  aliases:
+    - Weg
+    - Trigger Gone
+    - Gone
+  room: Woning
+input_boolean.music_follow:
+  name: Muziek Volgen
+  aliases:
+    - Music Follows
+  room: Woning
+input_boolean.heating:
+  name: Verwarming Volgen
+  aliases:
+    - Verwarming Volgt
+    - Heating Shedule
+  room: Woning
+input_boolean.notify_bert:
+  name: Bericht Bert
+  aliases:
+    - Notify Bert
+  room: Woning
+input_boolean.notify_caro:
+  name: Bericht Caro
+  aliases:
+    - Notify Caro
+  room: Woning

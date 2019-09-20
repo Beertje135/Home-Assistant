@@ -1,0 +1,141 @@
+# PERSONALL ZONES
+
+- name: Mama & Mark
+  latitude: !secret zone_mama_lat
+  longitude: !secret zone_mama_lon
+  radius: 80
+  icon: mdi:account-multiple
+
+- name: Oma
+  latitude: !secret zone_oma_lat
+  longitude: !secret zone_oma_lon
+  radius: 50
+  icon: mdi:account-multiple
+
+- name: Nelly
+  latitude: !secret zone_nelly_lat
+  longitude: !secret zone_nelly_lon
+  radius: 80
+  icon: mdi:account-multiple
+
+- name: Elly
+  latitude: !secret zone_elly_lat
+  longitude: !secret zone_elly_lon
+  radius: 80
+  icon: mdi:account-multiple
+
+- name: Nancy
+  latitude: !secret zone_nancy_lat
+  longitude: !secret zone_nancy_lon
+  radius: 80
+  icon: mdi:account-multiple
+
+- name: Niki & Marcus
+  latitude: !secret zone_niki_lat
+  longitude: !secret zone_niki_lon
+  radius: 80
+  icon: mdi:account-multiple
+
+- name: Andy
+  latitude: !secret zone_andy_lat
+  longitude: !secret zone_andy_lon
+  radius: 80
+  icon: mdi:account-multiple
+
+- name: Hoevelei
+  latitude: !secret zone_hoevelei_lat
+  longitude: !secret zone_hoevelei_lon
+  radius: 120
+  icon: mdi:account-multiple
+
+- name: Werk (Bert)
+  latitude: !secret zone_werk_bert_lat
+  longitude: !secret zone_werk_bert_lon
+  radius: 200
+  icon: mdi:briefcase
+
+- name: Werk (Caro)
+  latitude: !secret zone_werk_caro_lat
+  longitude: !secret zone_werk_caro_lon
+  radius: 200
+  icon: mdi:briefcase
+
+# PUBLIC ZONES
+
+- name: Mechelen Station
+  latitude: 51.017680
+  longitude: 4.483757
+  radius: 300
+  icon: mdi:train
+
+- name: Willebroek Station
+  latitude: 51.066443
+  longitude: 4.355936
+  radius: 100
+  icon: mdi:train
+
+- name: Brussel Station
+  latitude: 50.845449
+  longitude: 4.356975
+  radius: 100
+  icon: mdi:train
+
+- name: Checkpoint 1
+  latitude: 51.157680
+  longitude: 4.383525
+  radius: 300
+  icon: mdi:timer
+
+- name: Checkpoint 2
+  latitude: 51.110067
+  longitude: 4.370322
+  radius: 300
+  icon: mdi:timer
+
+- name: Checkpoint 3
+  latitude: 51.060024
+  longitude: 4.339460
+  radius: 300
+  icon: mdi:timer
+
+- name: Checkpoint 4
+  latitude: 51.156394
+  longitude: 4.418602
+  radius: 300
+  icon: mdi:timer
+
+- name: Checkpoint 5
+  latitude: 51.084651
+  longitude: 4.443237
+  radius: 300
+  icon: mdi:timer
+
+- name: Ziekenhuis St-Augustinus
+  latitude: 51.174766
+  longitude: 4.418151
+  radius: 120
+  icon: mdi:hospital
+
+- name: Ziekenhuis Willebroek
+  latitude: 51.054609
+  longitude: 4.359240
+  radius: 100
+  icon: mdi:hospital
+
+- name: Ziekenhuis Edegem
+  latitude: 51.157643
+  longitude: 4.410774
+  radius: 150
+  icon: mdi:hospital
+
+- name: Ziekenhuis Reet
+  latitude: 51.106768
+  longitude: 4.372638
+  radius: 110
+  icon: mdi:hospital
+
+- name: Ziekenhuis Middelheim
+  latitude: 51.182025
+  longitude: 4.420301
+  radius: 120
+  icon: mdi:hospital
