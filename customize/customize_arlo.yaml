@@ -1,0 +1,17 @@
+# CUSTOMIZE ARLO BABY SENSORS
+
+    sensor.temperature_arlobaby:
+      friendly_name: TEMP
+      icon: mdi:temperature-celsius
+
+    sensor.humidity_arlobaby:
+      friendly_name: VOCHTIGHEID
+      icon: mdi:water-percent
+
+    sensor.battery_level_arlobaby:
+      friendly_name: BATTERIJ
+      icon: mdi:battery-charging
+
+    sensor.air_quality_arlobaby:
+      friendly_name: LUCHTKWALITEIT
+      device_class: pm25

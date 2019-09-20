@@ -1,0 +1,7 @@
+
+alias: Evohome - Woonkamer - Hoger
+sequence:
+  - service: climate.set_temperature
+    entity_id: climate.living_room
+    data:
+      temperature: !secret heat_living_room_max

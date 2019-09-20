@@ -1,0 +1,147 @@
+# CUSTOMIZATION FOR PERSONS
+
+    person.bert:
+      entity_picture: /local/people/bert.jpeg
+
+    person.caroline:
+      entity_picture: /local/people/caroline.jpeg
+
+    person.karen:
+      entity_picture: /local/people/karen.jpeg
+      friendly_name: Karen
+
+    person.oma:
+      friendly_name: Oma
+
+    person.mama:
+      entity_picture: /local/people/christel.jpeg
+      friendly_name: Mama
+
+    person.mark:
+      entity_picture: /local/people/mark.jpeg
+      friendly_name: Mark
+
+    person.papa:
+      entity_picture: /local/people/alfons.jpeg
+      friendly_name: Papa
+
+    person.andy:
+      entity_picture: /local/people/andy.jpeg
+      friendly_name: Andy
+
+    person.thomas:
+      entity_picture: /local/people/thomas.jpeg
+      friendly_name: Thomas
+
+    person.niki:
+      entity_picture: /local/people/niki.jpeg
+      friendly_name: Niki
+
+    person.marcus:
+      entity_picture: /local/people/marcus.jpeg
+      friendly_name: Marcus
+
+    person.nancy:
+      entity_picture: /local/people/nancy.jpeg
+      friendly_name: Nancy
+
+# CUSTOMIZATION FOR DEVICE TRACKERS
+
+    device_tracker.router_iphone_bert:
+      entity_picture: /local/people/bert.jpeg
+      friendly_name: Bert (Router)
+
+    device_tracker.router_watch_bert:
+      entity_picture: /local/people/bert.jpeg
+      friendly_name: Bert Watch (Router)
+
+    device_tracker.router_iphone_caro:
+      entity_picture: /local/people/caroline.jpeg
+      friendly_name: Caro (Router)
+
+    device_tracker.router_iphone_caro_werk:
+      entity_picture: /local/people/caroline.jpeg
+      friendly_name: Caro Werk (Router)
+
+    device_tracker.owntracks_iphone_bert:
+      entity_picture: /local/people/bert.jpeg
+      friendly_name: Bert (OwnTracks)
+
+    device_tracker.owntracks_iphone_caro:
+      entity_picture: /local/people/caroline.jpeg
+      friendly_name: Caro (OwnTracks)
+
+    device_tracker.ios_iphone_bert:
+      entity_picture: /local/people/bert.jpeg
+      friendly_name: Bert (iOS)
+
+    device_tracker.ios_iphone_caro:
+      entity_picture: /local/people/caroline.jpeg
+      friendly_name: Caro (iOS)
+
+    device_tracker.karen:
+      entity_picture: /local/people/karen.jpeg
+      friendly_name: Karen
+
+    device_tracker.oma:
+      friendly_name: Oma
+
+    device_tracker.mama:
+      entity_picture: /local/people/christel.jpeg
+      friendly_name: Mama
+
+    device_tracker.mark:
+      entity_picture: /local/people/mark.jpeg
+      friendly_name: Mark
+
+    device_tracker.mark_watch:
+      entity_picture: /local/people/mark.jpeg
+      friendly_name: Mark Watch
+
+    device_tracker.papa:
+      entity_picture: /local/people/alfons.jpeg
+      friendly_name: Papa
+
+    device_tracker.andy:
+      entity_picture: /local/people/andy.jpeg
+      friendly_name: Andy
+
+    device_tracker.thomas:
+      entity_picture: /local/people/thomas.jpeg
+      friendly_name: Thomas
+
+    device_tracker.niki:
+      entity_picture: /local/people/niki.jpeg
+      friendly_name: Niki
+
+    device_tracker.marcus:
+      entity_picture: /local/people/marcus.jpeg
+      friendly_name: Marcus
+
+    device_tracker.nancy:
+      entity_picture: /local/people/nancy.jpeg
+      friendly_name: Nancy
+
+    device_tracker.tv_samsung:
+      icon: mdi:television
+      friendly_name: TV
+
+    device_tracker.pc_bert_lan:
+      icon: mdi:desktop-tower
+      friendly_name: COMPUTER
+
+    device_tracker.laptop_bert_bnp:
+      icon: mdi:laptop
+      friendly_name: LAPTOP BERT BNP
+
+    device_tracker.laptop_caro_dmv:
+      icon: mdi:laptop
+      friendly_name: LAPTOP CARO DMV
+
+    device_tracker.macbook:
+      icon: mdi:laptop-mac
+      friendly_name: MACBOOK
+
+    device_tracker.nintendo_switch:
+      icon: mdi:nintendo-switch
+      friendly_name: NINTENDO SWITCH

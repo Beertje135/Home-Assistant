@@ -1,0 +1,6 @@
+
+alias: Licht - Smappee - Woonkamer - Uit - Spacewalker
+sequence:
+  - service: switch.turn_off
+    entity_id:
+      - switch.smappee_extra_plug

@@ -1,0 +1,13 @@
+
+alias: Licht - Hue - Veranda - Aan
+sequence:
+  - service: light.turn_on
+    entity_id: light.hue_veranda
+    data_template:
+      color_temp: 370
+      brightness: >
+        {% if states('input_boolean.plex_livingroom') in ['on'] %}
+          25
+        {% else %}
+          255
+        {% endif %}

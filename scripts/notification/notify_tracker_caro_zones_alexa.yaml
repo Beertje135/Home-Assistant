@@ -1,0 +1,29 @@
+
+alias: Notify - Als Caro in zone - Alexa
+sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('person.caroline') not in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+      message: >
+        {% if states('person.carolineo') in ['Elly', 'Nancy', 'Mama & Mark'] %}
+          'Caroline just arrived at {{ states.person.caroline.state }}.
+        {% elif states('person.caroline') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}
+          'No panic but Caroline is near {{ states.person.caroline.state }}.
+        {% elif states('person.caroline') in ['Checkpoint 1', 'Checkpoint 4'] %}
+          'Caroline is on her way home from work.'
+        {% elif states('person.caroline') in ['Checkpoint 2', 'Checkpoint 3', 'Checkpoint 5'] %}
+          'Caroline is almost home.'
+        {% endif %}
+      data:
+        type: announce
+        method: speak

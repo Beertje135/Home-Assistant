@@ -1,0 +1,12 @@
+
+alias: Licht - All - Keuken - Aan - Dimmed
+sequence:
+  - condition: numeric_state
+    entity_id: sensor.keuken_sensor_light_level
+    below: !secret lux_kitchen_low
+  - service: light.turn_on
+    entity_id:
+      - light.milight_kitchen
+    data:
+      hs_color: [35.854,32.157]
+      brightness: 100

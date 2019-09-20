@@ -1,0 +1,18 @@
+
+alias: Licht - Milight - Keuken - Aan - tv
+sequence:
+  - condition: numeric_state
+    entity_id: sensor.keuken_sensor_light_level
+    below: !secret lux_kitchen_very_low
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('input_select.woning_status') in ['Slapen'] -%}
+          script.light_milight_kitchen_on_tv_night
+        {%- elif states('input_boolean.light_downstairs') in ['off'] -%}
+          script.light_milight_kitchen_on_tv_standby
+        {%- elif states('group.bezoekers') in ['not_home'] and (states.sensor.time.state <= '06:00' or states.sensor.time.state >= '23:00') -%}
+          script.light_milight_kitchen_on_tv_dimmed
+        {%- else -%}
+          script.light_milight_kitchen_on_tv_normal
+        {%- endif %}

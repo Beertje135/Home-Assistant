@@ -1,0 +1,29 @@
+
+alias: Restart - Homekit niet starten
+sequence:
+  - delay: 00:02:00
+  - timeout: 00:15:00
+    continue_on_timeout: false
+    wait_template: >
+          {%- if not states.climate.ons_huisje -%}
+            true
+          {%- elif not states.climate.kitchen -%}
+            true
+          {%- elif not states.light.hue_logeerkamer_floor -%}
+            true
+          {%- elif not states.light.milight_bridge_kitchen -%}
+            true
+          {%- elif not states.light.milight_bridge_living_room -%}
+            true
+          {%- elif not states.device_tracker.router_iphone_bert -%}
+            true
+          {%- elif not states.sensor.smappee_ons_huisje_water_sensor_temperature -%}
+            true
+          {%- elif not states.switch.smappee_speakers -%}
+            true
+          {%- else -%}
+            false
+          {%- endif %}
+  - delay: 00:01:00
+  - service: script.turn_on
+    entity_id: script.notify_homekit_not_restart

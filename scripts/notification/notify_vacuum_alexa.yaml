@@ -1,0 +1,27 @@
+
+alias: Notify - Dusty - Alexa
+sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] or states('group.bezoekers') in ['home']}}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+      message: >
+        {% if states.vacuum.dusty.attributes.status == 'Stuck' %}
+          'Dusty is stuck. Stupid Dusty'
+        {% elif states.vacuum.dusty.attributes.bin_full == true %}
+          'Dusty has eaten to much. Please empty his belly.'
+        {% elif states('vacuum.dusty') in ['off'] and states('input_boolean.vacuum_cleaned_today') in ['on'] %}
+          'Dusty has completed his task.'
+        {% elif states('vacuum.dusty') in ['off'] and states('input_boolean.vacuum_cleaned_today') in ['off'] %}
+          'Dusty still hasn't completed his task today'
+        {% else %}
+          'Dusty is still going strong'
+        {% endif %}
+      data:
+        type: announce
+        method: speak

@@ -1,0 +1,13 @@
+
+alias: Notify - Als buiten te warm of te koud - verluchting boven - Ios Bert
+sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') in ['home'] }}"
+  - service: notify.ios_ios_iphone_bert
+    data_template:
+      message: >
+        {% if states('input_boolean.cooling_upstairs') == 'on' %}
+          Het is buiten frisser dan op Elmo zijn kamer. Misschien even verluchten?
+        {% else %}
+          Het is buiten warm aan het worden. Zijn Elmo zijn ramen gesloten?
+        {% endif %}

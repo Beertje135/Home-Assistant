@@ -1,0 +1,8 @@
+
+alias: Licht - Smappee - Woonkamer - Aan - LED
+sequence:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - service: switch.turn_on
+    entity_id:
+      - switch.smappee_living_room

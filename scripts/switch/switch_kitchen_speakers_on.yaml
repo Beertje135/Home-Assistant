@@ -1,0 +1,5 @@
+alias: Switch - Speakers keuken aan
+sequence:
+  - service: switch.turn_on
+    entity_id:
+      - switch.smappee_speakers

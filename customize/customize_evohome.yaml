@@ -1,0 +1,55 @@
+# CUSTOMIZATION FOR CLIMATE
+
+    climate.bedroom:
+      friendly_name: Thermostat Bedroom
+      icon: mdi:thermometer
+
+    climate.bathroom:
+      friendly_name: Thermostat Bathroom
+      icon: mdi:thermometer
+
+    climate.dressing:
+      friendly_name: Thermostat Dressing
+      icon: mdi:thermometer
+
+    climate.nursery:
+      friendly_name: Thermostat Elmo's Room
+      icon: mdi:thermometer
+
+    climate.kitchen:
+      friendly_name: Thermostat Kitchen
+      icon: mdi:thermometer
+
+    climate.living_room:
+      friendly_name: Thermostat Livingroom
+      icon: mdi:thermometer
+
+    climate.ons_huisje:
+      friendly_name: Thermostat Our Home
+      icon: mdi:thermometer
+
+# CUSTOMIZE CLIMATE SENSORS
+
+    sensor.temp_template_evohome_living_room:
+      friendly_name: WOONKAMER
+      icon: mdi:sofa
+
+    sensor.temp_template_evohome_kitchen:
+      friendly_name: KEUKEN
+      icon: mdi:stove
+
+    sensor.temp_template_evohome_dressing:
+      friendly_name: DRESSING
+      icon: mdi:hanger
+
+    sensor.temp_template_evohome_nursery:
+      friendly_name: ELMO'S KAMER
+      icon: mdi:baby-carriage
+
+    sensor.temp_template_evohome_bedroom:
+      friendly_name: SLAAPKAMER
+      icon: mdi:bed-empty
+
+    sensor.temp_template_evohome_bathroom:
+      friendly_name: BADKAMER
+      icon: mdi:shower

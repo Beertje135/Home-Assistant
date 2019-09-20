@@ -1,0 +1,113 @@
+# AUTOMATIONS BASED ON PLEX WEBHOOKS
+# AUTOMATION PUBLISH WEBHOOK TO MQTT
+
+- alias: Plex - Webhook - to MQTT
+  trigger:
+    platform: webhook
+    webhook_id: !secret webhook_plex
+  action:
+   - service: mqtt.publish
+     data_template:
+       topic: 'plex/update'
+       payload_template: >
+         {{ (trigger.data | string)[154:][:-55] | replace ("\\\\", "\\") | replace ("\\\'", "'") | replace ("\\x","?") }}
+
+#- alias: Plex - Webhook - Update MQTT sensor
+#  trigger:
+#    platform: mqtt
+#    topic: 'plex/update'
+#  condition:
+#    condition: and
+#    conditions:
+#      - condition: template
+#        value_template: "{{trigger.payload_json.event != 'media.scrobble'}}"
+#      - condition: template
+#        value_template: "{{trigger.payload_json.event != 'media.rate'}}"
+#  action:
+#    - service: mqtt.publish
+#      data_template:
+#        topic: 'plex/update/sensor'
+#        retain: true
+#        payload_template: >
+#         {  "Player":"{{ trigger.payload_json.Player.title }}",
+#            "UUID":"{{ trigger.payload_json.Player.uuid }}",
+#            "Event":"{{ trigger.payload_json.event }}",
+#            "Account":"{{ trigger.payload_json.Account.title }}",
+#            "Title":"{{ trigger.payload_json.Metadata.grandparentTitle }}",
+#            "Type":"{{ trigger.payload_json.Metadata.librarySectionType }}",
+#            "Image":"{{ trigger.payload_json.Metadata.thumb }}" }
+
+# AUTOMATION CHECK MQTT LIVING ROOM
+
+- alias: Plex - Webhook - Toggle Living Room Boolean
+  trigger:
+    platform: mqtt
+    topic: 'plex/update'
+  condition:
+    condition: and
+    conditions:
+    - condition: template
+      value_template: "{{trigger.payload_json.Account['title'] == 'Bert Verlinden' }}"
+    - condition: template
+      value_template: "{{trigger.payload_json.Player.title == 'Woonkamer Apple Tv'}}"
+    - condition: template
+      value_template: "{{trigger.payload_json.Player.uuid == '585AB7D1-4B53-4237-B9F7-DE017BEA4662'}}"
+    - condition: template
+      value_template: "{{trigger.payload_json.event != 'media.scrobble'}}"
+    - condition: template
+      value_template: "{{trigger.payload_json.event != 'media.rate'}}"
+  action:
+    service_template: >
+        {% if ((trigger.payload_json.event == 'media.play') or (trigger.payload_json.event == 'media.resume')) %}
+          input_boolean.turn_on
+        {% elif ((trigger.payload_json.event == 'media.pause') or (trigger.payload_json.event == 'media.stop')) %}
+          input_boolean.turn_off
+        {% endif %}
+    entity_id: input_boolean.plex_livingroom
+
+# AUTOMATION CHECK MQTT KITCHEN
+
+- alias: Plex - Webhook - Toggle Kitchen Boolean
+  trigger:
+    platform: mqtt
+    topic: 'plex/update'
+  condition:
+    condition: and
+    conditions:
+    - condition: template
+      value_template: "{{trigger.payload_json.Account['title'] == 'Bert Verlinden' }}"
+    - condition: template
+      value_template: "{{trigger.payload_json.Player.title != 'iPhone'}}"
+    - condition: template
+      value_template: "{{trigger.payload_json.Player.title != 'Woonkamer Apple Tv'}}"
+    - condition: template
+      value_template: "{{trigger.payload_json.Player.uuid != '256E6479-240B-4640-8F1C-3BF5767FBE57'}}"
+    - condition: template
+      value_template: "{{trigger.payload_json.event != 'media.scrobble'}}"
+    - condition: template
+      value_template: "{{trigger.payload_json.event != 'media.rate'}}"
+  action:
+    service_template: >
+        {%- if ((trigger.payload_json.event == 'media.play') or (trigger.payload_json.event == 'media.resume')) -%}
+          input_boolean.turn_on
+        {%- elif ((trigger.payload_json.event == 'media.pause') or (trigger.payload_json.event == 'media.stop')) -%}
+          input_boolean.turn_off
+        {%- endif %}
+    entity_id: input_boolean.plex_kitchen
+
+# AUTOMATION FOR LIGHT ALL WHEN PLEW CHANGES
+
+- alias: Plex - Licht - Beneden
+  trigger:
+  - platform: state
+    entity_id: input_boolean.plex_livingroom
+  condition:
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('input_boolean.plex_livingroom') in ['on'] -%}
+          script.plex_on
+        {%- elif states('input_boolean.plex_livingroom') in ['off'] -%}
+          script.plex_off
+        {% endif %}

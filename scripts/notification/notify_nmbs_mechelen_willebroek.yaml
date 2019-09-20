@@ -1,0 +1,13 @@
+
+alias: Notify NMBS - Mechelen-Willebroek
+sequence:
+  - service: notify.ios_ios_iphone_bert
+    data_template:
+      message: >
+        {% if state_attr('sensor.nmbs_3', 'platform_arriving') in ['1'] %}
+          spoor {{ states.sensor.nmbs_3.attributes.platform_departing }},{{ states.sensor.nmbs_3.attributes.departure }},
+          {{ states.sensor.nmbs_3.attributes.direction }} --> Links
+        {% else %}
+          spoor {{ states.sensor.nmbs_3.attributes.platform_departing }},{{ states.sensor.nmbs_3.attributes.departure }},
+          {{ states.sensor.nmbs_3.attributes.direction }} --> Rechts
+        {% endif %}

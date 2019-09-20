@@ -1,0 +1,7 @@
+# CUSTOMIZATION FOR INPUT SELECT
+
+    input_select.woning_status:
+      icon: mdi:home
+
+    input_select.harmony_hub:
+      icon: mdi:television

@@ -1,6 +1,6 @@
 # Example .gitignore file for your config dir.
 # A * ensures that everything will be ignored.
-*
+#*
 
 # You can whitelist files/folders with !, these will not be ignored.
 !*.yaml
@@ -15,11 +15,13 @@
 .TemporaryItems
 music
 people
+notebooks
 
 # Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
 ip_bans.yaml
 secrets.yaml
 known_devices.yaml
+.homekit.state
 
 # Database
 *.db
@@ -28,6 +30,7 @@ known_devices.yaml
 *.pickle
 *.xml
 *.log
+*.mp3
 
 # Junck files
 .DS_Store

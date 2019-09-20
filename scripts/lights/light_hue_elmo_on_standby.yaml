@@ -1,0 +1,8 @@
+
+alias: Licht - Hue - Elmo - Aan - Standby
+sequence:
+  - service: light.turn_on
+    entity_id: light.hue_logeerkamer_floor
+    data:
+      hs_color: [66.452,72.941]
+      brightness: 37

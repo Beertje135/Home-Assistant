@@ -1,0 +1,9 @@
+
+alias: Evohome - Away
+sequence:
+  - service: climate.set_preset_mode
+    data:
+      entity_id: climate.ons_huisje
+      preset_mode: away
+
+#operation_list: AutoWithReset,Auto,AutoWithEco,Away,DayOff,Custom,HeatingOff

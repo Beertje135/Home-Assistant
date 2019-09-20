@@ -1,0 +1,19 @@
+# CUSTOMIZATION FOR LIGHTS
+
+# CUSTOMIZATION MILIGHT LIGHTS
+
+    light.milight_bridge_living_room:
+      friendly_name: Light Livingroom LED Tv
+      icon: mdi:led-outline
+
+    light.milight_bridge_kitchen:
+      friendly_name: Light Kitchen LED Tv
+      icon: mdi:led-outline
+
+    light.milight_kitchen:
+      friendly_name: Light Kitchen LED
+      icon: mdi:led-strip
+
+    light.milight_bathroom:
+      friendly_name: Light Bathroom LED
+      icon: mdi:led-strip

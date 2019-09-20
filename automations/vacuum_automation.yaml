@@ -1,0 +1,78 @@
+# AUTOMATION AMPLIFIER LIVING ROOM
+
+- alias: Vacuum Dusty - Notify
+  trigger:
+  - platform: template
+    value_template: "{{ states.vacuum.dusty.attributes.bin_full == true }}"
+  - platform: template
+    value_template: "{{ states.vacuum.dusty.attributes.status == Stuck }}"
+  - platform: state
+    entity_id:
+      - vacuum.dusty
+    to: 'off'
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Dag Thuis'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_vacuum
+
+- alias: Vacuum Dusty - Status Woning Changes
+  trigger:
+  - platform: state
+    entity_id: input_select.woning_status
+    from: 'Juist Thuis'
+    to: 'Thuis'
+  - platform: state
+    entity_id: input_select.woning_status
+    from: 'Juist Thuis'
+    to: 'Dag Thuis'
+  condition:
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_vacuum
+
+- alias: Vacuum Dusty - Notify Bert Thuis
+  trigger:
+  - platform: state
+    entity_id: person.bert
+    to: 'home'
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Dag Thuis'] }}"
+  action:
+  - delay: 00:02:00
+  - service: script.turn_on
+    entity_id: script.notify_vacuum_ios_bert
+
+- alias: Vacuum Dusty - Cleaned Today
+  trigger:
+  - platform: state
+    entity_id:
+      - vacuum.dusty
+    to: 'on'
+    for:
+      minutes: 55
+  condition:
+  - condition: state
+    entity_id: input_boolean.vacuum_cleaned_today
+    state: 'off'
+  action:
+  - service: input_boolean.turn_on
+    entity_id:
+      - input_boolean.vacuum_cleaned_today
+
+- alias: Vacuum Dusty - Cleaned Today Reset
+  trigger:
+  - platform: time
+    at: '23:59:00'
+  condition:
+  - condition: state
+    entity_id: input_boolean.vacuum_cleaned_today
+    state: 'on'
+  action:
+  - service: input_boolean.turn_off
+    entity_id:
+      - input_boolean.vacuum_cleaned_today

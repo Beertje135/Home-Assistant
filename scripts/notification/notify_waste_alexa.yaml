@@ -1,0 +1,35 @@
+
+alias: Notify - Als vuilbakken buiten moeten - Alexa
+sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] or states('group.bezoekers') in ['home']}}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+      message: >
+        {% if ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_restafval.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_papier.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_pmd.state) %}
+          Please take out the following trash: paper, the blue bag and waste, pickup is tomorrow morning.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_restafval.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_papier.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_pmd.state) %}
+          Please take out the following trash: the blue bag and waste, pickup is tomorrow morning.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_restafval.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_papier.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_pmd.state) %}
+          Please take out the following trash: paper and the blue bag, pickup is tomorrow morning.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_restafval.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_papier.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_pmd.state) %}
+          Please take out the following trash: paper and waste, pickup is tomorrow morning.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_restafval.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_papier.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_pmd.state) %}
+          Please take out the blue bag, pickup is tomorrow morning.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_restafval.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_papier.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_pmd.state) %}
+          Please take out the paper, pickup is tomorrow morning.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_restafval.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_papier.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_pmd.state) %}
+          Please take out the waste, pickup is tomorrow morning.
+        {% endif %}
+      data:
+        type: announce
+        method: speak
+
+#"{{ as_timestamp(states.sensor.ophaalkalender_restafval.state) != as_timestamp(states.sensor.date.state) }}"
+
+# {{((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_restafval.state) }}

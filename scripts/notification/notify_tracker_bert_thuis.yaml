@@ -1,0 +1,7 @@
+
+alias: Notify - Als Bert thuis of weg
+sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_tracker_bert_thuis_ios_caro
+      - script.notify_tracker_bert_thuis_alexa

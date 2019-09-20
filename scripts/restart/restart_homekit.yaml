@@ -1,0 +1,30 @@
+
+alias: Restart - Homekit starten
+sequence:
+  - delay: 00:02:00
+  - timeout: 00:15:00
+    continue_on_timeout: false
+    wait_template: >
+          {%- if not states.climate.ons_huisje -%}
+            false
+          {%- elif not states.climate.kitchen -%}
+            false
+          {%- elif not states.light.hue_logeerkamer_floor -%}
+            false
+          {%- elif not states.light.milight_bridge_kitchen -%}
+            false
+          {%- elif not states.light.milight_bridge_living_room -%}
+            false
+          {%- elif not states.device_tracker.router_iphone_bert -%}
+            false
+          {%- elif not states.sensor.smappee_ons_huisje_water_sensor_temperature -%}
+            false
+          {%- elif not states.switch.smappee_speakers -%}
+            false
+          {%- else -%}
+            true
+          {%- endif %}
+  - delay: 00:01:00
+  - service: homekit.start
+  - service: script.turn_on
+    entity_id: script.notify_homekit_restart

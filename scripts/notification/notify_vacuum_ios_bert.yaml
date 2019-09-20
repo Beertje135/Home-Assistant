@@ -1,0 +1,19 @@
+
+alias: Notify - Dusty - Ios Bert
+sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') in ['home'] }}"
+  - service: notify.ios_ios_iphone_bert
+    data_template:
+      message: >
+        {% if states.vacuum.dusty.attributes.status == 'Stuck' %}
+          'Dusty zit vast. Die Domme Dusty toch.'
+        {% elif states.vacuum.dusty.attributes.bin_full == true %}
+          'Dusty heeft te veel gegeten. Maak zijn buikje leeg a.u.b.'
+        {% elif states('vacuum.dusty') in ['off'] and states('input_boolean.vacuum_cleaned_today') in ['on'] %}
+          'Dusty is klaar met zijn taak.'
+        {% elif states('vacuum.dusty') in ['off'] and states('input_boolean.vacuum_cleaned_today') in ['off'] %}
+          'Dusty is nog niet klaar met zijn taak voor vandaag.'
+        {% else %}
+          'Dusty is still going strong'
+        {% endif %}

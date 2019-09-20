@@ -1,0 +1,73 @@
+# CUSTOMZE YOUR MEDIAPLAYERS
+
+# CUSTOMZIE GOOGLE CHROMECASTS
+
+    media_player.chromecast_kitchen:
+      friendly_name: Chromecast Keuken
+      icon: mdi:cast
+
+    media_player.chromecast_living_room:
+      friendly_name: Chromecast Woonkamer
+      icon: mdi:cast
+
+# CUSTOMZIE GOOGLE HOME
+
+    media_player.google_home_bedroom:
+      friendly_name: Google Home Mini Elmo's Room
+      icon: mdi:google-home
+
+# CUSTOMIZE TV
+
+    media_player.samsung_tv:
+      friendly_name: Tv Samsung Livingroom
+      icon: mdi:television
+
+# CUSTOMIZE SPOTIFY
+
+    media_player.spotify:
+      friendly_name: Spotify
+      icon: mdi:spotify
+
+# CUSTOMIZE AMAZON ECHO
+
+    media_player.alexa_bathroom:
+      friendly_name: Alexa Bathroom
+      icon: mdi:amazon-alexa
+
+    media_player.alexa_livingroom:
+      friendly_name: Alexa Livingroom
+      icon: mdi:amazon-alexa
+
+    media_player.alexa_kitchen_1:
+      friendly_name: Alexa Kitchen 1
+      icon: mdi:amazon-alexa
+
+    media_player.alexa_kitchen_2:
+      friendly_name: Alexa Kicthen 2
+      icon: mdi:amazon-alexa
+
+    media_player.alexa_bedroom:
+      friendly_name: Alexa Bedroom
+      icon: mdi:amazon-alexa
+
+    media_player.alexa_garden:
+      friendly_name: Alexa Garden
+      icon: mdi:amazon-alexa
+
+    media_player.everywhere:
+      friendly_name: Alexa Everywhere
+      icon: mdi:amazon-alexa
+
+    media_player.downstairs:
+      friendly_name: Alexa Downstairs
+      icon: mdi:amazon-alexa
+
+    media_player.upstairs:
+      friendly_name: Alexa Upstairs
+      icon: mdi:amazon-alexa
+
+# CUSTOMIZE APPLE TV
+
+    media_player.apple_tv_living_room:
+      friendly_name: Apple Tv Livingroom
+      icon: mdi:apple

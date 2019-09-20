@@ -1,0 +1,11 @@
+    remote.woonkamer_apple_tv:
+      friendly_name: Apple Tv Woonkamer
+      hidden: false
+      assumed_state: true
+      icon: mdi:apple
+
+    remote.harmoy_hub:
+      friendly_name: Harmony Woonkamer
+      hidden: false
+      assumed_state: true
+      icon: mdi:television-box

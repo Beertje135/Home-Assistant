@@ -1,0 +1,16 @@
+
+alias: Notify Geen Restart van Homekit - Alexa
+sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - service: notify.alexa_media
+    data:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+      message: 'Some systems are not operational, I will not restart Homekit'
+      data:
+        type: announce
+        method: speak

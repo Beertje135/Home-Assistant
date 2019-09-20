@@ -1,0 +1,8 @@
+
+alias: Notify - Als vuilbakken buiten moeten
+sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_waste_ios_bert
+      - script.notify_waste_ios_caro
+      - script.notify_waste_alexa

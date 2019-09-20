@@ -1,0 +1,7 @@
+
+alias: Evohome - Keuken - Lager
+sequence:
+  - service: climate.set_temperature
+    entity_id: climate.kitchen
+    data:
+      temperature: !secret heat_kitchen_min

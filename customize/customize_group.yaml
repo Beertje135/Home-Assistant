@@ -1,0 +1,13 @@
+# CUSTOMIZATION FOR GROUPS
+
+    group.bewoners:
+      icon: mdi:account-multiple
+      friendly_name: BEWONERS
+
+    group.bewoners_router:
+      icon: mdi:account-multiple
+      friendly_name: BEWONERS ROUTER
+
+    group.bezoekers:
+      icon: mdi:account-multiple-plus
+      friendly_name: BEZOEKERS

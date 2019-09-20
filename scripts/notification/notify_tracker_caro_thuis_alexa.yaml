@@ -1,0 +1,16 @@
+
+alias: Notify - Als Caro thuis of weg - Alexa
+sequence:
+  - condition: template
+    value_template: "{{ states('person.caroline') in ['home'] and states('input_select.woning_status') not in ['Juist Thuis', 'Slapen'] }}"
+  - wait_template: "{{ is_state('device_tracker.router_iphone_caro', 'home') }}"
+    timeout: '00:05:00'
+    continue_on_timeout: false
+  - delay: 00:00:20
+  - service: notify.alexa_media
+    data_template:
+      target: media_player.alexa_kitchen_2
+      message: 'Hello Caroline, Welcome Back Home.'
+      data:
+        type: announce
+        method: speak

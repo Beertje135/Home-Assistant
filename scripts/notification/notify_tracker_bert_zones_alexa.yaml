@@ -1,0 +1,29 @@
+
+alias: Notify - Als Bert in zone - Alexa
+sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_caro') in ['on'] }}"
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('person.bert') not in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+      message: >
+        {% if states('person.bert') in ['Elly', 'Nancy', 'Mama & Mark'] %}
+          'Bert just arrived at {{ states.person.caroline.state }}.
+        {% elif states('person.bert') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}
+          'No panic but Bert is near {{ states.person.caroline.state }}.
+        {% elif states('person.bert') in ['Mechelen Station'] %}
+          'Bert is on his way home from work.'
+        {% elif states('person.bert') in ['Checkpoint 3', 'Willebroek Station'] %}
+          'Bert is almost home.'
+        {% endif %}
+      data:
+        type: announce
+        method: speak

@@ -1,0 +1,38 @@
+# CUSTOMIZATION FOR SENSORS
+
+# CUSTOMIZE SOLAR EDGE SENSORS
+
+    sensor.solaredge_current_power:
+      friendly_name: ZONNE ENERGIE
+
+    sensor.solaredge_lifetime_energy:
+      friendly_name: TOTAAL ZON
+
+    sensor.solaredge_energy_this_month:
+      friendly_name: MAAND ZON
+
+    sensor.solaredge_energy_today:
+      friendly_name: DAG ZON
+
+    sensor.solaredge_energy_this_year:
+      friendly_name: JAAR ZON
+
+    sensor.solaredge_current_power_template:
+      friendly_name: ZONNE ENERGIE
+      icon: mdi:solar-power
+
+    sensor.solaredge_lifetime_energy_template:
+      friendly_name: TOTAAL ZON
+      icon: mdi:solar-power
+
+    sensor.solaredge_energy_this_month_template:
+      friendly_name: MAAND ZON
+      icon: mdi:solar-power
+
+    sensor.solaredge_energy_today_template:
+      friendly_name: DAG ZON
+      icon: mdi:solar-power
+
+    sensor.solaredge_energy_this_year_template:
+      friendly_name: JAAR ZON
+      icon: mdi:solar-power

@@ -1,0 +1,43 @@
+# CUSTOMIZE UTILITY METER
+
+    sensor.elektricity_monthly_peak:
+      friendly_name: ELEK. MAAND
+      icon: mdi:flash
+
+    sensor.elektricity_monthly_peak_last_period:
+      friendly_name: ELEK. MAAND
+      icon: mdi:flash
+
+    sensor.elektricity_usage_daily_peak:
+      friendly_name: VERB. DAG
+      icon: mdi:power-plug
+
+    sensor.elektricity_usage_monthly_peak:
+      friendly_name: VERBR. MAAND
+      icon: mdi:power-plug
+
+    sensor.solar_monthly_peak:
+      friendly_name: ZON MAAND
+      icon: mdi:solar-power
+      unit_of_measurement: 'kWh'
+
+    sensor.solar_monthly_peak_last_period:
+      friendly_name: ZON MAAND
+      icon: mdi:solar-power
+      unit_of_measurement: 'kWh'
+
+    sensor.gas_monthly_peak:
+      friendly_name: GAS MAAND
+      icon: mdi:fire
+
+    sensor.gas_monthly_peak_last_period:
+      friendly_name: GAS VORIGE MAAND
+      icon: mdi:fire
+
+    sensor.water_monthly_peak:
+      friendly_name: WATER MAAND
+      icon: mdi:water
+
+    sensor.water_monthly_peak_last_period:
+      friendly_name: WATER VORIGE MAAND
+      icon: mdi:water

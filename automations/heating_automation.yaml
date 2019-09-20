@@ -1,0 +1,584 @@
+# AUTOMATIONS TO CHANGE HEATING
+
+# BASED ON WONING STATUS
+
+- alias: Verwarming - Economy - Weg
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Weg'
+  condition:
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: or
+    conditions:
+    - condition: time
+      after: !secret awake_weekend
+      before: !secret sleep_weekend
+      weekday:
+        - sat
+        - sun
+    - condition: time
+      after: !secret awake_week
+      before: !secret work_week_start
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+    - condition: time
+      after: !secret work_week_end
+      before: !secret sleep_week
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+  - delay: 00:05:00
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_economy
+
+- alias: Verwarming - Reset - Weg
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Weg'
+  condition:
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: or
+    conditions:
+    - condition: time
+      before: !secret awake_weekend
+      after: !secret sleep_weekend
+      weekday:
+        - sat
+        - sun
+    - condition: time
+      after: !secret work_week_start
+      before: !secret work_week_end
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+    - condition: time
+      after: !secret sleep_week
+      before: !secret awake_week
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal_reset
+
+- alias: Verwarming - Day Off - Dag Thuis
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Dag Thuis'
+  condition:
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_day_off
+
+- alias: Verwarming - Normal - Thuis
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Thuis'
+    for:
+      minutes: 1
+  condition:
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal
+
+- alias: Verwarming - Rise Heating - Juist Wakker Week
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Juist Wakker'
+  condition:
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: time
+    before: !secret awake_week
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_kitchen_rise
+
+- alias: Verwarming - Rise Heating - Juist Wakker Weekend
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Juist Wakker'
+  condition:
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: time
+    before: !secret awake_weekend
+    weekday:
+      - sat
+      - sun
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_rise
+      - script.evo_zone_kitchen_rise
+
+- alias: Verwarming - Lower Downstairs - Slapen
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Slapen'
+  condition:
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: or
+    conditions:
+    - condition: time
+      after: !secret awake_weekend
+      before: !secret sleep_weekend
+      weekday:
+        - sat
+        - sun
+    - condition: time
+      after: !secret awake_week
+      before: !secret sleep_week
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_kitchen_lower
+      - script.evo_zone_living_room_lower
+
+- alias: Verwarming - Reset - Slapen
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Slapen'
+  condition:
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: or
+    conditions:
+    - condition: time
+      before: !secret awake_weekend
+      after: !secret sleep_weekend
+      weekday:
+        - sat
+        - sun
+    - condition: time
+      before: !secret awake_week
+      after: !secret sleep_week
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal_reset
+
+- alias: Verwarming - HeatingOff - Vakantie
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Vakantie'
+  condition:
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_heating_off
+
+# BASED ON TIME OF DAY
+
+- alias: Verwarming - Reset - Start Work Week
+  trigger:
+  - platform: time
+    at: !secret work_week_start
+  condition:
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: "{{ states.climate.kitchen.attributes.preset_mode == 'permanent' }}"
+    - condition: template
+      value_template: "{{ states.climate.living_room.attributes.preset_mode == 'permanent' }}"
+    - condition: template
+      value_template: "{{ states.climate.ons_huisje.preset_mode == eco }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal_reset
+
+- alias: Verwarming - Reset - Weekend Morning
+  trigger:
+  - platform: time
+    at: !secret awake_weekend
+  condition:
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: time
+    weekday:
+      - sat
+      - sun
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: "{{ states.climate.kitchen.attributes.preset_mode == 'permanent' }}"
+    - condition: template
+      value_template: "{{ states.climate.living_room.attributes.preset_mode == 'permanent' }}"
+    - condition: template
+      value_template: "{{ states.climate.ons_huisje.preset_mode == eco }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal_reset
+
+- alias: Verwarming - Rise Heating - Awake Evening Week
+  trigger:
+  - platform: time
+    at: !secret sleep_week
+  condition:
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Thuis'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_rise
+
+- alias: Verwarming - Rise Heating - Awake Evening Weekend
+  trigger:
+  - platform: time
+    at: !secret sleep_weekend
+  condition:
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: time
+    weekday:
+      - sat
+      - sun
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Thuis'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_rise
+
+- alias: Verwarming - Reset - Sleep Week
+  trigger:
+  - platform: time
+    at: !secret sleep_week
+  condition:
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Slapen'
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: "{{ states.climate.kitchen.attributes.preset_mode == 'permanent' }}"
+    - condition: template
+      value_template: "{{ states.climate.living_room.attributes.preset_mode == 'permanent' }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal_reset
+
+- alias: Verwarming - Reset - Sleep Weekend
+  trigger:
+  - platform: time
+    at: !secret sleep_weekend
+  condition:
+  - condition: time
+    weekday:
+      - sat
+      - sun
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Slapen'
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: "{{ states.climate.kitchen.attributes.preset_mode == 'permanent' }}"
+    - condition: template
+      value_template: "{{ states.climate.living_room.attributes.preset_mode == 'permanent' }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal_reset
+
+#- alias: Verwarming - Reset - Badkamer
+#  trigger:
+#  - platform: state
+#    entity_id: climate.bathroom
+#    to: 'PermanentOverride'
+#    for:
+#      minutes: 180
+#  - platform: state
+#    entity_id: climate.bathroom
+#    to: 'TemporaryOverride'
+#    for:
+#      minutes: 180
+#  condition:
+#  - condition: state
+#    entity_id: input_boolean.heating
+#    state: 'on'
+#  action:
+#  - service: script.turn_on
+#    entity_id:
+#      - script.evo_zone_bathroom_reset
+
+# BASED ON LOCATION
+
+- alias: Verwarming - Day Off - Locatie Onderweg Naar Huis Namiddag
+  trigger:
+  - entity_id: person.bert
+    platform: state
+    to: Willebroek Station
+  - entity_id: person.caroline
+    platform: state
+    to: Checkpoint 1
+  - entity_id: person.caroline
+    platform: state
+    to: Checkpoint 3
+  - entity_id: person.caroline
+    platform: state
+    to: Checkpoint 4
+  - entity_id: person.caroline
+    platform: state
+    to: Checkpoint 5
+  condition:
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: or
+    conditions:
+    - condition: time
+      after: !secret work_week_mid
+      before: !secret work_week_end
+      weekday:
+        - mon
+        - tue
+        - thu
+        - fri
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_day_off
+
+# AUTOMATIONS BASED ON WINDOW OPEN ELMO's ROOM
+
+- alias: Verwarming - Elmo's Room getting Cold
+  trigger:
+  - platform: numeric_state
+    entity_id:
+      - sensor.temp_template_evohome_bedroom
+      - sensor.temp_template_evohome_nursery
+    below: 15
+  - platform: template
+    value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Dag Thuis'] }}"
+  condition:
+  - condition: or
+    conditions:
+    - entity_id: sensor.temp_template_evohome_bedroom
+      condition: numeric_state
+      below: 15
+    - entity_id: sensor.temp_template_evohome_nursery
+      condition: numeric_state
+      below: 15
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_heating_cold_elmo
+
+# BOOLEAN INPUT_HEATING - IS USED TO TEMPORARY DISBALE THE HEATING AUTOMATIONS
+# NEED TO SPECIFY IN YOUR AUTOMATIONS CONDITION INPUT_HEATING IS ON
+
+- alias: Verwarming - Boolean Change based on Outside Temperature
+  trigger:
+  - platform: template
+    value_template: "{{ state_attr('weather.dark_sky', 'temperature') < 21.0 }}"
+  - platform: template
+    value_template: "{{ state_attr('weather.dark_sky', 'temperature') > 21.5 }}"
+  condition:
+  - condition: template
+    value_template: "{{ not is_state('sensor.season', 'summer') }}"
+  action:
+    service_template: >
+      {% if state_attr('weather.dark_sky', 'temperature') < 21.0 -%}
+        input_boolean.turn_on
+      {%- elif state_attr('weather.dark_sky', 'temperature') > 21.5 -%}
+        input_boolean.turn_off
+      {%- endif %}
+    data:
+      entity_id:
+        - input_boolean.heating
+
+- alias: Verluchting - Boolean Change based on Outside Temperature (Boven)
+  trigger:
+  - platform: template
+    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.nursery', 'current_temperature') }}"
+  - platform: template
+    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.nursery', 'current_temperature') }}"
+  condition:
+  - condition: template
+    value_template: "{{ is_state('sensor.season', 'summer') }}"
+  action:
+    service_template: >
+      {% if (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.nursery', 'current_temperature') -%}
+        input_boolean.turn_on
+      {%- elif (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.nursery', 'current_temperature') -%}
+        input_boolean.turn_off
+      {%- endif %}
+    data:
+      entity_id:
+        - input_boolean.cooling_upstairs
+
+- alias: Verluchting - Boolean Change based on Outside Temperature (Beneden)
+  trigger:
+  - platform: template
+    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.kitchen', 'current_temperature') }}"
+  - platform: template
+    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.kitchen', 'current_temperature') }}"
+  condition:
+  - condition: template
+    value_template: "{{ is_state('sensor.season', 'summer') }}"
+  action:
+    service_template: >
+      {% if (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.kitchen', 'current_temperature') -%}
+        input_boolean.turn_on
+      {%- elif (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.kitchen', 'current_temperature') -%}
+        input_boolean.turn_off
+      {%- endif %}
+    data:
+      entity_id:
+        - input_boolean.cooling_downstairs
+
+# BOOLEAN INPUT_HEATING - WHEN SUMMER THE AUTOMATIONS FOR THE HEATING NEED TO BE DISABLED
+
+- alias: Verwarming - Boolean Change based on Season
+  trigger:
+  - entity_id: sensor.season
+    platform: state
+  action:
+    service_template: >
+      {%- if is_state('sensor.season', 'summer') -%}
+        input_boolean.turn_off
+      {%- else -%}
+        input_boolean.turn_on
+      {%- endif %}
+    data:
+      entity_id:
+        - input_boolean.heating
+
+# BASED ON BOOLEAN
+
+- alias: Verwarming - Boolean Changes
+  trigger:
+  - entity_id: input_boolean.heating
+    platform: state
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if states('input_boolean.heating') == 'on' %}
+          script.evo_status_normal_reset,
+          script.notify_heating_hot_cold_outside
+        {% else %}
+          script.evo_status_heating_off,
+          script.notify_heating_hot_cold_outside
+        {% endif %}
+
+- alias: Verluchting - Boolean Changes (Boven)
+  trigger:
+  - entity_id: input_boolean.cooling_upstairs
+    platform: state
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_cooling_upstairs
+
+- alias: Verluchting - Boolean Changes (Beneden)
+  trigger:
+  - entity_id: input_boolean.cooling_downstairs
+    platform: state
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_cooling_downstairs

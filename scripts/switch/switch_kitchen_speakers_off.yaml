@@ -1,0 +1,5 @@
+alias: Switch - Speakers keuken uit
+sequence:
+  - service: switch.turn_off
+    entity_id:
+      - switch.smappee_speakers

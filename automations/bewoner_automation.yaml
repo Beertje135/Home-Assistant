@@ -1,0 +1,246 @@
+# AUTOMATIONS BASED ON LOCATION OF BEWONER
+
+- alias: Bewoner - Thuis of Weg
+  trigger:
+  - platform: state
+    entity_id:
+      - person.caroline
+      - person.bert
+    to: home
+  - platform: state
+    entity_id:
+      - person.caroline
+      - person.bert
+    to: not_home
+    from: home
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if trigger.from_state.entity_id == 'person.caroline' %}
+          script.notify_tracker_caro_thuis
+        {% elif trigger.from_state.entity_id == 'person.bert' %}
+          script.notify_tracker_bert_thuis
+        {% endif %}
+
+- alias: Bewoner - Thuis of Weg 2
+  trigger:
+  - platform: state
+    entity_id:
+      - person.caroline
+    to: home
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if trigger.from_state.entity_id == 'person.caroline' %}
+          script.notify_tracker_caro_thuis_ios_bert
+        {% endif %}
+
+- alias: Bewoner - Aan Opvang
+  trigger:
+  - platform: template
+    value_template: "{{ states('person.caroline') in ['Elly', 'Nancy', 'Mama & Mark'] }}"
+  - platform: template
+    value_template: "{{ states('person.bert') in ['Elly', 'Nancy', 'Mama & Mark'] }}"
+  condition:
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if trigger.from_state.entity_id == 'person.caroline' %}
+          script.notify_tracker_caro_zones
+        {% elif trigger.from_state.entity_id == 'person.bert' %}
+          script.notify_tracker_bert_zones
+        {% endif %}
+
+- alias: Bewoner - Aan Checkpoint
+  trigger:
+  - platform: template
+    value_template: "{{ states('person.caroline') in ['Checkpoint 1', 'Checkpoint 2', 'Checkpoint 3', 'Checkpoint 4', 'Checkpoint 5'] }}"
+  - platform: template
+    value_template: "{{ states('person.bert') in ['Mechelen Station', 'Willebroek Station', 'Checkpoint 3'] }}"
+  condition:
+  - condition: time
+    after: !secret work_week_mid
+    before: !secret sleep_week
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if trigger.from_state.entity_id == 'person.caroline' %}
+          script.notify_tracker_caro_zones
+        {% elif trigger.from_state.entity_id == 'person.bert' %}
+          script.notify_tracker_bert_zones
+        {% endif %}
+
+- alias: Bewoner - Aan Ziekenhuis
+  trigger:
+  - platform: template
+    value_template: "{{ states('person.caroline') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] }}"
+  - platform: template
+    value_template: "{{ states('person.bert') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] }}"
+  action:
+  - delay: 00:02:00
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if trigger.from_state.entity_id == 'person.caroline' and states('person.bert') not in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}
+          script.notify_tracker_caro_zones
+        {% elif trigger.from_state.entity_id == 'person.bert' and states('person.caroline') not in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}
+          script.notify_tracker_bert_zones
+        {% endif %}
+
+# AUTOMATIONS BASED ON LOCATION OF BERT - NMBS STATIONS
+
+- alias: Bewoner - Bert - Aan Willebroek Station
+  trigger:
+  - entity_id: person.bert
+    platform: state
+    to: Willebroek Station
+  condition:
+  - condition: time
+    before: !secret work_week_mid
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_nmbs_willebroek_mechelen
+
+- alias: Bewoner - Bert - Aan Mechelen Station
+  trigger:
+  - entity_id: person.bert
+    platform: state
+    to: Mechelen Station
+  condition:
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if ((states.sensor.time.state) <= "13:00") %}
+          script.notify_nmbs_mechelen_brussel
+        {% else %}
+          script.notify_nmbs_mechelen_willebroek
+        {% endif %}
+
+- alias: Bewoner - Bert - Aan Brussel Station
+  trigger:
+  - entity_id: person.bert
+    platform: state
+    to: Brussel Station
+  condition:
+  - condition: time
+    after: !secret work_week_mid
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_nmbs_brussel_mechelen
+
+- alias: Bewoner - Bert - Aan Willebroek Station Change
+  trigger:
+  - entity_id: sensor.nmbs_template
+    platform: state
+  condition:
+  - condition: state
+    entity_id: person.bert
+    state: Willebroek Station
+  - condition: time
+    before: !secret work_week_mid
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_nmbs_willebroek_mechelen
+
+- alias: Bewoner - Bert - Aan Mechelen Station Change Wil
+  trigger:
+  - entity_id: sensor.nmbs_template_3
+    platform: state
+  condition:
+  - condition: state
+    entity_id: person.bert
+    state: Mechelen Station
+  - condition: time
+    after: !secret work_week_mid
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_nmbs_mechelen_willebroek
+
+- alias: Bewoner - Bert - Aan Mechelen Station Change Brus
+  trigger:
+  - entity_id: sensor.nmbs_template_2
+    platform: state
+  condition:
+  - condition: state
+    entity_id: person.bert
+    state: Mechelen Station
+  - condition: time
+    before: !secret work_week_mid
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_nmbs_mechelen_brussel
+
+- alias: Bewoner - Bert - Aan Brussel Station Change
+  trigger:
+  - entity_id: sensor.nmbs_template_4
+    platform: state
+  condition:
+  - condition: state
+    entity_id: person.bert
+    state: Brussel Station
+  - condition: time
+    after: !secret work_week_mid
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_nmbs_brussel_mechelen

@@ -1,0 +1,21 @@
+
+alias: Notify - Als buiten te warm of te koud - Alexa
+sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+      message: >
+        {% if states('input_boolean.heating') == 'on' %}
+          'It is getting cold outside... If you close the windows... I will turn up the heating.'
+        {% else %}
+          'It seems to be hot outside... I will turn down the heating'
+        {% endif %}
+      data:
+        type: announce
+        method: speak

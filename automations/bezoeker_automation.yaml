@@ -1,0 +1,11 @@
+# AUTOMATIONS TO NOTIFY WHEN VISITOR ARRIVES
+
+- alias: Bezoeker - Thuis of Weg
+  trigger:
+  - platform: state
+    entity_id: group.bezoekers
+  condition:
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_tracker_bezoeker_thuis

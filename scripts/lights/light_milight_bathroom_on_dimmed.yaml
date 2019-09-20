@@ -1,0 +1,9 @@
+
+alias: Licht - Milight - Badkamer - Aan - Dimmed
+sequence:
+  - service: light.turn_on
+    entity_id:
+      - light.milight_bathroom
+    data:
+      hs_color: [35.854,32.157]
+      brightness: 100

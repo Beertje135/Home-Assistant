@@ -1,0 +1,56 @@
+# CUSTOMIZATION FOR INPUT BOOLEANS
+
+    input_boolean.light_downstairs:
+      icon: mdi:lightbulb
+      friendly_name: Input Light Downstairs
+
+    input_boolean.visitor:
+      icon: mdi:account-multiple
+      friendly_name: Input Visitor
+
+    input_boolean.notify_bert:
+      icon: mdi:bell
+      friendly_name: Input Notify Bert
+
+    input_boolean.notify_caro:
+      icon: mdi:bell
+      friendly_name: Input Notify caro
+
+    input_boolean.music_follow:
+      icon: mdi:music
+      friendly_name: Input Music Follow
+
+    input_boolean.heating:
+      icon: mdi:radiator
+      friendly_name: Input Heating Automatic
+
+    input_boolean.light_dressing_stay_on:
+      icon: mdi:theme-light-dark
+      friendly_name: Input Dressing Light On
+
+    input_boolean.vacuum_cleaned_today:
+      icon: mdi:check
+      friendly_name: Input Dusty Cleaned Today
+
+    input_boolean.trigger_away:
+      friendly_name: Input Trigger Away
+
+    input_boolean.trigger_home:
+      friendly_name: Input Trigger Home
+
+    input_boolean.trigger_morning:
+      friendly_name: Input Trigger Morning
+
+    input_boolean.trigger_sleep:
+      friendly_name: Input Trigger Sleep
+
+    input_boolean.light_livingroom:
+      friendly_name: Input Light Veranda
+
+    input_boolean.plex_livingroom:
+      icon: mdi:plex
+      friendly_name: Input Plex Livingroom
+
+    input_boolean.plex_kitchen:
+      icon: mdi:plex
+      friendly_name: Input Plex Kitchen

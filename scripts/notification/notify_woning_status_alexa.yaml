@@ -1,0 +1,28 @@
+
+alias: Notify - Als status woning aangepast is - Alexa
+sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - condition: template
+    value_template: "{{ (states('input_select.woning_status') in ['Dag Thuis'] and (states.sensor.time.state) <= '08:00') or states('input_select.woning_status') in ['Juist Thuis'] }}"
+  - delay: 00:00:20
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+      message: >
+        {% if states('input_select.woning_status') in ['Dag Thuis'] and (states.sensor.time.state) <= "08:00" %}
+          'It's nice you are staying home today.'
+        {% elif states('person.bert') not in ['home'] %}
+          'Hello Caroline. Welcome Back Home'
+        {% elif states('person.caroline') not in ['home'] %}
+          'Hello Master Bert. Welcome Back Home, the stupid cat was waiting for you'
+        {% else %}
+          'Welcome Home'
+        {% endif %}
+      data:
+        type: announce
+        method: speak

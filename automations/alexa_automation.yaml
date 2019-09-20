@@ -1,0 +1,298 @@
+# AUTOMATIONS FOR RADIO (ACTION = SCRIPT)
+
+# PLAY RADIO IN LIVING ROOM
+
+- alias: Muziek - Radio - Woonkamer
+  trigger:
+  - platform: state
+    entity_id: input_select.harmony_hub
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('media_player.alexa_livingroom') not in ['playing'] and states('media_player.downstairs') not in ['playing'] and states('media_player.everywhere') not in ['playing'] and states('input_select.harmony_hub') in ['Alexa'] -%}
+          script.music_alexa_play_living_room
+        {%- elif states('media_player.alexa_livingroom') in ['playing'] and states('input_select.harmony_hub') not in ['Alexa'] -%}
+          script.music_alexa_stop_living_room
+        {%- endif %}
+
+# PLAY RADIO IN BATHROOM
+
+- alias: Muziek - Radio - Play Badkamer
+  trigger:
+  - entity_id: binary_sensor.dressing_sensor_motion
+    platform: state
+  condition:
+  - condition: time
+    after: !secret radio_on
+    before: !secret radio_off
+  - condition: state
+    entity_id: input_boolean.music_follow
+    state: 'on'
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Thuis', 'Dag Thuis'] }}"
+  - condition: template
+    value_template: "{{ states('media_player.alexa_bathroom') not in ['playing'] }}"
+  - condition: template
+    value_template: "{{ states('media_player.downstairs') not in ['playing'] }}"
+  - condition: template
+    value_template: "{{ states('media_player.everywhere') not in ['playing'] }}"
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('media_player.alexa_kitchen_1') in ['playing'] -%}
+          script.music_alexa_play_bathroom
+        {%- else -%}
+          script.music_alexa_play_bathroom
+        {%- endif %}
+
+- alias: Muziek - Radio - Stop Badkamer
+  trigger:
+  - entity_id: binary_sensor.dressing_sensor_motion
+    for:
+      minutes: 30
+    platform: state
+    to: 'off'
+  condition:
+  - condition: template
+    value_template: "{{ states('media_player.alexa_bathroom') in ['playing'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.music_alexa_stop_bathroom
+
+# PLAY RADIO IN KITCHEN
+
+- alias: Muziek - Radio - Play Keuken
+  trigger:
+  - platform: state
+    entity_id:
+      - input_boolean.plex_kitchen
+    to: 'off'
+    for:
+      minutes: 1
+  - platform: template
+    value_template: "{{ states('input_select.harmony_hub') in ['Powered Off'] }}"
+  - platform: state
+    entity_id: binary_sensor.keuken_sensor_motion
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: time
+    after: !secret radio_on
+    before: !secret radio_off
+  - condition: state
+    entity_id: input_boolean.music_follow
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.plex_kitchen
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.plex_livingroom
+    state: 'off'
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker', 'Thuis', 'Dag Thuis'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.harmony_hub') in ['Powered Off'] }}"
+  - condition: template
+    value_template: "{{ states('media_player.alexa_kitchen_1') not in ['playing'] }}"
+  - condition: template
+    value_template: "{{ states('media_player.downstairs') not in ['playing'] }}"
+  - condition: template
+    value_template: "{{ states('media_player.everywhere') not in ['playing'] }}"
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('media_player.alexa_bathroom') in ['playing'] -%}
+          script.music_alexa_play_kitchen
+        {%- else -%}
+          script.music_alexa_play_kitchen
+        {%- endif %}
+  - delay: 00:10:00
+
+- alias: Muziek - Radio - Stop Keuken
+  trigger:
+  - entity_id: binary_sensor.keuken_sensor_motion
+    for:
+      minutes: 60
+    platform: state
+    to: 'off'
+  - platform: template
+    value_template: "{{ states('input_select.harmony_hub') in ['Watch Chromecast', 'Watch Tv', 'Watch Plex'] }}"
+  - platform: state
+    entity_id:
+      - input_boolean.plex_kitchen
+      - input_boolean.plex_livingroom
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.music_follow
+    state: 'on'
+  - condition: template
+    value_template: "{{ states('media_player.alexa_kitchen_1') in ['playing'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.music_alexa_stop_kitchen
+
+# TEMPORARY DISABLE MUSIC FOLLOW
+
+- alias: Muziek - Radio - Temporary disable music follow
+  trigger:
+  - entity_id: media_player.alexa_kitchen_1
+    platform: state
+    from: 'playing'
+    to: 'paused'
+  condition:
+  - condition: state
+    entity_id: input_boolean.music_follow
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.plex_kitchen
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.plex_livingroom
+    state: 'off'
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Slapen'] }}"
+  action:
+    - service: script.turn_off
+      entity_id:
+        - script.music_follow_disable_temporary
+    - service: script.turn_on
+      entity_id:
+        - script.music_follow_disable_temporary
+    - condition: state
+      entity_id: media_player.alexa_kitchen_1
+      state: 'playing'
+    - service: media_player.media_play_pause
+      entity_id:
+        - media_player.alexa_kitchen_1
+
+- alias: Muziek - Radio - Temporary disable music follow Stop
+  trigger:
+  - entity_id: media_player.alexa_kitchen_1
+    platform: state
+    from: 'paused'
+    to: 'playing'
+  condition:
+  - condition: state
+    entity_id: script.music_follow_disable_temporary
+    state: 'on'
+    for:
+      minutes: 3
+  action:
+  - service: script.turn_off
+    entity_id:
+      - script.music_follow_disable_temporary
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.music_follow
+
+- alias: Muziek - Radio - Temporary disable music follow Stop 2
+  trigger:
+  - entity_id: input_boolean.music_follow
+    platform: state
+    to: 'off'
+    for:
+      minutes: 180
+  condition:
+  action:
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.music_follow
+
+
+# RADIO VOLUME
+
+- alias: Muziek - Radio - Volume wanneer Living Room
+  trigger:
+  - platform: template
+    value_template: "{{ states('input_select.harmony_hub') in ['Alexa'] }}"
+  - platform: state
+    to: 'playing'
+    entity_id:
+      - media_player.alexa_livingroom
+      - media_player.downstairs
+      - media_player.everywhere
+  action:
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.alexa_livingroom
+      volume_level: 1.0
+
+- alias: Muziek - Radio - Volume wanneer beiden thuis
+  trigger:
+  - platform: state
+    to: home
+    entity_id:
+      - person.bert
+      - person.caroline
+  condition:
+  - condition: state
+    entity_id: person.bert
+    state: 'home'
+  - condition: state
+    entity_id: person.caroline
+    state: 'home'
+  action:
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.alexa_livingroom
+      volume_level: 1.0
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.alexa_kitchen_1
+      volume_level: 0.3
+  - service: media_player.volume_set
+    data:
+      entity_id: media_player.alexa_bathroom
+      volume_level: 0.1
+
+# RADIO CHANGE STATION
+
+- alias: Muziek - Radio - Zender veranderen
+  trigger:
+  - platform: time
+    at: '07:31:00'
+  - platform: time
+    at: '09:01:00'
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('media_player.alexa_kitchen_1') in ['playing'] and state_attr('media_player.alexa_kitchen_1', 'media_title') == 'VRT Studio Brussel' -%}
+          script.music_alexa_play_kitchen
+        {%- endif %}
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('media_player.alexa_bathroom') in ['playing'] and state_attr('media_player.alexa_bathroom', 'media_title') == 'VRT Studio Brussel' -%}
+          script.music_alexa_play_bathroom
+        {%- endif %}
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('media_player.alexa_livingroom') in ['playing'] and state_attr('media_player.alexa_livingroom', 'media_title') == 'VRT Studio Brussel' -%}
+          script.music_alexa_play_living_room
+        {%- endif %}
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('media_player.everywhere') in ['playing'] and state_attr('media_player.everywhere', 'media_title') == 'VRT Studio Brussel' -%}
+          script.music_alexa_play_everywhere
+        {%- endif %}
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('media_player.downstairs') in ['playing'] and state_attr('media_player.downstairs', 'media_title') == 'VRT Studio Brussel' -%}
+          script.music_alexa_play_downstairs
+        {%- endif %}
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('media_player.downstairs') in ['playing'] and state_attr('media_player.downstairs', 'media_title') == 'VRT Studio Brussel' -%}
+          script.music_alexa_play_upstairs
+        {%- endif %}

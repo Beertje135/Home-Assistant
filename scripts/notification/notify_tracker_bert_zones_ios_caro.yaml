@@ -1,0 +1,17 @@
+
+alias: Notify - Als Bert in zone - Ios Caro
+sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_caro') in ['on'] }}"
+  - service: notify.ios_ios_iphone_caro
+    data_template:
+      message: >
+        {% if states('person.bert') in ['Elly', 'Nancy', 'Mama & Mark'] %}
+          Bert is aangekomen bij {{ states.person.bert.state }}.
+        {% elif states('person.bert') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}
+          Geen paniek maar Bert is nabij het {{ states.person.bert.state }}.
+        {% elif states('person.bert') in ['Willebroek Station', 'Mechelen Station'] %}
+          Bert is aangekomen in {{ states.person.bert.state }}.
+        {% elif states('person.bert') in ['Checkpoint 3'] %}
+          Bert is bijna thuis. (Fort Breendonck)
+        {% endif %}

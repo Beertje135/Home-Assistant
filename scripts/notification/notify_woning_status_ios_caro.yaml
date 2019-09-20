@@ -1,0 +1,17 @@
+
+alias: Notify - Als status woning aangepast is - Ios Caro
+sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_caro') in ['on'] }}"
+  - condition: template
+    value_template: "{{ (states('person.caroline') not in ['home'] and states('input_select.woning_status') in ['Vakantie']) or (states('person.caroline') in ['home'] and states('input_select.woning_status') in ['Dag Thuis'] and (states.sensor.time.state) <= '16:00') }}"
+  - service: notify.ios_ios_iphone_caro
+    data_template:
+      message: >
+        {% if states('person.caroline') not in ['home'] and states('input_select.woning_status') in ['Vakantie'] %}
+          Het lijkt alsof jullie op vakantie zijn. Fijne vakantie geniet er van en binnenkort.
+        {% elif states('input_boolean.heating') in ['off'] %}
+          Het lijkt alsof je nog thuis bent vandaag.
+        {% else %}
+          Het lijkt alsof je nog thuis bent vandaag. Ik zal de verwarming aan laten.
+        {% endif %}

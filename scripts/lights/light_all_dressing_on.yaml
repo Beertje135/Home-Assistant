@@ -1,0 +1,6 @@
+
+alias: Licht - All - Dressing - Aan
+sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.light_hue_dressing_on

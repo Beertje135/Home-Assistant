@@ -1,0 +1,25 @@
+# CUSTOMIZE WEATHER SENSORS
+
+    sensor.weer_condition:
+      friendly_name: WEER
+
+    sun.sun:
+      friendly_name: ZON
+
+    sensor.weer_temperature:
+      friendly_name: TEMP
+      icon: mdi:temperature-celsius
+
+# CUSTOMIZE BOOLEAN SENSORS
+
+    sensor.bezoek:
+      friendly_name: Bezoeker
+      icon: mdi:account-multiple
+
+    sensor.kuishulp:
+      friendly_name: Kuishulp
+      icon: mdi:broom
+
+    sensor.babysit:
+      friendly_name: Babysit
+      icon: mdi:baby-carriage

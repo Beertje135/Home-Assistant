@@ -1,0 +1,7 @@
+
+alias: Evohome - Badkamer - Auto
+sequence:
+  - service: climate.set_preset_mode
+    data:
+      entity_id: climate.bathroom
+      preset_mode: null

@@ -1,0 +1,8 @@
+
+alias: Notify - Als buiten te warm of te koud
+sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_heating_hot_cold_outside_ios_bert
+      - script.notify_heating_hot_cold_outside_ios_caro
+      - script.notify_heating_hot_cold_outside_alexa

@@ -1,0 +1,6 @@
+
+alias: Licht - Hue - Veranda - Uit
+sequence:
+  - service: light.turn_off
+    entity_id:
+      - light.hue_veranda

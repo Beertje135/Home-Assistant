@@ -1,0 +1,13 @@
+
+alias: Notify - Als Bezoeker in huis - Ios Bert
+sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') not in ['home'] }}"
+  - service: notify.ios_ios_iphone_bert
+    data_template:
+      message: >
+        {% if states('group.bezoekers') == 'home' %}
+          Bezoeker is aangekomen bij ons thuis.
+        {% else %}
+          Bezoeker is weer vertrokken.
+        {% endif %}

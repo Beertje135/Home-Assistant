@@ -1,0 +1,8 @@
+
+alias: Notify - Als het koud is op Elmo zijn kamer
+sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_heating_cold_elmo_ios_bert
+      - script.notify_heating_cold_elmo_ios_caro
+      - script.notify_heating_cold_elmo_alexa

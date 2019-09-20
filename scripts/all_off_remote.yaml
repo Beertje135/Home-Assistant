@@ -1,0 +1,18 @@
+
+alias: Alles Uit - Remotes
+sequence:
+  - service: remote.turn_off
+    entity_id:
+      - remote.harmony_hub
+      - remote.living_room
+  - delay: 00:05:00
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Weg', 'Vankantie'] }}"
+  - service: hassio.addon_stdin
+    data:
+      addon: core_rpc_shutdown
+      input: pc_bert_wifi
+  - service: hassio.addon_stdin
+    data:
+      addon: core_rpc_shutdown
+      input: pc_bert_lan

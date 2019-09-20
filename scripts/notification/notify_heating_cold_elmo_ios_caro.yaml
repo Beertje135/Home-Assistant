@@ -1,0 +1,8 @@
+
+alias: Notify - Als het koud is op Elmo zijn kamer - Ios Caro
+sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_caro') in ['on'] and states('person.caroline') in ['home'] }}"
+  - service: notify.ios_ios_iphone_caro
+    data_template:
+      message: Het is koud op Elmo zijn kamer! Staat er nog een raam open?

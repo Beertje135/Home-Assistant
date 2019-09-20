@@ -1,0 +1,117 @@
+# BOOLEAN INPUT_SELECT_HARMONY_HUB - UPDATE INPUT SELECT VS REMOTE
+
+- alias: Harmony Hub - Boolean Change based on Hub Status (A1)
+  trigger:
+    - platform: state
+      entity_id: remote.harmony_hub
+  condition:
+  action:
+  - service: input_select.select_option
+    entity_id: input_select.harmony_hub
+    data_template:
+      option: >
+        {% if state_attr('remote.harmony_hub', 'current_activity') == "PowerOff" %}
+          Powered Off
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Alexa" %}
+          Alexa
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "TV" %}
+          Watch Tv
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Apple tv" %}
+          Watch Plex
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Google Chromecast" %}
+          Watch Chromecast
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Music" %}
+          Listen Music
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Nintendo Switch" %}
+          Play Nintendo
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Playstation" %}
+          Play Playstation
+        {% else %}
+          Powered Off
+        {% endif %}
+
+- alias: Harmony Hub - Boolean Changes (B1)
+  trigger:
+  - platform: state
+    entity_id: input_select.harmony_hub
+  action:
+  - service: remote.turn_on
+    data_template:
+      entity_id: remote.harmony_hub
+      activity: >
+        {% if states('input_select.harmony_hub') in ['Powered Off'] %}
+          -1
+        {% elif states('input_select.harmony_hub') in ['Alexa'] %}
+          35750774
+        {% elif states('input_select.harmony_hub') in ['Watch Tv'] %}
+          29425407
+        {% elif states('input_select.harmony_hub') in ['Watch Plex'] %}
+          29425458
+        {% elif states('input_select.harmony_hub') in ['Watch Chromecast'] %}
+          29425839
+        {% elif states('input_select.harmony_hub') in ['Listen Music'] %}
+          29425489
+        {% elif states('input_select.harmony_hub') in ['Play Nintendo'] %}
+          30703348
+        {% elif states('input_select.harmony_hub') in ['Play Playstation'] %}
+          29425864
+        {% endif %}
+
+#Variant met Remote.living_room
+
+- alias: Harmony Hub - Boolean Change based on Hub Status (A2)
+  trigger:
+    - platform: state
+      entity_id: remote.living_room
+  condition:
+  action:
+  - service: input_select.select_option
+    entity_id: input_select.harmony_hub
+    data_template:
+      option: >
+        {% if state_attr('remote.living_room', 'current_activity') == "PowerOff" %}
+          Powered Off
+        {% elif state_attr('remote.living_room', 'current_activity') == "Alexa" %}
+          Alexa
+        {% elif state_attr('remote.living_room', 'current_activity') == "TV" %}
+          Watch Tv
+        {% elif state_attr('remote.living_room', 'current_activity') == "Apple tv" %}
+          Watch Plex
+        {% elif state_attr('remote.living_room', 'current_activity') == "Google Chromecast" %}
+          Watch Chromecast
+        {% elif state_attr('remote.living_room', 'current_activity') == "Music" %}
+          Listen Music
+        {% elif state_attr('remote.living_room', 'current_activity') == "Nintendo Switch" %}
+          Play Nintendo
+        {% elif state_attr('remote.living_room', 'current_activity') == "Playstation" %}
+          Play Playstation
+        {% else %}
+          Powered Off
+        {% endif %}
+
+- alias: Harmony Hub - Boolean Changes (B2)
+  trigger:
+  - platform: state
+    entity_id: input_select.harmony_hub
+  action:
+  - service: remote.turn_on
+    data_template:
+      entity_id: remote.living_room
+      activity: >
+        {% if states('input_select.harmony_hub') in ['Powered Off'] %}
+          -1
+        {% elif states('input_select.harmony_hub') in ['Alexa'] %}
+          35750774
+        {% elif states('input_select.harmony_hub') in ['Watch Tv'] %}
+          29425407
+        {% elif states('input_select.harmony_hub') in ['Watch Plex'] %}
+          29425458
+        {% elif states('input_select.harmony_hub') in ['Watch Chromecast'] %}
+          29425839
+        {% elif states('input_select.harmony_hub') in ['Listen Music'] %}
+          29425489
+        {% elif states('input_select.harmony_hub') in ['Play Nintendo'] %}
+          30703348
+        {% elif states('input_select.harmony_hub') in ['Play Playstation'] %}
+          29425864
+        {% endif %}

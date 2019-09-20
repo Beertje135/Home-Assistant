@@ -1,0 +1,14 @@
+
+alias: Vacuum - On
+sequence:
+  - condition: time
+    after: '07:00:00'
+    before: '20:00:00'
+  - condition: template
+    value_template: "{{ states('vacuum.dusty') in ['off'] }}"
+  - condition: state
+    entity_id: input_boolean.vacuum_cleaned_today
+    state: 'off'
+  - service: vacuum.start_pause
+    data:
+      entity_id: vacuum.dusty

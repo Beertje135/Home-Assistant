@@ -1,0 +1,8 @@
+
+alias: Licht - Hue - Woonkamer - Aan - Normal
+sequence:
+  - service: light.turn_on
+    entity_id: light.hue_woonkamer
+    data:
+      color_temp: 365
+      brightness: 255

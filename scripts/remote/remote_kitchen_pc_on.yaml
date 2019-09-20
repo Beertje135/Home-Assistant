@@ -1,0 +1,9 @@
+
+alias: Remote - PC Aan
+sequence:
+  - condition: state
+    entity_id: group.bewoners_router
+    state: 'home'
+  - service: switch.turn_on
+    entity_id:
+      - switch.wake_on_lan

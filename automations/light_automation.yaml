@@ -1,0 +1,526 @@
+# AUTOMATIONS FOR VERANDA LIGHT (ACTION = SCRIPT)
+
+- alias: Licht - Veranda - Aan LED
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.keuken_sensor_motion
+  - platform: template
+    value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Juist Thuis'] }}"
+  - platform: numeric_state
+    entity_id: sensor.keuken_sensor_light_level
+    below: !secret lux_veranda_low
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_downstairs
+    state: 'on'
+  - condition: numeric_state
+    entity_id: sensor.keuken_sensor_light_level
+    below: !secret lux_veranda_low
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Slapen', 'Vakantie'] }}"
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') in ['Vakantie'] and states('group.bezoekers') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('switch.smappee_porch') in ['off'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_smappee_veranda_on_led
+
+- alias: Licht - Veranda - Uit LED
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.keuken_sensor_motion
+    for:
+      minutes: 30
+    to: 'off'
+  - platform: state
+    entity_id: binary_sensor.living_sensor_motion
+    for:
+      minutes: 30
+    to: 'off'
+  - platform: state
+    entity_id: input_boolean.light_downstairs
+    to: 'off'
+  - platform: numeric_state
+    entity_id: sensor.keuken_sensor_light_level
+    above: !secret lux_veranda_high
+  condition:
+  - condition: state
+    entity_id: switch.smappee_porch
+    state: 'on'
+  - condition: or
+    conditions:
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: binary_sensor.kitchen_sensor_motion
+            state: 'off'
+            for:
+              minutes: 30
+          - condition: state
+            entity_id: binary_sensor.kitchen_sensor_motion
+            state: 'off'
+            for:
+              minutes: 30
+      - condition: numeric_state
+        entity_id: sensor.keuken_sensor_light_level
+        above: !secret lux_veranda_high
+      - condition: state
+        entity_id: input_boolean.light_downstairs
+        state: 'off'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_all_veranda_off
+
+- alias: Licht - Veranda - Aan Flos Arco
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.keuken_sensor_motion
+  - platform: numeric_state
+    entity_id: sensor.keuken_sensor_light_level
+    below: !secret lux_veranda_very_low
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_downstairs
+    state: 'on'
+  - condition: numeric_state
+    entity_id: sensor.keuken_sensor_light_level
+    below: !secret lux_veranda_very_low
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Slapen', 'Vakantie'] }}"
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') in ['Vakantie'] and states('group.bezoekers') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('light.hue_veranda') in ['off'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_hue_veranda_on
+
+- alias: Licht - Veranda - Uit Flos Arco
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.keuken_sensor_light_level
+    above: !secret lux_veranda_very_low
+  - platform: state
+    entity_id: input_boolean.light_downstairs
+    to: 'off'
+  condition:
+  - condition: template
+    value_template: "{{ states('light.hue_veranda') in ['on'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_hue_veranda_off
+
+# AUTOMATIONS FOR KITCHEN LIGHT (ACTION = SCRIPT)
+
+- alias: Licht - Keuken - Aan
+  trigger:
+  - entity_id: binary_sensor.keuken_sensor_motion
+    platform: state
+  - platform: template
+    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis'] }}"
+  - platform: state
+    entity_id: input_boolean.light_downstairs
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.keuken_sensor_light_level
+    below: !secret lux_kitchen_low
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Vakantie'] }}"
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') in ['Vakantie'] and states('group.bezoekers') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('light.milight_kitchen') in ['off'] or state_attr('light.milight_kitchen', 'brightness') < 250 }}"
+  action:
+  - service: script.turn_on
+    entity_id: script.light_all_kitchen_on
+
+- alias: Licht - Keuken - Uit
+  trigger:
+  - entity_id: binary_sensor.keuken_sensor_motion
+    for:
+      minutes: 15
+    platform: state
+    to: 'off'
+  - platform: numeric_state
+    entity_id: sensor.keuken_sensor_light_level
+    above: !secret lux_kitchen_high
+  - platform: state
+    entity_id: input_boolean.light_downstairs
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: light.milight_kitchen
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_all_kitchen_off
+
+- alias: Licht - Keuken - Uit - Night
+  trigger:
+  - entity_id: binary_sensor.keuken_sensor_motion
+    for:
+      minutes: 1
+    platform: state
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: light.milight_kitchen
+    state: 'on'
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Slapen', 'Juist Weg', 'Weg', 'Vakantie'] }}"
+  action:
+  - service: script.turn_on
+    entity_id: script.light_all_kitchen_off
+
+- alias: Licht - Keuken - Standby of Uit
+  trigger:
+  - entity_id: binary_sensor.keuken_sensor_motion
+    for:
+      minutes: 5
+    platform: state
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: light.milight_kitchen
+    state: 'on'
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if states('sun.sun') in ['below_horizon'] and states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Dag Thuis'] %}
+          script.light_milight_kitchen_on_standby,
+          script.light_milight_kitchen_on_tv_standby
+        {% else %}
+          script.light_all_kitchen_off
+        {% endif %}
+
+# AUTOMATIONS FOR LIVINGROOM LIGHT (ACTION = SCRIPT)
+
+- alias: Licht - Woonkamer - Aan lux laag
+  trigger:
+  - entity_id: binary_sensor.living_sensor_motion
+    platform: state
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_downstairs
+    state: 'on'
+  - condition: numeric_state
+    entity_id: sensor.living_sensor_light_level
+    below: !secret lux_livingroom_low
+  - condition: template
+    value_template: "{{ states('switch.smappee_living_room') in ['off'] or (states('light.milight_bridge_living_room') in ['off'] and states('input_select.harmony_hub') not in ['Powered Off', 'Alexa']) }}"
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Vakantie'] }}"
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') in ['Vakantie'] and states('group.bezoekers') in ['home'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_smappee_living_on_led
+      - script.light_milight_living_on_tv
+
+- alias: Licht - Woonkamer - Aan lux heel laag
+  trigger:
+  - entity_id: binary_sensor.living_sensor_motion
+    platform: state
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_downstairs
+    state: 'on'
+  - condition: numeric_state
+    entity_id: sensor.living_sensor_light_level
+    below: !secret lux_livingroom_very_low
+  - condition: template
+    value_template: "{{ states('switch.smappee_extra_plug') in ['off'] or states('light.hue_woonkamer') in ['off'] }}"
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Vakantie'] }}"
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') in ['Vakantie'] and states('group.bezoekers') in ['home'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_smappee_living_on_spacewalker
+      - script.light_hue_living_on
+
+- alias: Licht - Woonkamer - Hue Aan
+  trigger:
+  - entity_id: light.hue_woonkamer
+    platform: state
+    to: 'on'
+  condition:
+  action:
+  - delay: 00:00:05
+  - service: script.turn_on
+    entity_id:
+      - script.light_hue_living_on
+
+- alias: Licht - Woonkamer - Uit lux hoog
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.living_sensor_light_level
+    above: !secret lux_livingroom_very_low
+  - platform: state
+    entity_id: input_boolean.light_downstairs
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: switch.smappee_extra_plug
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_smappee_living_off_spacewalker
+
+- alias: Licht - Woonkamer - Uit lux heel hoog
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.living_sensor_light_level
+    above: !secret lux_livingroom_high
+  - platform: state
+    entity_id: input_boolean.light_downstairs
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: switch.smappee_living_room
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_all_living_off
+
+- alias: Licht - Woonkamer - Uit Geen beweging
+  trigger:
+  - entity_id: binary_sensor.living_sensor_motion
+    for:
+      minutes: 15
+    platform: state
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: switch.smappee_living_room
+    state: 'on'
+  - condition: template
+    value_template: "{{ states('input_select.harmony_hub') in ['Powered Off', 'Alexa'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_all_living_off
+
+- alias: Licht - Woonkamer - Uit - Night
+  trigger:
+  - entity_id: binary_sensor.living_sensor_motion
+    for:
+      minutes: 1
+    platform: state
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: light.milight_bridge_living_room
+    state: 'on'
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Slapen', 'Juist Weg', 'Weg'] }}"
+  action:
+  - service: script.turn_on
+    entity_id: script.light_all_living_off
+
+- alias: Licht - Woonkamer - Aan of Uit volgens Harmony
+  trigger:
+  - platform: state
+    entity_id: input_select.harmony_hub
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_downstairs
+    state: 'on'
+  - condition: numeric_state
+    entity_id: sensor.living_sensor_light_level
+    below: !secret lux_livingroom_low
+  action:
+  - service: script.turn_on
+    entity_id: script.light_milight_living_on_tv
+
+# AUTOMATIONS FOR DRESSING LIGHT ( ACTION = SCRIPT)
+
+- alias: Licht - Dressing - Aan
+  trigger:
+  - entity_id: binary_sensor.dressing_sensor_motion
+    platform: state
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.dressing_sensor_light_level
+    below: !secret lux_dressing_low
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Vakantie'] }}"
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') in ['Vakantie'] and states('group.bezoekers') in ['home'] }}"
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: light.hue_dressing_one
+      state: 'off'
+    - condition: state
+      entity_id: light.hue_dressing_two
+      state: 'off'
+    - condition: state
+      entity_id: light.hue_dressing_three
+      state: 'off'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_all_dressing_on
+
+- alias: Licht - Dressing - Uit
+  trigger:
+  - entity_id: binary_sensor.dressing_sensor_motion
+    for:
+      minutes: 1
+    platform: state
+    to: 'off'
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: light.hue_dressing_one
+      state: 'on'
+    - condition: state
+      entity_id: light.hue_dressing_two
+      state: 'on'
+    - condition: state
+      entity_id: light.hue_dressing_three
+      state: 'on'
+  - condition: state
+    entity_id: binary_sensor.dressing_sensor_motion
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.light_dressing_stay_on
+    state: 'off'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_all_dressing_off
+
+# BOOLEAN INPUT_LIGHT_DRESSING_KEEP_ON - USED TO KEEP LIGHT DRESSING ON
+
+- alias: Licht - Dressing - Altijd Aan Boolean Changes
+  trigger:
+  - entity_id: input_boolean.light_dressing_stay_on
+    platform: state
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if states('input_boolean.light_dressing_stay_on') in ['on'] %}
+          script.light_hue_dressing_on_normal
+        {% elif states('input_boolean.light_dressing_stay_on') in ['off'] %}
+          script.light_all_dressing_off
+        {% endif %}
+
+- alias: Licht - Dressing - Altijd Aan Change Boolean after timer
+  trigger:
+  - entity_id: binary_sensor.dressing_sensor_motion
+    for:
+      minutes: 45
+    platform: state
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_dressing_stay_on
+    state: 'on'
+  action:
+  - service: input_boolean.turn_off
+    entity_id:
+      - input_boolean.light_dressing_stay_on
+
+# AUTOMATIONS FOR BATHROOM LIGHT (ACTION = SCRIPT)
+
+- alias: Licht - Badkamer - Aan
+  trigger:
+  - entity_id: binary_sensor.dressing_sensor_motion
+    platform: state
+  condition:
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Vakantie'] }}"
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') in ['Vakantie'] and states('group.bezoekers') in ['home'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_all_bathroom_on
+
+# AUTOMATIONS FOR ELMO'S ROOM LIGHT (ACTION = SCRIPT)
+
+- alias: Licht - Elmo - Aan
+  trigger:
+  - platform: time
+    at: '06:35:00'
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Vakantie', 'Juist Weg', 'Weg', 'Slapen'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_all_elmo_on
+
+- alias: Licht - Elmo - Uit
+  trigger:
+  - platform: time
+    at: '07:05:00'
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: light.hue_logeerkamer_floor
+      state: 'on'
+    - condition: state
+      entity_id: light.hue_logeerkamer_ceiling
+      state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_all_elmo_off
+
+# BOOLEAN INPUT_LIGHT_LIVINGROOM - USED TO ADD LIGHT TO HARMONY HUB
+
+- alias: Licht - Woonkamer - Boolean (A)
+  trigger:
+  - platform: state
+    entity_id: light.hue_woonkamer
+  condition:
+  - condition: template
+    value_template: "{{ states('light.hue_woonkamer') in ['on'] or states('light.hue_woonkamer') in ['off'] }}"
+  action:
+  - service_template: input_boolean.turn_{{ trigger.to_state.state }}
+    data:
+      entity_id:
+        - input_boolean.light_livingroom
+
+- alias: Licht - Woonkamer - Boolean (B)
+  trigger:
+  - platform: state
+    entity_id: input_boolean.light_livingroom
+  action:
+    service_template: light.turn_{{ trigger.to_state.state }}
+    data:
+      entity_id:
+        - light.hue_woonkamer

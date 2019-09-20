@@ -1,0 +1,6 @@
+
+alias: Alles Uit - Switch
+sequence:
+  - service: switch.turn_off
+    entity_id:
+      - switch.smappee_speakers

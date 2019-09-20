@@ -1,0 +1,24 @@
+
+alias: Restart - Hassio
+sequence:
+  - delay: 00:01:00
+  - service: automation.turn_on
+    entity_id:
+      - group.all_automations
+  - service: input_boolean.turn_off
+    entity_id:
+      - input_boolean.trigger_away
+      - input_boolean.trigger_home
+      - input_boolean.trigger_sleep
+      - input_boolean.trigger_morning
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.light_downstairs
+  - service: script.turn_on
+    entity_id: script.notify_restart_hassio
+  - service_template: >
+      {%- if states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home'] -%}
+        switch.turn_on
+      {%- else -%}
+        switch.turn_off
+      {%- endif %}
+    entity_id: switch.smappee_speakers

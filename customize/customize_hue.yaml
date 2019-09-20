@@ -1,0 +1,26 @@
+# CUSTOMIZATION FOR LIGHTS
+
+# CUSTOMIZATION HUE LIGHTS
+
+    light.hue_veranda:
+      friendly_name: Light Veranda Hue
+
+    light.hue_dressing_one:
+      friendly_name: Light Dressing Hue 1
+
+    light.hue_dressing_two:
+      friendly_name: Light Dressing Hue 2
+
+    light.hue_dressing_three:
+      friendly_name: Light Dressing Hue 3
+
+    light.hue_logeerkamer_floor:
+      friendly_name: Light Elmo's room Hue 1
+
+    light.hue_logeerkamer_ceiling:
+      friendly_name: Light Elmo's room Hue 2
+
+    light.hue_woonkamer:
+      friendly_name: Light Woonkamer Hue
+
+# CUSTOMIZE sensors

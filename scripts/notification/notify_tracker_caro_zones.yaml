@@ -1,0 +1,7 @@
+
+alias: Notify - Als Caro in zone
+sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_tracker_caro_zones_ios_bert
+      - script.notify_tracker_caro_zones_alexa

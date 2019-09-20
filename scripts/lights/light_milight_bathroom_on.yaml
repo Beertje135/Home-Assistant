@@ -1,0 +1,15 @@
+
+alias: Licht - Milight - Badkamer - Aan
+sequence:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if states('input_select.woning_status') not in ['Slapen'] and (states.sensor.time.state >= '22:00' or states.sensor.time.state <= '06:00') %}
+          script.light_milight_bathroom_on_dimmed
+        {% elif states('input_select.woning_status') in ['Slapen'] and (states.sensor.time.state >= '05:00' or states.sensor.time.state <= '23:30') %}
+          script.light_milight_bathroom_on_dimmed
+        {% elif states('input_select.woning_status') in ['Slapen'] and (states.sensor.time.state <= '05:00' or states.sensor.time.state >= '23:30') %}
+          script.light_milight_bathroom_on_night
+        {% else %}
+          script.light_milight_bathroom_on_normal
+        {% endif %}

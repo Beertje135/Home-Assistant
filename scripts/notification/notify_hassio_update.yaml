@@ -1,0 +1,19 @@
+
+alias: Notify - Hassio Update
+sequence:
+  - service: notify.ios_ios_iphone_bert
+    data:
+      message: Er is een update beschikbaar.
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - service: notify.alexa_media
+    data:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+      message: 'I have an update available'
+      data:
+        type: announce
+        method: speak

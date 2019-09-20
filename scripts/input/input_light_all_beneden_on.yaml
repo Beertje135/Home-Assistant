@@ -1,0 +1,6 @@
+
+alias: Licht - All - Beneden - Aan
+sequence:
+  - service: input_boolean.turn_on
+    entity_id:
+      - input_boolean.light_downstairs
