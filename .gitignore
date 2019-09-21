@@ -33,6 +33,7 @@ known_devices.yaml
 *.xml
 *.log
 *.mp3
+*.html
 
 # Junck files
 .DS_Store

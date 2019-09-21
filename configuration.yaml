@@ -94,6 +94,7 @@ hacs:
 #    - email: !secret username_alexa
 #      password: !secret password_alexa
 #      url: amazon.co.uk
+#      debug: True
 
 # Text to speech
 #notify:

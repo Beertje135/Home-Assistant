@@ -2,7 +2,7 @@
 alias: Notify - Dusty - Ios Bert
 sequence:
   - condition: template
-    value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') in ['home'] }}"
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') not in ['home'] }}"
   - service: notify.ios_ios_iphone_bert
     data_template:
       message: >
@@ -14,6 +14,8 @@ sequence:
           'Dusty is klaar met zijn taak.'
         {% elif states('vacuum.dusty') in ['off'] and states('input_boolean.vacuum_cleaned_today') in ['off'] %}
           'Dusty is nog niet klaar met zijn taak voor vandaag.'
+        {% elif states('vacuum.dusty') in ['on'] %}
+          'Dusty begint het huis te kuisen. Beep Beep'
         {% else %}
           'Dusty is still going strong'
         {% endif %}

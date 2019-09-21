@@ -1,6 +1,6 @@
 # AUTOMATION AMPLIFIER LIVING ROOM
 
-- alias: Vacuum Dusty - Notify
+- alias: Vacuum Dusty - Notify Status Dusty Changes
   trigger:
   - platform: template
     value_template: "{{ states.vacuum.dusty.attributes.bin_full == true }}"
@@ -10,15 +10,17 @@
     entity_id:
       - vacuum.dusty
     to: 'off'
+  - platform: state
+    entity_id:
+      - vacuum.dusty
+    to: 'on'
   condition:
-  - condition: template
-    value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Dag Thuis'] }}"
   action:
   - service: script.turn_on
     entity_id:
       - script.notify_vacuum
 
-- alias: Vacuum Dusty - Status Woning Changes
+- alias: Vacuum Dusty - Notify Status Woning Changes
   trigger:
   - platform: state
     entity_id: input_select.woning_status
@@ -33,19 +35,6 @@
   - service: script.turn_on
     entity_id:
       - script.notify_vacuum
-
-- alias: Vacuum Dusty - Notify Bert Thuis
-  trigger:
-  - platform: state
-    entity_id: person.bert
-    to: 'home'
-  condition:
-  - condition: template
-    value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Dag Thuis'] }}"
-  action:
-  - delay: 00:02:00
-  - service: script.turn_on
-    entity_id: script.notify_vacuum_ios_bert
 
 - alias: Vacuum Dusty - Cleaned Today
   trigger:

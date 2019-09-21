@@ -5,7 +5,7 @@
   - event: start
     platform: homeassistant
   action:
-  - delay: 00:01:00
+  - delay: 00:00:30
   - service: script.turn_on
     entity_id:
       - script.restart_hassio

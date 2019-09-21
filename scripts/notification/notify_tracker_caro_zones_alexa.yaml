@@ -9,6 +9,9 @@ sequence:
     value_template: "{{ states('person.caroline') not in ['home'] }}"
   - condition: template
     value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - wait_template: "{{ is_state('device_tracker.router_iphone_bert', 'home') }}"
+    timeout: '00:05:00'
+    continue_on_timeout: false
   - service: notify.alexa_media
     data_template:
       target:

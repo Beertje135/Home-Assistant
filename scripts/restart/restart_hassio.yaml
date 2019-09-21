@@ -14,7 +14,7 @@ sequence:
   - service: input_boolean.turn_on
     entity_id: input_boolean.light_downstairs
   - service: script.turn_on
-    entity_id: script.notify_restart_hassio
+    entity_id: script.notify_hassio_restart
   - service_template: >
       {%- if states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home'] -%}
         switch.turn_on

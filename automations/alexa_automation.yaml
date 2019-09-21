@@ -6,6 +6,9 @@
   trigger:
   - platform: state
     entity_id: input_select.harmony_hub
+  condition:
+  - condition: template
+    value_template: "{{ (states('media_player.alexa_livingroom') in ['playing'] and states('input_select.harmony_hub') not in ['Alexa']) or (states('media_player.alexa_livingroom') not in ['playing'] and states('media_player.downstairs') not in ['playing'] and states('media_player.everywhere') not in ['playing'] and states('input_select.harmony_hub') in ['Alexa']) }}"
   action:
   - service: script.turn_on
     data_template:
@@ -14,6 +17,8 @@
           script.music_alexa_play_living_room
         {%- elif states('media_player.alexa_livingroom') in ['playing'] and states('input_select.harmony_hub') not in ['Alexa'] -%}
           script.music_alexa_stop_living_room
+        {%- else -%}
+          script.empty
         {%- endif %}
 
 # PLAY RADIO IN BATHROOM
@@ -253,58 +258,63 @@
 
 # RADIO CHANGE STATION
 
-#- alias: Muziek - Radio - Zender veranderen
-#  trigger:
-#  - platform: time
-#    at: '07:31:00'
-#  - platform: time
-#    at: '09:01:00'
-#  action:
-#  - service: script.turn_on
-#    data_template:
-#      entity_id: >
-#        {%- if states('media_player.alexa_kitchen_1') in ['playing'] and state_attr('media_player.alexa_kitchen_1', 'media_title') == 'VRT Studio Brussel' -%}
-#          script.music_alexa_play_kitchen
-#        {%- else -%}
-#          script.empty
-#        {%- endif %}
-#  - service: script.turn_on
-#    data_template:
-#      entity_id: >
-#        {%- if states('media_player.alexa_bathroom') in ['playing'] and state_attr('media_player.alexa_bathroom', 'media_title') == 'VRT Studio Brussel' -%}
-#          script.music_alexa_play_bathroom
-#        {%- else -%}
-#          script.empty
-#        {%- endif %}
-#  - service: script.turn_on
-#    data_template:
-#      entity_id: >
-#        {%- if states('media_player.alexa_livingroom') in ['playing'] and state_attr('media_player.alexa_livingroom', 'media_title') == 'VRT Studio Brussel' -%}
-#          script.music_alexa_play_living_room
-#        {%- else -%}
-#          script.empty
-#        {%- endif %}
-#  - service: script.turn_on
-#    data_template:
-#      entity_id: >
-#        {%- if states('media_player.everywhere') in ['playing'] and state_attr('media_player.everywhere', 'media_title') == 'VRT Studio Brussel' -%}
-#          script.music_alexa_play_everywhere
-#        {%- else -%}
-#          script.empty
-#        {%- endif %}
-#  - service: script.turn_on
-#    data_template:
-#      entity_id: >
-#        {%- if states('media_player.downstairs') in ['playing'] and state_attr('media_player.downstairs', 'media_title') == 'VRT Studio Brussel' -%}
-#          script.music_alexa_play_downstairs
-#        {%- else -%}
-#          script.empty
-#        {%- endif %}
-#  - service: script.turn_on
-#    data_template:
-#      entity_id: >
-#        {%- if states('media_player.downstairs') in ['playing'] and state_attr('media_player.downstairs', 'media_title') == 'VRT Studio Brussel' -%}
-#          script.music_alexa_play_upstairs
-#        {%- else -%}
-#          script.empty
-#        {%- endif %}
+- alias: Muziek - Radio - Zender veranderen
+  trigger:
+  - platform: time
+    at: '07:31:00'
+  - platform: time
+    at: '09:01:00'
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('media_player.alexa_kitchen_1') in ['playing'] and state_attr('media_player.alexa_kitchen_1', 'media_title') == 'VRT Studio Brussel' -%}
+          script.music_alexa_play_kitchen
+        {%- else -%}
+          script.empty
+        {%- endif %}
+  - delay: 00:00:01
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('media_player.alexa_bathroom') in ['playing'] and state_attr('media_player.alexa_bathroom', 'media_title') == 'VRT Studio Brussel' -%}
+          script.music_alexa_play_bathroom
+        {%- else -%}
+          script.empty
+        {%- endif %}
+  - delay: 00:00:01
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('media_player.alexa_livingroom') in ['playing'] and state_attr('media_player.alexa_livingroom', 'media_title') == 'VRT Studio Brussel' -%}
+          script.music_alexa_play_living_room
+        {%- else -%}
+          script.empty
+        {%- endif %}
+  - delay: 00:00:01
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('media_player.everywhere') in ['playing'] and state_attr('media_player.everywhere', 'media_title') == 'VRT Studio Brussel' -%}
+          script.music_alexa_play_everywhere
+        {%- else -%}
+          script.empty
+        {%- endif %}
+  - delay: 00:00:01
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('media_player.downstairs') in ['playing'] and state_attr('media_player.downstairs', 'media_title') == 'VRT Studio Brussel' -%}
+          script.music_alexa_play_downstairs
+        {%- else -%}
+          script.empty
+        {%- endif %}
+  - delay: 00:00:01
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('media_player.downstairs') in ['playing'] and state_attr('media_player.downstairs', 'media_title') == 'VRT Studio Brussel' -%}
+          script.music_alexa_play_upstairs
+        {%- else -%}
+          script.empty
+        {%- endif %}
