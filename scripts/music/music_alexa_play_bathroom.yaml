@@ -1,0 +1,27 @@
+
+alias: Radio - Alexa Play Badkamer
+sequence:
+  - service: media_player.play_media
+    data_template:
+      entity_id: media_player.alexa_bathroom
+      media_content_type: TUNEIN
+      media_content_id: >
+        {% if ((states.sensor.time.state) <= "09:00") and now().weekday() in (0,1,2,3,4) %}
+          VRT MNM
+        {% elif ((states.sensor.time.state) <= "07:30") and now().weekday() in (5,6) %}
+          VRT MNM
+        {% else %}
+          VRT MNM
+        {% endif %}
+  - delay: 00:00:05
+  - service: media_player.volume_set
+    data_template:
+      entity_id: media_player.alexa_bathroom
+      volume_level: >
+        {% if (states.sensor.time.state) <= "08:30" and now().weekday() in (0,1,2,3,4) %}
+          0.07
+        {% elif ((states.sensor.time.state) <= "07:30") and now().weekday() in (5,6) %}
+          0.07
+        {% else %}
+          0.13
+        {% endif %}

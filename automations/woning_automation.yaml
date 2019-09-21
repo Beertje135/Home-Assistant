@@ -79,6 +79,7 @@
   - platform: state
     entity_id:
       - binary_sensor.keuken_sensor_motion
+    to: 'on'
   - platform: template
     value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Weg', 'Juist Wakker', 'Slapen'] }}"
   condition:
