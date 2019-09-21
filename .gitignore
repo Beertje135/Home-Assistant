@@ -13,9 +13,8 @@
 .cloud
 .google.token
 .TemporaryItems
-AlexaPy-1.2.0.dist-info
 www/music
-people
+www/people
 notebooks
 
 # Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
@@ -26,6 +25,8 @@ known_devices.yaml
 
 # Database
 *.db
+*.db-shm
+*.db-wal
 *.token
 *.conf
 *.pickle

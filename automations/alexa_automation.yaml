@@ -253,46 +253,58 @@
 
 # RADIO CHANGE STATION
 
-- alias: Muziek - Radio - Zender veranderen
-  trigger:
-  - platform: time
-    at: '07:31:00'
-  - platform: time
-    at: '09:01:00'
-  action:
-  - service: script.turn_on
-    data_template:
-      entity_id: >
-        {%- if states('media_player.alexa_kitchen_1') in ['playing'] and state_attr('media_player.alexa_kitchen_1', 'media_title') == 'VRT Studio Brussel' -%}
-          script.music_alexa_play_kitchen
-        {%- endif %}
-  - service: script.turn_on
-    data_template:
-      entity_id: >
-        {%- if states('media_player.alexa_bathroom') in ['playing'] and state_attr('media_player.alexa_bathroom', 'media_title') == 'VRT Studio Brussel' -%}
-          script.music_alexa_play_bathroom
-        {%- endif %}
-  - service: script.turn_on
-    data_template:
-      entity_id: >
-        {%- if states('media_player.alexa_livingroom') in ['playing'] and state_attr('media_player.alexa_livingroom', 'media_title') == 'VRT Studio Brussel' -%}
-          script.music_alexa_play_living_room
-        {%- endif %}
-  - service: script.turn_on
-    data_template:
-      entity_id: >
-        {%- if states('media_player.everywhere') in ['playing'] and state_attr('media_player.everywhere', 'media_title') == 'VRT Studio Brussel' -%}
-          script.music_alexa_play_everywhere
-        {%- endif %}
-  - service: script.turn_on
-    data_template:
-      entity_id: >
-        {%- if states('media_player.downstairs') in ['playing'] and state_attr('media_player.downstairs', 'media_title') == 'VRT Studio Brussel' -%}
-          script.music_alexa_play_downstairs
-        {%- endif %}
-  - service: script.turn_on
-    data_template:
-      entity_id: >
-        {%- if states('media_player.downstairs') in ['playing'] and state_attr('media_player.downstairs', 'media_title') == 'VRT Studio Brussel' -%}
-          script.music_alexa_play_upstairs
-        {%- endif %}
+#- alias: Muziek - Radio - Zender veranderen
+#  trigger:
+#  - platform: time
+#    at: '07:31:00'
+#  - platform: time
+#    at: '09:01:00'
+#  action:
+#  - service: script.turn_on
+#    data_template:
+#      entity_id: >
+#        {%- if states('media_player.alexa_kitchen_1') in ['playing'] and state_attr('media_player.alexa_kitchen_1', 'media_title') == 'VRT Studio Brussel' -%}
+#          script.music_alexa_play_kitchen
+#        {%- else -%}
+#          script.empty
+#        {%- endif %}
+#  - service: script.turn_on
+#    data_template:
+#      entity_id: >
+#        {%- if states('media_player.alexa_bathroom') in ['playing'] and state_attr('media_player.alexa_bathroom', 'media_title') == 'VRT Studio Brussel' -%}
+#          script.music_alexa_play_bathroom
+#        {%- else -%}
+#          script.empty
+#        {%- endif %}
+#  - service: script.turn_on
+#    data_template:
+#      entity_id: >
+#        {%- if states('media_player.alexa_livingroom') in ['playing'] and state_attr('media_player.alexa_livingroom', 'media_title') == 'VRT Studio Brussel' -%}
+#          script.music_alexa_play_living_room
+#        {%- else -%}
+#          script.empty
+#        {%- endif %}
+#  - service: script.turn_on
+#    data_template:
+#      entity_id: >
+#        {%- if states('media_player.everywhere') in ['playing'] and state_attr('media_player.everywhere', 'media_title') == 'VRT Studio Brussel' -%}
+#          script.music_alexa_play_everywhere
+#        {%- else -%}
+#          script.empty
+#        {%- endif %}
+#  - service: script.turn_on
+#    data_template:
+#      entity_id: >
+#        {%- if states('media_player.downstairs') in ['playing'] and state_attr('media_player.downstairs', 'media_title') == 'VRT Studio Brussel' -%}
+#          script.music_alexa_play_downstairs
+#        {%- else -%}
+#          script.empty
+#        {%- endif %}
+#  - service: script.turn_on
+#    data_template:
+#      entity_id: >
+#        {%- if states('media_player.downstairs') in ['playing'] and state_attr('media_player.downstairs', 'media_title') == 'VRT Studio Brussel' -%}
+#          script.music_alexa_play_upstairs
+#        {%- else -%}
+#          script.empty
+#        {%- endif %}

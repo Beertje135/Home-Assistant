@@ -27,6 +27,7 @@
       - input_boolean.trigger_just_away_kitchen
       - input_boolean.trigger_just_awake_dressing
       - input_boolean.trigger_just_sleep_dressing
+      - input_boolean.light_livingroom
       - binary_sensor.downstairs_nest_protect_online
       - binary_sensor.upstairs_nest_protect_online
       - light.hue_dressing_one
@@ -34,3 +35,7 @@
       - light.hue_dressing_three
       - automation.plex_webhook_to_mqtt
       - automation.plex_webhook_update_mqtt_sensor
+      - automation.licht_badkamer_aan
+      - automation.licht_badkamer_uit
+      - automation.licht_woonkamer_boolean_a
+      - automation.licht_woonkamer_boolean_b

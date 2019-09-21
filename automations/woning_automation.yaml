@@ -108,6 +108,7 @@
   - platform: state
     entity_id:
       - binary_sensor.dressing_sensor_motion
+    to: 'on'
   - platform: template
     value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Slapen'] }}"
   condition:

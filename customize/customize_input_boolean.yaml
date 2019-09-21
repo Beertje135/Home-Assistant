@@ -45,7 +45,7 @@
       friendly_name: Input Trigger Sleep
 
     input_boolean.light_livingroom:
-      friendly_name: Input Light Veranda
+      friendly_name: Input Light Hue Woonkamer
 
     input_boolean.plex_livingroom:
       icon: mdi:plex
