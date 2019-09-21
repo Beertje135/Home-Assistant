@@ -129,7 +129,7 @@
 - alias: Ons Huisje - Change Status - Bewoner of Bezoeker
   trigger:
   - platform: state
-    entity_id: group.bewoners_router
+    entity_id: group.bewoners
   - platform: state
     entity_id: group.bezoekers
   action:
@@ -137,11 +137,11 @@
     entity_id: input_select.woning_status
     data_template:
       option: >
-        {% if (states('input_select.woning_status') in ['Weg', 'Vakantie'] and states('group.bewoners_router') in ['home']) or (states('input_select.woning_status') in ['Weg'] and states('group.bezoekers') in ['home']) %}
+        {% if (states('input_select.woning_status') in ['Weg', 'Vakantie'] and states('group.bewoners') in ['home']) or (states('input_select.woning_status') in ['Weg'] and states('group.bezoekers') in ['home']) %}
           Juist Thuis
-        {% elif states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners_router') in ['home'] or states('group.bezoekers') in ['home']) %}
+        {% elif states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']) %}
           Thuis
-        {% elif states('input_select.woning_status') in ['Juist Thuis', 'Thuis', 'Dag Thuis'] and states('group.bewoners_router') in ['not_home'] and states('group.bezoekers') in ['not_home'] %}
+        {% elif states('input_select.woning_status') in ['Juist Thuis', 'Thuis', 'Dag Thuis'] and states('group.bewoners') in ['not_home'] and states('group.bezoekers') in ['not_home'] %}
           Juist Weg
         {% endif %}
 
