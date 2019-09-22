@@ -3,6 +3,7 @@
 #  SPDX-License-Identifier: Apache-2.0
 """
 Support to interface with Alexa Devices.
+
 For more details about this platform, please refer to the documentation at
 https://community.home-assistant.io/t/echo-devices-alexa-as-media-player-testers-needed/58639
 """
@@ -179,6 +180,7 @@ async def async_setup_entry(hass, config_entry):
 
 async def setup_platform_callback(hass, config_entry, login, callback_data):
     """Handle response from configurator.
+
     Args:
     callback_data (json): Returned data from configurator passed through
                           request_configuration and configuration_callback
@@ -344,6 +346,7 @@ async def setup_alexa(hass, config_entry, login_obj):
     @util.Throttle(MIN_TIME_BETWEEN_SCANS, MIN_TIME_BETWEEN_FORCED_SCANS)
     async def update_devices(login_obj):
         """Ping Alexa API to identify all devices, bluetooth, and last called device.
+
         This will add new devices and services when discovered. By default this
         runs every SCAN_INTERVAL seconds unless another method calls it. if
         websockets is connected, it will return immediately unless
@@ -503,6 +506,7 @@ async def setup_alexa(hass, config_entry, login_obj):
 
     async def update_last_called(login_obj, last_called=None):
         """Update the last called device for the login_obj.
+
         This will store the last_called in hass.data and also fire an event
         to notify listeners.
         """
@@ -561,6 +565,7 @@ async def setup_alexa(hass, config_entry, login_obj):
 
     async def last_call_handler(call):
         """Handle last call service request.
+
         Args:
         call.ATTR_EMAIL: List of case-sensitive Alexa email addresses. If None
                          all accounts are updated.
@@ -576,6 +581,7 @@ async def setup_alexa(hass, config_entry, login_obj):
 
     async def ws_connect() -> WebsocketEchoClient:
         """Open WebSocket connection.
+
         This will only attempt one login before failing.
         """
         websocket: Optional[WebsocketEchoClient] = None
@@ -596,6 +602,7 @@ async def setup_alexa(hass, config_entry, login_obj):
 
     async def ws_handler(message_obj):
         """Handle websocket messages.
+
         This allows push notifications from Alexa to update last_called
         and media state.
         """
@@ -720,6 +727,7 @@ async def setup_alexa(hass, config_entry, login_obj):
 
     async def ws_close_handler():
         """Handle websocket close.
+
         This should attempt to reconnect up to 5 times
         """
         from asyncio import sleep
@@ -746,6 +754,7 @@ async def setup_alexa(hass, config_entry, login_obj):
 
     async def ws_error_handler(message):
         """Handle websocket error.
+
         This currently logs the error.  In the future, this should invalidate
         the websocket and determine if a reconnect should be done. By
         specification, websockets will issue a close after every error.

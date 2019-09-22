@@ -39,6 +39,8 @@
           script.vacuum_on
         {%- elif states('input_select.woning_status') in ['Vakantie'] -%}
           script.all_off
+        {%- else -%}
+          script.empty
         {%- endif %}
   - service: script.turn_on
     entity_id:
@@ -100,8 +102,11 @@
         {%- endif %}
   - delay: 00:10:00
   - service: input_boolean.turn_off
-    data_template:
-      entity_id: input_boolean.trigger_just_home_kitchen, input_boolean.trigger_just_awake_kitchen, input_boolean.trigger_just_sleep_kitchen, input_boolean.trigger_just_away_kitchen
+    entity_id:
+      - input_boolean.trigger_just_home_kitchen
+      - input_boolean.trigger_just_awake_kitchen
+      - input_boolean.trigger_just_sleep_kitchen
+      - input_boolean.trigger_just_away_kitchen
 
 - alias: Ons Huisje - Change Status - Trigger Motion Sensor Dressing
   trigger:
@@ -125,8 +130,9 @@
         {%- endif %}
   - delay: 00:10:00
   - service: input_boolean.turn_off
-    data_template:
-      entity_id: input_boolean.trigger_just_awake_dressing, input_boolean.trigger_just_sleep_dressing
+    entity_id:
+      - input_boolean.trigger_just_awake_dressing
+      - input_boolean.trigger_just_sleep_dressing
 
 - alias: Ons Huisje - Change Status - Bewoner of Bezoeker
   trigger:
@@ -145,6 +151,22 @@
           Thuis
         {% elif states('input_select.woning_status') in ['Juist Thuis', 'Thuis', 'Dag Thuis'] and states('group.bewoners') in ['not_home'] and states('group.bezoekers') in ['not_home'] %}
           Juist Weg
+        {% elif states('input_select.woning_status') in ['Juist Thuis'] %}
+          Juist Thuis
+        {% elif states('input_select.woning_status') in ['Juist Weg'] %}
+          Juist Weg
+        {% elif states('input_select.woning_status') in ['Thuis'] %}
+          Thuis
+        {% elif states('input_select.woning_status') in ['Dag Thuis'] %}
+          Dag Thuis
+        {% elif states('input_select.woning_status') in ['Weg'] %}
+          Weg
+        {% elif states('input_select.woning_status') in ['Vakantie'] %}
+          Vakantie
+        {% elif states('input_select.woning_status') in ['Slapen'] %}
+          Slapen
+        {% elif states('input_select.woning_status') in ['Juist Wakker'] %}
+          Juist Wakker
         {% endif %}
 
 - alias: Ons Huisje - Change Status - Timer
@@ -169,6 +191,9 @@
     to: 'Weg'
     for:
       hours: 24
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Juist Thuis', 'Juist Weg', 'Weg'] }}"
   action:
   - service: input_select.select_option
     entity_id: input_select.woning_status
