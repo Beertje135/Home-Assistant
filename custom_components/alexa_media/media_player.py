@@ -3,7 +3,6 @@
 #  SPDX-License-Identifier: Apache-2.0
 """
 Support to interface with Alexa Devices.
-
 For more details about this platform, please refer to the documentation at
 https://community.home-assistant.io/t/echo-devices-alexa-as-media-player-testers-needed/58639
 """
@@ -147,9 +146,6 @@ class AlexaClient(MediaPlayerDevice):
         self._last_update = 0
 
     async def init(self, device):
-        from alexapy import AlexaAPI
-        self.auth = await AlexaAPI.get_authentication(self._login)
-        await self._set_authentication_details(self.auth)
         await self.refresh(device)
 
     async def async_added_to_hass(self):
@@ -167,7 +163,6 @@ class AlexaClient(MediaPlayerDevice):
 
     async def _handle_event(self, event):
         """Handle events.
-
         This will update last_called and player_state events.
         Each MediaClient reports if it's the last_called MediaClient and will
         listen for HA events to determine it is the last_called.
@@ -283,11 +278,9 @@ class AlexaClient(MediaPlayerDevice):
     @util.Throttle(MIN_TIME_BETWEEN_SCANS, MIN_TIME_BETWEEN_FORCED_SCANS)
     async def refresh(self, device=None):
         """Refresh device data.
-
         This is a per device refresh and for many Alexa devices can result in
         many refreshes from each individual device. This will call the
         AlexaAPI directly.
-
         Args:
         device (json): A refreshed device json from Amazon. For efficiency,
                        an individual device does not refresh if it's reported
@@ -308,14 +301,16 @@ class AlexaClient(MediaPlayerDevice):
             self._bluetooth_state = device['bluetooth_state']
             self._locale = device['locale'] if 'locale' in device else 'en-US'
             self._dnd = device['dnd'] if 'dnd' in device else None
-        if self._available is True:
+            await self._set_authentication_details(device['auth_info'])
+        session = None
+        if self._available:
             _LOGGER.debug("%s: Refreshing %s", self.account, self.name)
-            self._source = await self._get_source()
-            self._source_list = await self._get_source_list()
+            if "PAIR_BT_SOURCE" in self._capabilities:
+                self._source = await self._get_source()
+                self._source_list = await self._get_source_list()
             self._last_called = await self._get_last_called()
-            session = await self.alexa_api.get_state()
-        else:
-            session = None
+            if "MUSIC_SKILL" in self._capabilities:
+                session = await self.alexa_api.get_state()
         await self._clear_media_details()
         # update the session if it exists; not doing relogin here
         if session is not None:
@@ -371,11 +366,15 @@ class AlexaClient(MediaPlayerDevice):
             if self._session['transport'] is not None:
                 self._shuffle = (self._session['transport']
                                  ['shuffle'] == "SELECTED"
-                                 if ('shuffle' in self._session['transport'])
+                                 if ('shuffle' in self._session['transport']
+                                     and self._session['transport']['shuffle']
+                                     != 'DISABLED')
                                  else None)
                 self._repeat = (self._session['transport']
                                 ['repeat'] == "SELECTED"
-                                if ('repeat' in self._session['transport'])
+                                if ('repeat' in self._session['transport']
+                                    and self._session['transport']['repeat']
+                                    != 'DISABLED')
                                 else None)
 
     @property
@@ -482,7 +481,6 @@ class AlexaClient(MediaPlayerDevice):
 
     async def async_update(self):
         """Get the latest details on a media player.
-
         Because media players spend the majority of time idle, an adaptive
         update should be used to avoid flooding Amazon focusing on known
         play states. An initial version included an update_devices call on
@@ -648,7 +646,6 @@ class AlexaClient(MediaPlayerDevice):
 
     async def async_mute_volume(self, mute):
         """Mute the volume.
-
         Since we can't actually mute, we'll:
         - On mute, store volume and set volume to 0
         - On unmute, set volume to previously stored volume
@@ -691,7 +688,6 @@ class AlexaClient(MediaPlayerDevice):
 
     async def async_turn_off(self):
         """Turn the client off.
-
         While Alexa's do not have on/off capability, we can use this as another
         trigger to do updates. For turning off, we can clear media_details.
         """
@@ -701,7 +697,6 @@ class AlexaClient(MediaPlayerDevice):
 
     async def async_turn_on(self):
         """Turn the client on.
-
         While Alexa's do not have on/off capability, we can use this as another
         trigger to do updates.
         """
@@ -730,7 +725,6 @@ class AlexaClient(MediaPlayerDevice):
 
     async def async_send_tts(self, message):
         """Send TTS to Device.
-
         NOTE: Does not work on WHA Groups.
         """
         await self.alexa_api.send_tts(message, customer_id=self._customer_id)
@@ -795,4 +789,3 @@ class AlexaClient(MediaPlayerDevice):
             'model': f"{self._device_family} {self._device_type}",
             'sw_version': self._software_version,
         }
-

@@ -3,7 +3,6 @@
 #  SPDX-License-Identifier: Apache-2.0
 """
 Helper functions for Alexa Media Player.
-
 For more details about this platform, please refer to the documentation at
 https://community.home-assistant.io/t/echo-devices-alexa-as-media-player-testers-needed/58639
 """
@@ -19,7 +18,7 @@ _LOGGER = logging.getLogger(__name__)
 
 async def add_devices(account: Text,
                       devices: List[EntityComponent],
-                      add_devices_callback: callable,
+                      add_devices_callback: Callable,
                       include_filter: List[Text] = [],
                       exclude_filter: List[Text] = []) -> bool:
     """Add devices using add_devices_callback."""
@@ -36,7 +35,7 @@ async def add_devices(account: Text,
     if devices:
         _LOGGER.debug("%s: Adding %s", account, devices)
         try:
-            add_devices_callback(devices, True)
+            add_devices_callback(devices, False)
             return True
         except HomeAssistantError as exception_:
             message = exception_.message  # type: str
@@ -66,10 +65,8 @@ def retry_async(limit: int = 5,
                 catch_exceptions: bool = True
                 ) -> Callable:
     """Wrap function with retry logic.
-
     The function will retry until true or the limit is reached. It will delay
     for the period of time specified exponentialy increasing the delay.
-
     Parameters
     ----------
     limit : int
@@ -82,7 +79,6 @@ def retry_async(limit: int = 5,
     -------
     def
         Wrapped function.
-
     """
     def wrap(func) -> Callable:
         import functools

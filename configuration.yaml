@@ -82,6 +82,12 @@ evohome:
   password: !secret password_evohome
   scan_interval: 120
 
+logger:
+  default: warning
+#  logs:
+#    custom_components.alexa_media: debug
+#    alexapy: debug
+
 # CUSTOM COMPONENTS
 hacs:
   token: !secret api_key_hacs
