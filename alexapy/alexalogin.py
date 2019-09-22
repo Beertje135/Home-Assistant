@@ -240,15 +240,11 @@ class AlexaLogin():
                           self._print_session_cookies())
             _LOGGER.debug("Header: %s", dumps(self._headers))
         assert self._session is not None
-        try:
-            get_resp = await self._session.get(
-                self._prefix + self._url +
+        get_resp = await self._session.get(self._prefix + self._url +
                                            '/api/bootstrap',
                                            cookies=cookies,
                                            ssl=self._ssl
                                            )
-        except aiohttp.client_exceptions.ClientConnectorError as ex:
-            _LOGGER.debug("Connection error detected %s", ex)
         await self._process_resp(get_resp)
         from simplejson import JSONDecodeError as SimpleJSONDecodeError
         from json import JSONDecodeError
@@ -283,17 +279,8 @@ class AlexaLogin():
             }
 
             #  initiate session
-            import socket
-            connector = aiohttp.TCPConnector(
-                enable_cleanup_closed=True,
-                family=socket.AF_INET,
-                resolver=aiohttp.AsyncResolver(),
-                limit_per_host=5,
-                ssl=self._ssl
-                )
             cookie_jar = FixedCookieJar()
-            self._session = aiohttp.ClientSession(connector=connector,
-                                                  cookie_jar=cookie_jar,
+            self._session = aiohttp.ClientSession(cookie_jar=cookie_jar,
                                                   headers=self._headers)
 
     def _prepare_cookies_from_session(self, site: Text) -> None:
