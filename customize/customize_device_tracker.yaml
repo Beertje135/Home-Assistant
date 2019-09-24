@@ -15,7 +15,7 @@
 
     person.mama:
       entity_picture: /local/people/christel.jpeg
-      friendly_name: Mama
+      friendly_name: Christel
 
     person.mark:
       entity_picture: /local/people/mark.jpeg
@@ -23,7 +23,7 @@
 
     person.papa:
       entity_picture: /local/people/alfons.jpeg
-      friendly_name: Papa
+      friendly_name: Fons
 
     person.andy:
       entity_picture: /local/people/andy.jpeg

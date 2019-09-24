@@ -1,0 +1,6 @@
+
+alias: Notify - Hassio Volle Toeren - Ios Bert
+sequence:
+  - service: notify.ios_ios_iphone_bert
+    data:
+      message: Het systeem draait op volle toeren!

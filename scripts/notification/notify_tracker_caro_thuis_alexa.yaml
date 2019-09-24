@@ -3,8 +3,8 @@ alias: Notify - Als Caro thuis of weg - Alexa
 sequence:
   - condition: template
     value_template: "{{ states('person.caroline') in ['home'] and states('input_select.woning_status') not in ['Juist Thuis', 'Slapen'] }}"
-  - wait_template: "{{ is_state('device_tracker.router_iphone_caro', 'home') }}"
-    timeout: '00:05:00'
+  - wait_template: "{{ states.device_tracker.router_iphone_caro.state == 'home' and states.device_tracker.router_iphone_caro.attributes.ap_mac == 'f0:9f:c2:d6:9e:72' }}"
+    timeout: '00:07:00'
     continue_on_timeout: false
   - delay: 00:00:10
   - service: notify.alexa_media

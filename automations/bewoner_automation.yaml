@@ -1,6 +1,7 @@
 # AUTOMATIONS BASED ON LOCATION OF BEWONER
 
 - alias: Bewoner - Thuis of Weg
+  initial_state: 'off'
   trigger:
   - platform: state
     entity_id:
@@ -24,6 +25,7 @@
         {% endif %}
 
 - alias: Bewoner - Thuis of Weg 2
+  initial_state: 'off'
   trigger:
   - platform: state
     entity_id:

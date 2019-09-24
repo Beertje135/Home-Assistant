@@ -12,10 +12,10 @@ sequence:
         - media_player.alexa_bathroom
         - media_player.alexa_kitchen_2
       message: >
-        {% if states('group.bezoekers') == 'home' and (states('person.bert') in ['home'] or states('person.caroline') in ['home']) %}
-          'Just So You Know. A visitor just arrived at our house.'
+        {% if (bezoeker_state) == 'home' %}
+          'Just So You Know. {{ bezoeker }} just arrived at our house.'
         {% else %}
-          ''
+          '{{ bezoeker }} just left.'
         {% endif %}
       data:
         type: announce

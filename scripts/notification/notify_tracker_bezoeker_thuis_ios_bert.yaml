@@ -6,8 +6,8 @@ sequence:
   - service: notify.ios_ios_iphone_bert
     data_template:
       message: >
-        {% if states('group.bezoekers') == 'home' %}
-          Bezoeker is aangekomen bij ons thuis.
+        {% if (bezoeker_state) == 'home' %}
+          {{ bezoeker }} is aangekomen bij ons thuis.
         {% else %}
-          Bezoeker is weer vertrokken.
+          {{ bezoeker }} is weer vertrokken.
         {% endif %}

@@ -84,7 +84,8 @@ evohome:
 
 logger:
   default: warning
-#  logs:
+  logs:
+    homeassistant.core: critical
 #    custom_components.alexa_media: debug
 #    alexapy: debug
 
@@ -216,7 +217,7 @@ influxdb:
 weather:
   - platform: darksky
     api_key: !secret api_key_darksky
-    mode: hourly
+    mode: daily
 
 mqtt:
   broker: core-mosquitto

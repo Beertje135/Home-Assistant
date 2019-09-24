@@ -27,6 +27,8 @@
   trigger:
   - entity_id: binary_sensor.dressing_sensor_motion
     platform: state
+    from: 'off'
+    to: 'on'
   condition:
   - condition: time
     after: !secret radio_on
@@ -39,18 +41,13 @@
   - condition: template
     value_template: "{{ states('media_player.alexa_bathroom') not in ['playing'] }}"
   - condition: template
-    value_template: "{{ states('media_player.downstairs') not in ['playing'] }}"
+    value_template: "{{ states('media_player.upstairs') not in ['playing'] }}"
   - condition: template
     value_template: "{{ states('media_player.everywhere') not in ['playing'] }}"
   action:
   - service: script.turn_on
-    data_template:
-      entity_id: >
-        {%- if states('media_player.alexa_kitchen_1') in ['playing'] -%}
-          script.music_alexa_play_bathroom
-        {%- else -%}
-          script.music_alexa_play_bathroom
-        {%- endif %}
+    entity_id:
+      - script.music_alexa_play_bathroom
 
 - alias: Muziek - Radio - Stop Badkamer
   trigger:

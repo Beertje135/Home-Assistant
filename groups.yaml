@@ -36,3 +36,12 @@
       - person.niki
       - person.marcus
       - person.nancy
+
+  plex_players:
+    view: no
+    name: Plex Players
+    icon: mdi:plex
+    control: hidden
+    entities:
+      - input_boolean.plex_livingroom
+      - input_boolean.plex_kitchen

@@ -1,0 +1,31 @@
+
+alias: Radio - Alexa play beneden Q-Music
+sequence:
+  - service: media_player.play_media
+    data:
+      entity_id: media_player.downstairs
+      media_content_id: QMusic Belgium
+      media_content_type: TUNEIN
+  - delay: 00:00:05
+  - service: media_player.volume_set
+    data_template:
+      entity_id: media_player.alexa_livingroom
+      volume_level: >
+        {% if (states.sensor.time.state) <= "08:30" and now().weekday() in (0,1,2,3,4) %}
+          1.0
+        {% elif ((states.sensor.time.state) <= "07:30") and now().weekday() in (5,6) %}
+          1.0
+        {% else %}
+          1.0
+        {% endif %}
+  - service: media_player.volume_set
+    data_template:
+      entity_id: media_player.alexa_kitchen_1
+      volume_level: >
+        {% if (states.sensor.time.state) <= "08:30" and now().weekday() in (0,1,2,3,4) %}
+          0.1
+        {% elif ((states.sensor.time.state) <= "07:30") and now().weekday() in (5,6) %}
+          0.1
+        {% else %}
+          0.3
+        {% endif %}

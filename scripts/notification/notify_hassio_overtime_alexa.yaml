@@ -1,5 +1,5 @@
 
-alias: Notify - Restart van Systeem - Alexa
+alias: Notify - Hassio Volle Toeren - Alexa
 sequence:
   - condition: template
     value_template: "{{ states('group.bewoners_router') in ['home'] }}"
@@ -10,7 +10,7 @@ sequence:
       target:
         - media_player.alexa_kitchen_2
         - media_player.alexa_bathroom
-      message: 'Restart Complete... start system check'
+      message: 'My system is working overtime. Please check my health'
       data:
         type: announce
         method: speak
