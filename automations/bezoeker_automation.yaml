@@ -15,6 +15,22 @@
       - person.nancy
       - person.thomas
       - person.papa
+    from: "home"
+    to: "not_home"
+  - platform: state
+    entity_id:
+      - person.mark
+      - person.mama
+      - person.andy
+      - person.karen
+      - person.marcus
+      - person.niki
+      - person.oma
+      - person.nancy
+      - person.thomas
+      - person.papa
+    from: "not_home"
+    to: "home"
   condition:
   action:
   - service: script.notify_tracker_bezoeker_thuis_ios_bert

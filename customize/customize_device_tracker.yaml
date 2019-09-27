@@ -127,7 +127,7 @@
       friendly_name: TV
 
     device_tracker.pc_bert_lan:
-      icon: mdi:desktop-tower
+      icon: mdi:desktop-tower-monitor
       friendly_name: COMPUTER
 
     device_tracker.laptop_bert_bnp:

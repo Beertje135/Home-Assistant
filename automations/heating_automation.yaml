@@ -43,7 +43,7 @@
     entity_id:
       - script.evo_status_economy
 
-- alias: Verwarming - Reset - Weg
+- alias: Verwarming - Auto - Weg
   trigger:
   - entity_id: input_select.woning_status
     platform: state
@@ -81,7 +81,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.evo_status_normal_reset
+      - script.evo_status_normal
 
 - alias: Verwarming - Day Off - Dag Thuis
   trigger:
@@ -216,7 +216,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.evo_status_normal_reset
+      - script.evo_status_normal
 
 - alias: Verwarming - HeatingOff - Vakantie
   trigger:
@@ -260,7 +260,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.evo_status_normal_reset
+      - script.evo_status_normal
 
 - alias: Verwarming - Reset - Weekend Morning
   trigger:
@@ -285,7 +285,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.evo_status_normal_reset
+      - script.evo_status_normal
 
 - alias: Verwarming - Rise Heating - Awake Evening Week
   trigger:
@@ -357,7 +357,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.evo_status_normal_reset
+      - script.evo_status_normal
 
 - alias: Verwarming - Reset - Sleep Weekend
   trigger:
@@ -383,28 +383,28 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.evo_status_normal_reset
+      - script.evo_status_normal
 
-#- alias: Verwarming - Reset - Badkamer
-#  trigger:
-#  - platform: state
-#    entity_id: climate.bathroom
-#    to: 'PermanentOverride'
-#    for:
-#      minutes: 180
-#  - platform: state
-#    entity_id: climate.bathroom
-#    to: 'TemporaryOverride'
-#    for:
-#      minutes: 180
-#  condition:
-#  - condition: state
-#    entity_id: input_boolean.heating
-#    state: 'on'
-#  action:
-#  - service: script.turn_on
-#    entity_id:
-#      - script.evo_zone_bathroom_reset
+- alias: Verwarming - Reset - Badkamer
+  trigger:
+  - platform: state
+    entity_id: climate.bathroom
+    to: 'Permanent'
+    for:
+      minutes: 180
+  - platform: state
+    entity_id: climate.bathroom
+    to: 'Temporary'
+    for:
+      minutes: 180
+  condition:
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_bathroom_reset
 
 # BASED ON LOCATION
 

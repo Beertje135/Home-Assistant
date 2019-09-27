@@ -1,30 +1,10 @@
-# ENTITY SENSOR SPECIFICATION
-
-#- platform: unifigateway
-#  host: !secret url_unifi
-#  username: !secret username_unifi
-#  password: !secret password_unifi
-#  monitored_conditions:
-#    - www
-#    - wlan
-#    - alerts
-#    - firmware
-
 # WEBHOOKS SENSOR FOR TRANSLATING PLEX WEBHOOKS TO MQTT
 
-#- platform: mqtt
-#  name: Plex MQTT Sensor Woonkamer
-#  state_topic: "plex/update/sensor"
-#  value_template: '{{ value_json.Event == "media.resume" or value_json.Event == "media.play" }}'
-#  json_attributes_topic: "plex/update/sensor"
-#  json_attributes:
-#    - Player
-#    - UUID
-#    - Account
-#    - Title
-#    - Type
-#    - Image
-#    - Event
+- platform: mqtt
+  name: Plex MQTT Sensor
+  state_topic: 'plex/update/sensor'
+  value_template: '{{ value_json.Event == "media.resume" or value_json.Event == "media.play" }}'
+  json_attributes_topic: "plex/update/sensor"
 
 # WEATHER PLATFORM
 

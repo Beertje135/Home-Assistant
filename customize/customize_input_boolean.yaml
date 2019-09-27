@@ -1,7 +1,7 @@
 # CUSTOMIZATION FOR INPUT BOOLEANS
 
     input_boolean.light_downstairs:
-      icon: mdi:lightbulb
+      icon: mdi:motion-sensor
       friendly_name: Input Light Downstairs
 
     input_boolean.visitor:

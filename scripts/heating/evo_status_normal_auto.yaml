@@ -1,0 +1,9 @@
+
+alias: Evohome - Normal with Auto
+sequence:
+  - service: climate.set_preset_mode
+    data:
+      entity_id: climate.ons_huisje
+      preset_mode: Reset
+
+#operation_list: AutoWithReset,Auto,AutoWithEco,Away,DayOff,Custom,HeatingOff

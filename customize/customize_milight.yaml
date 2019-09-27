@@ -4,16 +4,16 @@
 
     light.milight_bridge_living_room:
       friendly_name: Light Livingroom LED Tv
-      icon: mdi:led-outline
+      icon: mdi:led-strip
 
     light.milight_bridge_kitchen:
       friendly_name: Light Kitchen LED Tv
-      icon: mdi:led-outline
+      icon: mdi:led-strip
 
     light.milight_kitchen:
       friendly_name: Light Kitchen LED
-      icon: mdi:led-strip
+      icon: mdi:led-strip-variant
 
     light.milight_bathroom:
       friendly_name: Light Bathroom LED
-      icon: mdi:led-strip
+      icon: mdi:led-strip-variant

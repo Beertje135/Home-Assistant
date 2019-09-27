@@ -1,6 +1,7 @@
 # AUTOMATION AMPLIFIER LIVING ROOM
 
 - alias: Vacuum Dusty - Notify Status Dusty Changes
+  initial_state: 'off'
   trigger:
   - platform: template
     value_template: "{{ states.vacuum.dusty.attributes.bin_full == true }}"
@@ -21,6 +22,7 @@
       - script.notify_vacuum
 
 - alias: Vacuum Dusty - Notify Status Woning Changes
+  initial_state: 'off'
   trigger:
   - platform: state
     entity_id: input_select.woning_status

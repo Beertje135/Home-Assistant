@@ -57,6 +57,10 @@ views:
                         name: Woonkamer Spacewalker
                         tap_action:
                           action: toggle
+                      - entity: light.hue_woonkamer
+                        name: Woonkamer Lamp Moooi
+                        tap_action:
+                          action: toggle
                       - entity: switch.smappee_porch
                         name: Veranda Led Lichtjes
                         tap_action:

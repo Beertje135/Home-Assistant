@@ -6,3 +6,4 @@ sequence:
     data:
       hs_color: [38,53]
       brightness: 255
+      transition: 00:05:00

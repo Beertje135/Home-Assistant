@@ -3,8 +3,8 @@ alias: Radio - Alexa play beneden MNM
 sequence:
   - service: media_player.play_media
     data:
-      entity_id: media_player.downstairs
-      media_content_id: VRT MNM
+      entity_id: media_player.alexa_kitchen_1
+      media_content_id: VRT MNM ON DOWNSTAIRS GROUP
       media_content_type: TUNEIN
   - delay: 00:00:05
   - service: media_player.volume_set

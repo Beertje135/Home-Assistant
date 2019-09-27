@@ -4,6 +4,7 @@
 
     light.hue_veranda:
       friendly_name: Light Veranda Hue
+      icon: mdi:floor-lamp
 
     light.hue_dressing_one:
       friendly_name: Light Dressing Hue 1
@@ -16,11 +17,14 @@
 
     light.hue_logeerkamer_floor:
       friendly_name: Light Elmo's room Hue 1
+      icon: mdi:floor-lamp
 
     light.hue_logeerkamer_ceiling:
       friendly_name: Light Elmo's room Hue 2
+      icon: mdi:ceiling-light
 
     light.hue_woonkamer:
       friendly_name: Light Woonkamer Hue
+      icon: mdi:ceiling-light
 
 # CUSTOMIZE sensors
