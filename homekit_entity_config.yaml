@@ -87,15 +87,15 @@ sensor.smappee_ons_huisje_water_sensor_humidity:
 
 # CLIMATE
 
-climate.bedroom:
+climate.slp_kamer:
   name: Slaapkamer Temperatuur
-climate.bathroom:
+climate.badkamer:
   name: Badkamer Temperatuur
-climate.nursery:
+climate.kamer_elmo:
   name: Elmo's Kamer Temperatuur
-climate.kitchen:
+climate.keuken:
   name: Keuken Temperatuur
-climate.living_room:
+climate.woonkamer:
   name: Woonkamer Temperatuur
 climate.ons_huisje:
   name: Ons Huisje Temperatuur

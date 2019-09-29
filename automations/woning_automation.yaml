@@ -87,6 +87,8 @@
   condition:
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Weg', 'Juist Wakker', 'Slapen'] }}"
+  - condition: template
+    value_template: "{{ states('binary_sensor.keuken_sensor_motion') in ['on'] }}"
   action:
   - service: input_boolean.turn_on
     data_template:
@@ -119,6 +121,8 @@
   condition:
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Slapen'] }}"
+  - condition: template
+    value_template: "{{ states('binary_sensor.dressing_sensor_motion') in ['on'] }}"
   action:
   - service: input_boolean.turn_on
     data_template:
@@ -127,6 +131,8 @@
           input_boolean.trigger_just_awake_dressing
         {%- elif states('input_select.woning_status') in ['Slapen'] and states('binary_sensor.dressing_sensor_motion') in ['on'] -%}
           input_boolean.trigger_just_sleep_dressing
+        {%- else -%}
+
         {%- endif %}
   - delay: 00:10:00
   - service: input_boolean.turn_off

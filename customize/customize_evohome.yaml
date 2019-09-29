@@ -1,10 +1,10 @@
 # CUSTOMIZATION FOR CLIMATE
 
-    climate.bedroom:
+    climate.slp_kamer:
       friendly_name: Thermostat Bedroom
       icon: mdi:thermometer
 
-    climate.bathroom:
+    climate.badkamer:
       friendly_name: Thermostat Bathroom
       icon: mdi:thermometer
 
@@ -12,15 +12,15 @@
       friendly_name: Thermostat Dressing
       icon: mdi:thermometer
 
-    climate.nursery:
+    climate.kamer_elmo:
       friendly_name: Thermostat Elmo's Room
       icon: mdi:thermometer
 
-    climate.kitchen:
+    climate.keuken:
       friendly_name: Thermostat Kitchen
       icon: mdi:thermometer
 
-    climate.living_room:
+    climate.woonkamer:
       friendly_name: Thermostat Livingroom
       icon: mdi:thermometer
 

@@ -7,7 +7,7 @@ sequence:
     wait_template: >
           {%- if not states.climate.ons_huisje -%}
             false
-          {%- elif not states.climate.kitchen -%}
+          {%- elif not states.climate.keuken -%}
             false
           {%- elif not states.light.hue_logeerkamer_floor -%}
             false

@@ -29,15 +29,15 @@
 - platform: template
   sensors:
     temp_template_evohome_bathroom:
-      value_template: '{{ states.climate.bathroom.attributes.current_temperature | round(1) }}'
+      value_template: '{{ states.climate.badkamer.attributes.current_temperature | round(1) }}'
       unit_of_measurement: °C
       device_class: temperature
     temp_template_evohome_kitchen:
-      value_template: '{{ states.climate.kitchen.attributes.current_temperature | round(1) }}'
+      value_template: '{{ states.climate.keuken.attributes.current_temperature | round(1) }}'
       unit_of_measurement: °C
       device_class: temperature
     temp_template_evohome_living_room:
-      value_template: '{{ states.climate.living_room.attributes.current_temperature | round(1) }}'
+      value_template: '{{ states.climate.woonkamer.attributes.current_temperature | round(1) }}'
       unit_of_measurement: °C
       device_class: temperature
     temp_template_evohome_dressing:
@@ -45,11 +45,11 @@
       unit_of_measurement: °C
       device_class: temperature
     temp_template_evohome_bedroom:
-      value_template: '{{ states.climate.bedroom.attributes.current_temperature | round(1) }}'
+      value_template: '{{ states.climate.slp_kamer.attributes.current_temperature | round(1) }}'
       unit_of_measurement: °C
       device_class: temperature
     temp_template_evohome_nursery:
-      value_template: '{{ states.climate.nursery.attributes.current_temperature | round(1) }}'
+      value_template: '{{ states.climate.kamer_elmo.attributes.current_temperature | round(1) }}'
       unit_of_measurement: °C
       device_class: temperature
 

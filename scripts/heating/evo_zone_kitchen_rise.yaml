@@ -2,6 +2,6 @@
 alias: Evohome - Keuken - Hoger
 sequence:
   - service: climate.set_temperature
-    entity_id: climate.kitchen
+    entity_id: climate.keuken
     data:
       temperature: !secret heat_kitchen_max

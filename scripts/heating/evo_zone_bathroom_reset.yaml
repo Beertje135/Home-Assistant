@@ -3,5 +3,5 @@ alias: Evohome - Badkamer - Auto
 sequence:
   - service: climate.set_preset_mode
     data:
-      entity_id: climate.bathroom
+      entity_id: climate.badkamer
       preset_mode: null

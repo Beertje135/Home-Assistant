@@ -4,9 +4,9 @@ sequence:
   - service: script.turn_on
     data_template:
       entity_id: >
-        {%- if states.climate.bathroom.attributes.preset_mode == 'permanent' or states.climate.bedroom.attributes.preset_mode == 'permanent' or states.climate.dressing.attributes.preset_mode == 'permanent' or states.climate.kitchen.attributes.preset_mode == 'permanent' or states.climate.living_room.attributes.preset_mode == 'permanent' or states.climate.nursery.attributes.preset_mode == 'permanent'-%}
+        {%- if states.climate.badkamer.attributes.preset_mode == 'permanent' or states.climate.slp_kamer.attributes.preset_mode == 'permanent' or states.climate.dressing.attributes.preset_mode == 'permanent' or states.climate.keuken.attributes.preset_mode == 'permanent' or states.climate.woonkamer.attributes.preset_mode == 'permanent' or states.climate.kamer_elmo.attributes.preset_mode == 'permanent'-%}
           script.evo_status_normal_reset
-        {%- elif states.climate.bathroom.attributes.preset_mode == 'temporary' or states.climate.bedroom.attributes.preset_mode == 'temporary' or states.climate.dressing.attributes.preset_mode == 'temporary' or states.climate.kitchen.attributes.preset_mode == 'temporary' or states.climate.living_room.attributes.preset_mode == 'temporary' or states.climate.nursery.attributes.preset_mode == 'temporary'-%}
+        {%- elif states.climate.badkamer.attributes.preset_mode == 'temporary' or states.climate.slp_kamer.attributes.preset_mode == 'temporary' or states.climate.dressing.attributes.preset_mode == 'temporary' or states.climate.keuken.attributes.preset_mode == 'temporary' or states.climate.woonkamer.attributes.preset_mode == 'temporary' or states.climate.kamer_elmo.attributes.preset_mode == 'temporary'-%}
           script.evo_status_normal_reset
         {%- else -%}
           script.evo_status_normal_auto

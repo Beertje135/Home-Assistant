@@ -252,9 +252,9 @@
   - condition: or
     conditions:
     - condition: template
-      value_template: "{{ states.climate.kitchen.attributes.preset_mode == 'permanent' }}"
+      value_template: "{{ states.climate.keuken.attributes.preset_mode == 'permanent' }}"
     - condition: template
-      value_template: "{{ states.climate.living_room.attributes.preset_mode == 'permanent' }}"
+      value_template: "{{ states.climate.woonkamer.attributes.preset_mode == 'permanent' }}"
     - condition: template
       value_template: "{{ states.climate.ons_huisje.preset_mode == eco }}"
   action:
@@ -277,9 +277,9 @@
   - condition: or
     conditions:
     - condition: template
-      value_template: "{{ states.climate.kitchen.attributes.preset_mode == 'permanent' }}"
+      value_template: "{{ states.climate.keuken.attributes.preset_mode == 'permanent' }}"
     - condition: template
-      value_template: "{{ states.climate.living_room.attributes.preset_mode == 'permanent' }}"
+      value_template: "{{ states.climate.woonkamer.attributes.preset_mode == 'permanent' }}"
     - condition: template
       value_template: "{{ states.climate.ons_huisje.preset_mode == eco }}"
   action:
@@ -351,9 +351,9 @@
   - condition: or
     conditions:
     - condition: template
-      value_template: "{{ states.climate.kitchen.attributes.preset_mode == 'permanent' }}"
+      value_template: "{{ states.climate.keuken.attributes.preset_mode == 'permanent' }}"
     - condition: template
-      value_template: "{{ states.climate.living_room.attributes.preset_mode == 'permanent' }}"
+      value_template: "{{ states.climate.woonkamer.attributes.preset_mode == 'permanent' }}"
   action:
   - service: script.turn_on
     entity_id:
@@ -377,9 +377,9 @@
   - condition: or
     conditions:
     - condition: template
-      value_template: "{{ states.climate.kitchen.attributes.preset_mode == 'permanent' }}"
+      value_template: "{{ states.climate.keuken.attributes.preset_mode == 'permanent' }}"
     - condition: template
-      value_template: "{{ states.climate.living_room.attributes.preset_mode == 'permanent' }}"
+      value_template: "{{ states.climate.woonkamer.attributes.preset_mode == 'permanent' }}"
   action:
   - service: script.turn_on
     entity_id:
@@ -388,12 +388,12 @@
 - alias: Verwarming - Reset - Badkamer
   trigger:
   - platform: state
-    entity_id: climate.bathroom
+    entity_id: climate.badkamer
     to: 'Permanent'
     for:
       minutes: 180
   - platform: state
-    entity_id: climate.bathroom
+    entity_id: climate.badkamer
     to: 'Temporary'
     for:
       minutes: 180
@@ -495,17 +495,17 @@
 - alias: Verluchting - Boolean Change based on Outside Temperature (Boven)
   trigger:
   - platform: template
-    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.nursery', 'current_temperature') }}"
+    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.kamer_elmo', 'current_temperature') }}"
   - platform: template
-    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.nursery', 'current_temperature') }}"
+    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.kamer_elmo', 'current_temperature') }}"
   condition:
   - condition: template
     value_template: "{{ is_state('sensor.season', 'summer') }}"
   action:
     service_template: >
-      {% if (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.nursery', 'current_temperature') -%}
+      {% if (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.kamer_elmo', 'current_temperature') -%}
         input_boolean.turn_on
-      {%- elif (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.nursery', 'current_temperature') -%}
+      {%- elif (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.kamer_elmo', 'current_temperature') -%}
         input_boolean.turn_off
       {%- endif %}
     data:
@@ -515,17 +515,17 @@
 - alias: Verluchting - Boolean Change based on Outside Temperature (Beneden)
   trigger:
   - platform: template
-    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.kitchen', 'current_temperature') }}"
+    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.keuken', 'current_temperature') }}"
   - platform: template
-    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.kitchen', 'current_temperature') }}"
+    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.keuken', 'current_temperature') }}"
   condition:
   - condition: template
     value_template: "{{ is_state('sensor.season', 'summer') }}"
   action:
     service_template: >
-      {% if (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.kitchen', 'current_temperature') -%}
+      {% if (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.keuken', 'current_temperature') -%}
         input_boolean.turn_on
-      {%- elif (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.kitchen', 'current_temperature') -%}
+      {%- elif (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.keuken', 'current_temperature') -%}
         input_boolean.turn_off
       {%- endif %}
     data:

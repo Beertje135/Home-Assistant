@@ -457,7 +457,7 @@ views:
                           **WOONKAMER**
                         type: markdown
                       - entities:
-                          - entity: climate.living_room
+                          - entity: climate.woonkamer
                             name: Temp
                           - entity: sensor.living_sensor_light_level
                             name: Lux
@@ -561,7 +561,7 @@ views:
                       **KEUKEN**
                     type: markdown
                   - entities:
-                      - entity: climate.kitchen
+                      - entity: climate.keuken
                         name: Temp
                       - entity: sensor.keuken_sensor_light_level
                         name: Lux
@@ -654,7 +654,7 @@ views:
                           **ELMO'S KAMER**
                         type: markdown
                       - entities:
-                          - entity: climate.nursery
+                          - entity: climate.kamer_elmo
                             name: Temp
                           - type: divider
                           - entity: light.hue_logeerkamer_floor
@@ -687,7 +687,7 @@ views:
                           **SLAAPKAMER**
                         type: markdown
                       - entities:
-                          - entity: climate.bedroom
+                          - entity: climate.slp_kamer
                             name: Temp
                         id: 33c55be0432b4b3885137f008d246fb5
                         show_header_toggle: false
@@ -744,7 +744,7 @@ views:
                           **BADKAMER**
                         type: markdown
                       - entities:
-                          - entity: climate.bathroom
+                          - entity: climate.badkamer
                             name: Temp
                           - type: divider
                           - entity: light.milight_bathroom
