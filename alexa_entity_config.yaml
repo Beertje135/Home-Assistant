@@ -16,12 +16,8 @@
     display_categories: SWITCH
   input_boolean.visitor:
     display_categories: SWITCH
-  switch.smappee_living_room:
-    display_categories: LIGHT
-  switch.smappee_porch:
-    display_categories: LIGHT
-  switch.smappee_extra_plug:
-    display_categories: LIGHT
+  light.hue_keuken_smart_plug:
+    display_categories: SWITCH
   binary_sensor.trigger_template_just_away_kitchen:
     display_categories: MOTION_SENSOR
   binary_sensor.trigger_template_just_home_kitchen:

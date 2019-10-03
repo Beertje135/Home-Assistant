@@ -30,26 +30,26 @@
 
 # CUSTOMIZE CLIMATE SENSORS
 
-    sensor.temp_template_evohome_living_room:
+    sensor.climate_woonkamer_current:
       friendly_name: WOONKAMER
       icon: mdi:sofa
 
-    sensor.temp_template_evohome_kitchen:
+    sensor.climate_keuken_current:
       friendly_name: KEUKEN
       icon: mdi:stove
 
-    sensor.temp_template_evohome_dressing:
+    sensor.climate_dressing_current:
       friendly_name: DRESSING
       icon: mdi:hanger
 
-    sensor.temp_template_evohome_nursery:
+    sensor.climate_kamer_elmo_current:
       friendly_name: ELMO'S KAMER
       icon: mdi:baby-carriage
 
-    sensor.temp_template_evohome_bedroom:
+    sensor.climate_slp_kamer_current:
       friendly_name: SLAAPKAMER
       icon: mdi:bed-empty
 
-    sensor.temp_template_evohome_bathroom:
+    sensor.climate_badkamer_current:
       friendly_name: BADKAMER
       icon: mdi:shower

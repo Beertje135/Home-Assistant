@@ -4,4 +4,4 @@ sequence:
   - service: script.turn_on
     entity_id:
       - script.light_hue_veranda_on
-      - script.light_smappee_veranda_led_on
+      - script.light_hue_veranda_on_led

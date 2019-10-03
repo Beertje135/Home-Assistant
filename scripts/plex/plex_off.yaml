@@ -32,4 +32,4 @@ sequence:
     entity_id: input_boolean.light_downstairs
     state: 'on'
   - service: script.turn_on
-    entity_id: script.light_smappee_living_on_spacewalker
+    entity_id: script.light_hue_living_on_spacewalker

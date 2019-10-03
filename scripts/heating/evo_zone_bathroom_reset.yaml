@@ -5,3 +5,6 @@ sequence:
     data:
       entity_id: climate.badkamer
       preset_mode: null
+
+#preset_modes: none, temporary, permanent
+#hvac_mode: off, heat

@@ -231,8 +231,11 @@
   - entity_id: binary_sensor.dressing_sensor_motion
     platform: state
   condition:
-  - condition: template
-    value_template: "{{ states('input_select.woning_status') in ['Slapen'] }}"
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Slapen'
+    for:
+      hours: 1
   - condition: or
     conditions:
     - condition: time

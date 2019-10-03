@@ -13,10 +13,10 @@
       - binary_sensor.dressing_sensor_motion
       - binary_sensor.keuken_sensor_motion
       - binary_sensor.living_sensor_motion
-      - switch.smappee_speakers
-      - switch.smappee_living_room
-      - switch.smappee_extra_plug
-      - switch.smappee_porch
+      - light.hue_keuken_smart_plug
+      - light.hue_woonkamer_smart_plug_one
+      - light.hue_woonkamer_smart_plug_two
+      - light.hue_veranda_smart_plug
       - switch.pc_bert_lan
       - input_boolean.plex_kitchen
       - input_boolean.plex_livingroom
@@ -43,6 +43,13 @@
       - sensor.processor_use
       - sensor.disk_use_percent_home
       - sensor.smappee_ons_huisje_water_sensor_battery
+      - sensor.climate_ons_huisje_mode
+      - sensor.climate_keuken_set
+      - sensor.climate_woonkamer_set
+      - sensor.clilate_badkamer_set
+      - sensor.climate_slp_kamer_set
+      - sensor.climate_kamer_elmo_set
+      - sensor.climate_dressing_set
   exclude:
     domains:
       - automation

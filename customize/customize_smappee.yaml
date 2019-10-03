@@ -1,26 +1,5 @@
 # CUSTOMIZATION FOR SWITCHES
 
-    switch.smappee_porch:
-      icon: mdi:led-strip-variant
-      friendly_name: Switch Veranda LED
-      display_categories: light
-
-    switch.smappee_extra_plug:
-      icon: mdi:floor-lamp-variant
-      friendly_name: Switch Livingroom Spacewalker
-      display_categories: light
-
-    switch.smappee_living_room:
-      icon: mdi:led-strip-variant
-      friendly_name: Switch Livingroom LED
-      display_categories: light
-
-    switch.smappee_speakers:
-      icon: mdi:speaker-wireless
-      friendly_name: Switch Kitchen Speakers
-      display_categories: speaker
-      initial_state: on
-
     switch.wake_on_lan:
       icon: mdi:desktop-tower-monitor
       friendly_name: Switch Kitchen Computer

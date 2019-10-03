@@ -5,3 +5,6 @@ sequence:
     data:
       entity_id: climate.ons_huisje
       preset_mode: Reset
+
+#preset_modes: away,Custom,eco,home,Reset, (Auto?)
+#hvac_mode: off, heat

@@ -3,5 +3,5 @@ alias: Licht - All - Elmo - Uit
 sequence:
   - service: light.turn_off
     entity_id:
-      - light.hue_logeerkamer_ceiling
-      - light.hue_logeerkamer_floor
+      - light.hue_kamer_elmo_two
+      - light.hue_kamer_elmo_one

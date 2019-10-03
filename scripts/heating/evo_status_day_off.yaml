@@ -6,4 +6,5 @@ sequence:
       entity_id: climate.ons_huisje
       preset_mode: home
 
-#operation_list: AutoWithReset,Auto,AutoWithEco,Away,DayOff,Custom,HeatingOff
+#preset_modes: away,Custom,eco,home,Reset, (Auto?)
+#hvac_mode: off, heat

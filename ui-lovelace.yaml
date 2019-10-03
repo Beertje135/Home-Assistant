@@ -16,11 +16,12 @@ views:
             entities:
               - entity: input_select.woning_status
               - entity: climate.ons_huisje
-              - entity: group.bewoners
-              - entity: group.bezoekers
+              - entity: person.bert
+              - entity: person.caroline
             show_header_toggle: false
             state_filter:
               - home
+              - not_home
               - 'on'
               - 'off'
               - Juist Thuis
@@ -31,6 +32,51 @@ views:
               - Juist Wakker
               - Dag Thuis
               - Vakantie
+              - Mama & Mark
+              - Oma
+              - Nelly
+              - Elly
+              - Nancy
+              - Niki & Marcus
+              - Andy
+              - Hoevelei
+              - Werk (Bert)
+              - Werk (Caro)
+              - Willebroek Station
+              - Mechelen Station
+              - Brussel Station
+              - Checkpoint 1
+              - Checkpoint 2
+              - Chekcpoint 3
+              - Checkpoint 4
+              - Ziekenhuis St-Augustinus
+              - Ziekenhuis Willebroek
+              - Ziekenhuis Edegem
+              - Ziekenhuis Reet
+              - Ziekenhuis Middelheim
+            type: entity-filter
+          - card:
+              show_name: true
+              show_state: false
+              type: glance
+            entities:
+              - entity: sensor.bezoek
+              - entity: sensor.kuishulp
+              - entity: sensor.babysit
+              - entity: person.mama
+              - entity: person.mark
+              - entity: person.papa
+              - entity: person.karen
+              - entity: person.andy
+              - entity: person.oma
+              - entity: person.thomas
+              - entity: person.niki
+              - entity: person.marcus
+              - entity: person.nancy
+            show_header_toggle: false
+            show_empty: false
+            state_filter:
+              - home
             type: entity-filter
           - cards:
               - cards:
@@ -49,11 +95,11 @@ views:
                       **VERLICHTING**
                     type: markdown
                   - entities:
-                      - entity: switch.smappee_living_room
+                      - entity: light.hue_woonkamer_smart_plug_one
                         name: Woonkamer Led Lichtjes
                         tap_action:
                           action: toggle
-                      - entity: switch.smappee_extra_plug
+                      - entity: light.hue_woonkamer_smart_plug_two
                         name: Woonkamer Spacewalker
                         tap_action:
                           action: toggle
@@ -61,13 +107,13 @@ views:
                         name: Woonkamer Lamp Moooi
                         tap_action:
                           action: toggle
-                      - entity: switch.smappee_porch
+                      - entity: light.hue_veranda_smart_plug
                         name: Veranda Led Lichtjes
                         tap_action:
                           action: toggle
                       - entity: light.hue_veranda
                         name: Veranda Arco
-                      - entity: light.hue_logeerkamer_floor
+                      - entity: light.hue_kamer_elmo_one
                         name: Elmo's Staanlamp
                     show_header_toggle: false
                     type: entities
@@ -85,7 +131,7 @@ views:
                     type: markdown
                   - entities:
                       - entity: input_select.harmony_hub
-                      - entity: switch.smappee_speakers
+                      - entity: light.hue_keuken_smart_plug
                         tap_action:
                           action: toggle
                       - entity: switch.wake_on_lan
@@ -104,7 +150,7 @@ views:
                           source: true
                           artwork_border: true
                           controls: false
-                        name: Keuken Radio
+                        name: Keuken Alexa
                         idle_view:
                           when_idle: true
                           when_standby: true
@@ -157,7 +203,7 @@ views:
                           source: true
                           artwork_border: true
                           controls: false
-                        name: Keuken 2
+                        name: Keuken Alexa 2
                         type: 'custom:mini-media-player'
                     show_empty: false
                     show_header_toggle: false
@@ -176,7 +222,7 @@ views:
                           source: true
                           artwork_border: true
                           controls: false
-                        name: Tuin
+                        name: Tuin Alexa
                         type: 'custom:mini-media-player'
                     show_empty: false
                     show_header_toggle: false
@@ -195,7 +241,7 @@ views:
                           source: true
                           artwork_border: true
                           controls: false
-                        name: Woonkamer
+                        name: Woonkamer Alexa
                         type: 'custom:mini-media-player'
                     show_empty: false
                     show_header_toggle: false
@@ -214,7 +260,25 @@ views:
                           source: true
                           artwork_border: true
                           controls: false
-                        name: Badkamer
+                        name: Badkamer Alexa
+                        idle_view:
+                          when_idle: true
+                          when_standby: true
+                        shortcuts:
+                          columns: 4
+                          buttons:
+                            - name: MNM
+                              type: script
+                              id: script.music_alexa_play_bathroom_mnm
+                            - name: StuBru
+                              type: script
+                              id: script.music_alexa_play_bathroom_stubru
+                            - name: Q-Music
+                              type: script
+                              id: script.music_alexa_play_bathroom_qmusic
+                            - name: Spotify
+                              type: script
+                              id: script.music_alexa_play_bathroom_spotify
                         type: 'custom:mini-media-player'
                     show_empty: false
                     show_header_toggle: false
@@ -233,7 +297,7 @@ views:
                           source: true
                           artwork_border: true
                           controls: false
-                        name: Slaapkamer
+                        name: Slaapkamer Alexa
                         type: 'custom:mini-media-player'
                     show_empty: false
                     show_header_toggle: false
@@ -252,7 +316,7 @@ views:
                           source: true
                           artwork_border: true
                           controls: false
-                        name: Beneden
+                        name: Beneden Alexa
                         type: 'custom:mini-media-player'
                     show_empty: false
                     show_header_toggle: false
@@ -271,7 +335,7 @@ views:
                           source: true
                           artwork_border: true
                           controls: false
-                        name: Boven
+                        name: Boven Alexa
                         type: 'custom:mini-media-player'
                     show_empty: false
                     show_header_toggle: false
@@ -290,7 +354,7 @@ views:
                           source: true
                           artwork_border: true
                           controls: false
-                        name: Overal
+                        name: Overal Alexa
                         type: 'custom:mini-media-player'
                     show_empty: false
                     show_header_toggle: false
@@ -337,12 +401,12 @@ views:
                     type: markdown
                   - columns: 4
                     entities:
-                      - entity: sensor.temp_template_evohome_living_room
-                      - entity: sensor.temp_template_evohome_kitchen
-                      - entity: sensor.temp_template_evohome_nursery
-                      - entity: sensor.temp_template_evohome_bedroom
-                      - entity: sensor.temp_template_evohome_bathroom
-                      - entity: sensor.temp_template_evohome_dressing
+                      - entity: sensor.climate_woonkamer_current
+                      - entity: sensor.climate_keuken_current
+                      - entity: sensor.climate_kamer_elmo_current
+                      - entity: sensor.climate_slp_kamer_current
+                      - entity: sensor.climate_badkamer_current
+                      - entity: sensor.climate_dressing_current
                       - entity: sensor.smappee_ons_huisje_water_sensor_temperature
                     show_header_toggle: false
                     show_name: false
@@ -423,11 +487,12 @@ views:
             entities:
               - entity: input_select.woning_status
               - entity: climate.ons_huisje
-              - entity: group.bewoners
-              - entity: group.bezoekers
+              - entity: person.bert
+              - entity: person.caroline
             show_header_toggle: false
             state_filter:
               - home
+              - not_home
               - 'on'
               - 'off'
               - Juist Thuis
@@ -438,6 +503,51 @@ views:
               - Juist Wakker
               - Dag Thuis
               - Vakantie
+              - Mama & Mark
+              - Oma
+              - Nelly
+              - Elly
+              - Nancy
+              - Niki & Marcus
+              - Andy
+              - Hoevelei
+              - Werk (Bert)
+              - Werk (Caro)
+              - Willebroek Station
+              - Mechelen Station
+              - Brussel Station
+              - Checkpoint 1
+              - Checkpoint 2
+              - Chekcpoint 3
+              - Checkpoint 4
+              - Ziekenhuis St-Augustinus
+              - Ziekenhuis Willebroek
+              - Ziekenhuis Edegem
+              - Ziekenhuis Reet
+              - Ziekenhuis Middelheim
+            type: entity-filter
+          - card:
+              show_name: true
+              show_state: false
+              type: glance
+            entities:
+              - entity: sensor.bezoek
+              - entity: sensor.kuishulp
+              - entity: sensor.babysit
+              - entity: person.mama
+              - entity: person.mark
+              - entity: person.papa
+              - entity: person.karen
+              - entity: person.andy
+              - entity: person.oma
+              - entity: person.thomas
+              - entity: person.niki
+              - entity: person.marcus
+              - entity: person.nancy
+            show_header_toggle: false
+            show_empty: false
+            state_filter:
+              - home
             type: entity-filter
           - cards:
               - cards:
@@ -466,11 +576,11 @@ views:
                           - type: divider
                           - entity: light.hue_woonkamer
                             name: Lamp
-                          - entity: switch.smappee_living_room
+                          - entity: light.hue_woonkamer_smart_plug_one
                             name: Led
                             tap_action:
                               action: toggle
-                          - entity: switch.smappee_extra_plug
+                          - entity: light.hue_woonkamer_smart_plug_two
                             name: Spacewalker
                             tap_action:
                               action: toggle
@@ -496,7 +606,7 @@ views:
                               source: true
                               artwork_border: true
                               controls: false
-                            name: Woonkamer
+                            name: Woonkamer Alexa
                             power_color: true
                             type: 'custom:mini-media-player'
                           - artwork: cover
@@ -545,7 +655,7 @@ views:
                           - entity: input_boolean.vacuum_cleaned_today
                             name: Vandaag stof gezogen
                           - type: divider
-                          - entity: switch.smappee_porch
+                          - entity: light.hue_veranda_smart_plug
                             name: Led Strip
                             tap_action:
                               action: toggle
@@ -576,7 +686,7 @@ views:
                         name: Computer
                         tap_action:
                           action: toggle
-                      - entity: switch.smappee_speakers
+                      - entity: light.hue_keuken_smart_plug
                         name: Speakers
                         tap_action:
                           action: toggle
@@ -595,7 +705,7 @@ views:
                           source: true
                           artwork_border: true
                           controls: false
-                        name: Keuken 2
+                        name: Keuken Alexa 2
                         power_color: true
                         type: 'custom:mini-media-player'
                       - artwork: cover
@@ -607,7 +717,7 @@ views:
                           source: true
                           artwork_border: true
                           controls: false
-                        name: Overal
+                        name: Multiroom
                         power_color: true
                         type: 'custom:mini-media-player'
                     show_empty: false
@@ -625,7 +735,7 @@ views:
                           source: true
                           artwork_border: true
                           controls: false
-                        name: Alexa Speaker
+                        name: Keuken Alexa
                         idle_view:
                           when_idle: true
                           when_standby: true
@@ -657,9 +767,9 @@ views:
                           - entity: climate.kamer_elmo
                             name: Temp
                           - type: divider
-                          - entity: light.hue_logeerkamer_floor
+                          - entity: light.hue_kamer_elmo_one
                             name: Elmo's Staanlamp
-                          - entity: light.hue_logeerkamer_ceiling
+                          - entity: light.hue_kamer_elmo_two
                             name: Elmo's Lamp
                         id: afbc102713f244bebc9ec2d574d8e99e
                         show_header_toggle: false
@@ -704,7 +814,7 @@ views:
                               source: true
                               artwork_border: true
                               controls: false
-                            name: Slaapkamer
+                            name: Slaapkamer Alexa
                             power_color: true
                             type: 'custom:mini-media-player'
                           - artwork: cover
@@ -776,7 +886,7 @@ views:
                               source: true
                               artwork_border: true
                               controls: false
-                            name: Overal
+                            name: Multiroom
                             power_color: true
                             type: 'custom:mini-media-player'
                         show_empty: false
@@ -794,7 +904,7 @@ views:
                               source: true
                               artwork_border: true
                               controls: false
-                            name: Badkamer
+                            name: Badkamer Alexa
                             idle_view:
                               when_idle: true
                               when_standby: true
@@ -920,11 +1030,12 @@ views:
             entities:
               - entity: input_select.woning_status
               - entity: climate.ons_huisje
-              - entity: group.bewoners
-              - entity: group.bezoekers
+              - entity: person.bert
+              - entity: person.caroline
             show_header_toggle: false
             state_filter:
               - home
+              - not_home
               - 'on'
               - 'off'
               - Juist Thuis
@@ -935,13 +1046,58 @@ views:
               - Juist Wakker
               - Dag Thuis
               - Vakantie
+              - Mama & Mark
+              - Oma
+              - Nelly
+              - Elly
+              - Nancy
+              - Niki & Marcus
+              - Andy
+              - Hoevelei
+              - Werk (Bert)
+              - Werk (Caro)
+              - Willebroek Station
+              - Mechelen Station
+              - Brussel Station
+              - Checkpoint 1
+              - Checkpoint 2
+              - Chekcpoint 3
+              - Checkpoint 4
+              - Ziekenhuis St-Augustinus
+              - Ziekenhuis Willebroek
+              - Ziekenhuis Edegem
+              - Ziekenhuis Reet
+              - Ziekenhuis Middelheim
+            type: entity-filter
+          - card:
+              show_name: true
+              show_state: false
+              type: glance
+            entities:
+              - entity: sensor.bezoek
+              - entity: sensor.kuishulp
+              - entity: sensor.babysit
+              - entity: person.mama
+              - entity: person.mark
+              - entity: person.papa
+              - entity: person.karen
+              - entity: person.andy
+              - entity: person.oma
+              - entity: person.thomas
+              - entity: person.niki
+              - entity: person.marcus
+              - entity: person.nancy
+            show_header_toggle: false
+            show_empty: false
+            state_filter:
+              - home
             type: entity-filter
           - entities:
               - entity: input_boolean.music_follow
                 name: Muziek Volgen
                 tap_action:
                   action: toggle
-              - entity: switch.smappee_speakers
+              - entity: light.hue_keuken_smart_plug
                 name: Speakers Keuken
                 tap_action:
                   action: toggle
@@ -1238,11 +1394,12 @@ views:
             entities:
               - entity: input_select.woning_status
               - entity: climate.ons_huisje
-              - entity: group.bewoners
-              - entity: group.bezoekers
+              - entity: person.bert
+              - entity: person.caroline
             show_header_toggle: false
             state_filter:
               - home
+              - not_home
               - 'on'
               - 'off'
               - Juist Thuis
@@ -1253,6 +1410,51 @@ views:
               - Juist Wakker
               - Dag Thuis
               - Vakantie
+              - Mama & Mark
+              - Oma
+              - Nelly
+              - Elly
+              - Nancy
+              - Niki & Marcus
+              - Andy
+              - Hoevelei
+              - Werk (Bert)
+              - Werk (Caro)
+              - Willebroek Station
+              - Mechelen Station
+              - Brussel Station
+              - Checkpoint 1
+              - Checkpoint 2
+              - Chekcpoint 3
+              - Checkpoint 4
+              - Ziekenhuis St-Augustinus
+              - Ziekenhuis Willebroek
+              - Ziekenhuis Edegem
+              - Ziekenhuis Reet
+              - Ziekenhuis Middelheim
+            type: entity-filter
+          - card:
+              show_name: true
+              show_state: false
+              type: glance
+            entities:
+              - entity: sensor.bezoek
+              - entity: sensor.kuishulp
+              - entity: sensor.babysit
+              - entity: person.mama
+              - entity: person.mark
+              - entity: person.papa
+              - entity: person.karen
+              - entity: person.andy
+              - entity: person.oma
+              - entity: person.thomas
+              - entity: person.niki
+              - entity: person.marcus
+              - entity: person.nancy
+            show_header_toggle: false
+            show_empty: false
+            state_filter:
+              - home
             type: entity-filter
           - cards:
               - cards:
@@ -1452,11 +1654,12 @@ views:
             entities:
               - entity: input_select.woning_status
               - entity: climate.ons_huisje
-              - entity: group.bewoners
-              - entity: group.bezoekers
+              - entity: person.bert
+              - entity: person.caroline
             show_header_toggle: false
             state_filter:
               - home
+              - not_home
               - 'on'
               - 'off'
               - Juist Thuis
@@ -1467,29 +1670,57 @@ views:
               - Juist Wakker
               - Dag Thuis
               - Vakantie
+              - Mama & Mark
+              - Oma
+              - Nelly
+              - Elly
+              - Nancy
+              - Niki & Marcus
+              - Andy
+              - Hoevelei
+              - Werk (Bert)
+              - Werk (Caro)
+              - Willebroek Station
+              - Mechelen Station
+              - Brussel Station
+              - Checkpoint 1
+              - Checkpoint 2
+              - Chekcpoint 3
+              - Checkpoint 4
+              - Ziekenhuis St-Augustinus
+              - Ziekenhuis Willebroek
+              - Ziekenhuis Edegem
+              - Ziekenhuis Reet
+              - Ziekenhuis Middelheim
+            type: entity-filter
+          - card:
+              show_name: true
+              show_state: false
+              type: glance
+            entities:
+              - entity: sensor.bezoek
+              - entity: sensor.kuishulp
+              - entity: sensor.babysit
+              - entity: person.mama
+              - entity: person.mark
+              - entity: person.papa
+              - entity: person.karen
+              - entity: person.andy
+              - entity: person.oma
+              - entity: person.thomas
+              - entity: person.niki
+              - entity: person.marcus
+              - entity: person.nancy
+            show_header_toggle: false
+            show_empty: false
+            state_filter:
+              - home
             type: entity-filter
           - cards:
               - cards:
                   - content: |
                       **WIE IS WAAR?**
                     type: markdown
-                  - entities:
-                      - entity: input_boolean.visitor
-                        name: Bezoeker
-                        tap_action:
-                          action: toggle
-                      - entity: sensor.kuishulp
-                        name: Kuishulp
-                      - entity: sensor.babysit
-                        name: Babysit
-                      - entity: person.bert
-                        name: Bert
-                      - entity: person.caroline
-                        name: Caroline
-                    id: af0a835638ca421aa181928f535c4b33
-                    show_header_toggle: false
-                    columns: 3
-                    type: glance
                   - entities:
                       - entity: input_select.woning_status
                         name: Woning

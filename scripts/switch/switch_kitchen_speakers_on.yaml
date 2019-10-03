@@ -1,5 +1,5 @@
 alias: Switch - Speakers keuken aan
 sequence:
-  - service: switch.turn_on
+  - service: light.turn_on
     entity_id:
-      - switch.smappee_speakers
+      - light.hue_keuken_smart_plug

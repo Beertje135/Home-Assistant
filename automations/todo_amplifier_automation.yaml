@@ -318,7 +318,7 @@
       to: playing
   condition:
     - condition: state
-      entity_id: switch.smappee_speakers
+      entity_id: light.hue_keuken_smart_plug
       state: 'off'
   action:
     - service: script.turn_on

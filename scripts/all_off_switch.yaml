@@ -1,6 +1,6 @@
 
 alias: Alles Uit - Switch
 sequence:
-  - service: switch.turn_off
+  - service: light.turn_off
     entity_id:
-      - switch.smappee_speakers
+      - light.hue_keuken_smart_plug

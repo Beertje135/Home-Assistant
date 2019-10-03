@@ -9,7 +9,7 @@ sequence:
             true
           {%- elif not states.climate.keuken -%}
             true
-          {%- elif not states.light.hue_logeerkamer_floor -%}
+          {%- elif not states.light.hue_kamer_elmo_one -%}
             true
           {%- elif not states.light.milight_bridge_kitchen -%}
             true
@@ -19,7 +19,7 @@ sequence:
             true
           {%- elif not states.sensor.smappee_ons_huisje_water_sensor_temperature -%}
             true
-          {%- elif not states.switch.smappee_speakers -%}
+          {%- elif not states.light.hue_keuken_smart_plug -%}
             true
           {%- else -%}
             false

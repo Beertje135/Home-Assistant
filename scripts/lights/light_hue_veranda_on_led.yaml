@@ -1,0 +1,10 @@
+
+alias: Licht - Hue - Veranda - LED - Aan
+sequence:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - condition: template
+    value_template: "{{ states('light.hue_veranda_smart_plug') in ['off'] }}"
+  - service: light.turn_on
+    entity_id:
+      - light.hue_veranda_smart_plug

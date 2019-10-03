@@ -28,8 +28,8 @@ sequence:
   - service: script.turn_on
     data_template:
       entity_id: >
-        {%- if states('switch.smappee_extra_plug') in ['on'] -%}
-          script.light_smappee_living_off_spacewalker
+        {%- if states('light.hue_woonkamer_smart_plug_two') in ['on'] -%}
+          script.light_hue_living_off_spacewalker
         {%- else -%}
           script.empty
         {%- endif %}

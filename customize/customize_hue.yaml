@@ -3,28 +3,32 @@
 # CUSTOMIZATION HUE LIGHTS
 
     light.hue_veranda:
-      friendly_name: Light Veranda Hue
       icon: mdi:floor-lamp
 
-    light.hue_dressing_one:
-      friendly_name: Light Dressing Hue 1
-
-    light.hue_dressing_two:
-      friendly_name: Light Dressing Hue 2
-
-    light.hue_dressing_three:
-      friendly_name: Light Dressing Hue 3
-
-    light.hue_logeerkamer_floor:
-      friendly_name: Light Elmo's room Hue 1
+    light.hue_kamer_elmo_one:
       icon: mdi:floor-lamp
 
-    light.hue_logeerkamer_ceiling:
-      friendly_name: Light Elmo's room Hue 2
+    light.hue_kamer_elmo_two:
       icon: mdi:ceiling-light
 
     light.hue_woonkamer:
-      friendly_name: Light Woonkamer Hue
       icon: mdi:ceiling-light
 
-# CUSTOMIZE sensors
+# CUSTOMIZE HUE SMART PLUGS
+
+    light.hue_veranda_smart_plug:
+      icon: mdi:led-strip-variant
+      display_categories: light
+
+    light.hue_woonkamer_smart_plug_two:
+      icon: mdi:floor-lamp-variant
+      display_categories: light
+
+    light.hue_woonkamer_smart_plug_one:
+      icon: mdi:led-strip-variant
+      display_categories: light
+
+    light.hue_keuken_smart_plug:
+      icon: mdi:speaker-wireless
+      display_categories: speaker
+      initial_state: on

@@ -8,19 +8,22 @@
     platform: state
     to: 'Weg'
   condition:
+    #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
   - condition: or
     conditions:
+      #Away during day in the weekend
     - condition: time
-      after: !secret awake_weekend
+      after: !secret awake_weekend_heating
       before: !secret sleep_weekend
       weekday:
         - sat
         - sun
+      #Away early before work in the week
     - condition: time
-      after: !secret awake_week
+      after: !secret awake_week_heating
       before: !secret work_week_start
       weekday:
         - mon
@@ -28,8 +31,9 @@
         - wed
         - thu
         - fri
+      #Away late after work in the week
     - condition: time
-      after: !secret work_week_end
+      after: !secret work_week_end_heating
       before: !secret sleep_week
       weekday:
         - mon
@@ -49,29 +53,33 @@
     platform: state
     to: 'Weg'
   condition:
+    #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
   - condition: or
     conditions:
+      #Away during night in the weekend
     - condition: time
-      before: !secret awake_weekend
       after: !secret sleep_weekend
+      before: !secret awake_weekend_heating
       weekday:
         - sat
         - sun
+      #Away during work in the week
     - condition: time
       after: !secret work_week_start
-      before: !secret work_week_end
+      before: !secret work_week_end_heating
       weekday:
         - mon
         - tue
         - wed
         - thu
         - fri
+      #Away during night in the week
     - condition: time
       after: !secret sleep_week
-      before: !secret awake_week
+      before: !secret awake_week_heating
       weekday:
         - mon
         - tue
@@ -83,19 +91,20 @@
     entity_id:
       - script.evo_status_normal
 
-- alias: Verwarming - Day Off - Dag Thuis
+- alias: Verwarming - Custom - Dag Thuis
   trigger:
   - entity_id: input_select.woning_status
     platform: state
     to: 'Dag Thuis'
   condition:
+    #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
   action:
   - service: script.turn_on
     entity_id:
-      - script.evo_status_day_off
+      - script.evo_status_custom
 
 - alias: Verwarming - Normal - Thuis
   trigger:
@@ -105,6 +114,7 @@
     for:
       minutes: 1
   condition:
+    #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
@@ -119,11 +129,13 @@
     platform: state
     to: 'Juist Wakker'
   condition:
+    #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Awake early before heating on
   - condition: time
-    before: !secret awake_week
+    before: !secret awake_week_heating
     weekday:
       - mon
       - tue
@@ -141,11 +153,13 @@
     platform: state
     to: 'Juist Wakker'
   condition:
+    #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Awake early before heating on
   - condition: time
-    before: !secret awake_weekend
+    before: !secret awake_weekend_heating
     weekday:
       - sat
       - sun
@@ -161,19 +175,22 @@
     platform: state
     to: 'Slapen'
   condition:
+    #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
   - condition: or
     conditions:
+      #Sleep early before heating off
     - condition: time
-      after: !secret awake_weekend
+      after: !secret awake_weekend_heating
       before: !secret sleep_weekend
       weekday:
         - sat
         - sun
+      #Sleep early before heating off
     - condition: time
-      after: !secret awake_week
+      after: !secret awake_week_heating
       before: !secret sleep_week
       weekday:
         - mon
@@ -193,19 +210,22 @@
     platform: state
     to: 'Slapen'
   condition:
+    #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
   - condition: or
     conditions:
+      #Sleep late after rising heating
     - condition: time
-      before: !secret awake_weekend
+      before: !secret awake_weekend_heating
       after: !secret sleep_weekend
       weekday:
         - sat
         - sun
+      #Sleep late after rising heating
     - condition: time
-      before: !secret awake_week
+      before: !secret awake_week_heating
       after: !secret sleep_week
       weekday:
         - mon
@@ -224,6 +244,7 @@
     platform: state
     to: 'Vakantie'
   condition:
+    #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
@@ -239,9 +260,11 @@
   - platform: time
     at: !secret work_week_start
   condition:
+    #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Only on weekdays
   - condition: time
     weekday:
       - mon
@@ -251,10 +274,13 @@
       - fri
   - condition: or
     conditions:
+      #Only if kitchen has overwrite
     - condition: template
       value_template: "{{ states.climate.keuken.attributes.preset_mode == 'permanent' }}"
+      #Only if livingroom has overwrite
     - condition: template
       value_template: "{{ states.climate.woonkamer.attributes.preset_mode == 'permanent' }}"
+      #Only if quick action is set to Eco
     - condition: template
       value_template: "{{ states.climate.ons_huisje.preset_mode == eco }}"
   action:
@@ -267,19 +293,24 @@
   - platform: time
     at: !secret awake_weekend
   condition:
+    #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Only during weekends
   - condition: time
     weekday:
       - sat
       - sun
   - condition: or
     conditions:
+      #Only if kitchen has overwrite
     - condition: template
       value_template: "{{ states.climate.keuken.attributes.preset_mode == 'permanent' }}"
+      #Only if livingroom has overwrite
     - condition: template
       value_template: "{{ states.climate.woonkamer.attributes.preset_mode == 'permanent' }}"
+      #Only if quick action is set to Eco
     - condition: template
       value_template: "{{ states.climate.ons_huisje.preset_mode == eco }}"
   action:
@@ -292,9 +323,11 @@
   - platform: time
     at: !secret sleep_week
   condition:
+    #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Only on weekdays
   - condition: time
     weekday:
       - mon
@@ -302,6 +335,7 @@
       - wed
       - thu
       - fri
+    #Only if we are home and not asleep
   - condition: state
     entity_id: input_select.woning_status
     state: 'Thuis'
@@ -315,13 +349,16 @@
   - platform: time
     at: !secret sleep_weekend
   condition:
+    #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Only during weekends
   - condition: time
     weekday:
       - sat
       - sun
+    #Only if we are home and not asleep
   - condition: state
     entity_id: input_select.woning_status
     state: 'Thuis'
@@ -342,6 +379,7 @@
       - wed
       - thu
       - fri
+    #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
@@ -368,6 +406,7 @@
     weekday:
       - sat
       - sun
+    #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
@@ -398,6 +437,7 @@
     for:
       minutes: 180
   condition:
+    #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
@@ -408,7 +448,7 @@
 
 # BASED ON LOCATION
 
-- alias: Verwarming - Day Off - Locatie Onderweg Naar Huis Namiddag
+- alias: Verwarming - Custom - Locatie Onderweg Naar Huis Namiddag
   trigger:
   - entity_id: person.bert
     platform: state
@@ -426,6 +466,7 @@
     platform: state
     to: Checkpoint 5
   condition:
+    #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
@@ -433,7 +474,7 @@
     conditions:
     - condition: time
       after: !secret work_week_mid
-      before: !secret work_week_end
+      before: !secret work_week_end_heating
       weekday:
         - mon
         - tue
@@ -442,7 +483,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.evo_status_day_off
+      - script.evo_status_custom
 
 # AUTOMATIONS BASED ON WINDOW OPEN ELMO's ROOM
 
@@ -450,18 +491,18 @@
   trigger:
   - platform: numeric_state
     entity_id:
-      - sensor.temp_template_evohome_bedroom
-      - sensor.temp_template_evohome_nursery
+      - sensor.climate_slp_kamer_current
+      - sensor.climate_kamer_elmo_current
     below: 15
   - platform: template
     value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Dag Thuis'] }}"
   condition:
   - condition: or
     conditions:
-    - entity_id: sensor.temp_template_evohome_bedroom
+    - entity_id: sensor.climate_slp_kamer_current
       condition: numeric_state
       below: 15
-    - entity_id: sensor.temp_template_evohome_nursery
+    - entity_id: sensor.climate_kamer_elmo_current
       condition: numeric_state
       below: 15
   action:

@@ -5,3 +5,6 @@ sequence:
     entity_id: climate.keuken
     data:
       temperature: !secret heat_kitchen_min
+
+#preset_modes: none, temporary, permanent
+#hvac_mode: off, heat

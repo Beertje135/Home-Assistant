@@ -28,30 +28,62 @@
 
 - platform: template
   sensors:
-    temp_template_evohome_bathroom:
+    climate_badkamer_current:
       value_template: '{{ states.climate.badkamer.attributes.current_temperature | round(1) }}'
       unit_of_measurement: °C
       device_class: temperature
-    temp_template_evohome_kitchen:
+    climate_keuken_current:
       value_template: '{{ states.climate.keuken.attributes.current_temperature | round(1) }}'
       unit_of_measurement: °C
       device_class: temperature
-    temp_template_evohome_living_room:
+    climate_woonkamer_current:
       value_template: '{{ states.climate.woonkamer.attributes.current_temperature | round(1) }}'
       unit_of_measurement: °C
       device_class: temperature
-    temp_template_evohome_dressing:
+    climate_dressing_current:
       value_template: '{{ states.climate.dressing.attributes.current_temperature | round(1) }}'
       unit_of_measurement: °C
       device_class: temperature
-    temp_template_evohome_bedroom:
+    climate_slp_kamer_current:
       value_template: '{{ states.climate.slp_kamer.attributes.current_temperature | round(1) }}'
       unit_of_measurement: °C
       device_class: temperature
-    temp_template_evohome_nursery:
+    climate_kamer_elmo_current:
       value_template: '{{ states.climate.kamer_elmo.attributes.current_temperature | round(1) }}'
       unit_of_measurement: °C
       device_class: temperature
+
+- platform: template
+  sensors:
+    climate_badkamer_set:
+      value_template: '{{ states.climate.badkamer.attributes.temperature }}'
+      unit_of_measurement: °C
+      device_class: temperature
+    climate_keuken_set:
+      value_template: '{{ states.climate.keuken.attributes.temperature }}'
+      unit_of_measurement: °C
+      device_class: temperature
+    climate_woonkamer_set:
+      value_template: '{{ states.climate.woonkamer.attributes.temperature }}'
+      unit_of_measurement: °C
+      device_class: temperature
+    climate_dressing_set:
+      value_template: '{{ states.climate.dressing.attributes.temperature }}'
+      unit_of_measurement: °C
+      device_class: temperature
+    climate_slp_kamer_set:
+      value_template: '{{ states.climate.slp_kamer.attributes.temperature }}'
+      unit_of_measurement: °C
+      device_class: temperature
+    climate_kamer_elmo_set:
+      value_template: '{{ states.climate.kamer_elmo.attributes.temperature }}'
+      unit_of_measurement: °C
+      device_class: temperature
+
+- platform: template
+  sensors:
+    climate_ons_huisje_mode:
+      value_template: '{{ states.climate.ons_huisje.attributes.preset_mode }}'
 
 
 # SENSOR TO RENAME ON AND OFF FOR VISITOR SO IT CAN BE INCLUDED IN GROUP_BEZOEKER

@@ -2,7 +2,7 @@
 alias: Licht - Hue - Elmo - Aan - Normal
 sequence:
   - service: light.turn_on
-    entity_id: light.hue_logeerkamer_floor
+    entity_id: light.hue_kamer_elmo_one
     data:
       hs_color: [38,53]
       brightness: 255

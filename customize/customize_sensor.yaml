@@ -1,13 +1,13 @@
 # CUSTOMIZE WEATHER SENSORS
 
     sensor.weer_condition:
-      friendly_name: WEER
+      friendly_name: Weather
 
     sun.sun:
-      friendly_name: ZON
+      friendly_name: Sun
 
     sensor.weer_temperature:
-      friendly_name: TEMP
+      friendly_name: Temperature
       icon: mdi:temperature-celsius
 
 # CUSTOMIZE BOOLEAN SENSORS

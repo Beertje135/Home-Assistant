@@ -12,9 +12,9 @@ light.milight_bathroom:
 
 light.hue_veranda:
   name: Veranda Flos Arco
-light.hue_logeerkamer_floor:
+light.hue_kamer_elmo_one:
   name: Elmo's Kamer Staanlamp
-light.hue_logeerkamer_ceiling:
+light.hue_kamer_elmo_two:
   name: Elmo's Kamer Lamp
 light.hue_woonkamer:
   name: Woonkamer Lamp
@@ -25,20 +25,18 @@ light.hue_dressing_two:
 light.hue_dressing_three:
   name: Dressing Lamp 3
 
+light.hue_veranda_smart_plug:
+  name: Veranda LED Lichtjes
+light.hue_woonkamer_smart_plug_two:
+  name: Woonkamer Spacewalker
+light.hue_woonkamer_smart_plug_one:
+  name: Woonkamer LED Lichtjes
+light.hue_keuken_smart_plug:
+  name: Keuken Speakers
+
+
 # SWITCHES
 
-switch.smappee_porch:
-  name: Veranda LED Lichtjes
-  type: outlet
-switch.smappee_extra_plug:
-  name: Spacewalker
-  type: outlet
-switch.smappee_living_room:
-  name: Woonkamer LED Lichtjes
-  type: outlet
-switch.smappee_speakers:
-  name: Keuken Speakers
-  type: switch
 switch.wake_on_lan:
   name: Keuken Computer
   type: switch

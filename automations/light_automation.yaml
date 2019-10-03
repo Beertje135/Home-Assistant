@@ -23,11 +23,11 @@
       - condition: template
         value_template: "{{ states('input_select.woning_status') in ['Vakantie'] and states('group.bezoekers') in ['home'] }}"
   - condition: template
-    value_template: "{{ states('switch.smappee_porch') in ['off'] }}"
+    value_template: "{{ states('light.hue_veranda_smart_plug') in ['off'] }}"
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_smappee_veranda_on_led
+      - script.light_hue_veranda_on_led
 
 - alias: Licht - Veranda - Uit LED
   trigger:
@@ -49,7 +49,7 @@
     above: !secret lux_veranda_high
   condition:
   - condition: state
-    entity_id: switch.smappee_porch
+    entity_id: light.hue_veranda_smart_plug
     state: 'on'
   - condition: or
     conditions:
@@ -221,7 +221,7 @@
     entity_id: sensor.living_sensor_light_level
     below: !secret lux_livingroom_low
   - condition: template
-    value_template: "{{ states('switch.smappee_living_room') in ['off'] or (states('light.milight_bridge_living_room') in ['off'] and states('input_select.harmony_hub') not in ['Powered Off', 'Alexa']) }}"
+    value_template: "{{ states('light.hue_woonkamer_smart_plug_one') in ['off'] or (states('light.milight_bridge_living_room') in ['off'] and states('input_select.harmony_hub') not in ['Powered Off', 'Alexa']) }}"
   - condition: or
     conditions:
       - condition: template
@@ -231,7 +231,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_smappee_living_on_led
+      - script.light_hue_living_on_led
       - script.light_milight_living_on_tv
 
 - alias: Licht - Woonkamer - Aan lux heel laag
@@ -246,7 +246,7 @@
     entity_id: sensor.living_sensor_light_level
     below: !secret lux_livingroom_very_low
   - condition: template
-    value_template: "{{ states('switch.smappee_extra_plug') in ['off'] or states('light.hue_woonkamer') in ['off'] }}"
+    value_template: "{{ states('light.hue_woonkamer_smart_plug_two') in ['off'] or states('light.hue_woonkamer') in ['off'] }}"
   - condition: or
     conditions:
       - condition: template
@@ -256,7 +256,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_smappee_living_on_spacewalker
+      - script.light_hue_living_on_spacewalker
       - script.light_hue_living_on
 
 - alias: Licht - Woonkamer - Hue Aan
@@ -281,12 +281,12 @@
     to: 'off'
   condition:
   - condition: state
-    entity_id: switch.smappee_extra_plug
+    entity_id: light.hue_woonkamer_smart_plug_two
     state: 'on'
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_smappee_living_off_spacewalker
+      - script.light_hue_living_off_spacewalker
 
 - alias: Licht - Woonkamer - Uit lux heel hoog
   trigger:
@@ -298,7 +298,7 @@
     to: 'off'
   condition:
   - condition: state
-    entity_id: switch.smappee_living_room
+    entity_id: light.hue_woonkamer_smart_plug_one
     state: 'on'
   action:
   - service: script.turn_on
@@ -314,7 +314,7 @@
     to: 'off'
   condition:
   - condition: state
-    entity_id: switch.smappee_living_room
+    entity_id: light.hue_woonkamer_smart_plug_one
     state: 'on'
   - condition: template
     value_template: "{{ states('input_select.harmony_hub') in ['Powered Off', 'Alexa'] }}"
@@ -490,10 +490,10 @@
   - condition: or
     conditions:
     - condition: state
-      entity_id: light.hue_logeerkamer_floor
+      entity_id: light.hue_kamer_elmo_one
       state: 'on'
     - condition: state
-      entity_id: light.hue_logeerkamer_ceiling
+      entity_id: light.hue_kamer_elmo_two
       state: 'on'
   action:
   - service: script.turn_on

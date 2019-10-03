@@ -6,21 +6,44 @@
       - input_boolean
       - binary_sensor
       - climate
+      - calendar
       - media_player
-      - remote
       - weather
-      - automation
+      - person
+      - vacuum
     entities:
       - sensor.season
+      - sensor.babaysit
+      - sensor.bezoek
+      - sensor.kuishulp
+      - sensor.hacs
+      - sun.sun
+      - sensor.downstairs_nest_protect_battery_health
+      - sensor.downstairs_nest_protect_co_status
+      - sensor.downstairs_nest_protect_color_status
+      - sensor.downstairs_nest_protect_smoke_statu
+      - sensor.upstairs_nest_protect_battery_health
+      - sensor.upstairs_nest_protect_co_status
+      - sensor.upstairs_nest_protect_color_status
+      - sensor.upstairs_nest_protect_smoke_status
+      - sensor.climate_badkamer_set
+      - sensor.climate_keuken_set
+      - sensor.climate_woonkamer_set
+      - sensor.climate_dressing_set
+      - sensor.climate_slp_kamer_set
+      - sensor.climate_kamer_elmo_set
+      - sensor.climate_ons_huisje_mode
   exclude:
     domains:
       - sensor
       - script
       - group
+      - automation
     entities:
       - binary_sensor.dressing_sensor_motion
       - binary_sensor.keuken_sensor_motion
       - binary_sensor.living_sensor_motion
+      - binary_sensor.ons_huisje_away
       - input_boolean.trigger_just_home_kitchen
       - input_boolean.trigger_just_awake_kitchen
       - input_boolean.trigger_just_sleep_kitchen
@@ -28,14 +51,31 @@
       - input_boolean.trigger_just_awake_dressing
       - input_boolean.trigger_just_sleep_dressing
       - input_boolean.light_livingroom
-      - binary_sensor.downstairs_nest_protect_online
-      - binary_sensor.upstairs_nest_protect_online
       - light.hue_dressing_one
       - light.hue_dressing_two
       - light.hue_dressing_three
-      - automation.plex_webhook_to_mqtt
-      - automation.plex_webhook_update_mqtt_sensor
-      - automation.licht_badkamer_aan
-      - automation.licht_badkamer_uit
-      - automation.licht_woonkamer_boolean_a
-      - automation.licht_woonkamer_boolean_b
+      - media_player.this_device
+      - sensor.alexa_bathroom_next_alarm
+      - sensor.alexa_bathroom_next_reminder
+      - sensor.alexa_bathroom_next_timer
+      - sensor.alexa_bedroom_next_alarm
+      - sensor.alexa_bedroom_next_reminder
+      - sensor.alexa_bedroom_next_timer
+      - sensor.alexa_garden_next_alarm
+      - sensor.alexa_garden_next_reminder
+      - sensor.alexa_garden_next_timer
+      - sensor.alexa_kitchen_1_next_alarm
+      - sensor.alexa_kitchen_1_next_reminder
+      - sensor.alexa_kitchen_1_next_timer
+      - sensor.alexa_kitchen_2_next_alarm
+      - sensor.alexa_kitchen_2_next_reminder
+      - sensor.alexa_kitchen_2_next_timer
+      - sensor.alexa_livingroom_next_alarm
+      - sensor.alexa_livingroom_next_reminder
+      - sensor.alexa_livingroom_next_timer
+      - sensor.this_device_next_reminder
+
+#Gebruik dit sjabloon om entiteiten te vinden:
+# {% for e in states.sensor if not e.entity_id.startswith('sensor.dark_sky') %}
+#      - {{ e.entity_id }}
+# {%- endfor %}

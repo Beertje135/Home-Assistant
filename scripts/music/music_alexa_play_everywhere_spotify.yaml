@@ -2,7 +2,7 @@
 alias: Radio - Alexa play overal Spotify
 sequence:
   - service: switch.turn_on
-    entity_id: switch.smappee_speakers
+    entity_id: light.hue_keuken_smart_plug
   - service: media_player.select_source
     data:
       entity_id: media_player.spotify

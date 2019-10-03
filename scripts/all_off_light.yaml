@@ -4,13 +4,11 @@ sequence:
   - service: light.turn_off
     entity_id:
       - light.hue_woonkamer
-      - light.hue_logeerkamer_floor
-      - light.hue_logeerkamer_ceiling
+      - light.hue_kamer_elmo_one
+      - light.hue_kamer_elmo_two
       - light.hue_veranda
       - light.milight_bridge_kitchen
       - light.milight_bridge_living_room
-  - service: switch.turn_off
-    entity_id:
-      - switch.smappee_living_room
-      - switch.smappee_porch
-      - switch.smappee_extra_plug
+      - light.hue_woonkamer_smart_plug_one
+      - light.hue_veranda_smart_plug
+      - light.hue_woonkamer_smart_plug_two

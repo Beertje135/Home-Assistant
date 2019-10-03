@@ -12,4 +12,5 @@ sequence:
           script.evo_status_normal_auto
         {%- endif %}
 
-#operation_list: AutoWithReset,Auto,AutoWithEco,Away,DayOff,Custom,HeatingOff
+#preset_modes: away,Custom,eco,home,Reset, (Auto?)
+#hvac_mode: off, heat
