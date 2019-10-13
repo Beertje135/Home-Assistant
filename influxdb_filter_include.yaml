@@ -1,10 +1,39 @@
     domains:
-      - switch
-      - sensor
-      - light
+      - binary_sensor
+      - calendar
       - climate
       - input_boolean
       - input_select
-      - weather
+      - light
+      - person
+      - sensor
+      - sun
+      - switch
       - vacuum
-      - device_tracker
+      - weather
+    entities:
+      - group.bewoners
+      - group.bewoners_router
+      - group.bezoekers
+      - group.licht_keuken
+      - group.licht_badkamer
+      - group.licht_dressing
+      - group.licht_woonkamer
+      - group.licht_veranda
+      - group.licht_kamer_elmo
+      - device_tracker.router_iphone_bert
+      - device_tracker.router_iphone_caro
+      - device_tracker.ios_iphone_bert
+      - device_tracker.ios_iphone_caro
+      - device_tracker.owntracks_iphone_bert
+      - device_tracker.owntracks_iphone_caro
+
+#Gebruik dit sjabloon om entiteiten te vinden:
+# {% for e in states.sensor if not e.entity_id.startswith('sensor.dark_sky') %}
+#      - {{ e.entity_id }}
+# {%- endfor %}
+
+#Gebruik dit sjabloon om de domainen te vinden
+# {%- for d in states | groupby('domain') %}
+# {{ d[0] }}
+# {%- endfor %}

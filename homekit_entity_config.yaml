@@ -1,13 +1,13 @@
 # CONFIGURATION FOR HOMEKIT ENTITIES
 # LIGHTS
 
-light.milight_bridge_living_room:
+light.milight_woonkamer_bridge:
   name: Woonkamer Tv Lampje
-light.milight_bridge_kitchen:
+light.milight_keuken_bridge:
   name: Keuken Tv Lampje
-light.milight_kitchen:
+light.milight_keuken:
   name: Keuken LED Strip
-light.milight_bathroom:
+light.milight_badkamer:
   name: Badkamer LED Strip
 
 light.hue_veranda:

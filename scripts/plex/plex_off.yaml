@@ -12,7 +12,7 @@ sequence:
   - service: script.turn_on
     data_template:
       entity_id: >
-        {%- if states('light.milight_bridge_living_room') in ['on'] -%}
+        {%- if states('light.milight_woonkamer_bridge') in ['on'] -%}
           script.light_milight_living_on_tv
         {%- else -%}
           script.empty

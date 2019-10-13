@@ -11,9 +11,9 @@ sequence:
             false
           {%- elif not states.light.hue_kamer_elmo_one -%}
             false
-          {%- elif not states.light.milight_bridge_kitchen -%}
+          {%- elif not states.light.milight_keuken_bridge -%}
             false
-          {%- elif not states.light.milight_bridge_living_room -%}
+          {%- elif not states.light.milight_woonkamer_bridge -%}
             false
           {%- elif not states.device_tracker.router_iphone_bert -%}
             false

@@ -7,8 +7,8 @@ sequence:
       - light.hue_kamer_elmo_one
       - light.hue_kamer_elmo_two
       - light.hue_veranda
-      - light.milight_bridge_kitchen
-      - light.milight_bridge_living_room
+      - light.milight_keuken_bridge
+      - light.milight_woonkamer_bridge
       - light.hue_woonkamer_smart_plug_one
       - light.hue_veranda_smart_plug
       - light.hue_woonkamer_smart_plug_two

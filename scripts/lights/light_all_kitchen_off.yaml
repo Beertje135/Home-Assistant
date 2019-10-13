@@ -3,5 +3,5 @@ alias: Licht - All - Keuken - Uit
 sequence:
   - service: light.turn_off
     entity_id:
-      - light.milight_kitchen
-      - light.milight_bridge_kitchen
+      - light.milight_keuken
+      - light.milight_keuken_bridge

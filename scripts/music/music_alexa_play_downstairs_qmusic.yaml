@@ -9,7 +9,7 @@ sequence:
   - delay: 00:00:05
   - service: media_player.volume_set
     data_template:
-      entity_id: media_player.alexa_livingroom
+      entity_id: media_player.livingroom_alexa
       volume_level: >
         {% if (states.sensor.time.state) <= "08:30" and now().weekday() in (0,1,2,3,4) %}
           1.0
@@ -20,7 +20,7 @@ sequence:
         {% endif %}
   - service: media_player.volume_set
     data_template:
-      entity_id: media_player.alexa_kitchen_1
+      entity_id: media_player.kitchen_alexa_1
       volume_level: >
         {% if (states.sensor.time.state) <= "08:30" and now().weekday() in (0,1,2,3,4) %}
           0.1

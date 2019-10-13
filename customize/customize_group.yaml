@@ -2,12 +2,40 @@
 
     group.bewoners:
       icon: mdi:account-multiple
-      friendly_name: BEWONERS
+      friendly_name: Residents
 
     group.bewoners_router:
       icon: mdi:account-multiple
-      friendly_name: BEWONERS ROUTER
+      friendly_name: Residents Router
 
     group.bezoekers:
       icon: mdi:account-multiple-plus
-      friendly_name: BEZOEKERS
+      friendly_name: Visitors
+
+    group.plex_players:
+      icon: mdi:plex
+      friendly_name: Plex Playersç
+
+    group.licht_keuken:
+      icon: mdi:stove
+      friendly_name: Kitchen Lights
+
+    group.licht_badkamer:
+      icon: mdi:shower
+      friendly_name: Bathroom Lights
+
+    group.licht_dressing:
+      icon: mdi:hanger
+      friendly_name: Dressing Lights
+
+    group.licht_woonkamer:
+      icon: mdi:sofa
+      friendly_name: Livingroom Lights
+
+    group.licht_veranda:
+      icon: mdi:floor-lamp
+      friendly_name: Veranda Lights
+
+    group.licht_kamer_elmo:
+      icon: mdi:baby-carriage
+      friendly_name: Elmo's Room Lights

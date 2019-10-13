@@ -124,24 +124,24 @@
 
     device_tracker.tv_samsung:
       icon: mdi:television
-      friendly_name: TV
+      friendly_name: Livingroom Tv
 
     device_tracker.pc_bert_lan:
       icon: mdi:desktop-tower-monitor
-      friendly_name: COMPUTER
+      friendly_name: Kitchen Computer
 
     device_tracker.laptop_bert_bnp:
       icon: mdi:laptop
-      friendly_name: LAPTOP BERT BNP
+      friendly_name: Bert Laptop Work
 
     device_tracker.laptop_caro_dmv:
       icon: mdi:laptop
-      friendly_name: LAPTOP CARO DMV
+      friendly_name: Caroline Laptop Work
 
     device_tracker.macbook:
       icon: mdi:laptop-mac
-      friendly_name: MACBOOK
+      friendly_name: Bert MacBook
 
     device_tracker.nintendo_switch:
       icon: mdi:nintendo-switch
-      friendly_name: NINTENDO SWITCH
+      friendly_name: Bert Nintendo Switch

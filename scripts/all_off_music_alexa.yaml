@@ -3,10 +3,10 @@ alias: Alles Uit - Muziek
 sequence:
   - service: media_player.turn_off
     entity_id:
-      - media_player.alexa_bathroom
-      - media_player.alexa_bedroom
-      - media_player.alexa_kitchen_1
-      - media_player.alexa_livingroom
+      - media_player.bathroom_alexa
+      - media_player.bedroom_alexa
+      - media_player.kitchen_alexa_1
+      - media_player.livingroom_alexa
       - media_player.everywhere
       - media_player.downstairs
       - media_player.upstairs

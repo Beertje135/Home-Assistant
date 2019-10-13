@@ -75,7 +75,7 @@
 - alias: Amplifier Woonkamer - Uit - Echo Not Playing
   trigger:
     - platform: state
-      entity_id: media_player.alexa_livingroom
+      entity_id: media_player.livingroom_alexa
       to: paused
       for:
         minutes: 5
@@ -90,7 +90,7 @@
       for:
         minutes: 5
     - platform: state
-      entity_id: media_player.alexa_livingroom
+      entity_id: media_player.livingroom_alexa
       to: standby
       for:
         minutes: 5
@@ -119,7 +119,7 @@
           entity_id: media_player.downstairs
           state: 'paused'
         - condition: state
-          entity_id: media_player.alexa_livingroom
+          entity_id: media_player.livingroom_alexa
           state: 'paused'
       - condition: and
         conditions:
@@ -133,7 +133,7 @@
           entity_id: media_player.downstairs
           state: 'standby'
         - condition: state
-          entity_id: media_player.alexa_livingroom
+          entity_id: media_player.livingroom_alexa
           state: 'standby'
       - condition: and
         conditions:
@@ -147,7 +147,7 @@
           entity_id: media_player.downstairs
           state: 'paused'
         - condition: state
-          entity_id: media_player.alexa_livingroom
+          entity_id: media_player.livingroom_alexa
           state: 'standby'
       - condition: and
         conditions:
@@ -161,7 +161,7 @@
           entity_id: media_player.downstairs
           state: 'standby'
         - condition: state
-          entity_id: media_player.alexa_livingroom
+          entity_id: media_player.livingroom_alexa
           state: 'paused'
       - condition: and
         conditions:
@@ -175,7 +175,7 @@
           entity_id: media_player.downstairs
           state: 'paused'
         - condition: state
-          entity_id: media_player.alexa_livingroom
+          entity_id: media_player.livingroom_alexa
           state: 'paused'
       - condition: and
         conditions:
@@ -189,7 +189,7 @@
           entity_id: media_player.downstairs
           state: 'standby'
         - condition: state
-          entity_id: media_player.alexa_livingroom
+          entity_id: media_player.livingroom_alexa
           state: 'standby'
       - condition: and
         conditions:
@@ -203,7 +203,7 @@
           entity_id: media_player.downstairs
           state: 'paused'
         - condition: state
-          entity_id: media_player.alexa_livingroom
+          entity_id: media_player.livingroom_alexa
           state: 'standby'
       - condition: and
         conditions:
@@ -217,7 +217,7 @@
           entity_id: media_player.downstairs
           state: 'standby'
         - condition: state
-          entity_id: media_player.alexa_livingroom
+          entity_id: media_player.livingroom_alexa
           state: 'paused'
   action:
     - service: input_select.select_option
@@ -245,7 +245,7 @@
 - alias: Amplifier Woonkamer - Aan - Echo Playing
   trigger:
     - platform: state
-      entity_id: media_player.alexa_livingroom
+      entity_id: media_player.livingroom_alexa
       to: playing
     - platform: state
       entity_id: media_player.everywhere
@@ -291,7 +291,7 @@
           entity_id: media_player.everywhere
           state: playing
         - condition: state
-          entity_id: media_player.alexa_livingroom
+          entity_id: media_player.livingroom_alexa
           state: playing
         - condition: state
           entity_id: media_player.downstairs
@@ -308,7 +308,7 @@
 - alias: Amplifier Keuken - Aan - Echo Playing
   trigger:
     - platform: state
-      entity_id: media_player.alexa_kitchen_1
+      entity_id: media_player.kitchen_alexa_1
       to: playing
     - platform: state
       entity_id: media_player.everywhere

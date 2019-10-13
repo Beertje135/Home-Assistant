@@ -1,7 +1,6 @@
   include:
     domains:
       - switch
-      - light
       - input_select
       - input_boolean
       - binary_sensor
@@ -21,7 +20,7 @@
       - sensor.downstairs_nest_protect_battery_health
       - sensor.downstairs_nest_protect_co_status
       - sensor.downstairs_nest_protect_color_status
-      - sensor.downstairs_nest_protect_smoke_statu
+      - sensor.downstairs_nest_protect_smoke_status
       - sensor.upstairs_nest_protect_battery_health
       - sensor.upstairs_nest_protect_co_status
       - sensor.upstairs_nest_protect_color_status
@@ -33,6 +32,30 @@
       - sensor.climate_slp_kamer_set
       - sensor.climate_kamer_elmo_set
       - sensor.climate_ons_huisje_mode
+      - group.licht_keuken
+      - group.licht_badkamer
+      - group.licht_dressing
+      - group.licht_woonkamer
+      - group.licht_veranda
+      - group.licht_kamer_elmo
+      - automation.verwarming_location_week_going_home_custom_mode
+      - automation.verwarming_time_week_awake_evening_rise_woonkamer
+      - automation.verwarming_time_week_slapen_auto_mode
+      - automation.verwarming_time_week_start_work_auto_mode
+      - automation.verwarming_time_weekend_awake_evening_rise_woonkamer
+      - automation.verwarming_time_weekend_morning_auto_mode
+      - automation.verwarming_time_weekend_slapen_auto_mode
+      - automation.verwarming_timer_overwrite_badkamer_auto_mode
+      - automation.verwarming_window_open_kamer_elmo_koud
+      - automation.verwarming_woning_dag_thuis_custom_mode
+      - automation.verwarming_woning_juist_wakker_week_rise_keuken
+      - automation.verwarming_woning_juist_wakker_weekend_rise_beneden
+      - automation.verwarming_woning_slapen_auto_mode
+      - automation.verwarming_woning_slapen_lower_beneden
+      - automation.verwarming_woning_thuis_auto_mode
+      - automation.verwarming_woning_vakantie_off
+      - automation.verwarming_woning_weg_auto_mode
+      - automation.verwarming_woning_weg_eco_mode
   exclude:
     domains:
       - sensor
@@ -78,4 +101,9 @@
 #Gebruik dit sjabloon om entiteiten te vinden:
 # {% for e in states.sensor if not e.entity_id.startswith('sensor.dark_sky') %}
 #      - {{ e.entity_id }}
+# {%- endfor %}
+
+#Gebruik dit sjabloon om de domainen te vinden
+# {%- for d in states | groupby('domain') %}
+# {{ d[0] }}
 # {%- endfor %}

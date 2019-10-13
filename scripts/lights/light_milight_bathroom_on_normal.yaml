@@ -3,7 +3,7 @@ alias: Licht - Milight - Badkamer - Aan - Normaal
 sequence:
   - service: light.turn_on
     entity_id:
-      - light.milight_bathroom
+      - light.milight_badkamer
     data:
       rgb_color: [255,255,255]
       brightness: 255

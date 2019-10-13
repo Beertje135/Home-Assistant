@@ -130,37 +130,31 @@ binary_sensor:
         entity_id:
           - input_boolean.trigger_just_away_kitchen
         value_template: "{{ is_state('input_boolean.trigger_just_away_kitchen', 'on') }}"
-        friendly_name: 'Sensor Just Away Kitchen'
       trigger_just_home_kitchen:
         device_class: motion
         entity_id:
           - input_boolean.trigger_just_home_kitchen
         value_template: "{{ is_state('input_boolean.trigger_just_home_kitchen', 'on') }}"
-        friendly_name: 'Sensor Just Home Kitchen'
       trigger_just_awake_kitchen:
         device_class: motion
         entity_id:
           - input_boolean.trigger_just_awake_kitchen
         value_template: "{{ is_state('input_boolean.trigger_just_awake_kitchen', 'on') }}"
-        friendly_name: 'Sensor Just Morning Kitchen'
       trigger_just_sleep_kitchen:
         device_class: motion
         entity_id:
           - input_boolean.trigger_just_sleep_kitchen
         value_template: "{{ is_state('input_boolean.trigger_just_sleep_kitchen', 'on') }}"
-        friendly_name: 'Sensor Just Sleep Kitchen'
       trigger_just_awake_dressing:
         device_class: motion
         entity_id:
           - input_boolean.trigger_just_awake_dressing
         value_template: "{{ is_state('input_boolean.trigger_just_awake_dressing', 'on') }}"
-        friendly_name: 'Sensor Just Morning Dressing'
       trigger_just_sleep_dressing:
         device_class: motion
         entity_id:
           - input_boolean.trigger_just_sleep_dressing
         value_template: "{{ is_state('input_boolean.trigger_just_sleep_dressing', 'on') }}"
-        friendly_name: 'Sensor Just Sleep Dressing'
 
 # Enable Utility meter
 utility_meter:
@@ -312,18 +306,18 @@ light:
       groups:
       - number: 1
         type: bridge-led
-        name: milight_bridge_living_room
+        name: milight_woonkamer_bridge
     - host: !secret ip_milight_bridge_2
       groups:
       - number: 1
         type: bridge-led
-        name: milight_bridge_kitchen
+        name: milight_keuken_bridge
       - number: 1
         type: rgbww
-        name: milight_kitchen
+        name: milight_keuken
       - number: 2
         type: rgbww
-        name: milight_bathroom
+        name: milight_badkamer
 
 switch:
   - platform: wake_on_lan

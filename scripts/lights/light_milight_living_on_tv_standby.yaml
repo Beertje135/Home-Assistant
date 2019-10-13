@@ -3,7 +3,7 @@ alias: Licht - Milight - Woonkamer - Aan - TV - Standby
 sequence:
   - service: light.turn_on
     entity_id:
-      - light.milight_bridge_living_room
+      - light.milight_woonkamer_bridge
     data_template:
       hs_color: [195.059,100]
       brightness: 200

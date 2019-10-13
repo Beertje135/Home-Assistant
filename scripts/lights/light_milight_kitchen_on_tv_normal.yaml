@@ -6,7 +6,7 @@ sequence:
     below: !secret lux_kitchen_very_low
   - service: light.turn_on
     entity_id:
-      - light.milight_bridge_kitchen
+      - light.milight_keuken_bridge
     data:
       effect: white
       brightness: 255

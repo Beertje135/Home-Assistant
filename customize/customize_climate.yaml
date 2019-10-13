@@ -1,0 +1,64 @@
+# CUSTOMIZATION FOR CLIMATE
+
+    climate.slp_kamer:
+      friendly_name: Bedroom Thermostat
+      icon: mdi:thermometer
+
+    climate.badkamer:
+      friendly_name: Bathroom Thermostat
+      icon: mdi:thermometer
+
+    climate.dressing:
+      friendly_name: Dressing Thermostat
+      icon: mdi:thermometer
+
+    climate.kamer_elmo:
+      friendly_name: Elmo's Room Thermostat
+      icon: mdi:thermometer
+
+    climate.keuken:
+      friendly_name: Kitchen Thermostat
+      icon: mdi:thermometer
+
+    climate.woonkamer:
+      friendly_name: Livingroom Thermostat
+      icon: mdi:thermometer
+
+    climate.ons_huisje:
+      friendly_name: Evohome
+      icon: mdi:thermometer
+
+#CUSTOMIZE SENSORS FOR CLIMATE
+
+    sensor.climate_badkamer_set:
+      friendly_name: Bathroom Setpoint
+      icon: mdi:shower
+
+    sensor.climate_keuken_set:
+      friendly_name: Kitchen Setpoint
+      icon: mdi:stove
+
+    sensor.climate_woonkamer_set:
+      friendly_name: Livingroom Setpoint
+      icon: mdi:sofa
+
+    sensor.climate_dressing_set:
+      friendly_name: Dressing Setpoint
+      icon: mdi:hanger
+
+    sensor.climate_slp_kamer_set:
+      friendly_name: Bedroom Setpoint
+      icon: mdi:bed-empty
+
+    sensor.climate_kamer_elmo_set:
+      friendly_name: Elmo's Room Setpoint
+      icon: mdi:baby-carriage
+
+    sensor.climate_ons_huisje_mode:
+      friendly_name: Evohome Mode
+      icon: mdi:thermometer
+
+    sensor.smappee_ons_huisje_water_sensor_temperature:
+      friendly_name: Basement Thermostat
+      icon: mdi:stairs
+      unit_of_measurement: °C

@@ -3,13 +3,13 @@ alias: Radio - Alexa play bathroom MNM
 sequence:
   - service: media_player.play_media
     data:
-      entity_id: media_player.alexa_bathroom
+      entity_id: media_player.bathroom_alexa
       media_content_id: VRT MNM
       media_content_type: TUNEIN
   - delay: 00:00:05
   - service: media_player.volume_set
     data_template:
-      entity_id: media_player.alexa_bathroom
+      entity_id: media_player.bathroom_alexa
       volume_level: >
         {% if (states.sensor.time.state) <= "08:30" and now().weekday() in (0,1,2,3,4) %}
           0.07

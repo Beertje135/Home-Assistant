@@ -2,55 +2,55 @@
 
     input_boolean.light_downstairs:
       icon: mdi:motion-sensor
-      friendly_name: Input Light Downstairs
+      friendly_name: Downstairs Motion Sensors
 
     input_boolean.visitor:
       icon: mdi:account-multiple
-      friendly_name: Input Visitor
+      friendly_name: Visitor Boolean
 
     input_boolean.notify_bert:
       icon: mdi:bell
-      friendly_name: Input Notify Bert
+      friendly_name: Bert Notifications
 
     input_boolean.notify_caro:
       icon: mdi:bell
-      friendly_name: Input Notify caro
+      friendly_name: Caroline Notifications
 
     input_boolean.music_follow:
       icon: mdi:music
-      friendly_name: Input Music Follow
+      friendly_name: Music Follow Boolean
 
     input_boolean.heating:
       icon: mdi:radiator
-      friendly_name: Input Heating Automatic
+      friendly_name: Heating Boolean
 
     input_boolean.light_dressing_stay_on:
       icon: mdi:theme-light-dark
-      friendly_name: Input Dressing Light On
+      friendly_name: Dressing Lights Boolean
 
     input_boolean.vacuum_cleaned_today:
       icon: mdi:check
-      friendly_name: Input Dusty Cleaned Today
+      friendly_name: Dusty Cleaned Today Boolean
 
     input_boolean.trigger_away:
-      friendly_name: Input Trigger Away
+      friendly_name: Trigger Away Boolean
 
     input_boolean.trigger_home:
-      friendly_name: Input Trigger Home
+      friendly_name: Trigger Home Boolean
 
     input_boolean.trigger_morning:
-      friendly_name: Input Trigger Morning
+      friendly_name: Trigger Morning Boolean
 
     input_boolean.trigger_sleep:
-      friendly_name: Input Trigger Sleep
+      friendly_name: Trigger Sleep Boolean
 
     input_boolean.light_livingroom:
-      friendly_name: Input Light Hue Woonkamer
+      friendly_name: Livingroom Light Boolean
 
     input_boolean.plex_livingroom:
       icon: mdi:plex
-      friendly_name: Input Plex Livingroom
+      friendly_name: Livingroom Plex Boolean
 
     input_boolean.plex_kitchen:
       icon: mdi:plex
-      friendly_name: Input Plex Kitchen
+      friendly_name: Kitchen Plex Boolean

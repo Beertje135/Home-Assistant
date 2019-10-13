@@ -3,7 +3,7 @@ alias: Licht - All - Woonkamer - Uit
 sequence:
   - service: light.turn_off
     entity_id:
-      - light.milight_bridge_living_room
+      - light.milight_woonkamer_bridge
       - light.hue_woonkamer
       - light.hue_woonkamer_smart_plug_one
       - light.hue_woonkamer_smart_plug_two

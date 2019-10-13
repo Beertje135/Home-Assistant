@@ -1,0 +1,31 @@
+# CUSTOMIZE BINARY  SENSORS
+
+    binary_sensor.living_sensor_motion:
+      friendly_name: Livingroom Motion Sensor
+      icon: mdi:motion-sensor
+
+    binary_sensor.dressing_sensor_motion:
+      friendly_name: Dressing Motion Sensor
+      icon: mdi:motion-sensor
+
+    binary_sensor.keuken_sensor_motion:
+      friendly_name: Kitchen Motion Sensor
+      icon: mdi:motion-sensor
+
+    binary_sensor.trigger_just_away_kitchen:
+      friendly_name: Kitchen Motion Sensor Just Away
+
+    binary_sensor.trigger_just_home_kitchen:
+      friendly_name: Kitchen Motion Sensor Just Home
+
+    binary_sensor.trigger_just_awake_kitchen:
+      friendly_name: Kitchen Motion Sensor Just Awake
+
+    binary_sensor.trigger_just_sleep_kitchen:
+      friendly_name: Kitchen Motion Sensor Just Asleep
+
+    binary_sensor.trigger_just_awake_dressing:
+      friendly_name: Dressing Motion Sensor Just Awake
+
+    binary_sensor.trigger_just_sleep_dressing:
+      friendly_name: Dressing Motion Sensor Just Asleep

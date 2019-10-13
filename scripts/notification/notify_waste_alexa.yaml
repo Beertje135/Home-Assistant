@@ -12,8 +12,8 @@ sequence:
   - service: notify.alexa_media
     data_template:
       target:
-        - media_player.alexa_kitchen_2
-        - media_player.alexa_bathroom
+        - media_player.kitchen_alexa_2
+        - media_player.bathroom_alexa
       message: >
         {% if ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_restafval.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_papier.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_pmd.state) %}
           Please take out the following trash: paper, the blue bag and waste, pickup is tomorrow morning.

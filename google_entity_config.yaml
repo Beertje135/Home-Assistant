@@ -2,14 +2,14 @@
 # LIGHTS
 # MILIGHTS
 
-light.milight_bridge_living_room:
+light.milight_woonkamer_bridge:
   name: Woonkamer Tv Licht
   aliases:
     - Tv Licht
     - Ambilight
     - Tv Staanlamp
   room: Woonkamer
-light.milight_bridge_kitchen:
+light.milight_keuken_bridge:
   name: Keuken Tv Licht
   aliases:
     - Tv Licht
@@ -17,14 +17,14 @@ light.milight_bridge_kitchen:
     - Keuken Tv Lamp
     - Ambilight Keuken
   room: Keuken
-light.milight_kitchen:
+light.milight_keuken:
   name: Keuken Licht
   aliases:
     - Led Strip
     - Keuken Led
     - Led Keuken
   room: Keuken
-light.milight_bathroom:
+light.milight_badkamer:
   name: Badkamer Licht
   aliases:
     - Led Strip

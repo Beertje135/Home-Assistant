@@ -2,6 +2,8 @@
 
     input_select.woning_status:
       icon: mdi:home
+      friendly_name: Our Home Status
 
     input_select.harmony_hub:
       icon: mdi:television
+      friendly_name: Livingroom Television Status

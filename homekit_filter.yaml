@@ -2,7 +2,6 @@ include_domains:
   - climate
   - input_boolean
   - light
-  - switch
 exclude_domains:
   - automation
   - alarm_control_panel
@@ -17,6 +16,7 @@ exclude_domains:
   - scene
   - script
   - sensor
+  - switch
 include_entities:
   - binary_sensor.keuken_sensor_motion
   - binary_sensor.dressing_sensor_motion
@@ -27,12 +27,13 @@ include_entities:
   - sensor.smappee_ons_huisje_water_sensor_temperature
   - sensor.smappee_ons_huisje_water_sensor_humidity
   - sensor.humidity_arlobaby
-  - media_player.alexa_kitchen_1
+  - media_player.kitchen_alexa_1
   - group.bezoekers
   - device_tracker.router_iphone_bert
   - device_tracker.router_iphone_caro
   - script.vacuum_on
   - script.vacuum_off
+  - switch.wake_on_lan
 exclude_entities:
   - input_boolean.notify_bert
   - input_boolean.notify_caro
@@ -46,40 +47,3 @@ exclude_entities:
   - input_boolean.trigger_just_awake_dressing
   - input_boolean.trigger_just_sleep_dressing
   - climate.ons_huisje
-  - switch.unifi_raspberry_pi
-  - switch.honeywell_hub
-  - switch.honeywell_hub_le_sucre
-  - switch.solar_edge_lan
-  - switch.pc_bert_lan
-  - switch.apple_tv_4_woonkamer
-  - switch.phillips_hue_hub
-  - switch.alexa_bathroom_do_not_disturb_switch
-  - switch.alexa_bathroom_repeat_switch
-  - switch.alexa_bathroom_shuffle_switch
-  - switch.alexa_bedroom_do_not_disturb_switch
-  - switch.alexa_bedroom_repeat_switch
-  - switch.alexa_bedroom_shuffle_switch
-  - switch.alexa_garden_do_not_disturb_switch
-  - switch.alexa_garden_repeat_switch
-  - switch.alexa_garden_shuffle_switch
-  - switch.alexa_kitchen_1_do_not_disturb_switch
-  - switch.alexa_kitchen_1_repeat_switch
-  - switch.alexa_kitchen_1_shuffle_switch
-  - switch.alexa_kitchen_2_do_not_disturb_switch
-  - switch.alexa_kitchen_2_repeat_switch
-  - switch.alexa_kitchen_2_shuffle_switch
-  - switch.alexa_livingroom_do_not_disturb_switch
-  - switch.alexa_livingroom_repeat_switch
-  - switch.alexa_livingroom_shuffle_switch
-  - switch.downstairs_do_not_disturb_switch
-  - switch.downstairs_repeat_switch
-  - switch.downstairs_shuffle_switch
-  - switch.everywhere_do_not_disturb_switch
-  - switch.everywhere_repeat_switch
-  - switch.everywhere_shuffle_switch
-  - switch.this_device_do_not_disturb_switch
-  - switch.this_device_repeat_switch
-  - switch.this_device_shuffle_switch
-  - switch.upstairs_do_not_disturb_switch
-  - switch.upstairs_repeat_switch
-  - switch.upstairs_shuffle_switch

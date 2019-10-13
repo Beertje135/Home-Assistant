@@ -3,4 +3,4 @@ alias: Licht - Milight - Woonkamer - Uit - Tv
 sequence:
   - service: light.turn_off
     entity_id:
-      - light.milight_bridge_living_room
+      - light.milight_woonkamer_bridge

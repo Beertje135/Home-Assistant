@@ -6,7 +6,7 @@ sequence:
     below: !secret lux_kitchen_low
   - service: light.turn_on
     entity_id:
-      - light.milight_kitchen
+      - light.milight_keuken
     data:
       hs_color: [195.059,100]
       brightness: 200

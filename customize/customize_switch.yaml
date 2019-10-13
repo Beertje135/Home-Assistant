@@ -1,0 +1,11 @@
+# CUSTOMIZATION FOR SWITCHES
+
+    switch.wake_on_lan:
+      icon: mdi:desktop-tower-monitor
+      friendly_name: Kitchen Computer
+      display_categories: smartplug
+
+    switch.unifi_raspberry_pi:
+      icon: mdi:raspberry-pi
+      friendly_name: Basement Raspberry Pi POE
+      display_categories: smartplug

@@ -16,7 +16,7 @@ sequence:
   - delay: 00:00:05
   - service: media_player.volume_set
     data_template:
-      entity_id: media_player.alexa_bathroom
+      entity_id: media_player.bathroom_alexa
       volume_level: >
         {% if (states.sensor.time.state) <= "08:30" and now().weekday() in (0,1,2,3,4) %}
           0.1

@@ -141,7 +141,7 @@
       - condition: template
         value_template: "{{ states('input_select.woning_status') in ['Vakantie'] and states('group.bezoekers') in ['home'] }}"
   - condition: template
-    value_template: "{{ states('light.milight_kitchen') in ['off'] or state_attr('light.milight_kitchen', 'brightness') < 250 }}"
+    value_template: "{{ states('light.milight_keuken') in ['off'] or state_attr('light.milight_keuken', 'brightness') < 250 }}"
   action:
   - service: script.turn_on
     entity_id: script.light_all_kitchen_on
@@ -161,7 +161,7 @@
     to: 'off'
   condition:
   - condition: state
-    entity_id: light.milight_kitchen
+    entity_id: light.milight_keuken
     state: 'on'
   action:
   - service: script.turn_on
@@ -177,7 +177,7 @@
     to: 'off'
   condition:
   - condition: state
-    entity_id: light.milight_kitchen
+    entity_id: light.milight_keuken
     state: 'on'
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Slapen', 'Juist Weg', 'Weg', 'Vakantie'] }}"
@@ -194,7 +194,7 @@
     to: 'off'
   condition:
   - condition: state
-    entity_id: light.milight_kitchen
+    entity_id: light.milight_keuken
     state: 'on'
   action:
   - service: script.turn_on
@@ -221,7 +221,7 @@
     entity_id: sensor.living_sensor_light_level
     below: !secret lux_livingroom_low
   - condition: template
-    value_template: "{{ states('light.hue_woonkamer_smart_plug_one') in ['off'] or (states('light.milight_bridge_living_room') in ['off'] and states('input_select.harmony_hub') not in ['Powered Off', 'Alexa']) }}"
+    value_template: "{{ states('light.hue_woonkamer_smart_plug_one') in ['off'] or (states('light.milight_woonkamer_bridge') in ['off'] and states('input_select.harmony_hub') not in ['Powered Off', 'Alexa']) }}"
   - condition: or
     conditions:
       - condition: template
@@ -332,7 +332,7 @@
     to: 'off'
   condition:
   - condition: state
-    entity_id: light.milight_bridge_living_room
+    entity_id: light.milight_woonkamer_bridge
     state: 'on'
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Slapen', 'Juist Weg', 'Weg'] }}"

@@ -3,4 +3,4 @@ alias: Radio - Alexa Stop Living Room
 sequence:
   - service: media_player.turn_off
     entity_id:
-      - media_player.alexa_livingroom
+      - media_player.livingroom_alexa

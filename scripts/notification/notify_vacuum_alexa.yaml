@@ -12,8 +12,8 @@ sequence:
   - service: notify.alexa_media
     data_template:
       target:
-        - media_player.alexa_kitchen_2
-        - media_player.alexa_bathroom
+        - media_player.kitchen_alexa_2
+        - media_player.bathroom_alexa
       message: >
         {% if states.vacuum.dusty.attributes.status == 'Stuck' %}
           'Dusty is stuck. Stupid Dusty'

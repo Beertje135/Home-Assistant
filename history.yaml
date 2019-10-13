@@ -3,9 +3,9 @@
     domains:
       - climate
       - input_select
-      - light
       - person
       - vacuum
+      - calendar
     entities:
       - group.bewoners
       - group.bewoners_router
@@ -13,48 +13,20 @@
       - binary_sensor.dressing_sensor_motion
       - binary_sensor.keuken_sensor_motion
       - binary_sensor.living_sensor_motion
-      - light.hue_keuken_smart_plug
-      - light.hue_woonkamer_smart_plug_one
-      - light.hue_woonkamer_smart_plug_two
-      - light.hue_veranda_smart_plug
+      - group.licht_keuken
+      - group.licht_badkamer
+      - group.licht_dressing
+      - group.licht_woonkamer
+      - group.licht_veranda
+      - group.licht_kamer_elmo
       - switch.pc_bert_lan
       - input_boolean.plex_kitchen
       - input_boolean.plex_livingroom
-      - sensor.dressing_sensor_light_level
-      - sensor.keuken_sensor_light_level
-      - sensor.living_sensor_light_level
-      - sensor.smappee_ons_huisje_water_sensor_temperature
-      - sensor.smappee_ons_huisje_water_sensor_humidity
-      - sensor.smappee_ons_huisje_power_today
-      - sensor.elektricity_monthly_peak
-      - sensor.elektricity_monthly_peak_last_period
-      - sensor.solaredge_energy_today_template
-      - sensor.solaredge_energy_this_month_template
-      - sensor.solar_monthly_peak_last_period
-      - sensor.solaredge_energy_this_year_template
-      - sensor.solaredge_lifetime_energy_template
-      - sensor.water_meter
-      - sensor.water_monthly_peak
-      - sensor.water_monthly_peak_last_period
-      - sensor.gas_meter
-      - sensor.gas_monthly_peak
-      - sensor.gas_monthly_peak_last_period
-      - sensor.memory_use_percent
-      - sensor.processor_use
-      - sensor.disk_use_percent_home
-      - sensor.smappee_ons_huisje_water_sensor_battery
       - sensor.climate_ons_huisje_mode
-      - sensor.climate_keuken_set
-      - sensor.climate_woonkamer_set
-      - sensor.clilate_badkamer_set
-      - sensor.climate_slp_kamer_set
-      - sensor.climate_kamer_elmo_set
-      - sensor.climate_dressing_set
   exclude:
     domains:
       - automation
       - binary_sensor
-      - calendar
       - device_tracker
       - group
       - input_boolean

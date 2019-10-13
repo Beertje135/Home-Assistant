@@ -3,7 +3,6 @@
 # ENTITY INPUT SELECT FOR HOME STATUS
 
   woning_status:
-    name: WONING
     options:
       - Juist Weg
       - Juist Thuis
@@ -17,7 +16,6 @@
 # ENTITY INPUT SELECT FOR HARMONY REMOTE
 
   harmony_hub:
-    name: WOONKAMER TV
     options:
       - Powered Off
       - Alexa

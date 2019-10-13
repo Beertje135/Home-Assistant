@@ -73,10 +73,12 @@ views:
               - entity: person.niki
               - entity: person.marcus
               - entity: person.nancy
+              - entity: vacuum.dusty
             show_header_toggle: false
             show_empty: false
             state_filter:
               - home
+              - 'on'
             type: entity-filter
           - cards:
               - cards:
@@ -142,7 +144,7 @@ views:
                     type: glance
                   - entities:
                       - artwork: cover
-                        entity: media_player.alexa_kitchen_1
+                        entity: media_player.kitchen_alexa_1
                         group: true
                         hide:
                           mute: true
@@ -195,7 +197,7 @@ views:
                       type: entities
                     entities:
                       - artwork: cover
-                        entity: media_player.alexa_kitchen_2
+                        entity: media_player.kitchen_alexa_2
                         group: true
                         hide:
                           mute: true
@@ -214,7 +216,7 @@ views:
                       type: entities
                     entities:
                       - artwork: cover
-                        entity: media_player.alexa_garden
+                        entity: media_player.garden_alexa
                         group: true
                         hide:
                           mute: true
@@ -233,7 +235,7 @@ views:
                       type: entities
                     entities:
                       - artwork: cover
-                        entity: media_player.alexa_livingroom
+                        entity: media_player.livingroom_alexa
                         group: true
                         hide:
                           mute: true
@@ -252,7 +254,7 @@ views:
                       type: entities
                     entities:
                       - artwork: cover
-                        entity: media_player.alexa_bathroom
+                        entity: media_player.bathroom_alexa
                         group: true
                         hide:
                           mute: true
@@ -289,7 +291,7 @@ views:
                       type: entities
                     entities:
                       - artwork: cover
-                        entity: media_player.alexa_bedroom
+                        entity: media_player.bedroom_alexa
                         group: true
                         hide:
                           mute: true
@@ -399,18 +401,31 @@ views:
                   - content: |
                       **TEMPERATUUR**
                     type: markdown
-                  - columns: 4
-                    entities:
-                      - entity: sensor.climate_woonkamer_current
-                      - entity: sensor.climate_keuken_current
-                      - entity: sensor.climate_kamer_elmo_current
-                      - entity: sensor.climate_slp_kamer_current
-                      - entity: sensor.climate_badkamer_current
-                      - entity: sensor.climate_dressing_current
+                  - entities:
+                      - entity: climate.keuken
+                        icon: mdi:stove
+                        name: Keuken
+                      - entity: climate.woonkamer
+                        icon: mdi:sofa
+                        name: Woonkamer
+                      - entity: climate.badkamer
+                        icon: mdi:shower
+                        name: Badkamer
+                      - entity: climate.dressing
+                        icon: mdi:hanger
+                        name: Dressing
+                      - entity: climate.slp_kamer
+                        icon: mdi:bed-empty
+                        name: Slp Kamer
+                      - entity: climate.kamer_elmo
+                        icon: mdi:baby-carriage
+                        name: Elmo Kamer
                       - entity: sensor.smappee_ons_huisje_water_sensor_temperature
+                        icon: mdi:stairs
+                        name: Kelder
                     show_header_toggle: false
                     show_name: false
-                    type: glance
+                    type: entities
                 type: vertical-stack
               - cards:
                   - content: |
@@ -544,10 +559,12 @@ views:
               - entity: person.niki
               - entity: person.marcus
               - entity: person.nancy
+              - entity: vacuum.dusty
             show_header_toggle: false
             show_empty: false
             state_filter:
               - home
+              - 'on'
             type: entity-filter
           - cards:
               - cards:
@@ -584,7 +601,7 @@ views:
                             name: Spacewalker
                             tap_action:
                               action: toggle
-                          - entity: light.milight_bridge_living_room
+                          - entity: light.milight_woonkamer_bridge
                             name: Led Tv
                             tap_action:
                               action: toggle
@@ -598,7 +615,7 @@ views:
                           type: entities
                         entities:
                           - artwork: cover
-                            entity: media_player.alexa_livingroom
+                            entity: media_player.livingroom_alexa
                             group: true
                             hide:
                               mute: true
@@ -678,9 +695,9 @@ views:
                       - entity: binary_sensor.keuken_sensor_motion
                         name: Beweging
                       - type: divider
-                      - entity: light.milight_kitchen
+                      - entity: light.milight_keuken
                         name: Led Strip
-                      - entity: light.milight_bridge_kitchen
+                      - entity: light.milight_keuken_bridge
                         name: Led Tv
                       - entity: switch.wake_on_lan
                         name: Computer
@@ -697,7 +714,7 @@ views:
                       type: entities
                     entities:
                       - artwork: cover
-                        entity: media_player.alexa_kitchen_2
+                        entity: media_player.kitchen_alexa_2
                         group: true
                         hide:
                           mute: true
@@ -727,7 +744,7 @@ views:
                     type: entity-filter
                   - entities:
                       - artwork: cover
-                        entity: media_player.alexa_kitchen_1
+                        entity: media_player.kitchen_alexa_1
                         group: true
                         hide:
                           mute: true
@@ -806,7 +823,7 @@ views:
                           type: entities
                         entities:
                           - artwork: cover
-                            entity: media_player.alexa_bedroom
+                            entity: media_player.bedroom_alexa
                             group: true
                             hide:
                               mute: true
@@ -857,7 +874,7 @@ views:
                           - entity: climate.badkamer
                             name: Temp
                           - type: divider
-                          - entity: light.milight_bathroom
+                          - entity: light.milight_badkamer
                             name: Led Strip
                         id: 4921c6ad0a4b401097a2395de7b3ac89
                         show_header_toggle: false
@@ -896,7 +913,7 @@ views:
                         type: entity-filter
                       - entities:
                           - artwork: cover
-                            entity: media_player.alexa_bathroom
+                            entity: media_player.bathroom_alexa
                             group: true
                             hide:
                               mute: true
@@ -1087,10 +1104,12 @@ views:
               - entity: person.niki
               - entity: person.marcus
               - entity: person.nancy
+              - entity: vacuum.dusty
             show_header_toggle: false
             show_empty: false
             state_filter:
               - home
+              - 'on'
             type: entity-filter
           - entities:
               - entity: input_boolean.music_follow
@@ -1113,7 +1132,7 @@ views:
           - cards:
               - entities:
                   - artwork: cover
-                    entity: media_player.alexa_kitchen_1
+                    entity: media_player.kitchen_alexa_1
                     group: true
                     hide:
                       mute: true
@@ -1142,7 +1161,7 @@ views:
                           id: script.music_alexa_play_kitchen_spotify
                     type: 'custom:mini-media-player'
                   - artwork: cover
-                    entity: media_player.alexa_bathroom
+                    entity: media_player.bathroom_alexa
                     group: true
                     hide:
                       mute: true
@@ -1171,7 +1190,7 @@ views:
                           id: script.music_alexa_play_bathroom_spotify
                     type: 'custom:mini-media-player'
                   - artwork: cover
-                    entity: media_player.alexa_livingroom
+                    entity: media_player.livingroom_alexa
                     group: true
                     hide:
                       mute: true
@@ -1185,7 +1204,7 @@ views:
                       when_standby: true
                     type: 'custom:mini-media-player'
                   - artwork: cover
-                    entity: media_player.alexa_bedroom
+                    entity: media_player.bedroom_alexa
                     group: true
                     hide:
                       mute: true
@@ -1199,7 +1218,7 @@ views:
                       when_standby: true
                     type: 'custom:mini-media-player'
                   - artwork: cover
-                    entity: media_player.alexa_kitchen_2
+                    entity: media_player.kitchen_alexa_2
                     group: true
                     hide:
                       mute: true
@@ -1213,7 +1232,7 @@ views:
                       when_standby: true
                     type: 'custom:mini-media-player'
                   - artwork: cover
-                    entity: media_player.alexa_garden
+                    entity: media_player.garden_alexa
                     group: true
                     hide:
                       mute: true
@@ -1451,10 +1470,12 @@ views:
               - entity: person.niki
               - entity: person.marcus
               - entity: person.nancy
+              - entity: vacuum.dusty
             show_header_toggle: false
             show_empty: false
             state_filter:
               - home
+              - 'on'
             type: entity-filter
           - cards:
               - cards:
@@ -1711,10 +1732,12 @@ views:
               - entity: person.niki
               - entity: person.marcus
               - entity: person.nancy
+              - entity: vacuum.dusty
             show_header_toggle: false
             show_empty: false
             state_filter:
               - home
+              - 'on'
             type: entity-filter
           - cards:
               - cards:
