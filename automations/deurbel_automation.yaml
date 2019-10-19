@@ -1,0 +1,13 @@
+# AUTOMATIONS WHEN DOORBEL IS PRESSED
+
+- alias: Deurbel - Als Deurbel Gaat
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.doorbell_button
+    to: 'on'
+  condition:
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_deurbel
+      - script.remote_livingroom_tv_pause

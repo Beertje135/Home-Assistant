@@ -1,0 +1,26 @@
+
+alias: Notify - Als Deurbel Gaat - Alexa
+sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] or states('group.bezoekers') in ['home']}}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - service: notify.alexa_media
+    data:
+      target:
+        - media_player.kitchen_alexa_2
+      message: "There is someone at the front door"
+      data:
+        type: announce
+        method: speak
+  - condition: time
+    after: '06:00:00'
+    before: '20:00:00'
+  - service: notify.alexa_media
+    data:
+      target:
+        - media_player.bathroom_alexa
+      message: "There is someone at the front door"
+      data:
+        type: announce
+        method: speak

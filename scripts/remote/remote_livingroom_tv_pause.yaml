@@ -1,0 +1,13 @@
+
+alias: Remote - TV Pause
+sequence:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('input_select.harmony_hub') in ['Watch Tv'] -%}
+          script.remote_livingroom_tv_pause_belgacom
+        {%- elif states('input_select.woning_status') in ['Watch Plex'] -%}
+          script.remote_livingroom_tv_pause_apple_tv
+        {%- else -%}
+          script.empty
+        {%- endif %}

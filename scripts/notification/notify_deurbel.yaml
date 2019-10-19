@@ -1,0 +1,8 @@
+
+alias: Notify - Als Deubel Gaat
+sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_deurbel_ios_bert
+      - script.notify_deurbel_ios_caro
+      - script.notify_deurbel_alexa

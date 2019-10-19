@@ -1,0 +1,13 @@
+
+alias: Remote - TV Pause - Apple TV
+sequence:
+  - service: remote.send_command
+    data:
+      entity_id: remote.harmony_hub
+      command: Pause
+      device: Apple TV
+  - service: remote.send_command
+    data:
+      entity_id: remote.living_room
+      command: Pause
+      device: Apple TV
