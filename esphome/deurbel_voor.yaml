@@ -1,11 +1,15 @@
 esphome:
-  name: deurbel_voordeur
+  name: deurbel_voor
   platform: ESP8266
   board: esp01_1m
 
 wifi:
   ssid: !secret wifi_name
   password: !secret password_wifi
+  manual_ip:
+    static_ip: 192.168.1.16
+    gateway: 192.168.1.1
+    subnet: 255.255.255.0
 
 # Enable logging
 logger:
@@ -24,25 +28,25 @@ time:
 text_sensor:
   # Expose ESPHome version as sensor.
   - platform: version
-    name: Doorbell ESPHome Version
+    name: Deurbel Voor ESPHome Version
   # Expose WiFi information as sensors.
   - platform: wifi_info
     ip_address:
-      name: Doorbell IP
+      name: Deurbel Voor IP
     ssid:
-      name: Doorbell SSID
+      name: Deurbel Voor SSID
     bssid:
-      name: Doorbell BSSID
+      name: Deurbel Voor BSSID
 
 # Sensors with general information.
 sensor:
   # Uptime sensor.
   - platform: uptime
-    name: Doorbell Uptime
+    name: Deurbel Voor Uptime
 
   # WiFi Signal sensor.
   - platform: wifi_signal
-    name: Doorbell WiFi Signal
+    name: Deurbel Voor WiFi Signal
     update_interval: 60s
 
 # Global to store the on/off state of the chime
@@ -56,13 +60,13 @@ globals:
 switch:
   # Switch to restart the doorbell.
   - platform: restart
-    name: Doorbell Restart
+    name: Deurbel Voor Restart
 
   # Switch to turn on/off the chime.
   - platform: gpio
     id: relay
     inverted: true
-    name: Doorbell Chime
+    name: Deurbel Voor Chime
     pin: GPIO0
 
   # Switch to turn on/off chime when
@@ -71,7 +75,7 @@ switch:
   # It creates a "virtual" switch based
   # on a global variable.
   - platform: template
-    name: Doorbell Chime Active
+    name: Deurbel Voor Chime Active
     id: chime_active
     restore_state: false
     turn_on_action:
@@ -89,7 +93,7 @@ switch:
 binary_sensor:
   - platform: gpio
     id: button
-    name: Doorbell Button
+    name: Deurbel Voor Button
     pin:
       # Connected to GPIO on the ESP-01S.
       number: GPIO2

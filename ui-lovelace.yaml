@@ -1829,6 +1829,24 @@ views:
                 id: 42a109b473924f3f89d8edf9a55ed2ce
                 type: vertical-stack
               - cards:
+                  - content: |
+                      **DEURBEL VOOR**
+                    type: markdown
+                  - entities:
+                      - entity: binary_sensor.deurbel_voor_button
+                        name: Deurbel
+                      - entity: switch.deurbel_voor_chime
+                        name: Deurbel Gong
+                      - entity: switch.deurbel_voor_chime_active
+                        name: Deurbel Gong Actief
+                      - entity: switch.deurbel_voor_restart
+                        name: Deurbel Restart
+                    show_header_toggle: false
+                    columns: 2
+                    show_name: true
+                    type: glance
+                type: vertical-stack
+              - cards:
                   - card:
                       type: entities
                     entities:

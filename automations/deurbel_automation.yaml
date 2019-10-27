@@ -3,7 +3,7 @@
 - alias: Deurbel - Als Deurbel Gaat
   trigger:
   - platform: state
-    entity_id: binary_sensor.doorbell_button
+    entity_id: binary_sensor.deurbel_voor_button
     to: 'on'
   condition:
   action:
