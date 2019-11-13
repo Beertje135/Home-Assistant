@@ -205,11 +205,6 @@
 # SENSOR TO CONNECT ARLO BABY CAMERA
 
 - platform: arlo
-  monitored_conditions:
-    - temperature
-    - humidity
-    - air_quality
-    - battery_level
 
 # SENSOR TO USE DATE AND TIME
 

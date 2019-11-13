@@ -1112,10 +1112,6 @@ views:
               - 'on'
             type: entity-filter
           - entities:
-              - entity: input_boolean.music_follow
-                name: Muziek Volgen
-                tap_action:
-                  action: toggle
               - entity: light.hue_keuken_smart_plug
                 name: Speakers Keuken
                 tap_action:
@@ -1124,9 +1120,21 @@ views:
                 name: Plex Server
                 tap_action:
                   action: toggle
+            id: 3f01b654b29942adb40d3bab57bede4a
+            show_header_toggle: false
+            type: glance
+          - entities:
+              - entity: input_boolean.music_follow
+                name: Muziek Volgen
+                tap_action:
+                  action: toggle
+              - entity: input_boolean.keep_pc_on
+                name: PC Always On
+                tap_action:
+                  action: toggle
               - entity: group.plex_players
                 name: Plex Players
-            id: 3f01b654b29942adb40d3bab57bede4a
+            id: 3f01b654b29942adb40d3bab57bede4b
             show_header_toggle: false
             type: glance
           - cards:

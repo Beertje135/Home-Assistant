@@ -56,3 +56,6 @@
 
 #Used to stop Dusty from vacuming multiple times a day
   vacuum_cleaned_today:
+
+#Used to keep PC on when away
+  keep_pc_on:

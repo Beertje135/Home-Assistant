@@ -54,3 +54,7 @@
     input_boolean.plex_kitchen:
       icon: mdi:plex
       friendly_name: Kitchen Plex Boolean
+
+    input_boolean.keep_pc_on:
+      icon: mdi:desktop-tower-monitor
+      friendly_name: Keep PC On

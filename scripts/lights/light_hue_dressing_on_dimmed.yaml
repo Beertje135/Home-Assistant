@@ -1,9 +1,6 @@
 
 alias: Licht - Hue - Dressing - Aan - Dimmed
 sequence:
-  - condition: numeric_state
-    entity_id: sensor.dressing_sensor_light_level
-    below: !secret lux_dressing_low
   - service: light.turn_on
     entity_id:
       - light.hue_dressing_two
