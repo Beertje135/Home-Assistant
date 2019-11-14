@@ -5,9 +5,13 @@ sequence:
     value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') not in ['home'] }}"
   - service: notify.ios_ios_iphone_bert
     data_template:
+      title: "BEZOEKER"
       message: >
         {% if (bezoeker_state) == 'home' %}
           {{ bezoeker }} is aangekomen bij ons thuis.
         {% else %}
           {{ bezoeker }} is weer vertrokken.
         {% endif %}
+      data:
+        push:
+          thread-id: "bezoek"

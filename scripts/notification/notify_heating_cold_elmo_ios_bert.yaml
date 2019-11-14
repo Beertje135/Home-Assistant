@@ -5,4 +5,8 @@ sequence:
     value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') in ['home'] }}"
   - service: notify.ios_ios_iphone_bert
     data_template:
+      title: "VERWARMING"
       message: Het is koud op Elmo zijn kamer! Staat er nog een raam open?
+      data:
+        push:
+          thread-id: "huis"

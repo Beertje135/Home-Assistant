@@ -5,6 +5,7 @@ sequence:
     value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') in ['home'] }}"
   - service: notify.ios_ios_iphone_bert
     data_template:
+      title: "VUILZAKKEN"
       message: >
         {% if ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_restafval.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_papier.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_pmd.state) %}
           Zet vandaag PMD, PAPIER en RESTAFVAL buiten, morgen komen ze deze ophalen.
@@ -23,6 +24,9 @@ sequence:
         {% else %}
           Check even of er afval buiten moet. Ik ben niet zeker.
         {% endif %}
+      data:
+        push:
+          thread-id: "huis"
 
 #"{{ as_timestamp(states.sensor.ophaalkalender_restafval.state) != as_timestamp(states.sensor.date.state) }}"
 

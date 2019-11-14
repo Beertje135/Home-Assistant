@@ -6,7 +6,7 @@
 #    hidden: false
 #    homebridge_hidden: false (see homekit_filter)
 #    emulated_hue_hidden: false (deprecated see configuration file)
-    icon: mdi:thermostat
+#    icon: mdi:thermostat
     assumed_state: False
 #    device_class: None (only for Binary Sensor, Sensor, Cover)
 #    unit_of_measurement: None

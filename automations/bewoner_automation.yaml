@@ -39,6 +39,29 @@
           script.notify_tracker_caro_thuis_ios_bert
         {% endif %}
 
+- alias: Bewoner - Thuis - Babysit
+  initial_state: 'off'
+  trigger:
+  - platform: state
+    entity_id:
+      - person.caroline
+      - person.bert
+    to: home
+    from: not_home
+  condition:
+  - condition: state
+    entity_id: input_boolean.visitor
+    state: 'on'
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if trigger.from_state.entity_id == 'person.caroline' %}
+          script.notify_bezoeker_babysit_ios_caro
+        {% elif trigger.from_state.entity_id == 'person.bert' %}
+          script.notify_bezoeker_babysit_ios_bert
+        {% endif %}
+
 - alias: Bewoner - Aan Opvang
   trigger:
   - platform: template
@@ -124,7 +147,7 @@
       - fri
   action:
   - service: script.turn_on
-    entity_id: script.notify_nmbs_willebroek_mechelen
+    entity_id: script.notify_nmbs_willebroek_mechelen_ios_bert
 
 - alias: Bewoner - Bert - Aan Mechelen Station
   trigger:
@@ -144,9 +167,9 @@
     data_template:
       entity_id: >
         {% if ((states.sensor.time.state) <= "13:00") %}
-          script.notify_nmbs_mechelen_brussel
+          script.notify_nmbs_mechelen_brussel_ios_bert
         {% else %}
-          script.notify_nmbs_mechelen_willebroek
+          script.notify_nmbs_mechelen_willebroek_ios_bert
         {% endif %}
 
 - alias: Bewoner - Bert - Aan Brussel Station
@@ -165,7 +188,7 @@
       - fri
   action:
   - service: script.turn_on
-    entity_id: script.notify_nmbs_brussel_mechelen
+    entity_id: script.notify_nmbs_brussel_mechelen_ios_bert
 
 - alias: Bewoner - Bert - Aan Willebroek Station Change
   trigger:
@@ -185,7 +208,7 @@
       - fri
   action:
   - service: script.turn_on
-    entity_id: script.notify_nmbs_willebroek_mechelen
+    entity_id: script.notify_nmbs_willebroek_mechelen_ios_bert
 
 - alias: Bewoner - Bert - Aan Mechelen Station Change Wil
   trigger:
@@ -205,7 +228,7 @@
       - fri
   action:
   - service: script.turn_on
-    entity_id: script.notify_nmbs_mechelen_willebroek
+    entity_id: script.notify_nmbs_mechelen_willebroek_ios_bert
 
 - alias: Bewoner - Bert - Aan Mechelen Station Change Brus
   trigger:
@@ -225,7 +248,7 @@
       - fri
   action:
   - service: script.turn_on
-    entity_id: script.notify_nmbs_mechelen_brussel
+    entity_id: script.notify_nmbs_mechelen_brussel_ios_bert
 
 - alias: Bewoner - Bert - Aan Brussel Station Change
   trigger:
@@ -245,4 +268,4 @@
       - fri
   action:
   - service: script.turn_on
-    entity_id: script.notify_nmbs_brussel_mechelen
+    entity_id: script.notify_nmbs_brussel_mechelen_ios_bert

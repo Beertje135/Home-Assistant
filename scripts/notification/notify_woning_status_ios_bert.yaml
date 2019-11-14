@@ -7,6 +7,7 @@ sequence:
     value_template: "{{ (states('person.bert') not in ['home'] and states('input_select.woning_status') in ['Vakantie']) or (states('person.bert') in ['home'] and states('input_select.woning_status') in ['Dag Thuis'] and (states.sensor.time.state) <= '16:00') }}"
   - service: notify.ios_ios_iphone_bert
     data_template:
+      title: "STATUS WONING"
       message: >
         {% if states('person.bert') not in ['home'] and states('input_select.woning_status') in ['Vakantie'] %}
           Het lijkt alsof jullie op vakantie zijn. Fijne vakantie geniet er van en binnenkort.
@@ -15,3 +16,6 @@ sequence:
         {% else %}
           Het lijkt alsof je nog thuis bent vandaag. Ik zal de verwarming aan laten.
         {% endif %}
+      data:
+        push:
+          thread-id: "huis"

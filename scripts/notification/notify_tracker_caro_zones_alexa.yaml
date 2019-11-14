@@ -26,6 +26,8 @@ sequence:
           'Caroline is on her way home from work.'
         {% elif states('person.caroline') in ['Checkpoint 2', 'Checkpoint 3', 'Checkpoint 5'] %}
           'Caroline is almost home.'
+        {% else %}
+          'hmmm'
         {% endif %}
       data:
         type: announce

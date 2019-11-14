@@ -3,7 +3,11 @@ alias: Notify - Hassio Update
 sequence:
   - service: notify.ios_ios_iphone_bert
     data:
+      title: "SERVER UPDATE"
       message: Er is een update beschikbaar.
+      data:
+        push:
+          thread-id: "server"
   - condition: template
     value_template: "{{ states('group.bewoners_router') in ['home'] }}"
   - condition: template

@@ -1,0 +1,11 @@
+
+alias: Notify - Babysit Wanneer Thuis - Ios Bert
+sequence:
+  - service: notify.ios_ios_iphone_bert
+    data:
+      title: "BABYSIT"
+      message: "Mag babysit afgemeld worden? (Action)"
+      data:
+        push:
+          category: "bezoeker"
+          thread-id: "bezoek"

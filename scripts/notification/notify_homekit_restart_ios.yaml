@@ -5,4 +5,8 @@ sequence:
     value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') not in ['home'] }}"
   - service: notify.ios_ios_iphone_bert
     data_template:
+      title: "HOMEKIT"
       message: Alle componenten gevonden. Ik start HomeKit opnieuw op.
+      data:
+        push:
+          thread-id: "server"

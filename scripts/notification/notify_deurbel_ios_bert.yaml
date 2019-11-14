@@ -5,4 +5,8 @@ sequence:
     value_template: "{{ (states('input_boolean.notify_bert') in ['on'] and states('device_tracker.router_iphone_bert') in ['home']) or (states('input_boolean.notify_bert') in ['on'] and states('device_tracker.router_iphone_bert') in ['not_home']) }}"
   - service: notify.ios_ios_iphone_bert
     data_template:
+      title: "VOORDEUR"
       message: Ding Dong! Er staat iemand aan de voordeur.
+      data:
+        push:
+          thread-id: "bezoek"

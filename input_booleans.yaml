@@ -1,12 +1,12 @@
 # CREATION OF INPUT BOOLEANS
 
-# Used to show this in Harmony app
+#Used to show this light in Harmony app
   light_livingroom:
 
 #Used to keep dressing lights on
   light_dressing_stay_on:
 
-#Used to turn on/off all lights downstairs
+#Used to turn on/off all lights downstairs and not respond to sensors
   light_downstairs:
 
 #used to keep vistor at home without device tracker

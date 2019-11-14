@@ -45,3 +45,58 @@
     data_template:
       bezoeker: '{{ trigger.to_state.attributes.friendly_name }}'
       bezoeker_state: '{{ trigger.to_state.state }}'
+
+- alias: Bezoeker - Babysit - Aangekomen
+  trigger:
+  - platform: state
+    entity_id: calendar.babysit_agenda
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.visitor
+    state: 'off'
+  action:
+  - service: input_boolean.turn_on
+    entity_id:
+      - input_boolean.visitor
+
+- alias: Bezoeker - Babysit - Vertrokken
+  trigger:
+  - platform: state
+    entity_id: calendar.babysit_agenda
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: input_boolean.visitor
+    state: 'off'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_bezoeker_babysit_ios_caro
+      - script.notify_bezoeker_babysit_ios_bert
+
+- alias: Bezoeker - Babysit - Blijft
+  trigger:
+  - platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: LEAVE_VISITOR
+  condition:
+  - condition: state
+    entity_id: input_boolean.visitor
+    state: 'off'
+  action:
+  - service: input_boolean.turn_on
+    entity_id:
+      - input_boolean.visitor
+
+- alias: Bezoeker - Babysit - Gaat Weg
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: RESET_VISITOR
+  action:
+  - service: input_boolean.turn_off
+    entity_id:
+      - input_boolean.visitor

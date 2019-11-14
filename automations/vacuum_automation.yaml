@@ -1,6 +1,6 @@
 # AUTOMATION AMPLIFIER LIVING ROOM
 
-- alias: Vacuum Dusty - Notify Status Dusty Changes
+- alias: Vacuum Dusty - Notify - Status Dusty Changes
   initial_state: 'off'
   trigger:
   - platform: template
@@ -21,7 +21,7 @@
     entity_id:
       - script.notify_vacuum
 
-- alias: Vacuum Dusty - Notify Status Woning Changes
+- alias: Vacuum Dusty - Notify - Status Woning Changes
   initial_state: 'off'
   trigger:
   - platform: state
@@ -55,7 +55,21 @@
     entity_id:
       - input_boolean.vacuum_cleaned_today
 
-- alias: Vacuum Dusty - Cleaned Today Reset
+- alias: Vacuum Dusty - Cleaned Today - Kuishulp
+  trigger:
+  - platform: state
+    entity_id: calendar.kuishulp_agenda
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.vacuum_cleaned_today
+    state: 'off'
+  action:
+  - service: input_boolean.turn_on
+    entity_id:
+      - input_boolean.vacuum_cleaned_today
+
+- alias: Vacuum Dusty - Cleaned Today - Reset
   trigger:
   - platform: time
     at: '23:59:00'

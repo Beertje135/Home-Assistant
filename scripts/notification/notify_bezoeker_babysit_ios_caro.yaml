@@ -1,0 +1,12 @@
+
+alias: Notify - Babysit Wanneer Thuis - Ios Caro
+sequence:
+  - service: notify.ios_ios_iphone_caro
+    data:
+      title: "BABYSIT"
+      message: "Mag babysit afgemeld worden? (Action)"
+      data:
+        push:
+          badge: 5
+          category: "bezoeker"
+          thread-id: "bezoek"
