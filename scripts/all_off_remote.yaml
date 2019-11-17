@@ -6,8 +6,6 @@ sequence:
       - remote.harmony_hub
       - remote.living_room
   - delay: 00:05:00
-  - condition: template
-    value_template: "{{ states('input_select.woning_status') in ['Weg', 'Vankantie'] }}"
   - condition: state
     entity_id: input_boolean.keep_pc_on
     state: 'off'

@@ -4,3 +4,5 @@ sequence:
   - service: script.turn_on
     entity_id:
       - script.notify_heating_cold_elmo_alexa
+      - script.notify_heating_cold_elmo_ios_bert
+      - script.notify_heating_cold_elmo_ios_caro

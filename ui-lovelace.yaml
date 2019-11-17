@@ -1,500 +1,504 @@
 resources:
-  - type: js
-    url: /local/custom-lovelace/card-tools/card-tools.js?v=f5bb8e
+  - url: /community_plugin/lovelace-card-tools/card-tools.js
+    type: module
   - url: /community_plugin/mini-media-player/mini-media-player.js
     type: module
-  - type: js
-    url: /local/custom-lovelace/layout-card/layout-card.js?v=2b29c0
+  - url: /community_plugin/lovelace-layout-card/layout-card.js
+    type: module
+  - url: /community_plugin/entity-attributes-card/entity-attributes-card.js
+    type: js
 title: Home
 views:
-  - badges: []
-    cards:
-      - cards:
-          - card:
-              show_name: false
-              type: glance
-            entities:
-              - entity: input_select.woning_status
-              - entity: climate.ons_huisje
-              - entity: person.bert
-              - entity: person.caroline
-            show_header_toggle: false
-            state_filter:
-              - home
-              - not_home
-              - 'on'
-              - 'off'
-              - Juist Thuis
-              - Thuis
-              - Juist Weg
-              - Weg
-              - Slapen
-              - Juist Wakker
-              - Dag Thuis
-              - Vakantie
-              - Mama & Mark
-              - Oma
-              - Nelly
-              - Elly
-              - Nancy
-              - Niki & Marcus
-              - Andy
-              - Hoevelei
-              - Werk (Bert)
-              - Werk (Caro)
-              - Willebroek Station
-              - Mechelen Station
-              - Brussel Station
-              - Checkpoint 1
-              - Checkpoint 2
-              - Chekcpoint 3
-              - Checkpoint 4
-              - Ziekenhuis St-Augustinus
-              - Ziekenhuis Willebroek
-              - Ziekenhuis Edegem
-              - Ziekenhuis Reet
-              - Ziekenhuis Middelheim
-            type: entity-filter
-          - card:
-              show_name: true
-              show_state: false
-              type: glance
-            entities:
-              - entity: sensor.bezoek
-              - entity: sensor.kuishulp
-              - entity: sensor.babysit
-              - entity: person.mama
-              - entity: person.mark
-              - entity: person.papa
-              - entity: person.karen
-              - entity: person.andy
-              - entity: person.oma
-              - entity: person.thomas
-              - entity: person.niki
-              - entity: person.marcus
-              - entity: person.nancy
-              - entity: vacuum.dusty
-            show_header_toggle: false
-            show_empty: false
-            state_filter:
-              - home
-              - 'on'
-            type: entity-filter
-          - cards:
-              - cards:
-                  - card:
-                      show_name: false
-                      type: entities
-                    entities:
-                      - entity: climate.ons_huisje
-                        name: Evohome
-                    show_header_toggle: false
-                    show_empty: false
-                    state_filter:
-                      - heat
-                    type: entity-filter
-                  - content: |
-                      **VERLICHTING**
-                    type: markdown
-                  - entities:
-                      - entity: light.hue_woonkamer_smart_plug_one
-                        name: Woonkamer Led Lichtjes
-                        tap_action:
-                          action: toggle
-                      - entity: light.hue_woonkamer_smart_plug_two
-                        name: Woonkamer Spacewalker
-                        tap_action:
-                          action: toggle
-                      - entity: light.hue_woonkamer
-                        name: Woonkamer Lamp Moooi
-                        tap_action:
-                          action: toggle
-                      - entity: light.hue_veranda_smart_plug
-                        name: Veranda Led Lichtjes
-                        tap_action:
-                          action: toggle
-                      - entity: light.hue_veranda
-                        name: Veranda Arco
-                      - entity: light.hue_kamer_elmo_one
-                        name: Elmo's Staanlamp
-                    show_header_toggle: false
-                    type: entities
-                  - entities:
-                      - entity: input_boolean.light_downstairs
-                        name: Sensors Beneden
-                        tap_action:
-                          action: toggle
-                    show_header_toggle: false
-                    type: entities
-                type: vertical-stack
-              - cards:
-                  - content: |
-                      **MULTIMEDIA**
-                    type: markdown
-                  - entities:
-                      - entity: input_select.harmony_hub
-                      - entity: light.hue_keuken_smart_plug
-                        tap_action:
-                          action: toggle
-                      - entity: switch.wake_on_lan
-                        tap_action:
-                          action: toggle
-                    show_header_toggle: false
-                    show_name: false
-                    type: glance
-                  - entities:
-                      - artwork: cover
-                        entity: media_player.kitchen_alexa_1
-                        group: true
-                        hide:
-                          mute: true
-                          power: true
-                          source: true
-                          artwork_border: true
-                          controls: false
-                        name: Keuken Alexa
-                        idle_view:
-                          when_idle: true
-                          when_standby: true
-                        shortcuts:
-                          columns: 4
-                          buttons:
-                            - name: MNM
-                              type: script
-                              id: script.music_alexa_play_kitchen_mnm
-                            - name: StuBru
-                              type: script
-                              id: script.music_alexa_play_kitchen_stubru
-                            - name: Q-Music
-                              type: script
-                              id: script.music_alexa_play_kitchen_qmusic
-                            - name: Spotify
-                              type: script
-                              id: script.music_alexa_play_kitchen_spotify
-                        type: 'custom:mini-media-player'
-                    show_header_toggle: false
-                    type: entities
-                  - card:
-                      type: entities
-                    entities:
-                      - artwork: cover
-                        entity: media_player.apple_tv_living_room
-                        group: true
-                        hide:
-                          mute: true
-                          power: true
-                          source: true
-                          artwork_border: true
-                          controls: false
-                        name: Apple Tv
-                        type: 'custom:mini-media-player'
-                    show_empty: false
-                    show_header_toggle: false
-                    state_filter:
-                      - playing
-                    type: entity-filter
-                  - card:
-                      type: entities
-                    entities:
-                      - artwork: cover
-                        entity: media_player.kitchen_alexa_2
-                        group: true
-                        hide:
-                          mute: true
-                          power: true
-                          source: true
-                          artwork_border: true
-                          controls: false
-                        name: Keuken Alexa 2
-                        type: 'custom:mini-media-player'
-                    show_empty: false
-                    show_header_toggle: false
-                    state_filter:
-                      - playing
-                    type: entity-filter
-                  - card:
-                      type: entities
-                    entities:
-                      - artwork: cover
-                        entity: media_player.garden_alexa
-                        group: true
-                        hide:
-                          mute: true
-                          power: true
-                          source: true
-                          artwork_border: true
-                          controls: false
-                        name: Tuin Alexa
-                        type: 'custom:mini-media-player'
-                    show_empty: false
-                    show_header_toggle: false
-                    state_filter:
-                      - playing
-                    type: entity-filter
-                  - card:
-                      type: entities
-                    entities:
-                      - artwork: cover
-                        entity: media_player.livingroom_alexa
-                        group: true
-                        hide:
-                          mute: true
-                          power: true
-                          source: true
-                          artwork_border: true
-                          controls: false
-                        name: Woonkamer Alexa
-                        type: 'custom:mini-media-player'
-                    show_empty: false
-                    show_header_toggle: false
-                    state_filter:
-                      - playing
-                    type: entity-filter
-                  - card:
-                      type: entities
-                    entities:
-                      - artwork: cover
-                        entity: media_player.bathroom_alexa
-                        group: true
-                        hide:
-                          mute: true
-                          power: true
-                          source: true
-                          artwork_border: true
-                          controls: false
-                        name: Badkamer Alexa
-                        idle_view:
-                          when_idle: true
-                          when_standby: true
-                        shortcuts:
-                          columns: 4
-                          buttons:
-                            - name: MNM
-                              type: script
-                              id: script.music_alexa_play_bathroom_mnm
-                            - name: StuBru
-                              type: script
-                              id: script.music_alexa_play_bathroom_stubru
-                            - name: Q-Music
-                              type: script
-                              id: script.music_alexa_play_bathroom_qmusic
-                            - name: Spotify
-                              type: script
-                              id: script.music_alexa_play_bathroom_spotify
-                        type: 'custom:mini-media-player'
-                    show_empty: false
-                    show_header_toggle: false
-                    state_filter:
-                      - playing
-                    type: entity-filter
-                  - card:
-                      type: entities
-                    entities:
-                      - artwork: cover
-                        entity: media_player.bedroom_alexa
-                        group: true
-                        hide:
-                          mute: true
-                          power: true
-                          source: true
-                          artwork_border: true
-                          controls: false
-                        name: Slaapkamer Alexa
-                        type: 'custom:mini-media-player'
-                    show_empty: false
-                    show_header_toggle: false
-                    state_filter:
-                      - playing
-                    type: entity-filter
-                  - card:
-                      type: entities
-                    entities:
-                      - artwork: cover
-                        entity: media_player.downstairs
-                        group: true
-                        hide:
-                          mute: true
-                          power: true
-                          source: true
-                          artwork_border: true
-                          controls: false
-                        name: Beneden Alexa
-                        type: 'custom:mini-media-player'
-                    show_empty: false
-                    show_header_toggle: false
-                    state_filter:
-                      - playing
-                    type: entity-filter
-                  - card:
-                      type: entities
-                    entities:
-                      - artwork: cover
-                        entity: media_player.upstairs
-                        group: true
-                        hide:
-                          mute: true
-                          power: true
-                          source: true
-                          artwork_border: true
-                          controls: false
-                        name: Boven Alexa
-                        type: 'custom:mini-media-player'
-                    show_empty: false
-                    show_header_toggle: false
-                    state_filter:
-                      - playing
-                    type: entity-filter
-                  - card:
-                      type: entities
-                    entities:
-                      - artwork: cover
-                        entity: media_player.everywhere
-                        group: true
-                        hide:
-                          mute: true
-                          power: true
-                          source: true
-                          artwork_border: true
-                          controls: false
-                        name: Overal Alexa
-                        type: 'custom:mini-media-player'
-                    show_empty: false
-                    show_header_toggle: false
-                    state_filter:
-                      - playing
-                    type: entity-filter
-                  - card:
-                      type: entities
-                    entities:
-                      - artwork: cover
-                        entity: media_player.google_home_bedroom
-                        group: true
-                        hide:
-                          mute: true
-                          power: true
-                          source: true
-                          artwork_border: true
-                          controls: false
-                        name: Elmo's Kamer
-                        type: 'custom:mini-media-player'
-                    show_empty: false
-                    show_header_toggle: false
-                    state_filter:
-                      - playing
-                    type: entity-filter
-                type: vertical-stack
-              - cards:
-                  - content: |
-                      **ENERGIE VANDAAG**
-                    type: markdown
-                  - columns: 4
-                    entities:
-                      - entity: sensor.smappee_ons_huisje_power_today
-                      - entity: sensor.solaredge_energy_today_template
-                      - entity: sensor.gas_meter
-                      - entity: sensor.water_meter
-                    show_header_toggle: false
-                    show_name: false
-                    type: glance
-                type: vertical-stack
-              - cards:
-                  - content: |
-                      **TEMPERATUUR**
-                    type: markdown
-                  - entities:
-                      - entity: climate.keuken
-                        icon: mdi:stove
-                        name: Keuken
-                      - entity: climate.woonkamer
-                        icon: mdi:sofa
-                        name: Woonkamer
-                      - entity: climate.badkamer
-                        icon: mdi:shower
-                        name: Badkamer
-                      - entity: climate.dressing
-                        icon: mdi:hanger
-                        name: Dressing
-                      - entity: climate.slp_kamer
-                        icon: mdi:bed-empty
-                        name: Slp Kamer
-                      - entity: climate.kamer_elmo
-                        icon: mdi:baby-carriage
-                        name: Elmo Kamer
-                      - entity: sensor.smappee_ons_huisje_water_sensor_temperature
-                        icon: mdi:stairs
-                        name: Kelder
-                    show_header_toggle: false
-                    show_name: false
-                    type: entities
-                type: vertical-stack
-              - cards:
-                  - content: |
-                      **WEER**
-                    type: markdown
-                  - entity: weather.dark_sky
-                    type: weather-forecast
-                  - entities:
-                      - entity: sensor.season
-                      - entity: sun.sun
-                    show_header_toggle: false
-                    show_name: false
-                    type: glance
-                type: vertical-stack
-              - cards:
-                  - card:
-                      type: entities
-                    entities:
-                      - entity: sensor.upstairs_nest_protect_co_status
-                        name: Nest Boven
-                      - entity: sensor.upstairs_nest_protect_smoke_status
-                        name: Nest Boven
-                      - entity: binary_sensor.upstairs_nest_protect_online
-                        name: Nest Boven
-                      - entity: sensor.downstairs_nest_protect_co_status
-                        name: Nest Beneden
-                      - entity: sensor.downstairs_nest_protect_smoke_status
-                        name: Nest Beneden
-                      - entity: binary_sensor.downstairs_nest_protect_online
-                        name: Nest Beneden
-                      - entity: sensor.downstairs_nest_protect_battery_health
-                        name: Nest Beneden
-                      - entity: sensor.upstairs_nest_protect_battery_health
-                        name: Nest Boven
-                      - entity: sensor.smappee_ons_huisje_water_sensor_battery
-                        name: Smappee
-                      - entity: sensor.battery_level_arlobaby
-                        name: Arlo
-                    show_empty: false
-                    show_header_toggle: false
-                    state_filter:
-                      - Replace
-                      - 'off'
-                      - Warning
-                      - Emergency
-                      - gray
-                      - yellow
-                      - red
-                      - Replace
-                      - Not Ok
-                      - '99.0'
-                      - '0.0'
-                      - '99'
-                      - '0'
-                    type: entity-filter
-                type: vertical-stack
-            column_width: 300
-            layout: auto
-            max_columns: 100
-            min_height: 5
-            type: 'custom:layout-card'
-        id: 1cd8119782714b5c9faf08e40a928225
-        type: vertical-stack
+  - title: Favorieten
     icon: 'mdi:star-box'
     id: 0
     panel: true
-    path: ''
-    title: Favorieten
-  - cards:
+    cards:
+    - type: vertical-stack
+      id: 1cd8119782714b5c9faf08e40a928225
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: input_select.woning_status
+          - entity: climate.ons_huisje
+          - entity: person.bert
+          - entity: person.caroline
+        show_header_toggle: false
+        state_filter:
+          - home
+          - not_home
+          - 'on'
+          - 'off'
+          - Juist Thuis
+          - Thuis
+          - Juist Weg
+          - Weg
+          - Slapen
+          - Juist Wakker
+          - Dag Thuis
+          - Vakantie
+          - Mama & Mark
+          - Oma
+          - Nelly
+          - Elly
+          - Nancy
+          - Niki & Marcus
+          - Andy
+          - Hoevelei
+          - Werk (Bert)
+          - Werk (Caro)
+          - Willebroek Station
+          - Mechelen Station
+          - Brussel Station
+          - Checkpoint 1
+          - Checkpoint 2
+          - Chekcpoint 3
+          - Checkpoint 4
+          - Ziekenhuis St-Augustinus
+          - Ziekenhuis Willebroek
+          - Ziekenhuis Edegem
+          - Ziekenhuis Reet
+          - Ziekenhuis Middelheim
+        card:
+          show_name: false
+          type: glance
+      - type: entity-filter
+        entities:
+          - entity: sensor.bezoek
+          - entity: sensor.kuishulp
+          - entity: sensor.babysit
+          - entity: person.mama
+          - entity: person.mark
+          - entity: person.papa
+          - entity: person.karen
+          - entity: person.andy
+          - entity: person.oma
+          - entity: person.thomas
+          - entity: person.niki
+          - entity: person.marcus
+          - entity: person.nancy
+          - entity: vacuum.dusty
+        show_header_toggle: false
+        show_empty: false
+        state_filter:
+          - home
+          - 'on'
+        card:
+          show_name: true
+          show_state: false
+          type: glance
+      - type: 'custom:layout-card'
+        column_width: 300
+        layout: auto
+        max_columns: 100
+        min_height: 5
+        cards:
+          - cards:
+              - card:
+                  show_name: false
+                  type: entities
+                entities:
+                  - entity: climate.ons_huisje
+                    name: Evohome
+                show_header_toggle: false
+                show_empty: false
+                state_filter:
+                  - heat
+                type: entity-filter
+              - content: |
+                  **VERLICHTING**
+                type: markdown
+              - entities:
+                  - entity: light.hue_woonkamer_smart_plug_one
+                    name: Woonkamer Led Lichtjes
+                    tap_action:
+                      action: toggle
+                  - entity: light.hue_woonkamer_smart_plug_two
+                    name: Woonkamer Spacewalker
+                    tap_action:
+                      action: toggle
+                  - entity: light.hue_woonkamer
+                    name: Woonkamer Lamp Moooi
+                    tap_action:
+                      action: toggle
+                  - entity: light.hue_veranda_smart_plug
+                    name: Veranda Led Lichtjes
+                    tap_action:
+                      action: toggle
+                  - entity: light.hue_veranda
+                    name: Veranda Arco
+                  - entity: light.hue_kamer_elmo_one
+                    name: Elmo's Staanlamp
+                show_header_toggle: false
+                type: entities
+              - entities:
+                  - entity: input_boolean.light_downstairs
+                    name: Sensors Beneden
+                    tap_action:
+                      action: toggle
+                show_header_toggle: false
+                type: entities
+            type: vertical-stack
+          - type: vertical-stack
+            cards:
+              - type: markdown
+                content: |
+                  **MULTIMEDIA**
+              - type: glance
+                entities:
+                  - entity: input_select.harmony_hub
+                  - entity: light.hue_keuken_smart_plug
+                    tap_action:
+                      action: toggle
+                  - entity: switch.wake_on_lan
+                    tap_action:
+                      action: toggle
+                show_header_toggle: false
+                show_name: false
+              - type: entities
+                show_header_toggle: false
+                entities:
+                - type: 'custom:mini-media-player'
+                  name: Keuken Alexa
+                  artwork: cover
+                  entity: media_player.kitchen_alexa_1
+                  group: true
+                  hide:
+                    mute: true
+                    power: true
+                    source: true
+                    artwork_border: true
+                    controls: false
+                  idle_view:
+                    when_idle: true
+                    when_standby: true
+                  shortcuts:
+                    columns: 4
+                    buttons:
+                    - name: MNM
+                      type: script
+                      id: script.music_alexa_play_kitchen_mnm
+                    - name: StuBru
+                      type: script
+                      id: script.music_alexa_play_kitchen_stubru
+                    - name: Q-Music
+                      type: script
+                      id: script.music_alexa_play_kitchen_qmusic
+                    - name: Spotify
+                      type: script
+                      id: script.music_alexa_play_kitchen_spotify
+              - type: entity-filter
+                entities:
+                - type: 'custom:mini-media-player'
+                  name: Apple Tv
+                  artwork: cover
+                  entity: media_player.apple_tv_living_room
+                  group: true
+                  hide:
+                    mute: true
+                    power: true
+                    source: true
+                    artwork_border: true
+                    controls: false                                
+                show_empty: false
+                show_header_toggle: false
+                state_filter:
+                  - playing
+                card:
+                  type: entities
+              - card:
+                  type: entities
+                entities:
+                  - artwork: cover
+                    entity: media_player.kitchen_alexa_2
+                    group: true
+                    hide:
+                      mute: true
+                      power: true
+                      source: true
+                      artwork_border: true
+                      controls: false
+                    name: Keuken Alexa 2
+                    type: 'custom:mini-media-player'
+                show_empty: false
+                show_header_toggle: false
+                state_filter:
+                  - playing
+                type: entity-filter
+              - card:
+                  type: entities
+                entities:
+                  - artwork: cover
+                    entity: media_player.garden_alexa
+                    group: true
+                    hide:
+                      mute: true
+                      power: true
+                      source: true
+                      artwork_border: true
+                      controls: false
+                    name: Tuin Alexa
+                    type: 'custom:mini-media-player'
+                show_empty: false
+                show_header_toggle: false
+                state_filter:
+                  - playing
+                type: entity-filter
+              - card:
+                  type: entities
+                entities:
+                  - artwork: cover
+                    entity: media_player.livingroom_alexa
+                    group: true
+                    hide:
+                      mute: true
+                      power: true
+                      source: true
+                      artwork_border: true
+                      controls: false
+                    name: Woonkamer Alexa
+                    type: 'custom:mini-media-player'
+                show_empty: false
+                show_header_toggle: false
+                state_filter:
+                  - playing
+                type: entity-filter
+              - card:
+                  type: entities
+                entities:
+                  - artwork: cover
+                    entity: media_player.bathroom_alexa
+                    group: true
+                    hide:
+                      mute: true
+                      power: true
+                      source: true
+                      artwork_border: true
+                      controls: false
+                    name: Badkamer Alexa
+                    idle_view:
+                      when_idle: true
+                      when_standby: true
+                    shortcuts:
+                      columns: 4
+                      buttons:
+                        - name: MNM
+                          type: script
+                          id: script.music_alexa_play_bathroom_mnm
+                        - name: StuBru
+                          type: script
+                          id: script.music_alexa_play_bathroom_stubru
+                        - name: Q-Music
+                          type: script
+                          id: script.music_alexa_play_bathroom_qmusic
+                        - name: Spotify
+                          type: script
+                          id: script.music_alexa_play_bathroom_spotify
+                    type: 'custom:mini-media-player'
+                show_empty: false
+                show_header_toggle: false
+                state_filter:
+                  - playing
+                type: entity-filter
+              - card:
+                  type: entities
+                entities:
+                  - artwork: cover
+                    entity: media_player.bedroom_alexa
+                    group: true
+                    hide:
+                      mute: true
+                      power: true
+                      source: true
+                      artwork_border: true
+                      controls: false
+                    name: Slaapkamer Alexa
+                    type: 'custom:mini-media-player'
+                show_empty: false
+                show_header_toggle: false
+                state_filter:
+                  - playing
+                type: entity-filter
+              - card:
+                  type: entities
+                entities:
+                  - artwork: cover
+                    entity: media_player.downstairs
+                    group: true
+                    hide:
+                      mute: true
+                      power: true
+                      source: true
+                      artwork_border: true
+                      controls: false
+                    name: Beneden Alexa
+                    type: 'custom:mini-media-player'
+                show_empty: false
+                show_header_toggle: false
+                state_filter:
+                  - playing
+                type: entity-filter
+              - card:
+                  type: entities
+                entities:
+                  - artwork: cover
+                    entity: media_player.upstairs
+                    group: true
+                    hide:
+                      mute: true
+                      power: true
+                      source: true
+                      artwork_border: true
+                      controls: false
+                    name: Boven Alexa
+                    type: 'custom:mini-media-player'
+                show_empty: false
+                show_header_toggle: false
+                state_filter:
+                  - playing
+                type: entity-filter
+              - card:
+                  type: entities
+                entities:
+                  - artwork: cover
+                    entity: media_player.everywhere
+                    group: true
+                    hide:
+                      mute: true
+                      power: true
+                      source: true
+                      artwork_border: true
+                      controls: false
+                    name: Overal Alexa
+                    type: 'custom:mini-media-player'
+                show_empty: false
+                show_header_toggle: false
+                state_filter:
+                  - playing
+                type: entity-filter
+              - card:
+                  type: entities
+                entities:
+                  - artwork: cover
+                    entity: media_player.google_home_bedroom
+                    group: true
+                    hide:
+                      mute: true
+                      power: true
+                      source: true
+                      artwork_border: true
+                      controls: false
+                    name: Elmo's Kamer
+                    type: 'custom:mini-media-player'
+                show_empty: false
+                show_header_toggle: false
+                state_filter:
+                  - playing
+                type: entity-filter
+          - type: vertical-stack
+            cards:
+            - type: markdown
+              content: |
+                **ENERGIE VANDAAG**
+            - type: glance
+              columns: 4
+              entities:
+                - entity: sensor.smappee_ons_huisje_power_today
+                - entity: sensor.solaredge_energy_today_template
+                - entity: sensor.gas_meter
+                - entity: sensor.water_meter
+              show_header_toggle: false
+              show_name: false
+          - type: vertical-stack
+            cards:
+            - type: markdown
+              content: |
+                **TEMPERATUUR**
+            - type: entities
+              entities:
+                - entity: climate.keuken
+                  icon: mdi:stove
+                  name: Keuken
+                - entity: climate.woonkamer
+                  icon: mdi:sofa
+                  name: Woonkamer
+                - entity: climate.badkamer
+                  icon: mdi:shower
+                  name: Badkamer
+                - entity: climate.dressing
+                  icon: mdi:hanger
+                  name: Dressing
+                - entity: climate.slp_kamer
+                  icon: mdi:bed-empty
+                  name: Slp Kamer
+                - entity: climate.kamer_elmo
+                  icon: mdi:baby-carriage
+                  name: Elmo Kamer
+                - entity: sensor.smappee_ons_huisje_water_sensor_temperature
+                  icon: mdi:stairs
+                  name: Kelder
+              show_header_toggle: false
+              show_name: false
+          - type: vertical-stack
+            cards:
+            - type: markdown
+              content: |
+                **WEER**
+            - type: weather-forecast
+              entity: weather.dark_sky
+            - type: glance
+              entities:
+                - entity: sensor.season
+                - entity: sun.sun
+              show_header_toggle: false
+              show_name: false
+          - type: vertical-stack
+            cards:
+            - type: entity-filter
+              entities:
+                - entity: sensor.upstairs_nest_protect_co_status
+                  name: Nest Boven
+                - entity: sensor.upstairs_nest_protect_smoke_status
+                  name: Nest Boven
+                - entity: binary_sensor.upstairs_nest_protect_online
+                  name: Nest Boven
+                - entity: sensor.downstairs_nest_protect_co_status
+                  name: Nest Beneden
+                - entity: sensor.downstairs_nest_protect_smoke_status
+                  name: Nest Beneden
+                - entity: binary_sensor.downstairs_nest_protect_online
+                  name: Nest Beneden
+                - entity: sensor.downstairs_nest_protect_battery_health
+                  name: Nest Beneden
+                - entity: sensor.upstairs_nest_protect_battery_health
+                  name: Nest Boven
+                - entity: sensor.smappee_ons_huisje_water_sensor_battery
+                  name: Smappee
+                - entity: sensor.battery_level_arlobaby
+                  name: Arlo
+              show_empty: false
+              show_header_toggle: false
+              state_filter:
+                - Replace
+                - 'off'
+                - Warning
+                - Emergency
+                - gray
+                - yellow
+                - red
+                - Replace
+                - Not Ok
+                - '99.0'
+                - '0.0'
+                - '99'
+                - '0'
+              card:
+                type: entities
+  - title: Ons Huisje
+    icon: 'mdi:home-assistant'
+    id: 1
+    panel: true
+    cards:
       - cards:
           - card:
               show_name: false
@@ -1035,11 +1039,11 @@ views:
             type: 'custom:layout-card'
         id: 73b033309f7c4229a5aaa635653a0272
         type: vertical-stack
-    icon: 'mdi:home-assistant'
-    id: 1
+  - title: Multi-Media
+    icon: 'mdi:animation-play'
+    id: 2
     panel: true
-    title: Ons Huisje
-  - cards:
+    cards:
       - cards:
           - card:
               show_name: false
@@ -1409,11 +1413,11 @@ views:
             min_height: 5
             type: 'custom:layout-card'
         type: vertical-stack
-    icon: 'mdi:animation-play'
-    id: 2
+  - title: Energie Verbruik
+    icon: 'mdi:gauge'
+    id: 3
     panel: true
-    title: Multi-Media
-  - cards:
+    cards:
       - cards:
           - card:
               show_name: false
@@ -1671,265 +1675,370 @@ views:
             min_height: 5
             type: 'custom:layout-card'
         type: vertical-stack
-    icon: 'mdi:gauge'
-    id: 3
-    panel: true
-    title: Energie Verbruik
-  - cards:
-      - cards:
-          - card:
-              show_name: false
-              type: glance
-            entities:
-              - entity: input_select.woning_status
-              - entity: climate.ons_huisje
-              - entity: person.bert
-              - entity: person.caroline
-            show_header_toggle: false
-            state_filter:
-              - home
-              - not_home
-              - 'on'
-              - 'off'
-              - Juist Thuis
-              - Thuis
-              - Juist Weg
-              - Weg
-              - Slapen
-              - Juist Wakker
-              - Dag Thuis
-              - Vakantie
-              - Mama & Mark
-              - Oma
-              - Nelly
-              - Elly
-              - Nancy
-              - Niki & Marcus
-              - Andy
-              - Hoevelei
-              - Werk (Bert)
-              - Werk (Caro)
-              - Willebroek Station
-              - Mechelen Station
-              - Brussel Station
-              - Checkpoint 1
-              - Checkpoint 2
-              - Chekcpoint 3
-              - Checkpoint 4
-              - Ziekenhuis St-Augustinus
-              - Ziekenhuis Willebroek
-              - Ziekenhuis Edegem
-              - Ziekenhuis Reet
-              - Ziekenhuis Middelheim
-            type: entity-filter
-          - card:
-              show_name: true
-              show_state: false
-              type: glance
-            entities:
-              - entity: sensor.bezoek
-              - entity: sensor.kuishulp
-              - entity: sensor.babysit
-              - entity: person.mama
-              - entity: person.mark
-              - entity: person.papa
-              - entity: person.karen
-              - entity: person.andy
-              - entity: person.oma
-              - entity: person.thomas
-              - entity: person.niki
-              - entity: person.marcus
-              - entity: person.nancy
-              - entity: vacuum.dusty
-            show_header_toggle: false
-            show_empty: false
-            state_filter:
-              - home
-              - 'on'
-            type: entity-filter
-          - cards:
-              - cards:
-                  - content: |
-                      **WIE IS WAAR?**
-                    type: markdown
-                  - entities:
-                      - entity: input_boolean.visitor
-                        name: Switch Bezoek
-                        tap_action:
-                          action: toggle
-                    show_header_toggle: false
-                    show_name: true
-                    type: glance
-                  - entities:
-                      - entity: input_select.woning_status
-                        name: Woning
-                      - entity: group.bewoners_router
-                        name: Bewoner Router
-                      - entity: group.bewoners
-                        name: Bewoner
-                      - entity: group.bezoekers
-                        name: Bezoek
-                    hours_to_show: 12
-                    type: history-graph
-                  - entities:
-                      - entity: person.bert
-                        name: Bert
-                      - entity: device_tracker.router_iphone_bert
-                        name: Router
-                      - entity: device_tracker.ios_iphone_bert
-                        name: Ios
-                      - entity: device_tracker.owntracks_iphone_bert
-                        name: OwnTracks
-                    hours_to_show: 12
-                    type: history-graph
-                  - entities:
-                      - entity: person.caroline
-                        name: Caroline
-                      - entity: device_tracker.router_iphone_caro
-                        name: Router
-                      - entity: device_tracker.ios_iphone_caro
-                        name: Ios
-                      - entity: device_tracker.owntracks_iphone_caro
-                        name: OWnTracks
-                    hours_to_show: 12
-                    type: history-graph
-                  - content: |
-                      **AFVALKALENDER**
-                    type: markdown
-                  - entities:
-                      - entity: sensor.ophaalkalender_restafval
-                        name: Restafval
-                      - entity: sensor.ophaalkalender_pmd
-                        name: Pmd
-                      - entity:  sensor.ophaalkalender_papier
-                        name: Papier
-                    id: af0a835638ca421aa181928f535c4b33
-                    show_header_toggle: false
-                    type: glance
-                id: a2ec64fe2d3c4b67a1e5fb997c969457
-                type: vertical-stack
-              - cards:
-                  - content: |
-                      **HOME SERVER**
-                    type: markdown
-                  - entities:
-                      - entity: switch.unifi_raspberry_pi
-                        name: Server
-                      - entity: binary_sensor.remote_ui
-                        name: Remote
-                      - entity: binary_sensor.updater
-                        name: Updates
-                      - entity: sensor.hacs
-                        name: Updates Hacs
-                    show_header_toggle: false
-                    columns: 2
-                    show_name: true
-                    type: glance
-                  - cards:
-                      - entity: sensor.processor_use
-                        name: Processor
-                        type: sensor
-                        graph: line
-                        detail: 2
-                      - entity: sensor.memory_use_percent
-                        name: RAM Geheugen
-                        type: sensor
-                        graph: line
-                        detail: 2
-                      - entity: sensor.disk_use_percent_home
-                        name: Disk Space
-                        type: sensor
-                        graph: line
-                        detail: 2
-                    type: vertical-stack
-                id: 42a109b473924f3f89d8edf9a55ed2ce
-                type: vertical-stack
-              - cards:
-                  - content: |
-                      **DEURBEL VOOR**
-                    type: markdown
-                  - entities:
-                      - entity: binary_sensor.deurbel_voor_button
-                        name: Deurbel
-                      - entity: switch.deurbel_voor_chime
-                        name: Deurbel Gong
-                      - entity: switch.deurbel_voor_chime_active
-                        name: Deurbel Gong Actief
-                      - entity: switch.deurbel_voor_restart
-                        name: Deurbel Restart
-                    show_header_toggle: false
-                    columns: 2
-                    show_name: true
-                    type: glance
-                type: vertical-stack
-              - cards:
-                  - card:
-                      type: entities
-                    entities:
-                      - entity: sensor.upstairs_nest_protect_co_status
-                        name: Nakijken Nest Boven
-                      - entity: sensor.upstairs_nest_protect_smoke_status
-                        name: Nakijken Nest Boven
-                      - entity: binary_sensor.upstairs_nest_protect_online
-                        name: Nakijken Nest Boven
-                      - entity: sensor.downstairs_nest_protect_co_status
-                        name: Nakijken Nest Beneden
-                      - entity: sensor.downstairs_nest_protect_smoke_status
-                        name: Nakijken Nest Beneden
-                      - entity: binary_sensor.downstairs_nest_protect_online
-                        name: Nakijken Nest Beneden
-                      - entity: sensor.downstairs_nest_protect_battery_health
-                        name: Nakijken Nest Beneden
-                      - entity: sensor.upstairs_nest_protect_battery_health
-                        name: Nakijken Nest Boven
-                      - entity: sensor.smappee_ons_huisje_water_sensor_battery
-                        name: Nakijken Smappee
-                      - entity: sensor.battery_level_arlobaby
-                        name: Nakijken Arlo
-                    show_empty: false
-                    show_header_toggle: false
-                    state_filter:
-                      - Replace
-                      - 'off'
-                      - Warning
-                      - Emergency
-                      - gray
-                      - yellow
-                      - red
-                      - Replace
-                      - Not Ok
-                      - '99.0'
-                      - '0.0'
-                      - '99'
-                      - '0'
-                    type: entity-filter
-                id: 9222eaa2ca144791ab0e42c53b666a3a
-                type: vertical-stack
-              - cards:
-                  - content: |
-                      **NOTIFICATIES**
-                    type: markdown
-                  - entities:
-                      - entity: input_boolean.notify_bert
-                        name: Bert
-                        tap_action:
-                          action: toggle
-                      - entity: input_boolean.notify_caro
-                        name: Caroline
-                        tap_action:
-                          action: toggle
-                    id: 6cd495ed2d424ef1bf513c6dbef715fa
-                    show_header_toggle: false
-                    type: entities
-                id: ad862d7b78b046ef88bec5270d45a6f9
-                type: vertical-stack
-            column_width: 300
-            layout: auto
-            max_columns: 100
-            min_height: 5
-            type: 'custom:layout-card'
-        type: vertical-stack
+  - title: Beveiliging
     icon: 'mdi:shield-home'
     id: 4
     panel: true
-    title: Beveiliging
+    cards:
+    - type: vertical-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: input_select.woning_status
+          - entity: climate.ons_huisje
+          - entity: person.bert
+          - entity: person.caroline
+        show_header_toggle: false
+        state_filter:
+          - home
+          - not_home
+          - 'on'
+          - 'off'
+          - Juist Thuis
+          - Thuis
+          - Juist Weg
+          - Weg
+          - Slapen
+          - Juist Wakker
+          - Dag Thuis
+          - Vakantie
+          - Mama & Mark
+          - Oma
+          - Nelly
+          - Elly
+          - Nancy
+          - Niki & Marcus
+          - Andy
+          - Hoevelei
+          - Werk (Bert)
+          - Werk (Caro)
+          - Willebroek Station
+          - Mechelen Station
+          - Brussel Station
+          - Checkpoint 1
+          - Checkpoint 2
+          - Chekcpoint 3
+          - Checkpoint 4
+          - Ziekenhuis St-Augustinus
+          - Ziekenhuis Willebroek
+          - Ziekenhuis Edegem
+          - Ziekenhuis Reet
+          - Ziekenhuis Middelheim
+        card:
+          show_name: false
+          type: glance
+      - type: entity-filter
+        entities:
+          - entity: sensor.bezoek
+          - entity: sensor.kuishulp
+          - entity: sensor.babysit
+          - entity: person.mama
+          - entity: person.mark
+          - entity: person.papa
+          - entity: person.karen
+          - entity: person.andy
+          - entity: person.oma
+          - entity: person.thomas
+          - entity: person.niki
+          - entity: person.marcus
+          - entity: person.nancy
+          - entity: vacuum.dusty
+        show_header_toggle: false
+        show_empty: false
+        state_filter:
+          - home
+          - 'on'
+        card:
+          show_name: true
+          show_state: false
+          type: glance
+      - type: 'custom:layout-card'
+        column_width: 300
+        layout: auto
+        max_columns: 100
+        min_height: 5
+        cards:
+        - type: vertical-stack
+          id: a2ec64fe2d3c4b67a1e5fb997c969457
+          cards:
+            - type: markdown
+              content: |
+                **WIE IS WAAR?**
+            - type: glance
+              show_header_toggle: false
+              show_name: true
+              entities:
+                - entity: input_boolean.visitor
+                  name: Switch Bezoek
+                  tap_action:
+                    action: toggle
+            - type: history-graph
+              hours_to_show: 12
+              entities:
+                - entity: input_select.woning_status
+                  name: Woning
+                - entity: group.bewoners_router
+                  name: Bewoner Router
+                - entity: group.bewoners
+                  name: Bewoner
+                - entity: group.bezoekers
+                  name: Bezoek
+            - type: history-graph
+              hours_to_show: 12
+              entities:
+                - entity: person.bert
+                  name: Bert
+                - entity: device_tracker.router_iphone_bert
+                  name: Router
+                - entity: device_tracker.ios_iphone_bert
+                  name: Ios
+                - entity: device_tracker.owntracks_iphone_bert
+                  name: OwnTracks
+            - type: history-graph
+              hours_to_show: 12
+              entities:
+                - entity: person.caroline
+                  name: Caroline
+                - entity: device_tracker.router_iphone_caro
+                  name: Router
+                - entity: device_tracker.ios_iphone_caro
+                  name: Ios
+                - entity: device_tracker.owntracks_iphone_caro
+                  name: OWnTracks
+            - type: markdown
+              content: |
+                **AFVALKALENDER**
+            - type: glance
+              id: af0a835638ca421aa181928f535c4b33
+              show_header_toggle: false
+              entities:
+                - entity: sensor.ophaalkalender_restafval
+                  name: Restafval
+                - entity: sensor.ophaalkalender_pmd
+                  name: Pmd
+                - entity:  sensor.ophaalkalender_papier
+                  name: Papier
+        - type: vertical-stack
+          id: 42a109b473924f3f89d8edf9a55ed2ce
+          cards:
+            - type: markdown
+              content: |
+                **HOME SERVER**
+            - type: glance
+              show_header_toggle: false
+              columns: 2
+              show_name: true
+              entities:
+                - entity: switch.unifi_raspberry_pi
+                  name: Server
+                - entity: binary_sensor.remote_ui
+                  name: Remote
+                - entity: binary_sensor.updater
+                  name: Updates
+                - entity: sensor.hacs
+                  name: Updates Hacs
+            - type: vertical-stack
+              cards:
+                - type: sensor
+                  entity: sensor.processor_use
+                  name: Processor
+                  graph: line
+                  detail: 2
+                - type: sensor
+                  entity: sensor.memory_use_percent
+                  name: RAM Geheugen
+                  graph: line
+                  detail: 2
+                - type: sensor
+                  entity: sensor.disk_use_percent_home
+                  name: Disk Space
+                  graph: line
+                  detail: 2
+        - type: vertical-stack
+          cards:
+            - type: markdown
+              content: |
+                **DEURBEL VOOR**
+            - type: glance
+              show_header_toggle: false
+              columns: 2
+              show_name: true
+              entities:
+                - entity: binary_sensor.deurbel_voor_button
+                  name: Deurbel
+                - entity: switch.deurbel_voor_chime
+                  name: Deurbel Gong
+                - entity: switch.deurbel_voor_chime_active
+                  name: Deurbel Gong Actief
+                - entity: switch.deurbel_voor_restart
+                  name: Deurbel Restart
+        - type: vertical-stack
+          id: 9222eaa2ca144791ab0e42c53b666a3a
+          cards:
+          - type: entity-filter
+            entities:
+              - entity: sensor.upstairs_nest_protect_co_status
+                name: Nakijken Nest Boven
+              - entity: sensor.upstairs_nest_protect_smoke_status
+                name: Nakijken Nest Boven
+              - entity: binary_sensor.upstairs_nest_protect_online
+                name: Nakijken Nest Boven
+              - entity: sensor.downstairs_nest_protect_co_status
+                name: Nakijken Nest Beneden
+              - entity: sensor.downstairs_nest_protect_smoke_status
+                name: Nakijken Nest Beneden
+              - entity: binary_sensor.downstairs_nest_protect_online
+                name: Nakijken Nest Beneden
+              - entity: sensor.downstairs_nest_protect_battery_health
+                name: Nakijken Nest Beneden
+              - entity: sensor.upstairs_nest_protect_battery_health
+                name: Nakijken Nest Boven
+              - entity: sensor.smappee_ons_huisje_water_sensor_battery
+                name: Nakijken Smappee
+              - entity: sensor.battery_level_arlobaby
+                name: Nakijken Arlo
+            show_empty: false
+            show_header_toggle: false
+            state_filter:
+              - Replace
+              - 'off'
+              - Warning
+              - Emergency
+              - gray
+              - yellow
+              - red
+              - Replace
+              - Not Ok
+              - '99.0'
+              - '0.0'
+              - '99'
+              - '0'
+            card:
+              type: entities
+        - type: vertical-stack
+          id: ad862d7b78b046ef88bec5270d45a6f9
+          cards:
+            - type: markdown
+              content: |
+                **NOTIFICATIES**
+            - type: entities
+              id: 6cd495ed2d424ef1bf513c6dbef715fa
+              show_header_toggle: false
+              entities:
+                - entity: input_boolean.notify_bert
+                  name: Bert
+                  tap_action:
+                    action: toggle
+                - entity: input_boolean.notify_caro
+                  name: Caroline
+                  tap_action:
+                    action: toggle
+  - title: Google Cast
+    icon: 'mdi:cast'
+    id: 5
+    panel: true
+    path: google_cast
+    cards:
+    - type: vertical-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: input_select.woning_status
+          - entity: climate.ons_huisje
+          - entity: person.bert
+          - entity: person.caroline
+        show_header_toggle: false
+        state_filter:
+          - home
+          - not_home
+          - 'on'
+          - 'off'
+          - Juist Thuis
+          - Thuis
+          - Juist Weg
+          - Weg
+          - Slapen
+          - Juist Wakker
+          - Dag Thuis
+          - Vakantie
+          - Mama & Mark
+          - Oma
+          - Nelly
+          - Elly
+          - Nancy
+          - Niki & Marcus
+          - Andy
+          - Hoevelei
+          - Werk (Bert)
+          - Werk (Caro)
+          - Willebroek Station
+          - Mechelen Station
+          - Brussel Station
+          - Checkpoint 1
+          - Checkpoint 2
+          - Chekcpoint 3
+          - Checkpoint 4
+          - Ziekenhuis St-Augustinus
+          - Ziekenhuis Willebroek
+          - Ziekenhuis Edegem
+          - Ziekenhuis Reet
+          - Ziekenhuis Middelheim
+        card:
+          show_name: false
+          type: glance
+      - type: entity-filter
+        entities:
+          - entity: sensor.bezoek
+          - entity: sensor.kuishulp
+          - entity: sensor.babysit
+          - entity: person.mama
+          - entity: person.mark
+          - entity: person.papa
+          - entity: person.karen
+          - entity: person.andy
+          - entity: person.oma
+          - entity: person.thomas
+          - entity: person.niki
+          - entity: person.marcus
+          - entity: person.nancy
+          - entity: vacuum.dusty
+        show_header_toggle: false
+        show_empty: false
+        state_filter:
+          - home
+          - 'on'
+        card:
+          show_name: true
+          show_state: false
+          type: glance
+      - type: horizontal-stack
+        cards:
+        - type: vertical-stack
+          cards:
+          - type: entities
+            title: Trein Bert
+            show_header_toggle: False
+            entities:
+              - entity: sensor.nmbs
+                name: Vertrekt Binnen
+              - type: custom:entity-attributes-card
+                filter:
+                  include:
+                    - key: sensor.nmbs.destination
+                      name: Bestemming
+          - type: entities
+            title: Waze Caroline
+            show_header_toggle: false
+            entities:
+              - entity: sensor.caroline_travel_time
+                name: Travel Time
+              - entity: sensor.caroline_travel_time_template
+                name: Geschatte Aankomst
+                icon: 'mdi:reload'
+              - type: custom:entity-attributes-card
+                filter:
+                  include:
+                    - key: sensor.caroline_travel_time.route
+                      name: Route
+        - type: weather-forecast
+          entity: weather.dark_sky

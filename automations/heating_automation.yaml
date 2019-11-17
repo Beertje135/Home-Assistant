@@ -499,22 +499,13 @@
 
 - alias: Verwarming - Window Open - Kamer Elmo Koud
   trigger:
-  - platform: numeric_state
-    entity_id:
-      - sensor.climate_slp_kamer_current
-      - sensor.climate_kamer_elmo_current
-    below: 15
   - platform: template
-    value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Dag Thuis'] }}"
+    value_template: "{{ state_attr('climate.slp_kamer', 'current_temperature') < 15.1 }}"
+  - platform: template
+    value_template: "{{ state_attr('climate.kamer_elmo', 'current_temperature') < 15.1 }}"
   condition:
-  - condition: or
-    conditions:
-    - entity_id: sensor.climate_slp_kamer_current
-      condition: numeric_state
-      below: 15
-    - entity_id: sensor.climate_kamer_elmo_current
-      condition: numeric_state
-      below: 15
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Dag Thuis'] }}"
   action:
   - service: script.turn_on
     entity_id:

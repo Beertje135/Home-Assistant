@@ -11,6 +11,19 @@
 - platform: season
   type: astronomical
 
+# WAZE TRAVEL TIME SENSOR
+
+- platform: waze_travel_time
+  name: "Caroline Travel Time"
+  origin: zone.home
+  destination: zone.werk_caro
+  region: 'EU'
+
+- platform: template
+  sensors:
+    caroline_travel_time_template:
+      value_template: "{{ (as_timestamp(now()) + (states.sensor.caroline_travel_time.state | float *60) + 600) | timestamp_custom('%X',true) }}"
+
 # CUSTOM SENSOR AFVAL
 
 - platform: ophaalkalender
