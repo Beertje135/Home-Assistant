@@ -23,8 +23,8 @@
       - group.licht_kamer_elmo
       - device_tracker.router_iphone_bert
       - device_tracker.router_iphone_caro
-      - device_tracker.ios_iphone_bert
-      - device_tracker.ios_iphone_caro
+      - device_tracker.iphone_van_bert
+      - device_tracker.iphone_van_caro
       - device_tracker.owntracks_iphone_bert
       - device_tracker.owntracks_iphone_caro
 

@@ -3,7 +3,7 @@ alias: Notify - Als buiten te warm of te koud - Ios Caro
 sequence:
   - condition: template
     value_template: "{{ states('input_boolean.notify_caro') in ['on'] and states('person.caroline') in ['home'] }}"
-  - service: notify.ios_ios_iphone_caro
+  - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: "VERWARMING"
       message: >

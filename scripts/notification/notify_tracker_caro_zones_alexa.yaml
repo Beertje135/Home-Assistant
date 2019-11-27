@@ -18,7 +18,7 @@ sequence:
         - media_player.kitchen_alexa_2
         - media_player.bathroom_alexa
       message: >
-        {% if states('person.carolineo') in ['Elly', 'Nancy', 'Mama & Mark'] %}
+        {% if states('person.caroline') in ['Elly', 'Nancy', 'Mama & Mark'] %}
           'Caroline just arrived at {{ states.person.caroline.state }}.
         {% elif states('person.caroline') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}
           'No panic but Caroline is near {{ states.person.caroline.state }}.
@@ -27,7 +27,7 @@ sequence:
         {% elif states('person.caroline') in ['Checkpoint 2', 'Checkpoint 3', 'Checkpoint 5'] %}
           'Caroline is almost home.'
         {% else %}
-          'hmmm'
+          'Where is Caroline'
         {% endif %}
       data:
         type: announce

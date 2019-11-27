@@ -112,7 +112,7 @@
         {%- else -%}
           script.music_alexa_play_kitchen
         {%- endif %}
-  - delay: 00:10:00
+  - delay: '00:10:00'
 
 - alias: Muziek - Radio - Stop Keuken
   trigger:

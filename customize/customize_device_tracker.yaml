@@ -71,11 +71,11 @@
       entity_picture: /local/people/caroline.jpeg
       friendly_name: Caro (OwnTracks)
 
-    device_tracker.ios_iphone_bert:
+    device_tracker.iphone_van_bert:
       entity_picture: /local/people/bert.jpeg
       friendly_name: Bert (iOS)
 
-    device_tracker.ios_iphone_caro:
+    device_tracker.iphone_van_caro:
       entity_picture: /local/people/caroline.jpeg
       friendly_name: Caro (iOS)
 

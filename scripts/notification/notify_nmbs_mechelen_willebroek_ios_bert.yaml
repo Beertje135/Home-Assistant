@@ -1,7 +1,7 @@
 
 alias: Notify NMBS - Mechelen-Willebroek
 sequence:
-  - service: notify.ios_ios_iphone_bert
+  - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: "TREIN MECH-WILL"
       message: >
@@ -13,5 +13,7 @@ sequence:
           {{ states.sensor.nmbs_3.attributes.direction }} --> Rechts
         {% endif %}
       data:
+        apns_headers:
+          'apns-collapse-id': 'trein'
         push:
           thread-id: "trein"

@@ -3,7 +3,7 @@ alias: Notify - Als Caro thuis of weg - Ios Bert
 sequence:
   - condition: template
     value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"
-  - service: notify.ios_ios_iphone_bert
+  - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: "CARO STATUS"
       message: >
@@ -13,5 +13,7 @@ sequence:
           Caroline is thuis vertrokken.
         {% endif %}
       data:
+        apns_headers:
+          'apns-collapse-id': 'caro'
         push:
           thread-id: "bewoner"

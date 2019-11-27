@@ -1,7 +1,7 @@
 
 alias: Notify - Babysit Wanneer Thuis - Ios Bert
 sequence:
-  - service: notify.ios_ios_iphone_bert
+  - service: notify.mobile_app_iphone_van_bert
     data:
       title: "BABYSIT"
       message: "Mag babysit afgemeld worden? (Action)"

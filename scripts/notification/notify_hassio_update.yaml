@@ -1,7 +1,7 @@
 
 alias: Notify - Hassio Update
 sequence:
-  - service: notify.ios_ios_iphone_bert
+  - service: notify.mobile_app_iphone_van_bert
     data:
       title: "SERVER UPDATE"
       message: Er is een update beschikbaar.

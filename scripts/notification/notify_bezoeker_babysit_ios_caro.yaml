@@ -1,7 +1,7 @@
 
 alias: Notify - Babysit Wanneer Thuis - Ios Caro
 sequence:
-  - service: notify.ios_ios_iphone_caro
+  - service: notify.mobile_app_iphone_van_caro
     data:
       title: "BABYSIT"
       message: "Mag babysit afgemeld worden? (Action)"

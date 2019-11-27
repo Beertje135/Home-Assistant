@@ -123,9 +123,9 @@ hacs:
 #      debug: True
 
 # Text to speech
-#notify:
-#  - platform: alexa_media
-#    name: alexa_media
+notify:
+  - platform: alexa_media
+    name: alexa_media
 
 # Enables Homekit
 homekit:

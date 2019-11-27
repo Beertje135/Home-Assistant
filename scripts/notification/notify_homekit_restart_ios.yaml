@@ -3,7 +3,7 @@ alias: Notify Restart van Homekit - Ios
 sequence:
   - condition: template
     value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') not in ['home'] }}"
-  - service: notify.ios_ios_iphone_bert
+  - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: "HOMEKIT"
       message: Alle componenten gevonden. Ik start HomeKit opnieuw op.

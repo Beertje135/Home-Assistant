@@ -93,10 +93,9 @@ views:
         max_columns: 100
         min_height: 5
         cards:
-          - cards:
-              - card:
-                  show_name: false
-                  type: entities
+          - type: vertical-stack
+            cards:
+              - type: entity-filter
                 entities:
                   - entity: climate.ons_huisje
                     name: Evohome
@@ -104,11 +103,14 @@ views:
                 show_empty: false
                 state_filter:
                   - heat
-                type: entity-filter
-              - content: |
+                card:
+                  show_name: false
+                  type: entities
+              - type: markdown
+                content: |
                   **VERLICHTING**
-                type: markdown
-              - entities:
+              - type: entities
+                entities:
                   - entity: light.hue_woonkamer_smart_plug_one
                     name: Woonkamer Led Lichtjes
                     tap_action:
@@ -130,15 +132,13 @@ views:
                   - entity: light.hue_kamer_elmo_one
                     name: Elmo's Staanlamp
                 show_header_toggle: false
-                type: entities
-              - entities:
+              - type: entities
+                entities:
                   - entity: input_boolean.light_downstairs
                     name: Sensors Beneden
                     tap_action:
                       action: toggle
-                show_header_toggle: false
-                type: entities
-            type: vertical-stack
+                show_header_toggle: false                          
           - type: vertical-stack
             cards:
               - type: markdown
@@ -199,56 +199,57 @@ views:
                     power: true
                     source: true
                     artwork_border: true
-                    controls: false                                
+                    controls: false
                 show_empty: false
                 show_header_toggle: false
                 state_filter:
                   - playing
                 card:
                   type: entities
-              - card:
-                  type: entities
+              - type: entity-filter
                 entities:
-                  - artwork: cover
+                  - type: 'custom:mini-media-player'
                     entity: media_player.kitchen_alexa_2
-                    group: true
-                    hide:
-                      mute: true
-                      power: true
-                      source: true
-                      artwork_border: true
-                      controls: false
                     name: Keuken Alexa 2
-                    type: 'custom:mini-media-player'
+                    artwork: cover
+                    group: true
+                    hide:
+                      mute: true
+                      power: true
+                      source: true
+                      artwork_border: true
+                      controls: false
                 show_empty: false
                 show_header_toggle: false
                 state_filter:
                   - playing
-                type: entity-filter
-              - card:
+                card:
                   type: entities
+              - type: entity-filter
                 entities:
-                  - artwork: cover
+                  - type: 'custom:mini-media-player'
                     entity: media_player.garden_alexa
-                    group: true
-                    hide:
-                      mute: true
-                      power: true
-                      source: true
-                      artwork_border: true
-                      controls: false
                     name: Tuin Alexa
-                    type: 'custom:mini-media-player'
+                    artwork: cover
+                    group: true
+                    hide:
+                      mute: true
+                      power: true
+                      source: true
+                      artwork_border: true
+                      controls: false
                 show_empty: false
                 show_header_toggle: false
                 state_filter:
                   - playing
-                type: entity-filter
-              - card:
+                card:
                   type: entities
+              - type: entity-filter
                 entities:
-                  - artwork: cover
+                  - type: 'custom:mini-media-player'
                     entity: media_player.livingroom_alexa
+                    name: Woonkamer Alexa
+                    artwork: cover
                     group: true
                     hide:
                       mute: true
@@ -256,18 +257,18 @@ views:
                       source: true
                       artwork_border: true
                       controls: false
-                    name: Woonkamer Alexa
-                    type: 'custom:mini-media-player'
                 show_empty: false
                 show_header_toggle: false
                 state_filter:
                   - playing
-                type: entity-filter
-              - card:
+                card:
                   type: entities
+              - type: entity-filter
                 entities:
-                  - artwork: cover
+                  - type: 'custom:mini-media-player'
                     entity: media_player.bathroom_alexa
+                    name: Badkamer Alexa
+                    artwork: cover
                     group: true
                     hide:
                       mute: true
@@ -275,7 +276,6 @@ views:
                       source: true
                       artwork_border: true
                       controls: false
-                    name: Badkamer Alexa
                     idle_view:
                       when_idle: true
                       when_standby: true
@@ -294,93 +294,75 @@ views:
                         - name: Spotify
                           type: script
                           id: script.music_alexa_play_bathroom_spotify
-                    type: 'custom:mini-media-player'
                 show_empty: false
                 show_header_toggle: false
                 state_filter:
                   - playing
-                type: entity-filter
-              - card:
+                card:
                   type: entities
+              - type: entity-filter
                 entities:
-                  - artwork: cover
+                  - type: 'custom:mini-media-player'
                     entity: media_player.bedroom_alexa
-                    group: true
-                    hide:
-                      mute: true
-                      power: true
-                      source: true
-                      artwork_border: true
-                      controls: false
                     name: Slaapkamer Alexa
-                    type: 'custom:mini-media-player'
+                    artwork: cover
+                    group: true
+                    hide:
+                      mute: true
+                      power: true
+                      source: true
+                      artwork_border: true
+                      controls: false
                 show_empty: false
                 show_header_toggle: false
                 state_filter:
                   - playing
-                type: entity-filter
-              - card:
+                card:
                   type: entities
+              - type: entity-filter
                 entities:
-                  - artwork: cover
+                  - type: 'custom:mini-media-player'
                     entity: media_player.downstairs
-                    group: true
-                    hide:
-                      mute: true
-                      power: true
-                      source: true
-                      artwork_border: true
-                      controls: false
                     name: Beneden Alexa
-                    type: 'custom:mini-media-player'
+                    artwork: cover
+                    group: true
+                    hide:
+                      mute: true
+                      power: true
+                      source: true
+                      artwork_border: true
+                      controls: false
                 show_empty: false
                 show_header_toggle: false
                 state_filter:
                   - playing
-                type: entity-filter
-              - card:
+                card:
                   type: entities
+              - type: entity-filter
                 entities:
-                  - artwork: cover
+                  - type: 'custom:mini-media-player'
                     entity: media_player.upstairs
-                    group: true
-                    hide:
-                      mute: true
-                      power: true
-                      source: true
-                      artwork_border: true
-                      controls: false
                     name: Boven Alexa
-                    type: 'custom:mini-media-player'
+                    artwork: cover
+                    group: true
+                    hide:
+                      mute: true
+                      power: true
+                      source: true
+                      artwork_border: true
+                      controls: false
                 show_empty: false
                 show_header_toggle: false
                 state_filter:
                   - playing
-                type: entity-filter
-              - card:
+                card:
                   type: entities
+              - type: entity-filter
                 entities:
-                  - artwork: cover
+                  - type: 'custom:mini-media-player'
                     entity: media_player.everywhere
-                    group: true
-                    hide:
-                      mute: true
-                      power: true
-                      source: true
-                      artwork_border: true
-                      controls: false
                     name: Overal Alexa
-                    type: 'custom:mini-media-player'
-                show_empty: false
-                show_header_toggle: false
-                state_filter:
-                  - playing
-                type: entity-filter
-              - card:
-                  type: entities
-                entities:
-                  - artwork: cover
-                    entity: media_player.google_home_bedroom
+                    artwork: cover
                     group: true
                     hide:
                       mute: true
@@ -388,13 +370,31 @@ views:
                       source: true
                       artwork_border: true
                       controls: false
-                    name: Elmo's Kamer
-                    type: 'custom:mini-media-player'
                 show_empty: false
                 show_header_toggle: false
                 state_filter:
                   - playing
-                type: entity-filter
+                card:
+                  type: entities
+              - type: entity-filter
+                entities:
+                  - type: 'custom:mini-media-player'
+                    entity: media_player.google_home_bedroom
+                    name: Elmo's Kamer
+                    artwork: cover
+                    group: true
+                    hide:
+                      mute: true
+                      power: true
+                      source: true
+                      artwork_border: true
+                      controls: false
+                show_empty: false
+                show_header_toggle: false
+                state_filter:
+                  - playing
+                card:
+                  type: entities
           - type: vertical-stack
             cards:
             - type: markdown
@@ -1790,7 +1790,7 @@ views:
                   name: Bert
                 - entity: device_tracker.router_iphone_bert
                   name: Router
-                - entity: device_tracker.ios_iphone_bert
+                - entity: device_tracker.iphone_van_bert
                   name: Ios
                 - entity: device_tracker.owntracks_iphone_bert
                   name: OwnTracks
@@ -1801,7 +1801,7 @@ views:
                   name: Caroline
                 - entity: device_tracker.router_iphone_caro
                   name: Router
-                - entity: device_tracker.ios_iphone_caro
+                - entity: device_tracker.iphone_van_caro
                   name: Ios
                 - entity: device_tracker.owntracks_iphone_caro
                   name: OWnTracks

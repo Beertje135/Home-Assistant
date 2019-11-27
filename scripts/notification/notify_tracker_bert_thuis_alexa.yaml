@@ -6,7 +6,7 @@ sequence:
   - wait_template: "{{ states.device_tracker.router_iphone_bert.state == 'home' and states.device_tracker.router_iphone_bert.attributes.ap_mac == 'f0:9f:c2:d6:9e:72' }}"
     timeout: '00:07:00'
     continue_on_timeout: false
-  - delay: 00:00:10
+  - delay: '00:00:10'
   - service: notify.alexa_media
     data:
       target: media_player.kitchen_alexa_2

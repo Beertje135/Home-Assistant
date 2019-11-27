@@ -5,7 +5,7 @@ sequence:
     value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"
   - condition: template
     value_template: "{{ (states('person.bert') not in ['home'] and states('input_select.woning_status') in ['Vakantie']) or (states('person.bert') in ['home'] and states('input_select.woning_status') in ['Dag Thuis'] and (states.sensor.time.state) <= '16:00') }}"
-  - service: notify.ios_ios_iphone_bert
+  - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: "STATUS WONING"
       message: >

@@ -3,7 +3,7 @@ alias: Notify - Als Bert in zone - Ios Caro
 sequence:
   - condition: template
     value_template: "{{ states('input_boolean.notify_caro') in ['on'] }}"
-  - service: notify.ios_ios_iphone_caro
+  - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: "BERT STATUS"
       message: >
@@ -17,5 +17,7 @@ sequence:
           Bert is bijna thuis. (Fort Breendonck)
         {% endif %}
       data:
+        apns_headers:
+          'apns-collapse-id': 'bert'
         push:
           thread-id: "bewoner"
