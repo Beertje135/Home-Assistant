@@ -78,6 +78,7 @@ views:
           - entity: person.marcus
           - entity: person.nancy
           - entity: vacuum.dusty
+          - entity: input_boolean.keep_christmas_on
         show_header_toggle: false
         show_empty: false
         state_filter:
@@ -138,7 +139,7 @@ views:
                     name: Sensors Beneden
                     tap_action:
                       action: toggle
-                show_header_toggle: false                          
+                show_header_toggle: false
           - type: vertical-stack
             cards:
               - type: markdown
@@ -192,7 +193,7 @@ views:
                 - type: 'custom:mini-media-player'
                   name: Apple Tv
                   artwork: cover
-                  entity: media_player.apple_tv_living_room
+                  entity: media_player.apple_tv_4_woonkamer
                   group: true
                   hide:
                     mute: true
@@ -631,7 +632,7 @@ views:
                             power_color: true
                             type: 'custom:mini-media-player'
                           - artwork: cover
-                            entity: media_player.apple_tv_living_room
+                            entity: media_player.apple_tv_4_woonkamer
                             group: true
                             name: Apple Tv
                             power_color: true
@@ -1385,11 +1386,17 @@ views:
                 show_header_toggle: false
                 title: GOOGLE DEVICES
                 type: entities
-              - entities:
+              - type: entities
+                title: TELEVISIE
+                id: ace8f5f7a80249f2b80c23742c7119d0
+                show_header_toggle: false
+                entities:
                   - entity: input_select.harmony_hub
-                    name: Tv Woonkamer
+                    name: Harmony Remote Woonkamer
+                  - entity: media_player.samsung_tv
+                    name: Samsung Tv
                   - artwork: cover
-                    entity: media_player.apple_tv_living_room
+                    entity: media_player.apple_tv_4_woonkamer
                     group: true
                     hide:
                       mute: true
@@ -1403,10 +1410,6 @@ views:
                       when_standby: true
                     power_color: true
                     type: 'custom:mini-media-player'
-                id: ace8f5f7a80249f2b80c23742c7119d0
-                show_header_toggle: false
-                title: TELEVISIE
-                type: entities
             column_width: 300
             layout: auto
             max_columns: 100
@@ -1770,6 +1773,10 @@ views:
               entities:
                 - entity: input_boolean.visitor
                   name: Switch Bezoek
+                  tap_action:
+                    action: toggle
+                - entity: input_boolean.keep_christmas_on
+                  name: Switch Kerstboom
                   tap_action:
                     action: toggle
             - type: history-graph

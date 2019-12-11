@@ -3,12 +3,12 @@
 - alias: Amplifier Woonkamer - Uit - Apple TV Not Playing
   trigger:
     - platform: state
-      entity_id: media_player.apple_tv_living_room
+      entity_id: media_player.apple_tv_4_woonkamer
       to: 'idle'
       for:
         minutes: 30
     - platform: state
-      entity_id: media_player.apple_tv_living_room
+      entity_id: media_player.apple_tv_4_woonkamer
       to: 'paused'
       for:
         minutes: 30
@@ -21,10 +21,10 @@
     - condition: or
       conditions:
       - condition: state
-        entity_id: media_player.apple_tv_living_room
+        entity_id: media_player.apple_tv_4_woonkamer
         state: 'idle'
       - condition: state
-        entity_id: media_player.apple_tv_living_room
+        entity_id: media_player.apple_tv_4_woonkamer
         state: 'paused'
   action:
     - service: input_select.select_option

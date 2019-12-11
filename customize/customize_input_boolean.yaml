@@ -58,3 +58,7 @@
     input_boolean.keep_pc_on:
       icon: mdi:desktop-tower-monitor
       friendly_name: Keep PC On
+
+    input_boolean.keep_christmas_on:
+      icon: mdi:pine-tree
+      friendly_name: Kerstboom

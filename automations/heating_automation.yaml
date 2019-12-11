@@ -122,6 +122,12 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states.climate.ons_huisje.attributes.preset_mode != None }}"
+      - condition: template
+        value_template: "{{ states.climate.badkamer.attributes.preset_mode != 'none' or states.climate.slp_kamer.attributes.preset_mode != 'none' or states.climate.dressing.attributes.preset_mode != 'none' or states.climate.keuken.attributes.preset_mode != 'none' or states.climate.woonkamer.attributes.preset_mode != 'none' or states.climate.kamer_elmo.attributes.preset_mode != 'none' }}"
   action:
   - service: script.turn_on
     entity_id:
@@ -425,10 +431,12 @@
     state: 'Slapen'
   - condition: or
     conditions:
+      #Only if kitchen has overwrite
     - condition: template
-      value_template: "{{ states.climate.keuken.attributes.preset_mode == 'permanent' }}"
+      value_template: "{{ (states.climate.keuken.attributes.preset_mode == 'permanent') or (states.climate.keuken.attributes.preset_mode == 'temporary') }}"
+      #Only if livingroom has overwrite
     - condition: template
-      value_template: "{{ states.climate.woonkamer.attributes.preset_mode == 'permanent' }}"
+      value_template: "{{ (states.climate.woonkamer.attributes.preset_mode == 'permanent') or (states.climate.woonkamer.attributes.preset_mode == 'temporary') }}"
   action:
   - service: script.turn_on
     entity_id:

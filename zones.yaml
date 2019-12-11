@@ -1,5 +1,9 @@
 # PERSONALL ZONES
-
+- name: home
+  radius: 50
+  latitude: !secret zone_home_lat
+  longitude: !secret zone_home_lon
+  
 - name: Mama & Mark
   latitude: !secret zone_mama_lat
   longitude: !secret zone_mama_lon
@@ -9,7 +13,7 @@
 - name: Oma
   latitude: !secret zone_oma_lat
   longitude: !secret zone_oma_lon
-  radius: 50
+  radius: 40
   icon: mdi:account-multiple
 
 - name: Nelly

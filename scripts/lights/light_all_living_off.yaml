@@ -5,5 +5,9 @@ sequence:
     entity_id:
       - light.milight_woonkamer_bridge
       - light.hue_woonkamer
-      - light.hue_woonkamer_smart_plug_one
       - light.hue_woonkamer_smart_plug_two
+  - condition: template
+    value_template: "{{ (states('input_boolean.keep_christmas_on') in ['off']) or (states('input_boolean.keep_christmas_on') in ['on'] and states('input_boolean.light_downstairs') in ['off']) or (states('input_boolean.keep_christmas_on') in ['on'] and states('input_select.woning_status') in ['Juist Weg', 'Weg', 'Vakantie', 'Slapen']) }}"
+  - service: light.turn_off
+    entity_id:
+      - light.hue_woonkamer_smart_plug_one
