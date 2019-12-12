@@ -406,8 +406,8 @@ views:
               entities:
                 - entity: sensor.smappee_ons_huisje_power_today
                 - entity: sensor.solaredge_energy_today_template
-                - entity: sensor.gas_meter
-                - entity: sensor.water_meter
+                - entity: sensor.smappee_ons_huisje_water_sensor_2_template
+                - entity: sensor.smappee_ons_huisje_water_sensor_1_template
               show_header_toggle: false
               show_name: false
           - type: vertical-stack
@@ -1497,7 +1497,7 @@ views:
                   - content: |
                       **ELEKTRICITEIT HUIDIG VERBRUIK**
                     type: markdown
-                  - entity: sensor.smappee_active_power_template
+                  - entity: sensor.smappee_ons_huisje_active_power_template
                     name: Totaal
                     min: -4
                     max: 4
@@ -1507,7 +1507,7 @@ views:
                       red: 2
                     type: gauge
                   - cards:
-                      - entity: sensor.elektricity_usage_current_template
+                      - entity: sensor.template_elektricity_current_usage
                         name: Verbruik
                         min: 0
                         max: 4
@@ -1542,9 +1542,9 @@ views:
                     type: gauge
                   - columns: 2
                     entities:
-                      - entity: sensor.elektricity_monthly_peak
+                      - entity: sensor.template_elektricity_daily_usage_monthly_peak
                         name: Deze Maand
-                      - entity: sensor.elektricity_monthly_peak_last_period
+                      - entity: sensor.template_elektricity_daily_usage_monthly_peak_attributes_last_period
                         name: Vorige Maand
                     show_header_toggle: true
                     show_name: true
@@ -1569,7 +1569,7 @@ views:
                     entities:
                       - entity: sensor.solaredge_energy_this_month_template
                         name: Deze Maand
-                      - entity: sensor.solar_monthly_peak_last_period
+                      - entity: sensor.solaredge_energy_this_month_monthly_peak_attributes_last_period
                         name: Vorige Maand
                       - entity: sensor.solaredge_energy_this_year_template
                         name: Dit Jaar
@@ -1584,7 +1584,7 @@ views:
                       **WATER**
                     type: markdown
                   - cards:
-                      - entity: sensor.water_meter
+                      - entity: sensor.smappee_ons_huisje_water_sensor_1_template
                         max: 500
                         min: 0
                         name: Water
@@ -1596,9 +1596,9 @@ views:
                     type: horizontal-stack
                   - columns: 2
                     entities:
-                      - entity: sensor.water_monthly_peak
+                      - entity: sensor.smappee_ons_huisje_water_sensor_1_monthly_peak
                         name: Deze Maand
-                      - entity: sensor.water_monthly_peak_last_period
+                      - entity: sensor.smappee_ons_huisje_water_sensor_1_monthly_peak_attributes_last_period
                         name: Vorige Maand
                     show_header_toggle: true
                     show_name: true
@@ -1609,7 +1609,7 @@ views:
                       **GAS**
                     type: markdown
                   - cards:
-                      - entity: sensor.gas_meter
+                      - entity: sensor.smappee_ons_huisje_water_sensor_2_template
                         max: 20
                         min: 0
                         name: Gas
@@ -1621,9 +1621,9 @@ views:
                     type: horizontal-stack
                   - columns: 2
                     entities:
-                      - entity: sensor.gas_monthly_peak
+                      - entity: sensor.smappee_ons_huisje_water_sensor_2_monthly_peak
                         name: Deze Maand
-                      - entity: sensor.gas_monthly_peak_last_period
+                      - entity: sensor.smappee_ons_huisje_water_sensor_2_monthly_peak_attributes_last_period
                         name: Vorige Maand
                     show_header_toggle: true
                     show_name: true
@@ -1940,112 +1940,3 @@ views:
                   name: Caroline
                   tap_action:
                     action: toggle
-  - title: Google Cast
-    icon: 'mdi:cast'
-    id: 5
-    panel: true
-    path: google_cast
-    cards:
-    - type: vertical-stack
-      cards:
-      - type: entity-filter
-        entities:
-          - entity: input_select.woning_status
-          - entity: climate.ons_huisje
-          - entity: person.bert
-          - entity: person.caroline
-        show_header_toggle: false
-        state_filter:
-          - home
-          - not_home
-          - 'on'
-          - 'off'
-          - Juist Thuis
-          - Thuis
-          - Juist Weg
-          - Weg
-          - Slapen
-          - Juist Wakker
-          - Dag Thuis
-          - Vakantie
-          - Mama & Mark
-          - Oma
-          - Nelly
-          - Elly
-          - Nancy
-          - Niki & Marcus
-          - Andy
-          - Hoevelei
-          - Werk (Bert)
-          - Werk (Caro)
-          - Willebroek Station
-          - Mechelen Station
-          - Brussel Station
-          - Checkpoint 1
-          - Checkpoint 2
-          - Chekcpoint 3
-          - Checkpoint 4
-          - Ziekenhuis St-Augustinus
-          - Ziekenhuis Willebroek
-          - Ziekenhuis Edegem
-          - Ziekenhuis Reet
-          - Ziekenhuis Middelheim
-        card:
-          show_name: false
-          type: glance
-      - type: entity-filter
-        entities:
-          - entity: sensor.bezoek
-          - entity: sensor.kuishulp
-          - entity: sensor.babysit
-          - entity: person.mama
-          - entity: person.mark
-          - entity: person.papa
-          - entity: person.karen
-          - entity: person.andy
-          - entity: person.oma
-          - entity: person.thomas
-          - entity: person.niki
-          - entity: person.marcus
-          - entity: person.nancy
-          - entity: vacuum.dusty
-        show_header_toggle: false
-        show_empty: false
-        state_filter:
-          - home
-          - 'on'
-        card:
-          show_name: true
-          show_state: false
-          type: glance
-      - type: horizontal-stack
-        cards:
-        - type: vertical-stack
-          cards:
-          - type: entities
-            title: Trein Bert
-            show_header_toggle: False
-            entities:
-              - entity: sensor.nmbs
-                name: Vertrekt Binnen
-              - type: custom:entity-attributes-card
-                filter:
-                  include:
-                    - key: sensor.nmbs.destination
-                      name: Bestemming
-          - type: entities
-            title: Waze Caroline
-            show_header_toggle: false
-            entities:
-              - entity: sensor.caroline_travel_time
-                name: Travel Time
-              - entity: sensor.caroline_travel_time_template
-                name: Geschatte Aankomst
-                icon: 'mdi:reload'
-              - type: custom:entity-attributes-card
-                filter:
-                  include:
-                    - key: sensor.caroline_travel_time.route
-                      name: Route
-        - type: weather-forecast
-          entity: weather.dark_sky

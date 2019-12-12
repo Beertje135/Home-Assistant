@@ -64,23 +64,23 @@
       friendly_name: WATER VANDAAG
       icon: mdi:water
 
+    sensor.smappee_ons_huisje_water_sensor_1_template:
+      friendly_name: WATER VANDAAG
+      icon: mdi:water
+
     sensor.smappee_ons_huisje_water_sensor_2:
       friendly_name: GAS VANDAAG
       icon: mdi:fire
 
-    sensor.water_meter:
-      friendly_name: WATER VANDAAG
-      icon: mdi:water
-
-    sensor.gas_meter:
+    sensor.smappee_ons_huisje_water_sensor_2_template:
       friendly_name: GAS VANDAAG
       icon: mdi:fire
 
-    sensor.elektricity_usage_current_template:
+    sensor.template_elektricity_current_usage:
       friendly_name: ELEK VERBRUIK HUIDIG
       icon: mdi:flash
 
-    sensor.elektricity_usage_daily_template:
+    sensor.template_elektricity_daily_usage:
       friendly_name: ELEK VERBRUIK DAG
       icon: mdi:flash
 

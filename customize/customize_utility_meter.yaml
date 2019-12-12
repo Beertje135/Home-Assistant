@@ -1,43 +1,45 @@
 # CUSTOMIZE UTILITY METER
 
-    sensor.elektricity_monthly_peak:
+    sensor.template_elektricity_daily_usage_monthly_peak:
       friendly_name: ELEK. MAAND
       icon: mdi:flash
 
-    sensor.elektricity_monthly_peak_last_period:
-      friendly_name: ELEK. MAAND
-      icon: mdi:flash
-
-    sensor.elektricity_usage_daily_peak:
+    sensor.template_elektricity_daily_usage_daily_peak:
       friendly_name: VERB. DAG
       icon: mdi:power-plug
 
-    sensor.elektricity_usage_monthly_peak:
+    sensor.smappee_ons_huisje_power_today_monthly_peak:
       friendly_name: VERBR. MAAND
       icon: mdi:power-plug
 
-    sensor.solar_monthly_peak:
+    sensor.solaredge_energy_this_month_monthly_peak:
       friendly_name: ZON MAAND
       icon: mdi:solar-power
       unit_of_measurement: 'kWh'
 
-    sensor.solar_monthly_peak_last_period:
-      friendly_name: ZON MAAND
-      icon: mdi:solar-power
-      unit_of_measurement: 'kWh'
-
-    sensor.gas_monthly_peak:
-      friendly_name: GAS MAAND
-      icon: mdi:fire
-
-    sensor.gas_monthly_peak_last_period:
-      friendly_name: GAS VORIGE MAAND
-      icon: mdi:fire
-
-    sensor.water_monthly_peak:
+    sensor.smappee_ons_huisje_water_sensor_1_monthly_peak:
       friendly_name: WATER MAAND
       icon: mdi:water
 
-    sensor.water_monthly_peak_last_period:
+    sensor.smappee_ons_huisje_water_sensor_2_monthly_peak:
+      friendly_name: GAS MAAND
+      icon: mdi:fire
+
+# CUSTOMIZE UTILITY METER TEMPLATES
+
+    sensor.smappee_ons_huisje_water_sensor_1_monthly_peak_attributes_last_period:
       friendly_name: WATER VORIGE MAAND
       icon: mdi:water
+
+    sensor.smappee_ons_huisje_water_sensor_2_monthly_peak_attributes_last_period:
+      friendly_name: GAS VORIGE MAAND
+      icon: mdi:fire
+
+    sensor.solaredge_energy_this_month_monthly_peak_attributes_last_period:
+      friendly_name: ZON MAAND
+      icon: mdi:solar-power
+      unit_of_measurement: 'kWh'
+
+    sensor.template_elektricity_daily_usage_monthly_peak_attributes_last_period:
+      friendly_name: ELEK. MAAND
+      icon: mdi:flash

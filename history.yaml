@@ -22,7 +22,7 @@
       - switch.pc_bert_lan
       - input_boolean.plex_kitchen
       - input_boolean.plex_livingroom
-      - sensor.climate_ons_huisje_mode
+      - sensor.climate_ons_huisje_attributes_preset_mode
   exclude:
     domains:
       - automation

@@ -131,14 +131,6 @@ homekit:
   filter: !include homekit_filter.yaml
   entity_config: !include homekit_entity_config.yaml
 
-# Enable Frontend Panels/Tabs
-panel_iframe:
-  #GRAFANA Component (Grafical History)
-  grafana:
-    title: Grafana
-    icon: mdi:chart-timeline
-    url: !secret url_grafana
-
 binary_sensor:
   - platform: template
     sensors:
@@ -175,33 +167,33 @@ binary_sensor:
 
 # Enable Utility meter
 utility_meter:
-  elektricity_usage_daily:
-    source: sensor.elektricity_usage_daily_template
+  template_elektricity_daily_usage_daily:
+    source: sensor.template_elektricity_daily_usage
     cycle: daily
     tariffs:
       - peak
-  elektricity_monthly:
-    source: sensor.smappee_ons_huisje_power_today
+  template_elektricity_daily_usage_monthly:
+    source: sensor.template_elektricity_daily_usage
     cycle: monthly
     tariffs:
       - peak
-  elektricity_usage_monthly:
-    source: sensor.elektricity_usage_daily_template
-    cycle: monthly
-    tariffs:
-      - peak
-  solar_monthly:
+  solaredge_energy_this_month_monthly:
     source: sensor.solaredge_energy_this_month_template
     cycle: monthly
     tariffs:
       - peak
-  gas_monthly:
-    source: sensor.gas_meter
+  smappee_ons_huisje_power_today_monthly:
+    source: sensor.smappee_ons_huisje_power_today
     cycle: monthly
     tariffs:
       - peak
-  water_monthly:
-    source: sensor.water_meter
+  smappee_ons_huisje_water_sensor_2_monthly:
+    source: sensor.smappee_ons_huisje_water_sensor_2_template
+    cycle: monthly
+    tariffs:
+      - peak
+  smappee_ons_huisje_water_sensor_1_monthly:
+    source: sensor.smappee_ons_huisje_water_sensor_1_template
     cycle: monthly
     tariffs:
       - peak
@@ -338,7 +330,7 @@ light:
 
 switch:
   - platform: wake_on_lan
-    mac_address: !secret mac_computer_lan
+    mac: !secret mac_computer_lan
     host: !secret ip_computer_lan
     turn_off:
       service: script.remote_kitchen_pc_off

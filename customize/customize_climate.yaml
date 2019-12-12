@@ -30,31 +30,31 @@
 
 #CUSTOMIZE SENSORS FOR CLIMATE
 
-    sensor.climate_badkamer_set:
+    sensor.climate_badkamer_attributes_temperature:
       friendly_name: Bathroom Setpoint
       icon: mdi:shower
 
-    sensor.climate_keuken_set:
+    sensor.climate_keuken_attributes_temperature:
       friendly_name: Kitchen Setpoint
       icon: mdi:stove
 
-    sensor.climate_woonkamer_set:
+    sensor.climate_woonkamer_attributes_temperature:
       friendly_name: Livingroom Setpoint
       icon: mdi:sofa
 
-    sensor.climate_dressing_set:
+    sensor.climate_dressing_attributes_temperature:
       friendly_name: Dressing Setpoint
       icon: mdi:hanger
 
-    sensor.climate_slp_kamer_set:
+    sensor.climate_slp_kamer_attributes_temperature:
       friendly_name: Bedroom Setpoint
       icon: mdi:bed-empty
 
-    sensor.climate_kamer_elmo_set:
+    sensor.climate_kamer_elmo_attributes_temperature:
       friendly_name: Elmo's Room Setpoint
       icon: mdi:baby-carriage
 
-    sensor.climate_ons_huisje_mode:
+    sensor.climate_ons_huisje_attributes_preset_mode:
       friendly_name: Evohome Mode
       icon: mdi:thermometer
 

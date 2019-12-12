@@ -20,14 +20,14 @@
       icon: mdi:train
       friendly_name: NMBS WILL-MECH TEMPLATE
 
-    sensor.nmbs_template_2:
+    sensor.nmbs_2_template:
       icon: mdi:train
       friendly_name: NMBS MECH-BRUS TEMPLATE
 
-    sensor.nmbs_template_3:
+    sensor.nmbs_3_template:
       icon: mdi:train
       friendly_name: NMBS MECH-WILL TEMPLATE
 
-    sensor.nmbs_template_4:
+    sensor.nmbs_4_template:
       icon: mdi:train
       friendly_name: NMBS BRUS-MECH TEMPLATE

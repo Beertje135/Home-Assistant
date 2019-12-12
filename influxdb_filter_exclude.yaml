@@ -50,9 +50,9 @@
       - sensor.nmbs_3
       - sensor.nmbs_4
       - sensor.nmbs_template
-      - sensor.nmbs_template_2
-      - sensor.nmbs_template_3
-      - sensor.nmbs_template_4
+      - sensor.nmbs_2_template
+      - sensor.nmbs_3_template
+      - sensor.nmbs_4_template
       - sensor.ons_huisje_eta
       - sensor.ophaalkalender_papier
       - sensor.ophaalkalender_pmd

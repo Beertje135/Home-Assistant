@@ -25,13 +25,13 @@
       - sensor.upstairs_nest_protect_co_status
       - sensor.upstairs_nest_protect_color_status
       - sensor.upstairs_nest_protect_smoke_status
-      - sensor.climate_badkamer_set
-      - sensor.climate_keuken_set
-      - sensor.climate_woonkamer_set
-      - sensor.climate_dressing_set
-      - sensor.climate_slp_kamer_set
-      - sensor.climate_kamer_elmo_set
-      - sensor.climate_ons_huisje_mode
+      - sensor.climate_badkamer_attributes_temperature
+      - sensor.climate_keuken_attributes_temperature
+      - sensor.climate_woonkamer_attributes_temperature
+      - sensor.climate_dressing_attributes_temperature
+      - sensor.climate_slp_kamer_attributes_temperature
+      - sensor.climate_kamer_elmo_attributes_temperature
+      - sensor.climate_ons_huisje_attributes_preset_mode
       - group.licht_keuken
       - group.licht_badkamer
       - group.licht_dressing

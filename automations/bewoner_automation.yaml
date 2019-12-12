@@ -212,7 +212,7 @@
 
 - alias: Bewoner - Bert - Aan Mechelen Station Change Wil
   trigger:
-  - entity_id: sensor.nmbs_template_3
+  - entity_id: sensor.nmbs_3_template
     platform: state
   condition:
   - condition: state
@@ -232,7 +232,7 @@
 
 - alias: Bewoner - Bert - Aan Mechelen Station Change Brus
   trigger:
-  - entity_id: sensor.nmbs_template_2
+  - entity_id: sensor.nmbs_2_template
     platform: state
   condition:
   - condition: state
@@ -252,7 +252,7 @@
 
 - alias: Bewoner - Bert - Aan Brussel Station Change
   trigger:
-  - entity_id: sensor.nmbs_template_4
+  - entity_id: sensor.nmbs_4_template
     platform: state
   condition:
   - condition: state
