@@ -14,7 +14,7 @@
 
     group.plex_players:
       icon: mdi:plex
-      friendly_name: Plex Playersç
+      friendly_name: Plex Players
 
     group.licht_keuken:
       icon: mdi:stove

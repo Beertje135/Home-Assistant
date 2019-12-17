@@ -17,7 +17,7 @@
     conditions:
     - condition: state
       entity_id: input_select.harmony_hub
-      state: 'Watch Plex'
+      state: 'Apple Tv'
     - condition: or
       conditions:
       - condition: state
@@ -26,46 +26,6 @@
       - condition: state
         entity_id: media_player.apple_tv_4_woonkamer
         state: 'paused'
-  action:
-    - service: input_select.select_option
-      entity_id: input_select.harmony_hub
-      data:
-        option: "Powered Off"
-
-- alias: Amplifier Woonkamer - Uit - Chromecast Not Playing
-  trigger:
-    - platform: state
-      entity_id: media_player.chromecast_living_room
-      to: 'idle'
-      for:
-        minutes: 10
-    - platform: state
-      entity_id: media_player.chromecast_living_room
-      to: 'paused'
-      for:
-        minutes: 10
-    - platform: state
-      entity_id: media_player.chromecast_living_room
-      to: 'off'
-      for:
-        minutes: 10
-  condition:
-    condition: and
-    conditions:
-    - condition: state
-      entity_id: input_select.harmony_hub
-      state: 'Watch Chromecast'
-    - condition: or
-      conditions:
-      - condition: state
-        entity_id: media_player.chromecast_living_room
-        state: 'idle'
-      - condition: state
-        entity_id: media_player.chromecast_living_room
-        state: 'paused'
-      - condition: state
-        entity_id: media_player.chromecast_living_room
-        state: 'off'
   action:
     - service: input_select.select_option
       entity_id: input_select.harmony_hub
@@ -224,23 +184,6 @@
       entity_id: input_select.harmony_hub
       data:
         option: "Powered Off"
-
-- alias: Amplifier Woonkamer - Aan - Chromecast Playing
-  trigger:
-    - platform: state
-      entity_id: media_player.chromecast_living_room
-      to: 'playing'
-  condition:
-    condition: and
-    conditions:
-    - condition: state
-      entity_id: input_select.harmony_hub
-      state: 'Powered Off'
-  action:
-    - service: input_select.select_option
-      entity_id: input_select.harmony_hub
-      data:
-        option: "Watch Chromecast"
 
 - alias: Amplifier Woonkamer - Aan - Echo Playing
   trigger:

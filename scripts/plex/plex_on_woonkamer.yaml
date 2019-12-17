@@ -1,5 +1,5 @@
 
-alias: Plex - Aan
+alias: Plex - Aan - Woonkamer
 sequence:
   - service: script.turn_on
     data_template:

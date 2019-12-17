@@ -14,18 +14,14 @@
           Powered Off
         {% elif state_attr('remote.harmony_hub', 'current_activity') == "Alexa" %}
           Alexa
-        {% elif state_attr('remote.harmony_hub', 'current_activity') == "TV" %}
-          Watch Tv
-        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Apple tv" %}
-          Watch Plex
-        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Google Chromecast" %}
-          Watch Chromecast
-        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Music" %}
-          Listen Music
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "TV Decoder" %}
+          Tv Decoder
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "WebOS" %}
+          Web OS
         {% elif state_attr('remote.harmony_hub', 'current_activity') == "Nintendo Switch" %}
-          Play Nintendo
-        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Playstation" %}
-          Play Playstation
+          Nintendo Switch
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Apple tv" %}
+          Apple Tv
         {% else %}
           Powered Off
         {% endif %}
@@ -43,18 +39,14 @@
           -1
         {% elif states('input_select.harmony_hub') in ['Alexa'] %}
           35750774
-        {% elif states('input_select.harmony_hub') in ['Watch Tv'] %}
-          29425407
-        {% elif states('input_select.harmony_hub') in ['Watch Plex'] %}
+        {% elif states('input_select.harmony_hub') in ['Tv Decoder'] %}
+          42338759
+        {% elif states('input_select.harmony_hub') in ['Web OS'] %}
+          42338833
+        {% elif states('input_select.harmony_hub') in ['Apple Tv'] %}
           29425458
-        {% elif states('input_select.harmony_hub') in ['Watch Chromecast'] %}
-          29425839
-        {% elif states('input_select.harmony_hub') in ['Listen Music'] %}
-          29425489
-        {% elif states('input_select.harmony_hub') in ['Play Nintendo'] %}
+        {% elif states('input_select.harmony_hub') in ['Nintendo Switch'] %}
           30703348
-        {% elif states('input_select.harmony_hub') in ['Play Playstation'] %}
-          29425864
         {% endif %}
 
 #Variant met Remote.living_room
@@ -69,22 +61,18 @@
     entity_id: input_select.harmony_hub
     data_template:
       option: >
-        {% if state_attr('remote.living_room', 'current_activity') == "PowerOff" %}
+        {% if state_attr('remote.harmony_hub', 'current_activity') == "PowerOff" %}
           Powered Off
-        {% elif state_attr('remote.living_room', 'current_activity') == "Alexa" %}
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Alexa" %}
           Alexa
-        {% elif state_attr('remote.living_room', 'current_activity') == "TV" %}
-          Watch Tv
-        {% elif state_attr('remote.living_room', 'current_activity') == "Apple tv" %}
-          Watch Plex
-        {% elif state_attr('remote.living_room', 'current_activity') == "Google Chromecast" %}
-          Watch Chromecast
-        {% elif state_attr('remote.living_room', 'current_activity') == "Music" %}
-          Listen Music
-        {% elif state_attr('remote.living_room', 'current_activity') == "Nintendo Switch" %}
-          Play Nintendo
-        {% elif state_attr('remote.living_room', 'current_activity') == "Playstation" %}
-          Play Playstation
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "TV Decoder" %}
+          Tv Decoder
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "WebOS" %}
+          Web OS
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Nintendo Switch" %}
+          Nintendo Switch
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Apple tv" %}
+          Apple Tv
         {% else %}
           Powered Off
         {% endif %}
@@ -102,16 +90,12 @@
           -1
         {% elif states('input_select.harmony_hub') in ['Alexa'] %}
           35750774
-        {% elif states('input_select.harmony_hub') in ['Watch Tv'] %}
-          29425407
-        {% elif states('input_select.harmony_hub') in ['Watch Plex'] %}
+        {% elif states('input_select.harmony_hub') in ['Tv Decoder'] %}
+          42338759
+        {% elif states('input_select.harmony_hub') in ['Web OS'] %}
+          42338833
+        {% elif states('input_select.harmony_hub') in ['Apple Tv'] %}
           29425458
-        {% elif states('input_select.harmony_hub') in ['Watch Chromecast'] %}
-          29425839
-        {% elif states('input_select.harmony_hub') in ['Listen Music'] %}
-          29425489
-        {% elif states('input_select.harmony_hub') in ['Play Nintendo'] %}
+        {% elif states('input_select.harmony_hub') in ['Nintendo Switch'] %}
           30703348
-        {% elif states('input_select.harmony_hub') in ['Play Playstation'] %}
-          29425864
         {% endif %}

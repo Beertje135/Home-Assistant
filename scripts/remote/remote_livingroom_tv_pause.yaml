@@ -4,10 +4,12 @@ sequence:
   - service: script.turn_on
     data_template:
       entity_id: >
-        {%- if states('input_select.harmony_hub') in ['Watch Tv'] -%}
+        {%- if states('input_select.harmony_hub') in ['Tv Decoder'] -%}
           script.remote_livingroom_tv_pause_belgacom
-        {%- elif states('input_select.woning_status') in ['Watch Plex'] -%}
+        {%- elif states('input_select.woning_status') in ['Apple Tv'] -%}
           script.remote_livingroom_tv_pause_apple_tv
+        {%- elif states('input_select.woning_status') in ['Web OS'] -%}
+          script.remote_livingroom_tv_pause_webos
         {%- else -%}
           script.empty
         {%- endif %}

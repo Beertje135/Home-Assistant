@@ -68,6 +68,10 @@
 
 # CUSTOMIZE APPLE TV
 
-    media_player.apple_tv_4_woonkamer:
-      friendly_name: Livingroom Apple Tv
+    media_player.apple_tv_keuken:
+      friendly_name: Apple Tv Kitchen
+      icon: mdi:apple
+
+    media_player.apple_tv_woonkamer:
+      friendly_name: Apple Tv Livingroom
       icon: mdi:apple

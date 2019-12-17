@@ -10,9 +10,11 @@ sequence:
         {%- if states('input_select.woning_status') in ['Slapen'] -%}
           script.light_milight_kitchen_on_tv_night
         {%- elif states('input_boolean.light_downstairs') in ['off'] -%}
-          script.light_milight_kitchen_on_tv_standby
+          script.light_milight_kitchen_on_tv_standby      
         {%- elif states('group.bezoekers') in ['not_home'] and (states.sensor.time.state <= '06:00' or states.sensor.time.state >= '23:00') -%}
           script.light_milight_kitchen_on_tv_dimmed
+        {%- elif states('input_boolean.plex_kitchen') in ['on'] -%}
+          script.light_milight_kitchen_on_tv_standby
         {%- else -%}
           script.light_milight_kitchen_on_tv_normal
         {%- endif %}

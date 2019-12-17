@@ -19,9 +19,7 @@
     options:
       - Powered Off
       - Alexa
-      - Watch Tv
-      - Watch Plex
-      - Watch Chromecast
-      - Listen Music
-      - Play Nintendo
-      - Play Playstation
+      - Tv Decoder
+      - Web OS
+      - Nintendo Switch
+      - Apple Tv

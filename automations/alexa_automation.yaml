@@ -122,7 +122,7 @@
     platform: state
     to: 'off'
   - platform: template
-    value_template: "{{ states('input_select.harmony_hub') in ['Watch Chromecast', 'Watch Tv', 'Watch Plex'] }}"
+    value_template: "{{ states('input_select.harmony_hub') in ['Tv Decoder', 'Web OS', 'Apple Tv'] }}"
   - platform: state
     entity_id:
       - input_boolean.plex_kitchen

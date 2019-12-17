@@ -47,15 +47,19 @@
     condition: and
     conditions:
     - condition: template
-      value_template: "{{trigger.payload_json.Account['title'] == 'Bert Verlinden' }}"
+      value_template: "{{trigger.payload_json.Account['title'] == 'Bert Verlinden'}}"
     - condition: template
-      value_template: "{{trigger.payload_json.Player.title == 'Woonkamer Apple Tv'}}"
-    - condition: template
-      value_template: "{{trigger.payload_json.Player.uuid == '585AB7D1-4B53-4237-B9F7-DE017BEA4662'}}"
+      value_template: "{{trigger.payload_json.Player.title != 'iPhone'}}"
     - condition: template
       value_template: "{{trigger.payload_json.event != 'media.scrobble'}}"
     - condition: template
       value_template: "{{trigger.payload_json.event != 'media.rate'}}"
+    - condition: or
+      conditions:
+      - condition: template
+        value_template: "{{trigger.payload_json.Player.title == 'Apple TV Woonkamer'}}"
+      - condition: template
+        value_template: "{{trigger.payload_json.Player.title == 'LG OLED55C9MLB'}}"
   action:
     service_template: >
         {% if ((trigger.payload_json.event == 'media.play') or (trigger.payload_json.event == 'media.resume')) %}
@@ -75,17 +79,19 @@
     condition: and
     conditions:
     - condition: template
-      value_template: "{{trigger.payload_json.Account['title'] == 'Bert Verlinden' }}"
+      value_template: "{{trigger.payload_json.Account['title'] == 'Bert Verlinden'}}"
     - condition: template
       value_template: "{{trigger.payload_json.Player.title != 'iPhone'}}"
-    - condition: template
-      value_template: "{{trigger.payload_json.Player.title != 'Woonkamer Apple Tv'}}"
-    - condition: template
-      value_template: "{{trigger.payload_json.Player.uuid != '256E6479-240B-4640-8F1C-3BF5767FBE57'}}"
     - condition: template
       value_template: "{{trigger.payload_json.event != 'media.scrobble'}}"
     - condition: template
       value_template: "{{trigger.payload_json.event != 'media.rate'}}"
+    - condition: or
+      conditions:
+      - condition: template
+        value_template: "{{trigger.payload_json.Player.title == 'Apple TV Keuken'}}"
+      - condition: template
+        value_template: "{{trigger.payload_json.Player.title == 'Chrome'}}"
   action:
     service_template: >
         {%- if ((trigger.payload_json.event == 'media.play') or (trigger.payload_json.event == 'media.resume')) -%}
@@ -97,7 +103,7 @@
 
 # AUTOMATION FOR LIGHT ALL WHEN PLEW CHANGES
 
-- alias: Plex - Licht - Beneden
+- alias: Plex - Licht - Woonkamer
   trigger:
   - platform: state
     entity_id: input_boolean.plex_livingroom
@@ -107,7 +113,22 @@
     data_template:
       entity_id: >
         {%- if states('input_boolean.plex_livingroom') in ['on'] -%}
-          script.plex_on
+          script.plex_on_woonkamer
         {%- elif states('input_boolean.plex_livingroom') in ['off'] -%}
-          script.plex_off
+          script.plex_off_woonkamer
+        {% endif %}
+
+- alias: Plex - Licht - Keuken
+  trigger:
+  - platform: state
+    entity_id: input_boolean.plex_kitchen
+  condition:
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('input_boolean.plex_kitchen') in ['on'] -%}
+          script.plex_on_keuken
+        {%- elif states('input_boolean.plex_kitchen') in ['off'] -%}
+          script.plex_off_keuken
         {% endif %}

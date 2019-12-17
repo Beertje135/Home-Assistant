@@ -56,8 +56,10 @@
 
 - platform: template
   sensors:
-    climate_ons_huisje_attributes_preset_mode:
-      value_template: '{{ states.climate.ons_huisje.attributes.preset_mode }}'
+    climate_kamer_elmo_attributes_temperature:
+      value_template: '{{ states.climate.kamer_elmo.attributes.temperature }}'
+    climate_ons_huisje_attributes_current_temperature:
+      value_template: '{{ states.climate.ons_huisje.attributes.current_temperature }}'
 
 
 # SENSOR TO RENAME ON AND OFF FOR VISITOR SO IT CAN BE INCLUDED IN GROUP_BEZOEKER

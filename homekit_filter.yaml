@@ -35,8 +35,6 @@ include_entities:
   - switch.wake_on_lan
   - switch.deurbel_voor_chime_active
   - media_player.kitchen_alexa_1
-  - media_player.samsung_tv
-  - remote.harmony_hub
   - vacuum.dusty
 exclude_entities:
   - input_boolean.notify_bert
