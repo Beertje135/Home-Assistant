@@ -113,13 +113,6 @@ hacs:
   python_script: False
   theme: True
 
-#alexa_media:
-#  accounts:
-#    - email: !secret username_alexa
-#      password: !secret password_alexa
-#      url: amazon.co.uk
-#      debug: True
-
 # Text to speech
 notify:
   - platform: alexa_media
@@ -213,10 +206,6 @@ influxdb:
   include: !include influxdb_filter_include.yaml
   exclude: !include influxdb_filter_exclude.yaml
 
-#camera: !include cameras.yaml
-
-#ffmpeg:
-
 weather:
   - platform: darksky
     api_key: !secret api_key_darksky
@@ -238,21 +227,6 @@ nest:
 solaredge:
   api_key: !secret api_key_solar_edge
   site_id: !secret client_id_solar_edge
-
-#device_tracker:
-#  - platform: unifi
-#    username: !secret username_unifi
-#    password: !secret password_unifi
-#    host: !secret ip_unifi
-#    port: !secret port_unifi
-#    site_id: default
-#    consider_home: 120
-#    verify_ssl: false
-#    new_device_defaults:
-#      track_new_devices: False
-#      hide_if_away: True
-#    monitored_conditions:
-#      - ap_mac
 
 unifi:
   controllers:

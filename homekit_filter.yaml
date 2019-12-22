@@ -26,7 +26,6 @@ include_entities:
   - sensor.living_sensor_light_level
   - sensor.smappee_ons_huisje_water_sensor_temperature
   - sensor.smappee_ons_huisje_water_sensor_humidity
-  - sensor.humidity_arlobaby
   - group.bezoekers
   - device_tracker.router_iphone_bert
   - device_tracker.router_iphone_caro
@@ -34,7 +33,6 @@ include_entities:
   - script.vacuum_off
   - switch.wake_on_lan
   - switch.deurbel_voor_chime_active
-  - media_player.kitchen_alexa_1
   - vacuum.dusty
 exclude_entities:
   - input_boolean.notify_bert

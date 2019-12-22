@@ -63,14 +63,6 @@
       entity_picture: /local/people/caroline.jpeg
       friendly_name: Caro Werk (Router)
 
-    device_tracker.owntracks_iphone_bert:
-      entity_picture: /local/people/bert.jpeg
-      friendly_name: Bert (OwnTracks)
-
-    device_tracker.owntracks_iphone_caro:
-      entity_picture: /local/people/caroline.jpeg
-      friendly_name: Caro (OwnTracks)
-
     device_tracker.iphone_van_bert:
       entity_picture: /local/people/bert.jpeg
       friendly_name: Bert (iOS)

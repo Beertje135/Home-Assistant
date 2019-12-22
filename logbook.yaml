@@ -38,6 +38,9 @@
       - group.licht_woonkamer
       - group.licht_veranda
       - group.licht_kamer_elmo
+      - automation.verwarming_boolean_change_based_on_outside_temperature
+      - automation.verwarming_boolean_change_based_on_season
+      - automation.verwarming_boolean_changes
       - automation.verwarming_location_week_going_home_custom_mode
       - automation.verwarming_time_week_awake_evening_rise_woonkamer
       - automation.verwarming_time_week_slapen_auto_mode
@@ -56,6 +59,80 @@
       - automation.verwarming_woning_vakantie_off
       - automation.verwarming_woning_weg_auto_mode
       - automation.verwarming_woning_weg_eco_mode
+      - automation.verluchting_boolean_change_based_on_outside_temperature_beneden
+      - automation.verluchting_boolean_change_based_on_outside_temperature_boven
+      - automation.verluchting_boolean_changes_beneden
+      - automation.verluchting_boolean_changes_boven
+      - script.notify_battery
+      - script.notify_battery_alexa
+      - script.notify_battery_ios_bert
+      - script.notify_bezoeker_babysit_ios_bert
+      - script.notify_bezoeker_babysit_ios_caro
+      - script.notify_cooling_downstairs
+      - script.notify_cooling_downstairs_alexa
+      - script.notify_cooling_downstairs_ios_bert
+      - script.notify_cooling_downstairs_ios_caro
+      - script.notify_cooling_upstairs
+      - script.notify_cooling_upstairs_alexa
+      - script.notify_cooling_upstairs_ios_bert
+      - script.notify_cooling_upstairs_ios_caro
+      - script.notify_deurbel
+      - script.notify_deurbel_alexa
+      - script.notify_deurbel_ios_bert
+      - script.notify_deurbel_ios_caro
+      - script.notify_hassio_overtime
+      - script.notify_hassio_overtime_alexa
+      - script.notify_hassio_overtime_ios_bert
+      - script.notify_hassio_restart
+      - script.notify_hassio_restart_alexa
+      - script.notify_hassio_restart_ios_bert
+      - script.notify_hassio_update
+      - script.notify_hassio_update_hacs
+      - script.notify_heating_cold_elmo
+      - script.notify_heating_cold_elmo_alexa
+      - script.notify_heating_cold_elmo_ios_bert
+      - script.notify_heating_cold_elmo_ios_caro
+      - script.notify_heating_hot_cold_outside
+      - script.notify_heating_hot_cold_outside_alexa
+      - script.notify_heating_hot_cold_outside_ios_bert
+      - script.notify_heating_hot_cold_outside_ios_caro
+      - script.notify_homekit_not_restart
+      - script.notify_homekit_not_restart_alexa
+      - script.notify_homekit_not_restart_ios
+      - script.notify_homekit_restart
+      - script.notify_homekit_restart_alexa
+      - script.notify_homekit_restart_ios
+      - script.notify_nmbs_brussel_mechelen_ios_bert
+      - script.notify_nmbs_mechelen_brussel_ios_bert
+      - script.notify_nmbs_mechelen_willebroek_ios_bert
+      - script.notify_nmbs_willebroek_mechelen_ios_bert
+      - script.notify_tracker_bert_thuis
+      - script.notify_tracker_bert_thuis_alexa
+      - script.notify_tracker_bert_thuis_ios_caro
+      - script.notify_tracker_bert_zones
+      - script.notify_tracker_bert_zones_alexa
+      - script.notify_tracker_bert_zones_ios_caro
+      - script.notify_tracker_bezoeker_thuis_alexa
+      - script.notify_tracker_bezoeker_thuis_ios_bert
+      - script.notify_tracker_bezoeker_thuis_ios_caro
+      - script.notify_tracker_caro_thuis
+      - script.notify_tracker_caro_thuis_alexa
+      - script.notify_tracker_caro_thuis_ios_bert
+      - script.notify_tracker_caro_zones
+      - script.notify_tracker_caro_zones_alexa
+      - script.notify_tracker_caro_zones_ios_bert
+      - script.notify_vacuum
+      - script.notify_vacuum_alexa
+      - script.notify_vacuum_ios_bert
+      - script.notify_vacuum_ios_caro
+      - script.notify_waste
+      - script.notify_waste_alexa
+      - script.notify_waste_ios_bert
+      - script.notify_waste_ios_caro
+      - script.notify_woning_status
+      - script.notify_woning_status_alexa
+      - script.notify_woning_status_ios_bert
+      - script.notify_woning_status_ios_caro
   exclude:
     domains:
       - sensor

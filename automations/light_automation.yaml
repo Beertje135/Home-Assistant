@@ -281,9 +281,12 @@
   - entity_id: light.hue_woonkamer
     platform: state
     to: 'on'
+  - platform: state
+    entity_id: input_select.harmony_hub
   condition:
+  - condition: template
+    value_template: "{{ states('light.hue_woonkamer') in ['on'] }}"
   action:
-  - delay: 00:00:05
   - service: script.turn_on
     entity_id:
       - script.light_hue_living_on
@@ -357,7 +360,7 @@
   - service: script.turn_on
     entity_id: script.light_all_living_off
 
-- alias: Licht - Woonkamer - Aan of Uit volgens Harmony
+- alias: Licht - Woonkamer - Milight Aan of Uit volgens Harmony
   trigger:
   - platform: state
     entity_id: input_select.harmony_hub
@@ -371,6 +374,29 @@
   action:
   - service: script.turn_on
     entity_id: script.light_milight_living_on_tv
+
+- alias: Licht - Woonkamer - Boolean (A)
+  trigger:
+  - platform: state
+    entity_id: light.hue_woonkamer
+  condition:
+  - condition: template
+    value_template: "{{ states('light.hue_woonkamer') in ['on'] or states('light.hue_woonkamer') in ['off'] }}"
+  action:
+  - service_template: input_boolean.turn_{{ trigger.to_state.state }}
+    data:
+      entity_id:
+        - input_boolean.light_livingroom
+
+- alias: Licht - Woonkamer - Boolean (B)
+  trigger:
+  - platform: state
+    entity_id: input_boolean.light_livingroom
+  action:
+    service_template: light.turn_{{ trigger.to_state.state }}
+    data:
+      entity_id:
+        - light.hue_woonkamer
 
 # AUTOMATIONS FOR DRESSING LIGHT ( ACTION = SCRIPT)
 
@@ -516,28 +542,3 @@
   - service: script.turn_on
     entity_id:
       - script.light_all_elmo_off
-
-# BOOLEAN INPUT_LIGHT_LIVINGROOM - USED TO ADD LIGHT TO HARMONY HUB
-
-- alias: Licht - Woonkamer - Boolean (A)
-  trigger:
-  - platform: state
-    entity_id: light.hue_woonkamer
-  condition:
-  - condition: template
-    value_template: "{{ states('light.hue_woonkamer') in ['on'] or states('light.hue_woonkamer') in ['off'] }}"
-  action:
-  - service_template: input_boolean.turn_{{ trigger.to_state.state }}
-    data:
-      entity_id:
-        - input_boolean.light_livingroom
-
-- alias: Licht - Woonkamer - Boolean (B)
-  trigger:
-  - platform: state
-    entity_id: input_boolean.light_livingroom
-  action:
-    service_template: light.turn_{{ trigger.to_state.state }}
-    data:
-      entity_id:
-        - light.hue_woonkamer

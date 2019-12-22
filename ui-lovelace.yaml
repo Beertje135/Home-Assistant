@@ -193,7 +193,26 @@ views:
                 - type: 'custom:mini-media-player'
                   name: Apple Tv
                   artwork: cover
-                  entity: media_player.apple_tv_4_woonkamer
+                  entity: media_player.apple_tv_woonkamer
+                  group: true
+                  hide:
+                    mute: true
+                    power: true
+                    source: true
+                    artwork_border: true
+                    controls: false
+                show_empty: false
+                show_header_toggle: false
+                state_filter:
+                  - playing
+                card:
+                  type: entities
+              - type: entity-filter
+                entities:
+                - type: 'custom:mini-media-player'
+                  name: Apple Tv
+                  artwork: cover
+                  entity: media_player.apple_tv_keuken
                   group: true
                   hide:
                     mute: true
@@ -632,7 +651,7 @@ views:
                             power_color: true
                             type: 'custom:mini-media-player'
                           - artwork: cover
-                            entity: media_player.apple_tv_4_woonkamer
+                            entity: media_player.apple_tv_woonkamer
                             group: true
                             name: Apple Tv
                             power_color: true
@@ -740,6 +759,12 @@ views:
                           artwork_border: true
                           controls: false
                         name: Multiroom
+                        power_color: true
+                        type: 'custom:mini-media-player'
+                      - artwork: cover
+                        entity: media_player.apple_tv_keuken
+                        group: true
+                        name: Apple Tv
                         power_color: true
                         type: 'custom:mini-media-player'
                     show_empty: false
@@ -1393,10 +1418,23 @@ views:
                 entities:
                   - entity: input_select.harmony_hub
                     name: Harmony Remote Woonkamer
-                  - entity: media_player.samsung_tv
-                    name: Samsung Tv
                   - artwork: cover
-                    entity: media_player.apple_tv_4_woonkamer
+                    entity: media_player.apple_tv_woonkamer
+                    group: true
+                    hide:
+                      mute: true
+                      power: true
+                      source: true
+                      artwork_border: true
+                      controls: false
+                    name: Apple Tv Woonkamer
+                    idle_view:
+                      when_idle: true
+                      when_standby: true
+                    power_color: true
+                    type: 'custom:mini-media-player'
+                  - artwork: cover
+                    entity: media_player.apple_tv_keuken
                     group: true
                     hide:
                       mute: true
@@ -1799,8 +1837,6 @@ views:
                   name: Router
                 - entity: device_tracker.iphone_van_bert
                   name: Ios
-                - entity: device_tracker.owntracks_iphone_bert
-                  name: OwnTracks
             - type: history-graph
               hours_to_show: 12
               entities:
@@ -1810,8 +1846,6 @@ views:
                   name: Router
                 - entity: device_tracker.iphone_van_caro
                   name: Ios
-                - entity: device_tracker.owntracks_iphone_caro
-                  name: OWnTracks
             - type: markdown
               content: |
                 **AFVALKALENDER**
