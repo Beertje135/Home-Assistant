@@ -19,7 +19,7 @@
 # CUSTOMIZE TV
 
     media_player.samsung_tv:
-      friendly_name: Livingroom Tv
+      friendly_name: Samsung Tv
       icon: mdi:television
 
 # CUSTOMIZE SPOTIFY

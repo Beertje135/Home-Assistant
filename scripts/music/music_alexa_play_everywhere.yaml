@@ -3,15 +3,15 @@ alias: Radio - Alexa play everywhere
 sequence:
   - service: media_player.play_media
     data_template:
-      entity_id: media_player.everywhere
+      entity_id: media_player.kitchen_alexa_2
       media_content_type: TUNEIN
       media_content_id: >
         {% if ((states.sensor.time.state) <= "09:00") and now().weekday() in (0,1,2,3,4) %}
-          VRT MNM
+          VRT MNM on the everywhere group
         {% elif ((states.sensor.time.state) <= "07:30") and now().weekday() in (5,6) %}
-          VRT MNM
+          VRT MNM on the everywhere group
         {% else %}
-          VRT MNM
+          VRT MNM on the everywhere group
         {% endif %}
   - delay: 00:00:05
   - service: media_player.volume_set

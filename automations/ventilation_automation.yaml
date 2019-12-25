@@ -1,0 +1,59 @@
+# AUTOMATIONS TO CHANGE VENTILATION
+
+- alias: Verluchting - Boolean Change based on Outside Temperature (Boven)
+  trigger:
+  - platform: template
+    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.kamer_elmo', 'current_temperature') }}"
+  - platform: template
+    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.kamer_elmo', 'current_temperature') }}"
+  condition:
+  - condition: template
+    value_template: "{{ is_state('sensor.season', 'summer') }}"
+  action:
+    service_template: >
+      {% if (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.kamer_elmo', 'current_temperature') -%}
+        input_boolean.turn_on
+      {%- elif (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.kamer_elmo', 'current_temperature') -%}
+        input_boolean.turn_off
+      {%- endif %}
+    data:
+      entity_id:
+        - input_boolean.cooling_upstairs
+
+- alias: Verluchting - Boolean Change based on Outside Temperature (Beneden)
+  trigger:
+  - platform: template
+    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.keuken', 'current_temperature') }}"
+  - platform: template
+    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.keuken', 'current_temperature') }}"
+  condition:
+  - condition: template
+    value_template: "{{ is_state('sensor.season', 'summer') }}"
+  action:
+    service_template: >
+      {% if (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.keuken', 'current_temperature') -%}
+        input_boolean.turn_on
+      {%- elif (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.keuken', 'current_temperature') -%}
+        input_boolean.turn_off
+      {%- endif %}
+    data:
+      entity_id:
+        - input_boolean.cooling_downstairs
+
+# BASED ON BOOLEAN
+
+- alias: Verluchting - Boolean Changes (Boven)
+  trigger:
+  - entity_id: input_boolean.cooling_upstairs
+    platform: state
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_cooling_upstairs
+
+- alias: Verluchting - Boolean Changes (Beneden)
+  trigger:
+  - entity_id: input_boolean.cooling_downstairs
+    platform: state
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_cooling_downstairs

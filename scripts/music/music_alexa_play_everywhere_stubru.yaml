@@ -3,8 +3,8 @@ alias: Radio - Alexa play overal StuBru
 sequence:
   - service: media_player.play_media
     data:
-      entity_id: media_player.everywhere
-      media_content_id: VRT STUDIO BRUSSEL
+      entity_id: media_player.kitchen_alexa_2
+      media_content_id: VRT STUDIO BRUSSEL on the everywhere group
       media_content_type: TUNEIN
   - delay: 00:00:05
   - service: media_player.volume_set

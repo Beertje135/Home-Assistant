@@ -116,7 +116,7 @@
 
     device_tracker.tv_samsung:
       icon: mdi:television
-      friendly_name: Livingroom Tv
+      friendly_name: Samsung Tv
 
     device_tracker.pc_bert_lan:
       icon: mdi:desktop-tower-monitor
