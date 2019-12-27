@@ -10,7 +10,8 @@ lovelace:
 default_config:
 
 # (default)
-automation: !include_dir_merge_list automations/
+automation: !include automations.yaml
+automation old: !include_dir_merge_list automations/
 
 # (default) Enables configuration UI
 config:

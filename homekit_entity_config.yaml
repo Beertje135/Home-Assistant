@@ -34,6 +34,10 @@ light.hue_woonkamer_smart_plug_one:
 light.hue_keuken_smart_plug:
   name: Keuken Speakers
 
+# INPUT SELECT
+
+input_select.harmony_hub:
+  name: TV
 
 # SWITCHES
 

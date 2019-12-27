@@ -304,6 +304,38 @@
     entity_id:
       - script.evo_status_normal
 
+- alias: Verwarming - Time week - End Work - Eco Mode
+  trigger:
+  - platform: time
+    at: !secret work_week_end
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when not home
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Weg'
+    #Only on weekdays
+  - condition: state
+    entity_id: group.bewoners
+    state: 'not_home'
+  - condition: state
+    entity_id: group.bezoekers
+    state: 'not_home'
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_economy
+
 - alias: Verwarming - Time week - Awake Evening - Rise (Woonkamer)
   trigger:
   - platform: time

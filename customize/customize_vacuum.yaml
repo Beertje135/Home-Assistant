@@ -3,11 +3,3 @@
     input_boolean.vacuum_cleaned_today:
       icon: mdi:robot-vacuum
       friendly_name: Input Dusty Cleaned Today
-
-    script.vacuum_on:
-      icon: mdi:robot-vacuum
-      friendly_name: Dusty Start
-
-    script.vacuum_off:
-      icon: mdi:robot-vacuum
-      friendly_name: Dusty Stop

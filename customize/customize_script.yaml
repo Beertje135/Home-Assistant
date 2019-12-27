@@ -1,19 +1,27 @@
     script.music_alexa_play_kitchen_spotify:
-      friendly_name: 'Spotify'
+#      friendly_name: 'Spotify'
       entity_picture: /local/music/spotify.jpeg
 
     script.music_alexa_play_kitchen_stubru:
-      friendly_name: 'Stu Bru'
+#      friendly_name: 'Stu Bru'
       entity_picture: /local/music/stubru.jpeg
 
     script.music_alexa_play_kitchen_mnm:
-      friendly_name: 'MNM'
+#      friendly_name: 'MNM'
       entity_picture: /local/music/mnm.jpeg
 
     script.music_alexa_play_kitchen_qmusic:
-      friendly_name: 'Q Music'
+#      friendly_name: 'Q Music'
       entity_picture: /local/music/qmusic.jpeg
 
     script.music_alexa_play_kitchen:
-      friendly_name: 'Radio'
+#      friendly_name: 'Radio'
       icon: mdi:radio
+
+    script.vacuum_on:
+      icon: mdi:robot-vacuum
+#      friendly_name: Dusty Start
+
+    script.vacuum_off:
+      icon: mdi:robot-vacuum
+#      friendly_name: Dusty Stop

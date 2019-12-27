@@ -26,6 +26,7 @@ include_entities:
   - sensor.living_sensor_light_level
   - sensor.smappee_ons_huisje_water_sensor_temperature
   - sensor.smappee_ons_huisje_water_sensor_humidity
+  - input_select.harmony_hub
   - group.bezoekers
   - device_tracker.router_iphone_bert
   - device_tracker.router_iphone_caro

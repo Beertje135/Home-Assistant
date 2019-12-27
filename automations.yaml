@@ -1,6 +1,26 @@
-# AUTOMATIONS WHEN WASTE NEEDS TO BE OUTSIDE CHANGES
+# VUILBAK
+
+- alias: Vuilbakken - Bert Thuis
+  id: vuilbak001
+  initial_state: 'off'
+  trigger:
+  - platform: state
+    entity_id: person.bert
+    to: 'home'
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Dag Thuis'] }}"
+  - condition: template
+    value_template: "{{ ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_restafval.state) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_papier.state) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_pmd.state) }}"
+  action:
+  - wait_template: "{{ is_state('device_tracker.router_iphone_bert', 'home') }}"
+    timeout: '00:05:00'
+    continue_on_timeout: false
+  - service: script.turn_on
+    entity_id: script.notify_waste_ios_bert
 
 - alias: Vuilbakken - Reminder voor avond
+  id: vuilbak002
   trigger:
   - platform: time
     at: '20:30:00'
@@ -14,6 +34,7 @@
     entity_id: script.notify_waste
 
 - alias: Vuilbakken - Status Woning Changes
+  id: vuilbak003
   initial_state: 'off'
   trigger:
   - platform: state
@@ -31,20 +52,31 @@
   - service: script.turn_on
     entity_id: script.notify_waste
 
-- alias: Vuilbakken - Bert Thuis
-  initial_state: 'off'
-  trigger:
-  - platform: state
-    entity_id: person.bert
-    to: 'home'
-  condition:
-  - condition: template
-    value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Dag Thuis'] }}"
-  - condition: template
-    value_template: "{{ ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_restafval.state) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_papier.state) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_pmd.state) }}"
-  action:
-  - wait_template: "{{ is_state('device_tracker.router_iphone_bert', 'home') }}"
-    timeout: '00:05:00'
-    continue_on_timeout: false
-  - service: script.turn_on
-    entity_id: script.notify_waste_ios_bert
+# ALEXA
+
+# BATTERIJ
+
+# BEWONER
+
+# BEZOEKER
+
+# DEURBEL
+
+# HARMONY
+
+# HASSIO
+
+# VERWARMING
+
+# VERLUCHTING
+
+# LICHT
+
+# PLEX
+
+# VERSTERKER
+
+# STOFZUIGER
+
+# WONING
+
