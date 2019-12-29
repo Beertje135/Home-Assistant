@@ -1,5 +1,5 @@
 
-alias: Notify - Dusty - Ios Bert
+alias: Notify iOS Bert - Dusty - Status
 sequence:
   - condition: template
     value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') not in ['home'] }}"

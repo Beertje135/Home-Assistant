@@ -1,5 +1,5 @@
 
-alias: Notify - Babysit Wanneer Thuis - Ios Caro
+alias: Notify iOS Caro - Babysit - Wanneer Thuis
 sequence:
   - service: notify.mobile_app_iphone_van_caro
     data:

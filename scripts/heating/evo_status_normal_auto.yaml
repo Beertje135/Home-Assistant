@@ -1,5 +1,5 @@
 
-alias: Evohome - Normal with Auto
+alias: Evohome - Status - Normal Auto
 sequence:
   - service: climate.set_preset_mode
     data:

@@ -1,5 +1,5 @@
 
-alias: Notify - Batterij leeg - Ios Bert
+alias: Notify iOS Bert - Batterij - Leeg
 sequence:
   - condition: template
     value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"

@@ -1,7 +1,7 @@
 
-alias: Notify Geen Restart van Homekit
+alias: Notify All - Homekit - Geen Restart
 sequence:
   - service: script.turn_on
     entity_id:
-      - script.notify_homekit_not_restart_ios
+      - script.notify_homekit_not_restart_ios_bert
       - script.notify_homekit_not_restart_alexa

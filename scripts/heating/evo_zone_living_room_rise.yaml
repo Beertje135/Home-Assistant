@@ -1,5 +1,5 @@
 
-alias: Evohome - Woonkamer - Hoger
+alias: Evohome - Zone - Woonkamer - Hoger
 sequence:
   - service: climate.set_temperature
     entity_id: climate.woonkamer

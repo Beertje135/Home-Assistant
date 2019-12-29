@@ -1,5 +1,5 @@
 
-alias: Notify - Als Caro thuis of weg
+alias: Notify All - Bewoner Caro - Als thuis of weg
 sequence:
   - service: script.turn_on
     entity_id:

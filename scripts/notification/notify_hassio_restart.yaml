@@ -1,5 +1,5 @@
 
-alias: Notify - Restart van Systeem
+alias: Notify All - Hassio - Restart
 sequence:
   - service: script.turn_on
     entity_id:

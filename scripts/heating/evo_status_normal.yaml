@@ -1,5 +1,5 @@
 
-alias: Evohome - Normal
+alias: Evohome - Status - Normal
 sequence:
   - service: script.turn_on
     data_template:

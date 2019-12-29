@@ -1,5 +1,5 @@
 
-alias: Notify NMBS - Mechelen-Willebroek
+alias: Notify iOS Bert - NMBS - Mechelen-Willebroek
 sequence:
   - service: notify.mobile_app_iphone_van_bert
     data_template:

@@ -1,13 +1,6 @@
 
-alias: Notify - Hassio Update - HACS
+alias: Notify Alexa - HACS - Update
 sequence:
-  - service: notify.mobile_app_iphone_van_bert
-    data:
-      title: "SERVER UPDATE"
-      message: Er is een update beschikbaar voor een Custom Component.
-      data:
-        push:
-          thread-id: "server"
   - condition: template
     value_template: "{{ states('group.bewoners_router') in ['home'] }}"
   - condition: template

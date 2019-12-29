@@ -1,23 +1,7 @@
 
-alias: Notify - Hassio Update
+alias: Notify All - Hassio - Update
 sequence:
-  - service: notify.mobile_app_iphone_van_bert
-    data:
-      title: "SERVER UPDATE"
-      message: Er is een update beschikbaar.
-      data:
-        push:
-          thread-id: "server"
-  - condition: template
-    value_template: "{{ states('group.bewoners_router') in ['home'] }}"
-  - condition: template
-    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
-  - service: notify.alexa_media
-    data:
-      target:
-        - media_player.kitchen_alexa_2
-        - media_player.bathroom_alexa
-      message: 'I have an update available'
-      data:
-        type: announce
-        method: speak
+  - service: script.turn_on
+    entity_id:
+      - script.notify_hassio_update_ios_bert
+      - script.notify_hassio_update_alexa

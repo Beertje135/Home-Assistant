@@ -1,5 +1,5 @@
 
-alias: Notify - Als Caro thuis of weg - Ios Bert
+alias: Notify iOS Bert - Bewoner Caro - Als thuis of weg
 sequence:
   - condition: template
     value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"

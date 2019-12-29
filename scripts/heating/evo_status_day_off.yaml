@@ -1,5 +1,5 @@
 
-alias: Evohome - Day Off
+alias: Evohome - Status - Day Off
 sequence:
   - service: climate.set_preset_mode
     data:

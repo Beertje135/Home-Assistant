@@ -1,5 +1,5 @@
 
-alias: Notify Restart van Homekit - Alexa
+alias: Notify Alexa - Homekit - Restart
 sequence:
   - condition: template
     value_template: "{{ states('group.bewoners_router') in ['home'] and states('input_select.woning_status') not in ['Slapen'] }}"

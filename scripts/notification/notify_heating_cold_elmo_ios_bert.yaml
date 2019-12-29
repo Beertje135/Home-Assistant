@@ -1,5 +1,5 @@
 
-alias: Notify - Als het koud is op Elmo zijn kamer - Ios Bert
+alias: Notify iOS Bert - Verwarming - Als het koud is op Elmo zijn kamer
 sequence:
   - condition: template
     value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') in ['home'] }}"

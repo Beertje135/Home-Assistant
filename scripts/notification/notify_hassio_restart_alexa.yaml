@@ -1,5 +1,5 @@
 
-alias: Notify - Restart van Systeem - Alexa
+alias: Notify Alexa - Hassio - Restart
 sequence:
   - condition: template
     value_template: "{{ states('group.bewoners_router') in ['home'] }}"

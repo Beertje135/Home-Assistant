@@ -1,5 +1,5 @@
 
-alias: Notify - Als Bezoeker in huis - Alexa
+alias: Notify Alexa - Bezoeker - Als in huis
 sequence:
   - condition: template
     value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"

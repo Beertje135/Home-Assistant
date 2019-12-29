@@ -1,5 +1,5 @@
 
-alias: Notify - Als Deurbel Gaat - Alexa
+alias: Notify Alexa - Deurbel Voordeur - Als ze aanbellen
 sequence:
   - condition: template
     value_template: "{{ states('group.bewoners_router') in ['home'] or states('group.bezoekers') in ['home']}}"

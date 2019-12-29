@@ -1,5 +1,5 @@
 
-alias: Evohome - Keuken - Hoger
+alias: Evohome - Zone - Keuken - Hoger
 sequence:
   - service: climate.set_temperature
     entity_id: climate.keuken

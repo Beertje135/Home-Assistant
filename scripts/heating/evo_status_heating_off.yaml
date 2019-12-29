@@ -1,5 +1,5 @@
 
-alias: Evohome - Heating Off
+alias: Evohome - Status - Heating Off
 sequence:
   - service: climate.set_hvac_mode
     data:

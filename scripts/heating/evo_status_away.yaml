@@ -1,5 +1,5 @@
 
-alias: Evohome - Away
+alias: Evohome - Status - Away
 sequence:
   - service: climate.set_preset_mode
     data:

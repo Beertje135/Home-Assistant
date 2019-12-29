@@ -1,5 +1,5 @@
 
-alias: Notify - Als buiten te warm of te koud - Alexa
+alias: Notify Alexa - Verwarming - Als buiten te warm of te koud
 sequence:
   - condition: template
     value_template: "{{ states('group.bewoners') in ['home'] }}"

@@ -1,5 +1,5 @@
 
-alias: Evohome - Badkamer - Auto
+alias: Evohome - Zone - Badkamer - Reset
 sequence:
   - service: climate.set_preset_mode
     data:

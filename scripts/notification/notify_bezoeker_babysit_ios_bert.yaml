@@ -1,5 +1,5 @@
 
-alias: Notify - Babysit Wanneer Thuis - Ios Bert
+alias: Notify iOS Bert - Babysit - Wanneer Thuis
 sequence:
   - service: notify.mobile_app_iphone_van_bert
     data:

@@ -1,5 +1,5 @@
 
-alias: Notify - Als status woning aangepast is
+alias: Notify All - Woning - Als status aangepast
 sequence:
   - service: script.turn_on
     entity_id:

@@ -1,5 +1,5 @@
 
-alias: Notify - Als het koud is op Elmo zijn kamer - Alexa
+alias: Notify Alexa - Verwarming - Als het koud is op Elmo zijn kamer
 sequence:
   - condition: template
     value_template: "{{ states('group.bewoners') in ['home'] }}"

@@ -1,5 +1,5 @@
 
-alias: Notify - Als status woning aangepast is - Ios Bert
+alias: Notify iOS Bert - Woning - Als status aangepast
 sequence:
   - condition: template
     value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"

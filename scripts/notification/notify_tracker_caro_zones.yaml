@@ -1,5 +1,5 @@
 
-alias: Notify - Als Caro in zone
+alias: Notify All - Bewoner Caro - Als in zone
 sequence:
   - service: script.turn_on
     entity_id:

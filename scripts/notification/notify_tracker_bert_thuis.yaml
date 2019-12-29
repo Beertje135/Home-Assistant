@@ -1,5 +1,5 @@
 
-alias: Notify - Als Bert thuis of weg
+alias: Notify All - Bewoner Bert - Als thuis of weg
 sequence:
   - service: script.turn_on
     entity_id:

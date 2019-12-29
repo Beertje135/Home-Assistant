@@ -1,5 +1,5 @@
 
-alias: Notify - Als Bert in zone
+alias: Notify All - Bewoner Bert - Als in zone
 sequence:
   - service: script.turn_on
     entity_id:

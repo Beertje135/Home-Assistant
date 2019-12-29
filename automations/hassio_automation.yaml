@@ -34,7 +34,7 @@
   action:
   - service: script.turn_on
     data:
-      entity_id: script.notify_hassio_update_hacs
+      entity_id: script.notify_hacs_update
 
 # NOTIFY WHEN SERVER SPEED MAXED
 

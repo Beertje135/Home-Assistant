@@ -220,7 +220,7 @@
           Thuis
         {% elif states('input_select.woning_status') in ['Juist Weg'] %}
           Weg
-        {% elif states('input_select.woning_status') in ['Weg'] %}
+        {% else %}
           Vakantie
         {% endif %}
 

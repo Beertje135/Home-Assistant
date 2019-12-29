@@ -1,5 +1,5 @@
 
-alias: Notify - Als vuilbakken buiten moeten - Alexa
+alias: Notify Alexa - Vuilbak - Als buiten moeten
 sequence:
   - condition: template
     value_template: "{{ states('group.bewoners_router') in ['home'] or states('group.bezoekers') in ['home']}}"

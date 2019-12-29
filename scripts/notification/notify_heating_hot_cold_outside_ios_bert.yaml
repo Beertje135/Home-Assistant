@@ -1,5 +1,5 @@
 
-alias: Notify - Als buiten te warm of te koud - Ios Bert
+alias: Notify iOS Bert - Verwarming - Als buiten te warm of te koud
 sequence:
   - condition: template
     value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') in ['home'] }}"

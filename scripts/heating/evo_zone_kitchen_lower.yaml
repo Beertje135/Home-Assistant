@@ -1,5 +1,5 @@
 
-alias: Evohome - Keuken - Lager
+alias: Evohome - Zone - Keuken - Lager
 sequence:
   - service: climate.set_temperature
     entity_id: climate.keuken

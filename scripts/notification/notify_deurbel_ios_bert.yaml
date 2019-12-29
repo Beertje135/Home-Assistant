@@ -1,5 +1,5 @@
 
-alias: Notify - Als Deurbel Gaat - Ios Bert
+alias: Notify iOS Bert - Deurbel Voordeur - Als ze aanbellen
 sequence:
   - condition: template
     value_template: "{{ (states('input_boolean.notify_bert') in ['on'] and states('device_tracker.router_iphone_bert') in ['home']) or (states('input_boolean.notify_bert') in ['on'] and states('device_tracker.router_iphone_bert') in ['not_home']) }}"

@@ -1,5 +1,5 @@
 
-alias: Evohome - Woonkamer - Lager
+alias: Evohome - Zone - Woonkamer - Lager
 sequence:
   - service: climate.set_temperature
     entity_id: climate.woonkamer

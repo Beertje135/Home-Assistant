@@ -1,0 +1,10 @@
+
+alias: Notify iOS Bert - HACS - Update
+sequence:
+  - service: notify.mobile_app_iphone_van_bert
+    data:
+      title: "SERVER UPDATE"
+      message: Er is een update beschikbaar voor een Custom Component.
+      data:
+        push:
+          thread-id: "server"

@@ -1,5 +1,5 @@
 
-alias: Notify NMBS - Brussel-Mechelen
+alias: Notify iOS Bert - NMBS - Brussel-Mechelen
 sequence:
   - service: notify.mobile_app_iphone_van_bert
     data_template:

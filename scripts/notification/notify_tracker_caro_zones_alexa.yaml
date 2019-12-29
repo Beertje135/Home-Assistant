@@ -1,5 +1,5 @@
 
-alias: Notify - Als Caro in zone - Alexa
+alias: Notify Alexa - Bewoner Caro - Als in zone
 sequence:
   - condition: template
     value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"

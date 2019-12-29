@@ -1,0 +1,16 @@
+
+alias: Notify Alexa - Hassio - Update
+sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - service: notify.alexa_media
+    data:
+      target:
+        - media_player.kitchen_alexa_2
+        - media_player.bathroom_alexa
+      message: 'I have an update available'
+      data:
+        type: announce
+        method: speak

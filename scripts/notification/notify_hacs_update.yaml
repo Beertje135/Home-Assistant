@@ -1,0 +1,7 @@
+
+alias: Notify All - HACS - Update
+sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_hacs_update_ios_bert
+      - script.notify_hacs_update_alexa

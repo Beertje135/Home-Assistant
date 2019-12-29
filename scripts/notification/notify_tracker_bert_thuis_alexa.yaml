@@ -1,5 +1,5 @@
 
-alias: Notify - Als Bert thuis of weg - Alexa
+alias: Notify Alexa - Bewoner Bert - Als thuis of weg
 sequence:
   - condition: template
     value_template: "{{ states('person.bert') in ['home'] and states('input_select.woning_status') not in ['Juist Thuis', 'Slapen'] }}"

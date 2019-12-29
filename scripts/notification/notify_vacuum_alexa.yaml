@@ -1,5 +1,5 @@
 
-alias: Notify - Dusty - Alexa
+alias: Notify Alexa - Dusty - Status
 sequence:
   - condition: template
     value_template: "{{ states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']}}"

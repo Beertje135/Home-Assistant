@@ -1,5 +1,5 @@
 
-alias: Notify - Batterij leeg - Alexa
+alias: Notify Alexa - Batterij - Leeg
 sequence:
   - condition: template
     value_template: "{{ states('group.bewoners') in ['home'] }}"

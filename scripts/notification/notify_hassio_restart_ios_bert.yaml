@@ -1,8 +1,8 @@
 
-alias: Notify - Restart van Systeem - Ios Bert
+alias: Notify iOS Bert - Hassio - Restart
 sequence:
   - condition: template
-    value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') not in ['home'] }}"
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: "SERVER RESTART"

@@ -1,5 +1,5 @@
 
-alias: Notify - Als het koud is op Elmo zijn kamer - Ios Caro
+alias: Notify iOS Caro - Verwarming - Als het koud is op Elmo zijn kamer
 sequence:
   - condition: template
     value_template: "{{ states('input_boolean.notify_caro') in ['on'] and states('person.caroline') in ['home'] }}"
