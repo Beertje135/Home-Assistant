@@ -9,6 +9,9 @@
 #Used to turn on/off all lights downstairs and not respond to sensors
   light_downstairs:
 
+#Used to turn on/off light Arlo Elmo
+  light_arlo:
+
 #used to keep vistor at home without device tracker
   visitor:
 
@@ -21,7 +24,7 @@
 
   trigger_morning:
 
-#Used to trigger sensors alexa and trigger routines
+#Used to trigger binary sensors and alexa and trigger routines
   trigger_just_home_kitchen:
 
   trigger_just_awake_kitchen:

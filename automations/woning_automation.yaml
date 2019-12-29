@@ -90,8 +90,10 @@
     entity_id:
       - binary_sensor.keuken_sensor_motion
     to: 'on'
-  - platform: template
-    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Weg', 'Juist Wakker', 'Slapen'] }}"
+    for:
+      seconds: 2 
+#  - platform: template
+#    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Weg', 'Juist Wakker', 'Slapen'] }}"
   condition:
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Weg', 'Juist Wakker', 'Slapen'] }}"
@@ -106,7 +108,6 @@
   - condition: template
     value_template: "{{ states('input_boolean.trigger_just_away_kitchen') in ['off'] }}"
   action:
-  - delay: 00:00:05
   - service: input_boolean.turn_on
     data_template:
       entity_id: >
@@ -119,13 +120,6 @@
         {%- elif states('input_select.woning_status') in ['Juist Weg'] and states('binary_sensor.keuken_sensor_motion') in ['on'] -%}
           input_boolean.trigger_just_away_kitchen
         {%- endif %}
-#  - delay: 00:10:00
-#  - service: input_boolean.turn_off
-#    entity_id:
-#      - input_boolean.trigger_just_home_kitchen
-#      - input_boolean.trigger_just_awake_kitchen
-#      - input_boolean.trigger_just_sleep_kitchen
-#      - input_boolean.trigger_just_away_kitchen
 
 - alias: Ons Huisje - Change Status - Trigger Motion Sensor Dressing
   trigger:
@@ -133,8 +127,10 @@
     entity_id:
       - binary_sensor.dressing_sensor_motion
     to: 'on'
-  - platform: template
-    value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Slapen'] }}"
+    for:
+      seconds: 2 
+#  - platform: template
+#    value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Slapen'] }}"
   condition:
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Slapen'] }}"
@@ -154,11 +150,6 @@
         {%- elif states('input_select.woning_status') in ['Slapen'] and states('binary_sensor.dressing_sensor_motion') in ['on'] -%}
           input_boolean.trigger_just_sleep_dressing
         {%- endif %}
-#  - delay: 00:10:00
-#  - service: input_boolean.turn_off
-#    entity_id:
-#      - input_boolean.trigger_just_awake_dressing
-#      - input_boolean.trigger_just_sleep_dressing
 
 - alias: Ons Huisje - Change Status - Bewoner of Bezoeker
   trigger:

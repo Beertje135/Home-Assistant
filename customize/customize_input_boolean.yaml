@@ -28,6 +28,10 @@
       icon: mdi:theme-light-dark
       friendly_name: Dressing Lights Boolean
 
+    input_boolean.light_arlo:
+      icon: mdi:lightbulb-on-outline
+      friendly_name: Elmo's Kamer Arlo Light
+
     input_boolean.vacuum_cleaned_today:
       icon: mdi:check
       friendly_name: Dusty Cleaned Today Boolean

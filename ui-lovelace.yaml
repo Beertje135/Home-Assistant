@@ -132,6 +132,10 @@ views:
                     name: Veranda Arco
                   - entity: light.hue_kamer_elmo_one
                     name: Elmo's Staanlamp
+                  - entity: input_boolean.light_arlo
+                    name: Elmo's Arlo
+                    tap_action:
+                      action: toggle
                 show_header_toggle: false
               - type: entities
                 entities:
@@ -818,6 +822,8 @@ views:
                             name: Elmo's Staanlamp
                           - entity: light.hue_kamer_elmo_two
                             name: Elmo's Lamp
+                          - entity: input_boolean.light_arlo
+                            name: Elmo's Arlo
                         id: afbc102713f244bebc9ec2d574d8e99e
                         show_header_toggle: false
                         type: entities

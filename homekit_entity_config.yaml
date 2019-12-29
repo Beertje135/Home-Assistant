@@ -65,6 +65,8 @@ input_boolean.music_follow:
   name: Ons Huisje Muziek Volgen
 input_boolean.light_dressing_stay_on:
   name: Dressing Licht Aanhouden
+input_boolean.light_arlo:
+  name: Elmo's Kamer Arlo
 
 # SENSORS
 
