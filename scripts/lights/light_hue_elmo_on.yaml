@@ -4,9 +4,9 @@ sequence:
   - service: script.turn_on
     data_template:
       entity_id: >
-        {%- if states('input_select.woning_status') not in ['Vakantie', 'Juisst Weg', 'Weg'] and (states.sensor.time.state >= '19:59' or states.sensor.time.state < '06:29') -%}
+        {%- if states('input_select.woning_status') not in ['Op Vakantie', 'Juisst Weg', 'Weg'] and (states.sensor.time.state >= '19:59' or states.sensor.time.state < '06:29') -%}
           script.light_hue_elmo_on_night
-        {%- elif states('input_select.woning_status') not in ['Vakantie', 'Juisst Weg', 'Weg'] and (states.sensor.time.state >= '06:29' or states.sensor.time.state <= '07:01') -%}
+        {%- elif states('input_select.woning_status') not in ['Op Vakantie', 'Juisst Weg', 'Weg'] and (states.sensor.time.state >= '06:29' or states.sensor.time.state <= '07:01') -%}
           script.light_hue_elmo_on_standby
         {%- else -%}
           script.light_hue_elmo_on_normal

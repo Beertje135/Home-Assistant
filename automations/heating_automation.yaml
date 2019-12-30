@@ -95,21 +95,6 @@
     entity_id:
       - script.evo_status_normal
 
-- alias: Verwarming - Woning Dag Thuis - Custom Mode
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: 'Dag Thuis'
-  condition:
-    #Boolean to indicate heating on/off
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  action:
-  - service: script.turn_on
-    entity_id:
-      - script.evo_status_custom
-
 - alias: Verwarming - Woning Thuis - Auto Mode
   trigger:
   - entity_id: input_select.woning_status
@@ -133,6 +118,23 @@
     entity_id:
       - script.evo_status_normal
 
+- alias: Verwarming - Woning Thuis (Werk) - Custom Mode
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Thuis (Werk)'
+    for:
+      minutes: 1
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_custom
+
 - alias: Verwarming - Woning Juist Wakker Week - Rise (Keuken)
   trigger:
   - entity_id: input_select.woning_status
@@ -143,6 +145,10 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
     #Awake early before heating on
   - condition: time
     before: !secret awake_week_heating
@@ -167,6 +173,10 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
     #Awake early before heating on
   - condition: time
     before: !secret awake_weekend_heating
@@ -179,7 +189,7 @@
       - script.evo_zone_living_room_rise
       - script.evo_zone_kitchen_rise
 
-- alias: Verwarming - Woning Slapen - Lower (Beneden)
+- alias: Verwarming - Woning Slapen Week - Lower (Beneden)
   trigger:
   - entity_id: input_select.woning_status
     platform: state
@@ -189,32 +199,27 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
-  - condition: or
-    conditions:
-      #Sleep early before heating off
-    - condition: time
-      after: !secret awake_weekend_heating
-      before: !secret sleep_weekend
-      weekday:
-        - sat
-        - sun
-      #Sleep early before heating off
-    - condition: time
-      after: !secret awake_week_heating
-      before: !secret sleep_week
-      weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
+    #Sleep early before heating off
+  - condition: time
+    after: !secret awake_week_heating
+    before: !secret sleep_week
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    #Only when not verlof 
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
   action:
   - service: script.turn_on
     entity_id:
       - script.evo_zone_kitchen_lower
       - script.evo_zone_living_room_lower
 
-- alias: Verwarming - Woning Slapen - Auto Mode
+- alias: Verwarming - Woning Slapen Weekend - Lower (Beneden)
   trigger:
   - entity_id: input_select.woning_status
     platform: state
@@ -224,25 +229,72 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
-  - condition: or
-    conditions:
-      #Sleep late after rising heating
-    - condition: time
-      before: !secret awake_weekend_heating
-      after: !secret sleep_weekend
-      weekday:
-        - sat
-        - sun
-      #Sleep late after rising heating
-    - condition: time
-      before: !secret awake_week_heating
-      after: !secret sleep_week
-      weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
+    #Sleep early before heating off
+  - condition: time
+    after: !secret awake_weekend_heating
+    before: !secret sleep_weekend
+    weekday:
+      - sat
+      - sun
+    #Only when not verlof 
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_kitchen_lower
+      - script.evo_zone_living_room_lower
+
+- alias: Verwarming - Woning Slapen Week - Auto Mode
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Slapen'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Sleep early before heating off week or weekend
+  - condition: time
+    before: !secret awake_week_heating
+    after: !secret sleep_week
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    #Only when not verlof 
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off' 
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal
+
+- alias: Verwarming - Woning Slapen Weekend - Auto Mode
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Slapen'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: time
+    before: !secret awake_weekend_heating
+    after: !secret sleep_weekend
+    weekday:
+      - sat
+      - sun
+    #Only when not verlof 
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off' 
   action:
   - service: script.turn_on
     entity_id:
@@ -252,7 +304,7 @@
   trigger:
   - entity_id: input_select.woning_status
     platform: state
-    to: 'Vakantie'
+    to: 'Op Vakantie'
   condition:
     #Boolean to indicate heating on/off
   - condition: state
@@ -262,6 +314,95 @@
   - service: script.turn_on
     entity_id:
       - script.evo_status_heating_off
+
+# DURING HOLIDAY AT HOME
+
+- alias: Verwarming - Woning Juist Wakker Verlof - Rise (Beneden)
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Juist Wakker'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'on'
+    #Awake early before heating on
+  - condition: time
+    before: !secret awake_weekend_heating
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_rise
+      - script.evo_zone_kitchen_rise
+
+- alias: Verwarming - Woning Thuis (Verlof) - Day Off Mode
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Thuis (Verlof)'
+    for:
+      minutes: 1
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_day_off
+
+- alias: Verwarming - Woning Slapen Verlof - Lower (Beneden)
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Slapen'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Sleep early before heating off
+  - condition: time
+    after: !secret awake_weekend_heating
+    before: !secret sleep_weekend
+    #Only when verlof 
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_kitchen_lower
+      - script.evo_zone_living_room_lower
+
+- alias: Verwarming - Woning Slapen Verlof - Day Off Mode
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Slapen'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Sleep early before heating off verlof
+  - condition: time
+    before: !secret awake_weekend_heating
+    after: !secret sleep_weekend
+    #Only when not verlof
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_day_off
 
 # BASED ON TIME OF DAY
 
@@ -274,13 +415,17 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
-    #Only on weekdays
   - condition: state
     entity_id: group.bewoners
     state: 'not_home'
   - condition: state
     entity_id: group.bezoekers
     state: 'not_home'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
+    #Only on weekdays
   - condition: time
     weekday:
       - mon
@@ -313,17 +458,21 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
     #Only when not home
   - condition: state
     entity_id: input_select.woning_status
     state: 'Weg'
-    #Only on weekdays
   - condition: state
     entity_id: group.bewoners
     state: 'not_home'
   - condition: state
     entity_id: group.bezoekers
     state: 'not_home'
+    #Only on weekdays
   - condition: time
     weekday:
       - mon
@@ -345,6 +494,10 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
     #Only on weekdays
   - condition: time
     weekday:
@@ -378,6 +531,10 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
   - condition: state
     entity_id: input_select.woning_status
     state: 'Slapen'
@@ -401,6 +558,10 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
     #Only during weekends
   - condition: time
     weekday:
@@ -431,6 +592,10 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'       
     #Only during weekends
   - condition: time
     weekday:
@@ -458,6 +623,10 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'    
   - condition: state
     entity_id: input_select.woning_status
     state: 'Slapen'
@@ -473,6 +642,86 @@
   - service: script.turn_on
     entity_id:
       - script.evo_status_normal
+
+- alias: Verwarming - Time verlof - Morning - Day Off Mode
+  trigger:
+  - platform: time
+    at: !secret awake_weekend
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'on'
+  - condition: or
+    conditions:
+      #Only if kitchen has overwrite
+    - condition: template
+      value_template: "{{ (states.climate.keuken.attributes.preset_mode == 'permanent') or (states.climate.keuken.attributes.preset_mode == 'temporary') }}"
+      #Only if livingroom has overwrite
+    - condition: template
+      value_template: "{{ (states.climate.woonkamer.attributes.preset_mode == 'permanent') or (states.climate.woonkamer.attributes.preset_mode == 'temporary') }}"
+      #Only if quick action is set to Eco
+    - condition: template
+      value_template: "{{ states.climate.ons_huisje.preset_mode == eco }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_day_off
+
+- alias: Verwarming - Time verlof - Awake Evening - Rise (Woonkamer)
+  trigger:
+  - platform: time
+    at: !secret sleep_weekend
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'on'
+    #Only if we are home and not asleep
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Thuis (Verlof)'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_rise
+
+- alias: Verwarming - Time verlof - Slapen - Day Off Mode
+  trigger:
+  - platform: time
+    at: !secret sleep_weekend
+  condition:
+    #Only when verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'on'
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Slapen'
+  - condition: or
+    conditions:
+      #Only if kitchen has overwrite
+    - condition: template
+      value_template: "{{ (states.climate.keuken.attributes.preset_mode == 'permanent') or (states.climate.keuken.attributes.preset_mode == 'temporary') }}"
+      #Only if livingroom has overwrite
+    - condition: template
+      value_template: "{{ (states.climate.woonkamer.attributes.preset_mode == 'permanent') or (states.climate.woonkamer.attributes.preset_mode == 'temporary') }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_day_off
 
 - alias: Verwarming - Timer Overwrite - Badkamer - Auto Mode
   trigger:
@@ -520,6 +769,10 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
   - condition: or
     conditions:
     - condition: time
@@ -545,7 +798,7 @@
     value_template: "{{ state_attr('climate.kamer_elmo', 'current_temperature') < 15.1 }}"
   condition:
   - condition: template
-    value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Dag Thuis'] }}"
+    value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] }}"
   action:
   - service: script.turn_on
     entity_id:

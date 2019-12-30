@@ -6,12 +6,13 @@
     options:
       - Juist Weg
       - Juist Thuis
-      - Thuis
-      - Weg
-      - Slapen
       - Juist Wakker
-      - Dag Thuis
-      - Vakantie
+      - Thuis
+      - Thuis (Verlof)
+      - Thuis (Werk)
+      - Weg
+      - Slapen    
+      - Op Vakantie
 
 # ENTITY INPUT SELECT FOR HARMONY REMOTE
 

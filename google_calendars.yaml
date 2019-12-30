@@ -8,6 +8,10 @@
     name: Babysit
     search: "#Babysit"
     track: true
+  - device_id: verlof_agenda
+    name: Verlof
+    search: "#Verlof"
+    track: true
 
 - cal_id: 8jd4s8h2a0vnp3muj0e827qmqk@group.calendar.google.com
   entities:

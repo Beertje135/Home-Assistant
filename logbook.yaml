@@ -92,12 +92,12 @@
       - binary_sensor.keuken_sensor_motion
       - binary_sensor.living_sensor_motion
       - binary_sensor.ons_huisje_away
-#      - input_boolean.trigger_just_home_kitchen
-#      - input_boolean.trigger_just_awake_kitchen
-#      - input_boolean.trigger_just_sleep_kitchen
-#      - input_boolean.trigger_just_away_kitchen
-#      - input_boolean.trigger_just_awake_dressing
-#      - input_boolean.trigger_just_sleep_dressing
+      - input_boolean.trigger_just_home_kitchen
+      - input_boolean.trigger_just_awake_kitchen
+      - input_boolean.trigger_just_sleep_kitchen
+      - input_boolean.trigger_just_away_kitchen
+      - input_boolean.trigger_just_awake_dressing
+      - input_boolean.trigger_just_sleep_dressing
       - input_boolean.light_livingroom
       - light.hue_dressing_one
       - light.hue_dressing_two

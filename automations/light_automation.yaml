@@ -19,9 +19,9 @@
   - condition: or
     conditions:
       - condition: template
-        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Slapen', 'Vakantie'] }}"
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Slapen', 'Op Vakantie'] }}"
       - condition: template
-        value_template: "{{ states('input_select.woning_status') in ['Vakantie'] and states('group.bezoekers') in ['home'] }}"
+        value_template: "{{ states('input_select.woning_status') in ['Op Vakantie'] and states('group.bezoekers') in ['home'] }}"
   - condition: template
     value_template: "{{ states('light.hue_veranda_smart_plug') in ['off'] }}"
   action:
@@ -93,9 +93,9 @@
   - condition: or
     conditions:
       - condition: template
-        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Slapen', 'Vakantie'] }}"
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Slapen', 'Op Vakantie'] }}"
       - condition: template
-        value_template: "{{ states('input_select.woning_status') in ['Vakantie'] and states('group.bezoekers') in ['home'] }}"
+        value_template: "{{ states('input_select.woning_status') in ['Op Vakantie'] and states('group.bezoekers') in ['home'] }}"
   - condition: template
     value_template: "{{ states('light.hue_veranda') in ['off'] }}"
   action:
@@ -137,9 +137,9 @@
   - condition: or
     conditions:
       - condition: template
-        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Vakantie'] }}"
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Op Vakantie'] }}"
       - condition: template
-        value_template: "{{ states('input_select.woning_status') in ['Vakantie'] and states('group.bezoekers') in ['home'] }}"
+        value_template: "{{ states('input_select.woning_status') in ['Op Vakantie'] and states('group.bezoekers') in ['home'] }}"
   - condition: template
     value_template: "{{ states('light.milight_keuken') in ['off'] or state_attr('light.milight_keuken', 'brightness') < 250 }}"
   action:
@@ -180,7 +180,7 @@
     entity_id: light.milight_keuken
     state: 'on'
   - condition: template
-    value_template: "{{ states('input_select.woning_status') in ['Slapen', 'Juist Weg', 'Weg', 'Vakantie'] }}"
+    value_template: "{{ states('input_select.woning_status') in ['Slapen', 'Juist Weg', 'Weg', 'Op Vakantie'] }}"
   action:
   - service: script.turn_on
     entity_id: script.light_all_kitchen_off
@@ -200,7 +200,7 @@
   - service: script.turn_on
     data_template:
       entity_id: >
-        {% if states('sun.sun') in ['below_horizon'] and states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Dag Thuis'] %}
+        {% if states('sun.sun') in ['below_horizon'] and states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] %}
           script.light_milight_kitchen_on_standby,
           script.light_milight_kitchen_on_tv_standby
         {% else %}
@@ -225,9 +225,9 @@
   - condition: or
     conditions:
       - condition: template
-        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Vakantie'] }}"
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Op Vakantie'] }}"
       - condition: template
-        value_template: "{{ states('input_select.woning_status') in ['Vakantie'] and states('group.bezoekers') in ['home'] }}"
+        value_template: "{{ states('input_select.woning_status') in ['Op Vakantie'] and states('group.bezoekers') in ['home'] }}"
   action:
   - service: script.turn_on
     entity_id:
@@ -237,7 +237,7 @@
 - alias: Licht - Woonkamer - Aan Kerstmis
   trigger:
   - platform: template
-    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker', 'Thuis'] }}"
+    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] }}"
   condition:
   - condition: state
     entity_id: input_boolean.light_downstairs
@@ -267,9 +267,9 @@
   - condition: or
     conditions:
       - condition: template
-        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Vakantie'] }}"
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Op Vakantie'] }}"
       - condition: template
-        value_template: "{{ states('input_select.woning_status') in ['Vakantie'] and states('group.bezoekers') in ['home'] }}"
+        value_template: "{{ states('input_select.woning_status') in ['Op Vakantie'] and states('group.bezoekers') in ['home'] }}"
   action:
   - service: script.turn_on
     entity_id:
@@ -412,9 +412,9 @@
   - condition: or
     conditions:
       - condition: template
-        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Vakantie'] }}"
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Op Vakantie'] }}"
       - condition: template
-        value_template: "{{ states('input_select.woning_status') in ['Vakantie'] and states('group.bezoekers') in ['home'] }}"
+        value_template: "{{ states('input_select.woning_status') in ['Op Vakantie'] and states('group.bezoekers') in ['home'] }}"
   - condition: or
     conditions:
     - condition: state
@@ -503,9 +503,9 @@
   - condition: or
     conditions:
       - condition: template
-        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Vakantie'] }}"
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Op Vakantie'] }}"
       - condition: template
-        value_template: "{{ states('input_select.woning_status') in ['Vakantie'] and states('group.bezoekers') in ['home'] }}"
+        value_template: "{{ states('input_select.woning_status') in ['Op Vakantie'] and states('group.bezoekers') in ['home'] }}"
   action:
   - service: script.turn_on
     entity_id:
@@ -519,7 +519,7 @@
     at: '06:35:00'
   condition:
   - condition: template
-    value_template: "{{ states('input_select.woning_status') not in ['Vakantie', 'Juist Weg', 'Weg', 'Slapen'] }}"
+    value_template: "{{ states('input_select.woning_status') not in ['Op Vakantie', 'Juist Weg', 'Weg', 'Slapen'] }}"
   action:
   - service: script.turn_on
     entity_id:

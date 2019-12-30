@@ -56,7 +56,7 @@
     entity_id: input_boolean.music_follow
     state: 'on'
   - condition: template
-    value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Thuis', 'Dag Thuis'] }}"
+    value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] }}"
   - condition: template
     value_template: "{{ states('media_player.bathroom_alexa') not in ['playing'] }}"
   - condition: template
@@ -113,7 +113,7 @@
     entity_id: input_boolean.plex_livingroom
     state: 'off'
   - condition: template
-    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker', 'Thuis', 'Dag Thuis'] }}"
+    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] }}"
   - condition: template
     value_template: "{{ states('input_select.harmony_hub') in ['Powered Off'] }}"
   - condition: template

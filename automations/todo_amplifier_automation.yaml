@@ -224,7 +224,10 @@
           state: 'Juist Thuis'
         - condition: state
           entity_id: input_select.woning_status
-          state: 'Dag Thuis'
+          state: 'Thuis (Werk)'
+        - condition: state
+          entity_id: input_select.woning_status
+          state: 'Thuis (Verlof)'
         - condition: state
           entity_id: input_select.woning_status
           state: 'Juist Wakker'

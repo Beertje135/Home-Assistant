@@ -30,8 +30,12 @@
         {%- elif states('input_select.woning_status') in ['Thuis'] -%}
           script.switch_kitchen_speakers_on,
           script.vacuum_off
-        {%- elif states('input_select.woning_status') in ['Dag Thuis'] -%}
-          script.switch_kitchen_speakers_on
+        {%- elif states('input_select.woning_status') in ['Thuis (Verlof)'] -%}
+          script.switch_kitchen_speakers_on,
+          script.vacuum_off
+        {%- elif states('input_select.woning_status') in ['Thuis (Werk)'] -%}
+          script.switch_kitchen_speakers_on,
+          script.vacuum_off
         {%- elif states('input_select.woning_status') in ['Juist Weg'] -%}
           script.all_off_light,
           script.all_off_music_alexa,
@@ -45,7 +49,7 @@
         {%- elif states('input_select.woning_status') in ['Weg'] -%}
           script.all_off,
           script.vacuum_on
-        {%- elif states('input_select.woning_status') in ['Vakantie'] -%}
+        {%- elif states('input_select.woning_status') in ['Op Vakantie'] -%}
           script.all_off
         {%- else -%}
           script.empty
@@ -70,11 +74,11 @@
     data_template:
       entity_id: input_select.woning_status
       option: >-
-        {%- if states('input_select.woning_status') in ['Weg', 'Juist Weg', 'Vakantie'] and trigger.entity_id == 'input_boolean.trigger_home' -%}
+        {%- if states('input_select.woning_status') in ['Weg', 'Juist Weg', 'Op Vakantie'] and trigger.entity_id == 'input_boolean.trigger_home' -%}
           Juist Thuis
         {%- elif states('input_select.woning_status') in ['Slapen'] and trigger.entity_id == 'input_boolean.trigger_morning' -%}
           Juist Wakker
-        {%- elif states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Dag Thuis'] and trigger.entity_id == 'input_boolean.trigger_sleep' -%}
+        {%- elif states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis (Werk)'] and trigger.entity_id == 'input_boolean.trigger_sleep' -%}
           Slapen
         {%- elif states('input_select.woning_status') in ['Thuis', 'Juist Wakker', 'Juist Thuis'] and trigger.entity_id == 'input_boolean.trigger_away' -%}
           Juist Weg
@@ -83,73 +87,6 @@
   - service: input_boolean.turn_off
     data_template:
       entity_id: input_boolean.trigger_morning, input_boolean.trigger_sleep, input_boolean.trigger_away, input_boolean.trigger_home
-
-- alias: Ons Huisje - Change Status - Trigger Motion Sensor Kitchen
-  trigger:
-  - platform: state
-    entity_id:
-      - binary_sensor.keuken_sensor_motion
-    to: 'on'
-    for:
-      seconds: 2 
-#  - platform: template
-#    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Weg', 'Juist Wakker', 'Slapen'] }}"
-  condition:
-  - condition: template
-    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Weg', 'Juist Wakker', 'Slapen'] }}"
-  - condition: template
-    value_template: "{{ states('binary_sensor.keuken_sensor_motion') in ['on'] }}"
-  - condition: template
-    value_template: "{{ states('input_boolean.trigger_just_home_kitchen') in ['off'] }}"
-  - condition: template
-    value_template: "{{ states('input_boolean.trigger_just_awake_kitchen') in ['off'] }}"
-  - condition: template
-    value_template: "{{ states('input_boolean.trigger_just_sleep_kitchen') in ['off'] }}"
-  - condition: template
-    value_template: "{{ states('input_boolean.trigger_just_away_kitchen') in ['off'] }}"
-  action:
-  - service: input_boolean.turn_on
-    data_template:
-      entity_id: >
-        {%- if states('input_select.woning_status') in ['Juist Thuis'] and states('binary_sensor.keuken_sensor_motion') in ['on'] -%}
-          input_boolean.trigger_just_home_kitchen
-        {%- elif states('input_select.woning_status') in ['Juist Wakker'] and states('binary_sensor.keuken_sensor_motion') in ['on'] -%}
-          input_boolean.trigger_just_awake_kitchen
-        {%- elif states('input_select.woning_status') in ['Slapen'] and states('binary_sensor.keuken_sensor_motion') in ['on'] -%}
-          input_boolean.trigger_just_sleep_kitchen
-        {%- elif states('input_select.woning_status') in ['Juist Weg'] and states('binary_sensor.keuken_sensor_motion') in ['on'] -%}
-          input_boolean.trigger_just_away_kitchen
-        {%- endif %}
-
-- alias: Ons Huisje - Change Status - Trigger Motion Sensor Dressing
-  trigger:
-  - platform: state
-    entity_id:
-      - binary_sensor.dressing_sensor_motion
-    to: 'on'
-    for:
-      seconds: 2 
-#  - platform: template
-#    value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Slapen'] }}"
-  condition:
-  - condition: template
-    value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Slapen'] }}"
-  - condition: template
-    value_template: "{{ states('binary_sensor.dressing_sensor_motion') in ['on'] }}"
-  - condition: template
-    value_template: "{{ states('input_boolean.trigger_just_awake_dressing') in ['off'] }}"
-  - condition: template
-    value_template: "{{ states('input_boolean.trigger_just_sleep_dressing') in ['off'] }}"
-  action:
-  - delay: 00:00:05
-  - service: input_boolean.turn_on
-    data_template:
-      entity_id: >
-        {%- if states('input_select.woning_status') in ['Juist Wakker'] and states('binary_sensor.dressing_sensor_motion') in ['on'] -%}
-          input_boolean.trigger_just_awake_dressing
-        {%- elif states('input_select.woning_status') in ['Slapen'] and states('binary_sensor.dressing_sensor_motion') in ['on'] -%}
-          input_boolean.trigger_just_sleep_dressing
-        {%- endif %}
 
 - alias: Ons Huisje - Change Status - Bewoner of Bezoeker
   trigger:
@@ -162,28 +99,16 @@
     entity_id: input_select.woning_status
     data_template:
       option: >
-        {% if (states('input_select.woning_status') in ['Weg', 'Vakantie'] and states('group.bewoners') in ['home']) or (states('input_select.woning_status') in ['Weg'] and states('group.bezoekers') in ['home']) %}
+        {% if (states('input_select.woning_status') in ['Weg', 'Op Vakantie'] and states('group.bewoners') in ['home']) or (states('input_select.woning_status') in ['Weg'] and states('group.bezoekers') in ['home']) %}
           Juist Thuis
+        {% elif states('input_select.woning_status') in ['Juist Thuis', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] and states('group.bewoners') in ['not_home'] and states('group.bezoekers') in ['not_home'] %}
+          Juist Weg
+        {% elif states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']) and states('calendar.verlof_agenda') in ['on'] %}
+          Thuis (Verlof)
         {% elif states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']) %}
           Thuis
-        {% elif states('input_select.woning_status') in ['Juist Thuis', 'Thuis', 'Dag Thuis'] and states('group.bewoners') in ['not_home'] and states('group.bezoekers') in ['not_home'] %}
+        {% else %}
           Juist Weg
-        {% elif states('input_select.woning_status') in ['Juist Thuis'] %}
-          Juist Thuis
-        {% elif states('input_select.woning_status') in ['Juist Weg'] %}
-          Juist Weg
-        {% elif states('input_select.woning_status') in ['Thuis'] %}
-          Thuis
-        {% elif states('input_select.woning_status') in ['Dag Thuis'] %}
-          Dag Thuis
-        {% elif states('input_select.woning_status') in ['Weg'] %}
-          Weg
-        {% elif states('input_select.woning_status') in ['Vakantie'] %}
-          Vakantie
-        {% elif states('input_select.woning_status') in ['Slapen'] %}
-          Slapen
-        {% elif states('input_select.woning_status') in ['Juist Wakker'] %}
-          Juist Wakker
         {% endif %}
 
 - alias: Ons Huisje - Change Status - Timer
@@ -216,26 +141,15 @@
     entity_id: input_select.woning_status
     data_template:
       option: >
-        {% if states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker'] %}
+        {% if states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker'] and states('calendar.verlof_agenda') in ['on'] %}
+          Thuis (Verlof)
+        {% elif states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker'] %}
           Thuis
         {% elif states('input_select.woning_status') in ['Juist Weg'] %}
           Weg
         {% else %}
-          Vakantie
+          Op Vakantie
         {% endif %}
-
-- alias: Ons Huisje - Change Status - Reset na Dag Thuis
-  trigger:
-  - platform: time
-    at: !secret work_week_end
-  condition:
-  - condition: template
-    value_template: "{{ states('input_select.woning_status') in ['Dag Thuis'] }}"
-  action:
-  - service: input_select.select_option
-    data:
-      entity_id: input_select.woning_status
-      option: Thuis
 
 - alias: Ons Huisje - Change Status - Juist Wakker
   trigger:
@@ -270,7 +184,7 @@
       entity_id: input_select.woning_status
       option: Juist Wakker
 
-- alias: Ons Huisje - Change Status - Dag Thuis (als Thuis op weekdag)
+- alias: Ons Huisje - Change Status - Thuis (Werk) ON (als Thuis op weekdag)
   trigger:
   - platform: template
     value_template: "{{ states('input_select.woning_status') in ['Thuis'] }}"
@@ -288,9 +202,9 @@
   - service: input_select.select_option
     data:
       entity_id: input_select.woning_status
-      option: Dag Thuis
+      option: Thuis (Werk)
 
-- alias: Ons Huisje - Change Status - Dag Thuis (als nog Thuis)
+- alias: Ons Huisje - Change Status - Thuis (Werk) ON (als nog Thuis)
   trigger:
   - platform: time
     at: !secret work_week_start
@@ -308,4 +222,110 @@
   - service: input_select.select_option
     data:
       entity_id: input_select.woning_status
-      option: Dag Thuis
+      option: Thuis (Werk)
+
+- alias: Ons Huisje - Change Status - Thuis (Werk) OFF
+  trigger:
+  - platform: time
+    at: !secret work_week_end
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Thuis (Werk)'] }}"
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.woning_status
+      option: Thuis
+
+- alias: Ons Huisje - Change Status - Thuis (Verlof) ON (als reeds Thuis)
+  trigger:
+  - platform: state
+    entity_id: calendar.verlof_agenda
+    to: 'on'
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Thuis'] }}"
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.woning_status
+      option: Thuis (Verlof)
+
+- alias: Ons Huisje - Change Status - Thuis (Verlof) OFF
+  trigger:
+  - platform: state
+    entity_id: calendar.verlof_agenda
+    to: 'off' 
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Thuis (Verlof)'] }}"
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.woning_status
+      option: Thuis
+
+# AUTOMATIONS TO MAKE ALEXA SAY PHRASES
+
+- alias: Ons Huisje - Alexa - Trigger Motion Sensor Kitchen
+  trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.keuken_sensor_motion
+    to: 'on'
+    for:
+      seconds: 2
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Weg', 'Juist Wakker', 'Slapen'] }}"
+  - condition: template
+    value_template: "{{ states('binary_sensor.keuken_sensor_motion') in ['on'] }}"
+  - condition: template
+    value_template: "{{ states('input_boolean.trigger_just_home_kitchen') in ['off'] }}"
+  - condition: template
+    value_template: "{{ states('input_boolean.trigger_just_awake_kitchen') in ['off'] }}"
+  - condition: template
+    value_template: "{{ states('input_boolean.trigger_just_sleep_kitchen') in ['off'] }}"
+  - condition: template
+    value_template: "{{ states('input_boolean.trigger_just_away_kitchen') in ['off'] }}"
+  action:
+  - service: input_boolean.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('input_select.woning_status') in ['Juist Thuis'] and states('binary_sensor.keuken_sensor_motion') in ['on'] -%}
+          input_boolean.trigger_just_home_kitchen
+        {%- elif states('input_select.woning_status') in ['Juist Wakker'] and states('binary_sensor.keuken_sensor_motion') in ['on'] -%}
+          input_boolean.trigger_just_awake_kitchen
+        {%- elif states('input_select.woning_status') in ['Slapen'] and states('binary_sensor.keuken_sensor_motion') in ['on'] -%}
+          input_boolean.trigger_just_sleep_kitchen
+        {%- elif states('input_select.woning_status') in ['Juist Weg'] and states('binary_sensor.keuken_sensor_motion') in ['on'] -%}
+          input_boolean.trigger_just_away_kitchen
+        {%- endif %}
+
+- alias: Ons Huisje - Alexa - Trigger Motion Sensor Dressing
+  trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.dressing_sensor_motion
+    to: 'on'
+    for:
+      seconds: 2
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Slapen'] }}"
+  - condition: template
+    value_template: "{{ states('binary_sensor.dressing_sensor_motion') in ['on'] }}"
+  - condition: template
+    value_template: "{{ states('input_boolean.trigger_just_awake_dressing') in ['off'] }}"
+  - condition: template
+    value_template: "{{ states('input_boolean.trigger_just_sleep_dressing') in ['off'] }}"
+  action:
+  - delay: 00:00:05
+  - service: input_boolean.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('input_select.woning_status') in ['Juist Wakker'] and states('binary_sensor.dressing_sensor_motion') in ['on'] -%}
+          input_boolean.trigger_just_awake_dressing
+        {%- elif states('input_select.woning_status') in ['Slapen'] and states('binary_sensor.dressing_sensor_motion') in ['on'] -%}
+          input_boolean.trigger_just_sleep_dressing
+        {%- endif %}

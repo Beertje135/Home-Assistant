@@ -9,7 +9,7 @@
     to: 'home'
   condition:
   - condition: template
-    value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Dag Thuis'] }}"
+    value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] }}"
   - condition: template
     value_template: "{{ ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_restafval.state) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_papier.state) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_pmd.state) }}"
   action:
@@ -26,7 +26,7 @@
     at: '20:30:00'
   condition:
   - condition: template
-    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Thuis', 'Dag Thuis'] }}"
+    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] }}"
   - condition: template
     value_template: "{{ ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_restafval.state) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_papier.state) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_pmd.state) }}"
   action:
@@ -44,7 +44,11 @@
   - platform: state
     entity_id: input_select.woning_status
     from: 'Juist Thuis'
-    to: 'Dag Thuis'
+    to: 'Thuis (Werk)'
+  - platform: state
+    entity_id: input_select.woning_status
+    from: 'Juist Thuis'
+    to: 'Thuis (Verlof)'
   condition:
   - condition: template
     value_template: "{{ ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_restafval.state) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_papier.state) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_pmd.state) }}"

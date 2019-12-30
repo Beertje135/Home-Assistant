@@ -35,8 +35,9 @@ views:
           - Weg
           - Slapen
           - Juist Wakker
-          - Dag Thuis
-          - Vakantie
+          - Thuis (Werk)
+          - Thuis (Verlof)
+          - Op Vakantie
           - Mama & Mark
           - Oma
           - Nelly
@@ -544,8 +545,9 @@ views:
               - Weg
               - Slapen
               - Juist Wakker
-              - Dag Thuis
-              - Vakantie
+              - Thuis (Werk)
+              - Thuis (Verlof)
+              - Op Vakantie
               - Mama & Mark
               - Oma
               - Nelly
@@ -1097,8 +1099,9 @@ views:
               - Weg
               - Slapen
               - Juist Wakker
-              - Dag Thuis
-              - Vakantie
+              - Thuis (Werk)
+              - Thuis (Verlof)
+              - Op Vakantie
               - Mama & Mark
               - Oma
               - Nelly
@@ -1486,8 +1489,9 @@ views:
               - Weg
               - Slapen
               - Juist Wakker
-              - Dag Thuis
-              - Vakantie
+              - Thuis (Werk)
+              - Thuis (Verlof)
+              - Op Vakantie
               - Mama & Mark
               - Oma
               - Nelly
@@ -1747,8 +1751,9 @@ views:
           - Weg
           - Slapen
           - Juist Wakker
-          - Dag Thuis
-          - Vakantie
+          - Thuis (Werk)
+          - Thuis (Verlof)
+          - Op Vakantie
           - Mama & Mark
           - Oma
           - Nelly

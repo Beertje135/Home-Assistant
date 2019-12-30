@@ -31,7 +31,11 @@
   - platform: state
     entity_id: input_select.woning_status
     from: 'Juist Thuis'
-    to: 'Dag Thuis'
+    to: 'Thuis (Werk)'
+  - platform: state
+    entity_id: input_select.woning_status
+    from: 'Juist Thuis'
+    to: 'Thuis (Verlof)'
   condition:
   action:
   - service: script.turn_on
