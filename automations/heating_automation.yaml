@@ -1,6 +1,6 @@
 # AUTOMATIONS TO CHANGE HEATING
 
-# BASED ON WONING STATUS
+# BASED ON WONING STATUS WEG OR THUIS
 
 - alias: Verwarming - Woning Weg - Eco Mode
   trigger:
@@ -14,9 +14,14 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Only when Away
   - condition: state
     entity_id: input_select.woning_status
     state: 'Weg'
+    #Only if Evohome is NOT set to Eco
+  - condition: template
+    value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'eco' ) }}"
+    #Only if Time is correct
   - condition: or
     conditions:
       #Away during day in the weekend
@@ -61,6 +66,10 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Only if Evohome is NOT set to Auto
+  - condition: template
+    value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) or (state_attr('climate.ons_huisje', 'preset_mode') != 'Reset') }}"
+    #Only if Time is correct
   - condition: or
     conditions:
       #Away during night in the weekend
@@ -109,31 +118,33 @@
     state: 'on'
   - condition: or
     conditions:
-      - condition: template
-        value_template: "{{ states.climate.ons_huisje.attributes.preset_mode != None }}"
-      - condition: template
-        value_template: "{{ states.climate.badkamer.attributes.preset_mode != 'none' or states.climate.slp_kamer.attributes.preset_mode != 'none' or states.climate.dressing.attributes.preset_mode != 'none' or states.climate.keuken.attributes.preset_mode != 'none' or states.climate.woonkamer.attributes.preset_mode != 'none' or states.climate.kamer_elmo.attributes.preset_mode != 'none' }}"
+      #Only if Kitchen is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Bathroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.badkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Bedroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.slp_kamer', 'preset_mode') != 'none' ) }}"
+      #Only if Bedroom Elmo is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.kamer_elmo', 'preset_mode') != 'none' ) }}"
+      #Only if Dressing is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.dressing', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) }}"
   action:
   - service: script.turn_on
     entity_id:
       - script.evo_status_normal
 
-- alias: Verwarming - Woning Thuis (Werk) - Custom Mode
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: 'Thuis (Werk)'
-    for:
-      minutes: 1
-  condition:
-    #Boolean to indicate heating on/off
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  action:
-  - service: script.turn_on
-    entity_id:
-      - script.evo_status_custom
+# DURING THE WEEK
 
 - alias: Verwarming - Woning Juist Wakker Week - Rise (Keuken)
   trigger:
@@ -163,31 +174,122 @@
     entity_id:
       - script.evo_zone_kitchen_rise
 
-- alias: Verwarming - Woning Juist Wakker Weekend - Rise (Beneden)
+- alias: Verwarming - Time week - Start Work - Auto Mode
   trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: 'Juist Wakker'
+  - platform: time
+    at: !secret work_week_start
   condition:
     #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
-    #Only when not verlof  
+    #Only when Away
   - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'off'
-    #Awake early before heating on
+    entity_id: input_select.woning_status
+    state: 'Weg'
+    #Only on weekdays
   - condition: time
-    before: !secret awake_weekend_heating
     weekday:
-      - sat
-      - sun
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  - condition: or
+    conditions:
+      #Only if Kitchen is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) or (state_attr('climate.ons_huisje', 'preset_mode') != 'Reset') }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+  - delay: 00:02:00
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal
+
+- alias: Verwarming - Woning Thuis (Werk) - Custom Mode
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Thuis (Werk)'
+    for:
+      minutes: 1
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only if Evohome is NOT set to Custom
+  - condition: template
+    value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'Custom') }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_custom
+
+- alias: Verwarming - Time week - End Work - Eco Mode
+  trigger:
+  - platform: time
+    at: !secret work_week_end
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when Away
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Weg'
+    #Only if Evohome is NOT set to Eco
+  - condition: template
+    value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'eco' ) }}"
+    #Only on weekdays
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_economy
+
+- alias: Verwarming - Time week - Awake Evening - Rise (Woonkamer)
+  trigger:
+  - platform: time
+    at: !secret sleep_week
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only on weekdays
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    #Only if we are home
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Thuis'
   action:
   - service: script.turn_on
     entity_id:
       - script.evo_zone_living_room_rise
-      - script.evo_zone_kitchen_rise
 
 - alias: Verwarming - Woning Slapen Week - Lower (Beneden)
   trigger:
@@ -219,6 +321,163 @@
       - script.evo_zone_kitchen_lower
       - script.evo_zone_living_room_lower
 
+- alias: Verwarming - Woning Slapen Week - Auto Mode
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Slapen'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: or
+    conditions:
+      #Only if Kitchen is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) or (state_attr('climate.ons_huisje', 'preset_mode') != 'Reset') }}"
+    #Sleep early before heating off week or weekend
+  - condition: time
+    before: !secret awake_week_heating
+    after: !secret sleep_week
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    #Only when not verlof 
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off' 
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+  - delay: 00:02:00
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal
+
+- alias: Verwarming - Time week - Slapen - Auto Mode
+  trigger:
+  - platform: time
+    at: !secret sleep_week
+  condition:
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
+    #Only when Asleep
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Slapen'
+  - condition: or
+    conditions:
+      #Only if Kitchen is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) or (state_attr('climate.ons_huisje', 'preset_mode') != 'Reset') }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+  - delay: 00:02:00
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal
+
+# DURING THE WEEKEND
+
+- alias: Verwarming - Woning Juist Wakker Weekend - Rise (Beneden)
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Juist Wakker'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
+    #Awake early before heating on
+  - condition: time
+    before: !secret awake_weekend_heating
+    weekday:
+      - sat
+      - sun
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_rise
+      - script.evo_zone_kitchen_rise
+
+- alias: Verwarming - Time weekend - Morning - Auto Mode
+  trigger:
+  - platform: time
+    at: !secret awake_weekend
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
+    #Only during weekends
+  - condition: time
+    weekday:
+      - sat
+      - sun
+  - condition: or
+    conditions:
+      #Only if Kitchen is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) or (state_attr('climate.ons_huisje', 'preset_mode') != 'Reset') }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+  - delay: 00:02:00
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal
+
 - alias: Verwarming - Woning Slapen Weekend - Lower (Beneden)
   trigger:
   - entity_id: input_select.woning_status
@@ -246,35 +505,6 @@
       - script.evo_zone_kitchen_lower
       - script.evo_zone_living_room_lower
 
-- alias: Verwarming - Woning Slapen Week - Auto Mode
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: 'Slapen'
-  condition:
-    #Boolean to indicate heating on/off
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-    #Sleep early before heating off week or weekend
-  - condition: time
-    before: !secret awake_week_heating
-    after: !secret sleep_week
-    weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
-    #Only when not verlof 
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'off' 
-  action:
-  - service: script.turn_on
-    entity_id:
-      - script.evo_status_normal
-
 - alias: Verwarming - Woning Slapen Weekend - Auto Mode
   trigger:
   - entity_id: input_select.woning_status
@@ -295,165 +525,36 @@
   - condition: state
     entity_id: calendar.verlof_agenda
     state: 'off' 
-  action:
-  - service: script.turn_on
-    entity_id:
-      - script.evo_status_normal
-
-- alias: Verwarming - Woning Vakantie - Off
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: 'Op Vakantie'
-  condition:
-    #Boolean to indicate heating on/off
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  action:
-  - service: script.turn_on
-    entity_id:
-      - script.evo_status_heating_off
-
-# DURING HOLIDAY AT HOME
-
-- alias: Verwarming - Woning Juist Wakker Verlof - Rise (Beneden)
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: 'Juist Wakker'
-  condition:
-    #Boolean to indicate heating on/off
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-    #Only when verlof  
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'on'
-    #Awake early before heating on
-  - condition: time
-    before: !secret awake_weekend_heating
-  action:
-  - service: script.turn_on
-    entity_id:
-      - script.evo_zone_living_room_rise
-      - script.evo_zone_kitchen_rise
-
-- alias: Verwarming - Woning Thuis (Verlof) - Day Off Mode
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: 'Thuis (Verlof)'
-    for:
-      minutes: 1
-  condition:
-    #Boolean to indicate heating on/off
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  action:
-  - service: script.turn_on
-    entity_id:
-      - script.evo_status_day_off
-
-- alias: Verwarming - Woning Slapen Verlof - Lower (Beneden)
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: 'Slapen'
-  condition:
-    #Boolean to indicate heating on/off
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-    #Sleep early before heating off
-  - condition: time
-    after: !secret awake_weekend_heating
-    before: !secret sleep_weekend
-    #Only when verlof 
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'on'
-  action:
-  - service: script.turn_on
-    entity_id:
-      - script.evo_zone_kitchen_lower
-      - script.evo_zone_living_room_lower
-
-- alias: Verwarming - Woning Slapen Verlof - Day Off Mode
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: 'Slapen'
-  condition:
-    #Boolean to indicate heating on/off
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-    #Sleep early before heating off verlof
-  - condition: time
-    before: !secret awake_weekend_heating
-    after: !secret sleep_weekend
-    #Only when not verlof
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'on'
-  action:
-  - service: script.turn_on
-    entity_id:
-      - script.evo_status_day_off
-
-# BASED ON TIME OF DAY
-
-- alias: Verwarming - Time week - Start Work - Auto Mode
-  trigger:
-  - platform: time
-    at: !secret work_week_start
-  condition:
-    #Boolean to indicate heating on/off
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: state
-    entity_id: group.bewoners
-    state: 'not_home'
-  - condition: state
-    entity_id: group.bezoekers
-    state: 'not_home'
-    #Only when not verlof  
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'off'
-    #Only on weekdays
-  - condition: time
-    weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
   - condition: or
     conditions:
-      #Only if kitchen has overwrite
+      #Only if Kitchen is NOT set to Auto
     - condition: template
-      value_template: "{{ (states.climate.keuken.attributes.preset_mode == 'permanent') or (states.climate.keuken.attributes.preset_mode == 'temporary') }}"
-      #Only if livingroom has overwrite
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
     - condition: template
-      value_template: "{{ (states.climate.woonkamer.attributes.preset_mode == 'permanent') or (states.climate.woonkamer.attributes.preset_mode == 'temporary') }}"
-      #Only if quick action is set to Eco
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to Auto
     - condition: template
-      value_template: "{{ states.climate.ons_huisje.preset_mode == eco }}"
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) or (state_attr('climate.ons_huisje', 'preset_mode') != 'Reset') }}"
   action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+  - delay: 00:02:00
   - service: script.turn_on
     entity_id:
       - script.evo_status_normal
 
-- alias: Verwarming - Time week - End Work - Eco Mode
+- alias: Verwarming - Time weekend - Slapen - Auto Mode
   trigger:
   - platform: time
-    at: !secret work_week_end
+    at: !secret sleep_weekend
   condition:
+  - condition: time
+    weekday:
+      - sat
+      - sun
     #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
@@ -461,124 +562,27 @@
     #Only when not verlof  
   - condition: state
     entity_id: calendar.verlof_agenda
-    state: 'off'
-    #Only when not home
-  - condition: state
-    entity_id: input_select.woning_status
-    state: 'Weg'
-  - condition: state
-    entity_id: group.bewoners
-    state: 'not_home'
-  - condition: state
-    entity_id: group.bezoekers
-    state: 'not_home'
-    #Only on weekdays
-  - condition: time
-    weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
-  action:
-  - service: script.turn_on
-    entity_id:
-      - script.evo_status_economy
-
-- alias: Verwarming - Time week - Awake Evening - Rise (Woonkamer)
-  trigger:
-  - platform: time
-    at: !secret sleep_week
-  condition:
-    #Boolean to indicate heating on/off
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-    #Only when not verlof  
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'off'
-    #Only on weekdays
-  - condition: time
-    weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
-    #Only if we are home and not asleep
-  - condition: state
-    entity_id: input_select.woning_status
-    state: 'Thuis'
-  action:
-  - service: script.turn_on
-    entity_id:
-      - script.evo_zone_living_room_rise
-
-- alias: Verwarming - Time week - Slapen - Auto Mode
-  trigger:
-  - platform: time
-    at: !secret sleep_week
-  condition:
-  - condition: time
-    weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
-    #Boolean to indicate heating on/off
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-    #Only when not verlof  
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'off'
+    state: 'off'    
   - condition: state
     entity_id: input_select.woning_status
     state: 'Slapen'
   - condition: or
     conditions:
+      #Only if Kitchen is NOT set to Auto
     - condition: template
-      value_template: "{{ states.climate.keuken.attributes.preset_mode == 'permanent' }}"
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
     - condition: template
-      value_template: "{{ states.climate.woonkamer.attributes.preset_mode == 'permanent' }}"
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) or (state_attr('climate.ons_huisje', 'preset_mode') != 'Reset') }}"
   action:
   - service: script.turn_on
     entity_id:
-      - script.evo_status_normal
-
-- alias: Verwarming - Time weekend - Morning - Auto Mode
-  trigger:
-  - platform: time
-    at: !secret awake_weekend
-  condition:
-    #Boolean to indicate heating on/off
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-    #Only when not verlof  
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'off'
-    #Only during weekends
-  - condition: time
-    weekday:
-      - sat
-      - sun
-  - condition: or
-    conditions:
-      #Only if kitchen has overwrite
-    - condition: template
-      value_template: "{{ (states.climate.keuken.attributes.preset_mode == 'permanent') or (states.climate.keuken.attributes.preset_mode == 'temporary') }}"
-      #Only if livingroom has overwrite
-    - condition: template
-      value_template: "{{ (states.climate.woonkamer.attributes.preset_mode == 'permanent') or (states.climate.woonkamer.attributes.preset_mode == 'temporary') }}"
-      #Only if quick action is set to Eco
-    - condition: template
-      value_template: "{{ states.climate.ons_huisje.preset_mode == eco }}"
-  action:
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+  - delay: 00:02:00
   - service: script.turn_on
     entity_id:
       - script.evo_status_normal
@@ -610,40 +614,52 @@
     entity_id:
       - script.evo_zone_living_room_rise
 
-- alias: Verwarming - Time weekend - Slapen - Auto Mode
+# DURING HOLIDAY NOT AT HOME
+
+- alias: Verwarming - Woning Vakantie - Off
   trigger:
-  - platform: time
-    at: !secret sleep_weekend
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Op Vakantie'
   condition:
-  - condition: time
-    weekday:
-      - sat
-      - sun
     #Boolean to indicate heating on/off
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
-    #Only when not verlof  
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'off'    
-  - condition: state
-    entity_id: input_select.woning_status
-    state: 'Slapen'
-  - condition: or
-    conditions:
-      #Only if kitchen has overwrite
-    - condition: template
-      value_template: "{{ (states.climate.keuken.attributes.preset_mode == 'permanent') or (states.climate.keuken.attributes.preset_mode == 'temporary') }}"
-      #Only if livingroom has overwrite
-    - condition: template
-      value_template: "{{ (states.climate.woonkamer.attributes.preset_mode == 'permanent') or (states.climate.woonkamer.attributes.preset_mode == 'temporary') }}"
+    #Only if Evohome is NOT set to Off
+  - condition: template
+    value_template: "{{ (state_attr('climate.ons_huisje', 'hvac_mode') != 'off' ) }}"
   action:
   - service: script.turn_on
     entity_id:
-      - script.evo_status_normal
+      - script.evo_status_heating_off
 
-- alias: Verwarming - Time verlof - Morning - Day Off Mode
+# DURING HOLIDAY AT HOME
+
+- alias: Verwarming - Woning Juist Wakker Verlof - Rise (Beneden)
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Juist Wakker'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'on'
+    #Awake early before heating on
+  - condition: time
+    before: !secret awake_weekend_heating
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_rise
+      - script.evo_zone_kitchen_rise
+
+- alias: Verwarming - Time verlof - Morning - Home Mode
   trigger:
   - platform: time
     at: !secret awake_weekend
@@ -658,19 +674,41 @@
     state: 'on'
   - condition: or
     conditions:
-      #Only if kitchen has overwrite
+      #Only if Kitchen is NOT set to Auto
     - condition: template
-      value_template: "{{ (states.climate.keuken.attributes.preset_mode == 'permanent') or (states.climate.keuken.attributes.preset_mode == 'temporary') }}"
-      #Only if livingroom has overwrite
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
     - condition: template
-      value_template: "{{ (states.climate.woonkamer.attributes.preset_mode == 'permanent') or (states.climate.woonkamer.attributes.preset_mode == 'temporary') }}"
-      #Only if quick action is set to Eco
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to home
     - condition: template
-      value_template: "{{ states.climate.ons_huisje.preset_mode == eco }}"
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'home' ) }}"
   action:
   - service: script.turn_on
     entity_id:
-      - script.evo_status_day_off
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+      - script.evo_status_home
+
+- alias: Verwarming - Woning Thuis (Verlof) - Home Mode
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Thuis (Verlof)'
+    for:
+      minutes: 1
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only if Evohome is NOT set to home
+  - condition: template
+    value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'home' ) }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_home
 
 - alias: Verwarming - Time verlof - Awake Evening - Rise (Woonkamer)
   trigger:
@@ -694,7 +732,67 @@
     entity_id:
       - script.evo_zone_living_room_rise
 
-- alias: Verwarming - Time verlof - Slapen - Day Off Mode
+- alias: Verwarming - Woning Slapen Verlof - Lower (Beneden)
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Slapen'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Sleep early before heating off
+  - condition: time
+    after: !secret awake_weekend_heating
+    before: !secret sleep_weekend
+    #Only when verlof 
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_kitchen_lower
+      - script.evo_zone_living_room_lower
+
+- alias: Verwarming - Woning Slapen Verlof - Home Mode
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Slapen'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Sleep early before heating off verlof
+  - condition: time
+    before: !secret awake_weekend_heating
+    after: !secret sleep_weekend
+    #Only when not verlof
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'on'
+  - condition: or
+    conditions:
+      #Only if Kitchen is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to home
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'home' ) }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+      - script.evo_status_home
+
+- alias: Verwarming - Time verlof - Slapen - Home Mode
   trigger:
   - platform: time
     at: !secret sleep_weekend
@@ -707,21 +805,29 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Only when sleep
   - condition: state
     entity_id: input_select.woning_status
     state: 'Slapen'
   - condition: or
     conditions:
-      #Only if kitchen has overwrite
+      #Only if Kitchen is NOT set to Auto
     - condition: template
-      value_template: "{{ (states.climate.keuken.attributes.preset_mode == 'permanent') or (states.climate.keuken.attributes.preset_mode == 'temporary') }}"
-      #Only if livingroom has overwrite
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
     - condition: template
-      value_template: "{{ (states.climate.woonkamer.attributes.preset_mode == 'permanent') or (states.climate.woonkamer.attributes.preset_mode == 'temporary') }}"
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to home
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'home' ) }}"
   action:
   - service: script.turn_on
     entity_id:
-      - script.evo_status_day_off
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+      - script.evo_status_home
+
+# BASED ON TIME OVERWRITE
 
 - alias: Verwarming - Timer Overwrite - Badkamer - Auto Mode
   trigger:
@@ -740,6 +846,9 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Only if Bathroom is NOT set to Auto
+  - condition: template
+    value_template: "{{ (state_attr('climate.badkamer', 'preset_mode') != 'none' ) }}"
   action:
   - service: script.turn_on
     entity_id:
@@ -773,6 +882,9 @@
   - condition: state
     entity_id: calendar.verlof_agenda
     state: 'off'
+    #Only if Evohome is NOT set to Custom
+  - condition: template
+    value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'Custom') }}"
   - condition: or
     conditions:
     - condition: time

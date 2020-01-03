@@ -1,6 +1,9 @@
 
 alias: Evohome - Status - Heating Off
 sequence:
+    #Only if Evohome is NOT set to Off
+  - condition: template
+    value_template: "{{ (state_attr('climate.ons_huisje', 'hvac_mode') != 'off' ) }}"
   - service: climate.set_hvac_mode
     data:
       entity_id: climate.ons_huisje

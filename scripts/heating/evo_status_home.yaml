@@ -1,6 +1,9 @@
 
-alias: Evohome - Status - Day Off
+alias: Evohome - Status - Home
 sequence:
+    #Only if Evohome is NOT set to Home
+  - condition: template
+    value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'home' ) }}"
   - service: climate.set_preset_mode
     data:
       entity_id: climate.ons_huisje

@@ -1,6 +1,6 @@
 # AUTOMATIONS BASED ON LOCATION OF BEWONER
 
-- alias: Bewoner - Thuis of Weg
+- alias: Notify - Bewoner - Thuis of Weg
   initial_state: 'off'
   trigger:
   - platform: state
@@ -24,7 +24,7 @@
           script.notify_tracker_bert_thuis
         {% endif %}
 
-- alias: Bewoner - Thuis of Weg 2
+- alias: Notify - Bewoner - Thuis of Weg 2
   initial_state: 'off'
   trigger:
   - platform: state
@@ -39,7 +39,7 @@
           script.notify_tracker_caro_thuis_ios_bert
         {% endif %}
 
-- alias: Bewoner - Thuis - Babysit
+- alias: Notify - Bewoner - Thuis - Babysit
   initial_state: 'off'
   trigger:
   - platform: state
@@ -62,7 +62,7 @@
           script.notify_bezoeker_babysit_ios_bert
         {% endif %}
 
-- alias: Bewoner - Aan Opvang
+- alias: Notify - Bewoner - Aan Opvang
   trigger:
   - platform: template
     value_template: "{{ states('person.caroline') in ['Elly', 'Nancy', 'Mama & Mark'] }}"
@@ -86,7 +86,7 @@
           script.notify_tracker_bert_zones
         {% endif %}
 
-- alias: Bewoner - Aan Checkpoint
+- alias: Notify - Bewoner - Aan Checkpoint
   trigger:
   - platform: template
     value_template: "{{ states('person.caroline') in ['Checkpoint 1', 'Checkpoint 2', 'Checkpoint 3', 'Checkpoint 4', 'Checkpoint 5'] }}"
@@ -112,7 +112,7 @@
           script.notify_tracker_bert_zones
         {% endif %}
 
-- alias: Bewoner - Aan Ziekenhuis
+- alias: Notify - Bewoner - Aan Ziekenhuis
   trigger:
   - platform: template
     value_template: "{{ states('person.caroline') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] }}"
@@ -131,7 +131,7 @@
 
 # AUTOMATIONS BASED ON LOCATION OF BERT - NMBS STATIONS
 
-- alias: Bewoner - Bert - Aan Willebroek Station
+- alias: Notify - Bewoner - Bert - Aan Willebroek Station
   trigger:
   - entity_id: person.bert
     platform: state
@@ -149,7 +149,7 @@
   - service: script.turn_on
     entity_id: script.notify_nmbs_willebroek_mechelen_ios_bert
 
-- alias: Bewoner - Bert - Aan Mechelen Station
+- alias: Notify - Bewoner - Bert - Aan Mechelen Station
   trigger:
   - entity_id: person.bert
     platform: state
@@ -172,7 +172,7 @@
           script.notify_nmbs_mechelen_willebroek_ios_bert
         {% endif %}
 
-- alias: Bewoner - Bert - Aan Brussel Station
+- alias: Notify - Bewoner - Bert - Aan Brussel Station
   trigger:
   - entity_id: person.bert
     platform: state
@@ -190,7 +190,7 @@
   - service: script.turn_on
     entity_id: script.notify_nmbs_brussel_mechelen_ios_bert
 
-- alias: Bewoner - Bert - Aan Willebroek Station Change
+- alias: Notify - Bewoner - Bert - Aan Willebroek Station Change
   trigger:
   - entity_id: sensor.nmbs_template
     platform: state
@@ -210,7 +210,7 @@
   - service: script.turn_on
     entity_id: script.notify_nmbs_willebroek_mechelen_ios_bert
 
-- alias: Bewoner - Bert - Aan Mechelen Station Change Wil
+- alias: Notify - Bewoner - Bert - Aan Mechelen Station Change Wil
   trigger:
   - entity_id: sensor.nmbs_3_template
     platform: state
@@ -230,7 +230,7 @@
   - service: script.turn_on
     entity_id: script.notify_nmbs_mechelen_willebroek_ios_bert
 
-- alias: Bewoner - Bert - Aan Mechelen Station Change Brus
+- alias: Notify - Bewoner - Bert - Aan Mechelen Station Change Brus
   trigger:
   - entity_id: sensor.nmbs_2_template
     platform: state
@@ -250,7 +250,7 @@
   - service: script.turn_on
     entity_id: script.notify_nmbs_mechelen_brussel_ios_bert
 
-- alias: Bewoner - Bert - Aan Brussel Station Change
+- alias: Notify - Bewoner - Bert - Aan Brussel Station Change
   trigger:
   - entity_id: sensor.nmbs_4_template
     platform: state

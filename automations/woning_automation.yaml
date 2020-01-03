@@ -78,9 +78,9 @@
           Juist Thuis
         {%- elif states('input_select.woning_status') in ['Slapen'] and trigger.entity_id == 'input_boolean.trigger_morning' -%}
           Juist Wakker
-        {%- elif states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis (Werk)'] and trigger.entity_id == 'input_boolean.trigger_sleep' -%}
+        {%- elif states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] and trigger.entity_id == 'input_boolean.trigger_sleep' -%}
           Slapen
-        {%- elif states('input_select.woning_status') in ['Thuis', 'Juist Wakker', 'Juist Thuis'] and trigger.entity_id == 'input_boolean.trigger_away' -%}
+        {%- elif states('input_select.woning_status') in ['Thuis', 'Juist Wakker', 'Juist Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] and trigger.entity_id == 'input_boolean.trigger_away' -%}
           Juist Weg
         {%- endif %}
   - delay: 00:01:00
@@ -94,6 +94,17 @@
     entity_id: group.bewoners
   - platform: state
     entity_id: group.bezoekers
+  condition:
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: "{{ (states('input_select.woning_status') in ['Weg', 'Op Vakantie'] and states('group.bewoners') in ['home']) or (states('input_select.woning_status') in ['Weg'] and states('group.bezoekers') in ['home']) }}"
+    - condition: template
+      value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] and states('group.bewoners') in ['not_home'] and states('group.bezoekers') in ['not_home'] }}"
+    - condition: template
+      value_template: "{{ states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']) and states('calendar.verlof_agenda') in ['on'] }}"
+    - condition: template
+      value_template: "{{ states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']) }}"
   action:
   - service: input_select.select_option
     entity_id: input_select.woning_status
@@ -107,8 +118,24 @@
           Thuis (Verlof)
         {% elif states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']) %}
           Thuis
-        {% else %}
+        {% elif states('input_select.woning_status') in ['Juist Weg'] %}
           Juist Weg
+        {% elif states('input_select.woning_status') in ['Juist Thuis'] %}
+          Juist Thuis
+        {% elif states('input_select.woning_status') in ['Juist Wakker'] %}
+          Juist Wakker
+        {% elif states('input_select.woning_status') in ['Thuis'] %}
+          Thuis
+        {% elif states('input_select.woning_status') in ['Thuis (Verlof)'] %}
+          Thuis (Verlof)
+        {% elif states('input_select.woning_status') in ['Thuis (Werk)'] %}
+          Thuis (Werk)
+        {% elif states('input_select.woning_status') in ['Weg'] %}
+          Weg
+        {% elif states('input_select.woning_status') in ['Slapen'] %}
+          Slapen
+        {% elif states('input_select.woning_status') in ['Op Vakantie'] %}
+          Op Vakantie
         {% endif %}
 
 - alias: Ons Huisje - Change Status - Timer

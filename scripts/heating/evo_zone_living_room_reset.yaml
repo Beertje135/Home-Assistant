@@ -1,0 +1,13 @@
+
+alias: Evohome - Zone - Woonkamer - Reset
+sequence:
+    #Only if Livingroom is NOT set to Auto
+  - condition: template
+    value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+  - service: climate.set_preset_mode
+    data:
+      entity_id: climate.woonkamer
+      preset_mode: none
+
+#preset_modes: none, temporary, permanent
+#hvac_mode: off, heat

@@ -8,7 +8,7 @@ sequence:
           script.light_hue_dressing_on_dimmed
         {% elif states('input_select.woning_status') in ['Slapen'] and (states.sensor.time.state >= '23:10' or states.sensor.time.state <= '05:00') %}
           script.light_hue_dressing_on_night
-        {% elif states('input_select.woning_status') in ['Juist Wakkker'] %}
+        {% elif states('input_select.woning_status') in ['Juist Wakker'] %}
           script.light_hue_dressing_on_dimmed
         {% elif states.sensor.time.state >= '22:00' or states.sensor.time.state <= '06:20' %}
           script.light_hue_dressing_on_dimmed

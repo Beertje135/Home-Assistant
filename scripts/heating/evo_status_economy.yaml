@@ -1,6 +1,9 @@
 
 alias: Evohome - Status - Economy
 sequence:
+    #Only if Evohome is NOT set to eco
+  - condition: template
+    value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'eco' ) }}"
   - service: climate.set_preset_mode
     data:
       entity_id: climate.ons_huisje
