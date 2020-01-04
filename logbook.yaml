@@ -10,7 +10,6 @@
       - weather
       - person
       - vacuum
-      - automation
     entities:
       - sensor.season
       - sensor.babaysit
@@ -44,8 +43,8 @@
       - automation.verwarming_boolean_changes
       - automation.verwarming_location_week_going_home_custom_mode
       - automation.verwarming_time_verlof_awake_evening_rise_woonkamer
-      - automation.verwarming_time_verlof_morning_day_off_mode
-      - automation.verwarming_time_verlof_slapen_day_off_mode
+      - automation.verwarming_time_verlof_morning_home_mode
+      - automation.verwarming_time_verlof_slapen_home_mode
       - automation.verwarming_time_week_awake_evening_rise_woonkamer
       - automation.verwarming_time_week_end_work_eco_mode
       - automation.verwarming_time_week_slapen_auto_mode
@@ -58,27 +57,24 @@
       - automation.verwarming_woning_juist_wakker_verlof_rise_beneden
       - automation.verwarming_woning_juist_wakker_week_rise_keuken
       - automation.verwarming_woning_juist_wakker_weekend_rise_beneden
-      - automation.verwarming_woning_slapen_verlof_day_off_mode
+      - automation.verwarming_woning_slapen_verlof_home_mode
       - automation.verwarming_woning_slapen_verlof_lower_beneden
       - automation.verwarming_woning_slapen_week_auto_mode
       - automation.verwarming_woning_slapen_week_lower_beneden
       - automation.verwarming_woning_slapen_weekend_auto_mode
       - automation.verwarming_woning_slapen_weekend_lower_beneden
       - automation.verwarming_woning_thuis_auto_mode
-      - automation.verwarming_woning_thuis_verlof_day_off_mode
+      - automation.verwarming_woning_thuis_verlof_home_mode
       - automation.verwarming_woning_thuis_werk_custom_mode
       - automation.verwarming_woning_vakantie_off
       - automation.verwarming_woning_weg_auto_mode
       - automation.verwarming_woning_weg_eco_mode
-      - automation.verluchting_boolean_change_based_on_outside_temperature_beneden
-      - automation.verluchting_boolean_change_based_on_outside_temperature_boven
-      - automation.verluchting_boolean_changes_beneden
-      - automation.verluchting_boolean_changes_boven
   exclude:
     domains:
       - sensor
       - script
       - group
+      - automation
     entities:
       - binary_sensor.dressing_sensor_motion
       - binary_sensor.keuken_sensor_motion

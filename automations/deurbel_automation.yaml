@@ -11,3 +11,27 @@
     entity_id:
       - script.notify_deurbel
       - script.remote_livingroom_tv_pause
+
+# AUTOMATIONS CHIME ACTIVE/ NOT ACTIVE
+
+- alias: Deurbel - Als Arlo On
+  trigger:
+  - platform: state
+    entity_id: input_boolean.light_arlo
+    to: 'on'
+  condition:
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.doorbell_chime_off
+
+- alias: Deurbel - Als Arlo Off
+  trigger:
+  - platform: state
+    entity_id: input_boolean.light_arlo
+    to: 'off'
+  condition:
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.doorbell_chime_on

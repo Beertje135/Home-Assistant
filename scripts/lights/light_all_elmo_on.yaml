@@ -1,6 +1,7 @@
 
-alias: Licht - All - Veranda - Aan
+alias: Licht - All - Elmo - Aan
 sequence:
   - service: script.turn_on
     entity_id:
       - script.light_hue_elmo_on
+      - script.light_arlo_elmo_on

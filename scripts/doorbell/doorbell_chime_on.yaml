@@ -1,0 +1,5 @@
+
+alias: Deurbel - Bel - Aan
+sequence:
+  - service: switch.turn_on
+    entity_id: switch.deurbel_voor_chime_active

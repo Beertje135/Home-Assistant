@@ -513,23 +513,88 @@
 
 # AUTOMATIONS FOR ELMO'S ROOM LIGHT (ACTION = SCRIPT)
 
-- alias: Licht - Elmo - Aan
+- alias: Licht - Elmo Arlo - Aan Avond
+  trigger:
+  - platform: time
+    at: '19:30:00'
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Juist Thuis'
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Op Vakantie', 'Juist Weg', 'Weg'] }}"
+  - condition: time
+    after: '19:30:00'
+  - condition: state
+    entity_id: input_boolean.light_arlo
+    state: 'off'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_arlo_elmo_on
+
+- alias: Licht - Elmo Arlo - Aan Middag
+  trigger:
+  - platform: time
+    at: '12:00:00'
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_arlo
+    state: 'off'
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis (Verlof)'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_arlo_elmo_on
+
+- alias: Licht - Elmo Arlo - Uit Middag
+  trigger:
+  - platform: time
+    at: '15:00:00'
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_arlo
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.light_arlo_elmo_off
+
+- alias: Licht - Elmo Arlo - Uit Ochtend Week
   trigger:
   - platform: time
     at: '06:35:00'
   condition:
+  - condition: state
+    entity_id: input_boolean.light_arlo
+    state: 'on'
   - condition: template
-    value_template: "{{ states('input_select.woning_status') not in ['Op Vakantie', 'Juist Weg', 'Weg', 'Slapen'] }}"
+    value_template: "{{ states('input_select.woning_status') not in ['Thuis (Verlof)', 'Juist Wakker', 'Slapen'] }}"
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_all_elmo_on
+      - script.light_arlo_elmo_off
+      - script.light_hue_elmo_on_standby
 
 - alias: Licht - Elmo - Uit
   trigger:
-  - platform: time
-    at: '07:05:00'
+  - platform: state
+    entity_id: light.hue_kamer_elmo_one
+    to: 'on'
+    for:
+      minutes: 15
   condition:
+  - condition: state
+    entity_id: input_boolean.light_arlo
+    state: 'off'
   - condition: or
     conditions:
     - condition: state
