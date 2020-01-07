@@ -1,0 +1,14 @@
+
+alias: Music - Volume Slaapkamer
+sequence:
+  - service: media_player.volume_set
+    data_template:
+      entity_id: media_player.bedroom_alexa
+      volume_level: >
+        {%- if (states('sensor.time') <= "08:30") and (now().weekday() in (0,1,2,3,4)) -%}
+          0.08
+        {%- elif (states('sensor.time') <= "07:30") and (now().weekday() in (5,6)) -%}
+          0.08
+        {%- else -%}
+          0.3
+        {%- endif %}

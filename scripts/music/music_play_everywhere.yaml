@@ -1,0 +1,13 @@
+
+alias: Music - Play Overal
+sequence:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if (states('sensor.time') <= "09:00") and (now().weekday() in (0,1,2,3,4)) -%}
+          script.music_alexa_play_everywhere_mnm
+        {%- elif (states('sensor.time') <= "07:30") and (now().weekday() in (5,6)) -%}
+          script.music_alexa_play_everywhere_mnm
+        {%- else -%}
+          script.music_alexa_play_everywhere_mnm
+        {%- endif %}

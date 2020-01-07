@@ -228,6 +228,15 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Awake early before heating on
+  - condition: time
+    before: !secret work_week_end_heating
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
     #Only if Evohome is NOT set to Custom
   - condition: template
     value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'Custom') }}"

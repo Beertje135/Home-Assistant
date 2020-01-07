@@ -17,7 +17,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.music_alexa_play_downstairs
+      - script.music_play_downstairs
 
 # PLAY RADIO IN LIVING ROOM
 
@@ -33,9 +33,9 @@
     data_template:
       entity_id: >
         {%- if states('media_player.livingroom_alexa') not in ['playing'] and states('media_player.downstairs') not in ['playing'] and states('media_player.everywhere') not in ['playing'] and states('input_select.harmony_hub') in ['Alexa'] -%}
-          script.music_alexa_play_living_room
+          script.music_play_living_room
         {%- elif states('media_player.livingroom_alexa') in ['playing'] and states('input_select.harmony_hub') not in ['Alexa'] -%}
-          script.music_alexa_stop_living_room
+          script.music_stop_living_room
         {%- else -%}
           script.empty
         {%- endif %}
@@ -66,7 +66,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.music_alexa_play_bathroom
+      - script.music_play_bathroom
 
 - alias: Muziek - Radio - Stop Badkamer
   trigger:
@@ -81,7 +81,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.music_alexa_stop_bathroom
+      - script.music_stop_bathroom
 
 # PLAY RADIO IN KITCHEN
 
@@ -124,13 +124,8 @@
     value_template: "{{ states('media_player.everywhere') not in ['playing'] }}"
   action:
   - service: script.turn_on
-    data_template:
-      entity_id: >
-        {%- if states('media_player.bathroom_alexa') in ['playing'] -%}
-          script.music_alexa_play_kitchen
-        {%- else -%}
-          script.music_alexa_play_kitchen
-        {%- endif %}
+    entity_id:
+      - script.music_play_kitchen
   - delay: '00:10:00'
 
 - alias: Muziek - Radio - Stop Keuken
@@ -156,7 +151,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.music_alexa_stop_kitchen
+      - script.music_stop_kitchen
 
 # TEMPORARY DISABLE MUSIC FOLLOW
 
@@ -181,15 +176,10 @@
   action:
     - service: script.turn_on
       entity_id:
-        - script.music_follow_disable_temporary
-    - condition: state
-      entity_id: media_player.kitchen_alexa_1
-      state: 'playing'
-    - service: media_player.media_play_pause
-      entity_id:
-        - media_player.kitchen_alexa_1
+        - script.music_follow_disable
+        - script.music_stop_kitchen
 
-- alias: Muziek - Radio - Temporary disable music follow Stop
+- alias: Muziek - Radio - Follow Enable
   trigger:
   - entity_id: media_player.kitchen_alexa_1
     platform: state
@@ -197,16 +187,16 @@
     to: 'playing'
   condition:
   - condition: state
-    entity_id: script.music_follow_disable_temporary
+    entity_id: script.music_follow_disable
     state: 'on'
     for:
       minutes: 3
   action:
-  - service: input_boolean.turn_on
-    data:
-      entity_id: input_boolean.music_follow
+  - service: script.turn_on
+    entity_id:
+      - script.music_follow_enable
 
-- alias: Muziek - Radio - Temporary disable music follow Stop 2
+- alias: Muziek - Radio - Follow Enable 2
   trigger:
   - entity_id: input_boolean.music_follow
     platform: state
@@ -215,9 +205,9 @@
       minutes: 180
   condition:
   action:
-  - service: input_boolean.turn_on
-    data:
-      entity_id: input_boolean.music_follow
+  - service: script.turn_on
+    entity_id:
+      - script.music_follow_enable
 
 # RADIO VOLUME
 
@@ -232,10 +222,9 @@
       - media_player.downstairs
       - media_player.everywhere
   action:
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.livingroom_alexa
-      volume_level: 1.0
+  - service: script.turn_on
+    entity_id:
+      - script.music_volume_living_room
 
 - alias: Muziek - Radio - Volume wanneer beiden thuis
   trigger:
@@ -252,15 +241,8 @@
     entity_id: person.caroline
     state: 'home'
   action:
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.livingroom_alexa
-      volume_level: 1.0
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.kitchen_alexa_1
-      volume_level: 0.3
-  - service: media_player.volume_set
-    data:
-      entity_id: media_player.bathroom_alexa
-      volume_level: 0.1
+  - service: script.turn_on
+    entity_id:
+      - script.music_volume_kitchen
+      - script.music_volume_living_room
+      - script.music_volume_bathroom

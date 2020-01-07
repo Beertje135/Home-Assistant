@@ -1,5 +1,5 @@
 
-alias: Radio - Alexa play bathroom Spotify
+alias: Music - Alexa - Play Badkamer Spotify
 sequence:
   - service: media_player.select_source
     data:
@@ -9,14 +9,6 @@ sequence:
     data:
       entity_id: media_player.spotify
   - delay: 00:00:05
-  - service: media_player.volume_set
-    data_template:
-      entity_id: media_player.bathroom_alexa
-      volume_level: >
-        {% if (states.sensor.time.state) <= "08:30" and now().weekday() in (0,1,2,3,4) %}
-          0.07
-        {% elif ((states.sensor.time.state) <= "07:30") and now().weekday() in (5,6) %}
-          0.07
-        {% else %}
-          0.13
-        {% endif %}
+  - service: script.turn_on
+    entity_id:
+      - script.music_volume_bathroom

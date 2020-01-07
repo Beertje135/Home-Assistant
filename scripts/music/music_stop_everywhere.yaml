@@ -1,5 +1,5 @@
 
-alias: Radio - Alexa Stop Everywhere
+alias: Music - Stop Overal
 sequence:
   - service: media_player.turn_off
     entity_id:

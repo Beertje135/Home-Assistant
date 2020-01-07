@@ -12,7 +12,7 @@
       - vacuum
     entities:
       - sensor.season
-      - sensor.babaysit
+      - sensor.babysit
       - sensor.bezoek
       - sensor.kuishulp
       - sensor.hacs

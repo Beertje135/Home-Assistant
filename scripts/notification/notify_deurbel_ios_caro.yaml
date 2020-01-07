@@ -3,7 +3,7 @@ alias: Notify iOS Caro - Deurbel Voordeur - Als ze aanbellen
 sequence:
   - condition: template
     value_template: "{{ (states('input_boolean.notify_caro') in ['on'] and states('device_tracker.router_iphone_caro') in ['home']) or (states('input_boolean.notify_caro') in ['on'] and states('device_tracker.router_iphone_caro') in ['not_home'] and states('device_tracker.router_iphone_bert') in ['not_home']) }}"
-  - service: notify.mobile_app_iphone_van_bert
+  - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: "VOORDEUR"
       message: Ding Dong! Er staat iemand aan de voordeur.

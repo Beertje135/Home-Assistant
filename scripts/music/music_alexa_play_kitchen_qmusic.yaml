@@ -1,5 +1,5 @@
 
-alias: Radio - Alexa play kitchen Q-Music
+alias: Music - Alexa - Play Keuken Q-Music
 sequence:
   - service: media_player.play_media
     data:
@@ -7,14 +7,6 @@ sequence:
       media_content_id: QMusic Belgium
       media_content_type: TUNEIN
   - delay: 00:00:05
-  - service: media_player.volume_set
-    data_template:
-      entity_id: media_player.kitchen_alexa_1
-      volume_level: >
-        {% if (states.sensor.time.state) <= "08:30" and now().weekday() in (0,1,2,3,4) %}
-          0.1
-        {% elif ((states.sensor.time.state) <= "07:30") and now().weekday() in (5,6) %}
-          0.1
-        {% else %}
-          0.3
-        {% endif %}
+  - service: script.turn_on
+    entity_id:
+      - script.music_volume_kitchen

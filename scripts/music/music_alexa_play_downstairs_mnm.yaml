@@ -1,5 +1,5 @@
 
-alias: Radio - Alexa play beneden MNM
+alias: Music - Alexa - Play Beneden MNM
 sequence:
   - service: media_player.play_media
     data:
@@ -7,25 +7,7 @@ sequence:
       media_content_id: VRT MNM on the downstairs group
       media_content_type: TUNEIN
   - delay: 00:00:05
-  - service: media_player.volume_set
-    data_template:
-      entity_id: media_player.livingroom_alexa
-      volume_level: >
-        {% if (states.sensor.time.state) <= "08:30" and now().weekday() in (0,1,2,3,4) %}
-          1.0
-        {% elif ((states.sensor.time.state) <= "07:30") and now().weekday() in (5,6) %}
-          1.0
-        {% else %}
-          1.0
-        {% endif %}
-  - service: media_player.volume_set
-    data_template:
-      entity_id: media_player.kitchen_alexa_1
-      volume_level: >
-        {% if (states.sensor.time.state) <= "08:30" and now().weekday() in (0,1,2,3,4) %}
-          0.1
-        {% elif ((states.sensor.time.state) <= "07:30") and now().weekday() in (5,6) %}
-          0.1
-        {% else %}
-          0.3
-        {% endif %}
+  - service: script.turn_on
+    entity_id:
+      - script.music_volume_kitchen
+      - script.music_volume_living_room

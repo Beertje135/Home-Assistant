@@ -1,0 +1,6 @@
+
+alias: Music - Follow Disable
+sequence:
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.music_follow

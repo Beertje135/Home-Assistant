@@ -1,12 +1,13 @@
 
-alias: Music - Alexa - Play Badkamer MNM
+alias: Music - Alexa - Play Boven MNM
 sequence:
   - service: media_player.play_media
     data:
-      entity_id: media_player.bathroom_alexa
-      media_content_id: VRT MNM
+      entity_id: media_player.kitchen_alexa_2
+      media_content_id: VRT MNM on the upstairs group
       media_content_type: TUNEIN
   - delay: 00:00:05
   - service: script.turn_on
     entity_id:
       - script.music_volume_bathroom
+      - script.music_volume_bedroom

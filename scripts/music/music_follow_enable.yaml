@@ -1,5 +1,5 @@
 
-alias: Radio - enable follow around
+alias: Music - Follow Enable
 sequence:
   - service: input_boolean.turn_on
     data:
