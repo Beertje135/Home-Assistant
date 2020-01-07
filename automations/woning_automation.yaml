@@ -116,6 +116,8 @@
           Juist Weg
         {% elif states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']) and states('calendar.verlof_agenda') in ['on'] %}
           Thuis (Verlof)
+        {% elif states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']) and (states('sensor.time') >= "07:20") and (states('sensor.time') <= "18:00") and (now().weekday() in (0,1,2,3,4)) %}
+          Thuis (Werk)
         {% elif states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']) %}
           Thuis
         {% elif states('input_select.woning_status') in ['Juist Weg'] %}
@@ -170,6 +172,8 @@
       option: >
         {% if states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker'] and states('calendar.verlof_agenda') in ['on'] %}
           Thuis (Verlof)
+        {% elif states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker'] and (states('sensor.time') >= "07:20") and (states('sensor.time') <= "18:00") and (now().weekday() in (0,1,2,3,4)) %}
+          Thuis (Werk)
         {% elif states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker'] %}
           Thuis
         {% elif states('input_select.woning_status') in ['Juist Weg'] %}
@@ -211,81 +215,39 @@
       entity_id: input_select.woning_status
       option: Juist Wakker
 
-- alias: Ons Huisje - Change Status - Thuis (Werk) ON (als Thuis op weekdag)
-  trigger:
-  - platform: template
-    value_template: "{{ states('input_select.woning_status') in ['Thuis'] }}"
-  condition:
-  - condition: time
-    after: !secret work_week_start
-    before: !secret work_week_end
-    weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
-  action:
-  - service: input_select.select_option
-    data:
-      entity_id: input_select.woning_status
-      option: Thuis (Werk)
-
-- alias: Ons Huisje - Change Status - Thuis (Werk) ON (als nog Thuis)
+- alias: Ons Huisje - Change Status - Thuis (...) ON (als Thuis)
   trigger:
   - platform: time
     at: !secret work_week_start
-  condition:
-  - condition: time
-    weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
-  - condition: template
-    value_template: "{{ states('input_select.woning_status') in ['Thuis'] }}"
-  action:
-  - service: input_select.select_option
-    data:
-      entity_id: input_select.woning_status
-      option: Thuis (Werk)
-
-- alias: Ons Huisje - Change Status - Thuis (Werk) OFF
-  trigger:
-  - platform: time
-    at: !secret work_week_end
-  condition:
-  - condition: template
-    value_template: "{{ states('input_select.woning_status') in ['Thuis (Werk)'] }}"
-  action:
-  - service: input_select.select_option
-    data:
-      entity_id: input_select.woning_status
-      option: Thuis
-
-- alias: Ons Huisje - Change Status - Thuis (Verlof) ON (als reeds Thuis)
-  trigger:
   - platform: state
     entity_id: calendar.verlof_agenda
     to: 'on'
   condition:
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Thuis'] }}"
+  - condition: template
+    value_template: "{{ states('calendar.verlof_agenda') in ['on'] or ( states('sensor.time') >= '07:20' and states('sensor.time') <= '18:00' and now().weekday() in (0,1,2,3,4) ) }}"
   action:
   - service: input_select.select_option
-    data:
-      entity_id: input_select.woning_status
-      option: Thuis (Verlof)
+    entity_id: input_select.woning_status
+    data_template:
+      option: >
+        {% if (states('calendar.verlof_agenda') in ['on']) %}
+          Thuis (Verlof)
+        {% elif (states('sensor.time') >= "07:20") and (states('sensor.time') <= "18:00") and (now().weekday() in (0,1,2,3,4)) %}
+          Thuis (Werk)
+        {% endif %}
 
-- alias: Ons Huisje - Change Status - Thuis (Verlof) OFF
+- alias: Ons Huisje - Change Status - Thuis (...) OFF
   trigger:
+  - platform: time
+    at: !secret work_week_end
   - platform: state
     entity_id: calendar.verlof_agenda
-    to: 'off' 
+    to: 'off'
   condition:
   - condition: template
-    value_template: "{{ states('input_select.woning_status') in ['Thuis (Verlof)'] }}"
+    value_template: "{{ states('input_select.woning_status') in ['Thuis (Werk)', 'Thuis (Verlof)'] }}"
   action:
   - service: input_select.select_option
     data:
