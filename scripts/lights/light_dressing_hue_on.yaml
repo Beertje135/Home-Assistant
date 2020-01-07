@@ -5,13 +5,13 @@ sequence:
     data_template:
       entity_id: >
         {% if states('input_select.woning_status') in ['Slapen'] and (states.sensor.time.state >= '05:00' or states.sensor.time.state <= '23:10') %}
-          script.light_hue_dressing_on_dimmed
+          script.light_dressing_hue_on_dimmed
         {% elif states('input_select.woning_status') in ['Slapen'] and (states.sensor.time.state >= '23:10' or states.sensor.time.state <= '05:00') %}
-          script.light_hue_dressing_on_night
+          script.light_dressing_hue_on_night
         {% elif states('input_select.woning_status') in ['Juist Wakker'] %}
-          script.light_hue_dressing_on_dimmed
+          script.light_dressing_hue_on_dimmed
         {% elif states.sensor.time.state >= '22:00' or states.sensor.time.state <= '06:20' %}
-          script.light_hue_dressing_on_dimmed
+          script.light_dressing_hue_on_dimmed
         {% else %}
-          script.light_hue_dressing_on_normal
+          script.light_dressing_hue_on_normal
         {% endif %}

@@ -27,7 +27,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_hue_veranda_on_led
+      - script.light_veranda_hue_led_on
 
 - alias: Licht - Veranda - Uit LED
   trigger:
@@ -74,7 +74,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_all_veranda_off
+      - script.light_veranda_all_off
 
 - alias: Licht - Veranda - Aan Flos Arco
   trigger:
@@ -101,7 +101,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_hue_veranda_on
+      - script.light_veranda_hue_on
 
 - alias: Licht - Veranda - Uit Flos Arco
   trigger:
@@ -117,7 +117,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_hue_veranda_off
+      - script.light_veranda_hue_off
 
 # AUTOMATIONS FOR KITCHEN LIGHT (ACTION = SCRIPT)
 
@@ -144,7 +144,7 @@
     value_template: "{{ states('light.milight_keuken') in ['off'] or state_attr('light.milight_keuken', 'brightness') < 250 }}"
   action:
   - service: script.turn_on
-    entity_id: script.light_all_kitchen_on
+    entity_id: script.light_kitchen_all_on
 
 - alias: Licht - Keuken - Uit
   trigger:
@@ -166,7 +166,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_all_kitchen_off
+      - script.light_kitchen_all_off
 
 - alias: Licht - Keuken - Uit - Night
   trigger:
@@ -183,7 +183,7 @@
     value_template: "{{ states('input_select.woning_status') in ['Slapen', 'Juist Weg', 'Weg', 'Op Vakantie'] }}"
   action:
   - service: script.turn_on
-    entity_id: script.light_all_kitchen_off
+    entity_id: script.light_kitchen_all_off
 
 - alias: Licht - Keuken - Standby of Uit
   trigger:
@@ -201,10 +201,10 @@
     data_template:
       entity_id: >
         {% if states('sun.sun') in ['below_horizon'] and states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] %}
-          script.light_milight_kitchen_on_standby,
-          script.light_milight_kitchen_on_tv_standby
+          script.light_kitchen_milight_on_standby,
+          script.light_kitchen_milight_tv_on_standby
         {% else %}
-          script.light_all_kitchen_off
+          script.light_kitchen_all_off
         {% endif %}
 
 # AUTOMATIONS FOR LIVINGROOM LIGHT (ACTION = SCRIPT)
@@ -231,8 +231,8 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_hue_living_on_led
-      - script.light_milight_living_on_tv
+      - script.light_living_room_hue_led_on
+      - script.light_living_room_milight_tv_on
 
 - alias: Licht - Woonkamer - Aan Kerstmis
   trigger:
@@ -249,7 +249,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_hue_living_on_led
+      - script.light_living_room_hue_led_on
 
 - alias: Licht - Woonkamer - Aan lux heel laag
   trigger:
@@ -273,8 +273,8 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_hue_living_on_spacewalker
-      - script.light_hue_living_on
+      - script.light_living_room_hue_spacewalker_on
+      - script.light_living_room_hue_on
 
 - alias: Licht - Woonkamer - Hue Aan
   trigger:
@@ -289,7 +289,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_hue_living_on
+      - script.light_living_room_hue_on
 
 - alias: Licht - Woonkamer - Uit lux hoog
   trigger:
@@ -306,7 +306,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_hue_living_off_spacewalker
+      - script.light_living_room_hue_spacewalker_off
 
 - alias: Licht - Woonkamer - Uit lux heel hoog
   trigger:
@@ -323,7 +323,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_all_living_off
+      - script.light_living_room_all_off
 
 - alias: Licht - Woonkamer - Uit Geen beweging
   trigger:
@@ -341,7 +341,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_all_living_off
+      - script.light_living_room_all_off
 
 - alias: Licht - Woonkamer - Uit - Night
   trigger:
@@ -358,7 +358,7 @@
     value_template: "{{ states('input_select.woning_status') in ['Slapen', 'Juist Weg', 'Weg'] }}"
   action:
   - service: script.turn_on
-    entity_id: script.light_all_living_off
+    entity_id: script.light_living_room_all_off
 
 - alias: Licht - Woonkamer - Milight Aan of Uit volgens Harmony
   trigger:
@@ -373,7 +373,7 @@
     below: !secret lux_livingroom_low
   action:
   - service: script.turn_on
-    entity_id: script.light_milight_living_on_tv
+    entity_id: script.light_living_room_milight_tv_on
 
 - alias: Licht - Woonkamer - Boolean (A)
   trigger:
@@ -429,7 +429,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_all_dressing_on
+      - script.light_dressing_all_on
 
 - alias: Licht - Dressing - Uit
   trigger:
@@ -459,7 +459,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_all_dressing_off
+      - script.light_dressing_all_off
 
 # BOOLEAN INPUT_LIGHT_DRESSING_KEEP_ON - USED TO KEEP LIGHT DRESSING ON
 
@@ -472,9 +472,9 @@
     data_template:
       entity_id: >
         {% if states('input_boolean.light_dressing_stay_on') in ['on'] %}
-          script.light_hue_dressing_on_normal
+          script.light_dressing_hue_on_normal
         {% elif states('input_boolean.light_dressing_stay_on') in ['off'] %}
-          script.light_all_dressing_off
+          script.light_dressing_all_off
         {% endif %}
 
 - alias: Licht - Dressing - Altijd Aan Change Boolean after timer
@@ -509,7 +509,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_all_bathroom_on
+      - script.light_bathroom_all_on
 
 # AUTOMATIONS FOR ELMO'S ROOM LIGHT (ACTION = SCRIPT)
 
@@ -531,7 +531,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_arlo_elmo_on
+      - script.light_elmo_arlo_on
 
 - alias: Licht - Elmo Arlo - Aan Middag
   trigger:
@@ -546,7 +546,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_arlo_elmo_on
+      - script.light_elmo_arlo_on
 
 - alias: Licht - Elmo Arlo - Uit Middag
   trigger:
@@ -559,7 +559,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_arlo_elmo_off
+      - script.light_elmo_arlo_off
 
 - alias: Licht - Elmo Arlo - Uit Ochtend Week
   trigger:
@@ -581,8 +581,8 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_arlo_elmo_off
-      - script.light_hue_elmo_on_standby
+      - script.light_elmo_arlo_off
+      - script.light_elmo_hue_on_standby
 
 - alias: Licht - Elmo - Uit
   trigger:
@@ -606,4 +606,4 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.light_all_elmo_off
+      - script.light_elmo_all_off

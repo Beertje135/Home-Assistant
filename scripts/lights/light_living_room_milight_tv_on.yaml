@@ -5,11 +5,11 @@ sequence:
     data_template:
       entity_id: >
         {%- if states('input_select.woning_status') in ['Slapen'] -%}
-          script.light_milight_living_on_tv_night
+          script.light_living_room_milight_tv_on_night
         {%- elif states('input_boolean.plex_livingroom') in ['on'] -%}
-          script.light_milight_living_on_tv_standby
+          script.light_living_room_milight_tv_on_standby
         {%- elif states('input_select.harmony_hub') in ['Powered Off', 'Alexa'] -%}
-          script.light_milight_living_off_tv
+          script.light_living_room_milight_tv_off
         {%- else -%}
-          script.light_milight_living_on_tv_normal
+          script.light_living_room_milight_tv_on_normal
         {%- endif %}

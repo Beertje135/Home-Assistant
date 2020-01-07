@@ -3,5 +3,5 @@ alias: Licht - All - Veranda - Aan
 sequence:
   - service: script.turn_on
     entity_id:
-      - script.light_hue_veranda_on
-      - script.light_hue_veranda_on_led
+      - script.light_veranda_hue_on
+      - script.light_veranda_hue_led_on

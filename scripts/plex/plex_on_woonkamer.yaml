@@ -5,7 +5,7 @@ sequence:
     data_template:
       entity_id: >
         {%- if states('light.hue_woonkamer') in ['on'] -%}
-          script.light_hue_living_on
+          script.light_living_room_hue_on
         {%- else -%}
           script.empty
         {%- endif %}
@@ -13,7 +13,7 @@ sequence:
     data_template:
       entity_id: >
         {%- if states('light.milight_woonkamer_bridge') in ['on'] -%}
-          script.light_milight_living_on_tv
+          script.light_living_room_milight_tv_on
         {%- else -%}
           script.empty
         {%- endif %}
@@ -21,7 +21,7 @@ sequence:
     data_template:
       entity_id: >
         {%- if states('light.hue_veranda') in ['on'] -%}
-          script.light_hue_veranda_on
+          script.light_veranda_hue_on
         {%- else -%}
           script.empty
         {%- endif %}
@@ -29,7 +29,7 @@ sequence:
     data_template:
       entity_id: >
         {%- if states('light.hue_woonkamer_smart_plug_two') in ['on'] -%}
-          script.light_hue_living_off_spacewalker
+          script.light_living_room_hue_spacewalker_off
         {%- else -%}
           script.empty
         {%- endif %}

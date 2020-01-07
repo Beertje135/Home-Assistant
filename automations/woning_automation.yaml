@@ -38,13 +38,13 @@
           script.vacuum_off
         {%- elif states('input_select.woning_status') in ['Juist Weg'] -%}
           script.all_off_light,
-          script.all_off_music_alexa,
+          script.all_off_music,
           script.remote_livingroom_tv_off
         {%- elif states('input_select.woning_status') in ['Slapen'] -%}
-          script.light_all_veranda_off,
-          script.light_all_living_off,
+          script.light_veranda_all_off,
+          script.light_living_room_all_off,
           script.all_off_switch,
-          script.all_off_music_alexa,
+          script.all_off_music,
           script.all_off_remote
         {%- elif states('input_select.woning_status') in ['Weg'] -%}
           script.all_off,

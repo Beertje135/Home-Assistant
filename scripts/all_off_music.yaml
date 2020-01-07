@@ -6,6 +6,7 @@ sequence:
       - media_player.bathroom_alexa
       - media_player.bedroom_alexa
       - media_player.kitchen_alexa_1
+      - media_player.kitchen_alexa_2
       - media_player.livingroom_alexa
       - media_player.everywhere
       - media_player.downstairs

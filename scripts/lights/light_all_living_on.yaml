@@ -1,9 +1,0 @@
-
-alias: Licht - All - Living - Aan
-sequence:
-  - service: script.turn_on
-    entity_id:
-      - script.light_hue_living_on
-      - script.light_hue_living_on_led
-      - script.light_hue_living_on_spacewalker
-      - script.light_milight_living_on_tv
