@@ -1,5 +1,5 @@
 
-alias: Licht - All - Keuken - Aan - tv - Night
+alias: Licht - Keuken - Milight TV - Aan - Night
 sequence:
   - condition: numeric_state
     entity_id: sensor.keuken_sensor_light_level
