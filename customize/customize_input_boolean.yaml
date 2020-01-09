@@ -66,3 +66,7 @@
     input_boolean.keep_christmas_on:
       icon: mdi:pine-tree
       friendly_name: Kerstboom
+
+    input_boolean.vacuum_cleaned_today:
+      icon: mdi:robot-vacuum
+      friendly_name: Input Dusty Cleaned Today

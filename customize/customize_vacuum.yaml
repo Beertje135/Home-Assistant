@@ -1,5 +1,0 @@
-# CUSTOMIZATION FOR INPUT BOOLEANS
-
-    input_boolean.vacuum_cleaned_today:
-      icon: mdi:robot-vacuum
-      friendly_name: Input Dusty Cleaned Today

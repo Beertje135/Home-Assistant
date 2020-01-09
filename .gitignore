@@ -22,6 +22,7 @@ ip_bans.yaml
 secrets.yaml
 known_devices.yaml
 .homekit.state
+google_calendars.yaml
 
 # Database
 *.db
