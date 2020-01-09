@@ -36,30 +36,37 @@ The downside is that sometimes you need to follow the road 'Automation'-->'Seque
   - service: script.turn_on
     entity_id: script.light_kitchen_all_on
 ```
-
 ### Sequence Script
 ```
+alias: Licht - Keuken - All - Aan
 sequence:
   - service: script.turn_on
     entity_id:
-      - script.light_kitchen_milight_on_night
-      - script.light_kitchen_milight_tv_on_night
+      - script.light_kitchen_milight_on
+      - script.light_kitchen_milight_tv_on
 ```
-
-### Service Script
 ```
-alias: Licht - Keuken - Milight - Aan - Night
+alias: Licht - Keuken - Milight TV - Aan
 sequence:
   - condition: numeric_state
     entity_id: sensor.keuken_sensor_light_level
-    below: !secret lux_kitchen_low
-  - service: light.turn_on
-    entity_id:
-      - light.milight_keuken
-    data:
-      hs_color: [0,100]
-      brightness: 200
+    below: !secret lux_kitchen_very_low
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('input_select.woning_status') in ['Slapen'] -%}
+          script.light_kitchen_milight_tv_on_night
+        {%- elif states('input_boolean.light_downstairs') in ['off'] -%}
+          script.light_kitchen_milight_tv_on_standby      
+        {%- elif states('group.bezoekers') in ['not_home'] and (states('sensor.time') <= '06:00' or states('sensor.time') >= '23:00') -%}
+          script.light_kitchen_milight_tv_on_dimmed
+        {%- elif states('input_boolean.plex_kitchen') in ['on'] -%}
+          script.light_kitchen_milight_tv_on_standby
+        {%- else -%}
+          script.light_kitchen_milight_tv_on_normal
+        {%- endif %}
 ```
+### Service Script
 ```
 alias: Licht - Keuken - Milight TV - Aan - Night
 sequence:
