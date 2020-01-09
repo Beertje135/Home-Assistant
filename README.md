@@ -16,10 +16,10 @@ Automations --> Action points to a script where possible
 Sequence Script --> Points to one or more Service scripts
 Service Scripts --> Contain the actual action
 
-The negative thing is that sometimes you need to follow the road 'Automation'-->'Sequence Script'-->'Service Script' to find the action you need.
 The positive thing is that when you change a Service Script all Automations and Sequence Scripts are updated at once.
 Another reason might be the possiblity to add some different conditions to different actions in the sequence.
 When a condition is not TRUE the sequence will stop, but you might want to cancel only one of the actions.
+The downside is that sometimes you need to follow the road 'Automation'-->'Sequence Script'-->'Service Script' to find the action you need to change.
 
 ### Example:
 ### Automation
@@ -36,12 +36,14 @@ When a condition is not TRUE the sequence will stop, but you might want to cance
     entity_id: script.light_kitchen_all_on
 
 ### Sequence Script
-- alias: Licht - All - Keuken - Aan
-    sequence:
-        - service: script.turn_on
-          entity_id:
-            - script.light_kitchen_milight_on_night
-            - script.light_kitchen_milight_tv_on
+```
+alias: Licht - Keuken - All - Aan
+sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.light_kitchen_milight_on_night
+      - script.light_kitchen_milight_tv_on_night
+```
 
 ### Service Script
 alias: Licht - Keuken - Milight - Aan - Night
