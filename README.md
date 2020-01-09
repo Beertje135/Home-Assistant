@@ -3,12 +3,40 @@
 
 UNDER CONSTRUCTION
 
-This document describes how I created my configuration
+This documents how I created my configuration and why I made some decisions.
+Home Assistant is a way for making different Smart Applications talk to each other and this is the main reason I use this great software.
+
+My wife is my best tester and gives me the best feedback.
+If she gets annoyed with a light or an automation it means it isn't good enough or finished yet.
+She is very patient but not so tech minded so the frontend (LoveLace) is not a primary concern for my setup.
+I use Home Assistant for linking different home automation platforms like Apple Homekit and Amazon Alexa.
+These will be the frontend if we need one. Everything is automated so the less we need to pull out our phones the better.
+And I really believe home automation shouldn't be visible or difficult for the user.
+
+The most important automation is the presence detection in our home.
+I based this system on the post of Phil Hawthorne:
+https://philhawthorne.com/making-home-assistants-presence-detection-not-so-binary/
+Basically what this does is put the home in different modes based on who is home and when.
+And these states will influence almost all other automations.
+Eg. When I work from home (state = "Thuis (Werk)") only the kitchen (my office :-)) will be heated and radio will play not to loud.
+
+The second most important automation is the light(hue and milight). We barely use any light switches in the house.
+Automating lights without removing the manual overwrite is like walking on a tightrope.
+What seems to work is to automate all the extra lights (table, floor lights) and leaving the ceiling lights to manual mode.
+Eg. the kitchen led light will be automated (and is in 95% of the time enough light) but the ceiling lights are used on special occasions and as a failsafe.
+
+The third and hardest automation is the heating(evohome).
+We have a European Honeywell Evohome system in our home with different zones and schedules. Trying to save as much money on heating and not compromising on comfort while still relying on the logics of the Evohome system (pre heat, pre stop, shedule, etc.) was a great challenge.
+
+Further we have radio(alexa), visitors(presence), doorbell(ESPHome), notifications(ios and alexa), tv (harmony and plex), gas and water usage(Smappee), solar panels(SolarEdge), vacuum(Roomba), etc.
+
 ## Integrations
 
 ## Custom Components
 
 ## Configuration Best Practices
+
+## Templates
 
 ## Sensors
 
@@ -17,16 +45,21 @@ This document describes how I created my configuration
 The structure of my config is based on a top down system.
 My intention was to minimize the files that needed changes when one or more variables change.
 Automations will point to scripts where possible.
-I have two types of scripts, the sequence scripts and the Service scripts.
+I have two types of scripts, the Sequence scripts and the Service scripts. These are both regular scripts but I call them this way to illustrate the way I use them.
 
 Automations --> Action points to a script where possible
 Sequence Script --> Points to one or more Service scripts
 Service Scripts --> Contain the actual action
 
 The positive thing is that when you change a Service Script all Automations and Sequence Scripts are updated at once.
-Another reason might be the possiblity to add some different conditions to different actions in the sequence.
+Another reason is the possibility to add different conditions to different actions in the sequence.
 When a condition is not TRUE the sequence will stop, but you might want to cancel only one of the actions.
 The downside is that sometimes you need to follow the road 'Automation'-->'Sequence Script'-->'Service Script' to find the action you need to change.
+
+I also depend heavily on conditions. Some conditions are repeated in the automation and all scripts.
+This is done so the automation isn't constantly fired and so we can use the script for multiple purposes.
+Eg. movement will only fire the automation when it is dark and script will only fire if light is off.
+Eg. the sequence script will turn on service script light 1 and service script light 2 but only if the light(s) are off. If we put these in one sequence and light 1 is already on the second light will not get turned on because the whole sequence is stopped.
 
 ### Example:
 ### Automation
