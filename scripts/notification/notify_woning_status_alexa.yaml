@@ -4,7 +4,7 @@ sequence:
   - condition: template
     value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
   - condition: template
-    value_template: "{{ (states('input_select.woning_status') in ['Thuis (Werk)'] and (states.sensor.time.state) <= '08:00') or states('input_select.woning_status') in ['Juist Thuis'] or states('input_select.woning_status') in ['Thuis (Verlof)'] }}"
+    value_template: "{{ (states('input_select.woning_status') in ['Thuis (Werk)'] and (states('sensor.time')) <= '08:00') or states('input_select.woning_status') in ['Juist Thuis'] or states('input_select.woning_status') in ['Thuis (Verlof)'] }}"
   - wait_template: "{{ is_state('group.bewoners_router', 'home') }}"
     timeout: '00:05:00'
     continue_on_timeout: false
@@ -15,7 +15,7 @@ sequence:
         - media_player.kitchen_alexa_2
         - media_player.bathroom_alexa
       message: >
-        {% if states('input_select.woning_status') in ['Thuis (Werk)'] and (states.sensor.time.state) <= "08:00" %}
+        {% if states('input_select.woning_status') in ['Thuis (Werk)'] and (states('sensor.time')) <= "07:20" %}
           'It's nice you are staying home today.'
         {% elif states('input_select.woning_status') in ['Thuis (Verlof)'] %}
           'Enjoy your holiday.'

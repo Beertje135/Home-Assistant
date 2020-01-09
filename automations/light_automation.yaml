@@ -499,6 +499,11 @@
   trigger:
   - entity_id: binary_sensor.dressing_sensor_motion
     platform: state
+  - entity_id: binary_sensor.dressing_sensor_motion
+    platform: state
+    for:
+      minutes: 5
+    to: 'off'
   condition:
   - condition: or
     conditions:

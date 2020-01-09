@@ -7,9 +7,9 @@ sequence:
     data_template:
       title: "DUSTY"
       message: >
-        {% if states.vacuum.dusty.attributes.status == 'Stuck' %}
+        {% if state_attr('vacuum.dusty', 'status') == 'Stuck' %}
           'Dusty zit vast. Die Domme Dusty toch.'
-        {% elif states.vacuum.dusty.attributes.bin_full == true %}
+        {% elif state_attr('vacuum.dusty', 'bin_full') == true %}
           'Dusty heeft te veel gegeten. Maak zijn buikje leeg a.u.b.'
         {% elif states('vacuum.dusty') in ['off'] and states('input_boolean.vacuum_cleaned_today') in ['on'] %}
           'Dusty is klaar met zijn taak.'

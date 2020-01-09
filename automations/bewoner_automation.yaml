@@ -166,7 +166,7 @@
   - service: script.turn_on
     data_template:
       entity_id: >
-        {% if ((states.sensor.time.state) <= "13:00") %}
+        {% if (states('sensor.time') <= "13:00") %}
           script.notify_nmbs_mechelen_brussel_ios_bert
         {% else %}
           script.notify_nmbs_mechelen_willebroek_ios_bert

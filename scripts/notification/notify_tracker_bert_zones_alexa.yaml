@@ -9,7 +9,7 @@ sequence:
     value_template: "{{ states('person.bert') not in ['home'] }}"
   - condition: template
     value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
-  - wait_template: "{{ states.device_tracker.router_iphone_caro.state == 'home' and states.device_tracker.router_iphone_caro.attributes.ap_mac == 'f0:9f:c2:d6:9e:72' }}"
+  - wait_template: "{{ states('device_tracker.router_iphone_caro') == 'home' and state_attr('device_tracker.router_iphone_caro', 'ap_mac') == 'f0:9f:c2:d6:9e:72' }}"
     timeout: '00:05:00'
     continue_on_timeout: false
   - service: notify.alexa_media
@@ -19,9 +19,9 @@ sequence:
         - media_player.bathroom_alexa
       message: >
         {% if states('person.bert') in ['Elly', 'Nancy', 'Mama & Mark'] %}
-          'Bert just arrived at {{ states.person.caroline.state }}.
+          'Bert just arrived at {{ states('person.caroline') }}.
         {% elif states('person.bert') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}
-          'No panic but Bert is near {{ states.person.caroline.state }}.
+          'No panic but Bert is near {{ states('person.caroline') }}.
         {% elif states('person.bert') in ['Mechelen Station'] %}
           'Bert is on his way home from work.'
         {% elif states('person.bert') in ['Checkpoint 3', 'Willebroek Station'] %}

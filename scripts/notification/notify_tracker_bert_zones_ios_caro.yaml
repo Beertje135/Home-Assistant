@@ -8,11 +8,11 @@ sequence:
       title: "BERT STATUS"
       message: >
         {% if states('person.bert') in ['Elly', 'Nancy', 'Mama & Mark'] %}
-          Bert is aangekomen bij {{ states.person.bert.state }}.
+          Bert is aangekomen bij {{ states('person.bert') }}.
         {% elif states('person.bert') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}
-          Geen paniek maar Bert is nabij het {{ states.person.bert.state }}.
+          Geen paniek maar Bert is nabij het {{ states('person.bert') }}.
         {% elif states('person.bert') in ['Willebroek Station', 'Mechelen Station'] %}
-          Bert is aangekomen in {{ states.person.bert.state }}.
+          Bert is aangekomen in {{ states('person.bert') }}.
         {% elif states('person.bert') in ['Checkpoint 3'] %}
           Bert is bijna thuis. (Fort Breendonck)
         {% endif %}

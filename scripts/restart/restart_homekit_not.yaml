@@ -5,21 +5,21 @@ sequence:
   - timeout: 00:15:00
     continue_on_timeout: false
     wait_template: >
-          {%- if not states.climate.ons_huisje -%}
+          {%- if not states('climate.ons_huisje') -%}
             true
-          {%- elif not states.climate.keuken -%}
+          {%- elif not states('climate.keuken') -%}
             true
-          {%- elif not states.light.hue_kamer_elmo_one -%}
+          {%- elif not states('light.hue_kamer_elmo_one') -%}
             true
-          {%- elif not states.light.milight_keuken_bridge -%}
+          {%- elif not states('light.milight_keuken_bridge') -%}
             true
-          {%- elif not states.light.milight_woonkamer_bridge -%}
+          {%- elif not states('light.milight_woonkamer_bridge') -%}
             true
-          {%- elif not states.device_tracker.router_iphone_bert -%}
+          {%- elif not states('device_tracker.router_iphone_bert') -%}
             true
-          {%- elif not states.sensor.smappee_ons_huisje_water_sensor_temperature -%}
+          {%- elif not states('sensor.smappee_ons_huisje_water_sensor_temperature') -%}
             true
-          {%- elif not states.light.hue_keuken_smart_plug -%}
+          {%- elif not states('light.hue_keuken_smart_plug') -%}
             true
           {%- else -%}
             false

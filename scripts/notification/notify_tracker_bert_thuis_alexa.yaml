@@ -3,7 +3,7 @@ alias: Notify Alexa - Bewoner Bert - Als thuis of weg
 sequence:
   - condition: template
     value_template: "{{ states('person.bert') in ['home'] and states('input_select.woning_status') not in ['Juist Thuis', 'Slapen'] }}"
-  - wait_template: "{{ states.device_tracker.router_iphone_bert.state == 'home' and states.device_tracker.router_iphone_bert.attributes.ap_mac == 'f0:9f:c2:d6:9e:72' }}"
+  - wait_template: "{{ states('device_tracker.router_iphone_bert') == 'home' and state_attr('device_tracker.router_iphone_bert', 'ap_mac') == 'f0:9f:c2:d6:9e:72' }}"
     timeout: '00:07:00'
     continue_on_timeout: false
   - delay: '00:00:10'

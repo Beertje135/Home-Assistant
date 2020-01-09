@@ -4,9 +4,9 @@
   initial_state: 'off'
   trigger:
   - platform: template
-    value_template: "{{ states.vacuum.dusty.attributes.bin_full == true }}"
+    value_template: "{{ state_attr('vacuum.dusty', 'bin_full') == true }}"
   - platform: template
-    value_template: "{{ states.vacuum.dusty.attributes.status == Stuck }}"
+    value_template: "{{ state_attr('vacuum.dusty', 'status') == Stuck }}"
   - platform: state
     entity_id:
       - vacuum.dusty

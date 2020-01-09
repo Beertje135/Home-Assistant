@@ -7,19 +7,19 @@ sequence:
     data_template:
       title: "VUILZAKKEN"
       message: >
-        {% if ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_restafval.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_papier.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_pmd.state) %}
+        {% if ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.ophaalkalender_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.ophaalkalender_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.ophaalkalender_pmd')) %}
           Zet vandaag PMD, PAPIER en RESTAFVAL buiten, morgen komen ze deze ophalen.
-        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_restafval.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_papier.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_pmd.state) %}
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.ophaalkalender_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.ophaalkalender_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.ophaalkalender_pmd')) %}
           Zet vandaag PMD en RESTAFVAL buiten, morgen komen ze deze ophalen.
-        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_restafval.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_papier.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_pmd.state) %}
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.ophaalkalender_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.ophaalkalender_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.ophaalkalender_pmd')) %}
           Zet vandaag PMD en PAPIER buiten, morgen komen ze deze ophalen.
-        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_restafval.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_papier.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_pmd.state) %}
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.ophaalkalender_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.ophaalkalender_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.ophaalkalender_pmd')) %}
           Zet vandaag PAPIER en RESTAFVAL buiten, morgen komen ze deze ophalen.
-        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_restafval.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_papier.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_pmd.state) %}
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.ophaalkalender_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.ophaalkalender_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.ophaalkalender_pmd')) %}
           Zet vandaag PMD buiten, morgen komen ze deze ophalen.
-        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_restafval.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_papier.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_pmd.state) %}
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.ophaalkalender_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.ophaalkalender_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.ophaalkalender_pmd')) %}
           Zet vandaag PAPIER buiten, morgen komen ze deze ophalen.
-        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_restafval.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_papier.state) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states.sensor.ophaalkalender_pmd.state) %}
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.ophaalkalender_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.ophaalkalender_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.ophaalkalender_pmd')) %}
           Zet vandaag RESTAFVAL buiten, morgen komen ze deze ophalen.
         {% else %}
           Check even of er afval buiten moet. Ik ben niet zeker.
@@ -28,6 +28,6 @@ sequence:
         push:
           thread-id: "huis"
 
-#"{{ as_timestamp(states.sensor.ophaalkalender_restafval.state) != as_timestamp(states.sensor.date.state) }}"
+#"{{ as_timestamp(states('sensor.ophaalkalender_restafval')) != as_timestamp(states('sensor.date')) }}"
 
-# {{((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states.sensor.ophaalkalender_restafval.state) }}
+# {{((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.ophaalkalender_restafval')) }}

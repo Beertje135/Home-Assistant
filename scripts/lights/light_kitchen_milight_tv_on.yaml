@@ -11,7 +11,7 @@ sequence:
           script.light_kitchen_milight_tv_on_night
         {%- elif states('input_boolean.light_downstairs') in ['off'] -%}
           script.light_kitchen_milight_tv_on_standby      
-        {%- elif states('group.bezoekers') in ['not_home'] and (states.sensor.time.state <= '06:00' or states.sensor.time.state >= '23:00') -%}
+        {%- elif states('group.bezoekers') in ['not_home'] and (states('sensor.time') <= '06:00' or states('sensor.time') >= '23:00') -%}
           script.light_kitchen_milight_tv_on_dimmed
         {%- elif states('input_boolean.plex_kitchen') in ['on'] -%}
           script.light_kitchen_milight_tv_on_standby

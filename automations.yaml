@@ -11,7 +11,7 @@
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] }}"
   - condition: template
-    value_template: "{{ ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_restafval.state) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_papier.state) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_pmd.state) }}"
+    value_template: "{{ ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states('sensor.ophaalkalender_restafval')) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states('sensor.ophaalkalender_papier')) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states('sensor.ophaalkalender_pmd')) }}"
   action:
   - wait_template: "{{ is_state('device_tracker.router_iphone_bert', 'home') }}"
     timeout: '00:05:00'
@@ -28,7 +28,7 @@
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] }}"
   - condition: template
-    value_template: "{{ ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_restafval.state) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_papier.state) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_pmd.state) }}"
+    value_template: "{{ ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states('sensor.ophaalkalender_restafval')) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states('sensor.ophaalkalender_papier')) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states('sensor.ophaalkalender_pmd')) }}"
   action:
   - service: script.turn_on
     entity_id: script.notify_waste
@@ -51,7 +51,7 @@
     to: 'Thuis (Verlof)'
   condition:
   - condition: template
-    value_template: "{{ ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_restafval.state) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_papier.state) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states.sensor.ophaalkalender_pmd.state) }}"
+    value_template: "{{ ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states('sensor.ophaalkalender_restafval')) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states('sensor.ophaalkalender_papier')) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states('sensor.ophaalkalender_pmd')) }}"
   action:
   - service: script.turn_on
     entity_id: script.notify_waste
@@ -83,4 +83,3 @@
 # STOFZUIGER
 
 # WONING
-

@@ -11,19 +11,6 @@
 - platform: season
   type: astronomical
 
-# WAZE TRAVEL TIME SENSOR
-
-#- platform: waze_travel_time
-#  name: "Caroline Travel Time"
-#  origin: zone.home
-#  destination: zone.werk_caro
-#  region: 'EU'
-
-#- platform: template
-#  sensors:
-#    caroline_travel_time_template:
-#      value_template: "{{ (as_timestamp(now()) + (states.sensor.caroline_travel_time.state | float *60) + 600) | timestamp_custom('%X',true) }}"
-
 # CUSTOM SENSOR AFVAL
 
 - platform: ophaalkalender
@@ -42,25 +29,22 @@
 - platform: template
   sensors:
     climate_badkamer_attributes_temperature:
-      value_template: '{{ states.climate.badkamer.attributes.temperature }}'
+      value_template: "{{ state_attr('climate.badkamer', 'temperature') }}"
     climate_keuken_attributes_temperature:
-      value_template: '{{ states.climate.keuken.attributes.temperature }}'
+      value_template: "{{ state_attr('climate.keuken', 'temperature') }}"
     climate_woonkamer_attributes_temperature:
-      value_template: '{{ states.climate.woonkamer.attributes.temperature }}'
+      value_template: "{{ state_attr('climate.woonkamer', 'temperature') }}"
     climate_dressing_attributes_temperature:
-      value_template: '{{ states.climate.dressing.attributes.temperature }}'
+      value_template: "{{ state_attr('climate.dressing', 'temperature') }}"
     climate_slp_kamer_attributes_temperature:
-      value_template: '{{ states.climate.slp_kamer.attributes.temperature }}'
+      value_template: "{{ state_attr('climate.slp_kamer', 'temperature') }}"
     climate_kamer_elmo_attributes_temperature:
-      value_template: '{{ states.climate.kamer_elmo.attributes.temperature }}'
+      value_template: "{{ state_attr('climate.kamer_elmo', 'temperature') }}"
 
 - platform: template
   sensors:
-    climate_kamer_elmo_attributes_temperature:
-      value_template: '{{ states.climate.kamer_elmo.attributes.temperature }}'
     climate_ons_huisje_attributes_current_temperature:
-      value_template: '{{ states.climate.ons_huisje.attributes.current_temperature }}'
-
+      value_template: "{{ state_attr('climate.ons_huisje', 'current_temperature') }}"
 
 # SENSOR TO RENAME ON AND OFF FOR VISITOR SO IT CAN BE INCLUDED IN GROUP_BEZOEKER
 
@@ -85,6 +69,8 @@
         {% else %}
           not_home
         {% endif %}
+
+# SENSOR TO RENAME ON AND OFF FOR BABYSIT SO IT CAN BE INCLUDED
 
 - platform: template
   sensors:
@@ -125,13 +111,13 @@
 - platform: template
   sensors:
     nmbs_template:
-      value_template: '{{ states.sensor.nmbs.attributes.vehicle_id }}'
+      value_template: "{{ state_attr('sensor.nmbs', 'vehicle_id') }}"
     nmbs_2_template:
-      value_template: '{{ states.sensor.nmbs_2.attributes.vehicle_id }}'
+      value_template: "{{ state_attr('sensor.nmbs_2', 'vehicle_id') }}"
     nmbs_3_template:
-      value_template: '{{ states.sensor.nmbs_3.attributes.vehicle_id }}'
+      value_template: "{{ state_attr('sensor.nmbs_3', 'vehicle_id') }}"
     nmbs_4_template:
-      value_template: '{{ states.sensor.nmbs_4.attributes.vehicle_id }}'
+      value_template: "{{ state_attr('sensor.nmbs_4', 'vehicle_id') }}"
 
 # SENSORS TO CALCULATE SMAPPEE - STANDARD SMAPPEE NUMBERS ARE WRONG!
 
@@ -147,25 +133,25 @@
 - platform: template
   sensors:
     smappee_ons_huisje_water_sensor_1_monthly_peak_attributes_last_period:
-      value_template: "{{ states.sensor.smappee_ons_huisje_water_sensor_1_monthly_peak.attributes.last_period }}"
+      value_template: "{{ state_attr('sensor.smappee_ons_huisje_water_sensor_1_monthly_peak', 'last_period') }}"
       unit_of_measurement: L
     smappee_ons_huisje_water_sensor_2_monthly_peak_attributes_last_period:
-      value_template: "{{ states.sensor.smappee_ons_huisje_water_sensor_2_monthly_peak.attributes.last_period }}"
+      value_template: "{{ state_attr('sensor.smappee_ons_huisje_water_sensor_2_monthly_peak', 'last_period') }}"
       unit_of_measurement: m³
     template_elektricity_daily_usage_monthly_peak_attributes_last_period:
-      value_template: "{{ states.sensor.template_elektricity_daily_usage_monthly_peak.attributes.last_period }}"
+      value_template: "{{ state_attr('sensor.template_elektricity_daily_usage_monthly_peak', 'last_period') }}"
       unit_of_measurement: 'kWh'
     solaredge_energy_this_month_monthly_peak_attributes_last_period:
-      value_template: "{{ states.sensor.solaredge_energy_this_month_monthly_peak.attributes.last_period }}"
+      value_template: "{{ state_attr('sensor.solaredge_energy_this_month_monthly_peak', 'last_period') }}"
       unit_of_measurement: 'kWh'
 
 - platform: template
   sensors:
     template_elektricity_current_usage:
-      value_template: "{{ ((states.sensor.smappee_ons_huisje_active_power_template.state | float ) + (states.sensor.solaredge_current_power_template.state | float )) | round(2) }}"
+      value_template: "{{ ((states('sensor.smappee_ons_huisje_active_power_template') | float ) + (states('sensor.solaredge_current_power_template') | float )) | round(2) }}"
       unit_of_measurement: 'kWh'
     template_elektricity_daily_usage:
-      value_template: "{{ ((states.sensor.smappee_ons_huisje_power_today.state | float ) + (states.sensor.solaredge_energy_today_template.state | float )) | round(2) }}"
+      value_template: "{{ ((states('sensor.smappee_ons_huisje_power_today') | float ) + (states('sensor.solaredge_energy_today_template') | float )) | round(2) }}"
       unit_of_measurement: 'kWh'
 
 # SENSORS TO ADAPT SOLAR EDGE & SMAPPEE DISPLAYED UNITS
@@ -173,39 +159,23 @@
 - platform: template
   sensors:
     solaredge_current_power_template:
-      value_template: '{{ (states.sensor.solaredge_current_power.state | float / 1000) | round(2) }}'
+      value_template: "{{ (states('sensor.solaredge_current_power') | float / 1000) | round(2) }}"
       unit_of_measurement: 'kWh'
     solaredge_energy_today_template:
-      value_template: '{{ (states.sensor.solaredge_energy_today.state | float / 1000) | round(2) }}'
+      value_template: "{{ (states('sensor.solaredge_energy_today') | float / 1000) | round(2) }}"
       unit_of_measurement: 'kWh'
     solaredge_energy_this_month_template:
-      value_template: '{{ (states.sensor.solaredge_energy_this_month.state | float / 1000) | round(2) }}'
+      value_template: "{{ (states('sensor.solaredge_energy_this_month') | float / 1000) | round(2) }}"
       unit_of_measurement: 'kWh'
     solaredge_energy_this_year_template:
-      value_template: '{{ (states.sensor.solaredge_energy_this_year.state | float / 100000) | round(2) }}'
+      value_template: "{{ (states('sensor.solaredge_energy_this_year') | float / 100000) | round(2) }}"
       unit_of_measurement: 'MWh'
     solaredge_lifetime_energy_template:
-      value_template: '{{ (states.sensor.solaredge_lifetime_energy.state | float / 1000000) | round(2) }}'
+      value_template: "{{ (states('sensor.solaredge_lifetime_energy') | float / 1000000) | round(2) }}"
       unit_of_measurement: 'MWh'
     smappee_ons_huisje_active_power_template:
-      value_template: '{{ (states.sensor.smappee_ons_huisje_active_power.state | float / 1000) | round(2) }}'
+      value_template: "{{ (states('sensor.smappee_ons_huisje_active_power') | float / 1000) | round(2) }}"
       unit_of_measurement: 'kWh'
-
-# SENSOR TO FOLLOW SONARR DOWNLOADS
-
-#- platform: sonarr
-#  api_key: !secret api_key_sonarr
-#  host: !secret ip_computer_lan
-#  port: !secret port_sonarr
-#  urlbase: /sonarr
-#  monitored_conditions:
-#    - upcoming
-#    - wanted
-#    - diskspace
-#  include_paths:
-#    - F:\
-#  days: 7
-#  ssl: false
 
 # SENSOR TO CHECK STATE OF RASPBERRY PI
 

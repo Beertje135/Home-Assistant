@@ -8,9 +8,9 @@ sequence:
       title: "CARO STATUS"
       message: >
         {% if states('person.caroline') in ['Elly', 'Nancy', 'Mama & Mark'] %}
-          Caroline is aangekomen bij {{ states.person.caroline.state }}.
+          Caroline is aangekomen bij {{ states('person.caroline') }}.
         {% elif states('person.caroline') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}
-          Geen paniek maar Caroline is nabij het {{ states.person.caroline.state }}.
+          Geen paniek maar Caroline is nabij het {{ states('person.caroline') }}.
         {% elif states('person.caroline') in ['Checkpoint 1'] %}
           Caroline is onderweg naar huis. (Ikea Wilrijk)
         {% elif states('person.caroline') in ['Checkpoint 2'] %}

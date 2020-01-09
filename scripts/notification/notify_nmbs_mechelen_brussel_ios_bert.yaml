@@ -6,11 +6,11 @@ sequence:
       title: "TREIN MECH-BRUS"
       message: >
         {% if state_attr('sensor.nmbs_2', 'platform_arriving') in ['12', '10', '8', '6', '4', '2'] %}
-          spoor {{ states.sensor.nmbs_2.attributes.platform_departing }}, {{ states.sensor.nmbs_2.attributes.departure }},
-          {{ states.sensor.nmbs_2.attributes.direction }} --> Rechts
+          spoor {{ state_attr('sensor.nmbs_2', 'platform_departing') }}, {{ state_attr('sensor.nmbs_2', 'departure') }},
+          {{ state_attr('sensor.nmbs_2', 'direction') }} --> Rechts
         {% else %}
-          spoor {{ states.sensor.nmbs_2.attributes.platform_departing }}, {{ states.sensor.nmbs_2.attributes.departure }},
-          {{ states.sensor.nmbs_2.attributes.direction }} --> Links
+          spoor {{ state_attr('sensor.nmbs_2', 'platform_departing') }}, {{ state_attr('sensor.nmbs_2', 'departure') }},
+          {{ state_attr('sensor.nmbs_2', 'direction') }} --> Links
         {% endif %}
       data:
         apns_headers:

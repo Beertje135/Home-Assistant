@@ -15,9 +15,9 @@ sequence:
         - media_player.kitchen_alexa_2
         - media_player.bathroom_alexa
       message: >
-        {% if states.vacuum.dusty.attributes.status == 'Stuck' %}
+        {% if state_attr('vacuum.dusty', 'status') == 'Stuck' %}
           'Dusty is stuck. Stupid Dusty'
-        {% elif states.vacuum.dusty.attributes.bin_full == true %}
+        {% elif state_attr('vacuum.dusty', 'bin_full') == true %}
           'Dusty has eaten to much. Please empty his belly.'
         {% elif states('vacuum.dusty') in ['off'] and states('input_boolean.vacuum_cleaned_today') in ['on'] %}
           'Dusty has completed his task.'
