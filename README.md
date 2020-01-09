@@ -1,11 +1,18 @@
-# Home-Assistant
+# Bert's Home-Assistant
 ## My Home Assistant Config
 
 UNDER CONSTRUCTION
 
 This document describes how I created my configuration
+## Integrations
 
-## Structure
+## Custom Components
+
+## Configuration Best Practices
+
+## Sensors
+
+## Automations and Scripts
 
 The structure of my config is based on a top down system.
 My intention was to minimize the files that needed changes when one or more variables change.
@@ -80,3 +87,5 @@ sequence:
       hs_color: [0,100]
       brightness: 200
 ```
+
+## Homekit and Alexa
