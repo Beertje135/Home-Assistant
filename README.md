@@ -23,6 +23,7 @@ The downside is that sometimes you need to follow the road 'Automation'-->'Seque
 
 ### Example:
 ### Automation
+```
 - alias: Licht - Keuken - Aan
   trigger:
   - entity_id: binary_sensor.keuken_sensor_motion
@@ -34,10 +35,10 @@ The downside is that sometimes you need to follow the road 'Automation'-->'Seque
   action:
   - service: script.turn_on
     entity_id: script.light_kitchen_all_on
+```
 
 ### Sequence Script
 ```
-alias: Licht - Keuken - All - Aan
 sequence:
   - service: script.turn_on
     entity_id:
@@ -46,6 +47,7 @@ sequence:
 ```
 
 ### Service Script
+```
 alias: Licht - Keuken - Milight - Aan - Night
 sequence:
   - condition: numeric_state
@@ -57,7 +59,8 @@ sequence:
     data:
       hs_color: [0,100]
       brightness: 200
-
+```
+```
 alias: Licht - Keuken - Milight TV - Aan - Night
 sequence:
   - condition: numeric_state
@@ -69,3 +72,4 @@ sequence:
     data:
       hs_color: [0,100]
       brightness: 200
+```
