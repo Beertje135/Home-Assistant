@@ -22,7 +22,6 @@ conversation:
 # (default) Enables the frontend (default)
 frontend:
   javascript_version: latest
-  themes: !include themes.yaml
 
 # (default)
 history: !include history.yaml
@@ -112,7 +111,6 @@ hacs:
   token: !secret api_key_hacs
   appdaemon: False
   python_script: False
-  theme: True
 
 # Text to speech
 notify:
