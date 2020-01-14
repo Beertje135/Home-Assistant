@@ -92,10 +92,7 @@ views:
           show_state: false
           type: glance
       - type: 'custom:layout-card'
-        column_width: 300
         layout: auto
-        max_columns: 100
-        min_height: 5
         cards:
           - type: vertical-stack
             cards:
@@ -601,10 +598,7 @@ views:
               - home
               - 'on'
           - type: 'custom:layout-card'
-            column_width: 300
             layout: auto
-            max_columns: 100
-            min_height: 5
             cards:
               - type: entity-filter
                 show_header_toggle: false
@@ -1679,10 +1673,7 @@ views:
                       when_standby: true
                     power_color: true
                     type: 'custom:mini-media-player'
-            column_width: 300
             layout: auto
-            max_columns: 100
-            min_height: 5
             type: 'custom:layout-card'
         type: vertical-stack
   - title: Energie Verbruik
@@ -1942,10 +1933,7 @@ views:
                     type: entity-filter
                 id: 9222eaa2ca144791ab0e42c53b666a3a
                 type: vertical-stack
-            column_width: 300
             layout: auto
-            max_columns: 100
-            min_height: 5
             type: 'custom:layout-card'
         type: vertical-stack
   - title: Beveiliging
@@ -2027,10 +2015,7 @@ views:
           show_name: true
           show_state: false
       - type: 'custom:layout-card'
-        column_width: 300
         layout: auto
-        max_columns: 100
-        min_height: 5
         cards:
         - type: vertical-stack
           id: a2ec64fe2d3c4b67a1e5fb997c969457
