@@ -7,6 +7,8 @@ resources:
     type: module
   - url: /community_plugin/entity-attributes-card/entity-attributes-card.js
     type: js
+  - url: /community_plugin/mini-graph-card/mini-graph-card-bundle.js
+    type: module
 title: Home
 views:
   - title: Favorieten
@@ -524,8 +526,11 @@ views:
     id: 1
     panel: true
     cards:
-      - cards:
-          - card:
+      - type: vertical-stack
+        id: 73b033309f7c4229a5aaa635653a0272
+        cards:
+          - type: entity-filter
+            card:
               show_name: false
               type: glance
             entities:
@@ -570,8 +575,8 @@ views:
               - Ziekenhuis Edegem
               - Ziekenhuis Reet
               - Ziekenhuis Middelheim
-            type: entity-filter
-          - card:
+          - type: entity-filter
+            card:
               show_name: true
               show_state: false
               type: glance
@@ -595,56 +600,137 @@ views:
             state_filter:
               - home
               - 'on'
-            type: entity-filter
-          - cards:
-              - cards:
-                  - cards:
-                      - card:
-                          show_name: false
-                          type: entities
-                        entities:
-                          - entity: climate.ons_huisje
-                            name: Evohome
-                        show_header_toggle: false
-                        show_empty: false
-                        state_filter:
-                          - heat
-                        type: entity-filter
-                      - content: |
+          - type: 'custom:layout-card'
+            column_width: 300
+            layout: auto
+            max_columns: 100
+            min_height: 5
+            cards:
+              - type: entity-filter
+                show_header_toggle: false
+                show_empty: false
+                state_filter:
+                  - heat
+                card:
+                  show_name: false
+                  type: entities
+                entities:
+                  - entity: climate.ons_huisje
+                    name: Evohome
+              - type: vertical-stack
+                cards:
+                  - type: vertical-stack
+                    cards:
+                      - type: markdown
+                        content: |
                           **WOONKAMER**
-                        type: markdown
-                      - entities:
-                          - entity: climate.woonkamer
-                            name: Temp
-                          - entity: sensor.living_sensor_light_level
-                            name: Lux
-                          - entity: binary_sensor.living_sensor_motion
-                            name: Beweging
-                          - type: divider
+                      - type: glance
+                        columns: 4
+                        show_name: false
+                        show_state: false
+                        entities:
                           - entity: light.hue_woonkamer
-                            name: Lamp
+                            tap_action:
+                              action: toggle
+                            hold_action:
+                              action: more-info
                           - entity: light.hue_woonkamer_smart_plug_one
-                            name: Led
                             tap_action:
                               action: toggle
                           - entity: light.hue_woonkamer_smart_plug_two
-                            name: Spacewalker
                             tap_action:
                               action: toggle
                           - entity: light.milight_woonkamer_bridge
-                            name: Led Tv
                             tap_action:
                               action: toggle
-                          - type: divider
-                          - entity: input_select.harmony_hub
-                            name: Tv
+                            hold_action:
+                              action: more-info
+                      - type: horizontal-stack
+                        cards:
+                          - type: horizontal-stack
+                            cards:
+                              - type: glance
+                                show_name: false
+                                show_state: false
+                                entities:
+                                  - climate.woonkamer
+                              - type: glance
+                                show_name: false
+                                show_state: false
+                                entities:
+                                  - binary_sensor.living_sensor_motion
+                          - type: custom:mini-graph-card
+                            name: Licht
+                            cache: true
+                            line_width: 8
+                            font_size: 55
+                            line_color: blue
+                            hours_to_show: 24
+                            smoothing: true
+                            points_per_hour: 6
+                            show:
+                              icon: false
+                              name: false
+                              state: true
+                            entities:
+                              - entity: sensor.living_sensor_light_level
+                      - type: custom:mini-graph-card
+                        name: Temperatuur
+                        cache: true
+                        font_size: 55
+                        hours_to_show: 24
+                        points_per_hour: 60
+                        line_width: 2
+                        smoothing: true
+                        tap_action:
+                          action: more-info
+                          entity: climate.woonkamer
+                        show:
+                          icon: false
+                          name: false
+                          state: true
+                        state_map:
+                          - value: "idle"
+                            label: 'Uit'
+                          - value: "heating"
+                            label: 'Aan'
+                        entities:
+                          - entity: sensor.climate_woonkamer_attributes_current_temperature
+                            name: Current
+                            show_legend: false
+                            color: orange
+                            show_fill: false
+                          - entity: sensor.climate_woonkamer_attributes_temperature
+                            name: Set
+                            show_legend: false
+                            color: blue
+                            smoothing: false
+                            show_state: false
+                            show_fill: false
+                          - entity: sensor.climate_woonkamer_attributes_hvac_action
+                            name: Mode
+                            show_legend: false
+                            show_state: true
+                            color: red
+                            show_line: false
+                            y_axis: secondary
+                      - type: entities
                         id: a391429485bb42178949b68e5023456a
                         show_header_toggle: false
-                        type: entities
-                      - card:
+                        entities:
+                          - entity: input_select.harmony_hub
+                            name: Tv
+                      - type: entity-filter
+                        show_empty: false
+                        show_header_toggle: false
+                        state_filter:
+                          - playing
+                        card:
                           type: entities
                         entities:
-                          - artwork: cover
+                          - type: 'custom:mini-media-player'
+                            name: Woonkamer Alexa
+                            artwork: cover
                             entity: media_player.livingroom_alexa
                             group: true
                             hide:
@@ -653,16 +739,16 @@ views:
                               source: true
                               artwork_border: true
                               controls: false
-                            name: Woonkamer Alexa
                             power_color: true
-                            type: 'custom:mini-media-player'
-                          - artwork: cover
+                          - type: 'custom:mini-media-player'
+                            name: Apple Tv
+                            artwork: cover
                             entity: media_player.apple_tv_woonkamer
                             group: true
-                            name: Apple Tv
                             power_color: true
-                            type: 'custom:mini-media-player'
-                          - artwork: cover
+                          - type: 'custom:mini-media-player'
+                            name: Chromecast
+                            artwork: cover
                             entity: media_player.chromecast_living_room
                             group: true
                             hide:
@@ -671,10 +757,10 @@ views:
                               source: true
                               artwork_border: true
                               controls: false
-                            name: Chromecast
                             power_color: true
-                            type: 'custom:mini-media-player'
-                          - artwork: cover
+                          - type: 'custom:mini-media-player'
+                            name: Multiroom
+                            artwork: cover
                             entity: media_player.everywhere
                             group: true
                             hide:
@@ -683,158 +769,257 @@ views:
                               source: true
                               artwork_border: true
                               controls: false
-                            name: Multiroom
                             power_color: true
-                            type: 'custom:mini-media-player'
-                        show_empty: false
-                        show_header_toggle: false
-                        state_filter:
-                          - playing
-                        type: entity-filter
-                    type: vertical-stack
-                  - cards:
-                      - content: |
+                  - type: vertical-stack
+                    cards:
+                      - type: markdown
+                        content: |
                           **VERANDA**
-                        type: markdown
-                      - entities:
-                          - entity: vacuum.dusty
-                            name: Dusty
-                          - entity: input_boolean.vacuum_cleaned_today
-                            name: Vandaag stof gezogen
-                          - type: divider
+                      - type: glance
+                        columns: 4
+                        show_name: false
+                        show_state: false
+                        entities:
                           - entity: light.hue_veranda_smart_plug
                             name: Led Strip
                             tap_action:
                               action: toggle
                           - entity: light.hue_veranda
                             name: Flos Arco
+                            tap_action:
+                              action: toggle
+                            hold_action:
+                              action: more-info
+                      - type: entities
                         id: 31b92c9bde72400b85b73ffbfbc30526
                         show_header_toggle: false
-                        type: entities
-                    type: vertical-stack
-                type: vertical-stack
-              - cards:
-                  - content: |
-                      **KEUKEN**
-                    type: markdown
-                  - entities:
-                      - entity: climate.keuken
-                        name: Temp
-                      - entity: sensor.keuken_sensor_light_level
-                        name: Lux
-                      - entity: binary_sensor.keuken_sensor_motion
-                        name: Beweging
-                      - type: divider
-                      - entity: light.milight_keuken
-                        name: Led Strip
-                      - entity: light.milight_keuken_bridge
-                        name: Led Tv
-                      - entity: switch.wake_on_lan
-                        name: Computer
+                        entities:
+                          - entity: vacuum.dusty
+                            name: Dusty
+                          - entity: input_boolean.vacuum_cleaned_today
+                            name: Vandaag stof gezogen
+              - type: vertical-stack
+                cards:
+                  - type: vertical-stack
+                    cards:
+                      - type: markdown
+                        content: |
+                          **KEUKEN**
+                      - type: glance
+                        columns: 4
+                        show_name: false
+                        show_state: false
+                        entities:
+                          - entity: light.milight_keuken
+                            name: Led Strip
+                            tap_action:
+                              action: toggle
+                            hold_action:
+                              action: more-info
+                          - entity: light.milight_keuken_bridge
+                            name: Led Tv
+                            tap_action:
+                              action: toggle
+                            hold_action:
+                              action: more-info
+                          - entity: switch.wake_on_lan
+                            name: Computer
+                            tap_action:
+                              action: toggle
+                          - entity: light.hue_keuken_smart_plug
+                            name: Speakers
+                            tap_action:
+                              action: toggle
+                      - type: horizontal-stack
+                        cards:
+                          - type: horizontal-stack
+                            cards:
+                              - type: glance
+                                show_name: false
+                                show_state: false
+                                entities:
+                                  - climate.keuken
+                              - type: glance
+                                show_name: false
+                                show_state: false
+                                entities:
+                                  - binary_sensor.keuken_sensor_motion
+                          - type: custom:mini-graph-card
+                            name: Licht
+                            cache: true
+                            line_width: 8
+                            font_size: 55
+                            line_color: blue
+                            hours_to_show: 24
+                            smoothing: true
+                            points_per_hour: 6
+                            show:
+                              icon: false
+                              name: false
+                              state: true
+                            entities:
+                              - entity: sensor.keuken_sensor_light_level
+                      - type: custom:mini-graph-card
+                        name: Temperatuur
+                        cache: true
+                        font_size: 55
+                        hours_to_show: 24
+                        points_per_hour: 60
+                        line_width: 2
+                        smoothing: true
                         tap_action:
-                          action: toggle
-                      - entity: light.hue_keuken_smart_plug
-                        name: Speakers
-                        tap_action:
-                          action: toggle
-                    id: 07c5fbbc51964d1ebcb38432639bfb0a
-                    show_header_toggle: false
-                    type: entities
-                  - card:
-                      type: entities
-                    entities:
-                      - artwork: cover
-                        entity: media_player.kitchen_alexa_2
-                        group: true
-                        hide:
-                          mute: true
-                          power: true
-                          source: true
-                          artwork_border: true
-                          controls: false
-                        name: Keuken Alexa 2
-                        power_color: true
-                        type: 'custom:mini-media-player'
-                      - artwork: cover
-                        entity: media_player.everywhere
-                        group: true
-                        hide:
-                          mute: true
-                          power: true
-                          source: true
-                          artwork_border: true
-                          controls: false
-                        name: Multiroom
-                        power_color: true
-                        type: 'custom:mini-media-player'
-                      - artwork: cover
-                        entity: media_player.apple_tv_keuken
-                        group: true
-                        name: Apple Tv
-                        power_color: true
-                        type: 'custom:mini-media-player'
-                    show_empty: false
-                    show_header_toggle: false
-                    state_filter:
-                      - playing
-                    type: entity-filter
-                  - entities:
-                      - artwork: cover
-                        entity: media_player.kitchen_alexa_1
-                        group: true
-                        hide:
-                          mute: true
-                          power: true
-                          source: true
-                          artwork_border: true
-                          controls: false
-                        name: Keuken Alexa
-                        idle_view:
-                          when_idle: true
-                          when_standby: true
-                        shortcuts:
-                          columns: 4
-                          buttons:
-                            - name: MNM
-                              type: script
-                              id: script.music_alexa_play_kitchen_mnm
-                            - name: StuBru
-                              type: script
-                              id: script.music_alexa_play_kitchen_stubru
-                            - name: Q-Music
-                              type: script
-                              id: script.music_alexa_play_kitchen_qmusic
-                            - name: Spotify
-                              type: script
-                              id: script.music_alexa_play_kitchen_spotify
-                        type: 'custom:mini-media-player'
-                    show_header_toggle: false
-                    type: entities
-                type: vertical-stack
-              - cards:
-                  - cards:
-                      - content: |
-                          **ELMO'S KAMER**
-                        type: markdown
-                      - entities:
-                          - entity: climate.kamer_elmo
-                            name: Temp
-                          - type: divider
-                          - entity: light.hue_kamer_elmo_one
-                            name: Elmo's Staanlamp
-                          - entity: light.hue_kamer_elmo_two
-                            name: Elmo's Lamp
-                          - entity: input_boolean.light_arlo
-                            name: Elmo's Arlo
-                        id: afbc102713f244bebc9ec2d574d8e99e
+                          action: more-info
+                          entity: climate.keuken
+                        show:
+                          icon: false
+                          name: false
+                          state: true
+                        state_map:
+                          - value: "idle"
+                            label: 'Uit'
+                          - value: "heating"
+                            label: 'Aan'
+                        entities:
+                          - entity: sensor.climate_keuken_attributes_current_temperature
+                            name: Current
+                            show_legend: false
+                            color: orange
+                            show_fill: false
+                          - entity: sensor.climate_keuken_attributes_temperature
+                            name: Set
+                            show_legend: false
+                            color: blue
+                            smoothing: false
+                            show_state: false
+                            show_fill: false
+                          - entity: sensor.climate_keuken_attributes_hvac_action
+                            name: Mode
+                            show_legend: false
+                            show_state: true
+                            color: red
+                            show_line: false
+                            y_axis: secondary
+                      - type: entity-filter
+                        show_empty: false
                         show_header_toggle: false
-                        type: entities
-                    type: vertical-stack
-                  - cards:
-                      - content: |
+                        state_filter:
+                          - playing
+                        card:
+                          type: entities
+                        entities:
+                          - type: 'custom:mini-media-player'
+                            name: Keuken Alexa 2
+                            artwork: cover
+                            entity: media_player.kitchen_alexa_2
+                            group: true
+                            hide:
+                              mute: true
+                              power: true
+                              source: true
+                              artwork_border: true
+                              controls: false
+                            power_color: true
+                          - type: 'custom:mini-media-player'
+                            name: Multiroom
+                            artwork: cover
+                            entity: media_player.everywhere
+                            group: true
+                            hide:
+                              mute: true
+                              power: true
+                              source: true
+                              artwork_border: true
+                              controls: false
+                            power_color: true
+                          - type: 'custom:mini-media-player'
+                            name: Apple Tv
+                            artwork: cover
+                            entity: media_player.apple_tv_keuken
+                            group: true
+                            power_color: true
+                      - type: entities
+                        show_header_toggle: false
+                        entities:
+                          - type: 'custom:mini-media-player'
+                            name: Keuken Alexa
+                            artwork: cover
+                            entity: media_player.kitchen_alexa_1
+                            group: true
+                            hide:
+                              mute: true
+                              power: true
+                              source: true
+                              artwork_border: true
+                              controls: false
+                            idle_view:
+                              when_idle: true
+                              when_standby: true
+                            shortcuts:
+                              columns: 4
+                              label: Select
+                              align_text: center
+                              list:
+                                - name: MNM
+                                  type: script
+                                  id: script.music_alexa_play_kitchen_mnm
+                                - name: StuBru
+                                  type: script
+                                  id: script.music_alexa_play_kitchen_stubru
+                                - name: Q-Music
+                                  type: script
+                                  id: script.music_alexa_play_kitchen_qmusic
+                                - name: Spotify
+                                  type: script
+                                  id: script.music_alexa_play_kitchen_spotify
+              - type: vertical-stack
+                cards:
+                  - type: vertical-stack
+                    cards:
+                      - type: markdown
+                        content: |
+                          **ELMO'S KAMER**
+                      - type: horizontal-stack
+                        cards:
+                          - type: glance
+                            columns: 2
+                            show_name: false
+                            show_state: false
+                            entities:
+                              - entity: light.hue_kamer_elmo_one
+                                name: Elmo's Staanlamp
+                                tap_action:
+                                  action: toggle
+                                hold_action:
+                                  action: more-info
+                              - entity: light.hue_kamer_elmo_two
+                                name: Elmo's Lamp
+                                tap_action:
+                                  action: toggle
+                                hold_action:
+                                  action: more-info
+                          - type: glance
+                            columns: 2
+                            show_name: false
+                            show_state: false
+                            entities:
+                              - entity: input_boolean.light_arlo
+                                name: Elmo's Arlo
+                                tap_action:
+                                  action: toggle
+                      - type: entities
+                        entities:
+                          - entity: climate.kamer_elmo
+                            name: °C
+                  - type: vertical-stack
+                    cards:
+                      - type: markdown
+                        content: |
                           **ARLO**
-                        type: markdown
-                      - entities:
+                      - type: glance
+                        columns: 4
+                        show_name: false
+                        show_state: true
+                        entities:
                           - entity: sensor.temperature_arlobaby
                             name: Temp
                           - entity: sensor.humidity_arlobaby
@@ -843,24 +1028,22 @@ views:
                             name: Luchtkwaliteit
                           - entity: sensor.battery_level_arlobaby
                             name: Batterij
-                        id: ef65745c488b4838ba50e80ffd065db9
-                        show_header_toggle: false
-                        type: entities
-                    type: vertical-stack
-                  - cards:
-                      - content: |
+                  - type: vertical-stack
+                    cards:
+                      - type: markdown
+                        content: |
                           **SLAAPKAMER**
-                        type: markdown
-                      - entities:
+                      - type: entities
+                        entities:
                           - entity: climate.slp_kamer
-                            name: Temp
-                        id: 33c55be0432b4b3885137f008d246fb5
-                        show_header_toggle: false
-                        type: entities
-                      - card:
+                            name: °C
+                      - type: entity-filter
+                        card:
                           type: entities
                         entities:
-                          - artwork: cover
+                          - type: 'custom:mini-media-player'
+                            name: Slaapkamer Alexa
+                            artwork: cover
                             entity: media_player.bedroom_alexa
                             group: true
                             hide:
@@ -869,10 +1052,10 @@ views:
                               source: true
                               artwork_border: true
                               controls: false
-                            name: Slaapkamer Alexa
                             power_color: true
-                            type: 'custom:mini-media-player'
-                          - artwork: cover
+                          - type: 'custom:mini-media-player'
+                            name: Boven
+                            artwork: cover
                             entity: media_player.upstairs
                             group: true
                             hide:
@@ -881,10 +1064,10 @@ views:
                               source: true
                               artwork_border: true
                               controls: false
-                            name: Boven
                             power_color: true
-                            type: 'custom:mini-media-player'
-                          - artwork: cover
+                          - type: 'custom:mini-media-player'
+                            name: Overal
+                            artwork: cover
                             entity: media_player.everywhere
                             group: true
                             hide:
@@ -893,34 +1076,40 @@ views:
                               source: true
                               artwork_border: true
                               controls: false
-                            name: Overal
                             power_color: true
-                            type: 'custom:mini-media-player'
                         show_empty: false
                         show_header_toggle: false
                         state_filter:
                           - playing
-                        type: entity-filter
-                    type: vertical-stack
-                type: vertical-stack
-              - cards:
-                  - cards:
-                      - content: |
+              - type: vertical-stack
+                cards:
+                  - type: vertical-stack
+                    cards:
+                      - type: markdown
+                        content: |
                           **BADKAMER**
-                        type: markdown
-                      - entities:
-                          - entity: climate.badkamer
-                            name: Temp
-                          - type: divider
+                      - type: glance
+                        columns: 4
+                        show_name: false
+                        show_state: false
+                        entities:
                           - entity: light.milight_badkamer
                             name: Led Strip
-                        id: 4921c6ad0a4b401097a2395de7b3ac89
-                        show_header_toggle: false
-                        type: entities
-                      - card:
+                            tap_action:
+                              action: toggle
+                            hold_action:
+                              action: more-info
+                      - type: entities
+                        entities:
+                          - entity: climate.badkamer
+                            name: °C 
+                      - type: entity-filter
+                        card:
                           type: entities
                         entities:
-                          - artwork: cover
+                          - type: 'custom:mini-media-player'
+                            name: Boven
+                            artwork: cover
                             entity: media_player.upstairs
                             group: true
                             hide:
@@ -929,10 +1118,10 @@ views:
                               source: true
                               artwork_border: true
                               controls: false
-                            name: Boven
                             power_color: true
-                            type: 'custom:mini-media-player'
-                          - artwork: cover
+                          - type: 'custom:mini-media-player'
+                            name: Multiroom
+                            artwork: cover
                             entity: media_player.everywhere
                             group: true
                             hide:
@@ -941,16 +1130,17 @@ views:
                               source: true
                               artwork_border: true
                               controls: false
-                            name: Multiroom
                             power_color: true
-                            type: 'custom:mini-media-player'
                         show_empty: false
                         show_header_toggle: false
                         state_filter:
                           - playing
-                        type: entity-filter
-                      - entities:
-                          - artwork: cover
+                      - type: entities
+                        show_header_toggle: false
+                        entities:
+                          - type: 'custom:mini-media-player'
+                            name: Badkamer Alexa
+                            artwork: cover
                             entity: media_player.bathroom_alexa
                             group: true
                             hide:
@@ -959,13 +1149,14 @@ views:
                               source: true
                               artwork_border: true
                               controls: false
-                            name: Badkamer Alexa
                             idle_view:
                               when_idle: true
                               when_standby: true
                             shortcuts:
                               columns: 4
-                              buttons:
+                              label: Select
+                              align_text: center
+                              list:
                                 - name: MNM
                                   type: script
                                   id: script.music_alexa_play_bathroom_mnm
@@ -978,56 +1169,94 @@ views:
                                 - name: Spotify
                                   type: script
                                   id: script.music_alexa_play_bathroom_spotify
-                            type: 'custom:mini-media-player'
-                        show_header_toggle: false
-                        type: entities
-                    type: vertical-stack
-                  - cards:
-                      - content: |
+                  - type: vertical-stack
+                    cards:
+                      - type: markdown
+                        content: |
                           **DRESSING**
-                        type: markdown
-                      - entities:
-                          - entity: climate.dressing
-                            name: Temp
-                          - entity: sensor.dressing_sensor_light_level
-                            name: Lux
-                          - entity: binary_sensor.dressing_sensor_motion
-                            name: Beweging
-                          - type: divider
-                          - entity: input_boolean.light_dressing_stay_on
-                            name: Hou licht aan
+                      - type: glance
+                        columns: 4
+                        show_name: false
+                        show_state: false
+                        entities:
                           - entity: light.hue_dressing_one
                             name: Lamp 1
                             tap_action:
                               action: toggle
+                            hold_action:
+                              action: more-info
                           - entity: light.hue_dressing_two
                             name: Lamp 2 (Kleur)
                             tap_action:
                               action: toggle
+                            hold_action:
+                              action: more-info
                           - entity: light.hue_dressing_three
                             name: Lamp 3
                             tap_action:
                               action: toggle
-                        id: b1c88c0e858e4d93a27f48ad1485b00f
-                        show_header_toggle: false
-                        type: entities
-                    type: vertical-stack
-                type: vertical-stack
-              - cards:
-                  - content: |
+                            hold_action:
+                              action: more-info
+                      - type: horizontal-stack
+                        cards:
+                          - type: horizontal-stack
+                            cards:
+                              - type: glance
+                                show_name: false
+                                show_state: false
+                                entities:
+                                  - entity: input_boolean.light_dressing_stay_on
+                                    name: Hou licht aan
+                                    tap_action:
+                                      action: toggle
+                              - type: glance
+                                show_name: false
+                                show_state: false
+                                entities:
+                                  - binary_sensor.dressing_sensor_motion
+                          - type: custom:mini-graph-card
+                            name: Licht
+                            cache: true
+                            line_width: 8
+                            font_size: 55
+                            line_color: blue
+                            hours_to_show: 24
+                            smoothing: true
+                            points_per_hour: 6
+                            show:
+                              icon: false
+                              name: false
+                              state: true
+                            entities:
+                              - entity: sensor.dressing_sensor_light_level
+                      - type: entities
+                        entities:
+                          - entity: climate.dressing
+                            name: °C
+              - type: vertical-stack
+                cards:
+                  - type: markdown
+                    content: |
                       **KELDER**
-                    type: markdown
-                  - entities:
+                  - type: glance
+                    columns: 4
+                    show_name: false
+                    show_state: true
+                    entities:
                       - entity: sensor.smappee_ons_huisje_water_sensor_temperature
                         name: Temp
                       - entity: sensor.smappee_ons_huisje_water_sensor_humidity
                         name: Vochtigheid
                       - entity: sensor.smappee_ons_huisje_water_sensor_battery
                         name: Batterij
-                    id: 1bf9fe5882054a6abe5d60fe3ca650d8
+                  - type: entity-filter
+                    id: 516d8e014bec40fabb2646ce76ad22d2
+                    show_empty: false
                     show_header_toggle: false
-                    type: entities
-                  - card:
+                    state_filter:
+                      - 'off'
+                      - Replace
+                    card:
                       title: INKOM
                       type: entities
                     entities:
@@ -1039,14 +1268,14 @@ views:
                         name: Batterij
                       - entity: binary_sensor.downstairs_nest_protect_online
                         name: Verbinding
-                    id: 516d8e014bec40fabb2646ce76ad22d2
+                  - type: entity-filter
+                    id: 31bdf2347e7447e89b871e7f220af717
                     show_empty: false
                     show_header_toggle: false
                     state_filter:
                       - 'off'
                       - Replace
-                    type: entity-filter
-                  - card:
+                    card:
                       title: NACHTHAL
                       type: entities
                     entities:
@@ -1058,21 +1287,6 @@ views:
                         name: Batterij
                       - entity: binary_sensor.upstairs_nest_protect_online
                         name: Verbinding
-                    id: 31bdf2347e7447e89b871e7f220af717
-                    show_empty: false
-                    show_header_toggle: false
-                    state_filter:
-                      - 'off'
-                      - Replace
-                    type: entity-filter
-                type: vertical-stack
-            column_width: 300
-            layout: auto
-            max_columns: 100
-            min_height: 5
-            type: 'custom:layout-card'
-        id: 73b033309f7c4229a5aaa635653a0272
-        type: vertical-stack
   - title: Multi-Media
     icon: 'mdi:animation-play'
     id: 2
@@ -1193,7 +1407,9 @@ views:
                       when_standby: true
                     shortcuts:
                       columns: 4
-                      buttons:
+                      label: Select
+                      align_text: center
+                      list:
                         - name: MNM
                           type: script
                           id: script.music_alexa_play_kitchen_mnm
@@ -1222,7 +1438,9 @@ views:
                       when_standby: true
                     shortcuts:
                       columns: 4
-                      buttons:
+                      label: Select
+                      align_text: center
+                      list:
                         - name: MNM
                           type: script
                           id: script.music_alexa_play_bathroom_mnm
@@ -1308,7 +1526,9 @@ views:
                       controls: false
                     shortcuts:
                       columns: 4
-                      buttons:
+                      label: Select
+                      align_text: center
+                      list:
                         - name: MNM
                           type: script
                           id: script.music_alexa_play_downstairs_mnm
@@ -1337,7 +1557,9 @@ views:
                       controls: false
                     shortcuts:
                       columns: 4
-                      buttons:
+                      label: Select
+                      align_text: center
+                      list:
                         - name: MNM
                           type: script
                           id: script.music_alexa_play_everywhere_mnm
@@ -1801,9 +2023,9 @@ views:
           - home
           - 'on'
         card:
+          type: glance
           show_name: true
           show_state: false
-          type: glance
       - type: 'custom:layout-card'
         column_width: 300
         layout: auto
@@ -1816,18 +2038,6 @@ views:
             - type: markdown
               content: |
                 **WIE IS WAAR?**
-            - type: glance
-              show_header_toggle: false
-              show_name: true
-              entities:
-                - entity: input_boolean.visitor
-                  name: Switch Bezoek
-                  tap_action:
-                    action: toggle
-                - entity: input_boolean.keep_christmas_on
-                  name: Switch Kerstboom
-                  tap_action:
-                    action: toggle
             - type: history-graph
               hours_to_show: 12
               entities:
@@ -1876,54 +2086,83 @@ views:
             - type: markdown
               content: |
                 **HOME SERVER**
-            - type: glance
+            - type: vertical-stack
+              cards:
+                - type: custom:mini-graph-card
+                  name: Server
+                  show:
+                    icon: false
+                    name: false
+                    state: true
+                  entities:
+                    - entity: sensor.processor_use
+                      name: Processor
+                    - entity: sensor.memory_use_percent
+                      name: RAM
+                    - entity: sensor.disk_use_percent_home
+                      name: DISK
+            - type: entity-filter
               show_header_toggle: false
-              columns: 2
-              show_name: true
+              show_empty: false
+              state_filter:
+                - 'on'
+                - '1'
+                - '2'
+                - '3'
+                - '4'
+              entities:
+                - entity: binary_sensor.updater
+                  name: Updates
+                - entity: sensor.hacs
+                  name: Updates Hacs
+              card:
+                type: glance
+                show_name: true
+                show_state: false
+            - type: entity-filter
+              show_header_toggle: false
+              show_empty: false
+              state_filter:
+                - 'off'
               entities:
                 - entity: switch.unifi_raspberry_pi
                   name: Server
                 - entity: binary_sensor.remote_ui
                   name: Remote
-                - entity: binary_sensor.updater
-                  name: Updates
-                - entity: sensor.hacs
-                  name: Updates Hacs
-            - type: vertical-stack
-              cards:
-                - type: sensor
-                  entity: sensor.processor_use
-                  name: Processor
-                  graph: line
-                  detail: 2
-                - type: sensor
-                  entity: sensor.memory_use_percent
-                  name: RAM Geheugen
-                  graph: line
-                  detail: 2
-                - type: sensor
-                  entity: sensor.disk_use_percent_home
-                  name: Disk Space
-                  graph: line
-                  detail: 2
+              card:
+                type: glance
+                show_name: true
+                show_state: false
         - type: vertical-stack
+          id: ad862d7b78b046ef88bec5270d45a6f9
           cards:
             - type: markdown
               content: |
-                **DEURBEL VOOR**
-            - type: glance
+                **CONTROLS**
+            - type: entities
+              id: 6cd495ed2d424ef1bf513c6dbef715fa
               show_header_toggle: false
-              columns: 2
-              show_name: true
               entities:
-                - entity: binary_sensor.deurbel_voor_button
-                  name: Deurbel
-                - entity: switch.deurbel_voor_chime
-                  name: Deurbel Gong
+                - entity: input_boolean.notify_bert
+                  name: Bert Notify
+                  tap_action:
+                    action: toggle
+                - entity: input_boolean.notify_caro
+                  name: Caro Notify
+                  tap_action:
+                    action: toggle
                 - entity: switch.deurbel_voor_chime_active
-                  name: Deurbel Gong Actief
-                - entity: switch.deurbel_voor_restart
-                  name: Deurbel Restart
+                  name: Deurbel Gong
+                  tap_action:
+                    action: toggle
+                - entity: input_boolean.visitor
+                  name: Bezoek
+                  tap_action:
+                    action: toggle
+                - entity: input_boolean.keep_christmas_on
+                  name: Kerstboom
+                  tap_action:
+                    action: toggle
         - type: vertical-stack
           id: 9222eaa2ca144791ab0e42c53b666a3a
           cards:
@@ -1967,21 +2206,3 @@ views:
               - '0'
             card:
               type: entities
-        - type: vertical-stack
-          id: ad862d7b78b046ef88bec5270d45a6f9
-          cards:
-            - type: markdown
-              content: |
-                **NOTIFICATIES**
-            - type: entities
-              id: 6cd495ed2d424ef1bf513c6dbef715fa
-              show_header_toggle: false
-              entities:
-                - entity: input_boolean.notify_bert
-                  name: Bert
-                  tap_action:
-                    action: toggle
-                - entity: input_boolean.notify_caro
-                  name: Caroline
-                  tap_action:
-                    action: toggle

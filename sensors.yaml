@@ -30,21 +30,64 @@
   sensors:
     climate_badkamer_attributes_temperature:
       value_template: "{{ state_attr('climate.badkamer', 'temperature') }}"
+      entity_id: climate.badkamer
     climate_keuken_attributes_temperature:
       value_template: "{{ state_attr('climate.keuken', 'temperature') }}"
+      entity_id: climate.keuken
     climate_woonkamer_attributes_temperature:
       value_template: "{{ state_attr('climate.woonkamer', 'temperature') }}"
+      entity_id: climate.woonkamer
     climate_dressing_attributes_temperature:
       value_template: "{{ state_attr('climate.dressing', 'temperature') }}"
+      entity_id: climate.dressing
     climate_slp_kamer_attributes_temperature:
       value_template: "{{ state_attr('climate.slp_kamer', 'temperature') }}"
+      entity_id: climate.slp_kamer
     climate_kamer_elmo_attributes_temperature:
       value_template: "{{ state_attr('climate.kamer_elmo', 'temperature') }}"
+      entity_id: climate.kamer_elmo
+    climate_badkamer_attributes_current_temperature:
+      value_template: "{{ state_attr('climate.badkamer', 'current_temperature') }}"
+      entity_id: climate.badkamer
+    climate_keuken_attributes_current_temperature:
+      value_template: "{{ state_attr('climate.keuken', 'current_temperature') }}"
+      entity_id: climate.keuken
+    climate_woonkamer_attributes_current_temperature:
+      value_template: "{{ state_attr('climate.woonkamer', 'current_temperature') }}"
+      entity_id: climate.woonkamer
+    climate_dressing_attributes_current_temperature:
+      value_template: "{{ state_attr('climate.dressing', 'current_temperature') }}"
+      entity_id: climate.dressing
+    climate_slp_kamer_attributes_current_temperature:
+      value_template: "{{ state_attr('climate.slp_kamer', 'current_temperature') }}"
+      entity_id: climate.slp_kamer
+    climate_kamer_elmo_attributes_current_temperature:
+      value_template: "{{ state_attr('climate.kamer_elmo', 'current_temperature') }}"
+      entity_id: climate.kamer_elmo
+    climate_badkamer_attributes_hvac_action:
+      value_template: "{{ state_attr('climate.badkamer', 'hvac_action') }}"
+      entity_id: climate.badkamer
+    climate_keuken_attributes_hvac_action:
+      value_template: "{{ state_attr('climate.keuken', 'hvac_action') }}"
+      entity_id: climate.keuken
+    climate_woonkamer_attributes_hvac_action:
+      value_template: "{{ state_attr('climate.woonkamer', 'hvac_action') }}"
+      entity_id: climate.woonkamer
+    climate_dressing_attributes_hvac_action:
+      value_template: "{{ state_attr('climate.dressing', 'hvac_action') }}"
+      entity_id: climate.dressing
+    climate_slp_kamer_attributes_hvac_action:
+      value_template: "{{ state_attr('climate.slp_kamer', 'hvac_action') }}"
+      entity_id: climate.slp_kamer
+    climate_kamer_elmo_attributes_hvac_action:
+      value_template: "{{ state_attr('climate.kamer_elmo', 'hvac_action') }}"
+      entity_id: climate.kamer_elmo
 
 - platform: template
   sensors:
     climate_ons_huisje_attributes_current_temperature:
       value_template: "{{ state_attr('climate.ons_huisje', 'current_temperature') }}"
+      entity_id: climate.ons_huisje
 
 # SENSOR TO RENAME ON AND OFF FOR VISITOR SO IT CAN BE INCLUDED IN GROUP_BEZOEKER
 

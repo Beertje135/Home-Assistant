@@ -15,7 +15,7 @@ sequence:
         - media_player.kitchen_alexa_2
         - media_player.bathroom_alexa
       message: >
-        {% if states('input_select.woning_status') in ['Thuis (Werk)'] and (states('sensor.time')) <= "07:20" %}
+        {% if states('input_select.woning_status') in ['Thuis (Werk)'] and (states('sensor.time')) <= "09:00" %}
           'It's nice you are staying home today.'
         {% elif states('input_select.woning_status') in ['Thuis (Verlof)'] %}
           'Enjoy your holiday.'

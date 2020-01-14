@@ -226,7 +226,7 @@
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Thuis'] }}"
   - condition: template
-    value_template: "{{ states('calendar.verlof_agenda') in ['on'] or ( states('sensor.time') >= '07:20' and states('sensor.time') <= '18:00' and now().weekday() in (0,1,2,3,4) ) }}"
+    value_template: "{{ (states('calendar.verlof_agenda') in ['on']) or ( states('sensor.time') >= '07:19' and states('sensor.time') <= '18:01' and now().weekday() in (0,1,2,3,4) ) }}"
   action:
   - service: input_select.select_option
     entity_id: input_select.woning_status
