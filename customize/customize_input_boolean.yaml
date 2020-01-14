@@ -1,7 +1,7 @@
 # CUSTOMIZATION FOR INPUT BOOLEANS
 
     input_boolean.light_downstairs:
-      icon: mdi:motion-sensor
+      icon: mdi:home-lightbulb
       friendly_name: Downstairs Motion Sensors
 
     input_boolean.visitor:
@@ -61,12 +61,8 @@
 
     input_boolean.keep_pc_on:
       icon: mdi:desktop-tower-monitor
-      friendly_name: Keep PC On
+      friendly_name: Keep PC On Boolean
 
     input_boolean.keep_christmas_on:
       icon: mdi:pine-tree
-      friendly_name: Kerstboom
-
-    input_boolean.vacuum_cleaned_today:
-      icon: mdi:robot-vacuum
-      friendly_name: Input Dusty Cleaned Today
+      friendly_name: Kerstboom Boolean

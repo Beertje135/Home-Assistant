@@ -16,23 +16,26 @@
 
     light.hue_woonkamer:
       friendly_name: Livingroom Light
-      icon: mdi:ceiling-light
+      icon: mdi:globe-light
+#      icon: mdi:ceiling-light
 
 # CUSTOMIZE HUE SMART PLUGS
 
     light.hue_veranda_smart_plug:
       friendly_name: Veranda LED
-      icon: mdi:led-strip-variant
+      icon: mdi:string-lights
+#      icon: mdi:led-strip-variant
       display_categories: light
 
     light.hue_woonkamer_smart_plug_two:
       friendly_name: Livingroom Spacewalker
-      icon: mdi:floor-lamp-variant
+      icon: mdi:floor-lamp
       display_categories: light
 
     light.hue_woonkamer_smart_plug_one:
       friendly_name: Livingroom LED
-      icon: mdi:led-strip-variant
+      icon: mdi:string-lights
+#      icon: mdi:led-strip-variant
       display_categories: light
 
     light.hue_keuken_smart_plug:
@@ -45,11 +48,11 @@
 
     light.milight_woonkamer_bridge:
       friendly_name: Livingroom Tv LED
-      icon: mdi:led-strip
+      icon: mdi:television-clean
 
     light.milight_keuken_bridge:
       friendly_name: Kitchen Tv LED
-      icon: mdi:led-strip
+      icon: mdi:television-clean
 
     light.milight_keuken:
       friendly_name: Kitchen LED
