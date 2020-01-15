@@ -799,45 +799,45 @@ views:
                       - type: markdown
                         content: |
                           **KEUKEN**
-                      - type: glance
-                        columns: 4
-                        show_name: false
-                        show_state: false
-                        entities:
-                          - entity: light.milight_keuken
-                            name: Led Strip
-                            tap_action:
-                              action: toggle
-                            hold_action:
-                              action: more-info
-                          - entity: light.milight_keuken_bridge
-                            name: Led Tv
-                            tap_action:
-                              action: toggle
-                            hold_action:
-                              action: more-info
-                          - entity: switch.wake_on_lan
-                            name: Computer
-                            tap_action:
-                              action: toggle
-                          - entity: light.hue_keuken_smart_plug
-                            name: Speakers
-                            tap_action:
-                              action: toggle
                       - type: horizontal-stack
                         cards:
-                          - type: horizontal-stack
-                            cards:
-                              - type: glance
-                                show_name: false
-                                show_state: false
-                                entities:
-                                  - climate.keuken
-                              - type: glance
-                                show_name: false
-                                show_state: false
-                                entities:
-                                  - binary_sensor.keuken_sensor_motion
+                          - type: glance
+                            columns: 2
+                            show_name: false
+                            show_state: false
+                            entities:
+                              - entity: light.milight_keuken
+                                name: Led Strip
+                                tap_action:
+                                  action: toggle
+                                hold_action:
+                                  action: more-info
+                              - entity: light.milight_keuken_bridge
+                                name: Led Tv
+                                tap_action:
+                                  action: toggle
+                                hold_action:
+                                  action: more-info
+                          - type: glance
+                            columns: 2
+                            show_name: false
+                            show_state: false
+                            entities:
+                              - entity: switch.wake_on_lan
+                                name: Computer
+                                tap_action:
+                                  action: toggle
+                              - entity: light.hue_keuken_smart_plug
+                                name: Speakers
+                                tap_action:
+                                  action: toggle
+                      - type: horizontal-stack
+                        cards:
+                          - type: glance
+                            show_name: false
+                            show_state: false
+                            entities:
+                              - binary_sensor.keuken_sensor_motion
                           - type: custom:mini-graph-card
                             name: Licht
                             cache: true
@@ -853,46 +853,10 @@ views:
                               state: true
                             entities:
                               - entity: sensor.keuken_sensor_light_level
-                      - type: custom:mini-graph-card
-                        name: Temperatuur
-                        cache: true
-                        font_size: 55
-                        hours_to_show: 24
-                        points_per_hour: 60
-                        line_width: 2
-                        smoothing: true
-                        tap_action:
-                          action: more-info
-                          entity: climate.keuken
-                        show:
-                          icon: false
-                          name: false
-                          state: true
-                        state_map:
-                          - value: "idle"
-                            label: 'Uit'
-                          - value: "heating"
-                            label: 'Aan'
+                      - type: entities
                         entities:
-                          - entity: sensor.climate_keuken_attributes_current_temperature
-                            name: Current
-                            show_legend: false
-                            color: orange
-                            show_fill: false
-                          - entity: sensor.climate_keuken_attributes_temperature
-                            name: Set
-                            show_legend: false
-                            color: blue
-                            smoothing: false
-                            show_state: false
-                            show_fill: false
-                          - entity: sensor.climate_keuken_attributes_hvac_action
-                            name: Mode
-                            show_legend: false
-                            show_state: true
-                            color: red
-                            show_line: false
-                            y_axis: secondary
+                          - entity: climate.keuken
+                            name: °C
                       - type: entity-filter
                         show_empty: false
                         show_header_toggle: false
@@ -2103,7 +2067,7 @@ views:
               card:
                 type: glance
                 show_name: true
-                show_state: false
+                show_state: true
             - type: entity-filter
               show_header_toggle: false
               show_empty: false
