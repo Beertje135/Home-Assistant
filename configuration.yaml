@@ -277,7 +277,6 @@ google:
 hue:
   bridges:
     host: !secret ip_hue
-    filename: phue.conf
     allow_unreachable: true
     allow_hue_groups: false
 

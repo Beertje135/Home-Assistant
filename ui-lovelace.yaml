@@ -614,10 +614,8 @@ views:
               - type: vertical-stack
                 cards:
                   - type: vertical-stack
+                    title: Woonkamer
                     cards:
-                      - type: markdown
-                        content: |
-                          **WOONKAMER**
                       - type: glance
                         columns: 4
                         show_name: false
@@ -641,18 +639,11 @@ views:
                               action: more-info
                       - type: horizontal-stack
                         cards:
-                          - type: horizontal-stack
-                            cards:
-                              - type: glance
-                                show_name: false
-                                show_state: false
-                                entities:
-                                  - climate.woonkamer
-                              - type: glance
-                                show_name: false
-                                show_state: false
-                                entities:
-                                  - binary_sensor.living_sensor_motion
+                          - type: glance
+                            show_name: false
+                            show_state: false
+                            entities:
+                              - binary_sensor.living_sensor_motion
                           - type: custom:mini-graph-card
                             name: Licht
                             cache: true
@@ -668,46 +659,10 @@ views:
                               state: true
                             entities:
                               - entity: sensor.living_sensor_light_level
-                      - type: custom:mini-graph-card
-                        name: Temperatuur
-                        cache: true
-                        font_size: 55
-                        hours_to_show: 24
-                        points_per_hour: 60
-                        line_width: 2
-                        smoothing: true
-                        tap_action:
-                          action: more-info
-                          entity: climate.woonkamer
-                        show:
-                          icon: false
-                          name: false
-                          state: true
-                        state_map:
-                          - value: "idle"
-                            label: 'Uit'
-                          - value: "heating"
-                            label: 'Aan'
+                      - type: entities
                         entities:
-                          - entity: sensor.climate_woonkamer_attributes_current_temperature
-                            name: Current
-                            show_legend: false
-                            color: orange
-                            show_fill: false
-                          - entity: sensor.climate_woonkamer_attributes_temperature
-                            name: Set
-                            show_legend: false
-                            color: blue
-                            smoothing: false
-                            show_state: false
-                            show_fill: false
-                          - entity: sensor.climate_woonkamer_attributes_hvac_action
-                            name: Mode
-                            show_legend: false
-                            show_state: true
-                            color: red
-                            show_line: false
-                            y_axis: secondary
+                          - entity: climate.keuken
+                            name: °C
                       - type: entities
                         id: a391429485bb42178949b68e5023456a
                         show_header_toggle: false
@@ -765,10 +720,8 @@ views:
                               controls: false
                             power_color: true
                   - type: vertical-stack
+                    title: Veranda
                     cards:
-                      - type: markdown
-                        content: |
-                          **VERANDA**
                       - type: glance
                         columns: 4
                         show_name: false
@@ -795,10 +748,8 @@ views:
               - type: vertical-stack
                 cards:
                   - type: vertical-stack
+                    title: Keuken
                     cards:
-                      - type: markdown
-                        content: |
-                          **KEUKEN**
                       - type: horizontal-stack
                         cards:
                           - type: glance
@@ -930,12 +881,10 @@ views:
                                   type: script
                                   id: script.music_alexa_play_kitchen_spotify
               - type: vertical-stack
+                title: Elmo's Kamer
                 cards:
                   - type: vertical-stack
                     cards:
-                      - type: markdown
-                        content: |
-                          **ELMO'S KAMER**
                       - type: horizontal-stack
                         cards:
                           - type: glance
@@ -972,7 +921,7 @@ views:
                     cards:
                       - type: markdown
                         content: |
-                          **ARLO**
+                          **Arlo**
                       - type: glance
                         columns: 4
                         show_name: false
@@ -987,10 +936,8 @@ views:
                           - entity: sensor.battery_level_arlobaby
                             name: Batterij
                   - type: vertical-stack
+                    title: Slaapkamer
                     cards:
-                      - type: markdown
-                        content: |
-                          **SLAAPKAMER**
                       - type: entities
                         entities:
                           - entity: climate.slp_kamer
@@ -1042,10 +989,8 @@ views:
               - type: vertical-stack
                 cards:
                   - type: vertical-stack
+                    title: Badkamer
                     cards:
-                      - type: markdown
-                        content: |
-                          **BADKAMER**
                       - type: glance
                         columns: 4
                         show_name: false
@@ -1128,10 +1073,8 @@ views:
                                   type: script
                                   id: script.music_alexa_play_bathroom_spotify
                   - type: vertical-stack
+                    title: Dressing
                     cards:
-                      - type: markdown
-                        content: |
-                          **DRESSING**
                       - type: glance
                         columns: 4
                         show_name: false
@@ -1192,10 +1135,8 @@ views:
                           - entity: climate.dressing
                             name: °C
               - type: vertical-stack
+                title: Kelder
                 cards:
-                  - type: markdown
-                    content: |
-                      **KELDER**
                   - type: glance
                     columns: 4
                     show_name: false
