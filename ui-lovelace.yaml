@@ -1793,9 +1793,6 @@ views:
               - title: Water
                 type: vertical-stack
                 cards:
-                  - content: |
-                      **WATER**
-                    type: markdown
                   - cards:
                       - entity: sensor.smappee_ons_huisje_water_sensor_1_template
                         max: 500
