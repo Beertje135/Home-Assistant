@@ -204,6 +204,57 @@ influxdb:
   default_measurement: state
   include: !include influxdb_filter_include.yaml
   exclude: !include influxdb_filter_exclude.yaml
+  component_config:
+    sensor.disk_use_percent_home:
+      override_measurement: percent
+    sensor.memory_use_percent:
+      override_measurement: percent
+    sensor.processor_use:
+      override_measurement: percent
+    sensor.smappee_ons_huisje_water_sensor_battery:
+      override_measurement: percent
+    sensor.smappee_ons_huisje_power_factor:
+      override_measurement: percent
+    sensor.smappee_ons_huisje_water_sensor_1:
+      override_measurement: m³
+    sensor.smappee_ons_huisje_water_sensor_2:
+      override_measurement: m³
+  component_config_glob:
+    sensor.*temperature:
+      override_measurement: celsius
+    sensor.temperature*:
+      override_measurement: celsius
+    sensor.humidity*:
+      override_measurement: humidity
+    sensor.*humidity:
+      override_measurement: humidity
+    sensor.*motion:
+      override_measurement: state_motion
+    light.*:
+      override_measurement: state_light
+    binary_sensor.*:
+      override_measurement: state_binary_sensor
+    climate.*:
+      override_measurement: celsius
+    device_tracker.*:
+      override_measurement: state_device_tracker
+    group.*:
+      override_measurement: state_group
+    input_boolean.*:
+      override_measurement: state_input_boolean
+    input_select.*:
+      override_measurement: state_input_select
+    person.*:
+      override_measurement: state_person
+    sun.*:
+      override_measurement: state_sun
+    switch.*:
+      override_measurement: state_switch
+    vacuum.*:
+      override_measurement: state_vacuum
+    weather.*:
+      override_measurement: celsius_weather
+
 
 weather:
   - platform: darksky

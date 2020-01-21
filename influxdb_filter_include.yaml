@@ -1,14 +1,11 @@
     domains:
       - binary_sensor
-      - calendar
       - climate
       - input_boolean
       - input_select
       - light
       - person
-      - sensor
       - sun
-      - switch
       - vacuum
       - weather
     entities:
@@ -25,6 +22,49 @@
       - device_tracker.router_iphone_caro
       - device_tracker.iphone_van_bert
       - device_tracker.iphone_van_caro
+      - sensor.air_quality_arlobaby
+      - sensor.babysit
+      - sensor.bezoek
+      - sensor.disk_use_percent_home
+      - sensor.downstairs_nest_protect_co_status
+      - sensor.downstairs_nest_protect_smoke_status
+      - sensor.dressing_sensor_light_level
+      - sensor.dressing_sensor_temperature
+      - sensor.humidity_arlobaby
+      - sensor.keuken_sensor_light_level
+      - sensor.keuken_sensor_temperature
+      - sensor.kuishulp
+      - sensor.living_sensor_light_level
+      - sensor.living_sensor_temperature
+      - sensor.memory_use_percent
+      - sensor.processor_use
+      - sensor.smappee_ons_huisje_active_power_template
+      - sensor.smappee_ons_huisje_always_on_today
+      - sensor.smappee_ons_huisje_current
+      - sensor.smappee_ons_huisje_power_factor
+      - sensor.smappee_ons_huisje_power_today
+      - sensor.smappee_ons_huisje_voltage
+      - sensor.smappee_ons_huisje_water_sensor_1
+      - sensor.smappee_ons_huisje_water_sensor_2
+      - sensor.smappee_ons_huisje_water_sensor_1_template
+      - sensor.smappee_ons_huisje_water_sensor_2_template
+      - sensor.smappee_ons_huisje_water_sensor_battery
+      - sensor.smappee_ons_huisje_water_sensor_humidity
+      - sensor.smappee_ons_huisje_water_sensor_temperature
+      - sensor.solaredge_current_power
+      - sensor.solaredge_energy_this_month
+      - sensor.solaredge_energy_this_year
+      - sensor.solaredge_energy_today
+      - sensor.solaredge_lifetime_energy
+      - sensor.solaredge_current_power_template
+      - sensor.solaredge_energy_this_month_template
+      - sensor.solaredge_energy_this_year_template
+      - sensor.solaredge_energy_today_template
+      - sensor.solaredge_lifetime_energy_template
+      - sensor.temperature_arlobaby
+      - sensor.upstairs_nest_protect_co_status
+      - sensor.upstairs_nest_protect_smoke_status
+      - switch.wake_on_lan
 
 #Gebruik dit sjabloon om entiteiten te vinden:
 # {% for e in states.sensor if not e.entity_id.startswith('sensor.dark_sky') %}
