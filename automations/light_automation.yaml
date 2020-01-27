@@ -502,7 +502,7 @@
   - entity_id: binary_sensor.dressing_sensor_motion
     platform: state
     for:
-      minutes: 5
+      minutes: 3
     to: 'off'
   condition:
   - condition: or

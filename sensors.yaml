@@ -85,6 +85,15 @@
 
 - platform: template
   sensors:
+    template_delta_temperature:
+      value_template: "{{ ((state_attr('climate.ons_huisje', 'current_temperature') | float ) - (state_attr('weather.dark_sky', 'temperature') | float )) }}"
+      unit_of_measurement: '°C'
+      entity_id:
+        - climate.ons_huisje
+        - weather.dark_sky
+
+- platform: template
+  sensors:
     climate_ons_huisje_attributes_current_temperature:
       value_template: "{{ state_attr('climate.ons_huisje', 'current_temperature') }}"
       entity_id: climate.ons_huisje
@@ -175,24 +184,9 @@
 
 - platform: template
   sensors:
-    smappee_ons_huisje_water_sensor_1_monthly_peak_attributes_last_period:
-      value_template: "{{ state_attr('sensor.smappee_ons_huisje_water_sensor_1_monthly_peak', 'last_period') }}"
-      unit_of_measurement: L
-    smappee_ons_huisje_water_sensor_2_monthly_peak_attributes_last_period:
-      value_template: "{{ state_attr('sensor.smappee_ons_huisje_water_sensor_2_monthly_peak', 'last_period') }}"
-      unit_of_measurement: m³
-    template_elektricity_daily_usage_monthly_peak_attributes_last_period:
-      value_template: "{{ state_attr('sensor.template_elektricity_daily_usage_monthly_peak', 'last_period') }}"
-      unit_of_measurement: 'kWh'
-    solaredge_energy_this_month_monthly_peak_attributes_last_period:
-      value_template: "{{ state_attr('sensor.solaredge_energy_this_month_monthly_peak', 'last_period') }}"
-      unit_of_measurement: 'kWh'
-
-- platform: template
-  sensors:
     template_elektricity_current_usage:
-      value_template: "{{ ((states('sensor.smappee_ons_huisje_active_power_template') | float ) + (states('sensor.solaredge_current_power_template') | float )) | round(2) }}"
-      unit_of_measurement: 'kWh'
+      value_template: "{{ ((states('sensor.smappee_ons_huisje_active_power') | float ) + (states('sensor.solaredge_current_power') | float )) | round(2) }}"
+      unit_of_measurement: 'W'
     template_elektricity_daily_usage:
       value_template: "{{ ((states('sensor.smappee_ons_huisje_power_today') | float ) + (states('sensor.solaredge_energy_today_template') | float )) | round(2) }}"
       unit_of_measurement: 'kWh'
@@ -201,9 +195,9 @@
 
 - platform: template
   sensors:
-    solaredge_current_power_template:
-      value_template: "{{ (states('sensor.solaredge_current_power') | float / 1000) | round(2) }}"
-      unit_of_measurement: 'kWh'
+#    solaredge_current_power_template:
+#      value_template: "{{ (states('sensor.solaredge_current_power') | float / 1000) | round(2) }}"
+#      unit_of_measurement: 'kWh'
     solaredge_energy_today_template:
       value_template: "{{ (states('sensor.solaredge_energy_today') | float / 1000) | round(2) }}"
       unit_of_measurement: 'kWh'
@@ -211,14 +205,17 @@
       value_template: "{{ (states('sensor.solaredge_energy_this_month') | float / 1000) | round(2) }}"
       unit_of_measurement: 'kWh'
     solaredge_energy_this_year_template:
-      value_template: "{{ (states('sensor.solaredge_energy_this_year') | float / 100000) | round(2) }}"
-      unit_of_measurement: 'MWh'
+      value_template: "{{ (states('sensor.solaredge_energy_this_year') | float / 1000) | round(2) }}"
+      unit_of_measurement: 'kWh'
     solaredge_lifetime_energy_template:
       value_template: "{{ (states('sensor.solaredge_lifetime_energy') | float / 1000000) | round(2) }}"
       unit_of_measurement: 'MWh'
-    smappee_ons_huisje_active_power_template:
-      value_template: "{{ (states('sensor.smappee_ons_huisje_active_power') | float / 1000) | round(2) }}"
-      unit_of_measurement: 'kWh'
+    smappee_ons_huisje_power_today_template:
+      value_template: "{{ (states('sensor.smappee_ons_huisje_power_today') | float * 1000) | round(2) }}"
+      unit_of_measurement: 'Wh'
+#    smappee_ons_huisje_active_power_template:
+#      value_template: "{{ (states('sensor.smappee_ons_huisje_active_power') | float / 1000) | round(2) }}"
+#      unit_of_measurement: 'kWh'
 
 # SENSOR TO CHECK STATE OF RASPBERRY PI
 

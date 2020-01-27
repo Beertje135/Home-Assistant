@@ -34,9 +34,9 @@
       friendly_name: HUIDIGE VERBRUIK
       icon: mdi:gauge
 
-    sensor.smappee_ons_huisje_active_power_template:
-      friendly_name: HUIDIGE VERBRUIK
-      icon: mdi:gauge
+#    sensor.smappee_ons_huisje_active_power_template:
+#      friendly_name: HUIDIGE VERBRUIK
+#      icon: mdi:gauge
 
     sensor.smappee_ons_huisje_power_today:
       friendly_name: VERBRUIK VANDAAG

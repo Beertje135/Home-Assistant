@@ -19,9 +19,9 @@
 
 # CUSTOMIZE SOLAR EDGE SENSORS TEMPLATES
 
-    sensor.solaredge_current_power_template:
-      friendly_name: ZONNE ENERGIE
-      icon: mdi:solar-power
+#    sensor.solaredge_current_power_template:
+#      friendly_name: ZONNE ENERGIE
+#      icon: mdi:solar-power
 
     sensor.solaredge_energy_today_template:
       friendly_name: DAG ZON

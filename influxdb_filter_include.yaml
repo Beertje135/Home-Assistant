@@ -38,7 +38,7 @@
       - sensor.living_sensor_temperature
       - sensor.memory_use_percent
       - sensor.processor_use
-      - sensor.smappee_ons_huisje_active_power_template
+      - sensor.smappee_ons_huisje_active_power
       - sensor.smappee_ons_huisje_always_on_today
       - sensor.smappee_ons_huisje_current
       - sensor.smappee_ons_huisje_power_factor
@@ -51,12 +51,14 @@
       - sensor.smappee_ons_huisje_water_sensor_battery
       - sensor.smappee_ons_huisje_water_sensor_humidity
       - sensor.smappee_ons_huisje_water_sensor_temperature
+      - sensor.template_elektricity_current_usage
+      - sensor.template_elektricity_daily_usage
+      - sensor.template_delta_temperature
       - sensor.solaredge_current_power
       - sensor.solaredge_energy_this_month
       - sensor.solaredge_energy_this_year
       - sensor.solaredge_energy_today
       - sensor.solaredge_lifetime_energy
-      - sensor.solaredge_current_power_template
       - sensor.solaredge_energy_this_month_template
       - sensor.solaredge_energy_this_year_template
       - sensor.solaredge_energy_today_template
@@ -65,6 +67,16 @@
       - sensor.upstairs_nest_protect_co_status
       - sensor.upstairs_nest_protect_smoke_status
       - switch.wake_on_lan
+      - sensor.meter_elektricity_monthly_peak
+      - sensor.meter_elektricity_yearly_peak
+      - sensor.meter_gas_monthly_peak
+      - sensor.meter_gas_yearly_peak
+      - sensor.meter_net_use_monthly_peak
+      - sensor.meter_net_use_yearly_peak
+      - sensor.meter_water_monthly_peak
+      - sensor.meter_water_yearly_peak
+      - sensor.meter_zon_monthly_peak
+      - sensor.meter_zon_yearly_peak
 
 #Gebruik dit sjabloon om entiteiten te vinden:
 # {% for e in states.sensor if not e.entity_id.startswith('sensor.dark_sky') %}

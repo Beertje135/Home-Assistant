@@ -159,34 +159,64 @@ binary_sensor:
 
 # Enable Utility meter
 utility_meter:
-  template_elektricity_daily_usage_daily:
+  meter_elektricity_monthly:
     source: sensor.template_elektricity_daily_usage
-    cycle: daily
+    cycle: monthly
+    # Elek
     tariffs:
       - peak
-  template_elektricity_daily_usage_monthly:
+  meter_elektricity_yearly:
     source: sensor.template_elektricity_daily_usage
+    cycle: yearly
+    # Elek
+    tariffs:
+      - peak
+  meter_zon_monthly:
+    source: sensor.solaredge_energy_today_template
+    # Zon
     cycle: monthly
     tariffs:
       - peak
-  solaredge_energy_this_month_monthly:
-    source: sensor.solaredge_energy_this_month_template
-    cycle: monthly
+  meter_zon_yearly:
+    source: sensor.solaredge_energy_today_template
+    # Zon
+    cycle: yearly
     tariffs:
       - peak
-  smappee_ons_huisje_power_today_monthly:
+  meter_net_use_monthly:
     source: sensor.smappee_ons_huisje_power_today
     cycle: monthly
+    # Net
     tariffs:
       - peak
-  smappee_ons_huisje_water_sensor_2_monthly:
+  meter_net_use_yearly:
+    source: sensor.smappee_ons_huisje_power_today
+    cycle: yearly
+    # Net
+    tariffs:
+      - peak
+  meter_gas_monthly:
     source: sensor.smappee_ons_huisje_water_sensor_2_template
     cycle: monthly
+    # Gas
     tariffs:
       - peak
-  smappee_ons_huisje_water_sensor_1_monthly:
+  meter_gas_yearly:
+    source: sensor.smappee_ons_huisje_water_sensor_2_template
+    cycle: yearly
+    # Gas
+    tariffs:
+      - peak
+  meter_water_monthly:
     source: sensor.smappee_ons_huisje_water_sensor_1_template
     cycle: monthly
+    # Water
+    tariffs:
+      - peak
+  meter_water_yearly:
+    source: sensor.smappee_ons_huisje_water_sensor_1_template
+    cycle: yearly
+    # Water
     tariffs:
       - peak
 

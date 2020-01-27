@@ -4,9 +4,9 @@
       friendly_name: ELEK. MAAND
       icon: mdi:flash
 
-    sensor.template_elektricity_daily_usage_daily_peak:
-      friendly_name: VERB. DAG
-      icon: mdi:power-plug
+#    sensor.template_elektricity_daily_usage_daily_peak:
+#      friendly_name: VERB. DAG
+#      icon: mdi:power-plug
 
     sensor.smappee_ons_huisje_power_today_monthly_peak:
       friendly_name: VERBR. MAAND

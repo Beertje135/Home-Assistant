@@ -1713,8 +1713,29 @@ views:
               - title: Elektriciteit
                 type: vertical-stack
                 cards:
+                  - type: gauge
+                    entity: sensor.template_elektricity_daily_usage
+                    name: Verbruik
+                    min: -10
+                    max: 35
+                    severity:
+                      green: -1
+                      yellow: 0
+                      red: 15
+                  - columns: 2
+                    entities:
+                      - entity: sensor.meter_elektricity_monthly_peak
+                        name: Deze Maand
+                      - entity: sensor.meter_elektricity_yearly_peak
+                        name: Dit Jaar
+                    show_header_toggle: true
+                    show_name: true
+                    type: glance
+              - title: Gebruik Net
+                type: vertical-stack
+                cards:
                   - entity: sensor.smappee_ons_huisje_power_today
-                    name: Elek
+                    name: Gebruik Net
                     min: 0
                     max: 35
                     severity:
@@ -1724,45 +1745,13 @@ views:
                     type: gauge
                   - columns: 2
                     entities:
-                      - entity: sensor.template_elektricity_daily_usage_monthly_peak
+                      - entity: sensor.meter_net_use_monthly_peak
                         name: Deze Maand
-                      - entity: sensor.template_elektricity_daily_usage_monthly_peak_attributes_last_period
-                        name: Vorige Maand
+                      - entity: sensor.meter_net_use_yearly_peak
+                        name: Dit Jaar
                     show_header_toggle: true
                     show_name: true
                     type: glance
-                  - type: markdown
-                    content: |
-                      **Huidig Verbruik**
-                  - type: gauge
-                    entity: sensor.smappee_ons_huisje_active_power_template
-                    name: Totaal
-                    min: -4
-                    max: 4
-                    severity:
-                      green: -4
-                      yellow: 0
-                      red: 2
-                  - type: horizontal-stack
-                    cards:
-                      - entity: sensor.template_elektricity_current_usage
-                        name: Verbruik
-                        min: 0
-                        max: 4
-                        severity:
-                          green: 0
-                          yellow: 1
-                          red: 2
-                        type: gauge
-                      - entity: sensor.solaredge_current_power_template
-                        name: Zon
-                        min: 0
-                        max: 4
-                        severity:
-                          green: 1
-                          yellow: 0.5
-                          red: 0
-                        type: gauge
               - title: Zonne Energie
                 type: vertical-stack
                 cards:
@@ -1779,10 +1768,17 @@ views:
                     type: horizontal-stack
                   - columns: 2
                     entities:
+                      - entity: sensor.meter_zon_monthly_peak
+                        name: Deze Maand
+                      - entity: sensor.meter_zon_yearly_peak
+                        name: Dit Jaar
+                    show_header_toggle: true
+                    show_name: true
+                    type: glance
+                  - columns: 3
+                    entities:
                       - entity: sensor.solaredge_energy_this_month_template
                         name: Deze Maand
-                      - entity: sensor.solaredge_energy_this_month_monthly_peak_attributes_last_period
-                        name: Vorige Maand
                       - entity: sensor.solaredge_energy_this_year_template
                         name: Dit Jaar
                       - entity: sensor.solaredge_lifetime_energy_template
@@ -1806,10 +1802,10 @@ views:
                     type: horizontal-stack
                   - columns: 2
                     entities:
-                      - entity: sensor.smappee_ons_huisje_water_sensor_1_monthly_peak
+                      - entity: sensor.meter_water_monthly_peak
                         name: Deze Maand
-                      - entity: sensor.smappee_ons_huisje_water_sensor_1_monthly_peak_attributes_last_period
-                        name: Vorige Maand
+                      - entity: sensor.meter_water_yearly_peak
+                        name: Dit Jaar
                     show_header_toggle: true
                     show_name: true
                     type: glance
@@ -1829,10 +1825,10 @@ views:
                     type: horizontal-stack
                   - columns: 2
                     entities:
-                      - entity: sensor.smappee_ons_huisje_water_sensor_2_monthly_peak
+                      - entity: sensor.meter_gas_monthly_peak
                         name: Deze Maand
-                      - entity: sensor.smappee_ons_huisje_water_sensor_2_monthly_peak_attributes_last_period
-                        name: Vorige Maand
+                      - entity: sensor.meter_gas_yearly_peak
+                        name: Dit Jaar
                     show_header_toggle: true
                     show_name: true
                     type: glance
