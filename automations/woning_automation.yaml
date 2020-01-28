@@ -237,8 +237,10 @@
       option: >
         {% if (states('calendar.verlof_agenda') in ['on']) %}
           Thuis (Verlof)
-        {% elif (states('sensor.time') >= "07:20") and (states('sensor.time') <= "18:00") and (now().weekday() in (0,1,2,3,4)) %}
+        {% elif (states('sensor.time') >= "07:19") and (states('sensor.time') <= "18:01") and (now().weekday() in (0,1,2,3,4)) %}
           Thuis (Werk)
+        {% else %}
+          Thuis
         {% endif %}
 
 - alias: Ons Huisje - Change Status - Thuis (...) OFF
