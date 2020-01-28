@@ -28,75 +28,38 @@
 
 - platform: template
   sensors:
-    climate_badkamer_attributes_temperature:
-      value_template: "{{ state_attr('climate.badkamer', 'temperature') }}"
-      entity_id: climate.badkamer
-    climate_keuken_attributes_temperature:
-      value_template: "{{ state_attr('climate.keuken', 'temperature') }}"
-      entity_id: climate.keuken
-    climate_woonkamer_attributes_temperature:
-      value_template: "{{ state_attr('climate.woonkamer', 'temperature') }}"
-      entity_id: climate.woonkamer
-    climate_dressing_attributes_temperature:
-      value_template: "{{ state_attr('climate.dressing', 'temperature') }}"
-      entity_id: climate.dressing
-    climate_slp_kamer_attributes_temperature:
-      value_template: "{{ state_attr('climate.slp_kamer', 'temperature') }}"
-      entity_id: climate.slp_kamer
-    climate_kamer_elmo_attributes_temperature:
-      value_template: "{{ state_attr('climate.kamer_elmo', 'temperature') }}"
-      entity_id: climate.kamer_elmo
-    climate_badkamer_attributes_current_temperature:
-      value_template: "{{ state_attr('climate.badkamer', 'current_temperature') }}"
-      entity_id: climate.badkamer
-    climate_keuken_attributes_current_temperature:
-      value_template: "{{ state_attr('climate.keuken', 'current_temperature') }}"
-      entity_id: climate.keuken
-    climate_woonkamer_attributes_current_temperature:
-      value_template: "{{ state_attr('climate.woonkamer', 'current_temperature') }}"
-      entity_id: climate.woonkamer
-    climate_dressing_attributes_current_temperature:
-      value_template: "{{ state_attr('climate.dressing', 'current_temperature') }}"
-      entity_id: climate.dressing
-    climate_slp_kamer_attributes_current_temperature:
-      value_template: "{{ state_attr('climate.slp_kamer', 'current_temperature') }}"
-      entity_id: climate.slp_kamer
-    climate_kamer_elmo_attributes_current_temperature:
-      value_template: "{{ state_attr('climate.kamer_elmo', 'current_temperature') }}"
-      entity_id: climate.kamer_elmo
-    climate_badkamer_attributes_hvac_action:
-      value_template: "{{ state_attr('climate.badkamer', 'hvac_action') }}"
-      entity_id: climate.badkamer
-    climate_keuken_attributes_hvac_action:
-      value_template: "{{ state_attr('climate.keuken', 'hvac_action') }}"
-      entity_id: climate.keuken
-    climate_woonkamer_attributes_hvac_action:
-      value_template: "{{ state_attr('climate.woonkamer', 'hvac_action') }}"
-      entity_id: climate.woonkamer
-    climate_dressing_attributes_hvac_action:
-      value_template: "{{ state_attr('climate.dressing', 'hvac_action') }}"
-      entity_id: climate.dressing
-    climate_slp_kamer_attributes_hvac_action:
-      value_template: "{{ state_attr('climate.slp_kamer', 'hvac_action') }}"
-      entity_id: climate.slp_kamer
-    climate_kamer_elmo_attributes_hvac_action:
-      value_template: "{{ state_attr('climate.kamer_elmo', 'hvac_action') }}"
-      entity_id: climate.kamer_elmo
+    template_ons_huisje_set_temperature:
+      value_template: "{{ (((state_attr('climate.badkamer', 'temperature') | float ) + (state_attr('climate.keuken', 'temperature') | float ) + (state_attr('climate.woonkamer', 'temperature') | float ) + (state_attr('climate.dressing', 'temperature') | float ) + (state_attr('climate.slp_kamer', 'temperature') | float ) + (state_attr('climate.kamer_elmo', 'temperature') | float )) / 6) | round(2) }}"
+      unit_of_measurement: '°C'
+      entity_id:
+        - climate.badkamer
+        - climate.keuken
+        - climate.woonkamer
+        - climate.dressing
+        - climate.slp_kamer
+        - climate.kamer_elmo
 
 - platform: template
   sensors:
-    template_delta_temperature:
-      value_template: "{{ ((state_attr('climate.ons_huisje', 'current_temperature') | float ) - (state_attr('weather.dark_sky', 'temperature') | float )) }}"
+    template_delta_set_temperature:
+      value_template: >
+        {% set diffa = ((states('sensor.template_ons_huisje_set_temperature') | float ) - (state_attr('weather.dark_sky', 'temperature') | float )) | round (2) %}
+        {{ diffa if diffa > 0 else (diffa * -1)}}
       unit_of_measurement: '°C'
       entity_id:
-        - climate.ons_huisje
+        - sensor.template_ons_huisje_set_temperature
         - weather.dark_sky
 
 - platform: template
   sensors:
-    climate_ons_huisje_attributes_current_temperature:
-      value_template: "{{ state_attr('climate.ons_huisje', 'current_temperature') }}"
-      entity_id: climate.ons_huisje
+    template_delta_temperature:
+      value_template: >
+        {% set diffb = ((state_attr('climate.ons_huisje', 'current_temperature') | float ) - (state_attr('weather.dark_sky', 'temperature') | float )) | round (2) %}
+        {{ diffb if diffb > 0 else (diffb * -1)}}
+      unit_of_measurement: '°C'
+      entity_id:
+        - climate.ons_huisje
+        - weather.dark_sky
 
 # SENSOR TO RENAME ON AND OFF FOR VISITOR SO IT CAN BE INCLUDED IN GROUP_BEZOEKER
 
@@ -226,6 +189,13 @@
     - type: memory_use_percent
     - type: processor_use
     - type: last_boot
+
+- platform: command_line
+  name: CPU Temperature
+  command: "cat /sys/class/thermal/thermal_zone0/temp"
+  # If errors occur, make sure configuration file is encoded as UTF-8
+  unit_of_measurement: '°C'
+  value_template: "{{ value | multiply(0.001) | round(1) }}"
 
 # SENSOR TO CONNECT ARLO BABY CAMERA
 

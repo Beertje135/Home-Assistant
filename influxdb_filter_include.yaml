@@ -38,6 +38,7 @@
       - sensor.living_sensor_temperature
       - sensor.memory_use_percent
       - sensor.processor_use
+      - sensor.cpu_temperature
       - sensor.smappee_ons_huisje_active_power
       - sensor.smappee_ons_huisje_always_on_today
       - sensor.smappee_ons_huisje_current
@@ -54,6 +55,8 @@
       - sensor.template_elektricity_current_usage
       - sensor.template_elektricity_daily_usage
       - sensor.template_delta_temperature
+      - sensor.template_delta_set_temperature
+      - sensor.template_ons_huisje_set_temperature
       - sensor.solaredge_current_power
       - sensor.solaredge_energy_this_month
       - sensor.solaredge_energy_this_year
