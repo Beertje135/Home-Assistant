@@ -85,3 +85,31 @@
   - service: input_boolean.turn_off
     entity_id:
       - input_boolean.vacuum_cleaned_today
+
+- alias: Vacuum - Start when lux enough
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.keuken_sensor_light_level
+    above: !secret lux_kitchen_very_very_low
+    for: 
+      minutes: 4
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Juist Weg', 'Weg'] }}"
+  - condition: template
+    value_template: "{{ states('vacuum.dusty') in ['off'] }}"
+  - condition: state
+    entity_id: input_boolean.vacuum_cleaned_today
+    state: 'off'
+  - condition: time
+    after: !secret work_week_start
+    before: !secret work_week_mid
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id: script.vacuum_on

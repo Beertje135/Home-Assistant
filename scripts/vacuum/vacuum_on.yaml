@@ -4,6 +4,9 @@ sequence:
   - condition: time
     after: '07:00:00'
     before: '20:00:00'
+  - condition: numeric_state
+    entity_id: sensor.keuken_sensor_light_level
+    above: !secret lux_kitchen_very_very_low
   - condition: template
     value_template: "{{ states('vacuum.dusty') in ['off'] }}"
   - condition: state
