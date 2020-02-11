@@ -270,3 +270,52 @@
     - service: script.turn_on
       entity_id:
         - script.switch_kitchen_speakers_on
+
+- alias: Amplifier Keuken - Uit - Echo Not Playing
+  trigger:
+    - platform: state
+      entity_id: media_player.kitchen_alexa_1
+      to: paused
+      for:
+        minutes: 2
+    - platform: state
+      entity_id: media_player.everywhere
+      to: paused
+      for:
+        minutes: 2
+    - platform: state
+      entity_id: media_player.downstairs
+      to: paused
+      for:
+        minutes: 2
+    - platform: state
+      entity_id: media_player.kitchen_alexa_1
+      to: standby
+      for:
+        minutes: 2
+    - platform: state
+      entity_id: media_player.everywhere
+      to: standby
+      for:
+        minutes: 2
+    - platform: state
+      entity_id: media_player.downstairs
+      to: standby
+      for:
+        minutes: 2
+  condition:
+    - condition: state
+      entity_id: light.hue_keuken_smart_plug
+      state: 'on'
+    - condition: and
+      conditions:
+      - condition: template
+        value_template: "{{ states('media_player.everywhere') not in ['playing'] }}"
+      - condition: template
+        value_template: "{{ states('media_player.downstairs') not in ['playing'] }}"
+      - condition: template
+        value_template: "{{ states('media_player.kitchen_alexa_1') not in ['playing'] }}"
+  action:
+    - service: script.turn_on
+      entity_id:
+        - script.switch_kitchen_speakers_off

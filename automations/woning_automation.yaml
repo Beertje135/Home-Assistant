@@ -19,22 +19,17 @@
         {%- if states('input_select.woning_status') in ['Juist Thuis'] -%}
           script.input_light_all_beneden_on,
           script.music_follow_enable,
-          script.switch_kitchen_speakers_on,
           script.remote_kitchen_pc_on,
           script.vacuum_off
         {%- elif states('input_select.woning_status') in ['Juist Wakker'] -%}
           script.input_light_all_beneden_on,
           script.music_follow_enable,
-          script.switch_kitchen_speakers_on,
           script.remote_kitchen_pc_on
         {%- elif states('input_select.woning_status') in ['Thuis'] -%}
-          script.switch_kitchen_speakers_on,
           script.vacuum_off
         {%- elif states('input_select.woning_status') in ['Thuis (Verlof)'] -%}
-          script.switch_kitchen_speakers_on,
           script.vacuum_off
         {%- elif states('input_select.woning_status') in ['Thuis (Werk)'] -%}
-          script.switch_kitchen_speakers_on,
           script.vacuum_off
         {%- elif states('input_select.woning_status') in ['Juist Weg'] -%}
           script.all_off_light,

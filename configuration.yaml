@@ -327,9 +327,6 @@ media_player:
     name: Samsung TV
     host: !secret ip_tv
     mac: !secret mac_tv
-  - platform: spotify
-    client_id: !secret client_id_spotify
-    client_secret: !secret client_secret_spotify
 
 smappee:
   host: !secret ip_smappee
