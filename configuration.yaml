@@ -102,9 +102,9 @@ evohome:
 logger:
   default: warning
   logs:
-    pyatv: debug
-    custom_components.apple_tv: debug
     homeassistant.core: critical
+#    pyatv: debug
+#    custom_components.apple_tv: debug
 #    custom_components.alexa_media: debug
 #    alexapy: debug
 
