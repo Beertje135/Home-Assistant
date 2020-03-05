@@ -12,9 +12,9 @@
       icon: mdi:account-multiple-plus
       friendly_name: Visitors
 
-    group.plex_players:
+    group.media_players:
       icon: mdi:plex
-      friendly_name: Plex Players
+      friendly_name: Media Players
 
     group.licht_keuken:
       icon: mdi:stove
