@@ -13,7 +13,5 @@ sequence:
           {{ state_attr('sensor.nmbs', 'direction') }} --> Rechts
         {% endif %}
       data:
-        apns_headers:
-          'apns-collapse-id': 'trein'
         push:
           thread-id: "trein"

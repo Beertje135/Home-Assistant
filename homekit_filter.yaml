@@ -34,6 +34,9 @@ include_entities:
   - script.vacuum_off
   - switch.wake_on_lan
   - switch.deurbel_voor_chime_active
+  - switch.adguard_protection
+  - switch.adguard_filtering
+  - switch.adguard_parental_control
   - vacuum.dusty
 exclude_entities:
   - input_boolean.notify_bert

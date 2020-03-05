@@ -2085,15 +2085,37 @@ views:
                         name: Caro Notify
                         tap_action:
                           action: toggle
-                      - entity: switch.deurbel_voor_chime_active
-                        name: Deurbel Gong
-                        tap_action:
-                          action: toggle
                       - entity: input_boolean.visitor
                         name: Bezoek
                         tap_action:
                           action: toggle
                       - entity: input_boolean.keep_christmas_on
                         name: Kerstboom
+                        tap_action:
+                          action: toggle            
+              - title: Internet Safety
+                type: vertical-stack
+                cards:
+                  - type: entities
+                    show_header_toggle: false
+                    entities:
+                      - entity: switch.adguard_protection
+                        name: Protection
+                        tap_action:
+                          action: toggle
+                      - entity: switch.adguard_filtering
+                        name: Filtering
+                        tap_action:
+                          action: toggle
+                      - entity: switch.adguard_parental_control
+                        name: Parental Control
+                        tap_action:
+                          action: toggle
+                      - entity: switch.adguard_safe_browsing
+                        name: Safe Browsing
+                        tap_action:
+                          action: toggle            
+                      - entity: switch.adguard_safe_search
+                        name: Safe Search
                         tap_action:
                           action: toggle            

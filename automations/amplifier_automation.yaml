@@ -211,6 +211,8 @@
     - platform: state
       entity_id: input_select.harmony_hub
       to: 'Powered Off'
+      for:
+        minutes: 3
   condition:
     condition: and
     conditions:

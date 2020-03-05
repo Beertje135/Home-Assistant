@@ -228,6 +228,20 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+    #Do not raise when only cleaning help home
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: 'group.bewoners_router'
+      state: 'home'
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: 'group.bezoekers'
+        state: 'home'
+      - condition: state
+        entity_id: 'sensor.kuishulp'
+        state: 'not_home'
     #Awake early before heating on
   - condition: time
     before: !secret work_week_end_heating

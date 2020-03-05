@@ -6,9 +6,9 @@ sequence:
       entity_id: media_player.livingroom_alexa
       volume_level: >
         {%- if (states('sensor.time') <= "08:30") and (now().weekday() in (0,1,2,3,4)) -%}
-          1.0
+          0.7
         {%- elif (states('sensor.time') <= "07:30") and (now().weekday() in (5,6)) -%}
-          1.0
+          0.7
         {%- else -%}
           1.0
         {%- endif %}

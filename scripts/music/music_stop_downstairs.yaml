@@ -4,3 +4,14 @@ sequence:
   - service: media_player.turn_off
     entity_id:
       - media_player.downstairs
+  - timeout: 00:02:00
+    continue_on_timeout: false
+    wait_template: >
+          {%- if states('binary_sensor.keuken_sensor_motion') in ['on'] -%}
+            true
+          {%- else -%}
+            false
+          {%- endif %}
+  - service: script.turn_on
+    entity_id:
+      - script.music_play_kitchen

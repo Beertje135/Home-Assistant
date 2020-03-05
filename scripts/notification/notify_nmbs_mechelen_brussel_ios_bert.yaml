@@ -13,7 +13,5 @@ sequence:
           {{ state_attr('sensor.nmbs_2', 'direction') }} --> Links
         {% endif %}
       data:
-        apns_headers:
-          'apns-collapse-id': 'trein'
         push:
           thread-id: "trein"

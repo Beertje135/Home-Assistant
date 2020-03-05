@@ -23,7 +23,5 @@ sequence:
           Caroline is bijna thuis. (Rumst E19)
         {% endif %}
       data:
-        apns_headers:
-          'apns-collapse-id': 'caro'
         push:
           thread-id: "bewoner"

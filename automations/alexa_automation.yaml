@@ -2,7 +2,7 @@
 
 # PLAY RADIO DOWNSTAIRS
 
-- alias: Muziek - Radio - Play Downstairs
+- alias: Muziek - Radio - Play Downstairs 2
   trigger:
   - platform: state
     to: 'playing'
@@ -14,10 +14,63 @@
     value_template: "{{ states('media_player.livingroom_alexa') in ['playing'] }}"
   - condition: template
     value_template: "{{ states('media_player.kitchen_alexa_1') in ['playing'] }}"
+  - condition: template
+    value_template: "{{ states('media_player.downstairs') not in ['playing'] }}"
+  - condition: template
+    value_template: "{{ states('media_player.everywhere') not in ['playing'] }}"
   action:
   - service: script.turn_on
     entity_id:
       - script.music_play_downstairs
+
+- alias: Muziek - Radio - Play Downstairs 1
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.living_sensor_motion
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: time
+    after: !secret radio_on
+    before: !secret radio_off
+  - condition: state
+    entity_id: input_boolean.music_follow
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.plex_kitchen
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.plex_livingroom
+    state: 'off'
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.harmony_hub') in ['Powered Off', 'Alexa'] }}"
+  - condition: template
+    value_template: "{{ states('media_player.livingroom_alexa') not in ['playing'] }}"
+  - condition: template
+    value_template: "{{ states('media_player.downstairs') not in ['playing'] }}"
+  - condition: template
+    value_template: "{{ states('media_player.everywhere') not in ['playing'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.music_play_downstairs
+
+- alias: Muziek - Radio - Stop Downstairs
+  trigger:
+  - entity_id: binary_sensor.living_sensor_motion
+    for:
+      minutes: 15
+    platform: state
+    to: 'off'
+  condition:
+  - condition: template
+    value_template: "{{ states('media_player.downstairs') in ['playing'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.music_stop_downstairs
 
 # PLAY RADIO IN LIVING ROOM
 
@@ -94,15 +147,22 @@
     for:
       minutes: 1
   - platform: template
-    value_template: "{{ states('input_select.harmony_hub') in ['Powered Off'] }}"
+    value_template: "{{ states('input_select.harmony_hub') in ['Powered Off', 'Alexa'] }}"
   - platform: state
     entity_id: binary_sensor.keuken_sensor_motion
+    from: 'off'
+    to: 'on'
+  - platform: state
+    entity_id: input_boolean.music_follow
     from: 'off'
     to: 'on'
   condition:
   - condition: time
     after: !secret radio_on
     before: !secret radio_off
+  - condition: state
+    entity_id: binary_sensor.keuken_sensor_motion
+    state: 'on'
   - condition: state
     entity_id: input_boolean.music_follow
     state: 'on'
@@ -115,7 +175,7 @@
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] }}"
   - condition: template
-    value_template: "{{ states('input_select.harmony_hub') in ['Powered Off'] }}"
+    value_template: "{{ states('input_select.harmony_hub') in ['Powered Off', 'Alexa'] }}"
   - condition: template
     value_template: "{{ states('media_player.kitchen_alexa_1') not in ['playing'] }}"
   - condition: template
@@ -162,6 +222,23 @@
     from: 'playing'
     to: 'paused'
   condition:
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: media_player.downstairs
+        state: 'paused'
+        for:
+          minutes: 5
+      - condition: state
+        entity_id: media_player.downstairs
+        state: 'standby'
+        for:
+          minutes: 5
+      - condition: state
+        entity_id: media_player.downstairs
+        state: 'unavailable'
+        for:
+          minutes: 5
   - condition: state
     entity_id: input_boolean.music_follow
     state: 'on'

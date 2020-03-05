@@ -13,7 +13,5 @@ sequence:
           Caroline is thuis vertrokken.
         {% endif %}
       data:
-        apns_headers:
-          'apns-collapse-id': 'caro'
         push:
           thread-id: "bewoner"
