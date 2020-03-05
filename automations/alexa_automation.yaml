@@ -262,10 +262,18 @@
     platform: state
     from: 'paused'
     to: 'playing'
+  - entity_id: input_boolean.music_follow
+    platform: state
+    to: 'off'
+    for:
+      minutes: 4
   condition:
   - condition: state
-    entity_id: script.music_follow_disable
-    state: 'on'
+    entity_id: media_player.kitchen_alexa_1
+    state: 'playing'
+  - condition: state
+    entity_id: input_boolean.music_follow
+    state: 'off'
     for:
       minutes: 3
   action:
