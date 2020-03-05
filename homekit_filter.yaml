@@ -41,8 +41,8 @@ include_entities:
 exclude_entities:
   - input_boolean.notify_bert
   - input_boolean.notify_caro
-  - input_boolean.plex_kitchen
-  - input_boolean.plex_livingroom
+  - input_boolean.media_kitchen
+  - input_boolean.media_livingroom
   - input_boolean.light_livingroom
   - input_boolean.trigger_just_home_kitchen
   - input_boolean.trigger_just_awake_kitchen

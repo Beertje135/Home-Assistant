@@ -100,7 +100,7 @@ sequence:
           script.light_kitchen_milight_tv_on_standby      
         {%- elif states('group.bezoekers') in ['not_home'] and (states('sensor.time') <= '06:00' or states('sensor.time') >= '23:00') -%}
           script.light_kitchen_milight_tv_on_dimmed
-        {%- elif states('input_boolean.plex_kitchen') in ['on'] -%}
+        {%- elif states('input_boolean.media_kitchen') in ['on'] -%}
           script.light_kitchen_milight_tv_on_standby
         {%- else -%}
           script.light_kitchen_milight_tv_on_normal

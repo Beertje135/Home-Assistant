@@ -20,8 +20,8 @@
       - group.licht_veranda
       - group.licht_kamer_elmo
       - switch.pc_bert_lan
-      - input_boolean.plex_kitchen
-      - input_boolean.plex_livingroom
+      - input_boolean.media_kitchen
+      - input_boolean.media_livingroom
       - sensor.climate_ons_huisje_attributes_preset_mode
   exclude:
     domains:

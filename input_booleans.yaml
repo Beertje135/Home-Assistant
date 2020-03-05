@@ -53,9 +53,9 @@
   cooling_downstairs:
 
 #Used to stop music, light when playing plex
-  plex_livingroom:
+  media_livingroom:
 
-  plex_kitchen:
+  media_kitchen:
 
 #Used to stop Dusty from vacuming multiple times a day
   vacuum_cleaned_today:

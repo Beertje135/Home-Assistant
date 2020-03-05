@@ -2,7 +2,7 @@
 alias: Licht - Hue - Woonkamer - Aan - Spacewalker
 sequence:
   - condition: template
-    value_template: "{{ states('input_boolean.plex_livingroom') in ['off'] }}"
+    value_template: "{{ states('input_boolean.media_livingroom') in ['off'] }}"
   - condition: template
     value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
   - condition: template

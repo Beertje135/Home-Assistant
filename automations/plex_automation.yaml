@@ -67,7 +67,22 @@
         {% elif ((trigger.payload_json.event == 'media.pause') or (trigger.payload_json.event == 'media.stop')) %}
           input_boolean.turn_off
         {% endif %}
-    entity_id: input_boolean.plex_livingroom
+    entity_id: input_boolean.media_livingroom
+
+- alias: Apple TV - Toogle Living Room Boolean
+  trigger:
+    platform: state
+    entity_id: media_player.apple_tv_woonkamer
+  condition:
+  action:
+    service_template: >
+        {% if states('media_player.apple_tv_woonkamer') in ['playing'] %}
+          input_boolean.turn_on
+        {% elif states('media_player.apple_tv_woonkamer') not in ['playing'] %}
+          input_boolean.turn_off
+        {% endif %}
+    entity_id: input_boolean.media_livingroom
+
 
 # AUTOMATION CHECK MQTT KITCHEN
 
@@ -99,36 +114,50 @@
         {%- elif ((trigger.payload_json.event == 'media.pause') or (trigger.payload_json.event == 'media.stop')) -%}
           input_boolean.turn_off
         {%- endif %}
-    entity_id: input_boolean.plex_kitchen
+    entity_id: input_boolean.media_kitchen
 
-# AUTOMATION FOR LIGHT ALL WHEN PLEW CHANGES
+- alias: Apple TV - Toogle Kitchen Room Boolean
+  trigger:
+    platform: state
+    entity_id: media_player.apple_tv_keuken
+  condition:
+  action:
+    service_template: >
+        {% if states('media_player.apple_tv_keuken') in ['playing'] %}
+          input_boolean.turn_on
+        {% elif states('media_player.apple_tv_keuken') not in ['playing'] %}
+          input_boolean.turn_off
+        {% endif %}
+    entity_id: input_boolean.media_kitchen
+
+# AUTOMATION FOR LIGHT ALL WHEN MEDIA BOOLEAN CHANGES
 
 - alias: Plex - Licht - Woonkamer
   trigger:
   - platform: state
-    entity_id: input_boolean.plex_livingroom
+    entity_id: input_boolean.media_livingroom
   condition:
   action:
   - service: script.turn_on
     data_template:
       entity_id: >
-        {%- if states('input_boolean.plex_livingroom') in ['on'] -%}
+        {%- if states('input_boolean.media_livingroom') in ['on'] -%}
           script.plex_on_woonkamer
-        {%- elif states('input_boolean.plex_livingroom') in ['off'] -%}
+        {%- elif states('input_boolean.media_livingroom') in ['off'] -%}
           script.plex_off_woonkamer
         {% endif %}
 
 - alias: Plex - Licht - Keuken
   trigger:
   - platform: state
-    entity_id: input_boolean.plex_kitchen
+    entity_id: input_boolean.media_kitchen
   condition:
   action:
   - service: script.turn_on
     data_template:
       entity_id: >
-        {%- if states('input_boolean.plex_kitchen') in ['on'] -%}
+        {%- if states('input_boolean.media_kitchen') in ['on'] -%}
           script.plex_on_keuken
-        {%- elif states('input_boolean.plex_kitchen') in ['off'] -%}
+        {%- elif states('input_boolean.media_kitchen') in ['off'] -%}
           script.plex_off_keuken
         {% endif %}

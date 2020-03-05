@@ -37,10 +37,10 @@
     entity_id: input_boolean.music_follow
     state: 'on'
   - condition: state
-    entity_id: input_boolean.plex_kitchen
+    entity_id: input_boolean.media_kitchen
     state: 'off'
   - condition: state
-    entity_id: input_boolean.plex_livingroom
+    entity_id: input_boolean.media_livingroom
     state: 'off'
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] }}"
@@ -142,7 +142,7 @@
   trigger:
   - platform: state
     entity_id:
-      - input_boolean.plex_kitchen
+      - input_boolean.media_kitchen
     to: 'off'
     for:
       minutes: 1
@@ -167,10 +167,10 @@
     entity_id: input_boolean.music_follow
     state: 'on'
   - condition: state
-    entity_id: input_boolean.plex_kitchen
+    entity_id: input_boolean.media_kitchen
     state: 'off'
   - condition: state
-    entity_id: input_boolean.plex_livingroom
+    entity_id: input_boolean.media_livingroom
     state: 'off'
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] }}"
@@ -199,9 +199,14 @@
     value_template: "{{ states('input_select.harmony_hub') in ['Tv Decoder', 'Web OS', 'Apple Tv'] }}"
   - platform: state
     entity_id:
-      - input_boolean.plex_kitchen
-      - input_boolean.plex_livingroom
+      - input_boolean.media_kitchen
+      - input_boolean.media_livingroom
     to: 'on'
+  - platform: state
+    entity_id:
+      - media_player.apple_tv_keuken
+      - media_player.apple_tv_woonkamer
+    to: 'playing'
   condition:
   - condition: state
     entity_id: input_boolean.music_follow
@@ -243,10 +248,10 @@
     entity_id: input_boolean.music_follow
     state: 'on'
   - condition: state
-    entity_id: input_boolean.plex_kitchen
+    entity_id: input_boolean.media_kitchen
     state: 'off'
   - condition: state
-    entity_id: input_boolean.plex_livingroom
+    entity_id: input_boolean.media_livingroom
     state: 'off'
   - condition: template
     value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Slapen'] }}"

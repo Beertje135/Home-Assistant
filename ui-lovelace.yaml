@@ -201,13 +201,12 @@ views:
                           action: toggle
                     show_header_toggle: false
                     show_name: false
-                  - type: entities
-                    show_header_toggle: false
+                  - type: entity-filter
                     entities:
                     - type: 'custom:mini-media-player'
+                      entity: media_player.kitchen_alexa_1
                       name: Keuken Alexa
                       artwork: cover
-                      entity: media_player.kitchen_alexa_1
                       group: true
                       hide:
                         mute: true
@@ -233,6 +232,12 @@ views:
                         - name: Spotify
                           type: script
                           id: script.music_alexa_play_kitchen_spotify
+                    show_empty: false
+                    show_header_toggle: false
+                    state_filter:
+                      - playing
+                    card:
+                      type: entities
                   - type: entity-filter
                     entities:
                     - type: 'custom:mini-media-player'
@@ -1290,8 +1295,8 @@ views:
                 name: PC Always On
                 tap_action:
                   action: toggle
-              - entity: group.plex_players
-                name: Plex Players
+              - entity: group.media_players
+                name: Media Playing
           - id: layout_2
             type: 'custom:layout-card'
             layout: auto

@@ -24,10 +24,10 @@
       - person.marcus
       - person.nancy
 
-  plex_players:
+  media_players:
     entities:
-      - input_boolean.plex_livingroom
-      - input_boolean.plex_kitchen
+      - input_boolean.media_livingroom
+      - input_boolean.media_kitchen
 
 #Light Groups for the logbook
 

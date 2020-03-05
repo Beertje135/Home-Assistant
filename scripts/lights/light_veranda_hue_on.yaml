@@ -6,9 +6,9 @@ sequence:
     data_template:
       color_temp: 370
       brightness: >
-        {% if states('input_boolean.plex_livingroom') in ['on'] %}
+        {% if states('input_boolean.media_livingroom') in ['on'] %}
           25
-        {% elif states('input_boolean.plex_kitchen') in ['on'] %}
+        {% elif states('input_boolean.media_kitchen') in ['on'] %}
           25
         {% else %}
           255
