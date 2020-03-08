@@ -4,7 +4,7 @@ sequence:
   - service: media_player.play_media
     data:
       entity_id: media_player.alexa_kitchen_2
-      media_content_id: VRT MNM on the alexa Alexa Everywhere group
+      media_content_id: VRT MNM on the alexa Everywhere group
       media_content_type: TUNEIN
   - delay: 00:00:05
   - service: script.turn_on

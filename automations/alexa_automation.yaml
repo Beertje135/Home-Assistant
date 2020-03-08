@@ -267,15 +267,31 @@
     platform: state
     from: 'paused'
     to: 'playing'
+  - entity_id: media_player.alexa_downstairs
+    platform: state
+    from: 'paused'
+    to: 'playing'
+  - entity_id: media_player.alexa_livingroom_1
+    platform: state
+    from: 'paused'
+    to: 'playing'
   - entity_id: input_boolean.music_follow
     platform: state
     to: 'off'
     for:
       minutes: 4
   condition:
-  - condition: state
-    entity_id: media_player.alexa_kitchen_1
-    state: 'playing'
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: media_player.alexa_kitchen_1
+        state: 'playing'
+      - condition: state
+        entity_id: media_player.alexa_downstairs
+        state: 'playing'
+      - condition: state
+        entity_id: media_player.alexa_livingroom_1
+        state: 'playing'
   - condition: state
     entity_id: input_boolean.music_follow
     state: 'off'

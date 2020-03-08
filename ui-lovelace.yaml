@@ -241,7 +241,7 @@ views:
                   - type: entity-filter
                     entities:
                     - type: 'custom:mini-media-player'
-                      name: Apple Tv
+                      name: Apple Tv Woonkamer
                       artwork: cover
                       entity: media_player.apple_tv_woonkamer
                       group: true
@@ -260,7 +260,7 @@ views:
                   - type: entity-filter
                     entities:
                     - type: 'custom:mini-media-player'
-                      name: Apple Tv
+                      name: Apple Tv Keuken
                       artwork: cover
                       entity: media_player.apple_tv_keuken
                       group: true
@@ -375,63 +375,6 @@ views:
                       - type: 'custom:mini-media-player'
                         entity: media_player.alexa_livingroom_2
                         name: Woonkamer Alexa
-                        artwork: cover
-                        group: true
-                        hide:
-                          mute: true
-                          power: true
-                          source: true
-                          artwork_border: true
-                          controls: false
-                    show_empty: false
-                    show_header_toggle: false
-                    state_filter:
-                      - playing
-                    card:
-                      type: entities
-                  - type: entity-filter
-                    entities:
-                      - type: 'custom:mini-media-player'
-                        entity: media_player.alexa_downstairs
-                        name: Beneden Alexa
-                        artwork: cover
-                        group: true
-                        hide:
-                          mute: true
-                          power: true
-                          source: true
-                          artwork_border: true
-                          controls: false
-                    show_empty: false
-                    show_header_toggle: false
-                    state_filter:
-                      - playing
-                    card:
-                      type: entities
-                  - type: entity-filter
-                    entities:
-                      - type: 'custom:mini-media-player'
-                        entity: media_player.alexa_upstairs
-                        name: Boven Alexa
-                        artwork: cover
-                        group: true
-                        hide:
-                          mute: true
-                          power: true
-                          source: true
-                          artwork_border: true
-                          controls: false
-                    show_empty: false
-                    show_header_toggle: false
-                    state_filter:
-                      - playing
-                    card:
-                      type: entities
-                  - type: entity-filter
-                    entities:
-                      - type: 'custom:mini-media-player'
-                        entity: media_player.alexa_everywhere
-                        name: Overal Alexa
                         artwork: cover
                         group: true
                         hide:
