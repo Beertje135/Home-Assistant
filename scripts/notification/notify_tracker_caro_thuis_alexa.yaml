@@ -9,7 +9,9 @@ sequence:
   - delay: 00:00:10
   - service: notify.alexa_media
     data_template:
-      target: media_player.kitchen_alexa_2
+      target: 
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_livingroom_2
       message: 'Hello Caroline, Welcome Back Home.'
       data:
         type: announce

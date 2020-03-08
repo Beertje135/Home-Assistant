@@ -2,8 +2,8 @@
 alias: Music - Stop Keuken
 sequence:
   - condition: state
-    entity_id: media_player.kitchen_alexa_1
+    entity_id: media_player.alexa_kitchen_1
     state: 'playing'
   - service: media_player.turn_off
     entity_id:
-      - media_player.kitchen_alexa_1
+      - media_player.alexa_kitchen_1

@@ -35,32 +35,32 @@
 - alias: Amplifier Woonkamer - Uit - Echo Not Playing
   trigger:
     - platform: state
-      entity_id: media_player.livingroom_alexa
+      entity_id: media_player.alexa_livingroom_1
       to: paused
       for:
         minutes: 5
     - platform: state
-      entity_id: media_player.everywhere
+      entity_id: media_player.alexa_everywhere
       to: paused
       for:
         minutes: 5
     - platform: state
-      entity_id: media_player.downstairs
+      entity_id: media_player.alexa_downstairs
       to: paused
       for:
         minutes: 5
     - platform: state
-      entity_id: media_player.livingroom_alexa
+      entity_id: media_player.alexa_livingroom_1
       to: standby
       for:
         minutes: 5
     - platform: state
-      entity_id: media_player.everywhere
+      entity_id: media_player.alexa_everywhere
       to: standby
       for:
         minutes: 5
     - platform: state
-      entity_id: media_player.downstairs
+      entity_id: media_player.alexa_downstairs
       to: standby
       for:
         minutes: 5
@@ -73,55 +73,13 @@
           entity_id: input_select.harmony_hub
           state: 'Alexa'
         - condition: state
-          entity_id: media_player.everywhere
+          entity_id: media_player.alexa_everywhere
           state: 'paused'
         - condition: state
-          entity_id: media_player.downstairs
+          entity_id: media_player.alexa_downstairs
           state: 'paused'
         - condition: state
-          entity_id: media_player.livingroom_alexa
-          state: 'paused'
-      - condition: and
-        conditions:
-        - condition: state
-          entity_id: input_select.harmony_hub
-          state: 'Alexa'
-        - condition: state
-          entity_id: media_player.everywhere
-          state: 'standby'
-        - condition: state
-          entity_id: media_player.downstairs
-          state: 'standby'
-        - condition: state
-          entity_id: media_player.livingroom_alexa
-          state: 'standby'
-      - condition: and
-        conditions:
-        - condition: state
-          entity_id: input_select.harmony_hub
-          state: 'Alexa'
-        - condition: state
-          entity_id: media_player.everywhere
-          state: 'paused'
-        - condition: state
-          entity_id: media_player.downstairs
-          state: 'paused'
-        - condition: state
-          entity_id: media_player.livingroom_alexa
-          state: 'standby'
-      - condition: and
-        conditions:
-        - condition: state
-          entity_id: input_select.harmony_hub
-          state: 'Alexa'
-        - condition: state
-          entity_id: media_player.everywhere
-          state: 'paused'
-        - condition: state
-          entity_id: media_player.downstairs
-          state: 'standby'
-        - condition: state
-          entity_id: media_player.livingroom_alexa
+          entity_id: media_player.alexa_livingroom_1
           state: 'paused'
       - condition: and
         conditions:
@@ -129,27 +87,13 @@
           entity_id: input_select.harmony_hub
           state: 'Alexa'
         - condition: state
-          entity_id: media_player.everywhere
+          entity_id: media_player.alexa_everywhere
           state: 'standby'
         - condition: state
-          entity_id: media_player.downstairs
-          state: 'paused'
-        - condition: state
-          entity_id: media_player.livingroom_alexa
-          state: 'paused'
-      - condition: and
-        conditions:
-        - condition: state
-          entity_id: input_select.harmony_hub
-          state: 'Alexa'
-        - condition: state
-          entity_id: media_player.everywhere
-          state: 'paused'
-        - condition: state
-          entity_id: media_player.downstairs
+          entity_id: media_player.alexa_downstairs
           state: 'standby'
         - condition: state
-          entity_id: media_player.livingroom_alexa
+          entity_id: media_player.alexa_livingroom_1
           state: 'standby'
       - condition: and
         conditions:
@@ -157,13 +101,13 @@
           entity_id: input_select.harmony_hub
           state: 'Alexa'
         - condition: state
-          entity_id: media_player.everywhere
-          state: 'standby'
-        - condition: state
-          entity_id: media_player.downstairs
+          entity_id: media_player.alexa_everywhere
           state: 'paused'
         - condition: state
-          entity_id: media_player.livingroom_alexa
+          entity_id: media_player.alexa_downstairs
+          state: 'paused'
+        - condition: state
+          entity_id: media_player.alexa_livingroom_1
           state: 'standby'
       - condition: and
         conditions:
@@ -171,13 +115,69 @@
           entity_id: input_select.harmony_hub
           state: 'Alexa'
         - condition: state
-          entity_id: media_player.everywhere
+          entity_id: media_player.alexa_everywhere
+          state: 'paused'
+        - condition: state
+          entity_id: media_player.alexa_downstairs
           state: 'standby'
         - condition: state
-          entity_id: media_player.downstairs
+          entity_id: media_player.alexa_livingroom_1
+          state: 'paused'
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: input_select.harmony_hub
+          state: 'Alexa'
+        - condition: state
+          entity_id: media_player.alexa_everywhere
           state: 'standby'
         - condition: state
-          entity_id: media_player.livingroom_alexa
+          entity_id: media_player.alexa_downstairs
+          state: 'paused'
+        - condition: state
+          entity_id: media_player.alexa_livingroom_1
+          state: 'paused'
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: input_select.harmony_hub
+          state: 'Alexa'
+        - condition: state
+          entity_id: media_player.alexa_everywhere
+          state: 'paused'
+        - condition: state
+          entity_id: media_player.alexa_downstairs
+          state: 'standby'
+        - condition: state
+          entity_id: media_player.alexa_livingroom_1
+          state: 'standby'
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: input_select.harmony_hub
+          state: 'Alexa'
+        - condition: state
+          entity_id: media_player.alexa_everywhere
+          state: 'standby'
+        - condition: state
+          entity_id: media_player.alexa_downstairs
+          state: 'paused'
+        - condition: state
+          entity_id: media_player.alexa_livingroom_1
+          state: 'standby'
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: input_select.harmony_hub
+          state: 'Alexa'
+        - condition: state
+          entity_id: media_player.alexa_everywhere
+          state: 'standby'
+        - condition: state
+          entity_id: media_player.alexa_downstairs
+          state: 'standby'
+        - condition: state
+          entity_id: media_player.alexa_livingroom_1
           state: 'paused'
   action:
     - service: input_select.select_option
@@ -188,13 +188,13 @@
 - alias: Amplifier Woonkamer - Aan - Echo Playing
   trigger:
     - platform: state
-      entity_id: media_player.livingroom_alexa
+      entity_id: media_player.alexa_livingroom_1
       to: playing
     - platform: state
-      entity_id: media_player.everywhere
+      entity_id: media_player.alexa_everywhere
       to: playing
     - platform: state
-      entity_id: media_player.downstairs
+      entity_id: media_player.alexa_downstairs
       to: playing
   condition:
     - condition: state
@@ -236,13 +236,13 @@
       - condition: or
         conditions:
         - condition: state
-          entity_id: media_player.everywhere
+          entity_id: media_player.alexa_everywhere
           state: playing
         - condition: state
-          entity_id: media_player.livingroom_alexa
+          entity_id: media_player.alexa_livingroom_1
           state: playing
         - condition: state
-          entity_id: media_player.downstairs
+          entity_id: media_player.alexa_downstairs
           state: playing
   action:
     - delay: 00:00:05
@@ -256,13 +256,13 @@
 - alias: Amplifier Keuken - Aan - Echo Playing
   trigger:
     - platform: state
-      entity_id: media_player.kitchen_alexa_1
+      entity_id: media_player.alexa_kitchen_1
       to: playing
     - platform: state
-      entity_id: media_player.everywhere
+      entity_id: media_player.alexa_everywhere
       to: playing
     - platform: state
-      entity_id: media_player.downstairs
+      entity_id: media_player.alexa_downstairs
       to: playing
   condition:
     - condition: state
@@ -276,32 +276,32 @@
 - alias: Amplifier Keuken - Uit - Echo Not Playing
   trigger:
     - platform: state
-      entity_id: media_player.kitchen_alexa_1
+      entity_id: media_player.alexa_kitchen_1
       to: paused
       for:
         minutes: 2
     - platform: state
-      entity_id: media_player.everywhere
+      entity_id: media_player.alexa_everywhere
       to: paused
       for:
         minutes: 2
     - platform: state
-      entity_id: media_player.downstairs
+      entity_id: media_player.alexa_downstairs
       to: paused
       for:
         minutes: 2
     - platform: state
-      entity_id: media_player.kitchen_alexa_1
+      entity_id: media_player.alexa_kitchen_1
       to: standby
       for:
         minutes: 2
     - platform: state
-      entity_id: media_player.everywhere
+      entity_id: media_player.alexa_everywhere
       to: standby
       for:
         minutes: 2
     - platform: state
-      entity_id: media_player.downstairs
+      entity_id: media_player.alexa_downstairs
       to: standby
       for:
         minutes: 2
@@ -312,11 +312,11 @@
     - condition: and
       conditions:
       - condition: template
-        value_template: "{{ states('media_player.everywhere') not in ['playing'] }}"
+        value_template: "{{ states('media_player.alexa_everywhere') not in ['playing'] }}"
       - condition: template
-        value_template: "{{ states('media_player.downstairs') not in ['playing'] }}"
+        value_template: "{{ states('media_player.alexa_downstairs') not in ['playing'] }}"
       - condition: template
-        value_template: "{{ states('media_player.kitchen_alexa_1') not in ['playing'] }}"
+        value_template: "{{ states('media_player.alexa_kitchen_1') not in ['playing'] }}"
   action:
     - service: script.turn_on
       entity_id:

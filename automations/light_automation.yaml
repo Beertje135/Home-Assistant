@@ -438,6 +438,16 @@
       minutes: 1
     platform: state
     to: 'off'
+  - entity_id: binary_sensor.dressing_sensor_motion
+    for:
+      minutes: 3
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.dressing_sensor_motion
+    for:
+      minutes: 5
+    platform: state
+    to: 'off'
   condition:
   - condition: or
     conditions:

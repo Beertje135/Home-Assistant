@@ -3,4 +3,4 @@ alias: Music - Stop Slaapkamer
 sequence:
   - service: media_player.turn_off
     entity_id:
-      - media_player.bedroom_alexa
+      - media_player.alexa_livingroom_2

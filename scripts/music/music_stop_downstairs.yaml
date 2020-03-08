@@ -3,7 +3,7 @@ alias: Music - Stop Beneden
 sequence:
   - service: media_player.turn_off
     entity_id:
-      - media_player.downstairs
+      - media_player.alexa_downstairs
   - timeout: 00:02:00
     continue_on_timeout: false
     wait_template: >

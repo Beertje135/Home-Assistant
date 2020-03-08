@@ -9,6 +9,9 @@ sequence:
   - condition: state
     entity_id: input_boolean.keep_pc_on
     state: 'off'
+  - condition: state
+    entity_id: group.bewoners
+    state: 'not_home'
   - service: hassio.addon_stdin
     data:
       addon: core_rpc_shutdown

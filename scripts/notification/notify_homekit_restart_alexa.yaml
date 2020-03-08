@@ -6,8 +6,9 @@ sequence:
   - service: notify.alexa_media
     data:
       target:
-        - media_player.kitchen_alexa_2
-        - media_player.bathroom_alexa
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
       message: 'All systems operational, I will restart Homekit'
       data:
         type: announce

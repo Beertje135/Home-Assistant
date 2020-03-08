@@ -11,8 +11,9 @@ sequence:
   - service: notify.alexa_media
     data_template:
       target:
-        - media_player.kitchen_alexa_2
-        - media_player.bathroom_alexa
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
       message: >
         {% if states('input_boolean.cooling_downstairs') == 'on' %}
           'It is colder ouside then in the kitchen. Maybe time to open some windows?'

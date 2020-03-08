@@ -3,7 +3,7 @@ alias: Music - Alexa - Play Beneden Q-Music
 sequence:
   - service: media_player.play_media
     data:
-      entity_id: media_player.kitchen_alexa_2
+      entity_id: media_player.alexa_kitchen_2
       media_content_id: QMusic Belgium on the downstairs group
       media_content_type: TUNEIN
   - delay: 00:00:05

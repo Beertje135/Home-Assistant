@@ -3,7 +3,7 @@ alias: Music - Alexa - Play Slaapkamer MNM
 sequence:
   - service: media_player.play_media
     data:
-      entity_id: media_player.bedroom_alexa
+      entity_id: media_player.alexa_livingroom_2
       media_content_id: VRT MNM
       media_content_type: TUNEIN
   - delay: 00:00:05

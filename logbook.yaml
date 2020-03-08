@@ -97,7 +97,7 @@
       - light.hue_dressing_two
       - light.hue_dressing_three
       - media_player.this_device
-      - media_player.garden_alexa
+      - media_player.alexa_garden
       - sensor.alexa_bathroom_next_alarm
       - sensor.alexa_bathroom_next_reminder
       - sensor.alexa_bathroom_next_timer

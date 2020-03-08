@@ -7,17 +7,17 @@
   - platform: state
     to: 'playing'
     entity_id:
-      - media_player.livingroom_alexa
-      - media_player.kitchen_alexa_1
+      - media_player.alexa_livingroom_1
+      - media_player.alexa_kitchen_1
   condition:
   - condition: template
-    value_template: "{{ states('media_player.livingroom_alexa') in ['playing'] }}"
+    value_template: "{{ states('media_player.alexa_livingroom_1') in ['playing'] }}"
   - condition: template
-    value_template: "{{ states('media_player.kitchen_alexa_1') in ['playing'] }}"
+    value_template: "{{ states('media_player.alexa_kitchen_1') in ['playing'] }}"
   - condition: template
-    value_template: "{{ states('media_player.downstairs') not in ['playing'] }}"
+    value_template: "{{ states('media_player.alexa_downstairs') not in ['playing'] }}"
   - condition: template
-    value_template: "{{ states('media_player.everywhere') not in ['playing'] }}"
+    value_template: "{{ states('media_player.alexa_everywhere') not in ['playing'] }}"
   action:
   - service: script.turn_on
     entity_id:
@@ -47,11 +47,11 @@
   - condition: template
     value_template: "{{ states('input_select.harmony_hub') in ['Powered Off', 'Alexa'] }}"
   - condition: template
-    value_template: "{{ states('media_player.livingroom_alexa') not in ['playing'] }}"
+    value_template: "{{ states('media_player.alexa_livingroom_1') not in ['playing'] }}"
   - condition: template
-    value_template: "{{ states('media_player.downstairs') not in ['playing'] }}"
+    value_template: "{{ states('media_player.alexa_downstairs') not in ['playing'] }}"
   - condition: template
-    value_template: "{{ states('media_player.everywhere') not in ['playing'] }}"
+    value_template: "{{ states('media_player.alexa_everywhere') not in ['playing'] }}"
   action:
   - service: script.turn_on
     entity_id:
@@ -66,7 +66,7 @@
     to: 'off'
   condition:
   - condition: template
-    value_template: "{{ states('media_player.downstairs') in ['playing'] }}"
+    value_template: "{{ states('media_player.alexa_downstairs') in ['playing'] }}"
   action:
   - service: script.turn_on
     entity_id:
@@ -80,14 +80,14 @@
     entity_id: input_select.harmony_hub
   condition:
   - condition: template
-    value_template: "{{ (states('media_player.livingroom_alexa') in ['playing'] and states('input_select.harmony_hub') not in ['Alexa']) or (states('media_player.livingroom_alexa') not in ['playing'] and states('media_player.downstairs') not in ['playing'] and states('media_player.everywhere') not in ['playing'] and states('input_select.harmony_hub') in ['Alexa']) }}"
+    value_template: "{{ (states('media_player.alexa_livingroom_1') in ['playing'] and states('input_select.harmony_hub') not in ['Alexa']) or (states('media_player.alexa_livingroom_1') not in ['playing'] and states('media_player.alexa_downstairs') not in ['playing'] and states('media_player.alexa_everywhere') not in ['playing'] and states('input_select.harmony_hub') in ['Alexa']) }}"
   action:
   - service: script.turn_on
     data_template:
       entity_id: >
-        {%- if states('media_player.livingroom_alexa') not in ['playing'] and states('media_player.downstairs') not in ['playing'] and states('media_player.everywhere') not in ['playing'] and states('input_select.harmony_hub') in ['Alexa'] -%}
+        {%- if states('media_player.alexa_livingroom_1') not in ['playing'] and states('media_player.alexa_downstairs') not in ['playing'] and states('media_player.alexa_everywhere') not in ['playing'] and states('input_select.harmony_hub') in ['Alexa'] -%}
           script.music_play_living_room
-        {%- elif states('media_player.livingroom_alexa') in ['playing'] and states('input_select.harmony_hub') not in ['Alexa'] -%}
+        {%- elif states('media_player.alexa_livingroom_1') in ['playing'] and states('input_select.harmony_hub') not in ['Alexa'] -%}
           script.music_stop_living_room
         {%- else -%}
           script.empty
@@ -111,11 +111,11 @@
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] }}"
   - condition: template
-    value_template: "{{ states('media_player.bathroom_alexa') not in ['playing'] }}"
+    value_template: "{{ states('media_player.alexa_bathroom') not in ['playing'] }}"
   - condition: template
-    value_template: "{{ states('media_player.upstairs') not in ['playing'] }}"
+    value_template: "{{ states('media_player.alexa_upstairs') not in ['playing'] }}"
   - condition: template
-    value_template: "{{ states('media_player.everywhere') not in ['playing'] }}"
+    value_template: "{{ states('media_player.alexa_everywhere') not in ['playing'] }}"
   action:
   - service: script.turn_on
     entity_id:
@@ -130,7 +130,7 @@
     to: 'off'
   condition:
   - condition: template
-    value_template: "{{ states('media_player.bathroom_alexa') in ['playing'] }}"
+    value_template: "{{ states('media_player.alexa_bathroom') in ['playing'] }}"
   action:
   - service: script.turn_on
     entity_id:
@@ -145,7 +145,7 @@
       - input_boolean.media_kitchen
     to: 'off'
     for:
-      minutes: 1
+      minutes: 3
   - platform: template
     value_template: "{{ states('input_select.harmony_hub') in ['Powered Off', 'Alexa'] }}"
   - platform: state
@@ -177,11 +177,11 @@
   - condition: template
     value_template: "{{ states('input_select.harmony_hub') in ['Powered Off', 'Alexa'] }}"
   - condition: template
-    value_template: "{{ states('media_player.kitchen_alexa_1') not in ['playing'] }}"
+    value_template: "{{ states('media_player.alexa_kitchen_1') not in ['playing'] }}"
   - condition: template
-    value_template: "{{ states('media_player.downstairs') not in ['playing'] }}"
+    value_template: "{{ states('media_player.alexa_downstairs') not in ['playing'] }}"
   - condition: template
-    value_template: "{{ states('media_player.everywhere') not in ['playing'] }}"
+    value_template: "{{ states('media_player.alexa_everywhere') not in ['playing'] }}"
   action:
   - service: script.turn_on
     entity_id:
@@ -212,7 +212,7 @@
     entity_id: input_boolean.music_follow
     state: 'on'
   - condition: template
-    value_template: "{{ states('media_player.kitchen_alexa_1') in ['playing'] }}"
+    value_template: "{{ states('media_player.alexa_kitchen_1') in ['playing'] }}"
   action:
   - service: script.turn_on
     entity_id:
@@ -222,7 +222,7 @@
 
 - alias: Muziek - Radio - Temporary disable music follow
   trigger:
-  - entity_id: media_player.kitchen_alexa_1
+  - entity_id: media_player.alexa_kitchen_1
     platform: state
     from: 'playing'
     to: 'paused'
@@ -230,17 +230,17 @@
   - condition: or
     conditions:
       - condition: state
-        entity_id: media_player.downstairs
+        entity_id: media_player.alexa_downstairs
         state: 'paused'
         for:
           minutes: 5
       - condition: state
-        entity_id: media_player.downstairs
+        entity_id: media_player.alexa_downstairs
         state: 'standby'
         for:
           minutes: 5
       - condition: state
-        entity_id: media_player.downstairs
+        entity_id: media_player.alexa_downstairs
         state: 'unavailable'
         for:
           minutes: 5
@@ -263,7 +263,7 @@
 
 - alias: Muziek - Radio - Follow Enable
   trigger:
-  - entity_id: media_player.kitchen_alexa_1
+  - entity_id: media_player.alexa_kitchen_1
     platform: state
     from: 'paused'
     to: 'playing'
@@ -274,7 +274,7 @@
       minutes: 4
   condition:
   - condition: state
-    entity_id: media_player.kitchen_alexa_1
+    entity_id: media_player.alexa_kitchen_1
     state: 'playing'
   - condition: state
     entity_id: input_boolean.music_follow
@@ -308,9 +308,9 @@
   - platform: state
     to: 'playing'
     entity_id:
-      - media_player.livingroom_alexa
-      - media_player.downstairs
-      - media_player.everywhere
+      - media_player.alexa_livingroom_1
+      - media_player.alexa_downstairs
+      - media_player.alexa_everywhere
   action:
   - service: script.turn_on
     entity_id:

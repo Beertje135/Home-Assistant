@@ -3,7 +3,7 @@ alias: Music - Alexa - Play Badkamer MNM
 sequence:
   - service: media_player.play_media
     data:
-      entity_id: media_player.bathroom_alexa
+      entity_id: media_player.alexa_bathroom
       media_content_id: VRT MNM
       media_content_type: TUNEIN
   - delay: 00:00:05

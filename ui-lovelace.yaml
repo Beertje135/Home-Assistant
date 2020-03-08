@@ -204,7 +204,7 @@ views:
                   - type: entity-filter
                     entities:
                     - type: 'custom:mini-media-player'
-                      entity: media_player.kitchen_alexa_1
+                      entity: media_player.alexa_kitchen_1
                       name: Keuken Alexa
                       artwork: cover
                       group: true
@@ -279,7 +279,7 @@ views:
                   - type: entity-filter
                     entities:
                       - type: 'custom:mini-media-player'
-                        entity: media_player.kitchen_alexa_2
+                        entity: media_player.alexa_kitchen_2
                         name: Keuken Alexa 2
                         artwork: cover
                         group: true
@@ -298,7 +298,7 @@ views:
                   - type: entity-filter
                     entities:
                       - type: 'custom:mini-media-player'
-                        entity: media_player.garden_alexa
+                        entity: media_player.alexa_garden
                         name: Tuin Alexa
                         artwork: cover
                         group: true
@@ -317,7 +317,7 @@ views:
                   - type: entity-filter
                     entities:
                       - type: 'custom:mini-media-player'
-                        entity: media_player.livingroom_alexa
+                        entity: media_player.alexa_livingroom_1
                         name: Woonkamer Alexa
                         artwork: cover
                         group: true
@@ -336,7 +336,7 @@ views:
                   - type: entity-filter
                     entities:
                       - type: 'custom:mini-media-player'
-                        entity: media_player.bathroom_alexa
+                        entity: media_player.alexa_bathroom
                         name: Badkamer Alexa
                         artwork: cover
                         group: true
@@ -373,8 +373,8 @@ views:
                   - type: entity-filter
                     entities:
                       - type: 'custom:mini-media-player'
-                        entity: media_player.bedroom_alexa
-                        name: Slaapkamer Alexa
+                        entity: media_player.alexa_livingroom_2
+                        name: Woonkamer Alexa
                         artwork: cover
                         group: true
                         hide:
@@ -392,7 +392,7 @@ views:
                   - type: entity-filter
                     entities:
                       - type: 'custom:mini-media-player'
-                        entity: media_player.downstairs
+                        entity: media_player.alexa_downstairs
                         name: Beneden Alexa
                         artwork: cover
                         group: true
@@ -411,7 +411,7 @@ views:
                   - type: entity-filter
                     entities:
                       - type: 'custom:mini-media-player'
-                        entity: media_player.upstairs
+                        entity: media_player.alexa_upstairs
                         name: Boven Alexa
                         artwork: cover
                         group: true
@@ -430,7 +430,7 @@ views:
                   - type: entity-filter
                     entities:
                       - type: 'custom:mini-media-player'
-                        entity: media_player.everywhere
+                        entity: media_player.alexa_everywhere
                         name: Overal Alexa
                         artwork: cover
                         group: true
@@ -524,6 +524,26 @@ views:
                       - entity: sun.sun
                     show_header_toggle: false
                     show_name: false
+              - title: Corona-Virus
+                type: vertical-stack
+                cards:
+                  - type: glance
+                    columns: 2
+                    entities:
+                      - entity: sensor.belgium_coronavirus_confirmed
+                        name: Confirmed
+                        icon: mdi:doctor
+                      - entity: sensor.belgium_coronavirus_current
+                        name: current
+                        icon: mdi:current-ac
+                      - entity: sensor.belgium_coronavirus_deaths
+                        name: Deaths
+                        icon: mdi:skull
+                      - entity: sensor.belgium_coronavirus_recovered
+                        name: Recovered
+                        icon: mdi:hand-okay
+                    show_header_toggle: false
+                    show_name: true
   - title: Ons Huisje
     icon: 'mdi:home-assistant'
     id: 1
@@ -726,7 +746,7 @@ views:
                       - type: 'custom:mini-media-player'
                         name: Woonkamer Alexa
                         artwork: cover
-                        entity: media_player.livingroom_alexa
+                        entity: media_player.alexa_livingroom_1
                         group: true
                         hide:
                           mute: true
@@ -756,7 +776,7 @@ views:
                       - type: 'custom:mini-media-player'
                         name: Multiroom
                         artwork: cover
-                        entity: media_player.everywhere
+                        entity: media_player.alexa_everywhere
                         group: true
                         hide:
                           mute: true
@@ -863,7 +883,7 @@ views:
                       - type: 'custom:mini-media-player'
                         name: Keuken Alexa 2
                         artwork: cover
-                        entity: media_player.kitchen_alexa_2
+                        entity: media_player.alexa_kitchen_2
                         group: true
                         hide:
                           mute: true
@@ -875,7 +895,7 @@ views:
                       - type: 'custom:mini-media-player'
                         name: Multiroom
                         artwork: cover
-                        entity: media_player.everywhere
+                        entity: media_player.alexa_everywhere
                         group: true
                         hide:
                           mute: true
@@ -896,7 +916,7 @@ views:
                       - type: 'custom:mini-media-player'
                         name: Keuken Alexa
                         artwork: cover
-                        entity: media_player.kitchen_alexa_1
+                        entity: media_player.alexa_kitchen_1
                         group: true
                         hide:
                           mute: true
@@ -991,9 +1011,9 @@ views:
                           type: entities
                         entities:
                           - type: 'custom:mini-media-player'
-                            name: Slaapkamer Alexa
+                            name: Woonkamer Alexa
                             artwork: cover
-                            entity: media_player.bedroom_alexa
+                            entity: media_player.alexa_livingroom_2
                             group: true
                             hide:
                               mute: true
@@ -1005,7 +1025,7 @@ views:
                           - type: 'custom:mini-media-player'
                             name: Boven
                             artwork: cover
-                            entity: media_player.upstairs
+                            entity: media_player.alexa_upstairs
                             group: true
                             hide:
                               mute: true
@@ -1017,7 +1037,7 @@ views:
                           - type: 'custom:mini-media-player'
                             name: Overal
                             artwork: cover
-                            entity: media_player.everywhere
+                            entity: media_player.alexa_everywhere
                             group: true
                             hide:
                               mute: true
@@ -1055,7 +1075,7 @@ views:
                       - type: 'custom:mini-media-player'
                         name: Boven
                         artwork: cover
-                        entity: media_player.upstairs
+                        entity: media_player.alexa_upstairs
                         group: true
                         hide:
                           mute: true
@@ -1067,7 +1087,7 @@ views:
                       - type: 'custom:mini-media-player'
                         name: Multiroom
                         artwork: cover
-                        entity: media_player.everywhere
+                        entity: media_player.alexa_everywhere
                         group: true
                         hide:
                           mute: true
@@ -1086,7 +1106,7 @@ views:
                       - type: 'custom:mini-media-player'
                         name: Badkamer Alexa
                         artwork: cover
-                        entity: media_player.bathroom_alexa
+                        entity: media_player.alexa_bathroom
                         group: true
                         hide:
                           mute: true
@@ -1280,7 +1300,7 @@ views:
                 tap_action:
                   action: toggle
               - entity: switch.wake_on_lan
-                name: Plex Server
+                name: PC
                 tap_action:
                   action: toggle
           - id: computer_tracker_2b
@@ -1309,7 +1329,7 @@ views:
                     show_header_toggle: false
                     entities:
                       - artwork: cover
-                        entity: media_player.kitchen_alexa_1
+                        entity: media_player.alexa_kitchen_1
                         group: true
                         hide:
                           mute: true
@@ -1317,7 +1337,7 @@ views:
                           source: true
                           artwork_border: true
                           controls: false
-                        name: Keuken
+                        name: Keuken 1
                         idle_view:
                           when_idle: true
                           when_standby: true
@@ -1340,7 +1360,7 @@ views:
                               id: script.music_alexa_play_kitchen_spotify
                         type: 'custom:mini-media-player'
                       - artwork: cover
-                        entity: media_player.bathroom_alexa
+                        entity: media_player.alexa_bathroom
                         group: true
                         hide:
                           mute: true
@@ -1371,7 +1391,7 @@ views:
                               id: script.music_alexa_play_bathroom_spotify
                         type: 'custom:mini-media-player'
                       - artwork: cover
-                        entity: media_player.livingroom_alexa
+                        entity: media_player.alexa_livingroom_1
                         group: true
                         hide:
                           mute: true
@@ -1379,13 +1399,13 @@ views:
                           source: true
                           artwork_border: true
                           controls: false
-                        name: Woonkamer
+                        name: Woonkamer 1
                         idle_view:
                           when_idle: true
                           when_standby: true
                         type: 'custom:mini-media-player'
                       - artwork: cover
-                        entity: media_player.bedroom_alexa
+                        entity: media_player.alexa_livingroom_2
                         group: true
                         hide:
                           mute: true
@@ -1393,13 +1413,13 @@ views:
                           source: true
                           artwork_border: true
                           controls: false
-                        name: Slaapkamer
+                        name: Woonkamer 2
                         idle_view:
                           when_idle: true
                           when_standby: true
                         type: 'custom:mini-media-player'
                       - artwork: cover
-                        entity: media_player.kitchen_alexa_2
+                        entity: media_player.alexa_kitchen_2
                         group: true
                         hide:
                           mute: true
@@ -1413,7 +1433,7 @@ views:
                           when_standby: true
                         type: 'custom:mini-media-player'
                       - artwork: cover
-                        entity: media_player.garden_alexa
+                        entity: media_player.alexa_garden
                         group: true
                         hide:
                           mute: true
@@ -1434,7 +1454,7 @@ views:
                     show_header_toggle: false
                     entities:
                       - artwork: cover
-                        entity: media_player.downstairs
+                        entity: media_player.alexa_downstairs
                         group: true
                         hide:
                           mute: true
@@ -1465,7 +1485,7 @@ views:
                           when_standby: true
                         type: 'custom:mini-media-player'
                       - artwork: cover
-                        entity: media_player.everywhere
+                        entity: media_player.alexa_everywhere
                         group: true
                         hide:
                           mute: true
@@ -1496,7 +1516,7 @@ views:
                           when_standby: true
                         type: 'custom:mini-media-player'
                       - artwork: cover
-                        entity: media_player.upstairs
+                        entity: media_player.alexa_upstairs
                         group: true
                         hide:
                           mute: true
