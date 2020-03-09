@@ -18,12 +18,12 @@ exclude_domains:
   - sensor
   - switch
 include_entities:
-  - binary_sensor.keuken_sensor_motion
-  - binary_sensor.dressing_sensor_motion
-  - binary_sensor.living_sensor_motion
-  - sensor.keuken_sensor_light_level
-  - sensor.dressing_sensor_light_level
-  - sensor.living_sensor_light_level
+  - binary_sensor.hue_sensor_keuken_motion
+  - binary_sensor.hue_sensor_dressing_motion
+  - binary_sensor.hue_sensor_woonkamer_motion
+  - sensor.hue_sensor_keuken_light_level
+  - sensor.hue_sensor_dressing_light_level
+  - sensor.hue_sensor_woonkamer_light_level
   - sensor.smappee_ons_huisje_water_sensor_temperature
   - sensor.smappee_ons_huisje_water_sensor_humidity
   - input_select.harmony_hub

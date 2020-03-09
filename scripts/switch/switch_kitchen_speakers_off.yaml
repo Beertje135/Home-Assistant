@@ -2,4 +2,4 @@ alias: Switch - Speakers keuken uit
 sequence:
   - service: light.turn_off
     entity_id:
-      - light.hue_keuken_smart_plug
+      - light.hue_smart_plug_keuken

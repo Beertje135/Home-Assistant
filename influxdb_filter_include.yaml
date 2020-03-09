@@ -28,14 +28,14 @@
       - sensor.disk_use_percent_home
       - sensor.downstairs_nest_protect_co_status
       - sensor.downstairs_nest_protect_smoke_status
-      - sensor.dressing_sensor_light_level
-      - sensor.dressing_sensor_temperature
+      - sensor.hue_sensor_dressing_light_level
+      - sensor.hue_sensor_dressing_temperature
       - sensor.humidity_arlobaby
-      - sensor.keuken_sensor_light_level
-      - sensor.keuken_sensor_temperature
+      - sensor.hue_sensor_keuken_light_level
+      - sensor.hue_sensor_keuken_temperature
       - sensor.kuishulp
-      - sensor.living_sensor_light_level
-      - sensor.living_sensor_temperature
+      - sensor.hue_sensor_woonkamer_light_level
+      - sensor.hue_sensor_woonkamer_temperature
       - sensor.memory_use_percent
       - sensor.processor_use
       - sensor.cpu_temperature

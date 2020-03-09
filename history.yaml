@@ -10,9 +10,9 @@
       - group.bewoners
       - group.bewoners_router
       - group.bezoekers
-      - binary_sensor.dressing_sensor_motion
-      - binary_sensor.keuken_sensor_motion
-      - binary_sensor.living_sensor_motion
+      - binary_sensor.hue_sensor_dressing_motion
+      - binary_sensor.hue_sensor_keuken_motion
+      - binary_sensor.hue_sensor_woonkamer_motion
       - group.licht_keuken
       - group.licht_badkamer
       - group.licht_dressing

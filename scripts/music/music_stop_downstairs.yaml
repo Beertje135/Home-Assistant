@@ -7,7 +7,7 @@ sequence:
   - timeout: 00:02:00
     continue_on_timeout: false
     wait_template: >
-          {%- if states('binary_sensor.keuken_sensor_motion') in ['on'] -%}
+          {%- if states('binary_sensor.hue_sensor_keuken_motion') in ['on'] -%}
             true
           {%- else -%}
             false

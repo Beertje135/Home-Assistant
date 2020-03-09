@@ -20,4 +20,4 @@ sequence:
       {%- else -%}
         switch.turn_off
       {%- endif %}
-    entity_id: light.hue_keuken_smart_plug
+    entity_id: light.hue_smart_plug_keuken

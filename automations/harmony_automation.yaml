@@ -105,7 +105,7 @@
 - alias: Harmony Hub - Start Tv on weekday evening
   trigger:
   - platform: state
-    entity_id: binary_sensor.living_sensor_motion
+    entity_id: binary_sensor.hue_sensor_woonkamer_motion
     from: 'off'
     to: 'on'
   condition:

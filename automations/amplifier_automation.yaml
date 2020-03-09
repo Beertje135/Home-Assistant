@@ -266,7 +266,7 @@
       to: playing
   condition:
     - condition: state
-      entity_id: light.hue_keuken_smart_plug
+      entity_id: light.hue_smart_plug_keuken
       state: 'off'
   action:
     - service: script.turn_on
@@ -307,7 +307,7 @@
         minutes: 2
   condition:
     - condition: state
-      entity_id: light.hue_keuken_smart_plug
+      entity_id: light.hue_smart_plug_keuken
       state: 'on'
     - condition: and
       conditions:

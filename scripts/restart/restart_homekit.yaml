@@ -9,7 +9,7 @@ sequence:
             false
           {%- elif not states('climate.keuken') -%}
             false
-          {%- elif not states('light.hue_kamer_elmo_one') -%}
+          {%- elif not states('light.hue_light_kamer_elmo_one') -%}
             false
           {%- elif not states('light.milight_keuken_bridge') -%}
             false
@@ -19,7 +19,7 @@ sequence:
             false
           {%- elif not states('sensor.smappee_ons_huisje_water_sensor_temperature') -%}
             false
-          {%- elif not states('light.hue_keuken_smart_plug') -%}
+          {%- elif not states('light.hue_smart_plug_keuken') -%}
             false
           {%- else -%}
             true

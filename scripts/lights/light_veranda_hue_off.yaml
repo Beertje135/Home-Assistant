@@ -3,4 +3,4 @@ alias: Licht - Hue - Veranda - Uit
 sequence:
   - service: light.turn_off
     entity_id:
-      - light.hue_veranda
+      - light.hue_light_veranda

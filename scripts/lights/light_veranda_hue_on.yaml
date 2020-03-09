@@ -2,7 +2,7 @@
 alias: Licht - Hue - Veranda - Aan
 sequence:
   - service: light.turn_on
-    entity_id: light.hue_veranda
+    entity_id: light.hue_light_veranda
     data_template:
       color_temp: 370
       brightness: >

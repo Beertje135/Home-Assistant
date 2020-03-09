@@ -2,7 +2,7 @@
 alias: Music - Alexa - Play Beneden Spotify
 sequence:
   - service: switch.turn_on
-    entity_id: light.hue_keuken_smart_plug
+    entity_id: light.hue_smart_plug_keuken
   - service: media_player.select_source
     data:
       entity_id: media_player.spotify

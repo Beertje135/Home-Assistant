@@ -2,43 +2,43 @@
 
 # CUSTOMIZATION HUE LIGHTS
 
-    light.hue_veranda:
+    light.hue_light_veranda:
       friendly_name: Veranda Light
       icon: mdi:floor-lamp
 
-    light.hue_kamer_elmo_one:
+    light.hue_light_kamer_elmo_one:
       friendly_name: Elmo's Room Floor Light
       icon: mdi:floor-lamp
 
-    light.hue_kamer_elmo_two:
+    light.hue_light_kamer_elmo_two:
       friendly_name: Elmo's Room Light
       icon: mdi:ceiling-light
 
-    light.hue_woonkamer:
+    light.hue_light_woonkamer:
       friendly_name: Livingroom Light
       icon: mdi:globe-light
 #      icon: mdi:ceiling-light
 
 # CUSTOMIZE HUE SMART PLUGS
 
-    light.hue_veranda_smart_plug:
+    light.hue_smart_plug_veranda:
       friendly_name: Veranda LED
       icon: mdi:string-lights
 #      icon: mdi:led-strip-variant
       display_categories: light
 
-    light.hue_woonkamer_smart_plug_two:
+    light.hue_smart_plug_woonkamer_two:
       friendly_name: Livingroom Spacewalker
       icon: mdi:floor-lamp
       display_categories: light
 
-    light.hue_woonkamer_smart_plug_one:
+    light.hue_smart_plug_woonkamer_one:
       friendly_name: Livingroom LED
       icon: mdi:string-lights
 #      icon: mdi:led-strip-variant
       display_categories: light
 
-    light.hue_keuken_smart_plug:
+    light.hue_smart_plug_keuken:
       friendly_name: Kitchen Speakers
       icon: mdi:speaker-wireless
       display_categories: speaker

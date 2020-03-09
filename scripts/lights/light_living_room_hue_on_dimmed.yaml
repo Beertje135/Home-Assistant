@@ -2,7 +2,7 @@
 alias: Licht - Hue - Woonkamer - Aan - Dimmed
 sequence:
   - service: light.turn_on
-    entity_id: light.hue_woonkamer
+    entity_id: light.hue_light_woonkamer
     data:
       color_temp: 365
       brightness: 25

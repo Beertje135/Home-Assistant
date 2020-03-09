@@ -3,13 +3,13 @@ alias: Licht - Hue - Dressing - Aan - Normal
 sequence:
   - service: light.turn_on
     entity_id:
-      - light.hue_dressing_one
-      - light.hue_dressing_three
+      - light.hue_light_dressing_one
+      - light.hue_light_dressing_three
     data:
       brightness: 255
   - service: light.turn_on
     entity_id:
-      - light.hue_dressing_two
+      - light.hue_light_dressing_two
     data:
       color_temp: 365
       brightness: 255

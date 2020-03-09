@@ -179,7 +179,7 @@
 
 - alias: Ons Huisje - Change Status - Juist Wakker
   trigger:
-  - entity_id: binary_sensor.dressing_sensor_motion
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
     platform: state
   condition:
   - condition: state
@@ -260,7 +260,7 @@
   trigger:
   - platform: state
     entity_id:
-      - binary_sensor.keuken_sensor_motion
+      - binary_sensor.hue_sensor_keuken_motion
     to: 'on'
     for:
       seconds: 2
@@ -268,7 +268,7 @@
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Weg', 'Juist Wakker', 'Slapen'] }}"
   - condition: template
-    value_template: "{{ states('binary_sensor.keuken_sensor_motion') in ['on'] }}"
+    value_template: "{{ states('binary_sensor.hue_sensor_keuken_motion') in ['on'] }}"
   - condition: template
     value_template: "{{ states('input_boolean.trigger_just_home_kitchen') in ['off'] }}"
   - condition: template
@@ -281,13 +281,13 @@
   - service: input_boolean.turn_on
     data_template:
       entity_id: >
-        {%- if states('input_select.woning_status') in ['Juist Thuis'] and states('binary_sensor.keuken_sensor_motion') in ['on'] -%}
+        {%- if states('input_select.woning_status') in ['Juist Thuis'] and states('binary_sensor.hue_sensor_keuken_motion') in ['on'] -%}
           input_boolean.trigger_just_home_kitchen
-        {%- elif states('input_select.woning_status') in ['Juist Wakker'] and states('binary_sensor.keuken_sensor_motion') in ['on'] -%}
+        {%- elif states('input_select.woning_status') in ['Juist Wakker'] and states('binary_sensor.hue_sensor_keuken_motion') in ['on'] -%}
           input_boolean.trigger_just_awake_kitchen
-        {%- elif states('input_select.woning_status') in ['Slapen'] and states('binary_sensor.keuken_sensor_motion') in ['on'] -%}
+        {%- elif states('input_select.woning_status') in ['Slapen'] and states('binary_sensor.hue_sensor_keuken_motion') in ['on'] -%}
           input_boolean.trigger_just_sleep_kitchen
-        {%- elif states('input_select.woning_status') in ['Juist Weg'] and states('binary_sensor.keuken_sensor_motion') in ['on'] -%}
+        {%- elif states('input_select.woning_status') in ['Juist Weg'] and states('binary_sensor.hue_sensor_keuken_motion') in ['on'] -%}
           input_boolean.trigger_just_away_kitchen
         {%- endif %}
 
@@ -295,7 +295,7 @@
   trigger:
   - platform: state
     entity_id:
-      - binary_sensor.dressing_sensor_motion
+      - binary_sensor.hue_sensor_dressing_motion
     to: 'on'
     for:
       seconds: 2
@@ -303,7 +303,7 @@
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Slapen'] }}"
   - condition: template
-    value_template: "{{ states('binary_sensor.dressing_sensor_motion') in ['on'] }}"
+    value_template: "{{ states('binary_sensor.hue_sensor_dressing_motion') in ['on'] }}"
   - condition: template
     value_template: "{{ states('input_boolean.trigger_just_awake_dressing') in ['off'] }}"
   - condition: template
@@ -313,8 +313,8 @@
   - service: input_boolean.turn_on
     data_template:
       entity_id: >
-        {%- if states('input_select.woning_status') in ['Juist Wakker'] and states('binary_sensor.dressing_sensor_motion') in ['on'] -%}
+        {%- if states('input_select.woning_status') in ['Juist Wakker'] and states('binary_sensor.hue_sensor_dressing_motion') in ['on'] -%}
           input_boolean.trigger_just_awake_dressing
-        {%- elif states('input_select.woning_status') in ['Slapen'] and states('binary_sensor.dressing_sensor_motion') in ['on'] -%}
+        {%- elif states('input_select.woning_status') in ['Slapen'] and states('binary_sensor.hue_sensor_dressing_motion') in ['on'] -%}
           input_boolean.trigger_just_sleep_dressing
         {%- endif %}

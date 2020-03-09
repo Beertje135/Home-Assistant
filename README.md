@@ -66,11 +66,11 @@ Eg. the sequence script will turn on service script light 1 and service script l
 ```
 - alias: Licht - Keuken - Aan
   trigger:
-  - entity_id: binary_sensor.keuken_sensor_motion
+  - entity_id: binary_sensor.hue_sensor_keuken_motion
     platform: state
   condition:
   - condition: numeric_state
-    entity_id: sensor.keuken_sensor_light_level
+    entity_id: sensor.hue_sensor_keuken_light_level
     below: !secret lux_kitchen_low
   action:
   - service: script.turn_on
@@ -89,7 +89,7 @@ sequence:
 alias: Licht - Keuken - Milight TV - Aan
 sequence:
   - condition: numeric_state
-    entity_id: sensor.keuken_sensor_light_level
+    entity_id: sensor.hue_sensor_keuken_light_level
     below: !secret lux_kitchen_very_low
   - service: script.turn_on
     data_template:
@@ -111,7 +111,7 @@ sequence:
 alias: Licht - Keuken - Milight TV - Aan - Night
 sequence:
   - condition: numeric_state
-    entity_id: sensor.keuken_sensor_light_level
+    entity_id: sensor.hue_sensor_keuken_light_level
     below: !secret lux_kitchen_very_low
   - service: light.turn_on
     entity_id:

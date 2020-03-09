@@ -26,7 +26,7 @@
 - alias: Muziek - Radio - Play Downstairs 1
   trigger:
   - platform: state
-    entity_id: binary_sensor.living_sensor_motion
+    entity_id: binary_sensor.hue_sensor_woonkamer_motion
     from: 'off'
     to: 'on'
   condition:
@@ -59,7 +59,7 @@
 
 - alias: Muziek - Radio - Stop Downstairs
   trigger:
-  - entity_id: binary_sensor.living_sensor_motion
+  - entity_id: binary_sensor.hue_sensor_woonkamer_motion
     for:
       minutes: 15
     platform: state
@@ -97,7 +97,7 @@
 
 - alias: Muziek - Radio - Play Badkamer
   trigger:
-  - entity_id: binary_sensor.dressing_sensor_motion
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
     platform: state
     from: 'off'
     to: 'on'
@@ -123,7 +123,7 @@
 
 - alias: Muziek - Radio - Stop Badkamer
   trigger:
-  - entity_id: binary_sensor.dressing_sensor_motion
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
     for:
       minutes: 30
     platform: state
@@ -149,7 +149,7 @@
   - platform: template
     value_template: "{{ states('input_select.harmony_hub') in ['Powered Off', 'Alexa'] }}"
   - platform: state
-    entity_id: binary_sensor.keuken_sensor_motion
+    entity_id: binary_sensor.hue_sensor_keuken_motion
     from: 'off'
     to: 'on'
   - platform: state
@@ -161,7 +161,7 @@
     after: !secret radio_on
     before: !secret radio_off
   - condition: state
-    entity_id: binary_sensor.keuken_sensor_motion
+    entity_id: binary_sensor.hue_sensor_keuken_motion
     state: 'on'
   - condition: state
     entity_id: input_boolean.music_follow
@@ -190,7 +190,7 @@
 
 - alias: Muziek - Radio - Stop Keuken
   trigger:
-  - entity_id: binary_sensor.keuken_sensor_motion
+  - entity_id: binary_sensor.hue_sensor_keuken_motion
     for:
       minutes: 60
     platform: state

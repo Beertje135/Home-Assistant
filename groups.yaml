@@ -42,22 +42,22 @@
 
   licht_dressing:
     entities:
-      - light.hue_dressing_one
-      - light.hue_dressing_two
-      - light.hue_dressing_three
+      - light.hue_light_dressing_one
+      - light.hue_light_dressing_two
+      - light.hue_light_dressing_three
 
   licht_woonkamer:
     entities:
-      - light.hue_woonkamer
-      - light.hue_woonkamer_smart_plug_one
-      - light.hue_woonkamer_smart_plug_two
+      - light.hue_light_woonkamer
+      - light.hue_smart_plug_woonkamer_one
+      - light.hue_smart_plug_woonkamer_two
 
   licht_veranda:
     entities:
-      - light.hue_veranda
-      - light.hue_veranda_smart_plug
+      - light.hue_light_veranda
+      - light.hue_smart_plug_veranda
 
   licht_kamer_elmo:
     entities:
-      - light.hue_kamer_elmo_one
-      - light.hue_kamer_elmo_two
+      - light.hue_light_kamer_elmo_one
+      - light.hue_light_kamer_elmo_two

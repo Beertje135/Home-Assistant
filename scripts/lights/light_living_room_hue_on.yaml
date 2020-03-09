@@ -10,9 +10,9 @@ sequence:
           script.light_living_room_hue_on_standby
         {% elif states('input_select.harmony_hub') in ['Tv Decoder','Web OS','Apple Tv'] %}
           script.light_living_room_hue_on_dimmed
-        {% elif states('light.hue_woonkamer') in ['on'] %}
+        {% elif states('light.hue_light_woonkamer') in ['on'] %}
           script.light_living_room_hue_on_normal
-        {% elif states('light.hue_woonkamer') in ['off'] %}
+        {% elif states('light.hue_light_woonkamer') in ['off'] %}
           script.light_living_room_hue_on_normal
         {% else %}
           script.empty

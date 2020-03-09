@@ -10,28 +10,28 @@ light.milight_keuken:
 light.milight_badkamer:
   name: Badkamer LED Strip
 
-light.hue_veranda:
+light.hue_light_veranda:
   name: Veranda Flos Arco
-light.hue_kamer_elmo_one:
+light.hue_light_kamer_elmo_one:
   name: Elmo's Kamer Staanlamp
-light.hue_kamer_elmo_two:
+light.hue_light_kamer_elmo_two:
   name: Elmo's Kamer Lamp
-light.hue_woonkamer:
+light.hue_light_woonkamer:
   name: Woonkamer Lamp
-light.hue_dressing_one:
+light.hue_light_dressing_one:
   name: Dressing Lamp 1
-light.hue_dressing_two:
+light.hue_light_dressing_two:
   name: Dressing Lamp 2
-light.hue_dressing_three:
+light.hue_light_dressing_three:
   name: Dressing Lamp 3
 
-light.hue_veranda_smart_plug:
+light.hue_smart_plug_veranda:
   name: Veranda LED Lichtjes
-light.hue_woonkamer_smart_plug_two:
+light.hue_smart_plug_woonkamer_two:
   name: Woonkamer Spacewalker
-light.hue_woonkamer_smart_plug_one:
+light.hue_smart_plug_woonkamer_one:
   name: Woonkamer LED Lichtjes
-light.hue_keuken_smart_plug:
+light.hue_smart_plug_keuken:
   name: Keuken Speakers
 
 # INPUT SELECT
@@ -70,17 +70,17 @@ input_boolean.light_arlo:
 
 # SENSORS
 
-binary_sensor.keuken_sensor_motion:
+binary_sensor.hue_sensor_keuken_motion:
   name: Keuken Beweging
-sensor.keuken_sensor_light_level:
+sensor.hue_sensor_keuken_light_level:
   name: Keuken Lichtniveau
-binary_sensor.dressing_sensor_motion:
+binary_sensor.hue_sensor_dressing_motion:
   name: Dressing Beweging
-sensor.dressing_sensor_light_level:
+sensor.hue_sensor_dressing_light_level:
   name: Dressing Lichtniveau
-binary_sensor.living_sensor_motion:
+binary_sensor.hue_sensor_woonkamer_motion:
   name: Woonkamer Beweging
-sensor.living_sensor_light_level:
+sensor.hue_sensor_woonkamer_light_level:
   name: Woonkamer Lichtniveau
 sensor.humidity_arlobaby:
   name: Arlo Vochtigheid
