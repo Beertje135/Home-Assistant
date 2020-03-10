@@ -1,5 +1,5 @@
 
-alias: Vacuum - On
+alias: Dusty - Aan
 sequence:
   - condition: time
     after: '07:00:00'

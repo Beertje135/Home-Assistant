@@ -1,5 +1,5 @@
 
-alias: Vacuum - Off
+alias: Dusty - Uit
 sequence:
   - condition: template
     value_template: "{{ states('vacuum.dusty') in ['on'] }}"
