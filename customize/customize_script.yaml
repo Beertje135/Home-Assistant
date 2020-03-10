@@ -1,16 +1,16 @@
-    script.music_alexa_play_kitchen_spotify:
+    script.alexa_kitchen_1_play_spotify:
 #      friendly_name: 'Spotify'
       entity_picture: /local/music/spotify.jpeg
 
-    script.music_alexa_play_kitchen_stubru:
+    script.alexa_kitchen_1_play_stubru:
 #      friendly_name: 'Stu Bru'
       entity_picture: /local/music/stubru.jpeg
 
-    script.music_alexa_play_kitchen_mnm:
+    script.alexa_kitchen_1_play_mnm:
 #      friendly_name: 'MNM'
       entity_picture: /local/music/mnm.jpeg
 
-    script.music_alexa_play_kitchen_qmusic:
+    script.alexa_kitchen_1_play_qmusic:
 #      friendly_name: 'Q Music'
       entity_picture: /local/music/qmusic.jpeg
 

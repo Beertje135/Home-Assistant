@@ -5,9 +5,9 @@ sequence:
     data_template:
       entity_id: >
         {%- if (states('sensor.time') <= "09:00") and (now().weekday() in (0,1,2,3,4)) -%}
-          script.music_alexa_play_kitchen_mnm
+          script.alexa_kitchen_1_play_mnm
         {%- elif (states('sensor.time') <= "07:30") and (now().weekday() in (5,6)) -%}
-          script.music_alexa_play_kitchen_mnm
+          script.alexa_kitchen_1_play_mnm
         {%- else -%}
-          script.music_alexa_play_kitchen_mnm
+          script.alexa_kitchen_1_play_mnm
         {%- endif %}

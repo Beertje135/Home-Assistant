@@ -1,5 +1,5 @@
 
-alias: Licht - Woonkamer - Uit
+alias: Woonkamer - Licht - Uit
 sequence:
   - service: light.turn_off
     entity_id:

@@ -222,16 +222,16 @@ views:
                         buttons:
                         - name: MNM
                           type: script
-                          id: script.music_alexa_play_kitchen_mnm
+                          id: script.alexa_kitchen_1_play_mnm
                         - name: StuBru
                           type: script
-                          id: script.music_alexa_play_kitchen_stubru
+                          id: script.alexa_kitchen_1_play_stubru
                         - name: Q-Music
                           type: script
-                          id: script.music_alexa_play_kitchen_qmusic
+                          id: script.alexa_kitchen_1_play_qmusic
                         - name: Spotify
                           type: script
-                          id: script.music_alexa_play_kitchen_spotify
+                          id: script.alexa_kitchen_1_play_spotify
                     show_empty: false
                     show_header_toggle: false
                     state_filter:
@@ -354,16 +354,16 @@ views:
                           buttons:
                             - name: MNM
                               type: script
-                              id: script.music_alexa_play_bathroom_mnm
+                              id: script.alexa_bathroom_play_mnm
                             - name: StuBru
                               type: script
-                              id: script.music_alexa_play_bathroom_stubru
+                              id: script.alexa_bathroom_play_stubru
                             - name: Q-Music
                               type: script
-                              id: script.music_alexa_play_bathroom_qmusic
+                              id: script.alexa_bathroom_play_qmusic
                             - name: Spotify
                               type: script
-                              id: script.music_alexa_play_bathroom_spotify
+                              id: script.alexa_bathroom_play_spotify
                     show_empty: false
                     show_header_toggle: false
                     state_filter:
@@ -877,16 +877,16 @@ views:
                           list:
                             - name: MNM
                               type: script
-                              id: script.music_alexa_play_kitchen_mnm
+                              id: script.alexa_kitchen_1_play_mnm
                             - name: StuBru
                               type: script
-                              id: script.music_alexa_play_kitchen_stubru
+                              id: script.alexa_kitchen_1_play_stubru
                             - name: Q-Music
                               type: script
-                              id: script.music_alexa_play_kitchen_qmusic
+                              id: script.alexa_kitchen_1_play_qmusic
                             - name: Spotify
                               type: script
-                              id: script.music_alexa_play_kitchen_spotify
+                              id: script.alexa_kitchen_1_play_spotify
               - title: Elmo's Kamer
                 type: vertical-stack
                 cards:
@@ -1067,16 +1067,16 @@ views:
                           list:
                             - name: MNM
                               type: script
-                              id: script.music_alexa_play_bathroom_mnm
+                              id: script.alexa_bathroom_play_mnm
                             - name: StuBru
                               type: script
-                              id: script.music_alexa_play_bathroom_stubru
+                              id: script.alexa_bathroom_play_stubru
                             - name: Q-Music
                               type: script
-                              id: script.music_alexa_play_bathroom_qmusic
+                              id: script.alexa_bathroom_play_qmusic
                             - name: Spotify
                               type: script
-                              id: script.music_alexa_play_bathroom_spotify
+                              id: script.alexa_bathroom_play_spotify
               - title: Dressing
                 type: vertical-stack
                 cards:
@@ -1291,16 +1291,16 @@ views:
                           list:
                             - name: MNM
                               type: script
-                              id: script.music_alexa_play_kitchen_mnm
+                              id: script.alexa_kitchen_1_play_mnm
                             - name: StuBru
                               type: script
-                              id: script.music_alexa_play_kitchen_stubru
+                              id: script.alexa_kitchen_1_play_stubru
                             - name: Q-Music
                               type: script
-                              id: script.music_alexa_play_kitchen_qmusic
+                              id: script.alexa_kitchen_1_play_qmusic
                             - name: Spotify
                               type: script
-                              id: script.music_alexa_play_kitchen_spotify
+                              id: script.alexa_kitchen_1_play_spotify
                         type: 'custom:mini-media-player'
                       - artwork: cover
                         entity: media_player.alexa_bathroom
@@ -1322,16 +1322,16 @@ views:
                           list:
                             - name: MNM
                               type: script
-                              id: script.music_alexa_play_bathroom_mnm
+                              id: script.alexa_bathroom_play_mnm
                             - name: StuBru
                               type: script
-                              id: script.music_alexa_play_bathroom_stubru
+                              id: script.alexa_bathroom_play_stubru
                             - name: Q-Music
                               type: script
-                              id: script.music_alexa_play_bathroom_qmusic
+                              id: script.alexa_bathroom_play_qmusic
                             - name: Spotify
                               type: script
-                              id: script.music_alexa_play_bathroom_spotify
+                              id: script.alexa_bathroom_play_spotify
                         type: 'custom:mini-media-player'
                       - artwork: cover
                         entity: media_player.alexa_livingroom_1
@@ -1412,16 +1412,16 @@ views:
                           list:
                             - name: MNM
                               type: script
-                              id: script.music_alexa_play_downstairs_mnm
+                              id: script.alexa_downstairs_play_mnm
                             - name: StuBru
                               type: script
-                              id: script.music_alexa_play_downstairs_stubru
+                              id: script.alexa_downstairs_play_stubru
                             - name: Q-Music
                               type: script
-                              id: script.music_alexa_play_downstairs_qmusic
+                              id: script.alexa_downstairs_play_qmusic
                             - name: Spotify
                               type: script
-                              id: script.music_alexa_play_downstairs_spotify
+                              id: script.alexa_downstairs_play_spotify
                         name: Beneden
                         idle_view:
                           when_idle: true
@@ -1443,16 +1443,16 @@ views:
                           list:
                             - name: MNM
                               type: script
-                              id: script.music_alexa_play_everywhere_mnm
+                              id: script.alexa_everywhere_play_mnm
                             - name: StuBru
                               type: script
-                              id: script.music_alexa_play_everywhere_stubru
+                              id: script.alexa_everywhere_play_stubru
                             - name: Q-Music
                               type: script
-                              id: script.music_alexa_play_everywhere_qmusic
+                              id: script.alexa_everywhere_play_qmusic
                             - name: Spotify
                               type: script
-                              id: script.music_alexa_play_everywhere_spotify
+                              id: script.alexa_everywhere_play_spotify
                         name: Overal
                         idle_view:
                           when_idle: true

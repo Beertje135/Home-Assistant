@@ -279,7 +279,7 @@
   action:
     - service: script.turn_on
       entity_id:
-        - script.music_follow_disable
+        - script.music_follow_off
         - script.music_stop_kitchen
 
 - alias: Muziek - Follow - Enable
@@ -321,7 +321,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.music_follow_enable
+      - script.music_follow_on
 
 - alias: Muziek - Follow - Enable 2
   trigger:
@@ -334,7 +334,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.music_follow_enable
+      - script.music_follow_on
 
 # RADIO VOLUME
 

@@ -1,5 +1,5 @@
 
-alias: Licht - Woonkamer - Aan
+alias: Woonkamer - Licht - Aan
 sequence:
   - service: script.turn_on
     entity_id:

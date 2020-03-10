@@ -39,8 +39,8 @@ Further we have radio(alexa), visitors(presence), doorbell(ESPHome), notificatio
 ### Naming Convention
 ### Scripts
 
-Everywhere: what_all_action     e.g. light_all_off, music_all_on  
-Room:       what_where_action   e.g. light_bathroom_on, music_kitchen_on  
+Everywhere: all_what_action     e.g. all_light_off, all_music_on  
+Room:       where_what_action   e.g. bathroom_light_on, kitchen_music_on  
 Entity:     entity_action       e.g. arlo_light_on, alexa_bathroom_play_mnm  
 
 
@@ -82,7 +82,7 @@ Eg. the sequence script will turn on service script light 1 and service script l
     below: !secret lux_kitchen_low
   action:
   - service: script.turn_on
-    entity_id: script.light_keuken_on
+    entity_id: script.keuken_light_on
 ```
 ### Sequence Script
 ```
