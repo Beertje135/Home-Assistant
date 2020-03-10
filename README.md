@@ -36,6 +36,14 @@ Further we have radio(alexa), visitors(presence), doorbell(ESPHome), notificatio
 
 ## Configuration Best Practices
 
+### Naming Convention
+### Scripts
+
+Everywhere: what_all_action     e.g. light_all_off, music_all_on
+Room:       what_where_action   e.g. light_bathroom_on, music_kitchen_on
+Entity:     entity_action       e.g. arlo_light_on, alexa_bathroom_play_mnm
+
+
 ## Templates
 
 ## Sensors
