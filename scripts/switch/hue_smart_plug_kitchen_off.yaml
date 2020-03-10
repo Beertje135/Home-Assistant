@@ -1,5 +1,4 @@
-
-alias: Alles Uit - Switch
+alias: Hue Smart Plug - Keuken - Uit
 sequence:
   - service: light.turn_off
     entity_id:

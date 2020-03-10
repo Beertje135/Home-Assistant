@@ -20,32 +20,32 @@
           script.input_light_all_beneden_on,
           script.music_follow_on,
           script.remote_kitchen_pc_on,
-          script.vacuum_off
+          script.dusty_off
         {%- elif states('input_select.woning_status') in ['Juist Wakker'] -%}
           script.input_light_all_beneden_on,
           script.music_follow_on,
           script.remote_kitchen_pc_on
         {%- elif states('input_select.woning_status') in ['Thuis'] -%}
-          script.vacuum_off
+          script.dusty_off
         {%- elif states('input_select.woning_status') in ['Thuis (Verlof)'] -%}
-          script.vacuum_off
+          script.dusty_off
         {%- elif states('input_select.woning_status') in ['Thuis (Werk)'] -%}
-          script.vacuum_off
+          script.dusty_off
         {%- elif states('input_select.woning_status') in ['Juist Weg'] -%}
-          script.all_off_light,
-          script.all_off_music,
+          script.all_light_off,
+          script.all_music_off,
           script.remote_livingroom_tv_off
         {%- elif states('input_select.woning_status') in ['Slapen'] -%}
           script.veranda_light_off,
           script.woonkamer_light_off,
-          script.all_off_switch,
-          script.all_off_music,
-          script.all_off_remote
+          script.all_switch_off,
+          script.all_music_off,
+          script.all_remote_off
         {%- elif states('input_select.woning_status') in ['Weg'] -%}
-          script.all_off,
-          script.vacuum_on
+          script.all_all_off,
+          script.dusty_on
         {%- elif states('input_select.woning_status') in ['Op Vakantie'] -%}
-          script.all_off
+          script.all_all_off
         {%- else -%}
           script.empty
         {%- endif %}

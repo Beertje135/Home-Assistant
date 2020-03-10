@@ -112,4 +112,4 @@
       - fri
   action:
   - service: script.turn_on
-    entity_id: script.vacuum_on
+    entity_id: script.dusty_on

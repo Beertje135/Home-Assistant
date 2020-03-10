@@ -106,9 +106,9 @@ climate.ons_huisje:
 
 # VACUUM
 
-script.vacuum_on:
+script.dusty_on:
   name: Veranda Dusty Start
-script.vacuum_off:
+script.dusty_off:
   name: Veranda Dusty Stop
 input_boolean.vacuum_cleaned_today:
   name: Veranda Dusty klaar

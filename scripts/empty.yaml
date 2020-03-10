@@ -1,4 +1,4 @@
 
-alias: Alles - Dummy Script
+alias: Empty
 sequence:
   - delay: 00:00:00

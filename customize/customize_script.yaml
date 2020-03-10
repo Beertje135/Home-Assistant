@@ -18,10 +18,10 @@
 #      friendly_name: 'Radio'
       icon: mdi:radio
 
-    script.vacuum_on:
+    script.dusty_on:
       icon: mdi:robot-vacuum
 #      friendly_name: Dusty Start
 
-    script.vacuum_off:
+    script.dusty_off:
       icon: mdi:robot-vacuum
 #      friendly_name: Dusty Stop

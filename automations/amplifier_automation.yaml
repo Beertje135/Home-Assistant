@@ -271,7 +271,7 @@
   action:
     - service: script.turn_on
       entity_id:
-        - script.switch_kitchen_speakers_on
+        - script.hue_smart_plug_kitchen_on
 
 - alias: Amplifier Keuken - Uit - Echo Not Playing
   trigger:
@@ -320,4 +320,4 @@
   action:
     - service: script.turn_on
       entity_id:
-        - script.switch_kitchen_speakers_off
+        - script.hue_smart_plug_kitchen_off

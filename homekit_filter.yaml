@@ -30,8 +30,8 @@ include_entities:
   - group.bezoekers
   - device_tracker.router_iphone_bert
   - device_tracker.router_iphone_caro
-  - script.vacuum_on
-  - script.vacuum_off
+  - script.dusty_on
+  - script.dusty_off
   - switch.wake_on_lan
   - switch.deurbel_voor_chime_active
   - switch.adguard_protection
