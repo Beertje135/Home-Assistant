@@ -1,0 +1,15 @@
+
+alias: Hue Light - Dressing - Aan - Dimmed
+sequence:
+  - service: light.turn_on
+    entity_id:
+      - light.hue_light_dressing_two
+    data:
+      color_temp: 365
+      brightness: 5
+  - service: light.turn_on
+    entity_id:
+      - light.hue_light_dressing_one
+      - light.hue_light_dressing_three
+    data:
+      brightness: 5

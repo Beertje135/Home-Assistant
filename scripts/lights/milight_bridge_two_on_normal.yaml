@@ -1,0 +1,9 @@
+
+alias: Milight Bridge Two - Aan - Normal
+sequence:
+  - service: light.turn_on
+    entity_id:
+      - light.milight_woonkamer_bridge
+    data_template:
+      effect: white
+      brightness: 255

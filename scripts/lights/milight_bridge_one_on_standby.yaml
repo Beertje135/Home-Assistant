@@ -1,0 +1,12 @@
+
+alias: Milight Bridge One - Aan - Standby
+sequence:
+  - condition: numeric_state
+    entity_id: sensor.hue_sensor_keuken_light_level
+    below: !secret lux_kitchen_very_low
+  - service: light.turn_on
+    entity_id:
+      - light.milight_keuken_bridge
+    data:
+      hs_color: [195.059,100]
+      brightness: 200

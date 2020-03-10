@@ -1,0 +1,17 @@
+
+alias: Hue Light - Dressing - Aan
+sequence:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') >= '05:01' or states('sensor.time') <= '23:00') %}
+          script.hue_light_dressing_on_dimmed
+        {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') >= '23:01' or states('sensor.time') <= '05:00') %}
+          script.hue_light_dressing_on_night
+        {% elif states('input_select.woning_status') in ['Juist Wakker'] %}
+          script.hue_light_dressing_on_dimmed
+        {% elif states('sensor.time') >= '22:00' or states('sensor.time') <= '06:20' %}
+          script.hue_light_dressing_on_dimmed
+        {% else %}
+          script.hue_light_dressing_on_normal
+        {% endif %}

@@ -1,0 +1,9 @@
+
+alias: Licht - Woonkamer - Aan
+sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.hue_light_woonkamer_on
+      - script.hue_smart_plug_woonkamer_one_on
+      - script.hue_smart_plug_woonkamer_two_on
+      - script.milight_bridge_two_on

@@ -1,7 +1,0 @@
-
-alias: Licht - All - Keuken - Aan
-sequence:
-  - service: script.turn_on
-    entity_id:
-      - script.light_kitchen_milight_on
-      - script.light_kitchen_milight_tv_on

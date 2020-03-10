@@ -2,7 +2,7 @@
 
 # PLAY RADIO DOWNSTAIRS
 
-- alias: Muziek - Radio - Play Downstairs 2
+- alias: Muziek - Downstairs - Play 2
   trigger:
   - platform: state
     to: 'playing'
@@ -23,7 +23,7 @@
     entity_id:
       - script.music_play_downstairs
 
-- alias: Muziek - Radio - Play Downstairs 1
+- alias: Muziek - Downstairs - Play 1
   trigger:
   - platform: state
     entity_id: binary_sensor.hue_sensor_woonkamer_motion
@@ -57,13 +57,15 @@
     entity_id:
       - script.music_play_downstairs
 
-- alias: Muziek - Radio - Stop Downstairs
+- alias: Muziek - Downstairs - Stop
   trigger:
   - entity_id: binary_sensor.hue_sensor_woonkamer_motion
     for:
       minutes: 15
     platform: state
     to: 'off'
+  - platform: time
+    at: !secret radio_off
   condition:
   - condition: template
     value_template: "{{ states('media_player.alexa_downstairs') in ['playing'] }}"
@@ -74,7 +76,7 @@
 
 # PLAY RADIO IN LIVING ROOM
 
-- alias: Muziek - Radio - Woonkamer
+- alias: Muziek - Woonkamer - Play
   trigger:
   - platform: state
     entity_id: input_select.harmony_hub
@@ -93,9 +95,28 @@
           script.empty
         {%- endif %}
 
+- alias: Muziek - Woonkamer - Stop
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_woonkamer_motion
+    for:
+      minutes: 15
+    platform: state
+    to: 'off'
+  - platform: time
+    at: !secret radio_off
+  condition:
+  - condition: template
+    value_template: "{{ states('media_player.alexa_livingroom_1') in ['playing'] }}"
+  - condition: template
+    value_template: "{{ states('media_player.alexa_downstairs') not in ['playing'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.music_stop_living_room
+
 # PLAY RADIO IN BATHROOM
 
-- alias: Muziek - Radio - Play Badkamer
+- alias: Muziek - Badkamer - Play
   trigger:
   - entity_id: binary_sensor.hue_sensor_dressing_motion
     platform: state
@@ -121,7 +142,7 @@
     entity_id:
       - script.music_play_bathroom
 
-- alias: Muziek - Radio - Stop Badkamer
+- alias: Muziek - Badkamer - Stop
   trigger:
   - entity_id: binary_sensor.hue_sensor_dressing_motion
     for:
@@ -138,7 +159,7 @@
 
 # PLAY RADIO IN KITCHEN
 
-- alias: Muziek - Radio - Play Keuken
+- alias: Muziek - Keuken - Play
   trigger:
   - platform: state
     entity_id:
@@ -188,7 +209,7 @@
       - script.music_play_kitchen
   - delay: '00:10:00'
 
-- alias: Muziek - Radio - Stop Keuken
+- alias: Muziek - Keuken - Stop
   trigger:
   - entity_id: binary_sensor.hue_sensor_keuken_motion
     for:
@@ -220,7 +241,7 @@
 
 # TEMPORARY DISABLE MUSIC FOLLOW
 
-- alias: Muziek - Radio - Temporary disable music follow
+- alias: Muziek - Follow - Disable
   trigger:
   - entity_id: media_player.alexa_kitchen_1
     platform: state
@@ -261,7 +282,7 @@
         - script.music_follow_disable
         - script.music_stop_kitchen
 
-- alias: Muziek - Radio - Follow Enable
+- alias: Muziek - Follow - Enable
   trigger:
   - entity_id: media_player.alexa_kitchen_1
     platform: state
@@ -302,7 +323,7 @@
     entity_id:
       - script.music_follow_enable
 
-- alias: Muziek - Radio - Follow Enable 2
+- alias: Muziek - Follow - Enable 2
   trigger:
   - entity_id: input_boolean.music_follow
     platform: state
@@ -317,7 +338,7 @@
 
 # RADIO VOLUME
 
-- alias: Muziek - Radio - Volume wanneer Living Room
+- alias: Muziek - Volume - Woonkamer
   trigger:
   - platform: template
     value_template: "{{ states('input_select.harmony_hub') in ['Alexa'] }}"
@@ -332,7 +353,7 @@
     entity_id:
       - script.music_volume_living_room
 
-- alias: Muziek - Radio - Volume wanneer beiden thuis
+- alias: Muziek - Volume - Beiden Thuis
   trigger:
   - platform: state
     to: home
@@ -352,3 +373,14 @@
       - script.music_volume_kitchen
       - script.music_volume_living_room
       - script.music_volume_bathroom
+
+- alias: Muziek - Volume - Woonkamer Nieuws
+  trigger:
+  - platform: time
+    at: '19:00:00'
+  condition:
+  - condition: template
+    value_template: "{{ (states('media_player.alexa_livingroom_1') in ['playing'] and states('input_select.harmony_hub') in ['Alexa']) }}"
+  action:
+  - service: script.turn_on
+    entity_id: script.music_volume_living_room

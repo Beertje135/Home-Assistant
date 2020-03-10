@@ -1,0 +1,9 @@
+
+alias: Milight Bridge Two - Aan - Night
+sequence:
+  - service: light.turn_on
+    entity_id:
+      - light.milight_woonkamer_bridge
+    data_template:
+      hs_color: [0,100]
+      brightness: 200

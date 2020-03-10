@@ -74,7 +74,7 @@ Eg. the sequence script will turn on service script light 1 and service script l
     below: !secret lux_kitchen_low
   action:
   - service: script.turn_on
-    entity_id: script.light_kitchen_all_on
+    entity_id: script.light_keuken_on
 ```
 ### Sequence Script
 ```
@@ -82,8 +82,8 @@ alias: Licht - Keuken - All - Aan
 sequence:
   - service: script.turn_on
     entity_id:
-      - script.light_kitchen_milight_on
-      - script.light_kitchen_milight_tv_on
+      - script.milight_one_on
+      - script.milight_bridge_one_on
 ```
 ```
 alias: Licht - Keuken - Milight TV - Aan
@@ -95,15 +95,15 @@ sequence:
     data_template:
       entity_id: >
         {%- if states('input_select.woning_status') in ['Slapen'] -%}
-          script.light_kitchen_milight_tv_on_night
+          script.milight_bridge_one_on_night
         {%- elif states('input_boolean.light_downstairs') in ['off'] -%}
-          script.light_kitchen_milight_tv_on_standby      
+          script.milight_bridge_one_on_standby      
         {%- elif states('group.bezoekers') in ['not_home'] and (states('sensor.time') <= '06:00' or states('sensor.time') >= '23:00') -%}
-          script.light_kitchen_milight_tv_on_dimmed
+          script.milight_bridge_one_on_dimmed
         {%- elif states('input_boolean.media_kitchen') in ['on'] -%}
-          script.light_kitchen_milight_tv_on_standby
+          script.milight_bridge_one_on_standby
         {%- else -%}
-          script.light_kitchen_milight_tv_on_normal
+          script.milight_bridge_one_on_normal
         {%- endif %}
 ```
 ### Service Script

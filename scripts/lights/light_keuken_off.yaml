@@ -1,0 +1,7 @@
+
+alias: Licht - Keuken - Uit
+sequence:
+  - service: light.turn_off
+    entity_id:
+      - light.milight_keuken
+      - light.milight_keuken_bridge

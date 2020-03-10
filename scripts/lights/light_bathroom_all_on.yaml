@@ -1,6 +1,0 @@
-
-alias: Licht - All - Badkamer - Aan
-sequence:
-  - service: script.turn_on
-    entity_id:
-      - script.light_bathroom_milight_on

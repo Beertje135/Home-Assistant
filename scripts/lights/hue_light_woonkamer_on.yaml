@@ -1,0 +1,19 @@
+
+alias: Hue Light - Woonkamer - Aan
+sequence:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if states('input_select.woning_status') in ['Slapen'] %}
+          script.hue_light_woonkamer_on_night
+        {% elif states('input_boolean.media_livingroom') in ['on'] %}
+          script.hue_light_woonkamer_on_standby
+        {% elif states('input_select.harmony_hub') in ['Tv Decoder','Web OS','Apple Tv'] %}
+          script.hue_light_woonkamer_on_dimmed
+        {% elif states('light.hue_light_woonkamer') in ['on'] %}
+          script.hue_light_woonkamer_on_normal
+        {% elif states('light.hue_light_woonkamer') in ['off'] %}
+          script.hue_light_woonkamer_on_normal
+        {% else %}
+          script.empty
+        {% endif %}

@@ -1,0 +1,7 @@
+
+alias: Licht - Elmo - Aan
+sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.hue_light_elmo_one_on
+      - script.arlo_light_on

@@ -36,8 +36,8 @@
           script.all_off_music,
           script.remote_livingroom_tv_off
         {%- elif states('input_select.woning_status') in ['Slapen'] -%}
-          script.light_veranda_all_off,
-          script.light_living_room_all_off,
+          script.light_veranda_off,
+          script.light_woonkamer_off,
           script.all_off_switch,
           script.all_off_music,
           script.all_off_remote

@@ -1,0 +1,13 @@
+
+alias: Hue Light - Elmo One - Aan
+sequence:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('input_select.woning_status') not in ['Op Vakantie', 'Juisst Weg', 'Weg'] and (states('sensor.time') >= '19:59' or states('sensor.time') < '06:29') -%}
+          script.hue_light_elmo_one_on_night
+        {%- elif states('input_select.woning_status') not in ['Op Vakantie', 'Juisst Weg', 'Weg'] and (states('sensor.time') >= '06:29' or states('sensor.time') <= '07:01') -%}
+          script.hue_light_elmo_one_on_standby
+        {%- else -%}
+          script.hue_light_elmo_one_on_normal
+        {%- endif %}

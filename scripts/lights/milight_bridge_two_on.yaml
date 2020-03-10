@@ -1,0 +1,15 @@
+
+alias: Milight Bridge Two - Aan
+sequence:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('input_select.woning_status') in ['Slapen'] -%}
+          script.milight_bridge_two_on_night
+        {%- elif states('input_boolean.media_livingroom') in ['on'] -%}
+          script.milight_bridge_two_on_standby
+        {%- elif states('input_select.harmony_hub') in ['Powered Off', 'Alexa'] -%}
+          script.milight_bridge_two_off
+        {%- else -%}
+          script.milight_bridge_two_on_normal
+        {%- endif %}

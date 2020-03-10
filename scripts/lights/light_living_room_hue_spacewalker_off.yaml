@@ -1,6 +1,0 @@
-
-alias: Licht - Hue - Woonkamer - Uit - Spacewalker
-sequence:
-  - service: light.turn_off
-    entity_id:
-      - light.hue_smart_plug_woonkamer_two
