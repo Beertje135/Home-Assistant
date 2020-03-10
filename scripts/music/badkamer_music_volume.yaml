@@ -1,5 +1,5 @@
 
-alias: Music - Volume Badkamer
+alias: Badkamer - Music - Volume
 sequence:
   - service: media_player.volume_set
     data_template:

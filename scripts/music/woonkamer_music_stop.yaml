@@ -1,5 +1,5 @@
 
-alias: Music - Stop Woonkamer
+alias: Woonkamer - Music - Stop
 sequence:
   - service: media_player.turn_off
     entity_id:

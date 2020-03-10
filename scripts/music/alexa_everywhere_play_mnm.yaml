@@ -1,5 +1,5 @@
 
-alias: Music - Alexa - Play Overal MNM
+alias: Alexa Everywhere - Play MNM
 sequence:
   - service: media_player.play_media
     data:
@@ -9,6 +9,6 @@ sequence:
   - delay: 00:00:05
   - service: script.turn_on
     entity_id:
-      - script.music_volume_kitchen
-      - script.music_volume_living_room
-      - script.music_volume_bathroom
+      - script.keuken_music_volume
+      - script.woonkamer_music_volume
+      - script.badkamer_music_volume

@@ -1,5 +1,5 @@
 
-alias: Music - Stop Beneden
+alias: Beneden - Music - Stop
 sequence:
   - service: media_player.turn_off
     entity_id:
@@ -14,4 +14,4 @@ sequence:
           {%- endif %}
   - service: script.turn_on
     entity_id:
-      - script.music_play_kitchen
+      - script.keuken_music_play

@@ -1,16 +1,14 @@
 
-alias: Music - Volume Woonkamer
+alias: Keuken - Music - Volume
 sequence:
   - service: media_player.volume_set
     data_template:
-      entity_id: media_player.alexa_livingroom_1
+      entity_id: media_player.alexa_kitchen_1
       volume_level: >
         {%- if (states('sensor.time') <= "08:30") and (now().weekday() in (0,1,2,3,4)) -%}
-          0.7
+          0.08
         {%- elif (states('sensor.time') <= "07:30") and (now().weekday() in (5,6)) -%}
-          0.7
-        {%- elif (states('sensor.time') >= "18:59") -%}
-          1.0
+          0.08
         {%- else -%}
-          0.85
+          0.3
         {%- endif %}

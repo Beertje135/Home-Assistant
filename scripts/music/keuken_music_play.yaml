@@ -1,5 +1,5 @@
 
-alias: Music - Play Keuken
+alias: Keuken - Music - Play
 sequence:
   - service: script.turn_on
     data_template:

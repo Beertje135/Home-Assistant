@@ -14,7 +14,7 @@
 #      friendly_name: 'Q Music'
       entity_picture: /local/music/qmusic.jpeg
 
-    script.music_play_kitchen:
+    script.keuken_music_play:
 #      friendly_name: 'Radio'
       icon: mdi:radio
 

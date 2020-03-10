@@ -1,5 +1,5 @@
 
-alias: Music - Alexa - Play Overal Spotify
+alias: Alexa Everywhere - Play Spotify
 sequence:
   - service: switch.turn_on
     entity_id: light.hue_smart_plug_keuken
@@ -13,6 +13,6 @@ sequence:
   - delay: 00:00:05
   - service: script.turn_on
     entity_id:
-      - script.music_volume_kitchen
-      - script.music_volume_living_room
-      - script.music_volume_bathroom
+      - script.keuken_music_volume
+      - script.woonkamer_music_volume
+      - script.badkamer_music_volume

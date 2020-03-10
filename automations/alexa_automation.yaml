@@ -21,7 +21,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.music_play_downstairs
+      - script.beneden_music_play
 
 - alias: Muziek - Downstairs - Play 1
   trigger:
@@ -55,7 +55,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.music_play_downstairs
+      - script.beneden_music_play
 
 - alias: Muziek - Downstairs - Stop
   trigger:
@@ -72,7 +72,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.music_stop_downstairs
+      - script.beneden_music_stop
 
 # PLAY RADIO IN LIVING ROOM
 
@@ -88,9 +88,9 @@
     data_template:
       entity_id: >
         {%- if states('media_player.alexa_livingroom_1') not in ['playing'] and states('media_player.alexa_downstairs') not in ['playing'] and states('media_player.alexa_everywhere') not in ['playing'] and states('input_select.harmony_hub') in ['Alexa'] -%}
-          script.music_play_living_room
+          script.woonkamer_music_play
         {%- elif states('media_player.alexa_livingroom_1') in ['playing'] and states('input_select.harmony_hub') not in ['Alexa'] -%}
-          script.music_stop_living_room
+          script.woonkamer_music_stop
         {%- else -%}
           script.empty
         {%- endif %}
@@ -112,7 +112,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.music_stop_living_room
+      - script.woonkamer_music_stop
 
 # PLAY RADIO IN BATHROOM
 
@@ -140,7 +140,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.music_play_bathroom
+      - script.badkamer_music_play
 
 - alias: Muziek - Badkamer - Stop
   trigger:
@@ -155,7 +155,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.music_stop_bathroom
+      - script.badkamer_music_stop
 
 # PLAY RADIO IN KITCHEN
 
@@ -206,7 +206,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.music_play_kitchen
+      - script.keuken_music_play
   - delay: '00:10:00'
 
 - alias: Muziek - Keuken - Stop
@@ -237,7 +237,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.music_stop_kitchen
+      - script.keuken_music_stop
 
 # TEMPORARY DISABLE MUSIC FOLLOW
 
@@ -280,7 +280,7 @@
     - service: script.turn_on
       entity_id:
         - script.music_follow_off
-        - script.music_stop_kitchen
+        - script.keuken_music_stop
 
 - alias: Muziek - Follow - Enable
   trigger:
@@ -351,7 +351,7 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.music_volume_living_room
+      - script.woonkamer_music_volume
 
 - alias: Muziek - Volume - Beiden Thuis
   trigger:
@@ -370,9 +370,9 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.music_volume_kitchen
-      - script.music_volume_living_room
-      - script.music_volume_bathroom
+      - script.keuken_music_volume
+      - script.woonkamer_music_volume
+      - script.badkamer_music_volume
 
 - alias: Muziek - Volume - Woonkamer Nieuws
   trigger:
@@ -383,4 +383,4 @@
     value_template: "{{ (states('media_player.alexa_livingroom_1') in ['playing'] and states('input_select.harmony_hub') in ['Alexa']) }}"
   action:
   - service: script.turn_on
-    entity_id: script.music_volume_living_room
+    entity_id: script.woonkamer_music_volume

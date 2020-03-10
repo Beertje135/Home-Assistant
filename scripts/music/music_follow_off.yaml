@@ -1,5 +1,5 @@
 
-alias: Music - Follow Disable
+alias: Music Follow - Off
 sequence:
   - service: input_boolean.turn_off
     data:

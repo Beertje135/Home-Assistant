@@ -1,5 +1,5 @@
 
-alias: Music - Stop Keuken
+alias: Keuken - Music - Stop
 sequence:
   - condition: state
     entity_id: media_player.alexa_kitchen_1
