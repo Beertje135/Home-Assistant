@@ -4,7 +4,7 @@ sequence:
   - service: script.turn_on
     data_template:
       entity_id: >
-        {% if states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') >= '05:01' or states('sensor.time') <= '23:00') %}
+        {% if states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') > '05:01' and states('sensor.time') < '23:00') %}
           script.hue_light_dressing_on_dimmed
         {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') >= '23:01' or states('sensor.time') <= '05:00') %}
           script.hue_light_dressing_on_night

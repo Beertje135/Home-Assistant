@@ -1,5 +1,5 @@
 
-alias: Remote - TV Pause - Belgacom
+alias: Remote Harmony Hub - Belgacom DVR - Pause
 sequence:
   - service: remote.send_command
     data:

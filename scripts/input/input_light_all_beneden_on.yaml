@@ -1,5 +1,5 @@
 
-alias: Licht - All - Beneden - Aan
+alias: Light Downstairs - Aan
 sequence:
   - service: input_boolean.turn_on
     entity_id:

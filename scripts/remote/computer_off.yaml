@@ -1,5 +1,5 @@
 
-alias: Remote - PC uit
+alias: Computer - Uit
 sequence:
   - condition: state
     entity_id: input_boolean.keep_pc_on

@@ -385,4 +385,4 @@ switch:
     mac: !secret mac_computer_lan
     host: !secret ip_computer_lan
     turn_off:
-      service: script.remote_kitchen_pc_off
+      service: script.computer_off

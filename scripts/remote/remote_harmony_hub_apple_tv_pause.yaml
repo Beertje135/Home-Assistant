@@ -1,5 +1,5 @@
 
-alias: Remote - TV Pause - Apple TV
+alias: Remote Harmony Hub - Apple Tv - Pause
 sequence:
   - service: remote.send_command
     data:

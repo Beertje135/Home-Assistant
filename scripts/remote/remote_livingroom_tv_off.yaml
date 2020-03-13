@@ -1,7 +1,0 @@
-
-alias: Remote - Alles uit
-sequence:
-  - service: remote.turn_off
-    entity_id:
-      - remote.harmony_hub
-      - remote.living_room

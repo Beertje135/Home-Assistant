@@ -1,5 +1,5 @@
 
-alias: Remote - PC Aan
+alias: Computer - Aan
 sequence:
   - condition: state
     entity_id: group.bewoners

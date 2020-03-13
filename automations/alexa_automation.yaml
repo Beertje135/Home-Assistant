@@ -53,6 +53,9 @@
   - condition: template
     value_template: "{{ states('media_player.alexa_everywhere') not in ['playing'] }}"
   action:
+  - delay: '00:02:00'
+  - condition: template
+    value_template: "{{ states('input_select.harmony_hub') in ['Powered Off', 'Alexa'] }}"
   - service: script.turn_on
     entity_id:
       - script.beneden_music_play
@@ -248,23 +251,10 @@
     from: 'playing'
     to: 'paused'
   condition:
-  - condition: or
-    conditions:
-      - condition: state
-        entity_id: media_player.alexa_downstairs
-        state: 'paused'
-        for:
-          minutes: 5
-      - condition: state
-        entity_id: media_player.alexa_downstairs
-        state: 'standby'
-        for:
-          minutes: 5
-      - condition: state
-        entity_id: media_player.alexa_downstairs
-        state: 'unavailable'
-        for:
-          minutes: 5
+  - condition: template
+    value_template: "{{ states('media_player.alexa_downstairs') not in ['playing'] }}"
+    for:
+      minutes: 5
   - condition: state
     entity_id: input_boolean.music_follow
     state: 'on'

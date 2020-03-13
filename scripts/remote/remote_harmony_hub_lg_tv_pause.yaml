@@ -1,5 +1,5 @@
 
-alias: Remote - TV Pause - Web OS
+alias: Remote Harmony Hub - LG Tv - Pause
 sequence:
   - service: remote.send_command
     data:
