@@ -2,9 +2,8 @@
 
 - alias: Harmony Hub - Boolean Change based on Hub Status (A1)
   trigger:
-    - platform: state
-      entity_id: remote.harmony_hub
-  condition:
+  - platform: state
+    entity_id: remote.harmony_hub
   action:
   - service: input_select.select_option
     entity_id: input_select.harmony_hub
@@ -53,9 +52,8 @@
 
 - alias: Harmony Hub - Boolean Change based on Hub Status (A2)
   trigger:
-    - platform: state
-      entity_id: remote.living_room
-  condition:
+  - platform: state
+    entity_id: remote.living_room
   action:
   - service: input_select.select_option
     entity_id: input_select.harmony_hub

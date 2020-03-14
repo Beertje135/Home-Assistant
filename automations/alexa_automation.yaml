@@ -251,10 +251,23 @@
     from: 'playing'
     to: 'paused'
   condition:
-  - condition: template
-    value_template: "{{ states('media_player.alexa_downstairs') not in ['playing'] }}"
-    for:
-      minutes: 5
+  - condition: or
+    conditions:
+      - condition: state
+        entity_id: media_player.alexa_downstairs
+        state: 'paused'
+        for:
+          minutes: 5
+      - condition: state
+        entity_id: media_player.alexa_downstairs
+        state: 'standby'
+        for:
+          minutes: 5
+      - condition: state
+        entity_id: media_player.alexa_downstairs
+        state: 'unavailable'
+        for:
+          minutes: 5
   - condition: state
     entity_id: input_boolean.music_follow
     state: 'on'
@@ -320,7 +333,6 @@
     to: 'off'
     for:
       minutes: 180
-  condition:
   action:
   - service: script.turn_on
     entity_id:

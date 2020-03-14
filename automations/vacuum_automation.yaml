@@ -91,7 +91,7 @@
   - platform: numeric_state
     entity_id: sensor.hue_sensor_keuken_light_level
     above: !secret lux_kitchen_very_very_low
-    for: 
+    for:
       minutes: 4
   condition:
   - condition: template

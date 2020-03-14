@@ -31,39 +31,39 @@
 # CUSTOMIZE AMAZON ECHO
 
     media_player.alexa_bathroom:
-      friendly_name: Bathroom Alexa
+      friendly_name: Alexa Bathroom
       icon: mdi:amazon-alexa
 
     media_player.alexa_livingroom_1:
-      friendly_name: Livingroom Alexa 1
+      friendly_name: Alexa Livingroom 1
       icon: mdi:amazon-alexa
 
     media_player.alexa_kitchen_1:
-      friendly_name: Kitchen Alexa 1
+      friendly_name: Alexa Kitchen 1
       icon: mdi:amazon-alexa
 
     media_player.alexa_kitchen_2:
-      friendly_name: Kitchen Alexa 2
+      friendly_name: Alexa Kitchen 2
       icon: mdi:amazon-alexa
 
     media_player.alexa_livingroom_2:
-      friendly_name: Livingroom Alexa 2
+      friendly_name: Alexa Livingroom 2
       icon: mdi:amazon-alexa
 
     media_player.alexa_garden:
-      friendly_name: Garden Alexa
+      friendly_name: Alexa Garden
       icon: mdi:amazon-alexa
 
     media_player.alexa_everywhere:
-      friendly_name: Everywhere Alexa
+      friendly_name: Alexa Everywhere
       icon: mdi:amazon-alexa
 
     media_player.alexa_downstairs:
-      friendly_name: Downstairs Alexa
+      friendly_name: Alexa Downstairs
       icon: mdi:amazon-alexa
 
     media_player.alexa_upstairs:
-      friendly_name: Upstairs Alexa
+      friendly_name: Alexa Upstairs
       icon: mdi:amazon-alexa
 
 # CUSTOMIZE APPLE TV
