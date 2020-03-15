@@ -60,23 +60,6 @@
     entity_id:
       - script.beneden_music_play
 
-- alias: Muziek - Downstairs - Stop
-  trigger:
-  - entity_id: binary_sensor.hue_sensor_woonkamer_motion
-    for:
-      minutes: 30
-    platform: state
-    to: 'off'
-  - platform: time
-    at: !secret radio_off
-  condition:
-  - condition: template
-    value_template: "{{ states('media_player.alexa_downstairs') in ['playing'] }}"
-  action:
-  - service: script.turn_on
-    entity_id:
-      - script.beneden_music_stop
-
 # PLAY RADIO IN LIVING ROOM
 
 - alias: Muziek - Woonkamer - Play
@@ -102,7 +85,7 @@
   trigger:
   - entity_id: binary_sensor.hue_sensor_woonkamer_motion
     for:
-      minutes: 15
+      minutes: 30
     platform: state
     to: 'off'
   - platform: time
@@ -110,12 +93,17 @@
   condition:
   - condition: template
     value_template: "{{ states('media_player.alexa_livingroom_1') in ['playing'] }}"
-  - condition: template
-    value_template: "{{ states('media_player.alexa_downstairs') not in ['playing'] }}"
   action:
   - service: script.turn_on
-    entity_id:
-      - script.woonkamer_music_stop
+    data_template:
+      entity_id: >
+        {%- if states('media_player.alexa_downstairs') in ['playing'] -%}
+          script.beneden_music_stop
+        {%- elif states('media_player.alexa_downstairs') not in ['playing'] -%}
+          script.woonkamer_music_stop
+        {%- else -%}
+          script.empty
+        {%- endif %}
 
 # PLAY RADIO IN BATHROOM
 
