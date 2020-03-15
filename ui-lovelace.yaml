@@ -196,6 +196,9 @@ views:
                       - entity: light.hue_smart_plug_keuken
                         tap_action:
                           action: toggle
+                      - entity: input_boolean.music_follow
+                        tap_action:
+                          action: toggle
                       - entity: switch.wake_on_lan
                         tap_action:
                           action: toggle
