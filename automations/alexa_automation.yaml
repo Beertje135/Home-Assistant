@@ -64,7 +64,7 @@
   trigger:
   - entity_id: binary_sensor.hue_sensor_woonkamer_motion
     for:
-      minutes: 15
+      minutes: 30
     platform: state
     to: 'off'
   - platform: time
