@@ -50,8 +50,8 @@
       friendly_name: Alexa Livingroom 2
       icon: mdi:amazon-alexa
 
-    media_player.alexa_garden:
-      friendly_name: Alexa Garden
+    media_player.alexa_mobile:
+      friendly_name: Alexa Mobile
       icon: mdi:amazon-alexa
 
     media_player.alexa_everywhere:

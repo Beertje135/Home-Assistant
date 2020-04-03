@@ -4,6 +4,9 @@ sequence:
   - delay: 00:01:00
   - service: automation.turn_on
     entity_id: all
+  - service: automation.turn_off
+    entity_id: 
+      - automation.muziek_downstairs_play_1
   - service: input_boolean.turn_off
     entity_id:
       - input_boolean.trigger_away

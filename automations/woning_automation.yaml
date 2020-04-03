@@ -165,7 +165,7 @@
     entity_id: input_select.woning_status
     data_template:
       option: >
-        {% if states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker'] and states('calendar.verlof_agenda') in ['on'] %}
+        {% if states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker'] and states('calendar.verlof_agenda') in ['on'] and (now().weekday() in (0,1,2,3,4)) %}
           Thuis (Verlof)
         {% elif states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker'] and (states('sensor.time') >= "07:20") and (states('sensor.time') <= "18:00") and (now().weekday() in (0,1,2,3,4)) %}
           Thuis (Werk)
@@ -230,7 +230,7 @@
     entity_id: input_select.woning_status
     data_template:
       option: >
-        {% if (states('calendar.verlof_agenda') in ['on']) %}
+        {% if (states('calendar.verlof_agenda') in ['on']) and (now().weekday() in (0,1,2,3,4)) %}
           Thuis (Verlof)
         {% elif (states('sensor.time') >= "07:19") and (states('sensor.time') <= "18:01") and (now().weekday() in (0,1,2,3,4)) %}
           Thuis (Werk)

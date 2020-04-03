@@ -208,7 +208,7 @@ views:
                     entities:
                     - type: 'custom:mini-media-player'
                       entity: media_player.alexa_kitchen_1
-                      name: Keuken Alexa
+                      name: Alexa Keuken
                       artwork: cover
                       group: true
                       hide:
@@ -283,7 +283,7 @@ views:
                     entities:
                       - type: 'custom:mini-media-player'
                         entity: media_player.alexa_kitchen_2
-                        name: Keuken Alexa 2
+                        name: Alexa Keuken 2
                         artwork: cover
                         group: true
                         hide:
@@ -301,8 +301,8 @@ views:
                   - type: entity-filter
                     entities:
                       - type: 'custom:mini-media-player'
-                        entity: media_player.alexa_garden
-                        name: Tuin Alexa
+                        entity: media_player.alexa_mobile
+                        name: Alexa Mobiel
                         artwork: cover
                         group: true
                         hide:
@@ -321,7 +321,7 @@ views:
                     entities:
                       - type: 'custom:mini-media-player'
                         entity: media_player.alexa_livingroom_1
-                        name: Woonkamer Alexa
+                        name: Alexa Woonkamer
                         artwork: cover
                         group: true
                         hide:
@@ -340,7 +340,7 @@ views:
                     entities:
                       - type: 'custom:mini-media-player'
                         entity: media_player.alexa_bathroom
-                        name: Badkamer Alexa
+                        name: Alexa Badkamer
                         artwork: cover
                         group: true
                         hide:
@@ -377,7 +377,7 @@ views:
                     entities:
                       - type: 'custom:mini-media-player'
                         entity: media_player.alexa_livingroom_2
-                        name: Woonkamer Alexa
+                        name: Alexa Woonkamer
                         artwork: cover
                         group: true
                         hide:
@@ -1379,7 +1379,7 @@ views:
                           when_standby: true
                         type: 'custom:mini-media-player'
                       - artwork: cover
-                        entity: media_player.alexa_garden
+                        entity: media_player.alexa_mobile
                         group: true
                         hide:
                           mute: true

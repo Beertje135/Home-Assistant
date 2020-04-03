@@ -208,7 +208,7 @@
     platform: state
     to: 'off'
   - platform: template
-    value_template: "{{ states('input_select.harmony_hub') in ['Tv Decoder', 'Web OS', 'Apple Tv'] }}"
+    value_template: "{{ states('input_select.harmony_hub') in ['Tv Decoder', 'Web OS'] }}"
   - platform: state
     entity_id:
       - input_boolean.media_kitchen
