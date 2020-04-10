@@ -1,0 +1,30 @@
+
+alias: Notify Alexa - Printer - Inkt
+sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']}}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - wait_template: "{{ is_state('group.bewoners_router', 'home') }}"
+    timeout: '00:05:00'
+    continue_on_timeout: false
+  - delay: 00:00:12
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: >
+        {% if (states('sensor.hp_deskjet_3700_series_black_ink') | float < 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float < 25)%}
+          'Your Printer is running low on inkt, order both black and color inkt'
+        {% elif (states('sensor.hp_deskjet_3700_series_black_ink') | float < 25)%}
+          'Your Printer is running low on inkt, order black inkt'
+        {% elif  (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float < 25)%}
+          'Your Printer is running low on inkt, order color inkt'
+        {% else %}
+          'Printer is still going strong'
+        {% endif %}
+      data:
+        type: announce
+        method: speak

@@ -2090,3 +2090,24 @@ views:
                         name: Safe Search
                         tap_action:
                           action: toggle            
+              - title: Printer
+                type: horizontal-stack
+                cards:
+                  - entity: sensor.hp_deskjet_3700_series_black_ink
+                    name: Zwarte Inkt
+                    min: 0
+                    max: 100
+                    severity:
+                      green: 50
+                      yellow: 25
+                      red: 0
+                    type: gauge
+                  - entity: sensor.hp_deskjet_3700_series_tri_color_ink
+                    name: Zwarte Inkt
+                    min: 0
+                    max: 100
+                    severity:
+                      green: 50
+                      yellow: 25
+                      red: 0
+                    type: gauge

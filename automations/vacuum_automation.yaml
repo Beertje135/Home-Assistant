@@ -1,4 +1,4 @@
-# AUTOMATION AMPLIFIER LIVING ROOM
+# AUTOMATION VACUUM - ROOMBA
 
 - alias: Vacuum Dusty - Notify - Status Dusty Changes
   initial_state: 'off'
@@ -113,3 +113,26 @@
   action:
   - service: script.turn_on
     entity_id: script.dusty_on
+
+# AUTOMATION PRINTER
+
+- alias: Printer - Notify - Ink Low
+  initial_state: 'off'
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.hp_deskjet_3700_series_black_ink
+    below: 25
+  - platform: numeric_state
+    entity_id: sensor.hp_deskjet_3700_series_tri_color_ink
+    below: 25
+  - platform: numeric_state
+    entity_id: sensor.hp_deskjet_3700_series_black_ink
+    below: 10
+  - platform: numeric_state
+    entity_id: sensor.hp_deskjet_3700_series_tri_color_ink
+    below: 10
+  condition:
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_printer
