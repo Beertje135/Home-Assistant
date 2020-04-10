@@ -541,7 +541,7 @@
   - condition: time
     after: '19:30:00'
   - condition: state
-    entity_id: input_boolean.light_arlo
+    entity_id: light.aarlo_arlobaby
     state: 'off'
   action:
   - service: script.turn_on
@@ -554,7 +554,7 @@
     at: '12:00:00'
   condition:
   - condition: state
-    entity_id: input_boolean.light_arlo
+    entity_id: light.aarlo_arlobaby
     state: 'off'
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis (Verlof)'] }}"
@@ -569,7 +569,7 @@
     at: '15:00:00'
   condition:
   - condition: state
-    entity_id: input_boolean.light_arlo
+    entity_id: light.aarlo_arlobaby
     state: 'on'
   action:
   - service: script.turn_on
@@ -582,7 +582,7 @@
     at: '06:35:00'
   condition:
   - condition: state
-    entity_id: input_boolean.light_arlo
+    entity_id: light.aarlo_arlobaby
     state: 'on'
   - condition: template
     value_template: "{{ states('input_select.woning_status') not in ['Thuis (Verlof)', 'Juist Wakker', 'Slapen'] }}"
@@ -608,7 +608,7 @@
       minutes: 15
   condition:
   - condition: state
-    entity_id: input_boolean.light_arlo
+    entity_id: light.aarlo_arlobaby
     state: 'off'
   - condition: or
     conditions:

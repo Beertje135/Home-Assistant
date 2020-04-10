@@ -199,7 +199,13 @@
 
 # SENSOR TO CONNECT ARLO BABY CAMERA
 
-- platform: arlo
+- platform: aarlo
+  monitored_conditions:
+   - captured_today
+   - battery_level
+   - temperature
+   - humidity
+   - air_quality
 
 # SENSOR TO USE DATE AND TIME
 

@@ -126,7 +126,7 @@ views:
                 name: Nest Boven
               - entity: sensor.smappee_ons_huisje_water_sensor_battery
                 name: Smappee
-              - entity: sensor.battery_level_arlobaby
+              - entity: sensor.aarlo_battery_level_arlobaby
                 name: Arlo
             show_empty: false
             show_header_toggle: false
@@ -176,7 +176,7 @@ views:
                         name: Veranda Arco
                       - entity: light.hue_light_kamer_elmo_one
                         name: Elmo's Staanlamp
-                      - entity: input_boolean.light_arlo
+                      - entity: light.aarlo_arlobaby
                         name: Elmo's Arlo
                         tap_action:
                           action: toggle
@@ -919,7 +919,7 @@ views:
                             show_name: false
                             show_state: false
                             entities:
-                              - entity: input_boolean.light_arlo
+                              - entity: light.aarlo_arlobaby
                                 name: Elmo's Arlo
                                 tap_action:
                                   action: toggle
@@ -937,13 +937,13 @@ views:
                         show_name: false
                         show_state: true
                         entities:
-                          - entity: sensor.temperature_arlobaby
+                          - entity: sensor.aarlo_temperature_arlobaby
                             name: Temp
-                          - entity: sensor.humidity_arlobaby
+                          - entity: sensor.aarlo_humidity_arlobaby
                             name: Vochtigheid
-                          - entity: sensor.air_quality_arlobaby
+                          - entity: sensor.aarlo_air_quality_arlobaby
                             name: Luchtkwaliteit
-                          - entity: sensor.battery_level_arlobaby
+                          - entity: sensor.aarlo_battery_level_arlobaby
                             name: Batterij
                   - type: vertical-stack
                     title: Slaapkamer
@@ -1665,7 +1665,7 @@ views:
                 name: Nest Boven
               - entity: sensor.smappee_ons_huisje_water_sensor_battery
                 name: Smappee
-              - entity: sensor.battery_level_arlobaby
+              - entity: sensor.aarlo_battery_level_arlobaby
                 name: Arlo
             show_empty: false
             show_header_toggle: false
@@ -1913,7 +1913,7 @@ views:
                 name: Nest Boven
               - entity: sensor.smappee_ons_huisje_water_sensor_battery
                 name: Smappee
-              - entity: sensor.battery_level_arlobaby
+              - entity: sensor.aarlo_battery_level_arlobaby
                 name: Arlo
             show_empty: false
             show_header_toggle: false

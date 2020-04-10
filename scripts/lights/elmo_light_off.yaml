@@ -5,6 +5,4 @@ sequence:
     entity_id:
       - light.hue_light_kamer_elmo_two
       - light.hue_light_kamer_elmo_one
-  - service: input_boolean.turn_off
-    entity_id:
-      - input_boolean.light_arlo
+      - light.aarlo_arlobaby

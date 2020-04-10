@@ -61,3 +61,9 @@
     light.milight_badkamer:
       friendly_name: Bathroom LED
       icon: mdi:led-strip-variant
+
+# CUSTOMIZATION ARLO LIGHTS
+
+    light.aarlo_arlobaby:
+      icon: mdi:lightbulb-on-outline
+      friendly_name: Elmo's Kamer Arlo Light

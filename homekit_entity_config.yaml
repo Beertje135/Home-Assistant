@@ -34,6 +34,9 @@ light.hue_smart_plug_woonkamer_one:
 light.hue_smart_plug_keuken:
   name: Keuken Speakers
 
+light.aarlo_arlobaby:
+  name: Elmo's Kamer Arlo
+
 # INPUT SELECT
 
 input_select.harmony_hub:
@@ -65,8 +68,6 @@ input_boolean.music_follow:
   name: Ons Huisje Muziek Volgen
 input_boolean.light_dressing_stay_on:
   name: Dressing Licht Aanhouden
-input_boolean.light_arlo:
-  name: Elmo's Kamer Arlo
 
 # SENSORS
 
@@ -82,7 +83,7 @@ binary_sensor.hue_sensor_woonkamer_motion:
   name: Woonkamer Beweging
 sensor.hue_sensor_woonkamer_light_level:
   name: Woonkamer Lichtniveau
-sensor.humidity_arlobaby:
+sensor.aarlo_humidity_arlobaby:
   name: Arlo Vochtigheid
 sensor.smappee_ons_huisje_water_sensor_temperature:
   name: Kelder Temperatuur

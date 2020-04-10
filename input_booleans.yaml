@@ -9,9 +9,6 @@
 #Used to turn on/off all lights downstairs and not respond to sensors
   light_downstairs:
 
-#Used to turn on/off light Arlo Elmo
-  light_arlo:
-
 #used to keep vistor at home without device tracker
   visitor:
 

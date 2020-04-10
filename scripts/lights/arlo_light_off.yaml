@@ -1,5 +1,5 @@
 
 alias: Arlo Light - Uit
 sequence:
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.light_arlo
+  - service: light.turn_off
+    entity_id: light.aarlo_arlobaby

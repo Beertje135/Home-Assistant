@@ -296,9 +296,11 @@ mqtt:
   username: !secret username_mqtt
   password: !secret password_mqtt
 
-arlo:
+aarlo:
   username: !secret username_arlo
   password: !secret password_arlo
+  refresh_devices_every: 2
+  stream_timeout: 120
 
 nest:
   client_id: !secret client_id_nest
@@ -321,12 +323,6 @@ vacuum:
     password: !secret password_irobot
     name: Dusty
     continuous: true
-
-media_player:
-  - platform: samsungtv
-    name: Samsung TV
-    host: !secret ip_tv
-    mac: !secret mac_tv
 
 smappee:
   host: !secret ip_smappee
@@ -359,8 +355,8 @@ hue:
     allow_hue_groups: false
 
 light:
-  platform: limitlessled
-  bridges:
+  - platform: limitlessled
+    bridges:
     - host: !secret ip_milight_bridge_1
       groups:
       - number: 1
@@ -377,7 +373,8 @@ light:
       - number: 2
         type: rgbww
         name: milight_badkamer
-
+  - platform: aarlo
+  
 switch:
   - platform: wake_on_lan
     mac: !secret mac_computer_lan

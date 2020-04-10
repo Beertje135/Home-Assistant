@@ -12,6 +12,4 @@ sequence:
       - light.hue_smart_plug_woonkamer_one
       - light.hue_smart_plug_veranda
       - light.hue_smart_plug_woonkamer_two
-  - service: input_boolean.turn_off
-    entity_id:
-      - input_boolean.light_arlo
+      - light.aarlo_arlobaby

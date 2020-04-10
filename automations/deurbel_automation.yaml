@@ -17,7 +17,7 @@
 - alias: Deurbel - Als Arlo On
   trigger:
   - platform: state
-    entity_id: input_boolean.light_arlo
+    entity_id: light.aarlo_arlobaby
     to: 'on'
   condition:
   action:
@@ -28,7 +28,7 @@
 - alias: Deurbel - Als Arlo Off
   trigger:
   - platform: state
-    entity_id: input_boolean.light_arlo
+    entity_id: light.aarlo_arlobaby
     to: 'off'
   condition:
   action:
