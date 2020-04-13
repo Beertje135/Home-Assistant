@@ -35,6 +35,7 @@
     entities:
       - light.milight_keuken_bridge
       - light.milight_keuken
+      - light.hue_smart_plug_keuken
 
   licht_badkamer:
     entities:
@@ -51,6 +52,7 @@
       - light.hue_light_woonkamer
       - light.hue_smart_plug_woonkamer_one
       - light.hue_smart_plug_woonkamer_two
+      - light.milight_woonkamer_bridge
 
   licht_veranda:
     entities:
@@ -61,3 +63,4 @@
     entities:
       - light.hue_light_kamer_elmo_one
       - light.hue_light_kamer_elmo_two
+      - light.aarlo_arlobaby

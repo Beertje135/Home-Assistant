@@ -576,7 +576,7 @@
     entity_id:
       - script.arlo_light_off
 
-- alias: Licht - Elmo Arlo - Uit Ochtend Week
+- alias: Licht - Elmo - Ochtend Week
   trigger:
   - platform: time
     at: '06:35:00'
@@ -585,7 +585,7 @@
     entity_id: light.aarlo_arlobaby
     state: 'on'
   - condition: template
-    value_template: "{{ states('input_select.woning_status') not in ['Thuis (Verlof)', 'Juist Wakker', 'Slapen'] }}"
+    value_template: "{{ states('input_select.woning_status') not in ['Thuis (Verlof)', 'Slapen'] }}"
   - condition: time
     weekday:
       - mon
@@ -596,8 +596,34 @@
   action:
   - service: script.turn_on
     entity_id:
-      - script.arlo_light_off
       - script.hue_light_elmo_one_on_standby
+      - script.arlo_light_off
+
+- alias: Licht - Elmo - Ochtend Weekend
+  trigger:
+  - platform: time
+    at: '07:00:00'
+  - platform: template
+    value_template: "{{ states('input_select.woning_status') in ['Thuis (Verlof)'] }}"
+  condition:
+  - condition: state
+    entity_id: light.aarlo_arlobaby
+    state: 'on'
+  - condition: time
+    after: '06:59:00'
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') in ['Thuis (Verlof)'] }}"
+      - condition: time
+        weekday:
+          - sat
+          - sun
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.hue_light_elmo_one_on_standby
+      - script.arlo_light_off
 
 - alias: Licht - Elmo - Uit
   trigger:
@@ -605,7 +631,7 @@
     entity_id: light.hue_light_kamer_elmo_one
     to: 'on'
     for:
-      minutes: 15
+      minutes: 30
   condition:
   - condition: state
     entity_id: light.aarlo_arlobaby

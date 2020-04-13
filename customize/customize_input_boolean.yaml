@@ -49,11 +49,11 @@
 
     input_boolean.media_livingroom:
       icon: mdi:plex
-      friendly_name: Livingroom Plex Boolean
+      friendly_name: Livingroom Media Boolean
 
     input_boolean.media_kitchen:
       icon: mdi:plex
-      friendly_name: Kitchen Plex Boolean
+      friendly_name: Kitchen Media Boolean
 
     input_boolean.keep_pc_on:
       icon: mdi:desktop-tower-monitor
