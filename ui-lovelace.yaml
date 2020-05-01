@@ -1,13 +1,13 @@
 resources:
-  - url: /community_plugin/lovelace-card-tools/card-tools.js
+  - url: /hacsfiles/lovelace-card-tools/card-tools.js
     type: module
-  - url: /community_plugin/mini-media-player/mini-media-player.js
+  - url: /hacsfiles/mini-media-player/mini-media-player.js
     type: module
-  - url: /community_plugin/lovelace-layout-card/layout-card.js
+  - url: /hacsfiles/lovelace-layout-card/layout-card.js
     type: module
-  - url: /community_plugin/entity-attributes-card/entity-attributes-card.js
+  - url: /hacsfiles/entity-attributes-card/entity-attributes-card.js
     type: js
-  - url: /community_plugin/mini-graph-card/mini-graph-card-bundle.js
+  - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
     type: module
 title: Home
 views:
@@ -82,7 +82,7 @@ views:
               - entity: person.niki
               - entity: person.marcus
               - entity: person.nancy
-              - entity: vacuum.dusty
+              - entity: vacuum.dennis
               - entity: input_boolean.keep_christmas_on
             show_header_toggle: false
             show_empty: false
@@ -565,7 +565,7 @@ views:
               - entity: person.niki
               - entity: person.marcus
               - entity: person.nancy
-              - entity: vacuum.dusty
+              - entity: vacuum.dennis
             show_header_toggle: false
             show_empty: false
             state_filter:
@@ -753,8 +753,8 @@ views:
                     id: 31b92c9bde72400b85b73ffbfbc30526
                     show_header_toggle: false
                     entities:
-                      - entity: vacuum.dusty
-                        name: Dusty
+                      - entity: vacuum.dennis
+                        name: Dennis
                       - entity: input_boolean.vacuum_cleaned_today
                         name: Vandaag stof gezogen
               - title: Keuken
@@ -1231,7 +1231,7 @@ views:
               - entity: person.niki
               - entity: person.marcus
               - entity: person.nancy
-              - entity: vacuum.dusty
+              - entity: vacuum.dennis
             show_header_toggle: false
             show_empty: false
             state_filter:
@@ -1640,7 +1640,7 @@ views:
               - entity: person.niki
               - entity: person.marcus
               - entity: person.nancy
-              - entity: vacuum.dusty
+              - entity: vacuum.dennis
             state_filter:
               - home
               - 'on'
@@ -1882,7 +1882,7 @@ views:
               - entity: person.niki
               - entity: person.marcus
               - entity: person.nancy
-              - entity: vacuum.dusty
+              - entity: vacuum.dennis
             show_header_toggle: false
             show_empty: false
             state_filter:
@@ -1974,6 +1974,7 @@ views:
                 cards:
                   - type: glance
                     id: af0a835638ca421aa181928f535c4b33
+                    columns: 2
                     show_header_toggle: false
                     entities:
                       - entity: sensor.ophaalkalender_restafval
@@ -1982,6 +1983,8 @@ views:
                         name: Pmd
                       - entity:  sensor.ophaalkalender_papier
                         name: Papier
+                      - entity:  sensor.ophaalkalender_glas
+                        name: Glas
               - title: Server
                 type: vertical-stack
                 cards:

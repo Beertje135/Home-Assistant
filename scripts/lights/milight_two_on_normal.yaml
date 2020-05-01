@@ -5,5 +5,5 @@ sequence:
     entity_id:
       - light.milight_badkamer
     data:
-      rgb_color: [255,255,255]
+      effect: white
       brightness: 255

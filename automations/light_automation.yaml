@@ -175,6 +175,11 @@
       minutes: 1
     platform: state
     to: 'off'
+  - entity_id: light.milight_keuken
+    for:
+      minutes: 5
+    platform: state
+    to: 'on'
   condition:
   - condition: state
     entity_id: light.milight_keuken

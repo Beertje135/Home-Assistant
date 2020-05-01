@@ -1,8 +1,8 @@
 
-alias: Dusty - Uit
+alias: Dennis - Uit
 sequence:
   - condition: template
-    value_template: "{{ states('vacuum.dusty') in ['on'] }}"
+    value_template: "{{ states('vacuum.dennis') in ['on'] }}"
   - service: vacuum.return_to_base
     data:
-      entity_id: vacuum.dusty
+      entity_id: vacuum.dennis

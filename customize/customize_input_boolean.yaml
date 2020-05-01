@@ -30,7 +30,7 @@
 
     input_boolean.vacuum_cleaned_today:
       icon: mdi:check
-      friendly_name: Dusty Cleaned Today Boolean
+      friendly_name: Dennis Cleaned Today Boolean
 
     input_boolean.trigger_away:
       friendly_name: Trigger Away Boolean

@@ -13,16 +13,20 @@
 
 # CUSTOM SENSOR AFVAL
 
-- platform: ophaalkalender
+- platform: afvalbeheer
+  wastecollector: Ophaalkalender
   resources:
     - restafval
     - papier
     - pmd
+    - glas 
   postcode: !secret zone_home_postcode
   streetname: !secret zone_home_streetname
   streetnumber: !secret zone_home_housenumber
   dateformat: '%Y-%m-%d'
   dateonly: 1
+  dutch: 1
+  builtinicons: 1
 
 # SENSORS USED TO DIPLAY ONLY CURRENT TEMPERATURE ON FRONTEND (ELSE YOU HAVE SET TEMPERATURE)
 

@@ -18,10 +18,10 @@
 #      friendly_name: 'Radio'
       icon: mdi:radio
 
-    script.dusty_on:
+    script.dennis_on:
       icon: mdi:robot-vacuum
-#      friendly_name: Dusty Start
+#      friendly_name: Dennis Start
 
-    script.dusty_off:
+    script.dennis_off:
       icon: mdi:robot-vacuum
-#      friendly_name: Dusty Stop
+#      friendly_name: Dennis Stop

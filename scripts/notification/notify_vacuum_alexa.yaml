@@ -1,5 +1,5 @@
 
-alias: Notify Alexa - Dusty - Status
+alias: Notify Alexa - Dennis - Status
 sequence:
   - condition: template
     value_template: "{{ states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']}}"
@@ -16,18 +16,18 @@ sequence:
         - media_player.alexa_bathroom
         - media_player.alexa_livingroom_2
       message: >
-        {% if state_attr('vacuum.dusty', 'status') == 'Stuck' %}
-          'Dusty is stuck. Stupid Dusty'
-        {% elif state_attr('vacuum.dusty', 'bin_full') == true %}
-          'Dusty has eaten to much. Please empty his belly.'
-        {% elif states('vacuum.dusty') in ['off'] and states('input_boolean.vacuum_cleaned_today') in ['on'] %}
-          'Dusty has completed his task.'
-        {% elif states('vacuum.dusty') in ['off'] and states('input_boolean.vacuum_cleaned_today') in ['off'] %}
-          'Dusty still hasn't completed his task today'
-        {% elif states('vacuum.dusty') in ['on'] %}
-          'Dusty starts cleaning the house. Beep Beep'
+        {% if state_attr('vacuum.dennis', 'status') == 'Stuck' %}
+          'Dennis is stuck. Stupid Dennis'
+        {% elif state_attr('vacuum.dennis', 'bin_full') == true %}
+          'Dennis has eaten to much. Please empty his belly.'
+        {% elif states('vacuum.dennis') in ['off'] and states('input_boolean.vacuum_cleaned_today') in ['on'] %}
+          'Dennis has completed his task.'
+        {% elif states('vacuum.dennis') in ['off'] and states('input_boolean.vacuum_cleaned_today') in ['off'] %}
+          'Dennis still hasn't completed his task today'
+        {% elif states('vacuum.dennis') in ['on'] %}
+          'Dennis starts cleaning the house. Beep Beep'
         {% else %}
-          'Dusty is still going strong'
+          'Dennis is still going strong'
         {% endif %}
       data:
         type: announce

@@ -107,12 +107,12 @@ climate.ons_huisje:
 
 # VACUUM
 
-script.dusty_on:
-  name: Veranda Dusty Start
-script.dusty_off:
-  name: Veranda Dusty Stop
+script.dennis_on:
+  name: Veranda Dennis Start
+script.dennis_off:
+  name: Veranda Dennis Stop
 input_boolean.vacuum_cleaned_today:
-  name: Veranda Dusty klaar
+  name: Veranda Dennis klaar
 
 # DEVICE TRACKERS
 

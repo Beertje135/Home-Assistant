@@ -70,7 +70,6 @@
         {% endif %}
     entity_id: input_boolean.media_livingroom
 
-
 - alias: Plex - Webhook - Toggle Kitchen Boolean
   trigger:
     platform: mqtt

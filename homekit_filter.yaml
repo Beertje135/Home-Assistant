@@ -2,6 +2,7 @@ include_domains:
   - climate
   - input_boolean
   - light
+  - vacuum
 exclude_domains:
   - automation
   - alarm_control_panel
@@ -30,14 +31,14 @@ include_entities:
   - group.bezoekers
   - device_tracker.router_iphone_bert
   - device_tracker.router_iphone_caro
-  - script.dusty_on
-  - script.dusty_off
+  - script.dennis_on
+  - script.dennis_off
   - switch.wake_on_lan
   - switch.deurbel_voor_chime_active
   - switch.adguard_protection
   - switch.adguard_filtering
   - switch.adguard_parental_control
-  - vacuum.dusty
+  - vacuum.dennis
 exclude_entities:
   - input_boolean.notify_bert
   - input_boolean.notify_caro

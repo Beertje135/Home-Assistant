@@ -310,19 +310,13 @@ solaredge:
   api_key: !secret api_key_solar_edge
   site_id: !secret client_id_solar_edge
 
-unifi:
-  controllers:
-    - host: Default
-      site: Our home
-      detection_time: 240
-
-vacuum:
-  - platform: roomba
-    host: !secret ip_irobot
-    username: !secret username_irobot
-    password: !secret password_irobot
-    name: Dusty
-    continuous: true
+#vacuum:
+#  - platform: roomba
+#    host: !secret ip_irobot
+#    username: !secret username_irobot
+#    password: !secret password_irobot
+#    name: Dennis
+#    continuous: true
 
 smappee:
   host: !secret ip_smappee
