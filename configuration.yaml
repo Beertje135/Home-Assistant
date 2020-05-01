@@ -222,7 +222,6 @@ utility_meter:
 
 recorder:
   purge_keep_days: 3
-  purge_interval: 1
 
 influxdb:
   host: a0d7b954-influxdb

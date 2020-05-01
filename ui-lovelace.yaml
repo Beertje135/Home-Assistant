@@ -209,7 +209,6 @@ views:
                     - type: 'custom:mini-media-player'
                       entity: media_player.alexa_kitchen_1
                       name: Alexa Keuken
-                      artwork: cover
                       group: true
                       hide:
                         mute: true
