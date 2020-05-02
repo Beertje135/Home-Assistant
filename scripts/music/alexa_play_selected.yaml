@@ -19,9 +19,9 @@ sequence:
         {%- endif %}
       media_content_id: >
         {%- if states('input_select.media_player') in ['Overal'] -%}
-          {{ states('input_select.radio_station') }} in Alexa Everywhere group
+          {{ states('input_select.radio_station') }} on the Alexa Everywhere group
         {%- elif states('input_select.media_player') in ['Beneden'] -%}
-          {{ states('input_select.radio_station') }} in Alexa Downstairs group
+          {{ states('input_select.radio_station') }} on the Alexa Downstairs group
         {%- else -%}
           {{ states('input_select.radio_station') }}
         {%- endif %}
