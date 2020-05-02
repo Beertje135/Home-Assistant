@@ -136,6 +136,12 @@
   trigger:
   - platform: state
     entity_id: input_boolean.media_livingroom
+    to: 'on'
+    for:
+      minutes: 2
+  - platform: state
+    entity_id: input_boolean.media_livingroom
+    to: 'off'
   condition:
   action:
   - service: script.turn_on
@@ -151,6 +157,12 @@
   trigger:
   - platform: state
     entity_id: input_boolean.media_kitchen
+    to: 'on'
+    for:
+      minutes: 2
+  - platform: state
+    entity_id: input_boolean.media_kitchen
+    to: 'off'
   condition:
   action:
   - service: script.turn_on

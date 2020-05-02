@@ -7,8 +7,4 @@ sequence:
   - service: hassio.addon_stdin
     data:
       addon: core_rpc_shutdown
-      input: pc_bert_wifi
-  - service: hassio.addon_stdin
-    data:
-      addon: core_rpc_shutdown
       input: pc_bert_lan

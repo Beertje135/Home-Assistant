@@ -24,3 +24,22 @@
       - Web OS
       - Nintendo Switch
       - Apple Tv
+
+# STATION SELECT FOR MEDIA PLAYERS
+
+  radio_station:
+    options:
+      - VRT MNM
+      - VRT STUDIO BRUSSEL
+      - QMusic Belgium
+
+# MEDIA PLAYER SELECT
+
+  media_player:
+    options:
+      - Keuken
+      - Badkamer
+      - Woonkamer
+      - Mobiele
+      - Overal
+      - Beneden

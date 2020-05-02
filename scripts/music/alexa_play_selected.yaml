@@ -1,0 +1,45 @@
+
+alias: Alexa - Play Selected
+sequence:
+  - service: media_player.play_media
+    data_template:
+      entity_id: >
+        {%- if states('input_select.media_player') in ['Overal', 'Beneden'] -%}
+          media_player.alexa_kitchen_2
+        {%- elif states('input_select.media_player') in ['Keuken'] -%}
+          media_player.alexa_kitchen_1
+        {%- elif states('input_select.media_player') in ['Woonkamer'] -%}
+          media_player.alexa_livingroom_1
+        {%- elif states('input_select.media_player') in ['Badkamer'] -%}
+          media_player.alexa_bathroom
+        {%- elif states('input_select.media_player') in ['Mobiele'] -%}
+          media_player.alexa_mobile
+        {%- else -%}
+          script.empty
+        {%- endif %}
+      media_content_id: >
+        {%- if states('input_select.media_player') in ['Overal'] -%}
+          '{{ states('input_select.radio_station') }} in Alexa Everywhere group'
+        {%- elif states('input_select.media_player') in ['Beneden'] -%}
+          '{{ states('input_select.radio_station') }} in Alexa Downstairs group'
+        {%- else -%}
+          {{ states('input_select.radio_station') }}
+        {%- endif %}
+      media_content_type: TUNEIN
+  - delay: 00:00:05
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('input_select.media_player') in ['Overal', 'Beneden'] -%}
+          script.keuken_music_volume, script.woonkamer_music_volume, script.badkamer_music_volume
+        {%- elif states('input_select.media_player') in ['Beneden'] -%}
+          script.keuken_music_volume, script.woonkamer_music_volume
+        {%- elif states('input_select.media_player') in ['Keuken'] -%}
+          script.keuken_music_volume
+        {%- elif states('input_select.media_player') in ['Woonkamer'] -%}
+          script.woonkamer_music_volume
+        {%- elif states('input_select.media_player') in ['Badkamer'] -%}
+          script.badkamer_music_volume
+        {%- else -%}
+          script.empty
+        {%- endif %}

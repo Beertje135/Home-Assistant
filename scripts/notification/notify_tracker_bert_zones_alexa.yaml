@@ -20,9 +20,9 @@ sequence:
         - media_player.alexa_livingroom_2
       message: >
         {% if states('person.bert') in ['Elly', 'Nancy', 'Mama & Mark'] %}
-          'Bert just arrived at {{ states('person.caroline') }}.
+          'Bert just arrived at {{ states('person.caroline') }}.'
         {% elif states('person.bert') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}
-          'No panic but Bert is near {{ states('person.caroline') }}.
+          'No panic but Bert is near {{ states('person.caroline') }}.'
         {% elif states('person.bert') in ['Mechelen Station'] %}
           'Bert is on his way home from work.'
         {% elif states('person.bert') in ['Checkpoint 3', 'Willebroek Station'] %}
