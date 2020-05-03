@@ -266,6 +266,8 @@
     entity_id: input_boolean.media_livingroom
     state: 'off'
   - condition: template
+    value_template: "{{ states('input_select.harmony_hub') in ['Powered Off'] }}"
+  - condition: template
     value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Slapen'] }}"
   action:
     - service: script.turn_on
@@ -363,6 +365,19 @@
       - script.keuken_music_volume
       - script.woonkamer_music_volume
       - script.badkamer_music_volume
+
+- alias: Muziek - Volume - Keuken Ochtend
+  trigger:
+  - platform: time
+    at: '07:59:00'
+  - platform: time
+    at: '08:59:00'
+  condition:
+  - condition: template
+    value_template: "{{ states('media_player.alexa_kitchen_1') in ['playing'] and states('input_select.woning_status') in ['Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] }}"
+  action:
+  - service: script.turn_on
+    entity_id: script.keuken_music_volume
 
 - alias: Muziek - Volume - Woonkamer Nieuws
   trigger:

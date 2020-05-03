@@ -212,6 +212,27 @@
           script.keuken_light_off
         {% endif %}
 
+- alias: Licht - Keuken - Media Play
+  trigger:
+  - platform: state
+    entity_id: input_boolean.media_kitchen
+    to: 'on'
+    for:
+      seconds: 35
+  - platform: state
+    entity_id: input_boolean.media_kitchen
+    to: 'off'
+  condition:
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('input_boolean.media_kitchen') in ['on'] -%}
+          script.plex_on_keuken
+        {%- elif states('input_boolean.media_kitchen') in ['off'] -%}
+          script.plex_off_keuken
+        {% endif %}
+
 # AUTOMATIONS FOR LIVINGROOM LIGHT (ACTION = SCRIPT)
 
 - alias: Licht - Woonkamer - Aan lux laag
@@ -402,6 +423,27 @@
     data:
       entity_id:
         - light.hue_light_woonkamer
+
+- alias: Licht - Woonkamer - Media Play
+  trigger:
+  - platform: state
+    entity_id: input_boolean.media_livingroom
+    to: 'on'
+    for:
+      seconds: 35
+  - platform: state
+    entity_id: input_boolean.media_livingroom
+    to: 'off'
+  condition:
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('input_boolean.media_livingroom') in ['on'] -%}
+          script.plex_on_woonkamer
+        {%- elif states('input_boolean.media_livingroom') in ['off'] -%}
+          script.plex_off_woonkamer
+        {% endif %}
 
 # AUTOMATIONS FOR DRESSING LIGHT ( ACTION = SCRIPT)
 

@@ -51,7 +51,7 @@
     to: 'Thuis (Verlof)'
   condition:
   - condition: template
-    value_template: "{{ ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states('sensor.ophaalkalender_restafval')) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states('sensor.ophaalkalender_papier')) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states('sensor.ophaalkalender_pmd')) }}"
+    value_template: "{{ ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states('sensor.ophaalkalender_restafval')) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states('sensor.ophaalkalender_papier')) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states('sensor.ophaalkalender_pmd')) or ((as_timestamp(now())+ (86400)) | timestamp_custom('%Y-%m-%d',true) == states('sensor.ophaalkalender_glas')) }}"
   action:
   - service: script.turn_on
     entity_id: script.notify_waste
@@ -60,11 +60,69 @@
 
 # BATTERIJ
 
+- alias: Batterij - Smappee - Bijna Leeg
+  id: batterij001
+  trigger:
+  - entity_id: sensor.smappee_ons_huisje_water_sensor_battery
+    below: '20'
+    platform: numeric_state
+  - entity_id: sensor.smappee_ons_huisje_water_sensor_battery
+    below: '10'
+    platform: numeric_state
+  - entity_id: sensor.smappee_ons_huisje_water_sensor_battery
+    below: '5'
+    platform: numeric_state
+  action:
+  - service: script.turn_on
+    data:
+      entity_id: script.notify_battery
+
 # BEWONER
 
 # BEZOEKER
 
 # DEURBEL
+
+# DEURBEL AUTOMATIONS WHEN DOORBEL IS PRESSED
+
+#- alias: Deurbel - Als Deurbel Gaat
+#  id: deurbel001
+#  trigger:
+#  - platform: state
+#   entity_id: binary_sensor.deurbel_voor_button
+#  to: 'on'
+#  condition:
+#  action:
+#  - service: script.turn_on
+#    entity_id:
+#      - script.notify_deurbel
+#      - script.all_remote_harmony_hub_pause
+
+# DEURBEL AUTOMATIONS CHIME ACTIVE/ NOT ACTIVE
+
+#- alias: Deurbel - Als Arlo On
+#  id: deurbel002
+#  trigger:
+#  - platform: state
+#    entity_id: light.aarlo_arlobaby
+#    to: 'on'
+#  condition:
+#  action:
+#  - service: script.turn_on
+#    entity_id:
+#      - script.doorbell_chime_off
+
+#- alias: Deurbel - Als Arlo Off
+#  id: deurbel003
+#  trigger:
+#  - platform: state
+#    entity_id: light.aarlo_arlobaby
+#    to: 'off'
+#  condition:
+#  action:
+#  - service: script.turn_on
+#    entity_id:
+#      - script.doorbell_chime_on
 
 # HARMONY
 
@@ -74,9 +132,209 @@
 
 # VERLUCHTING
 
+# VERLUCHTING AUTOMATIONS TO CHANGE VENTILATION
+
+- alias: Verluchting - Boolean Change based on Outside Temperature (Boven)
+  id: verluchting001
+  trigger:
+  - platform: template
+    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.kamer_elmo', 'current_temperature') }}"
+  - platform: template
+    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.kamer_elmo', 'current_temperature') }}"
+  condition:
+  - condition: template
+    value_template: "{{ is_state('sensor.season', 'summer') }}"
+  action:
+    service_template: >
+      {% if (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.kamer_elmo', 'current_temperature') -%}
+        input_boolean.turn_on
+      {%- elif (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.kamer_elmo', 'current_temperature') -%}
+        input_boolean.turn_off
+      {%- endif %}
+    data:
+      entity_id:
+        - input_boolean.cooling_upstairs
+
+- alias: Verluchting - Boolean Change based on Outside Temperature (Beneden)
+  id: verluchting002
+  trigger:
+  - platform: template
+    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.keuken', 'current_temperature') }}"
+  - platform: template
+    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.keuken', 'current_temperature') }}"
+  condition:
+  - condition: template
+    value_template: "{{ is_state('sensor.season', 'summer') }}"
+  action:
+    service_template: >
+      {% if (state_attr('weather.dark_sky', 'temperature')| float + 1) < state_attr('climate.keuken', 'current_temperature') -%}
+        input_boolean.turn_on
+      {%- elif (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.keuken', 'current_temperature') -%}
+        input_boolean.turn_off
+      {%- endif %}
+    data:
+      entity_id:
+        - input_boolean.cooling_downstairs
+
+# VERLUCHTING BASED ON BOOLEAN
+
+- alias: Verluchting - Boolean Changes (Boven)
+  id: verluchting003
+  trigger:
+  - entity_id: input_boolean.cooling_upstairs
+    platform: state
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_cooling_upstairs
+
+- alias: Verluchting - Boolean Changes (Beneden)
+  id: verluchting004
+  trigger:
+  - entity_id: input_boolean.cooling_downstairs
+    platform: state
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_cooling_downstairs
+
 # LICHT
 
-# PLEX
+# MEDIA
+
+# MEDIA AUTOMATION PUBLISH WEBHOOK TO MQTT
+
+- alias: Plex - Webhook - to MQTT
+  id: media001
+  trigger:
+    platform: webhook
+    webhook_id: !secret webhook_plex
+  action:
+   - service: mqtt.publish
+     data_template:
+       topic: 'plex/update'
+       payload_template: >
+         {{ (trigger.data | string)[154:][:-55] | replace ("\\\\", "\\") | replace ("\\\'", "'") | replace ("\\x","?") }}
+
+- alias: Plex - Webhook - Update MQTT sensor
+  id: media002
+  trigger:
+    platform: mqtt
+    topic: 'plex/update'
+  condition:
+    condition: and
+    conditions:
+      - condition: template
+        value_template: "{{trigger.payload_json.event != 'media.scrobble'}}"
+      - condition: template
+        value_template: "{{trigger.payload_json.event != 'media.rate'}}"
+  action:
+    - service: mqtt.publish
+      data_template:
+        topic: 'plex/update/sensor'
+        retain: true
+        payload_template: >
+         {  "Player":"{{ trigger.payload_json.Player.title }}",
+            "UUID":"{{ trigger.payload_json.Player.uuid }}",
+            "Event":"{{ trigger.payload_json.event }}",
+            "Account":"{{ trigger.payload_json.Account.title }}",
+            "Title":"{{ trigger.payload_json.Metadata.grandparentTitle }}",
+            "Type":"{{ trigger.payload_json.Metadata.librarySectionType }}",
+            "Image":"{{ trigger.payload_json.Metadata.thumb }}" }
+
+# MEDIA AUTOMATION CHECK MQTT
+
+- alias: Plex - Webhook - Toggle Living Room Boolean
+  id: media003
+  trigger:
+    platform: mqtt
+    topic: 'plex/update'
+  condition:
+    condition: and
+    conditions:
+    - condition: template
+      value_template: "{{trigger.payload_json.Account['title'] == 'Bert Verlinden'}}"
+    - condition: template
+      value_template: "{{trigger.payload_json.Player.title != 'iPhone'}}"
+    - condition: template
+      value_template: "{{trigger.payload_json.event != 'media.scrobble'}}"
+    - condition: template
+      value_template: "{{trigger.payload_json.event != 'media.rate'}}"
+    - condition: or
+      conditions:
+      - condition: template
+        value_template: "{{trigger.payload_json.Player.title == 'Apple TV Woonkamer'}}"
+      - condition: template
+        value_template: "{{trigger.payload_json.Player.title == 'LG OLED55C9MLB'}}"
+  action:
+    service_template: >
+        {% if ((trigger.payload_json.event == 'media.play') or (trigger.payload_json.event == 'media.resume')) %}
+          input_boolean.turn_on
+        {% elif ((trigger.payload_json.event == 'media.pause') or (trigger.payload_json.event == 'media.stop')) %}
+          input_boolean.turn_off
+        {% endif %}
+    entity_id: input_boolean.media_livingroom
+
+- alias: Plex - Webhook - Toggle Kitchen Boolean
+  id: media004
+  trigger:
+    platform: mqtt
+    topic: 'plex/update'
+  condition:
+    condition: and
+    conditions:
+    - condition: template
+      value_template: "{{trigger.payload_json.Account['title'] == 'Bert Verlinden'}}"
+    - condition: template
+      value_template: "{{trigger.payload_json.Player.title != 'iPhone'}}"
+    - condition: template
+      value_template: "{{trigger.payload_json.event != 'media.scrobble'}}"
+    - condition: template
+      value_template: "{{trigger.payload_json.event != 'media.rate'}}"
+    - condition: or
+      conditions:
+      - condition: template
+        value_template: "{{trigger.payload_json.Player.title == 'Apple TV Keuken'}}"
+      - condition: template
+        value_template: "{{trigger.payload_json.Player.title == 'Chrome'}}"
+  action:
+    service_template: >
+        {%- if ((trigger.payload_json.event == 'media.play') or (trigger.payload_json.event == 'media.resume')) -%}
+          input_boolean.turn_on
+        {%- elif ((trigger.payload_json.event == 'media.pause') or (trigger.payload_json.event == 'media.stop')) -%}
+          input_boolean.turn_off
+        {%- endif %}
+    entity_id: input_boolean.media_kitchen
+
+# MEDIA AUTOMATION CHECK MEDIA PLAY 
+
+- alias: Apple TV - Toogle Living Room Boolean
+  id: media005
+  trigger:
+    platform: state
+    entity_id: media_player.apple_tv_woonkamer
+  condition:
+  action:
+    service_template: >
+        {% if states('media_player.apple_tv_woonkamer') in ['playing'] %}
+          input_boolean.turn_on
+        {% elif states('media_player.apple_tv_woonkamer') not in ['playing'] %}
+          input_boolean.turn_off
+        {% endif %}
+    entity_id: input_boolean.media_livingroom
+
+- alias: Apple TV - Toogle Kitchen Room Boolean
+  id: media006
+  trigger:
+    platform: state
+    entity_id: media_player.apple_tv_keuken
+  condition:
+  action:
+    service_template: >
+        {% if states('media_player.apple_tv_keuken') in ['playing'] %}
+          input_boolean.turn_on
+        {% elif states('media_player.apple_tv_keuken') not in ['playing'] %}
+          input_boolean.turn_off
+        {% endif %}
+    entity_id: input_boolean.media_kitchen
 
 # VERSTERKER
 
