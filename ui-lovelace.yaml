@@ -1,12 +1,8 @@
 resources:
   - url: /hacsfiles/lovelace-card-tools/card-tools.js
     type: module
-  - url: /hacsfiles/mini-media-player/mini-media-player.js
-    type: module
   - url: /hacsfiles/lovelace-layout-card/layout-card.js
     type: module
-  - url: /hacsfiles/entity-attributes-card/entity-attributes-card.js
-    type: js
   - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
     type: module
 title: Home
@@ -542,21 +538,15 @@ views:
                         show_state: false
                         entities:
                           - binary_sensor.hue_sensor_woonkamer_motion
-                      - type: custom:mini-graph-card
+                      - entity: sensor.hue_sensor_woonkamer_light_level
                         name: Licht
-                        cache: true
-                        line_width: 8
-                        font_size: 55
-                        line_color: blue
-                        hours_to_show: 24
-                        smoothing: true
-                        points_per_hour: 6
-                        show:
-                          icon: false
-                          name: false
-                          state: true
-                        entities:
-                          - entity: sensor.hue_sensor_woonkamer_light_level
+                        min: 0
+                        max: 130
+                        severity:
+                          green: 65
+                          yellow: 26
+                          red: 0
+                        type: gauge
                   - type: entities
                     entities:
                       - entity: climate.keuken
@@ -675,21 +665,15 @@ views:
                         show_state: false
                         entities:
                           - binary_sensor.hue_sensor_keuken_motion
-                      - type: custom:mini-graph-card
+                      - entity: sensor.hue_sensor_keuken_light_level
                         name: Licht
-                        cache: true
-                        line_width: 8
-                        font_size: 55
-                        line_color: blue
-                        hours_to_show: 24
-                        smoothing: true
-                        points_per_hour: 6
-                        show:
-                          icon: false
-                          name: false
-                          state: true
-                        entities:
-                          - entity: sensor.hue_sensor_keuken_light_level
+                        min: 0
+                        max: 280
+                        severity:
+                          green: 140
+                          yellow: 10
+                          red: 0
+                        type: gauge
                   - type: entities
                     entities:
                       - entity: climate.keuken
@@ -806,50 +790,6 @@ views:
                         entities:
                           - entity: climate.slp_kamer
                             name: °C
-                      - type: entity-filter
-                        card:
-                          type: entities
-                        entities:
-                          - type: 'custom:mini-media-player'
-                            name: Woonkamer Alexa
-                            artwork: cover
-                            entity: media_player.alexa_livingroom_2
-                            group: true
-                            hide:
-                              mute: true
-                              power: true
-                              source: true
-                              artwork_border: true
-                              controls: false
-                            power_color: true
-                          - type: 'custom:mini-media-player'
-                            name: Boven
-                            artwork: cover
-                            entity: media_player.alexa_upstairs
-                            group: true
-                            hide:
-                              mute: true
-                              power: true
-                              source: true
-                              artwork_border: true
-                              controls: false
-                            power_color: true
-                          - type: 'custom:mini-media-player'
-                            name: Overal
-                            artwork: cover
-                            entity: media_player.alexa_everywhere
-                            group: true
-                            hide:
-                              mute: true
-                              power: true
-                              source: true
-                              artwork_border: true
-                              controls: false
-                            power_color: true
-                        show_empty: false
-                        show_header_toggle: false
-                        state_filter:
-                          - playing
               - title: Badkamer
                 type: vertical-stack
                 cards:
@@ -931,21 +871,15 @@ views:
                             show_state: false
                             entities:
                               - binary_sensor.hue_sensor_dressing_motion
-                      - type: custom:mini-graph-card
+                      - entity: sensor.hue_sensor_dressing_light_level
                         name: Licht
-                        cache: true
-                        line_width: 8
-                        font_size: 55
-                        line_color: blue
-                        hours_to_show: 24
-                        smoothing: true
-                        points_per_hour: 6
-                        show:
-                          icon: false
-                          name: false
-                          state: true
-                        entities:
-                          - entity: sensor.hue_sensor_dressing_light_level
+                        min: 0
+                        max: 150
+                        severity:
+                          green: 75
+                          yellow: 70
+                          red: 0
+                        type: gauge
                   - type: entities
                     entities:
                       - entity: climate.dressing
@@ -1090,15 +1024,6 @@ views:
                         name: Station
                       - entity: input_select.media_player
                         name: Player
-              - title: Speakers
-                type: vertical-stack
-                cards:
-                  - type: media-control
-                    entity: media_player.alexa_kitchen_1
-                  - type: media-control
-                    entity: media_player.alexa_bathroom
-                  - type: media-control
-                    entity: media_player.alexa_livingroom_1
               - title: Televisie Select
                 type: vertical-stack
                 cards:
@@ -1107,97 +1032,141 @@ views:
                     entities:
                       - entity: input_select.harmony_hub
                         name: Remote Woonkamer
-              - title: Televisie
+              - title: Now Playing
                 type: vertical-stack
                 cards:
-                  - type: media-control
-                    entity: media_player.apple_tv_woonkamer
-                  - type: media-control
-                    entity: media_player.apple_tv_keuken
-          - id: layout_2b
-            type: 'custom:layout-card'
-            layout: auto
-            cards:
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.alexa_livingroom_2
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.alexa_livingroom_2
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.alexa_kitchen_2
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.alexa_kitchen_2
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.alexa_mobile
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.alexa_mobile
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.alexa_downstairs
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.alexa_downstairs
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.alexa_everywhere
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.alexa_everywhere
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.google_home_bedroom
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.google_home_bedroom
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.chromecast_living_room
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.chromecast_living_room
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.chromecast_kitchen
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.chromecast_kitchen
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
+                      - media_player.alexa_kitchen_1
+                    state_filter:
+                      - playing
+                    card:
+                      type: media-control
+                      entity: media_player.alexa_kitchen_1
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
+                      - media_player.alexa_bathroom
+                    state_filter:
+                      - playing
+                    card:
+                      type: media-control
+                      entity: media_player.alexa_bathroom
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
+                      - media_player.alexa_livingroom_1
+                    state_filter:
+                      - playing
+                    card:
+                      type: media-control
+                      entity: media_player.alexa_livingroom_1
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
+                      - media_player.alexa_livingroom_2
+                    state_filter:
+                      - playing
+                    card:
+                      type: media-control
+                      entity: media_player.alexa_livingroom_2
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
+                      - media_player.alexa_kitchen_2
+                    state_filter:
+                      - playing
+                    card:
+                      type: media-control
+                      entity: media_player.alexa_kitchen_2
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
+                      - media_player.alexa_mobile
+                    state_filter:
+                      - playing
+                    card:
+                      type: media-control
+                      entity: media_player.alexa_mobile
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
+                      - media_player.alexa_downstairs
+                    state_filter:
+                      - playing
+                    card:
+                      type: media-control
+                      entity: media_player.alexa_downstairs
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
+                      - media_player.alexa_everywhere
+                    state_filter:
+                      - playing
+                    card:
+                      type: media-control
+                      entity: media_player.alexa_everywhere
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
+                      - media_player.google_home_bedroom
+                    state_filter:
+                      - playing
+                    card:
+                      type: media-control
+                      entity: media_player.google_home_bedroom
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
+                      - media_player.apple_tv_woonkamer
+                    state_filter:
+                      - playing
+                      - paused
+                    card:
+                      type: media-control
+                      entity: media_player.apple_tv_woonkamer
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
+                      - media_player.apple_tv_keuken
+                    state_filter:
+                      - playing
+                      - paused
+                    card:
+                      type: media-control
+                      entity: media_player.apple_tv_keuken
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
+                      - media_player.chromecast_living_room
+                    state_filter:
+                      - playing
+                    card:
+                      type: media-control
+                      entity: media_player.chromecast_living_room
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
+                      - media_player.chromecast_kitchen
+                    state_filter:
+                      - playing
+                    card:
+                      type: media-control
+                      entity: media_player.chromecast_kitchen
   - title: Energie Verbruik
     icon: 'mdi:gauge'
     id: 3
