@@ -2,7 +2,7 @@
 alias: Dennis - Uit
 sequence:
   - condition: template
-    value_template: "{{ states('vacuum.dennis') in ['on'] }}"
+    value_template: "{{ states('vacuum.dennis') not in ['docked'] }}"
   - service: vacuum.return_to_base
     data:
       entity_id: vacuum.dennis
