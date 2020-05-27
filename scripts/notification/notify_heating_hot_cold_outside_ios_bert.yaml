@@ -8,7 +8,7 @@ sequence:
       title: "VERWARMING"
       message: >
         {% if states('input_boolean.heating') == 'on' %}
-          Het is wat frisser buiten. Sluit jij de ramen dan zet ik de verwarming aan.
+          Het is wat frisser buiten. Ik zet de verwarming aan.
         {% else %}
           Het lijkt buiten voldoende warm te zijn, ik zet de verwarming uit.
         {% endif %}

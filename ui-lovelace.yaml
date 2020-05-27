@@ -149,6 +149,24 @@ views:
             type: 'custom:layout-card'
             layout: auto
             cards:
+              - type: entity-filter
+                show_header_toggle: false
+                show_empty: false
+                state_filter:
+                  - 'on'
+                  - '1'
+                  - '2'
+                  - '3'
+                  - '4'
+                entities:
+                  - entity: binary_sensor.updater
+                    name: Updates
+                  - entity: sensor.hacs
+                    name: Updates Hacs
+                card:
+                  type: glance
+                  show_name: true
+                  show_state: true
               - title: Verlichting
                 type: vertical-stack
                 cards:
@@ -349,26 +367,6 @@ views:
                       - entity: sun.sun
                     show_header_toggle: false
                     show_name: false
-              - title: Corona-Virus
-                type: vertical-stack
-                cards:
-                  - type: glance
-                    columns: 2
-                    entities:
-                      - entity: sensor.belgium_coronavirus_confirmed
-                        name: Confirmed
-                        icon: mdi:doctor
-                      - entity: sensor.belgium_coronavirus_current
-                        name: current
-                        icon: mdi:current-ac
-                      - entity: sensor.belgium_coronavirus_deaths
-                        name: Deaths
-                        icon: mdi:skull
-                      - entity: sensor.belgium_coronavirus_recovered
-                        name: Recovered
-                        icon: mdi:hand-okay
-                    show_header_toggle: false
-                    show_name: true
   - title: Ons Huisje
     icon: 'mdi:home-assistant'
     id: 1

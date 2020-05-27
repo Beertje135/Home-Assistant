@@ -16,7 +16,7 @@ sequence:
         - media_player.alexa_livingroom_2
       message: >
         {% if states('input_boolean.heating') == 'on' %}
-          'It is getting cold outside... If you close the windows... I will turn up the heating.'
+          'It is getting cold outside... I will turn up the heating.'
         {% else %}
           'It seems to be hot outside... I will turn down the heating'
         {% endif %}

@@ -19,7 +19,7 @@ sequence:
         {% if states('input_select.woning_status') in ['Thuis (Werk)'] and (states('sensor.time')) <= "09:00" %}
           'It's nice you are staying home today.'
         {% elif states('input_select.woning_status') in ['Thuis (Verlof)'] %}
-          'Enjoy your holiday.'
+          'Enjoy your day.'
         {% elif states('person.bert') not in ['home'] %}
           'Hello Caroline. Welcome Back Home'
         {% elif states('person.caroline') not in ['home'] %}

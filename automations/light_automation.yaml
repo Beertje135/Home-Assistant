@@ -632,7 +632,7 @@
     entity_id: light.aarlo_arlobaby
     state: 'on'
   - condition: template
-    value_template: "{{ states('input_select.woning_status') not in ['Thuis (Verlof)', 'Slapen'] }}"
+    value_template: "{{ states('input_select.woning_status') not in ['Thuis (Verlof)', 'Juist Wakker', 'Slapen'] }}"
   - condition: time
     weekday:
       - mon
@@ -661,7 +661,7 @@
   - condition: or
     conditions:
       - condition: template
-        value_template: "{{ states('input_select.woning_status') in ['Thuis (Verlof)'] }}"
+        value_template: "{{ states('input_select.woning_status') in ['Thuis (Verlof)', 'Juist Wakker', 'Slapen'] }}"
       - condition: time
         weekday:
           - sat
