@@ -36,6 +36,8 @@ include_entities:
   - switch.adguard_filtering
   - switch.adguard_parental_control
   - media_player.alexa_kitchen_1
+  - media_player.alexa_bathroom
+  - media_player.alexa_livingroom_1
 exclude_entities:
   - input_boolean.notify_bert
   - input_boolean.notify_caro

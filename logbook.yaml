@@ -11,7 +11,6 @@
       - person
       - vacuum
       - automation
-      - script
     entities:
       - sensor.season
       - sensor.babysit
@@ -40,47 +39,11 @@
       - group.licht_woonkamer
       - group.licht_veranda
       - group.licht_kamer_elmo
-      - automation.verwarming_boolean_change_based_on_outside_temperature
-      - automation.verwarming_boolean_change_based_on_season
-      - automation.verwarming_boolean_changes
-      - automation.verwarming_location_week_going_home_custom_mode
-      - automation.verwarming_time_verlof_awake_evening_rise_woonkamer
-      - automation.verwarming_time_verlof_morning_home_mode
-      - automation.verwarming_time_verlof_slapen_home_mode
-      - automation.verwarming_time_week_awake_evening_rise_woonkamer
-      - automation.verwarming_time_week_end_work_eco_mode
-      - automation.verwarming_time_week_slapen_auto_mode
-      - automation.verwarming_time_week_start_work_auto_mode
-      - automation.verwarming_time_weekend_awake_evening_rise_woonkamer
-      - automation.verwarming_time_weekend_morning_auto_mode
-      - automation.verwarming_time_weekend_slapen_auto_mode
-      - automation.verwarming_timer_overwrite_badkamer_auto_mode
-      - automation.verwarming_window_open_kamer_elmo_koud
-      - automation.verwarming_woning_juist_wakker_verlof_rise_beneden
-      - automation.verwarming_woning_juist_wakker_week_rise_keuken
-      - automation.verwarming_woning_juist_wakker_weekend_rise_beneden
-      - automation.verwarming_woning_slapen_verlof_home_mode
-      - automation.verwarming_woning_slapen_verlof_lower_beneden
-      - automation.verwarming_woning_slapen_week_auto_mode
-      - automation.verwarming_woning_slapen_week_lower_beneden
-      - automation.verwarming_woning_slapen_weekend_auto_mode
-      - automation.verwarming_woning_slapen_weekend_lower_beneden
-      - automation.verwarming_woning_thuis_auto_mode
-      - automation.verwarming_woning_thuis_verlof_home_mode
-      - automation.verwarming_woning_thuis_werk_custom_mode
-      - automation.verwarming_woning_vakantie_off
-      - automation.verwarming_woning_weg_auto_mode
-      - automation.verwarming_woning_weg_eco_mode
-      - automation.ons_huisje_change_status_bewoner_of_bezoeker
-      - automation.ons_huisje_change_status_juist_wakker
-      - automation.ons_huisje_change_status_thuis_off
-      - automation.ons_huisje_change_status_thuis_on_als_thuis
-      - automation.ons_huisje_change_status_timer
-      - automation.ons_huisje_change_status_trigger
   exclude:
     domains:
       - sensor
       - group
+      - script
     entities:
       - binary_sensor.hue_sensor_dressing_motion
       - binary_sensor.hue_sensor_keuken_motion
@@ -98,25 +61,9 @@
       - light.hue_light_dressing_three
       - media_player.this_device
       - media_player.alexa_mobile
-      - sensor.alexa_bathroom_next_alarm
-      - sensor.alexa_bathroom_next_reminder
-      - sensor.alexa_bathroom_next_timer
-      - sensor.alexa_bedroom_next_alarm
-      - sensor.alexa_bedroom_next_reminder
-      - sensor.alexa_bedroom_next_timer
-      - sensor.alexa_garden_next_alarm
-      - sensor.alexa_garden_next_reminder
-      - sensor.alexa_garden_next_timer
-      - sensor.alexa_kitchen_1_next_alarm
-      - sensor.alexa_kitchen_1_next_reminder
-      - sensor.alexa_kitchen_1_next_timer
-      - sensor.alexa_kitchen_2_next_alarm
-      - sensor.alexa_kitchen_2_next_reminder
-      - sensor.alexa_kitchen_2_next_timer
-      - sensor.alexa_livingroom_next_alarm
-      - sensor.alexa_livingroom_next_reminder
-      - sensor.alexa_livingroom_next_timer
-      - sensor.this_device_next_reminder
+      - automation.licht_badkamer_aan
+      - automation.licht_woonkamer_boolean_a
+      - automation.licht_woonkamer_boolean_b
 
 
 #Gebruik dit sjabloon om entiteiten te vinden:

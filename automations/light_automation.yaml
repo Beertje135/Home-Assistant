@@ -289,7 +289,7 @@
     entity_id: sensor.hue_sensor_woonkamer_light_level
     below: !secret lux_livingroom_very_low
   - condition: template
-    value_template: "{{ states('light.hue_smart_plug_woonkamer_two') in ['off'] or states('light.hue_light_woonkamer') in ['off'] }}"
+    value_template: "{{ (states('light.hue_smart_plug_woonkamer_two') in ['off'] and states('input_boolean.media_livingroom') in ['off']) or states('light.hue_light_woonkamer') in ['off'] }}"
   - condition: or
     conditions:
       - condition: template
@@ -631,6 +631,9 @@
   - condition: state
     entity_id: light.aarlo_arlobaby
     state: 'on'
+  - condition: time
+    after: '06:34:00'
+    before: '07:05:00'
   - condition: template
     value_template: "{{ states('input_select.woning_status') not in ['Thuis (Verlof)', 'Juist Wakker', 'Slapen'] }}"
   - condition: time
@@ -650,18 +653,19 @@
   trigger:
   - platform: time
     at: '07:00:00'
-  - platform: template
-    value_template: "{{ states('input_select.woning_status') in ['Thuis (Verlof)'] }}"
   condition:
   - condition: state
     entity_id: light.aarlo_arlobaby
     state: 'on'
   - condition: time
     after: '06:59:00'
+    before: '07:30:00'
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Juist Wakker', 'Slapen'] }}"
   - condition: or
     conditions:
       - condition: template
-        value_template: "{{ states('input_select.woning_status') in ['Thuis (Verlof)', 'Juist Wakker', 'Slapen'] }}"
+        value_template: "{{ states('input_select.woning_status') in ['Thuis (Verlof)'] }}"
       - condition: time
         weekday:
           - sat

@@ -309,8 +309,12 @@
 - alias: Apple TV - Toogle Living Room Boolean
   id: media005
   trigger:
-    platform: state
+  - platform: state
     entity_id: media_player.apple_tv_woonkamer
+    to: 'playing'
+  - platform: state
+    entity_id: media_player.apple_tv_woonkamer
+    from: 'playing'
   condition:
   action:
     service_template: >
@@ -324,8 +328,12 @@
 - alias: Apple TV - Toogle Kitchen Room Boolean
   id: media006
   trigger:
-    platform: state
+  - platform: state
     entity_id: media_player.apple_tv_keuken
+    to: 'playing'
+  - platform: state
+    entity_id: media_player.apple_tv_keuken
+    from: 'playing'
   condition:
   action:
     service_template: >
