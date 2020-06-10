@@ -35,7 +35,6 @@
     entities:
       - light.milight_keuken_bridge
       - light.milight_keuken
-      - light.hue_smart_plug_keuken
 
   licht_badkamer:
     entities:

@@ -65,9 +65,9 @@
 - alias: Notify - Bewoner - Aan Opvang
   trigger:
   - platform: template
-    value_template: "{{ states('person.caroline') in ['Elly', 'Nancy', 'Mama & Mark'] }}"
+    value_template: "{{ states('person.caroline') in ['Ivy', 'Nancy', 'Mama & Mark'] }}"
   - platform: template
-    value_template: "{{ states('person.bert') in ['Elly', 'Nancy', 'Mama & Mark'] }}"
+    value_template: "{{ states('person.bert') in ['Ivy', 'Nancy', 'Mama & Mark'] }}"
   condition:
   - condition: time
     weekday:

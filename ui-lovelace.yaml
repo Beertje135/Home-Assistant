@@ -43,7 +43,7 @@ views:
               - Mama & Mark
               - Oma
               - Nelly
-              - Elly
+              - Ivy
               - Nancy
               - Niki & Marcus
               - Andy
@@ -406,7 +406,7 @@ views:
               - Mama & Mark
               - Oma
               - Nelly
-              - Elly
+              - Ivy
               - Nancy
               - Niki & Marcus
               - Andy
@@ -715,7 +715,7 @@ views:
                       - playing
                     card:
                       type: media-control
-                      entity: media_player.downstairs
+                      entity: media_player.alexa_downstairs
                   - type: entity-filter
                     show_empty: false
                     show_header_toggle: false
@@ -935,7 +935,7 @@ views:
               - Mama & Mark
               - Oma
               - Nelly
-              - Elly
+              - Ivy
               - Nancy
               - Niki & Marcus
               - Andy
@@ -1204,7 +1204,7 @@ views:
               - Mama & Mark
               - Oma
               - Nelly
-              - Elly
+              - Ivy
               - Nancy
               - Niki & Marcus
               - Andy
@@ -1452,7 +1452,7 @@ views:
               - Mama & Mark
               - Oma
               - Nelly
-              - Elly
+              - Ivy
               - Nancy
               - Niki & Marcus
               - Andy
@@ -1700,7 +1700,15 @@ views:
                       - entity: switch.adguard_safe_search
                         name: Safe Search
                         tap_action:
-                          action: toggle            
+                          action: toggle
+              - title: map
+                type: horizontal-stack
+                cards:
+                  - type: map
+                    hours_to_show: 24
+                    entities:
+                      - device_tracker.iphone_van_caro
+                      - device_tracker.iphone_van_bert
               - title: Printer
                 type: horizontal-stack
                 cards:

@@ -7,7 +7,7 @@ sequence:
     data_template:
       title: "BERT STATUS"
       message: >
-        {% if states('person.bert') in ['Elly', 'Nancy', 'Mama & Mark'] %}
+        {% if states('person.bert') in ['Ivy', 'Nancy', 'Mama & Mark'] %}
           Bert is aangekomen bij {{ states('person.bert') }}.
         {% elif states('person.bert') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}
           Geen paniek maar Bert is nabij het {{ states('person.bert') }}.
