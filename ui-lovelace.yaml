@@ -88,6 +88,7 @@ views:
             state_filter:
               - home
               - 'on'
+              - 'cleaning'
             card:
               show_name: true
               show_state: false
@@ -451,6 +452,7 @@ views:
             state_filter:
               - home
               - 'on'
+              - 'cleaning'
           - id: heating_tracker_1
             type: entity-filter
             show_header_toggle: false
@@ -980,6 +982,7 @@ views:
             state_filter:
               - home
               - 'on'
+              - 'cleaning'
           - id: computer_tracker_2a
             type: glance
             show_header_toggle: false
@@ -1249,6 +1252,7 @@ views:
             state_filter:
               - home
               - 'on'
+              - 'cleaning'
           - id: problem_tracker_3
             type: entity-filter
             entities:
@@ -1496,6 +1500,7 @@ views:
             state_filter:
               - home
               - 'on'
+              - 'cleaning'
             card:
               type: glance
               show_name: true

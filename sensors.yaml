@@ -6,6 +6,19 @@
   value_template: '{{ value_json.Event == "media.resume" or value_json.Event == "media.play" }}'
   json_attributes_topic: "plex/update/sensor"
 
+# DOORBELL SENSOR
+
+- platform: mqtt
+  name: Deurbel Voor MQTT Battery Sensor
+  state_topic: 'doorbellsensorfront/status/battery'
+  value_template: '{{value_json.batt}}'
+  unit_of_measurement: "Volts"
+
+- platform: mqtt
+  name: Deurbel Voor MQTT Sensor
+  state_topic: 'doorbellsensorfront/status'
+  value_template: '{{value_json.Event}}'
+
 # WEATHER PLATFORM
 
 - platform: season

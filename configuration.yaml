@@ -91,6 +91,10 @@ input_boolean: !include input_booleans.yaml
 
 input_select: !include input_selects.yaml
 
+ffmpeg:
+
+stream:
+
 evohome:
   username: !secret username_evohome
   password: !secret password_evohome
@@ -289,16 +293,14 @@ weather:
     api_key: !secret api_key_darksky
     mode: daily
 
-mqtt:
-  broker: core-mosquitto
-  username: !secret username_mqtt
-  password: !secret password_mqtt
-
 aarlo:
-  username: !secret username_arlo
+  username: !secret username_arlo_2
   password: !secret password_arlo
   refresh_devices_every: 2
   stream_timeout: 120
+
+camera:
+  - platform: aarlo
 
 nest:
   client_id: !secret client_id_nest

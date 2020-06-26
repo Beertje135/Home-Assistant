@@ -85,18 +85,17 @@
 
 # DEURBEL AUTOMATIONS WHEN DOORBEL IS PRESSED
 
-#- alias: Deurbel - Als Deurbel Gaat
-#  id: deurbel001
-#  trigger:
-#  - platform: state
-#   entity_id: binary_sensor.deurbel_voor_button
-#  to: 'on'
-#  condition:
-#  action:
-#  - service: script.turn_on
-#    entity_id:
-#      - script.notify_deurbel
-#      - script.all_remote_harmony_hub_pause
+- alias: Deurbel - Als Deurbel Gaat
+  id: deurbel001
+  trigger:
+    platform: mqtt
+    topic: 'doorbellsensorfront/status'
+  condition:
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_deurbel
+      - script.all_remote_harmony_hub_pause
 
 # DEURBEL AUTOMATIONS CHIME ACTIVE/ NOT ACTIVE
 

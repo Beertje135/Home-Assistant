@@ -1,109 +1,104 @@
 # CONFIGURATION FOR GOOGLE ENTITIES
 # LIGHTS
+# ARLO
+
+light.aarlo_arlobaby:
+  name: Elmo's Lichtje
+  room: Elmo's Kamer
+
 # MILIGHTS
 
 light.milight_woonkamer_bridge:
   name: Woonkamer Tv Licht
-  aliases:
-    - Tv Licht
-    - Ambilight
-    - Tv Staanlamp
   room: Woonkamer
 light.milight_keuken_bridge:
   name: Keuken Tv Licht
-  aliases:
-    - Tv Licht
-    - Tv Lamp Keuken
-    - Keuken Tv Lamp
-    - Ambilight Keuken
   room: Keuken
 light.milight_keuken:
   name: Keuken Licht
-  aliases:
-    - Led Strip
-    - Keuken Led
-    - Led Keuken
   room: Keuken
 light.milight_badkamer:
   name: Badkamer Licht
-  aliases:
-    - Led Strip
-    - Badkamer Licht Strip
-    - Badkamer Lamp
-    - Lamp Badkamer
-    - Led Badkamer
   room: Badkamer
 
 # HUE LIGHTS
 
 light.hue_light_veranda:
   name: Woonkamer Licht
-  aliases:
-    - Plafond Licht
   room: Woonkamer
 light.hue_light_kamer_elmo_one:
   name: Elmo's Staanlamp
-  aliases:
-    - Staanlamp
   room: Elmo's Kamer
 light.hue_light_kamer_elmo_two:
-  name: Elmo's Licht
-  aliases:
-    - Plafond Lamp
-    - Elmo's Lamp
+  name: Elmo's Lamp
   room: Elmo's Kamer
-light.hue_bibliotheek:
-  name: Bureau Licht
-  aliases:
-    - Bibliotheek Licht
-    - Bibliotheek Lamp
-  room: Bureau
+light.hue_light_woonkamer:
+  name: Woonkamer Lamp
+  room: Woonkamer
 light.hue_light_dressing_one:
   name: Dressing Lamp 1
-  aliases:
-    - Dressing 1
-    - Dressing Licht 1
   room: Dressing
 light.hue_light_dressing_two:
   name: Dressing Lamp 2
-  aliases:
-    - Dressing 2
-    - Dressing Licht 2
   room: Dressing
 light.hue_light_dressing_three:
   name: Dressing Lamp 3
-  aliases:
-    - Dressing 3
-    - Dressing Licht 3
   room: Dressing
 
 # HUE SMART PLUGS
 
 light.hue_smart_plug_veranda:
   name: Veranda Licht
-  aliases:
-    - Veranda Led
-    - Porch Light
   room: Veranda
 light.hue_smart_plug_woonkamer_two:
-  name: Extra Plug
-  aliases:
-    - Kerstboom
-    - Christmas tree
+  name: Woonkamer Spacewalker
   room: Woonkamer
 light.hue_smart_plug_woonkamer_one:
   name: Woonkamer Licht Strip
-  aliases:
-    - Floor Light
-    - Floor Lamp
-    - Light Strip
   room: Woonkamer
 light.hue_smart_plug_keuken:
   name: Speakers
-  aliases:
-    - Boxen
-    - Kitchen Speakers
   room: Keuken
+
+# MEDIA PLAYERS
+
+media_player.apple_tv_keuken:
+  name: Apple TV HD
+  room: keuken
+
+media_player.apple_tv_woonkamer:
+  name: Apple TV 4K
+  room: Woonkamer
+
+# CLIMATE
+
+climate.badkamer:
+  name: Badkamer
+  room: Badkamer
+
+climate.dressing:
+  name: Dressing
+  room: Dressing
+
+climate.kamer_elmo:
+  name: Elmo's Kamer
+  room: Elmo's Kamer
+
+climate.keuken:
+  name: Keuken
+  room: Keuken
+
+climate.ons_huisje:
+  name: Evohome
+  room: Woning
+
+climate.slp_kamer:
+  name: Slaapkamer
+  room: Slaapkamer
+
+climate.woonkamer:
+  name: Woonkamer
+  room: Woonkamer
 
 # SWITCHES
 
@@ -127,34 +122,6 @@ input_boolean.visitor:
     - Visitor
     - Bezoek
   room: Woning
-input_boolean.trigger_home:
-  name: Trigger Thuis
-  aliases:
-    - Thuis
-    - Trigger Home
-    - Home
-  room: Woning
-input_boolean.trigger_sleep:
-  name: Trigger Slapen
-  aliases:
-    - Slapen
-    - Trigger Sleep
-    - Sleep
-  room: Woning
-input_boolean.trigger_morning:
-  name: Trigger Ochtend
-  aliases:
-    - Ochtend
-    - Trigger Awake
-    - Awake
-  room: Woning
-input_boolean.trigger_away:
-  name: Trigger Weg
-  aliases:
-    - Weg
-    - Trigger Gone
-    - Gone
-  room: Woning
 input_boolean.music_follow:
   name: Muziek Volgen
   aliases:
@@ -165,14 +132,4 @@ input_boolean.heating:
   aliases:
     - Verwarming Volgt
     - Heating Shedule
-  room: Woning
-input_boolean.notify_bert:
-  name: Bericht Bert
-  aliases:
-    - Notify Bert
-  room: Woning
-input_boolean.notify_caro:
-  name: Bericht Caro
-  aliases:
-    - Notify Caro
   room: Woning

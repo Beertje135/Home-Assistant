@@ -1,33 +1,5 @@
 # CUSTOMIZATION FOR CLIMATE
 
-    climate.slp_kamer:
-      friendly_name: Bedroom Thermostat
-      icon: mdi:thermometer
-
-    climate.badkamer:
-      friendly_name: Bathroom Thermostat
-      icon: mdi:thermometer
-
-    climate.dressing:
-      friendly_name: Dressing Thermostat
-      icon: mdi:thermometer
-
-    climate.kamer_elmo:
-      friendly_name: Elmo's Room Thermostat
-      icon: mdi:thermometer
-
-    climate.keuken:
-      friendly_name: Kitchen Thermostat
-      icon: mdi:thermometer
-
-    climate.woonkamer:
-      friendly_name: Livingroom Thermostat
-      icon: mdi:thermometer
-
-    climate.ons_huisje:
-      friendly_name: Evohome
-      icon: mdi:thermometer
-
 #CUSTOMIZE SENSORS FOR CLIMATE
 
     sensor.climate_badkamer_attributes_temperature:
