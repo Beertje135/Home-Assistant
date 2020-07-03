@@ -29,8 +29,3 @@
     sensor.climate_ons_huisje_attributes_preset_mode:
       friendly_name: Evohome Mode
       icon: mdi:thermometer
-
-    sensor.smappee_ons_huisje_water_sensor_temperature:
-      friendly_name: Basement Thermostat
-      icon: mdi:stairs
-      unit_of_measurement: °C

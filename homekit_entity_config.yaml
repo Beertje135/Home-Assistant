@@ -85,10 +85,6 @@ sensor.hue_sensor_woonkamer_light_level:
   name: Woonkamer Lichtniveau
 sensor.aarlo_humidity_arlobaby:
   name: Arlo Vochtigheid
-sensor.smappee_ons_huisje_water_sensor_temperature:
-  name: Kelder Temperatuur
-sensor.smappee_ons_huisje_water_sensor_humidity:
-  name: Kelder Vochtgheid
 
 # CLIMATE
 

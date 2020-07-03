@@ -162,62 +162,26 @@ binary_sensor:
 
 # Enable Utility meter
 utility_meter:
-  meter_elektricity_monthly:
-    source: sensor.template_elektricity_daily_usage
-    cycle: monthly
-    # Elek
-    tariffs:
-      - peak
-  meter_elektricity_yearly:
-    source: sensor.template_elektricity_daily_usage
-    cycle: yearly
-    # Elek
-    tariffs:
-      - peak
-  meter_zon_monthly:
-    source: sensor.solaredge_energy_today_template
-    # Zon
-    cycle: monthly
-    tariffs:
-      - peak
-  meter_zon_yearly:
-    source: sensor.solaredge_energy_today_template
-    # Zon
-    cycle: yearly
-    tariffs:
-      - peak
-  meter_net_use_monthly:
-    source: sensor.smappee_ons_huisje_power_today
-    cycle: monthly
-    # Net
-    tariffs:
-      - peak
-  meter_net_use_yearly:
-    source: sensor.smappee_ons_huisje_power_today
-    cycle: yearly
-    # Net
-    tariffs:
-      - peak
   meter_gas_monthly:
-    source: sensor.smappee_ons_huisje_water_sensor_2_template
+    source: sensor.ons_huisje_sensor_gas
     cycle: monthly
     # Gas
     tariffs:
       - peak
   meter_gas_yearly:
-    source: sensor.smappee_ons_huisje_water_sensor_2_template
+    source: sensor.ons_huisje_sensor_gas
     cycle: yearly
     # Gas
     tariffs:
       - peak
   meter_water_monthly:
-    source: sensor.smappee_ons_huisje_water_sensor_1_template
+    source: sensor.ons_huisje_sensor_water
     cycle: monthly
     # Water
     tariffs:
       - peak
   meter_water_yearly:
-    source: sensor.smappee_ons_huisje_water_sensor_1_template
+    source: sensor.ons_huisje_sensor_water
     cycle: yearly
     # Water
     tariffs:
@@ -243,13 +207,9 @@ influxdb:
       override_measurement: percent
     sensor.processor_use:
       override_measurement: percent
-    sensor.smappee_ons_huisje_water_sensor_battery:
-      override_measurement: percent
-    sensor.smappee_ons_huisje_power_factor:
-      override_measurement: percent
-    sensor.smappee_ons_huisje_water_sensor_1:
+    sensor.ons_huisje_sensor_water:
       override_measurement: m³
-    sensor.smappee_ons_huisje_water_sensor_2:
+    sensor.ons_huisje_sensor_gas:
       override_measurement: m³
   component_config_glob:
     sensor.*temperature:
@@ -319,11 +279,11 @@ solaredge:
 #    continuous: true
 
 smappee:
-  host: !secret ip_smappee
   client_id: !secret client_id_smappee
   client_secret: !secret client_secret_smappee
-  username: !secret username_smappee
-  password: !secret password_smappee
+#  host: !secret ip_smappee
+#  username: !secret username_smappee
+#  password: !secret password_smappee
 
 # USED FOR CONNECTING TO CALENDARS
 google:

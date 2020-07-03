@@ -65,8 +65,8 @@
       friendly_name: Alexa Downstairs
       icon: mdi:amazon-alexa
 
-    media_player.alexa_upstairs:
-      friendly_name: Alexa Upstairs
+    media_player.alexa_garden:
+      friendly_name: Alexa Garden
       icon: mdi:amazon-alexa
 
 # CUSTOMIZE APPLE TV

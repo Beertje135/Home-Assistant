@@ -26,69 +26,55 @@
 
 # CUSTOMIZE SMAPPEE SENSORS
 
-    sensor.smappee_ons_huisje_always_on_today:
-      friendly_name: ALTIJD AAN
-      icon: mdi:power
+#    sensor.smappee_ons_huisje_always_on_today:
+#      friendly_name: ALTIJD AAN
+#      icon: mdi:power
 
-    sensor.smappee_ons_huisje_active_power:
-      friendly_name: HUIDIGE VERBRUIK
-      icon: mdi:gauge
+#    sensor.smappee_ons_huisje_active_power:
+#      friendly_name: HUIDIGE VERBRUIK
+#      icon: mdi:gauge
 
 #    sensor.smappee_ons_huisje_active_power_template:
 #      friendly_name: HUIDIGE VERBRUIK
 #      icon: mdi:gauge
 
-    sensor.smappee_ons_huisje_power_today:
-      friendly_name: VERBRUIK VANDAAG
-      icon: mdi:power-plug
+#    sensor.ons_huisje_total_consumption_today:
+#      friendly_name: VERBRUIK VANDAAG
+#      icon: mdi:power-plug
 
-    sensor.smappee_ons_huisje_current:
-      friendly_name: STROOM
-      icon: mdi:power-plug
+#    sensor.smappee_ons_huisje_current:
+#      friendly_name: STROOM
+#      icon: mdi:power-plug
 
-    sensor.smappee_ons_huisje_voltage:
-      friendly_name: SPANNING
-      icon: mdi:power-plug
+#    sensor.smappee_ons_huisje_voltage:
+#      friendly_name: SPANNING
+#      icon: mdi:power-plug
 
-    sensor.smappee_ons_huisje_power_factor:
-      friendly_name: POWER FACTOR
-      icon: mdi:power-plug
+#    sensor.smappee_ons_huisje_power_factor:
+#      friendly_name: POWER FACTOR
+#      icon: mdi:power-plug
 
-    sensor.smappee_ons_huisje_solar:
-      hidden: true
+#    sensor.ons_huisje_sensor_water:
+#      friendly_name: WATER VANDAAG
+#      icon: mdi:water
 
-    sensor.smappee_ons_huisje_solar_today:
-      hidden: true
+#    sensor.ons_huisje_sensor_gas:
+#      friendly_name: GAS VANDAAG
+#      icon: mdi:fire
 
-    sensor.smappee_ons_huisje_water_sensor_1:
-      friendly_name: WATER VANDAAG
-      icon: mdi:water
+#    sensor.template_elektricity_current_usage:
+#      friendly_name: ELEK VERBRUIK HUIDIG
+#      icon: mdi:flash
 
-    sensor.smappee_ons_huisje_water_sensor_1_template:
-      friendly_name: WATER VANDAAG
-      icon: mdi:water
+#    sensor.template_elektricity_daily_usage:
+#      friendly_name: ELEK VERBRUIK DAG
+#      icon: mdi:flash
 
-    sensor.smappee_ons_huisje_water_sensor_2:
-      friendly_name: GAS VANDAAG
-      icon: mdi:fire
+#    sensor.smappee_ons_huisje_water_sensor_humidity:
+#      friendly_name: VOCHTIGHEID
+#      icon: mdi:water-percent
+#      device_class: humidity
 
-    sensor.smappee_ons_huisje_water_sensor_2_template:
-      friendly_name: GAS VANDAAG
-      icon: mdi:fire
-
-    sensor.template_elektricity_current_usage:
-      friendly_name: ELEK VERBRUIK HUIDIG
-      icon: mdi:flash
-
-    sensor.template_elektricity_daily_usage:
-      friendly_name: ELEK VERBRUIK DAG
-      icon: mdi:flash
-
-    sensor.smappee_ons_huisje_water_sensor_humidity:
-      friendly_name: VOCHTIGHEID
-      icon: mdi:water-percent
-      device_class: humidity
-
-    sensor.smappee_ons_huisje_water_sensor_battery:
-      friendly_name: BATTERIJ
-      icon: mdi:battery-charging
+#    sensor.smappee_ons_huisje_water_sensor_battery:
+#      friendly_name: BATTERIJ
+#      icon: mdi:battery-charging

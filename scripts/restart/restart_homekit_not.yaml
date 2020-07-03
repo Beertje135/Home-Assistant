@@ -17,7 +17,7 @@ sequence:
             true
           {%- elif not states('device_tracker.router_iphone_bert') -%}
             true
-          {%- elif not states('sensor.smappee_ons_huisje_water_sensor_temperature') -%}
+          {%- elif not states('sensor.ons_huisje_sensor_water') -%}
             true
           {%- elif not states('light.hue_smart_plug_keuken') -%}
             true

@@ -10,4 +10,4 @@ sequence:
       - media_player.alexa_livingroom_1
       - media_player.alexa_everywhere
       - media_player.alexa_downstairs
-      - media_player.alexa_upstairs
+      - media_player.alexa_garden

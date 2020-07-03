@@ -6,8 +6,10 @@ resources:
   - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
     type: module
 title: Home
+path: home
 views:
   - title: Favorieten
+    path: favorieten
     icon: 'mdi:star-box'
     id: 0
     panel: true
@@ -124,8 +126,6 @@ views:
                 name: Nest Beneden
               - entity: sensor.upstairs_nest_protect_battery_health
                 name: Nest Boven
-              - entity: sensor.smappee_ons_huisje_water_sensor_battery
-                name: Smappee
               - entity: sensor.aarlo_battery_level_arlobaby
                 name: Arlo
             show_empty: false
@@ -315,10 +315,10 @@ views:
                   - type: glance
                     columns: 4
                     entities:
-                      - entity: sensor.smappee_ons_huisje_power_today
+                      - entity: sensor.ons_huisje_total_consumption_today
                       - entity: sensor.solaredge_energy_today_template
-                      - entity: sensor.smappee_ons_huisje_water_sensor_2_template
-                      - entity: sensor.smappee_ons_huisje_water_sensor_1_template
+                      - entity: sensor.ons_huisje_sensor_gas
+                      - entity: sensor.ons_huisje_sensor_water
                     show_header_toggle: false
                     show_name: false
               - title: Verwarming
@@ -344,9 +344,6 @@ views:
                       - entity: climate.kamer_elmo
                         icon: mdi:baby-carriage
                         name: Elmo Kamer
-                      - entity: sensor.smappee_ons_huisje_water_sensor_temperature
-                        icon: mdi:stairs
-                        name: Kelder
                     show_header_toggle: false
                     show_name: false
               - title: Weer
@@ -884,20 +881,6 @@ views:
                     entities:
                       - entity: climate.dressing
                         name: °C
-              - title: Kelder
-                type: vertical-stack
-                cards:
-                  - type: glance
-                    columns: 4
-                    show_name: false
-                    show_state: true
-                    entities:
-                      - entity: sensor.smappee_ons_huisje_water_sensor_temperature
-                        name: Temp
-                      - entity: sensor.smappee_ons_huisje_water_sensor_humidity
-                        name: Vochtigheid
-                      - entity: sensor.smappee_ons_huisje_water_sensor_battery
-                        name: Batterij
   - title: Multi-Media
     icon: 'mdi:animation-play'
     id: 2
@@ -1272,8 +1255,6 @@ views:
                 name: Nest Beneden
               - entity: sensor.upstairs_nest_protect_battery_health
                 name: Nest Boven
-              - entity: sensor.smappee_ons_huisje_water_sensor_battery
-                name: Smappee
               - entity: sensor.aarlo_battery_level_arlobaby
                 name: Arlo
             show_empty: false
@@ -1298,48 +1279,18 @@ views:
             type: 'custom:layout-card'
             layout: auto
             cards:
-              - title: Elektriciteit
-                type: vertical-stack
-                cards:
-                  - type: gauge
-                    entity: sensor.template_elektricity_daily_usage
-                    name: Verbruik
-                    min: -10
-                    max: 35
-                    severity:
-                      green: -1
-                      yellow: 0
-                      red: 15
-                  - columns: 2
-                    entities:
-                      - entity: sensor.meter_elektricity_monthly_peak
-                        name: Deze Maand
-                      - entity: sensor.meter_elektricity_yearly_peak
-                        name: Dit Jaar
-                    show_header_toggle: true
-                    show_name: true
-                    type: glance
               - title: Gebruik Net
                 type: vertical-stack
                 cards:
-                  - entity: sensor.smappee_ons_huisje_power_today
+                  - entity: sensor.ons_huisje_total_consumption_today
                     name: Gebruik Net
                     min: 0
-                    max: 35
+                    max: 3500
                     severity:
                       green: 0
-                      yellow: 20
-                      red: 30
+                      yellow: 2000
+                      red: 3000
                     type: gauge
-                  - columns: 2
-                    entities:
-                      - entity: sensor.meter_net_use_monthly_peak
-                        name: Deze Maand
-                      - entity: sensor.meter_net_use_yearly_peak
-                        name: Dit Jaar
-                    show_header_toggle: true
-                    show_name: true
-                    type: glance
               - title: Zonne Energie
                 type: vertical-stack
                 cards:
@@ -1354,15 +1305,6 @@ views:
                           yellow: 100
                         type: gauge
                     type: horizontal-stack
-                  - columns: 2
-                    entities:
-                      - entity: sensor.meter_zon_monthly_peak
-                        name: Deze Maand
-                      - entity: sensor.meter_zon_yearly_peak
-                        name: Dit Jaar
-                    show_header_toggle: true
-                    show_name: true
-                    type: glance
                   - columns: 3
                     entities:
                       - entity: sensor.solaredge_energy_this_month_template
@@ -1378,7 +1320,7 @@ views:
                 type: vertical-stack
                 cards:
                   - cards:
-                      - entity: sensor.smappee_ons_huisje_water_sensor_1_template
+                      - entity: sensor.ons_huisje_sensor_water
                         max: 500
                         min: 0
                         name: Water
@@ -1401,7 +1343,7 @@ views:
                 type: vertical-stack
                 cards:
                   - cards:
-                      - entity: sensor.smappee_ons_huisje_water_sensor_2_template
+                      - entity: sensor.ons_huisje_sensor_gas
                         max: 20
                         min: 0
                         name: Gas
@@ -1524,8 +1466,6 @@ views:
                 name: Nest Beneden
               - entity: sensor.upstairs_nest_protect_battery_health
                 name: Nest Boven
-              - entity: sensor.smappee_ons_huisje_water_sensor_battery
-                name: Smappee
               - entity: sensor.aarlo_battery_level_arlobaby
                 name: Arlo
             show_empty: false

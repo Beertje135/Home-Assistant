@@ -125,8 +125,6 @@
   - condition: template
     value_template: "{{ states('media_player.alexa_bathroom') not in ['playing'] }}"
   - condition: template
-    value_template: "{{ states('media_player.alexa_upstairs') not in ['playing'] }}"
-  - condition: template
     value_template: "{{ states('media_player.alexa_everywhere') not in ['playing'] }}"
   action:
   - service: script.turn_on

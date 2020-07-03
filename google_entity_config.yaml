@@ -24,8 +24,8 @@ light.milight_badkamer:
 # HUE LIGHTS
 
 light.hue_light_veranda:
-  name: Woonkamer Licht
-  room: Woonkamer
+  name: Veranda Lamp
+  room: Veranda
 light.hue_light_kamer_elmo_one:
   name: Elmo's Staanlamp
   room: Elmo's Kamer
@@ -48,7 +48,7 @@ light.hue_light_dressing_three:
 # HUE SMART PLUGS
 
 light.hue_smart_plug_veranda:
-  name: Veranda Licht
+  name: Veranda Licht Strip
   room: Veranda
 light.hue_smart_plug_woonkamer_two:
   name: Woonkamer Spacewalker
@@ -133,3 +133,9 @@ input_boolean.heating:
     - Verwarming Volgt
     - Heating Shedule
   room: Woning
+
+# VACUUM
+
+vacuum.dennis:
+  name: Dennis
+  room: Woonkamer

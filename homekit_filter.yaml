@@ -25,8 +25,8 @@ include_entities:
   - sensor.hue_sensor_keuken_light_level
   - sensor.hue_sensor_dressing_light_level
   - sensor.hue_sensor_woonkamer_light_level
-  - sensor.smappee_ons_huisje_water_sensor_temperature
-  - sensor.smappee_ons_huisje_water_sensor_humidity
+  - sensor.ons_huisje_sensor_water
+  - sensor.ons_huisje_sensor_gas
   - input_select.harmony_hub
   - group.bezoekers
   - device_tracker.router_iphone_bert

@@ -19,8 +19,8 @@ sequence:
     entity_id: script.notify_hassio_restart
   - service_template: >
       {%- if states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home'] -%}
-        switch.turn_on
+        light.turn_on
       {%- else -%}
-        switch.turn_off
+        light.turn_off
       {%- endif %}
     entity_id: light.hue_smart_plug_keuken

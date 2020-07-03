@@ -7,7 +7,7 @@ sequence:
   - service: climate.set_hvac_mode
     data:
       entity_id: climate.ons_huisje
-      hvac_mode: off
+      hvac_mode: 'off'
 
 #preset_modes: away,Custom,eco,home,Reset, (Auto?)
 #hvac_mode: off, heat
