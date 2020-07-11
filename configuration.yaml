@@ -122,6 +122,7 @@ notify:
 
 # Enables Homekit
 homekit:
+  name: Ons Huisje
   auto_start: False
   filter: !include homekit_filter.yaml
   entity_config: !include homekit_entity_config.yaml
@@ -281,9 +282,9 @@ solaredge:
 smappee:
   client_id: !secret client_id_smappee
   client_secret: !secret client_secret_smappee
-#  host: !secret ip_smappee
-#  username: !secret username_smappee
-#  password: !secret password_smappee
+  host: !secret ip_smappee
+  username: !secret username_smappee
+  password: !secret password_smappee
 
 # USED FOR CONNECTING TO CALENDARS
 google:

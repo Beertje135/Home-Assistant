@@ -40,7 +40,6 @@
       - group.licht_woonkamer
       - group.licht_veranda
       - group.licht_kamer_elmo
-      - remote.harmony_hub
   exclude:
     domains:
       - sensor

@@ -153,14 +153,14 @@
 
 # SENSORS TO CALCULATE SMAPPEE - STANDARD SMAPPEE NUMBERS ARE WRONG!
 
-#- platform: template
-#  sensors:
-#    smappee_ons_huisje_water_sensor_1_template:
-#      value_template: "{{ states('sensor.ons_huisje_sensor_water') | int / 2 }}"
-#      unit_of_measurement: L
-#    smappee_ons_huisje_water_sensor_2_template:
-#      value_template: "{{ states('sensor.ons_huisje_sensor_gas') | int / 100 }}"
-#      unit_of_measurement: m³
+- platform: template
+  sensors:
+    ons_huisje_sensor_water:
+      value_template: "{{ states('sensor.smappee_ons_huisje_water_sensor_1') | int / 2 }}"
+      unit_of_measurement: m³
+    ons_huisje_sensor_gas:
+      value_template: "{{ states('sensor.smappee_ons_huisje_water_sensor_2') | int / 100 }}"
+      unit_of_measurement: m³
 
 #- platform: template
 #  sensors:

@@ -128,6 +128,8 @@ views:
                 name: Nest Boven
               - entity: sensor.aarlo_battery_level_arlobaby
                 name: Arlo
+              - entity: sensor.smappee_ons_huisje_water_sensor_battery
+                name: Smappee Water and Gas
             show_empty: false
             show_header_toggle: false
             state_filter:
@@ -966,6 +968,47 @@ views:
               - home
               - 'on'
               - 'cleaning'
+          - id: problem_tracker_2
+            type: entity-filter
+            entities:
+              - entity: sensor.upstairs_nest_protect_co_status
+                name: Nest Boven
+              - entity: sensor.upstairs_nest_protect_smoke_status
+                name: Nest Boven
+              - entity: binary_sensor.upstairs_nest_protect_online
+                name: Nest Boven
+              - entity: sensor.downstairs_nest_protect_co_status
+                name: Nest Beneden
+              - entity: sensor.downstairs_nest_protect_smoke_status
+                name: Nest Beneden
+              - entity: binary_sensor.downstairs_nest_protect_online
+                name: Nest Beneden
+              - entity: sensor.downstairs_nest_protect_battery_health
+                name: Nest Beneden
+              - entity: sensor.upstairs_nest_protect_battery_health
+                name: Nest Boven
+              - entity: sensor.aarlo_battery_level_arlobaby
+                name: Arlo
+              - entity: sensor.smappee_ons_huisje_water_sensor_battery
+                name: Smappee Water and Gas
+            show_empty: false
+            show_header_toggle: false
+            state_filter:
+              - Replace
+              - 'off'
+              - Warning
+              - Emergency
+              - gray
+              - yellow
+              - red
+              - Replace
+              - Not Ok
+              - '99.0'
+              - '0.0'
+              - '99'
+              - '0'
+            card:
+              type: entities
           - id: computer_tracker_2a
             type: glance
             show_header_toggle: false
@@ -1257,6 +1300,8 @@ views:
                 name: Nest Boven
               - entity: sensor.aarlo_battery_level_arlobaby
                 name: Arlo
+              - entity: sensor.smappee_ons_huisje_water_sensor_battery
+                name: Smappee Water and Gas
             show_empty: false
             show_header_toggle: false
             state_filter:
@@ -1279,30 +1324,50 @@ views:
             type: 'custom:layout-card'
             layout: auto
             cards:
-              - title: Gebruik Net
+              - title: Smappee
                 type: vertical-stack
                 cards:
                   - entity: sensor.ons_huisje_total_consumption_today
-                    name: Gebruik Net
+                    name: Power Vandaag
                     min: 0
-                    max: 3500
+                    max: 20000
                     severity:
                       green: 0
-                      yellow: 2000
-                      red: 3000
+                      yellow: 10000
+                      red: 15000
+                    type: gauge
+                  - columns: 3
+                    entities:
+                      - entity: sensor.ons_huisje_total_consumption_last_5_minutes
+                        name: Laatste 5min
+                      - entity: sensor.ons_huisje_total_consumption_current_hour
+                        name: Laatste uur
+                      - entity: sensor.ons_huisje_always_on_active_power
+                        name: Altijd aan
+                    show_header_toggle: true
+                    show_name: true
+                    type: glance
+                  - entity: sensor.ons_huisje_total_consumption_active_power
+                    name: Power Actief
+                    min: 0
+                    max: 7000
+                    severity:
+                      green: 0
+                      yellow: 3000
+                      red: 5000
                     type: gauge
               - title: Zonne Energie
                 type: vertical-stack
                 cards:
                   - cards:
                       - entity: sensor.solaredge_energy_today_template
-                        max: 500
+                        max: 35
                         min: 0
                         name: Zon
                         severity:
-                          green: 0
-                          red: 300
-                          yellow: 100
+                          green: 25
+                          yellow: 15
+                          red: 0
                         type: gauge
                     type: horizontal-stack
                   - columns: 3
@@ -1468,6 +1533,8 @@ views:
                 name: Nest Boven
               - entity: sensor.aarlo_battery_level_arlobaby
                 name: Arlo
+              - entity: sensor.smappee_ons_huisje_water_sensor_battery
+                name: Smappee Water and Gas
             show_empty: false
             show_header_toggle: false
             state_filter:

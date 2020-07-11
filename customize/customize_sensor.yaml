@@ -54,13 +54,13 @@
 #      friendly_name: POWER FACTOR
 #      icon: mdi:power-plug
 
-#    sensor.ons_huisje_sensor_water:
-#      friendly_name: WATER VANDAAG
-#      icon: mdi:water
+    sensor.ons_huisje_sensor_water:
+      friendly_name: Smappee Ons Huisje Water Sensor
+      icon: mdi:water
 
-#    sensor.ons_huisje_sensor_gas:
-#      friendly_name: GAS VANDAAG
-#      icon: mdi:fire
+    sensor.ons_huisje_sensor_gas:
+      friendly_name: Smappee Ons Huisje Gas Sensor
+      icon: mdi:fire
 
 #    sensor.template_elektricity_current_usage:
 #      friendly_name: ELEK VERBRUIK HUIDIG

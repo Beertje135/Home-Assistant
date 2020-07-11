@@ -50,53 +50,53 @@
 
 #Variant met Remote.living_room
 
-#- alias: Harmony Hub - Boolean Change based on Hub Status (A2)
-#  trigger:
-#  - platform: state
-#    entity_id: remote.living_room
-#  action:
-#  - service: input_select.select_option
-#    entity_id: input_select.harmony_hub
-#    data_template:
-#      option: >
-#        {% if state_attr('remote.harmony_hub', 'current_activity') == "PowerOff" %}
-#          Powered Off
-#        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Alexa" %}
-#          Alexa
-#        {% elif state_attr('remote.harmony_hub', 'current_activity') == "TV Decoder" %}
-#          Tv Decoder
-#        {% elif state_attr('remote.harmony_hub', 'current_activity') == "WebOS" %}
-#          Web OS
-#        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Nintendo Switch" %}
-#          Nintendo Switch
-#        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Apple tv" %}
-#          Apple Tv
-#        {% else %}
-#          Powered Off
-#        {% endif %}
+- alias: Harmony Hub - Boolean Change based on Hub Status (A2)
+  trigger:
+  - platform: state
+    entity_id: remote.living_room
+  action:
+  - service: input_select.select_option
+    entity_id: input_select.harmony_hub
+    data_template:
+      option: >
+        {% if state_attr('remote.living_room', 'current_activity') == "PowerOff" %}
+          Powered Off
+        {% elif state_attr('remote.living_room', 'current_activity') == "Alexa" %}
+          Alexa
+        {% elif state_attr('remote.living_room', 'current_activity') == "TV Decoder" %}
+          Tv Decoder
+        {% elif state_attr('remote.living_room', 'current_activity') == "WebOS" %}
+          Web OS
+        {% elif state_attr('remote.living_room', 'current_activity') == "Nintendo Switch" %}
+          Nintendo Switch
+        {% elif state_attr('remote.living_room', 'current_activity') == "Apple tv" %}
+          Apple Tv
+        {% else %}
+          Powered Off
+        {% endif %}
 
-#- alias: Harmony Hub - Boolean Changes (B2)
-#  trigger:
-#  - platform: state
-#    entity_id: input_select.harmony_hub
-#  action:
-#  - service: remote.turn_on
-#    data_template:
-#      entity_id: remote.living_room
-#      activity: >
-#        {% if states('input_select.harmony_hub') in ['Powered Off'] %}
-#          -1
-#        {% elif states('input_select.harmony_hub') in ['Alexa'] %}
-#          35750774
-#        {% elif states('input_select.harmony_hub') in ['Tv Decoder'] %}
-#          42338759
-#        {% elif states('input_select.harmony_hub') in ['Web OS'] %}
-#          42338833
-#        {% elif states('input_select.harmony_hub') in ['Apple Tv'] %}
-#          29425458
-#        {% elif states('input_select.harmony_hub') in ['Nintendo Switch'] %}
-#          30703348
-#        {% endif %}
+- alias: Harmony Hub - Boolean Changes (B2)
+  trigger:
+  - platform: state
+    entity_id: input_select.harmony_hub
+  action:
+  - service: remote.turn_on
+    data_template:
+      entity_id: remote.living_room
+      activity: >
+        {% if states('input_select.harmony_hub') in ['Powered Off'] %}
+          -1
+        {% elif states('input_select.harmony_hub') in ['Alexa'] %}
+          35750774
+        {% elif states('input_select.harmony_hub') in ['Tv Decoder'] %}
+          42338759
+        {% elif states('input_select.harmony_hub') in ['Web OS'] %}
+          42338833
+        {% elif states('input_select.harmony_hub') in ['Apple Tv'] %}
+          29425458
+        {% elif states('input_select.harmony_hub') in ['Nintendo Switch'] %}
+          30703348
+        {% endif %}
 
 # START TV ON WEEKDAYS
 
