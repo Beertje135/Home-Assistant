@@ -47,7 +47,7 @@
   - platform: state
     entity_id:
       - vacuum.dennis
-    to: 'on'
+    to: 'cleaning'
     for:
       minutes: 55
   condition:
