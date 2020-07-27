@@ -4,6 +4,13 @@ homeassistant:
 #lovelace in yaml mode
 lovelace:
   mode: yaml
+#  resources:
+#    - url: /hacsfiles/lovelace-card-tools/card-tools.js
+#      type: module
+#    - url: /hacsfiles/lovelace-layout-card/layout-card.js
+#      type: module
+#    - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
+#      type: module
 
 # Start with a default configuration (will start new things when available)
 default_config:
@@ -101,19 +108,9 @@ evohome:
   scan_interval: 120
 
 logger:
-  default: warning
+  default: info
   logs:
     homeassistant.core: critical
-#    pyatv: debug
-#    custom_components.apple_tv: debug
-#    custom_components.alexa_media: debug
-#    alexapy: debug
-
-# CUSTOM COMPONENTS
-hacs:
-  token: !secret api_key_hacs
-  appdaemon: False
-  python_script: False
 
 # Text to speech
 notify:
@@ -248,7 +245,6 @@ influxdb:
     weather.*:
       override_measurement: celsius_weather
 
-
 weather:
   - platform: darksky
     api_key: !secret api_key_darksky
@@ -271,14 +267,6 @@ solaredge:
   api_key: !secret api_key_solar_edge
   site_id: !secret client_id_solar_edge
 
-#vacuum:
-#  - platform: roomba
-#    host: !secret ip_irobot
-#    username: !secret username_irobot
-#    password: !secret password_irobot
-#    name: Dennis
-#    continuous: true
-
 smappee:
   client_id: !secret client_id_smappee
   client_secret: !secret client_secret_smappee
@@ -291,23 +279,6 @@ google:
   client_id: !secret client_id_google
   client_secret: !secret client_secret_google
   track_new_calendar: False
-
-#emulated_hue:
-#  host_ip: !secret ip_homeassistant
-#  expose_by_default: false
-#  off_maps_to_on_domains:
-#    - script
-#  exposed_domains:
-#    - switch
-#    - light
-#    - input_boolean
-#  entities: !include emulated_hue_entity_config.yaml
-
-hue:
-  bridges:
-    host: !secret ip_hue
-    allow_unreachable: true
-    allow_hue_groups: false
 
 light:
   - platform: limitlessled
@@ -336,3 +307,34 @@ switch:
     host: !secret ip_computer_lan
     turn_off:
       service: script.computer_off
+
+# OLD COMPONENTS
+#hacs:
+#  token: !secret api_key_hacs
+#  appdaemon: False
+#  python_script: False
+
+#emulated_hue:
+#  host_ip: !secret ip_homeassistant
+#  expose_by_default: false
+#  off_maps_to_on_domains:
+#    - script
+#  exposed_domains:
+#    - switch
+#    - light
+#    - input_boolean
+#  entities: !include emulated_hue_entity_config.yaml
+
+#hue:
+#  bridges:
+#    host: !secret ip_hue
+#    allow_unreachable: true
+#    allow_hue_groups: false
+
+#vacuum:
+#  - platform: roomba
+#    host: !secret ip_irobot
+#    username: !secret username_irobot
+#    password: !secret password_irobot
+#    name: Dennis
+#    continuous: true
