@@ -4,7 +4,7 @@
   trigger:
   - entity_id: person.bert
     platform: state
-    to: home
+    to: 'home'
   condition:
   - condition: state
     entity_id: input_select.woning_status
@@ -21,7 +21,7 @@
     wait_template: '{{ is_state(''device_tracker.router_iphone_bert'', ''home'') }}'
   - entity_id: script.notify_waste_ios_bert
     service: script.turn_on
-  initial_state: false
+  initial_state: 'false'
   mode: single
 - id: vuilbak_002
   alias: Vuilbakken - Reminder voor avond
@@ -43,7 +43,7 @@
     entity_id: script.notify_waste
 - id: vuilbak_003
   alias: Vuilbakken - Status Woning Changes
-  initial_state: false
+  initial_state: 'false'
   trigger:
   - platform: state
     entity_id: input_select.woning_status
@@ -750,7 +750,7 @@
       entity_id: input_boolean.media_kitchen
 - id: vacuum_001
   alias: Vacuum Dennis - Notify - Status Dennis Changes
-  initial_state: false
+  initial_state: 'false'
   trigger:
   - platform: template
     value_template: '{{ state_attr(''vacuum.dennis'', ''bin_full'') == true }}'
@@ -770,7 +770,7 @@
     - script.notify_vacuum
 - id: vacuum_002
   alias: Vacuum Dennis - Notify - Status Woning Changes
-  initial_state: false
+  initial_state: 'false'
   trigger:
   - platform: state
     entity_id: input_select.woning_status
@@ -868,7 +868,7 @@
     entity_id: script.dennis_on
 - id: printer_001
   alias: Printer - Notify - Ink Low
-  initial_state: false
+  initial_state: 'false'
   trigger:
   - platform: numeric_state
     entity_id: sensor.hp_deskjet_3700_series_black_ink
