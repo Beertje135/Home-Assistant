@@ -1,4 +1,4 @@
 
 alias: Empty
 sequence:
-  - delay: 00:00:00
+  - delay: 00:00:01

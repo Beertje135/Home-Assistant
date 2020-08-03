@@ -21,7 +21,7 @@
     wait_template: '{{ is_state(''device_tracker.router_iphone_bert'', ''home'') }}'
   - entity_id: script.notify_waste_ios_bert
     service: script.turn_on
-  initial_state: 'false'
+  initial_state: false
   mode: single
 - id: vuilbak_002
   alias: Vuilbakken - Reminder voor avond
@@ -43,7 +43,7 @@
     entity_id: script.notify_waste
 - id: vuilbak_003
   alias: Vuilbakken - Status Woning Changes
-  initial_state: 'false'
+  initial_state: false
   trigger:
   - platform: state
     entity_id: input_select.woning_status
@@ -89,6 +89,9 @@
       state: 'playing'
       entity_id:
         - media_player.alexa_downstairs
+    - condition: state
+      state: 'playing'
+      entity_id:
         - media_player.alexa_everywhere
   action:
   - service: script.turn_on
@@ -120,7 +123,13 @@
       state: 'playing'
       entity_id:
       - media_player.alexa_livingroom_1
+    - condition: state
+      state: 'playing'
+      entity_id:
       - media_player.alexa_downstairs
+    - condition: state
+      state: 'playing'
+      entity_id:
       - media_player.alexa_everywhere
   - condition: state
     entity_id: input_select.woning_status
@@ -173,21 +182,59 @@
               state: 'playing'
               entity_id:
                 - media_player.alexa_livingroom_1
+            - condition: state
+              state: 'playing'
+              entity_id:
                 - media_player.alexa_downstairs
+            - condition: state
+              state: 'playing'
+              entity_id:
                 - media_player.alexa_everywhere
           - condition: state
             state: 'Alexa'
             entity_id:
               - input_select.harmony_hub
   action:
-  - service: script.turn_on
-    data_template:
-      entity_id: "{%- if states('media_player.alexa_livingroom_1') not in ['playing']\
-        \ and states('media_player.alexa_downstairs') not in ['playing'] and states('media_player.alexa_everywhere')\
-        \ not in ['playing'] and states('input_select.harmony_hub') in ['Alexa'] -%}\n\
-        \  script.woonkamer_music_play\n{%- elif states('media_player.alexa_livingroom_1')\
-        \ in ['playing'] and states('input_select.harmony_hub') not in ['Alexa'] -%}\n\
-        \  script.woonkamer_music_stop\n{%- else -%}\n  script.empty\n{%- endif %}\n"
+  - choose:
+    - conditions:
+      - condition: state
+        state: 'Alexa'
+        entity_id:
+          - input_select.harmony_hub
+      - condition: not
+        conditions:
+        - condition: state
+          state: 'playing'
+          entity_id:
+            - media_player.alexa_livingroom_1
+        - condition: state
+          state: 'playing'
+          entity_id:
+            - media_player.alexa_downstairs
+        - condition: state
+          state: 'playing'
+          entity_id:
+            - media_player.alexa_everywhere
+      sequence:
+      - service: script.turn_on
+        entity_id: script.woonkamer_music_play
+    - conditions:
+      - condition: state
+        state: 'playing'
+        entity_id:
+          - media_player.alexa_livingroom_1
+      - condition: not
+        conditions:
+        - condition: state
+          state: 'Alexa'
+          entity_id:
+            - input_select.harmony_hub
+      sequence:
+      - service: script.turn_on
+        entity_id: script.woonkamer_music_stop
+    default:
+    - service: script.turn_on
+      entity_id: script.empty
 - id: music_livingroom_002
   alias: Muziek - Woonkamer - Stop
   trigger:
@@ -211,9 +258,16 @@
       sequence:
       - service: script.turn_on
         entity_id: script.beneden_music_stop
+    - conditions:
+      - condition: state
+        entity_id: media_player.alexa_livingroom_1
+        state: 'playing'
+      sequence:
+      - service: script.turn_on
+        entity_id: script.woonkamer_music_stop
     default:
     - service: script.turn_on
-      entity_id: script.woonkamer_music_stop
+      entity_id: script.empty
 - id: music_bathroom_001
   alias: Muziek - Badkamer - Play
   trigger:
@@ -241,6 +295,9 @@
       state: 'playing'
       entity_id:
       - media_player.alexa_bathroom
+    - condition: state
+      state: 'playing'
+      entity_id:
       - media_player.alexa_everywhere
   action:
   - service: script.turn_on
@@ -309,7 +366,13 @@
       state: 'playing'
       entity_id:
         - media_player.alexa_kitchen_1
+    - condition: state
+      state: 'playing'
+      entity_id:
         - media_player.alexa_downstairs
+    - condition: state
+      state: 'playing'
+      entity_id:
         - media_player.alexa_everywhere
   - condition: state
     entity_id: input_select.woning_status
@@ -400,7 +463,15 @@
     - condition: state
       state:
         - Juist Weg
+      entity_id:
+        - input_select.woning_status
+    - condition: state
+      state:
         - Weg
+      entity_id:
+        - input_select.woning_status
+    - condition: state
+      state:
         - Slapen
       entity_id:
         - input_select.woning_status
@@ -750,7 +821,7 @@
       entity_id: input_boolean.media_kitchen
 - id: vacuum_001
   alias: Vacuum Dennis - Notify - Status Dennis Changes
-  initial_state: 'false'
+  initial_state: false
   trigger:
   - platform: template
     value_template: '{{ state_attr(''vacuum.dennis'', ''bin_full'') == true }}'
@@ -770,7 +841,7 @@
     - script.notify_vacuum
 - id: vacuum_002
   alias: Vacuum Dennis - Notify - Status Woning Changes
-  initial_state: 'false'
+  initial_state: false
   trigger:
   - platform: state
     entity_id: input_select.woning_status
@@ -868,7 +939,7 @@
     entity_id: script.dennis_on
 - id: printer_001
   alias: Printer - Notify - Ink Low
-  initial_state: 'false'
+  initial_state: false
   trigger:
   - platform: numeric_state
     entity_id: sensor.hp_deskjet_3700_series_black_ink

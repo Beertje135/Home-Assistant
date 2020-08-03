@@ -4,6 +4,13 @@
   trigger:
   - platform: state
     entity_id: remote.harmony_hub
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      state: 'unavailable'
+      entity_id:
+        - remote.harmony_hub
   action:
   - service: input_select.select_option
     entity_id: input_select.harmony_hub
@@ -29,6 +36,13 @@
   trigger:
   - platform: state
     entity_id: input_select.harmony_hub
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      state: 'unavailable'
+      entity_id:
+        - remote.harmony_hub
   action:
   - service: remote.turn_on
     data_template:
@@ -54,6 +68,13 @@
   trigger:
   - platform: state
     entity_id: remote.living_room
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      state: 'unavailable'
+      entity_id:
+        - remote.living_room
   action:
   - service: input_select.select_option
     entity_id: input_select.harmony_hub
@@ -79,6 +100,13 @@
   trigger:
   - platform: state
     entity_id: input_select.harmony_hub
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      state: 'unavailable'
+      entity_id:
+        - remote.living_room
   action:
   - service: remote.turn_on
     data_template:
@@ -100,17 +128,25 @@
 
 # START TV ON WEEKDAYS
 
-- alias: Harmony Hub - Start Tv on weekday evening
+- id: harmony_start_001
+  alias: Harmony Hub - Start Tv evening
   trigger:
   - platform: state
     entity_id: binary_sensor.hue_sensor_woonkamer_motion
     from: 'off'
     to: 'on'
   condition:
-#  - condition: template
-#    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] }}"  
-  - condition: template
-    value_template: "{{ states('input_select.harmony_hub') in ['Powered Off', 'Alexa'] }}"
+  - condition: state
+    entity_id: input_select.woning_status
+    state:
+    - Thuis
+    - Thuis (Werk)
+    - Thuis (Verlof)
+  - condition: state
+    entity_id: input_select.harmony_hub
+    state:
+    - Powered Off
+    - Alexa
   - condition: time
     before: '20:20:00'
     after: '19:50:00'
