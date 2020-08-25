@@ -116,6 +116,10 @@ logger:
 notify:
   - platform: alexa_media
     name: alexa_media
+  - platform: file
+    name: entity_log
+    filename: /config/www/entity_log.txt
+    timestamp: false
 
 # Enables Homekit
 homekit:
@@ -186,7 +190,75 @@ utility_meter:
       - peak
 
 recorder:
-  purge_keep_days: 3
+  purge_keep_days: 7
+  exclude:
+    domains:
+      - binary_sensor
+      - camera
+      - device_tracker
+      - input_boolean
+      - remote
+      - script
+      - sensor
+      - switch
+      - weather
+      - zone
+    entities:
+      - group.bewoners
+      - group.bewoners_router
+      - group.licht_woonkamer
+      - input_select.media_player
+      - input_select.radio_station
+      - media_player.alexa_mobile
+      - media_player.this_device
+  include:
+    entities:
+      - binary_sensor.hue_sensor_dressing_motion
+      - binary_sensor.hue_sensor_keuken_motion
+      - binary_sensor.hue_sensor_woonkamer_motion
+      - binary_sensor.remote_ui
+      - binary_sensor.snapshots_stale
+      - input_boolean.cooling_downstairs
+      - input_boolean.cooling_upstairs
+      - input_boolean.heating
+      - input_boolean.media_kitchen
+      - input_boolean.media_livingroom
+      - sensor.aarlo_air_quality_arlobaby
+      - sensor.aarlo_humidity_arlobaby
+      - sensor.aarlo_temperature_arlobaby
+      - sensor.cpu_temperature
+      - sensor.disk_use_percent_home
+      - sensor.downstairs_nest_protect_battery_health
+      - sensor.downstairs_nest_protect_co_status
+      - sensor.downstairs_nest_protect_color_status
+      - sensor.downstairs_nest_protect_smoke_status
+      - sensor.hp_deskjet_3700_series_black_ink
+      - sensor.hp_deskjet_3700_series_tri_color_ink
+      - sensor.memory_use_percent
+      - sensor.meter_gas_monthly_peak
+      - sensor.meter_gas_yearly_peak
+      - sensor.meter_water_monthly_peak
+      - sensor.meter_water_yearly_peak
+      - sensor.ons_huisje_sensor_gas
+      - sensor.ons_huisje_sensor_water
+      - sensor.processor_use
+      - sensor.season
+      - sensor.smappee_ons_huisje_power_today
+      - sensor.smappee_ons_huisje_water_sensor_1
+      - sensor.smappee_ons_huisje_water_sensor_2
+      - sensor.smappee_ons_huisje_water_sensor_humidity
+      - sensor.smappee_ons_huisje_water_sensor_temperature
+      - sensor.solaredge_energy_this_month
+      - sensor.solaredge_energy_this_year
+      - sensor.solaredge_energy_today
+      - sensor.solaredge_lifetime_energy
+      - sensor.template_delta_set_temperature
+      - sensor.template_delta_temperature
+      - sensor.upstairs_nest_protect_battery_health
+      - sensor.upstairs_nest_protect_co_status
+      - sensor.upstairs_nest_protect_color_status
+      - sensor.upstairs_nest_protect_smoke_status
+      - switch.wake_on_lan
 
 influxdb:
   host: a0d7b954-influxdb

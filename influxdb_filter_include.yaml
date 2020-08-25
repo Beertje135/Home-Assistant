@@ -39,11 +39,11 @@
       - sensor.memory_use_percent
       - sensor.processor_use
       - sensor.cpu_temperature
-      - sensor.ons_huisje_total_consumption_active_power
+      - sensor.smappee_ons_huisje_active_power
       - sensor.ons_huisje_always_on_today
       - sensor.ons_huisje_always_on_active_power
       - sensor.ons_huisje_total_consumption_current_hour
-      - sensor.ons_huisje_total_consumption_today
+      - sensor.smappee_ons_huisje_power_today
       - sensor.ons_huisje_total_consumption_last_5_minutes
       - sensor.ons_huisje_sensor_water
       - sensor.ons_huisje_sensor_gas

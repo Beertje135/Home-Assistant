@@ -11,10 +11,10 @@
     state: Thuis,Thuis (Werk),Thuis (Verlof)
   - condition: template
     value_template: '{{ ((as_timestamp(now())+ (86400)) | timestamp_custom(''%Y-%m-%d'',true)
-      == states(''sensor.ophaalkalender_restafval'')) or ((as_timestamp(now())+ (86400))
-      | timestamp_custom(''%Y-%m-%d'',true) == states(''sensor.ophaalkalender_papier''))
+      == states(''sensor.recycleapp_restafval'')) or ((as_timestamp(now())+ (86400))
+      | timestamp_custom(''%Y-%m-%d'',true) == states(''sensor.recycleapp_papier''))
       or ((as_timestamp(now())+ (86400)) | timestamp_custom(''%Y-%m-%d'',true) ==
-      states(''sensor.ophaalkalender_pmd'')) }}'
+      states(''sensor.recycleapp_pmd'')) }}'
   action:
   - continue_on_timeout: false
     timeout: 00:05:00
@@ -34,10 +34,10 @@
       ''Thuis'', ''Thuis (Werk)'', ''Thuis (Verlof)''] }}'
   - condition: template
     value_template: '{{ ((as_timestamp(now())+ (86400)) | timestamp_custom(''%Y-%m-%d'',true)
-      == states(''sensor.ophaalkalender_restafval'')) or ((as_timestamp(now())+ (86400))
-      | timestamp_custom(''%Y-%m-%d'',true) == states(''sensor.ophaalkalender_papier''))
+      == states(''sensor.recycleapp_restafval'')) or ((as_timestamp(now())+ (86400))
+      | timestamp_custom(''%Y-%m-%d'',true) == states(''sensor.recycleapp_papier''))
       or ((as_timestamp(now())+ (86400)) | timestamp_custom(''%Y-%m-%d'',true) ==
-      states(''sensor.ophaalkalender_pmd'')) }}'
+      states(''sensor.recycleapp_pmd'')) }}'
   action:
   - service: script.turn_on
     entity_id: script.notify_waste
@@ -60,11 +60,11 @@
   condition:
   - condition: template
     value_template: '{{ ((as_timestamp(now())+ (86400)) | timestamp_custom(''%Y-%m-%d'',true)
-      == states(''sensor.ophaalkalender_restafval'')) or ((as_timestamp(now())+ (86400))
-      | timestamp_custom(''%Y-%m-%d'',true) == states(''sensor.ophaalkalender_papier''))
+      == states(''sensor.recycleapp_restafval'')) or ((as_timestamp(now())+ (86400))
+      | timestamp_custom(''%Y-%m-%d'',true) == states(''sensor.recycleapp_papier''))
       or ((as_timestamp(now())+ (86400)) | timestamp_custom(''%Y-%m-%d'',true) ==
-      states(''sensor.ophaalkalender_pmd'')) or ((as_timestamp(now())+ (86400)) |
-      timestamp_custom(''%Y-%m-%d'',true) == states(''sensor.ophaalkalender_glas''))
+      states(''sensor.recycleapp_pmd'')) or ((as_timestamp(now())+ (86400)) |
+      timestamp_custom(''%Y-%m-%d'',true) == states(''sensor.recycleapp_glas''))
       }}'
   action:
   - service: script.turn_on
@@ -957,3 +957,4 @@
   - service: script.turn_on
     entity_id:
     - script.notify_printer
+  - delay: 12:00:00

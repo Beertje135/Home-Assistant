@@ -38,7 +38,7 @@
 #      friendly_name: HUIDIGE VERBRUIK
 #      icon: mdi:gauge
 
-#    sensor.ons_huisje_total_consumption_today:
+#    sensor.smappee_ons_huisje_power_today:
 #      friendly_name: VERBRUIK VANDAAG
 #      icon: mdi:power-plug
 

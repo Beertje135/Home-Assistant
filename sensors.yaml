@@ -27,7 +27,7 @@
 # CUSTOM SENSOR AFVAL
 
 - platform: afvalbeheer
-  wastecollector: Ophaalkalender
+  wastecollector: RecycleApp
   resources:
     - restafval
     - papier
@@ -168,7 +168,7 @@
 #      value_template: "{{ ((states('sensor.smappee_ons_huisje_active_power') | float ) + (states('sensor.solaredge_current_power') | float )) | round(2) }}"
 #      unit_of_measurement: 'W'
 #    template_elektricity_daily_usage:
-#      value_template: "{{ ((states('sensor.ons_huisje_total_consumption_today') | float ) + (states('sensor.solaredge_energy_today_template') | float )) | round(2) }}"
+#      value_template: "{{ ((states('sensor.smappee_ons_huisje_power_today') | float ) + (states('sensor.solaredge_energy_today_template') | float )) | round(2) }}"
 #      unit_of_measurement: 'kWh'
 
 # SENSORS TO ADAPT SOLAR EDGE & SMAPPEE DISPLAYED UNITS
@@ -191,7 +191,7 @@
       value_template: "{{ (states('sensor.solaredge_lifetime_energy') | float / 1000000) | round(2) }}"
       unit_of_measurement: 'MWh'
 #    smappee_ons_huisje_power_today_template:
-#      value_template: "{{ (states('sensor.ons_huisje_total_consumption_today') | float * 1000) | round(2) }}"
+#      value_template: "{{ (states('sensor.smappee_ons_huisje_power_today') | float * 1000) | round(2) }}"
 #      unit_of_measurement: 'Wh'
 #    smappee_ons_huisje_active_power_template:
 #      value_template: "{{ (states('sensor.smappee_ons_huisje_active_power') | float / 1000) | round(2) }}"

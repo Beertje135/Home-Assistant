@@ -317,7 +317,7 @@ views:
                   - type: glance
                     columns: 4
                     entities:
-                      - entity: sensor.ons_huisje_total_consumption_today
+                      - entity: sensor.smappee_ons_huisje_power_today
                       - entity: sensor.solaredge_energy_today_template
                       - entity: sensor.ons_huisje_sensor_gas
                       - entity: sensor.ons_huisje_sensor_water
@@ -1327,7 +1327,7 @@ views:
               - title: Smappee
                 type: vertical-stack
                 cards:
-                  - entity: sensor.ons_huisje_total_consumption_today
+                  - entity: sensor.smappee_ons_huisje_power_today
                     name: Power Vandaag
                     min: 0
                     max: 20000
@@ -1347,7 +1347,7 @@ views:
                     show_header_toggle: true
                     show_name: true
                     type: glance
-                  - entity: sensor.ons_huisje_total_consumption_active_power
+                  - entity: sensor.smappee_ons_huisje_active_power
                     name: Power Actief
                     min: 0
                     max: 7000
@@ -1565,30 +1565,12 @@ views:
                     entities:
                       - entity: input_select.woning_status
                         name: Woning
-                      - entity: group.bewoners_router
-                        name: Bewoner Router
-                      - entity: group.bewoners
-                        name: Bewoner
                       - entity: group.bezoekers
                         name: Bezoek
-                  - type: history-graph
-                    hours_to_show: 12
-                    entities:
                       - entity: person.bert
                         name: Bert
-                      - entity: device_tracker.router_iphone_bert
-                        name: Router
-                      - entity: device_tracker.iphone_van_bert
-                        name: Ios
-                  - type: history-graph
-                    hours_to_show: 12
-                    entities:
                       - entity: person.caroline
                         name: Caroline
-                      - entity: device_tracker.router_iphone_caro
-                        name: Router
-                      - entity: device_tracker.iphone_van_caro
-                        name: Ios
               - title: Afvalkalender
                 type: vertical-stack
                 cards:
@@ -1597,13 +1579,13 @@ views:
                     columns: 2
                     show_header_toggle: false
                     entities:
-                      - entity: sensor.ophaalkalender_restafval
+                      - entity: sensor.recycleapp_restafval
                         name: Restafval
-                      - entity: sensor.ophaalkalender_pmd
+                      - entity: sensor.recycleapp_pmd
                         name: Pmd
-                      - entity:  sensor.ophaalkalender_papier
+                      - entity:  sensor.recycleapp_papier
                         name: Papier
-                      - entity:  sensor.ophaalkalender_glas
+                      - entity:  sensor.recycleapp_glas
                         name: Glas
               - title: Server
                 type: vertical-stack

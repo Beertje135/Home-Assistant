@@ -8,7 +8,7 @@
 #      friendly_name: VERB. DAG
 #      icon: mdi:power-plug
 
-    sensor.ons_huisje_total_consumption_today_monthly_peak:
+    sensor.smappee_ons_huisje_power_today_monthly_peak:
       friendly_name: VERBR. MAAND
       icon: mdi:power-plug
 
