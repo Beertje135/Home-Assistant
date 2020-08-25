@@ -218,6 +218,8 @@ recorder:
       - binary_sensor.hue_sensor_woonkamer_motion
       - binary_sensor.remote_ui
       - binary_sensor.snapshots_stale
+      - device_tracker.iphone_van_caro
+      - device_tracker.iphone_van_bert
       - input_boolean.cooling_downstairs
       - input_boolean.cooling_upstairs
       - input_boolean.heating
