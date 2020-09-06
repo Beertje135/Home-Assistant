@@ -7,14 +7,14 @@
   - platform: template
     value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Juist Thuis'] }}"
   - platform: numeric_state
-    entity_id: sensor.hue_sensor_keuken_light_level
+    entity_id: sensor.hue_sensor_veranda_light_level
     below: !secret lux_veranda_low
   condition:
   - condition: state
     entity_id: input_boolean.light_downstairs
     state: 'on'
   - condition: numeric_state
-    entity_id: sensor.hue_sensor_keuken_light_level
+    entity_id: sensor.hue_sensor_veranda_light_level
     below: !secret lux_veranda_low
   - condition: or
     conditions:
@@ -45,7 +45,7 @@
     entity_id: input_boolean.light_downstairs
     to: 'off'
   - platform: numeric_state
-    entity_id: sensor.hue_sensor_keuken_light_level
+    entity_id: sensor.hue_sensor_veranda_light_level
     above: !secret lux_veranda_high
   condition:
   - condition: state
@@ -66,7 +66,7 @@
             for:
               minutes: 30
       - condition: numeric_state
-        entity_id: sensor.hue_sensor_keuken_light_level
+        entity_id: sensor.hue_sensor_veranda_light_level
         above: !secret lux_veranda_high
       - condition: state
         entity_id: input_boolean.light_downstairs
@@ -81,14 +81,14 @@
   - platform: state
     entity_id: binary_sensor.hue_sensor_keuken_motion
   - platform: numeric_state
-    entity_id: sensor.hue_sensor_keuken_light_level
+    entity_id: sensor.hue_sensor_veranda_light_level
     below: !secret lux_veranda_very_low
   condition:
   - condition: state
     entity_id: input_boolean.light_downstairs
     state: 'on'
   - condition: numeric_state
-    entity_id: sensor.hue_sensor_keuken_light_level
+    entity_id: sensor.hue_sensor_veranda_light_level
     below: !secret lux_veranda_very_low
   - condition: or
     conditions:
@@ -106,7 +106,7 @@
 - alias: Licht - Veranda - Uit Flos Arco
   trigger:
   - platform: numeric_state
-    entity_id: sensor.hue_sensor_keuken_light_level
+    entity_id: sensor.hue_sensor_veranda_light_level
     above: !secret lux_veranda_very_low
   - platform: state
     entity_id: input_boolean.light_downstairs

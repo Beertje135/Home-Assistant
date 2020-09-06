@@ -78,6 +78,16 @@
         - climate.ons_huisje
         - weather.dark_sky
 
+- platform: template
+  sensors:
+    hue_sensor_veranda_light_level:
+      value_template: >
+        {{ (((states('sensor.hue_sensor_keuken_light_level') | float) + (states('sensor.hue_sensor_keuken_light_level') | float) + (states('sensor.hue_sensor_woonkamer_light_level') | float)) / 3) | round(2) }}
+      unit_of_measurement: 'lx'
+      entity_id:
+        - sensor.hue_sensor_keuken_light_level
+        - sensor.hue_sensor_woonkamer_light_level
+
 # SENSOR TO RENAME ON AND OFF FOR VISITOR SO IT CAN BE INCLUDED IN GROUP_BEZOEKER
 
 - platform: template
