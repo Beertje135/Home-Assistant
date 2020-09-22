@@ -62,4 +62,4 @@
     entities:
       - light.hue_light_kamer_elmo_one
       - light.hue_light_kamer_elmo_two
-      - light.aarlo_arlobaby
+      - light.aarlo_arlo_elmo

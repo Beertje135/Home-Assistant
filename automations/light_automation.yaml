@@ -588,7 +588,7 @@
   - condition: time
     after: '19:30:00'
   - condition: state
-    entity_id: light.aarlo_arlobaby
+    entity_id: light.aarlo_arlo_elmo
     state: 'off'
   action:
   - service: script.turn_on
@@ -601,7 +601,7 @@
     at: '12:00:00'
   condition:
   - condition: state
-    entity_id: light.aarlo_arlobaby
+    entity_id: light.aarlo_arlo_elmo
     state: 'off'
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis (Verlof)'] }}"
@@ -616,7 +616,7 @@
     at: '15:00:00'
   condition:
   - condition: state
-    entity_id: light.aarlo_arlobaby
+    entity_id: light.aarlo_arlo_elmo
     state: 'on'
   action:
   - service: script.turn_on
@@ -626,10 +626,10 @@
 - alias: Licht - Elmo - Ochtend Week
   trigger:
   - platform: time
-    at: '06:35:00'
+    at: '06:45:00'
   condition:
   - condition: state
-    entity_id: light.aarlo_arlobaby
+    entity_id: light.aarlo_arlo_elmo
     state: 'on'
   - condition: time
     after: '06:34:00'
@@ -655,7 +655,7 @@
     at: '07:00:00'
   condition:
   - condition: state
-    entity_id: light.aarlo_arlobaby
+    entity_id: light.aarlo_arlo_elmo
     state: 'on'
   - condition: time
     after: '06:59:00'
@@ -685,7 +685,7 @@
       minutes: 30
   condition:
   - condition: state
-    entity_id: light.aarlo_arlobaby
+    entity_id: light.aarlo_arlo_elmo
     state: 'off'
   - condition: or
     conditions:

@@ -4,13 +4,13 @@ homeassistant:
 #lovelace in yaml mode
 lovelace:
   mode: yaml
-#  resources:
-#    - url: /hacsfiles/lovelace-card-tools/card-tools.js
-#      type: module
-#    - url: /hacsfiles/lovelace-layout-card/layout-card.js
-#      type: module
-#    - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
-#      type: module
+  resources:
+    - url: /hacsfiles/lovelace-card-tools/card-tools.js
+      type: module
+    - url: /hacsfiles/lovelace-layout-card/layout-card.js
+      type: module
+    - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
+      type: module
 
 # Start with a default configuration (will start new things when available)
 default_config:
@@ -24,10 +24,6 @@ config:
 
 # (default) Allows you to issue voice commands from the frontend in enabled browsers
 conversation:
-
-# (default) Enables the frontend (default)
-frontend:
-  javascript_version: latest
 
 # (default)
 history: !include history.yaml
@@ -121,6 +117,12 @@ notify:
     filename: /config/www/entity_log.txt
     timestamp: false
 
+# Enable Mediaplayers
+spotify:
+  client_id: !secret client_id_spotify
+  client_secret: !secret client_secret_spotify
+
+
 # Enables Homekit
 homekit:
   name: Ons Huisje
@@ -133,33 +135,33 @@ binary_sensor:
     sensors:
       trigger_just_away_kitchen:
         device_class: motion
-        entity_id:
-          - input_boolean.trigger_just_away_kitchen
+#       entity_id:
+#          - input_boolean.trigger_just_away_kitchen
         value_template: "{{ is_state('input_boolean.trigger_just_away_kitchen', 'on') }}"
       trigger_just_home_kitchen:
         device_class: motion
-        entity_id:
-          - input_boolean.trigger_just_home_kitchen
+#        entity_id:
+#          - input_boolean.trigger_just_home_kitchen
         value_template: "{{ is_state('input_boolean.trigger_just_home_kitchen', 'on') }}"
       trigger_just_awake_kitchen:
         device_class: motion
-        entity_id:
-          - input_boolean.trigger_just_awake_kitchen
+#        entity_id:
+#          - input_boolean.trigger_just_awake_kitchen
         value_template: "{{ is_state('input_boolean.trigger_just_awake_kitchen', 'on') }}"
       trigger_just_sleep_kitchen:
         device_class: motion
-        entity_id:
-          - input_boolean.trigger_just_sleep_kitchen
+#        entity_id:
+#          - input_boolean.trigger_just_sleep_kitchen
         value_template: "{{ is_state('input_boolean.trigger_just_sleep_kitchen', 'on') }}"
       trigger_just_awake_dressing:
         device_class: motion
-        entity_id:
-          - input_boolean.trigger_just_awake_dressing
+#        entity_id:
+#          - input_boolean.trigger_just_awake_dressing
         value_template: "{{ is_state('input_boolean.trigger_just_awake_dressing', 'on') }}"
       trigger_just_sleep_dressing:
         device_class: motion
-        entity_id:
-          - input_boolean.trigger_just_sleep_dressing
+#        entity_id:
+#          - input_boolean.trigger_just_sleep_dressing
         value_template: "{{ is_state('input_boolean.trigger_just_sleep_dressing', 'on') }}"
 
 # Enable Utility meter
@@ -220,14 +222,16 @@ recorder:
       - binary_sensor.snapshots_stale
       - device_tracker.iphone_van_caro
       - device_tracker.iphone_van_bert
+      - device_tracker.router_iphone_bert
+      - device_tracker.router_iphone_caro
       - input_boolean.cooling_downstairs
       - input_boolean.cooling_upstairs
       - input_boolean.heating
       - input_boolean.media_kitchen
       - input_boolean.media_livingroom
-      - sensor.aarlo_air_quality_arlobaby
-      - sensor.aarlo_humidity_arlobaby
-      - sensor.aarlo_temperature_arlobaby
+      - sensor.aarlo_air_quality_arlo_elmo
+      - sensor.aarlo_humidity_arlo_elmo
+      - sensor.aarlo_temperature_arlo_elmo
       - sensor.cpu_temperature
       - sensor.disk_use_percent_home
       - sensor.downstairs_nest_protect_battery_health

@@ -51,4 +51,4 @@ exclude_entities:
   - input_boolean.trigger_just_awake_dressing
   - input_boolean.trigger_just_sleep_dressing
   - climate.ons_huisje
-  - light.aarlo_arlobaby
+  - light.aarlo_arlo_elmo

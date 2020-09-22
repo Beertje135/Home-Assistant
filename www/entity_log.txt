@@ -160,7 +160,7 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -calendar.babysit_agenda
   -calendar.kuishulp_agenda
   -calendar.verlof_agenda
-  -camera.aarlo_arlobaby
+  -camera.aarlo_arlo_elmo
   -climate.badkamer
   -climate.dressing
   -climate.kamer_elmo
@@ -267,7 +267,7 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -input_select.media_player
   -input_select.radio_station
   -input_select.woning_status
-  -light.aarlo_arlobaby
+  -light.aarlo_arlo_elmo
   -light.hue_light_dressing_one
   -light.hue_light_dressing_three
   -light.hue_light_dressing_two
@@ -524,11 +524,11 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -script.woonkamer_music_play
   -script.woonkamer_music_stop
   -script.woonkamer_music_volume
-  -sensor.aarlo_air_quality_arlobaby
-  -sensor.aarlo_battery_level_arlobaby
-  -sensor.aarlo_captured_today_arlobaby
-  -sensor.aarlo_humidity_arlobaby
-  -sensor.aarlo_temperature_arlobaby
+  -sensor.aarlo_air_quality_arlo_elmo
+  -sensor.aarlo_battery_level_arlo_elmo
+  -sensor.aarlo_captured_today_arlo_elmo
+  -sensor.aarlo_humidity_arlo_elmo
+  -sensor.aarlo_temperature_arlo_elmo
   -sensor.adguard_average_processing_speed
   -sensor.adguard_dns_queries
   -sensor.adguard_dns_queries_blocked_ratio

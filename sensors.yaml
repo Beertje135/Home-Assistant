@@ -48,13 +48,6 @@
     template_ons_huisje_set_temperature:
       value_template: "{{ (((state_attr('climate.badkamer', 'temperature') | float ) + (state_attr('climate.keuken', 'temperature') | float ) + (state_attr('climate.woonkamer', 'temperature') | float ) + (state_attr('climate.dressing', 'temperature') | float ) + (state_attr('climate.slp_kamer', 'temperature') | float ) + (state_attr('climate.kamer_elmo', 'temperature') | float )) / 6) | round(2) }}"
       unit_of_measurement: '°C'
-      entity_id:
-        - climate.badkamer
-        - climate.keuken
-        - climate.woonkamer
-        - climate.dressing
-        - climate.slp_kamer
-        - climate.kamer_elmo
 
 - platform: template
   sensors:
@@ -63,9 +56,6 @@
         {% set diffa = ((states('sensor.template_ons_huisje_set_temperature') | float ) - (state_attr('weather.dark_sky', 'temperature') | float )) | round (2) %}
         {{ diffa if diffa > 0 else (diffa * -1)}}
       unit_of_measurement: '°C'
-      entity_id:
-        - sensor.template_ons_huisje_set_temperature
-        - weather.dark_sky
 
 - platform: template
   sensors:
@@ -74,9 +64,6 @@
         {% set diffb = ((state_attr('climate.ons_huisje', 'current_temperature') | float ) - (state_attr('weather.dark_sky', 'temperature') | float )) | round (2) %}
         {{ diffb if diffb > 0 else (diffb * -1)}}
       unit_of_measurement: '°C'
-      entity_id:
-        - climate.ons_huisje
-        - weather.dark_sky
 
 - platform: template
   sensors:
@@ -84,9 +71,6 @@
       value_template: >
         {{ (((states('sensor.hue_sensor_keuken_light_level') | float) + (states('sensor.hue_sensor_keuken_light_level') | float) + (states('sensor.hue_sensor_woonkamer_light_level') | float)) / 3) | round(2) }}
       unit_of_measurement: 'lx'
-      entity_id:
-        - sensor.hue_sensor_keuken_light_level
-        - sensor.hue_sensor_woonkamer_light_level
 
 # SENSOR TO RENAME ON AND OFF FOR VISITOR SO IT CAN BE INCLUDED IN GROUP_BEZOEKER
 

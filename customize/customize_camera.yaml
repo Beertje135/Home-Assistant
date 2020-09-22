@@ -1,17 +1,17 @@
 # CUSTOMIZE ARLO BABY SENSORS
 
-    sensor.aarlo_temperature_arlobaby:
+    sensor.aarlo_temperature_arlo_elmo:
       friendly_name: Arlo Temperature
       icon: mdi:temperature-celsius
 
-    sensor.aarlo_humidity_arlobaby:
+    sensor.aarlo_humidity_arlo_elmo:
       friendly_name: Arlo Humidity
       icon: mdi:water-percent
 
-    sensor.aarlo_battery_level_arlobaby:
+    sensor.aarlo_battery_level_arlo_elmo:
       friendly_name: Arlo Battery
       icon: mdi:battery-charging
 
-    sensor.aarlo_air_quality_arlobaby:
+    sensor.aarlo_air_quality_arlo_elmo:
       friendly_name: Arlo Air Quality
       device_class: pm25

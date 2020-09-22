@@ -1,8 +1,5 @@
 # CUSTOMIZATION FOR PERSONS
 
-    person.bert:
-      entity_picture: /local/people/bert.jpeg
-
     person.caroline:
       entity_picture: /local/people/caroline.jpeg
 

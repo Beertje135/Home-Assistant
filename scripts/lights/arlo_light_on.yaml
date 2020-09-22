@@ -2,7 +2,7 @@
 alias: Arlo Light - Aan
 sequence:
   - service: light.turn_on
-    entity_id: light.aarlo_arlobaby
+    entity_id: light.aarlo_arlo_elmo
     data:
       hs_color: [356.087, 94.845]
       brightness: 255

@@ -12,4 +12,4 @@ sequence:
       - light.hue_smart_plug_woonkamer_one
       - light.hue_smart_plug_veranda
       - light.hue_smart_plug_woonkamer_two
-      - light.aarlo_arlobaby
+      - light.aarlo_arlo_elmo

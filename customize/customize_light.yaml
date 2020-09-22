@@ -64,6 +64,6 @@
 
 # CUSTOMIZATION ARLO LIGHTS
 
-    light.aarlo_arlobaby:
+    light.aarlo_arlo_elmo:
       icon: mdi:lightbulb-on-outline
       friendly_name: Elmo's Kamer Arlo Light

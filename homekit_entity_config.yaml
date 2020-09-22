@@ -34,7 +34,7 @@ light.hue_smart_plug_woonkamer_one:
 light.hue_smart_plug_keuken:
   name: Keuken Speakers
 
-light.aarlo_arlobaby:
+light.aarlo_arlo_elmo:
   name: Elmo's Kamer Arlo
 
 # INPUT SELECT
@@ -83,7 +83,7 @@ binary_sensor.hue_sensor_woonkamer_motion:
   name: Woonkamer Beweging
 sensor.hue_sensor_woonkamer_light_level:
   name: Woonkamer Lichtniveau
-sensor.aarlo_humidity_arlobaby:
+sensor.aarlo_humidity_arlo_elmo:
   name: Arlo Vochtigheid
 
 # CLIMATE

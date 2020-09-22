@@ -16,11 +16,14 @@
       or ((as_timestamp(now())+ (86400)) | timestamp_custom(''%Y-%m-%d'',true) ==
       states(''sensor.recycleapp_pmd'')) }}'
   action:
-  - continue_on_timeout: false
+  - wait_for_trigger:
+      - platform: state
+        entity_id: device_tracker.router_iphone_bert
+        to: "home"
+    continue_on_timeout: false
     timeout: 00:05:00
-    wait_template: '{{ is_state(''device_tracker.router_iphone_bert'', ''home'') }}'
-  - entity_id: script.notify_waste_ios_bert
-    service: script.turn_on
+  - service: script.turn_on
+    entity_id: script.notify_waste_ios_bert
   initial_state: false
   mode: single
 - id: vuilbak_002
@@ -29,9 +32,9 @@
   - platform: time
     at: '20:30:00'
   condition:
-  - condition: template
-    value_template: '{{ states(''input_select.woning_status'') in [''Juist Thuis'',
-      ''Thuis'', ''Thuis (Werk)'', ''Thuis (Verlof)''] }}'
+  - condition: state
+    entity_id: input_select.woning_status
+    state: Juist Thuis,Thuis,Thuis (Werk),Thuis (Verlof)
   - condition: template
     value_template: '{{ ((as_timestamp(now())+ (86400)) | timestamp_custom(''%Y-%m-%d'',true)
       == states(''sensor.recycleapp_restafval'')) or ((as_timestamp(now())+ (86400))
@@ -630,6 +633,7 @@
     entity_id:
     - script.notify_deurbel
     - script.all_remote_harmony_hub_pause
+  - delay: 00:00:15
 - id: verluchting_boven_001
   alias: Verluchting - Boolean Change based on Outside Temperature (Boven)
   trigger:
@@ -650,7 +654,7 @@
     data:
       entity_id:
       - input_boolean.cooling_upstairs
-- id: verluchting_beneden_002
+- id: verluchting_beneden_001
   alias: Verluchting - Boolean Change based on Outside Temperature (Beneden)
   trigger:
   - platform: template
@@ -943,12 +947,6 @@
   trigger:
   - platform: numeric_state
     entity_id: sensor.hp_deskjet_3700_series_black_ink
-    below: 25
-  - platform: numeric_state
-    entity_id: sensor.hp_deskjet_3700_series_tri_color_ink
-    below: 25
-  - platform: numeric_state
-    entity_id: sensor.hp_deskjet_3700_series_black_ink
     below: 10
   - platform: numeric_state
     entity_id: sensor.hp_deskjet_3700_series_tri_color_ink
@@ -957,4 +955,4 @@
   - service: script.turn_on
     entity_id:
     - script.notify_printer
-  - delay: 12:00:00
+  - delay: 24:00:00

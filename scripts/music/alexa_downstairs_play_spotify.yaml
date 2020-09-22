@@ -5,11 +5,11 @@ sequence:
     entity_id: light.hue_smart_plug_keuken
   - service: media_player.select_source
     data:
-      entity_id: media_player.spotify
+      entity_id: media_player.spotify_bert_verlinden
       source: Alexa Downstairs
   - service: media_player.media_play
     data:
-      entity_id: media_player.spotify
+      entity_id: media_player.spotify_bert_verlinden
   - delay: 00:00:05
   - service: script.turn_on
     entity_id:

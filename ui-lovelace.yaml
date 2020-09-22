@@ -1,10 +1,3 @@
-resources:
-  - url: /hacsfiles/lovelace-card-tools/card-tools.js
-    type: module
-  - url: /hacsfiles/lovelace-layout-card/layout-card.js
-    type: module
-  - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
-    type: module
 title: Home
 path: home
 views:
@@ -126,7 +119,7 @@ views:
                 name: Nest Beneden
               - entity: sensor.upstairs_nest_protect_battery_health
                 name: Nest Boven
-              - entity: sensor.aarlo_battery_level_arlobaby
+              - entity: sensor.aarlo_battery_level_arlo_elmo
                 name: Arlo
               - entity: sensor.smappee_ons_huisje_water_sensor_battery
                 name: Smappee Water and Gas
@@ -200,7 +193,7 @@ views:
                         name: Veranda Arco
                       - entity: light.hue_light_kamer_elmo_one
                         name: Elmo's Staanlamp
-                      - entity: light.aarlo_arlobaby
+                      - entity: light.aarlo_arlo_elmo
                         name: Elmo's Arlo
                         tap_action:
                           action: toggle
@@ -241,6 +234,16 @@ views:
                     card:
                       type: media-control
                       entity: media_player.apple_tv_woonkamer
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
+                      - media_player.spotify_bert_verlinden
+                    state_filter:
+                      - playing
+                    card:
+                      type: media-control
+                      entity: media_player.spotify_bert_verlinden
                   - type: entity-filter
                     show_empty: false
                     show_header_toggle: false
@@ -540,10 +543,10 @@ views:
                       - entity: sensor.hue_sensor_woonkamer_light_level
                         name: Licht
                         min: 0
-                        max: 130
+                        max: 200
                         severity:
-                          green: 65
-                          yellow: 26
+                          green: 150
+                          yellow: 50
                           red: 0
                         type: gauge
                   - type: entities
@@ -619,10 +622,10 @@ views:
                       - entity: sensor.hue_sensor_veranda_light_level
                         name: Licht
                         min: 0
-                        max: 130
+                        max: 200
                         severity:
-                          green: 65
-                          yellow: 26
+                          green: 150
+                          yellow: 50
                           red: 0
                         type: gauge
                   - type: entities
@@ -678,10 +681,10 @@ views:
                       - entity: sensor.hue_sensor_keuken_light_level
                         name: Licht
                         min: 0
-                        max: 280
+                        max: 500
                         severity:
-                          green: 140
-                          yellow: 10
+                          green: 300
+                          yellow: 150
                           red: 0
                         type: gauge
                   - type: entities
@@ -767,7 +770,7 @@ views:
                             show_name: false
                             show_state: false
                             entities:
-                              - entity: light.aarlo_arlobaby
+                              - entity: light.aarlo_arlo_elmo
                                 name: Elmo's Arlo
                                 tap_action:
                                   action: toggle
@@ -785,13 +788,13 @@ views:
                         show_name: false
                         show_state: true
                         entities:
-                          - entity: sensor.aarlo_temperature_arlobaby
+                          - entity: sensor.aarlo_temperature_arlo_elmo
                             name: Temp
-                          - entity: sensor.aarlo_humidity_arlobaby
+                          - entity: sensor.aarlo_humidity_arlo_elmo
                             name: Vochtigheid
-                          - entity: sensor.aarlo_air_quality_arlobaby
+                          - entity: sensor.aarlo_air_quality_arlo_elmo
                             name: Luchtkwaliteit
-                          - entity: sensor.aarlo_battery_level_arlobaby
+                          - entity: sensor.aarlo_battery_level_arlo_elmo
                             name: Batterij
                   - type: vertical-stack
                     title: Slaapkamer
@@ -998,7 +1001,7 @@ views:
                 name: Nest Beneden
               - entity: sensor.upstairs_nest_protect_battery_health
                 name: Nest Boven
-              - entity: sensor.aarlo_battery_level_arlobaby
+              - entity: sensor.aarlo_battery_level_arlo_elmo
                 name: Arlo
               - entity: sensor.smappee_ons_huisje_water_sensor_battery
                 name: Smappee Water and Gas
@@ -1062,7 +1065,12 @@ views:
                         name: Station
                       - entity: input_select.media_player
                         name: Player
-              - title: Televisie Select
+              - title: Spotify Select
+                type: vertical-stack
+                cards:
+                  - type: media-control
+                    entity: media_player.spotify_bert_verlinden
+              - title: TV Select
                 type: vertical-stack
                 cards:
                   - type: entities
@@ -1309,7 +1317,7 @@ views:
                 name: Nest Beneden
               - entity: sensor.upstairs_nest_protect_battery_health
                 name: Nest Boven
-              - entity: sensor.aarlo_battery_level_arlobaby
+              - entity: sensor.aarlo_battery_level_arlo_elmo
                 name: Arlo
               - entity: sensor.smappee_ons_huisje_water_sensor_battery
                 name: Smappee Water and Gas
@@ -1542,7 +1550,7 @@ views:
                 name: Nest Beneden
               - entity: sensor.upstairs_nest_protect_battery_health
                 name: Nest Boven
-              - entity: sensor.aarlo_battery_level_arlobaby
+              - entity: sensor.aarlo_battery_level_arlo_elmo
                 name: Arlo
               - entity: sensor.smappee_ons_huisje_water_sensor_battery
                 name: Smappee Water and Gas

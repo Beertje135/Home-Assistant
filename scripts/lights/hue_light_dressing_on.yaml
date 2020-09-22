@@ -10,7 +10,7 @@ sequence:
           script.hue_light_dressing_on_night
         {% elif states('input_select.woning_status') in ['Juist Wakker'] %}
           script.hue_light_dressing_on_dimmed
-        {% elif states('sensor.time') >= '22:00' or states('sensor.time') <= '06:20' %}
+        {% elif states('sensor.time') >= '22:00' or states('sensor.time') <= '06:45' %}
           script.hue_light_dressing_on_dimmed
         {% else %}
           script.hue_light_dressing_on_normal
