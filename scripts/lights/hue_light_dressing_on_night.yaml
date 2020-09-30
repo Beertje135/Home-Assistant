@@ -9,5 +9,4 @@ sequence:
     entity_id:
       - light.hue_light_dressing_two
     data:
-      hs_color: [0,100]
-      brightness: 50
+      brightness: 5

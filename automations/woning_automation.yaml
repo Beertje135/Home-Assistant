@@ -1,6 +1,7 @@
 # AUTOMATIONS WHEN INPUT SELECT HOME CHANGES
 
-- alias: Ons Huisje - Status Changes
+- id: woning_001
+  alias: Ons Huisje - Status Changes
   trigger:
   - platform: state
     entity_id: input_select.woning_status
@@ -13,49 +14,102 @@
       - input_boolean.trigger_just_away_kitchen
       - input_boolean.trigger_just_awake_dressing
       - input_boolean.trigger_just_sleep_dressing
-  - service: script.turn_on
-    data_template:
-      entity_id: >
-        {%- if states('input_select.woning_status') in ['Juist Thuis'] -%}
-          script.input_light_all_beneden_on,
-          script.music_follow_on,
-          script.computer_on,
-          script.dennis_off
-        {%- elif states('input_select.woning_status') in ['Juist Wakker'] -%}
-          script.input_light_all_beneden_on,
-          script.music_follow_on,
-          script.computer_on
-        {%- elif states('input_select.woning_status') in ['Thuis'] -%}
-          script.dennis_off
-        {%- elif states('input_select.woning_status') in ['Thuis (Verlof)'] -%}
-          script.dennis_off
-        {%- elif states('input_select.woning_status') in ['Thuis (Werk)'] -%}
-          script.dennis_off
-        {%- elif states('input_select.woning_status') in ['Juist Weg'] -%}
-          script.all_light_off,
-          script.all_music_off,
-          script.harmony_hub_powered_off
-        {%- elif states('input_select.woning_status') in ['Slapen'] -%}
-          script.veranda_light_off,
-          script.woonkamer_light_off,
-          script.all_switch_off,
-          script.all_music_off,
-          script.all_remote_off
-        {%- elif states('input_select.woning_status') in ['Weg'] -%}
-          script.all_all_off,
-          script.dennis_on
-        {%- elif states('input_select.woning_status') in ['Op Vakantie'] -%}
-          script.all_all_off
-        {%- else -%}
-          script.empty
-        {%- endif %}
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Juist Thuis'
+      sequence:
+      - service: script.turn_on
+        entity_id: 
+          - script.input_light_all_beneden_on
+          - script.music_follow_on
+          - script.computer_on
+          - script.dennis_off
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Juist Wakker'
+      sequence:
+      - service: script.turn_on
+        entity_id:
+          - script.input_light_all_beneden_on
+          - script.music_follow_on
+          - script.computer_on
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Thuis'
+      sequence:
+      - service: script.turn_on
+        entity_id:
+          - script.dennis_off
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Thuis (Verlof)'
+      sequence:
+      - service: script.turn_on
+        entity_id:
+          - script.dennis_off
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Thuis (Werk)'
+      sequence:
+      - service: script.turn_on
+        entity_id:
+          - script.dennis_off
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Juist Weg'
+      sequence:
+      - service: script.turn_on
+        entity_id:
+          - script.all_light_off
+          - script.all_music_off
+          - script.harmony_hub_powered_off
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Slapen'
+      sequence:
+      - service: script.turn_on
+        entity_id:
+          - script.veranda_light_off
+          - script.woonkamer_light_off
+          - script.all_switch_off
+          - script.all_music_off
+          - script.all_remote_off
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Weg'
+      sequence:
+      - service: script.turn_on
+        entity_id:
+          - script.all_all_off
+          - script.dennis_on
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Op Vakantie'
+      sequence:
+      - service: script.turn_on
+        entity_id:
+          - script.all_all_off
+    default:
+    - service: script.turn_on
+      entity_id: script.empty
   - service: script.turn_on
     entity_id:
       - script.notify_woning_status
 
 # AUTOMATIONS TO CHANGE INPUT SELECT FOR HOME STATUS
 
-- alias: Ons Huisje - Change Status - Trigger
+- id: woning_002
+  alias: Ons Huisje - Change Status - Trigger
   trigger:
   - platform: state
     entity_id:
@@ -83,7 +137,8 @@
     data_template:
       entity_id: input_boolean.trigger_morning, input_boolean.trigger_sleep, input_boolean.trigger_away, input_boolean.trigger_home
 
-- alias: Ons Huisje - Change Status - Bewoner of Bezoeker
+- id: woning_003
+  alias: Ons Huisje - Change Status - Bewoner of Bezoeker
   trigger:
   - platform: state
     entity_id: group.bewoners
@@ -135,7 +190,8 @@
           Op Vakantie
         {% endif %}
 
-- alias: Ons Huisje - Change Status - Timer
+- id: woning_004
+  alias: Ons Huisje - Change Status - Timer
   trigger:
   - platform: state
     entity_id: input_select.woning_status
@@ -177,7 +233,8 @@
           Op Vakantie
         {% endif %}
 
-- alias: Ons Huisje - Change Status - Juist Wakker
+- id: woning_005
+  alias: Ons Huisje - Change Status - Juist Wakker
   trigger:
   - entity_id: binary_sensor.hue_sensor_dressing_motion
     platform: state
@@ -210,7 +267,8 @@
       entity_id: input_select.woning_status
       option: Juist Wakker
 
-- alias: Ons Huisje - Change Status - Thuis (...) ON (als Thuis)
+- id: woning_006
+  alias: Ons Huisje - Change Status - Thuis (...) ON (als Thuis)
   trigger:
   - platform: time
     at: !secret work_week_start
@@ -238,7 +296,8 @@
           Thuis
         {% endif %}
 
-- alias: Ons Huisje - Change Status - Thuis (...) OFF
+- id: woning_007
+  alias: Ons Huisje - Change Status - Thuis (...) OFF
   trigger:
   - platform: time
     at: !secret work_week_end
@@ -256,7 +315,8 @@
 
 # AUTOMATIONS TO MAKE ALEXA SAY PHRASES
 
-- alias: Ons Huisje - Alexa - Trigger Motion Sensor Kitchen
+- id: woning_008
+  alias: Ons Huisje - Alexa - Trigger Motion Sensor Kitchen
   trigger:
   - platform: state
     entity_id:
@@ -291,7 +351,8 @@
           input_boolean.trigger_just_away_kitchen
         {%- endif %}
 
-- alias: Ons Huisje - Alexa - Trigger Motion Sensor Dressing
+- id: woning_009
+  alias: Ons Huisje - Alexa - Trigger Motion Sensor Dressing
   trigger:
   - platform: state
     entity_id:

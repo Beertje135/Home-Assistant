@@ -573,7 +573,13 @@
   alias: Muziek - Volume - Keuken Ochtend
   trigger:
   - platform: time
+    at: 06:59:00
+  - platform: time
+    at: 07:03:00
+  - platform: time
     at: 07:59:00
+  - platform: time
+    at: 08:03:00
   - platform: time
     at: 08:59:00
   condition:
