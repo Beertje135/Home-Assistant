@@ -244,16 +244,21 @@ views:
                     card:
                       type: media-control
                       entity: media_player.spotify_bert_verlinden
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.alexa_kitchen_1
-                    state_filter:
-                      - playing
+                  - type: conditional
+                    conditions:
+                      - entity: media_player.spotify_bert_verlinden
+                        state_not: "playing"
                     card:
-                      type: media-control
-                      entity: media_player.alexa_kitchen_1
+                      type: entity-filter
+                      show_empty: false
+                      show_header_toggle: false
+                      entities:
+                        - media_player.alexa_kitchen_1
+                      state_filter:
+                        - playing
+                      card:
+                        type: media-control
+                        entity: media_player.alexa_kitchen_1
                   - type: entity-filter
                     show_empty: false
                     show_header_toggle: false
@@ -264,26 +269,36 @@ views:
                     card:
                       type: media-control
                       entity: media_player.alexa_kitchen_2
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.alexa_mobile
-                    state_filter:
-                      - playing
+                  - type: conditional
+                    conditions:
+                      - entity: media_player.spotify_bert_verlinden
+                        state_not: "playing"
                     card:
-                      type: media-control
-                      entity: media_player.alexa_mobile
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.alexa_livingroom_1
-                    state_filter:
-                      - playing
+                      type: entity-filter
+                      show_empty: false
+                      show_header_toggle: false
+                      entities:
+                        - media_player.alexa_mobile
+                      state_filter:
+                        - playing
+                      card:
+                        type: media-control
+                        entity: media_player.alexa_mobile
+                  - type: conditional
+                    conditions:
+                      - entity: media_player.spotify_bert_verlinden
+                        state_not: "playing"
                     card:
-                      type: media-control
-                      entity: media_player.alexa_livingroom_1
+                      type: entity-filter
+                      show_empty: false
+                      show_header_toggle: false
+                      entities:
+                        - media_player.alexa_livingroom_1
+                      state_filter:
+                        - playing
+                      card:
+                        type: media-control
+                        entity: media_player.alexa_livingroom_1
                   - type: entity-filter
                     show_empty: false
                     show_header_toggle: false
@@ -1081,16 +1096,21 @@ views:
               - title: Now Playing
                 type: vertical-stack
                 cards:
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.alexa_kitchen_1
-                    state_filter:
-                      - playing
+                  - type: conditional
+                    conditions:
+                      - entity: media_player.spotify_bert_verlinden
+                        state_not: "playing"
                     card:
-                      type: media-control
-                      entity: media_player.alexa_kitchen_1
+                      type: entity-filter
+                      show_empty: false
+                      show_header_toggle: false
+                      entities:
+                        - media_player.alexa_kitchen_1
+                      state_filter:
+                        - playing
+                      card:
+                        type: media-control
+                        entity: media_player.alexa_kitchen_1
                   - type: entity-filter
                     show_empty: false
                     show_header_toggle: false
@@ -1101,16 +1121,21 @@ views:
                     card:
                       type: media-control
                       entity: media_player.alexa_bathroom
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.alexa_livingroom_1
-                    state_filter:
-                      - playing
+                  - type: conditional
+                    conditions:
+                      - entity: media_player.spotify_bert_verlinden
+                        state_not: "playing"
                     card:
-                      type: media-control
-                      entity: media_player.alexa_livingroom_1
+                      type: entity-filter
+                      show_empty: false
+                      show_header_toggle: false
+                      entities:
+                        - media_player.alexa_livingroom_1
+                      state_filter:
+                        - playing
+                      card:
+                        type: media-control
+                        entity: media_player.alexa_livingroom_1
                   - type: entity-filter
                     show_empty: false
                     show_header_toggle: false
@@ -1131,36 +1156,51 @@ views:
                     card:
                       type: media-control
                       entity: media_player.alexa_kitchen_2
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.alexa_mobile
-                    state_filter:
-                      - playing
+                  - type: conditional
+                    conditions:
+                      - entity: media_player.spotify_bert_verlinden
+                        state_not: "playing"
                     card:
-                      type: media-control
-                      entity: media_player.alexa_mobile
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.alexa_downstairs
-                    state_filter:
-                      - playing
+                      type: entity-filter
+                      show_empty: false
+                      show_header_toggle: false
+                      entities:
+                        - media_player.alexa_mobile
+                      state_filter:
+                        - playing
+                      card:
+                        type: media-control
+                        entity: media_player.alexa_mobile
+                  - type: conditional
+                    conditions:
+                      - entity: media_player.spotify_bert_verlinden
+                        state_not: "playing"
                     card:
-                      type: media-control
-                      entity: media_player.alexa_downstairs
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.alexa_everywhere
-                    state_filter:
-                      - playing
+                      type: entity-filter
+                      show_empty: false
+                      show_header_toggle: false
+                      entities:
+                        - media_player.alexa_downstairs
+                      state_filter:
+                        - playing
+                      card:
+                        type: media-control
+                        entity: media_player.alexa_downstairs
+                  - type: conditional
+                    conditions:
+                      - entity: media_player.spotify_bert_verlinden
+                        state_not: "playing"
                     card:
-                      type: media-control
-                      entity: media_player.alexa_everywhere
+                      type: entity-filter
+                      show_empty: false
+                      show_header_toggle: false
+                      entities:
+                        - media_player.alexa_everywhere
+                      state_filter:
+                        - playing
+                      card:
+                        type: media-control
+                        entity: media_player.alexa_everywhere
                   - type: entity-filter
                     show_empty: false
                     show_header_toggle: false
