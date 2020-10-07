@@ -98,12 +98,12 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -automation.plex_webhook_toggle_living_room_boolean
   -automation.plex_webhook_update_mqtt_sensor
   -automation.printer_notify_ink_low
-  -automation.vacuum_dennis_cleaned_today
-  -automation.vacuum_dennis_cleaned_today_kuishulp
-  -automation.vacuum_dennis_cleaned_today_reset
-  -automation.vacuum_dennis_notify_status_dennis_changes
-  -automation.vacuum_dennis_notify_status_woning_changes
-  -automation.vacuum_dennis_start_when_lux_enough
+  -automation.vacuum_dusty_cleaned_today
+  -automation.vacuum_dusty_cleaned_today_kuishulp
+  -automation.vacuum_dusty_cleaned_today_reset
+  -automation.vacuum_dusty_notify_status_dusty_changes
+  -automation.vacuum_dusty_notify_status_woning_changes
+  -automation.vacuum_dusty_start_when_lux_enough
   -automation.verluchting_boolean_change_based_on_outside_temperature_beneden
   -automation.verluchting_boolean_change_based_on_outside_temperature_boven
   -automation.verluchting_boolean_changes_boven
@@ -141,7 +141,7 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -automation.vuilbakken_bert_thuis
   -automation.vuilbakken_reminder_voor_avond
   -automation.vuilbakken_status_woning_changes
-  -binary_sensor.dennis_bin_full
+  -binary_sensor.dusty_bin_full
   -binary_sensor.downstairs_nest_protect_online
   -binary_sensor.hue_sensor_dressing_motion
   -binary_sensor.hue_sensor_keuken_motion
@@ -348,8 +348,8 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -script.beneden_music_stop
   -script.computer_off
   -script.computer_on
-  -script.dennis_off
-  -script.dennis_on
+  -script.dusty_off
+  -script.dusty_on
   -script.doorbell_chime_off
   -script.doorbell_chime_on
   -script.dressing_light_off
@@ -558,7 +558,7 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -sensor.cpu_temperature
   -sensor.date
   -sensor.date_time
-  -sensor.dennis_battery_level
+  -sensor.dusty_battery_level
   -sensor.deurbel_voor_mqtt_battery_sensor
   -sensor.deurbel_voor_mqtt_sensor
   -sensor.disk_use_percent_home
@@ -728,7 +728,7 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -utility_meter.meter_gas_yearly
   -utility_meter.meter_water_monthly
   -utility_meter.meter_water_yearly
-  -vacuum.dennis
+  -vacuum.dusty
   -weather.dark_sky
   -zone.andy_2
   -zone.brussel_station_2

@@ -54,7 +54,7 @@
 
   media_kitchen:
 
-#Used to stop Dennis from vacuming multiple times a day
+#Used to stop Dusty from vacuming multiple times a day
   vacuum_cleaned_today:
 
 #Used to keep PC on when away

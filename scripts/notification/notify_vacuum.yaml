@@ -1,5 +1,5 @@
 
-alias: Notify All - Dennis - Status
+alias: Notify All - Dusty - Status
 sequence:
   - service: script.turn_on
     entity_id:

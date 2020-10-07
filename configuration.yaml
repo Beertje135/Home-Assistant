@@ -414,5 +414,5 @@ switch:
 #    host: !secret ip_irobot
 #    username: !secret username_irobot
 #    password: !secret password_irobot
-#    name: Dennis
+#    name: Dusty
 #    continuous: true

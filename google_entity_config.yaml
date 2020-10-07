@@ -136,6 +136,6 @@ input_boolean.heating:
 
 # VACUUM
 
-vacuum.dennis:
-  name: Dennis
+vacuum.dusty:
+  name: Dusty
   room: Woonkamer

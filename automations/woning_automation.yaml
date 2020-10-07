@@ -25,7 +25,7 @@
           - script.input_light_all_beneden_on
           - script.music_follow_on
           - script.computer_on
-          - script.dennis_off
+          - script.dusty_off
     - conditions:
       - condition: state
         entity_id: input_select.woning_status
@@ -43,7 +43,7 @@
       sequence:
       - service: script.turn_on
         entity_id:
-          - script.dennis_off
+          - script.dusty_off
     - conditions:
       - condition: state
         entity_id: input_select.woning_status
@@ -51,7 +51,7 @@
       sequence:
       - service: script.turn_on
         entity_id:
-          - script.dennis_off
+          - script.dusty_off
     - conditions:
       - condition: state
         entity_id: input_select.woning_status
@@ -59,7 +59,7 @@
       sequence:
       - service: script.turn_on
         entity_id:
-          - script.dennis_off
+          - script.dusty_off
     - conditions:
       - condition: state
         entity_id: input_select.woning_status
@@ -90,7 +90,7 @@
       - service: script.turn_on
         entity_id:
           - script.all_all_off
-          - script.dennis_on
+          - script.dusty_on
     - conditions:
       - condition: state
         entity_id: input_select.woning_status

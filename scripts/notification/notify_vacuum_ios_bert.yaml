@@ -1,5 +1,5 @@
 
-alias: Notify iOS Bert - Dennis - Status
+alias: Notify iOS Bert - Dusty - Status
 sequence:
   - condition: template
     value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') not in ['home'] }}"
@@ -7,18 +7,18 @@ sequence:
     data_template:
       title: "DUSTY"
       message: >
-        {% if state_attr('vacuum.dennis', 'status') == 'Stuck' %}
-          'Dennis zit vast. Die Domme Dennis toch.'
-        {% elif state_attr('vacuum.dennis', 'bin_full') == true %}
-          'Dennis heeft te veel gegeten. Maak zijn buikje leeg a.u.b.'
-        {% elif states('vacuum.dennis') in ['docked'] and states('input_boolean.vacuum_cleaned_today') in ['on'] %}
-          'Dennis is klaar met zijn taak.'
-        {% elif states('vacuum.dennis') in ['docked'] and states('input_boolean.vacuum_cleaned_today') in ['off'] %}
-          'Dennis is nog niet klaar met zijn taak voor vandaag.'
-        {% elif states('vacuum.dennis') in ['cleaning'] %}
-          'Dennis begint het huis te kuisen. Beep Beep'
+        {% if state_attr('vacuum.dusty', 'status') == 'Stuck' %}
+          'Dusty zit vast. Die Domme Dusty toch.'
+        {% elif state_attr('vacuum.dusty', 'bin_full') == true %}
+          'Dusty heeft te veel gegeten. Maak zijn buikje leeg a.u.b.'
+        {% elif states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_cleaned_today') in ['on'] %}
+          'Dusty is klaar met zijn taak.'
+        {% elif states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_cleaned_today') in ['off'] %}
+          'Dusty is nog niet klaar met zijn taak voor vandaag.'
+        {% elif states('vacuum.dusty') in ['cleaning'] %}
+          'Dusty begint het huis te kuisen. Beep Beep'
         {% else %}
-          'Dennis is still going strong'
+          'Dusty is still going strong'
         {% endif %}
       data:
         push:

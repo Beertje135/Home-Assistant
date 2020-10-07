@@ -1,5 +1,5 @@
 
-alias: Dennis - Aan
+alias: Dusty - Aan
 sequence:
   - condition: time
     after: '07:00:00'
@@ -8,10 +8,10 @@ sequence:
     entity_id: sensor.hue_sensor_keuken_light_level
     above: !secret lux_kitchen_very_very_low
   - condition: template
-    value_template: "{{ states('vacuum.dennis') in ['docked'] }}"
+    value_template: "{{ states('vacuum.dusty') in ['docked'] }}"
   - condition: state
     entity_id: input_boolean.vacuum_cleaned_today
     state: 'off'
   - service: vacuum.start
     data:
-      entity_id: vacuum.dennis
+      entity_id: vacuum.dusty
