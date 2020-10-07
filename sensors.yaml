@@ -212,7 +212,6 @@
 
 - platform: aarlo
   monitored_conditions:
-   - captured_today
    - battery_level
    - temperature
    - humidity

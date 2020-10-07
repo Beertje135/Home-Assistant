@@ -333,9 +333,9 @@ aarlo:
   password: !secret password_arlo
   refresh_devices_every: 2
   stream_timeout: 120
-
-camera:
-  - platform: aarlo
+#  tfa_host: imap.gmail.com
+#  tfa_username: VerlindenBert@gmail.com
+#  tfa_password: bmnqmkugvzbllqbo
 
 nest:
   client_id: !secret client_id_nest
@@ -348,9 +348,9 @@ solaredge:
 smappee:
   client_id: !secret client_id_smappee
   client_secret: !secret client_secret_smappee
-  host: !secret ip_smappee
-  username: !secret username_smappee
-  password: !secret password_smappee
+#  host: !secret ip_smappee
+#  username: !secret username_smappee
+#  password: !secret password_smappee
 
 # USED FOR CONNECTING TO CALENDARS
 google:

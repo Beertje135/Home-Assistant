@@ -635,7 +635,7 @@
     after: '06:34:00'
     before: '07:05:00'
   - condition: template
-    value_template: "{{ states('input_select.woning_status') not in ['Thuis (Verlof)', 'Juist Wakker', 'Slapen'] }}"
+    value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Op Vakantie', 'Thuis (Verlof)', 'Juist Wakker', 'Slapen'] }}"
   - condition: time
     weekday:
       - mon
@@ -644,6 +644,10 @@
       - thu
       - fri
   action:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_light_elmo
+  - delay: 00:00:30
   - service: script.turn_on
     entity_id:
       - script.hue_light_elmo_one_on_standby
@@ -661,7 +665,7 @@
     after: '06:59:00'
     before: '07:30:00'
   - condition: template
-    value_template: "{{ states('input_select.woning_status') not in ['Juist Wakker', 'Slapen'] }}"
+    value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Op Vakantie', 'Juist Wakker', 'Slapen'] }}"
   - condition: or
     conditions:
       - condition: template
@@ -673,8 +677,13 @@
   action:
   - service: script.turn_on
     entity_id:
+      - script.notify_light_elmo
+  - delay: 00:00:30
+  - service: script.turn_on
+    entity_id:
       - script.hue_light_elmo_one_on_standby
       - script.arlo_light_off
+
 
 - alias: Licht - Elmo - Uit
   trigger:

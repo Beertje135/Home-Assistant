@@ -1,0 +1,14 @@
+
+alias: Notify iOS Bert - Light - Elmo zijn staanlamp aan
+sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"
+  - condition: template
+    value_template: "{{ states('person.bert') in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "ELMO"
+      message: "Het is tijd om elmo wakker te maken, ik doe stilaan zijn lamp aan"
+      data:
+        push:
+          thread-id: "huis"
