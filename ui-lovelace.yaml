@@ -121,8 +121,27 @@ views:
                 name: Nest Boven
               - entity: sensor.aarlo_battery_level_arlo_elmo
                 name: Arlo
-              - entity: sensor.smappee_ons_huisje_water_sensor_battery
-                name: Smappee Water and Gas
+                state_filter:
+                  - operator: "<"
+                    value: 10
+              - entity: binary_sensor.hue_sensor_dressing_motion
+                name: Hue Sensor Dressing Battery Low
+                state_filter:
+                  - operator: "<"
+                    value: 10
+                    attribute: battery_level
+              - entity: binary_sensor.hue_sensor_keuken_motion
+                name: Hue Sensor Dressing Battery Low
+                state_filter:
+                  - operator: "<"
+                    value: 10
+                    attribute: battery_level
+              - entity: binary_sensor.hue_sensor_woonkamer_motion
+                name: Hue Sensor Dressing Battery Low
+                state_filter:
+                  - operator: "<"
+                    value: 10
+                    attribute: battery_level
             show_empty: false
             show_header_toggle: false
             state_filter:
@@ -135,10 +154,6 @@ views:
               - red
               - Replace
               - Not Ok
-              - '99.0'
-              - '0.0'
-              - '99'
-              - '0'
             card:
               type: entities
           - id: layout_0
@@ -1018,8 +1033,27 @@ views:
                 name: Nest Boven
               - entity: sensor.aarlo_battery_level_arlo_elmo
                 name: Arlo
-              - entity: sensor.smappee_ons_huisje_water_sensor_battery
-                name: Smappee Water and Gas
+                state_filter:
+                  - operator: "<"
+                    value: 10
+              - entity: binary_sensor.hue_sensor_dressing_motion
+                name: Hue Sensor Dressing Battery Low
+                state_filter:
+                  - operator: "<"
+                    value: 10
+                    attribute: battery_level
+              - entity: binary_sensor.hue_sensor_keuken_motion
+                name: Hue Sensor Dressing Battery Low
+                state_filter:
+                  - operator: "<"
+                    value: 10
+                    attribute: battery_level
+              - entity: binary_sensor.hue_sensor_woonkamer_motion
+                name: Hue Sensor Dressing Battery Low
+                state_filter:
+                  - operator: "<"
+                    value: 10
+                    attribute: battery_level
             show_empty: false
             show_header_toggle: false
             state_filter:
@@ -1032,10 +1066,6 @@ views:
               - red
               - Replace
               - Not Ok
-              - '99.0'
-              - '0.0'
-              - '99'
-              - '0'
             card:
               type: entities
           - id: computer_tracker_2a
@@ -1359,8 +1389,27 @@ views:
                 name: Nest Boven
               - entity: sensor.aarlo_battery_level_arlo_elmo
                 name: Arlo
-              - entity: sensor.smappee_ons_huisje_water_sensor_battery
-                name: Smappee Water and Gas
+                state_filter:
+                  - operator: "<"
+                    value: 10
+              - entity: binary_sensor.hue_sensor_dressing_motion
+                name: Hue Sensor Dressing Battery Low
+                state_filter:
+                  - operator: "<"
+                    value: 10
+                    attribute: battery_level
+              - entity: binary_sensor.hue_sensor_keuken_motion
+                name: Hue Sensor Dressing Battery Low
+                state_filter:
+                  - operator: "<"
+                    value: 10
+                    attribute: battery_level
+              - entity: binary_sensor.hue_sensor_woonkamer_motion
+                name: Hue Sensor Dressing Battery Low
+                state_filter:
+                  - operator: "<"
+                    value: 10
+                    attribute: battery_level
             show_empty: false
             show_header_toggle: false
             state_filter:
@@ -1373,10 +1422,6 @@ views:
               - red
               - Replace
               - Not Ok
-              - '99.0'
-              - '0.0'
-              - '99'
-              - '0'
             card:
               type: entities
           - id: layout_3
@@ -1592,8 +1637,27 @@ views:
                 name: Nest Boven
               - entity: sensor.aarlo_battery_level_arlo_elmo
                 name: Arlo
-              - entity: sensor.smappee_ons_huisje_water_sensor_battery
-                name: Smappee Water and Gas
+                state_filter:
+                  - operator: "<"
+                    value: 10
+              - entity: binary_sensor.hue_sensor_dressing_motion
+                name: Hue Sensor Dressing Battery Low
+                state_filter:
+                  - operator: "<"
+                    value: 10
+                    attribute: battery_level
+              - entity: binary_sensor.hue_sensor_keuken_motion
+                name: Hue Sensor Dressing Battery Low
+                state_filter:
+                  - operator: "<"
+                    value: 10
+                    attribute: battery_level
+              - entity: binary_sensor.hue_sensor_woonkamer_motion
+                name: Hue Sensor Dressing Battery Low
+                state_filter:
+                  - operator: "<"
+                    value: 10
+                    attribute: battery_level
             show_empty: false
             show_header_toggle: false
             state_filter:
@@ -1606,10 +1670,6 @@ views:
               - red
               - Replace
               - Not Ok
-              - '99.0'
-              - '0.0'
-              - '99'
-              - '0'
             card:
               type: entities
           - id: layout_4

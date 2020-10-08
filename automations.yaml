@@ -1,4 +1,4 @@
-- id: vuilbak_001
+- id: waste_001
   alias: Vuilbakken - Bert Thuis
   description: Notificatie voor vuilbakken als Bert thuis komt
   trigger:
@@ -26,7 +26,7 @@
     entity_id: script.notify_waste_ios_bert
   initial_state: false
   mode: single
-- id: vuilbak_002
+- id: waste_002
   alias: Vuilbakken - Reminder voor avond
   trigger:
   - platform: time
@@ -44,7 +44,7 @@
   action:
   - service: script.turn_on
     entity_id: script.notify_waste
-- id: vuilbak_003
+- id: waste_003
   alias: Vuilbakken - Status Woning Changes
   initial_state: false
   trigger:
@@ -73,7 +73,7 @@
   - service: script.turn_on
     entity_id: script.notify_waste
 - id: music_downstairs_001
-  alias: Muziek - Downstairs - Play 2
+  alias: Muziek - Beneden - Play 2
   trigger:
   - platform: state
     to: 'playing'
@@ -101,7 +101,7 @@
     entity_id:
     - script.beneden_music_play
 - id: music_downstairs_002
-  alias: Muziek - Downstairs - Play 1
+  alias: Muziek - Beneden - Play 1
   trigger:
   - platform: state
     entity_id: binary_sensor.hue_sensor_woonkamer_motion
@@ -431,7 +431,7 @@
     service: script.turn_on
   mode: single
 - id: music_follow_001
-  alias: Muziek - Follow - Disable
+  alias: Muziek - Volgen - Disable
   trigger:
   - entity_id: media_player.alexa_kitchen_1
     platform: state
@@ -484,7 +484,7 @@
       - script.music_follow_off
       - script.keuken_music_stop
 - id: music_follow_002
-  alias: Muziek - Follow - Enable
+  alias: Muziek - Volgen - Enable
   trigger:
   - platform: state
     from: 'paused'
@@ -520,7 +520,7 @@
     entity_id:
     - script.music_follow_on
 - id: music_follow_003
-  alias: Muziek - Follow - Enable 2
+  alias: Muziek - Volgen - Enable 2
   trigger:
   - platform: state
     entity_id:
@@ -613,7 +613,7 @@
   action:
   - service: script.turn_on
     entity_id: script.woonkamer_music_volume
-- id: batterij_smappee_001
+- id: battery_smappee_001
   alias: Batterij - Smappee - Bijna Leeg
   trigger:
   - below: 20
@@ -629,8 +629,8 @@
   - entity_id: script.notify_battery
     service: script.turn_on
   mode: single
-- id: deurbel_voor_001
-  alias: Deurbel - Als Deurbel Gaat
+- id: doorbell_front_001
+  alias: Deurbel - Voordeur - Als Deurbel Gaat
   trigger:
     platform: mqtt
     topic: doorbellsensorfront/status
@@ -640,8 +640,8 @@
     - script.notify_deurbel
     - script.all_remote_harmony_hub_pause
   - delay: 00:00:15
-- id: verluchting_boven_001
-  alias: Verluchting - Boolean Change based on Outside Temperature (Boven)
+- id: ventilation_upstairs_001
+  alias: Verluchting - Boolean based on Outside Temperature (Boven)
   trigger:
   - platform: template
     value_template: '{{ (state_attr(''weather.dark_sky'', ''temperature'')| float
@@ -653,15 +653,15 @@
   - condition: template
     value_template: '{{ is_state(''sensor.season'', ''summer'') }}'
   action:
-    service_template: "{% if (state_attr('weather.dark_sky', 'temperature')| float\
+    service: "{% if (state_attr('weather.dark_sky', 'temperature')| float\
       \ + 2) < state_attr('climate.kamer_elmo', 'current_temperature') -%}\n  input_boolean.turn_on\n\
       {%- elif (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.kamer_elmo',\
       \ 'current_temperature') -%}\n  input_boolean.turn_off\n{%- endif %}\n"
     data:
       entity_id:
       - input_boolean.cooling_upstairs
-- id: verluchting_beneden_001
-  alias: Verluchting - Boolean Change based on Outside Temperature (Beneden)
+- id: ventilation_downstairs_001
+  alias: Verluchting - Boolean based on Outside Temperature (Beneden)
   trigger:
   - platform: template
     value_template: '{{ (state_attr(''weather.dark_sky'', ''temperature'')| float
@@ -673,14 +673,14 @@
   - condition: template
     value_template: '{{ is_state(''sensor.season'', ''summer'') }}'
   action:
-    service_template: "{% if (state_attr('weather.dark_sky', 'temperature')| float\
+    service: "{% if (state_attr('weather.dark_sky', 'temperature')| float\
       \ + 2) < state_attr('climate.keuken', 'current_temperature') -%}\n  input_boolean.turn_on\n\
       {%- elif (state_attr('weather.dark_sky', 'temperature')| float + 1) > state_attr('climate.keuken',\
       \ 'current_temperature') -%}\n  input_boolean.turn_off\n{%- endif %}\n"
     data:
       entity_id:
       - input_boolean.cooling_downstairs
-- id: verluchting_boven_002
+- id: ventilation_upstairs_002
   alias: Verluchting - Boolean Changes (Boven)
   trigger:
   - entity_id: input_boolean.cooling_upstairs
@@ -688,7 +688,7 @@
   action:
   - service: script.turn_on
     entity_id: script.notify_cooling_upstairs
-- id: verluchting_beneden_002
+- id: ventilation_downstairs_002
   alias: Verluchting - Boolean Changes (Beneden)
   trigger:
   - entity_id: input_boolean.cooling_downstairs
@@ -697,7 +697,7 @@
   - service: script.turn_on
     entity_id: script.notify_cooling_downstairs
 - id: media_plex_001
-  alias: Plex - Webhook - to MQTT
+  alias: Plex - Webhook - Naar MQTT
   trigger:
     platform: webhook
     webhook_id: plex_bert
@@ -731,7 +731,7 @@
         \ }}\",\n   \"Type\":\"{{ trigger.payload_json.Metadata.librarySectionType\
         \ }}\",\n   \"Image\":\"{{ trigger.payload_json.Metadata.thumb }}\" }\n"
 - id: media_plex_003
-  alias: Plex - Webhook - Toggle Living Room Boolean
+  alias: Plex - Webhook - Wijzig Woonkamer Boolean
   trigger:
     platform: mqtt
     topic: plex/update
@@ -753,13 +753,13 @@
       - condition: template
         value_template: '{{trigger.payload_json.Player.title == ''LG OLED55C9MLB''}}'
   action:
-    service_template: "{% if ((trigger.payload_json.event == 'media.play') or (trigger.payload_json.event\
+    service: "{% if ((trigger.payload_json.event == 'media.play') or (trigger.payload_json.event\
       \ == 'media.resume')) %}\n  input_boolean.turn_on\n{% elif ((trigger.payload_json.event\
       \ == 'media.pause') or (trigger.payload_json.event == 'media.stop')) %}\n  input_boolean.turn_off\n\
       {% endif %}\n"
     entity_id: input_boolean.media_livingroom
 - id: media_plex_004
-  alias: Plex - Webhook - Toggle Kitchen Boolean
+  alias: Plex - Webhook - Wijzig Keuken Boolean
   trigger:
     platform: mqtt
     topic: plex/update
@@ -781,13 +781,13 @@
       - condition: template
         value_template: '{{trigger.payload_json.Player.title == ''Chrome''}}'
   action:
-    service_template: "{%- if ((trigger.payload_json.event == 'media.play') or (trigger.payload_json.event\
+    service: "{%- if ((trigger.payload_json.event == 'media.play') or (trigger.payload_json.event\
       \ == 'media.resume')) -%}\n  input_boolean.turn_on\n{%- elif ((trigger.payload_json.event\
       \ == 'media.pause') or (trigger.payload_json.event == 'media.stop')) -%}\n \
       \ input_boolean.turn_off\n{%- endif %}\n"
     entity_id: input_boolean.media_kitchen
 - id: media_appletv_001
-  alias: Apple TV - Toogle Living Room Boolean
+  alias: Apple TV - Wijzig Woonkamer Boolean
   trigger:
   - entity_id: media_player.apple_tv_woonkamer
     platform: state
@@ -809,7 +809,7 @@
       entity_id: input_boolean.media_livingroom
   mode: single
 - id: media_appletv_002
-  alias: Apple TV - Toogle Kitchen Room Boolean
+  alias: Apple TV - Wijzig Keuken Boolean
   trigger:
   - platform: state
     entity_id: media_player.apple_tv_keuken
@@ -830,7 +830,7 @@
     - service: input_boolean.turn_off
       entity_id: input_boolean.media_kitchen
 - id: vacuum_001
-  alias: Vacuum Dusty - Notify - Status Dusty Changes
+  alias: Stofzuiger - Dusty - Bericht - Status Dusty Wijzigt
   initial_state: false
   trigger:
   - platform: template
@@ -850,7 +850,7 @@
     entity_id:
     - script.notify_vacuum
 - id: vacuum_002
-  alias: Vacuum Dusty - Notify - Status Woning Changes
+  alias: Stofzuiger - Dusty - Bericht - Status Woning Wijzigt
   initial_state: false
   trigger:
   - platform: state
@@ -870,7 +870,7 @@
     entity_id:
     - script.notify_vacuum
 - id: vacuum_003
-  alias: Vacuum Dusty - Cleaned Today
+  alias: Stofzuiger - Dusty - Stof Gezogen Vandaag
   trigger:
   - platform: state
     entity_id:
@@ -887,7 +887,7 @@
     entity_id:
     - input_boolean.vacuum_cleaned_today
 - id: vacuum_004
-  alias: Vacuum Dusty - Cleaned Today - Kuishulp
+  alias: Stofzuiger - Dusty - Stof Gezogen Vandaag - Kuishulp
   trigger:
   - platform: state
     entity_id: calendar.kuishulp_agenda
@@ -901,7 +901,7 @@
     entity_id:
     - input_boolean.vacuum_cleaned_today
 - id: vacuum_005
-  alias: Vacuum Dusty - Cleaned Today - Reset
+  alias: Stofzuiger - Dusty - Stof Gezogen Vandaag - Reset
   trigger:
   - platform: time
     at: '23:59:00'
@@ -914,7 +914,7 @@
     entity_id:
     - input_boolean.vacuum_cleaned_today
 - id: vacuum_006
-  alias: Vacuum Dusty - Start when lux enough
+  alias: Stofzuiger - Dusty - Start Wanneer Voldoende lux
   trigger:
   - platform: numeric_state
     entity_id: sensor.hue_sensor_keuken_light_level
@@ -962,3 +962,2732 @@
     entity_id:
     - script.notify_printer
   - delay: 24:00:00
+- id: house_001
+  alias: Ons Huisje - Status Wijzigt
+  trigger:
+  - platform: state
+    entity_id: input_select.woning_status
+  action:
+  - service: input_boolean.turn_off
+    entity_id:
+      - input_boolean.trigger_just_home_kitchen
+      - input_boolean.trigger_just_awake_kitchen
+      - input_boolean.trigger_just_sleep_kitchen
+      - input_boolean.trigger_just_away_kitchen
+      - input_boolean.trigger_just_awake_dressing
+      - input_boolean.trigger_just_sleep_dressing
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Juist Thuis'
+      sequence:
+      - service: script.turn_on
+        entity_id: 
+          - script.input_light_all_beneden_on
+          - script.music_follow_on
+          - script.computer_on
+          - script.dusty_off
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Juist Wakker'
+      sequence:
+      - service: script.turn_on
+        entity_id:
+          - script.input_light_all_beneden_on
+          - script.music_follow_on
+          - script.computer_on
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Thuis'
+      sequence:
+      - service: script.turn_on
+        entity_id:
+          - script.dusty_off
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Thuis (Verlof)'
+      sequence:
+      - service: script.turn_on
+        entity_id:
+          - script.dusty_off
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Thuis (Werk)'
+      sequence:
+      - service: script.turn_on
+        entity_id:
+          - script.dusty_off
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Juist Weg'
+      sequence:
+      - service: script.turn_on
+        entity_id:
+          - script.all_light_off
+          - script.all_music_off
+          - script.harmony_hub_powered_off
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Slapen'
+      sequence:
+      - service: script.turn_on
+        entity_id:
+          - script.veranda_light_off
+          - script.woonkamer_light_off
+          - script.all_switch_off
+          - script.all_music_off
+          - script.all_remote_off
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Weg'
+      sequence:
+      - service: script.turn_on
+        entity_id:
+          - script.all_all_off
+          - script.dusty_on
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Op Vakantie'
+      sequence:
+      - service: script.turn_on
+        entity_id:
+          - script.all_all_off
+    default:
+    - service: script.turn_on
+      entity_id: script.empty
+  - service: script.turn_on
+    entity_id:
+      - script.notify_woning_status
+- id: house_002
+  alias: Ons Huisje - Wijzig de Status - Trigger
+  trigger:
+  - platform: state
+    entity_id:
+      - input_boolean.trigger_home
+      - input_boolean.trigger_morning
+      - input_boolean.trigger_sleep
+      - input_boolean.trigger_away
+    to: 'on'
+  action:
+  - service: input_select.select_option
+    data_template:
+      entity_id: input_select.woning_status
+      option: >-
+        {%- if states('input_select.woning_status') in ['Weg', 'Juist Weg', 'Op Vakantie'] and trigger.entity_id == 'input_boolean.trigger_home' -%}
+          Juist Thuis
+        {%- elif states('input_select.woning_status') in ['Slapen'] and trigger.entity_id == 'input_boolean.trigger_morning' -%}
+          Juist Wakker
+        {%- elif states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] and trigger.entity_id == 'input_boolean.trigger_sleep' -%}
+          Slapen
+        {%- elif states('input_select.woning_status') in ['Thuis', 'Juist Wakker', 'Juist Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] and trigger.entity_id == 'input_boolean.trigger_away' -%}
+          Juist Weg
+        {%- endif %}
+  - delay: 00:01:00
+  - service: input_boolean.turn_off
+    data_template:
+      entity_id: input_boolean.trigger_morning, input_boolean.trigger_sleep, input_boolean.trigger_away, input_boolean.trigger_home
+- id: house_003
+  alias: Ons Huisje - Wijzig de Status - Bewoner of Bezoeker
+  trigger:
+  - platform: state
+    entity_id: group.bewoners
+  - platform: state
+    entity_id: group.bezoekers
+  condition:
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: "{{ (states('input_select.woning_status') in ['Weg', 'Op Vakantie'] and states('group.bewoners') in ['home']) or (states('input_select.woning_status') in ['Weg'] and states('group.bezoekers') in ['home']) }}"
+    - condition: template
+      value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] and states('group.bewoners') in ['not_home'] and states('group.bezoekers') in ['not_home'] }}"
+    - condition: template
+      value_template: "{{ states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']) and states('calendar.verlof_agenda') in ['on'] }}"
+    - condition: template
+      value_template: "{{ states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']) }}"
+  action:
+  - service: input_select.select_option
+    entity_id: input_select.woning_status
+    data_template:
+      option: >
+        {% if (states('input_select.woning_status') in ['Weg', 'Op Vakantie'] and states('group.bewoners') in ['home']) or (states('input_select.woning_status') in ['Weg'] and states('group.bezoekers') in ['home']) %}
+          Juist Thuis
+        {% elif states('input_select.woning_status') in ['Juist Thuis', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] and states('group.bewoners') in ['not_home'] and states('group.bezoekers') in ['not_home'] %}
+          Juist Weg
+        {% elif states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']) and states('calendar.verlof_agenda') in ['on'] %}
+          Thuis (Verlof)
+        {% elif states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']) and (states('sensor.time') >= "07:20") and (states('sensor.time') <= "18:00") and (now().weekday() in (0,1,2,3,4)) %}
+          Thuis (Werk)
+        {% elif states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']) %}
+          Thuis
+        {% elif states('input_select.woning_status') in ['Juist Weg'] %}
+          Juist Weg
+        {% elif states('input_select.woning_status') in ['Juist Thuis'] %}
+          Juist Thuis
+        {% elif states('input_select.woning_status') in ['Juist Wakker'] %}
+          Juist Wakker
+        {% elif states('input_select.woning_status') in ['Thuis'] %}
+          Thuis
+        {% elif states('input_select.woning_status') in ['Thuis (Verlof)'] %}
+          Thuis (Verlof)
+        {% elif states('input_select.woning_status') in ['Thuis (Werk)'] %}
+          Thuis (Werk)
+        {% elif states('input_select.woning_status') in ['Weg'] %}
+          Weg
+        {% elif states('input_select.woning_status') in ['Slapen'] %}
+          Slapen
+        {% elif states('input_select.woning_status') in ['Op Vakantie'] %}
+          Op Vakantie
+        {% endif %}
+- id: house_004
+  alias: Ons Huisje - Wijzig de Status - Timer
+  trigger:
+  - platform: state
+    entity_id: input_select.woning_status
+    to: 'Juist Thuis'
+    for:
+      minutes: 5
+  - platform: state
+    entity_id: input_select.woning_status
+    to: 'Juist Wakker'
+    for:
+      minutes: 5
+  - platform: state
+    entity_id: input_select.woning_status
+    to: 'Juist Weg'
+    for:
+      minutes: 10
+  - platform: state
+    entity_id: input_select.woning_status
+    to: 'Weg'
+    for:
+      hours: 24
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Juist Thuis', 'Juist Weg', 'Weg'] }}"
+  action:
+  - service: input_select.select_option
+    entity_id: input_select.woning_status
+    data_template:
+      option: >
+        {% if states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker'] and states('calendar.verlof_agenda') in ['on'] and (now().weekday() in (0,1,2,3,4)) %}
+          Thuis (Verlof)
+        {% elif states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker'] and (states('sensor.time') >= "07:20") and (states('sensor.time') <= "18:00") and (now().weekday() in (0,1,2,3,4)) %}
+          Thuis (Werk)
+        {% elif states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker'] %}
+          Thuis
+        {% elif states('input_select.woning_status') in ['Juist Weg'] %}
+          Weg
+        {% else %}
+          Op Vakantie
+        {% endif %}
+- id: house_005
+  alias: Ons Huisje - Wijzig de Status - Juist Wakker
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+  condition:
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Slapen'
+    for:
+      hours: 1
+  - condition: or
+    conditions:
+    - condition: time
+      after: !secret awake_weekend
+      before: !secret sleep_weekend
+      weekday:
+        - sat
+        - sun
+    - condition: time
+      after: !secret awake_week
+      before: !secret work_week_end
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.woning_status
+      option: Juist Wakker
+- id: house_006
+  alias: Ons Huisje - Wijzig de Status - Thuis (...) AAN (als Thuis)
+  trigger:
+  - platform: time
+    at: !secret work_week_start
+  - platform: state
+    entity_id: input_select.woning_status
+    to: 'Thuis'
+  - platform: state
+    entity_id: calendar.verlof_agenda
+    to: 'on'
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Thuis'] }}"
+  - condition: template
+    value_template: "{{ (states('calendar.verlof_agenda') in ['on']) or (states('sensor.time') >= '07:19' and states('sensor.time') <= '18:01' and now().weekday() in (0,1,2,3,4)) }}"
+  action:
+  - service: input_select.select_option
+    entity_id: input_select.woning_status
+    data_template:
+      option: >
+        {% if (states('calendar.verlof_agenda') in ['on']) and (now().weekday() in (0,1,2,3,4)) %}
+          Thuis (Verlof)
+        {% elif (states('sensor.time') >= "07:19") and (states('sensor.time') <= "18:01") and (now().weekday() in (0,1,2,3,4)) %}
+          Thuis (Werk)
+        {% else %}
+          Thuis
+        {% endif %}
+- id: house_007
+  alias: Ons Huisje - Wijzig de Status - Thuis (...) UIT
+  trigger:
+  - platform: time
+    at: !secret work_week_end
+  - platform: state
+    entity_id: calendar.verlof_agenda
+    to: 'off'
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Thuis (Werk)', 'Thuis (Verlof)'] }}"
+  action:
+  - service: input_select.select_option
+    data:
+      entity_id: input_select.woning_status
+      option: Thuis
+- id: house_008
+  alias: Ons Huisje - Alexa Trigger - Beweging in de Keuken
+  trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.hue_sensor_keuken_motion
+    to: 'on'
+    for:
+      seconds: 2
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Weg', 'Juist Wakker', 'Slapen'] }}"
+  - condition: template
+    value_template: "{{ states('binary_sensor.hue_sensor_keuken_motion') in ['on'] }}"
+  - condition: template
+    value_template: "{{ states('input_boolean.trigger_just_home_kitchen') in ['off'] }}"
+  - condition: template
+    value_template: "{{ states('input_boolean.trigger_just_awake_kitchen') in ['off'] }}"
+  - condition: template
+    value_template: "{{ states('input_boolean.trigger_just_sleep_kitchen') in ['off'] }}"
+  - condition: template
+    value_template: "{{ states('input_boolean.trigger_just_away_kitchen') in ['off'] }}"
+  action:
+  - service: input_boolean.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('input_select.woning_status') in ['Juist Thuis'] and states('binary_sensor.hue_sensor_keuken_motion') in ['on'] -%}
+          input_boolean.trigger_just_home_kitchen
+        {%- elif states('input_select.woning_status') in ['Juist Wakker'] and states('binary_sensor.hue_sensor_keuken_motion') in ['on'] -%}
+          input_boolean.trigger_just_awake_kitchen
+        {%- elif states('input_select.woning_status') in ['Slapen'] and states('binary_sensor.hue_sensor_keuken_motion') in ['on'] -%}
+          input_boolean.trigger_just_sleep_kitchen
+        {%- elif states('input_select.woning_status') in ['Juist Weg'] and states('binary_sensor.hue_sensor_keuken_motion') in ['on'] -%}
+          input_boolean.trigger_just_away_kitchen
+        {%- endif %}
+- id: house_009
+  alias: Ons Huisje - Alexa Trigger - Beweging in de Dressing
+  trigger:
+  - platform: state
+    entity_id:
+      - binary_sensor.hue_sensor_dressing_motion
+    to: 'on'
+    for:
+      seconds: 2
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Slapen'] }}"
+  - condition: template
+    value_template: "{{ states('binary_sensor.hue_sensor_dressing_motion') in ['on'] }}"
+  - condition: template
+    value_template: "{{ states('input_boolean.trigger_just_awake_dressing') in ['off'] }}"
+  - condition: template
+    value_template: "{{ states('input_boolean.trigger_just_sleep_dressing') in ['off'] }}"
+  action:
+  - delay: 00:00:05
+  - service: input_boolean.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('input_select.woning_status') in ['Juist Wakker'] and states('binary_sensor.hue_sensor_dressing_motion') in ['on'] -%}
+          input_boolean.trigger_just_awake_dressing
+        {%- elif states('input_select.woning_status') in ['Slapen'] and states('binary_sensor.hue_sensor_dressing_motion') in ['on'] -%}
+          input_boolean.trigger_just_sleep_dressing
+        {%- endif %}
+- id: amplifier_livingroom_001
+  alias: Amplifier Woonkamer - Uit - Apple TV Not Playing
+  trigger:
+    - platform: template
+      value_template: "{{ states('media_player.apple_tv_woonkamer') in ['idle', 'paused'] }}"
+      for:
+        minutes: 30
+  condition:
+    - condition: template
+      value_template: "{{ states('input_select.harmony_hub') in ['Apple Tv'] }}"
+    - condition: template
+      value_template: "{{ states('media_player.apple_tv_woonkamer') in ['paused', 'idle'] }}"
+  action:
+    - service: script.turn_on
+      entity_id: script.harmony_hub_powered_off
+- id: amplifier_livingroom_002
+  alias: Amplifier Woonkamer - Uit - Echo Not Playing
+  trigger:
+    - platform: template
+      value_template: "{{ states('media_player.alexa_livingroom_1') not in ['playing'] }}"
+      for:
+        minutes: 5
+    - platform: template
+      value_template: "{{ states('media_player.alexa_everywhere') not in ['playing'] }}"
+      for:
+        minutes: 5
+    - platform: template
+      value_template: "{{ states('media_player.alexa_downstairs') not in ['playing'] }}"
+      for:
+        minutes: 5
+  condition:
+    - condition: template
+      value_template: "{{ states('media_player.alexa_livingroom_1') not in ['playing'] }}"
+    - condition: template
+      value_template: "{{ states('media_player.alexa_downstairs') not in ['playing'] }}"
+    - condition: template
+      value_template: "{{ states('media_player.alexa_everywhere') not in ['playing'] }}"
+    - condition: template
+      value_template: "{{ states('input_select.harmony_hub') in ['Alexa'] }}"
+  action:
+    - service: script.turn_on
+      entity_id: script.harmony_hub_powered_off
+- id: amplifier_livingroom_003
+  alias: Amplifier Woonkamer - Aan - Echo Playing
+  trigger:
+    - platform: state
+      entity_id: 
+        - media_player.alexa_livingroom_1
+        - media_player.alexa_everywhere
+        - media_player.alexa_downstairs
+      to: playing
+  condition:
+    - condition: state
+      entity_id: input_select.harmony_hub
+      state: 'Powered Off'
+  action:
+    - service: script.turn_on
+      entity_id: script.harmony_hub_alexa
+- id: amplifier_livingroom_004
+  alias: Amplifier Woonkamer - Aan - Echo Playing (Harmony Powered Off)
+  trigger:
+    - platform: state
+      entity_id: input_select.harmony_hub
+      to: 'Powered Off'
+      for:
+        minutes: 3
+  condition:
+    - condition: template
+      value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)', 'Juist Wakker'] }}"
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: media_player.alexa_everywhere
+        state: playing
+      - condition: state
+        entity_id: media_player.alexa_livingroom_1
+        state: playing
+      - condition: state
+        entity_id: media_player.alexa_downstairs
+        state: playing
+  action:
+    - delay: 00:00:05
+    - service: script.turn_on
+      entity_id: script.harmony_hub_alexa
+- id: amplifier_kitchen_001
+  alias: Amplifier Keuken - Aan - Echo Playing
+  trigger:
+    - platform: state
+      entity_id: 
+        - media_player.alexa_kitchen_1
+        - media_player.alexa_everywhere
+        - media_player.alexa_downstairs
+      to: playing
+  condition:
+    - condition: state
+      entity_id: light.hue_smart_plug_keuken
+      state: 'off'
+  action:
+    - service: script.turn_on
+      entity_id:
+        - script.hue_smart_plug_kitchen_on
+- id: amplifier_kitchen_002
+  alias: Amplifier Keuken - Uit - Echo Not Playing
+  trigger:
+    - platform: template
+      value_template: "{{ states('media_player.alexa_kitchen_1') not in ['playing'] }}"
+      for:
+        minutes: 2
+    - platform: template
+      value_template: "{{ states('media_player.alexa_everywhere') not in ['playing'] }}"
+      for:
+        minutes: 2
+    - platform: template
+      value_template: "{{ states('media_player.alexa_downstairs') not in ['playing'] }}"
+      for:
+        minutes: 2
+  condition:
+    - condition: state
+      entity_id: light.hue_smart_plug_keuken
+      state: 'on'
+    - condition: template
+      value_template: "{{ states('media_player.alexa_everywhere') not in ['playing'] }}"
+    - condition: template
+      value_template: "{{ states('media_player.alexa_downstairs') not in ['playing'] }}"
+    - condition: template
+      value_template: "{{ states('media_player.alexa_kitchen_1') not in ['playing'] }}"
+  action:
+    - service: script.turn_on
+      entity_id:
+        - script.hue_smart_plug_kitchen_off
+- id: home_owner_001
+  alias: Bewoner - Thuis of Weg
+  initial_state: false
+  trigger:
+  - platform: state
+    entity_id:
+      - person.caroline
+      - person.bert
+    to: home
+  - platform: state
+    entity_id:
+      - person.caroline
+      - person.bert
+    to: not_home
+    from: home
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if trigger.from_state.entity_id == 'person.caroline' %}
+          script.notify_tracker_caro_thuis
+        {% elif trigger.from_state.entity_id == 'person.bert' %}
+          script.notify_tracker_bert_thuis
+        {% endif %}
+- id: home_owner_002
+  alias: Bewoner - Thuis of Weg 2
+  initial_state: false
+  trigger:
+  - platform: state
+    entity_id:
+      - person.caroline
+    to: home
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if trigger.from_state.entity_id == 'person.caroline' %}
+          script.notify_tracker_caro_thuis_ios_bert
+        {% endif %}
+- id: home_owner_003
+  alias: Bewoner - Thuis - Babysit
+  initial_state: false
+  trigger:
+  - platform: state
+    entity_id:
+      - person.caroline
+      - person.bert
+    to: home
+    from: not_home
+  condition:
+  - condition: state
+    entity_id: input_boolean.visitor
+    state: 'on'
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if trigger.from_state.entity_id == 'person.caroline' %}
+          script.notify_bezoeker_babysit_ios_caro
+        {% elif trigger.from_state.entity_id == 'person.bert' %}
+          script.notify_bezoeker_babysit_ios_bert
+        {% endif %}
+- id: home_owner_004
+  alias: Bewoner - Aan Opvang
+  trigger:
+  - platform: template
+    value_template: "{{ states('person.caroline') in ['Ivy', 'Nona & Pepe', 'Mimi & Fleri'] }}"
+  - platform: template
+    value_template: "{{ states('person.bert') in ['Ivy', 'Nona & Pepe', 'Mimi & Fleri'] }}"
+  condition:
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if trigger.from_state.entity_id == 'person.caroline' %}
+          script.notify_tracker_caro_zones
+        {% elif trigger.from_state.entity_id == 'person.bert' %}
+          script.notify_tracker_bert_zones
+        {% endif %}
+- id: home_owner_005
+  alias: Bewoner - Aan Checkpoint
+  trigger:
+  - platform: template
+    value_template: "{{ states('person.caroline') in ['Checkpoint 1', 'Checkpoint 2', 'Checkpoint 3', 'Checkpoint 4', 'Checkpoint 5'] }}"
+  - platform: template
+    value_template: "{{ states('person.bert') in ['Mechelen Station', 'Willebroek Station', 'Checkpoint 3'] }}"
+  condition:
+  - condition: time
+    after: !secret work_week_mid
+    before: !secret sleep_week
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if trigger.from_state.entity_id == 'person.caroline' %}
+          script.notify_tracker_caro_zones
+        {% elif trigger.from_state.entity_id == 'person.bert' %}
+          script.notify_tracker_bert_zones
+        {% endif %}
+- id: home_owner_006
+  alias: Bewoner - Aan Ziekenhuis
+  trigger:
+  - platform: template
+    value_template: "{{ states('person.caroline') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] }}"
+  - platform: template
+    value_template: "{{ states('person.bert') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] }}"
+  action:
+  - delay: 00:02:00
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if trigger.from_state.entity_id == 'person.caroline' and states('person.bert') not in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}
+          script.notify_tracker_caro_zones
+        {% elif trigger.from_state.entity_id == 'person.bert' and states('person.caroline') not in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}
+          script.notify_tracker_bert_zones
+        {% endif %}
+- id: home_owner_bert_001
+  alias: Bewoner - Bert - Aan Willebroek Station
+  trigger:
+  - entity_id: person.bert
+    platform: state
+    to: Willebroek Station
+  condition:
+  - condition: time
+    before: !secret work_week_mid
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_nmbs_willebroek_mechelen_ios_bert
+- id: home_owner_bert_002
+  alias: Bewoner - Bert - Aan Mechelen Station
+  trigger:
+  - entity_id: person.bert
+    platform: state
+    to: Mechelen Station
+  condition:
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if (states('sensor.time') <= "13:00") %}
+          script.notify_nmbs_mechelen_brussel_ios_bert
+        {% else %}
+          script.notify_nmbs_mechelen_willebroek_ios_bert
+        {% endif %}
+- id: home_owner_bert_003
+  alias: Bewoner - Bert - Aan Brussel Station
+  trigger:
+  - entity_id: person.bert
+    platform: state
+    to: Brussel Station
+  condition:
+  - condition: time
+    after: !secret work_week_mid
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_nmbs_brussel_mechelen_ios_bert
+- id: home_owner_bert_004
+  alias: Bewoner - Bert - Aan Willebroek Station Change
+  trigger:
+  - entity_id: sensor.nmbs_template
+    platform: state
+  condition:
+  - condition: state
+    entity_id: person.bert
+    state: Willebroek Station
+  - condition: time
+    before: !secret work_week_mid
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_nmbs_willebroek_mechelen_ios_bert
+- id: home_owner_bert_005
+  alias: Bewoner - Bert - Aan Mechelen Station Change Wil
+  trigger:
+  - entity_id: sensor.nmbs_3_template
+    platform: state
+  condition:
+  - condition: state
+    entity_id: person.bert
+    state: Mechelen Station
+  - condition: time
+    after: !secret work_week_mid
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_nmbs_mechelen_willebroek_ios_bert
+- id: home_owner_bert_006
+  alias: Bewoner - Bert - Aan Mechelen Station Change Brus
+  trigger:
+  - entity_id: sensor.nmbs_2_template
+    platform: state
+  condition:
+  - condition: state
+    entity_id: person.bert
+    state: Mechelen Station
+  - condition: time
+    before: !secret work_week_mid
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_nmbs_mechelen_brussel_ios_bert
+- id: home_owner_bert_007
+  alias: Bewoner - Bert - Aan Brussel Station Change
+  trigger:
+  - entity_id: sensor.nmbs_4_template
+    platform: state
+  condition:
+  - condition: state
+    entity_id: person.bert
+    state: Brussel Station
+  - condition: time
+    after: !secret work_week_mid
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_nmbs_brussel_mechelen_ios_bert
+- id: visitor_001
+  alias: Bezoeker - Thuis of Weg
+  initial_state: false
+  trigger:
+  - platform: state
+    entity_id:
+      - person.mark
+      - person.mama
+      - person.andy
+      - person.karen
+      - person.marcus
+      - person.niki
+      - person.oma
+      - person.nancy
+      - person.thomas
+      - person.papa
+    from: "home"
+    to: "not_home"
+  - platform: state
+    entity_id:
+      - person.mark
+      - person.mama
+      - person.andy
+      - person.karen
+      - person.marcus
+      - person.niki
+      - person.oma
+      - person.nancy
+      - person.thomas
+      - person.papa
+    from: "not_home"
+    to: "home"
+  action:
+  - service: script.notify_tracker_bezoeker_thuis_ios_bert
+    data_template:
+      bezoeker: '{{ trigger.to_state.attributes.friendly_name }}'
+      bezoeker_state: '{{ trigger.to_state.state }}'
+  - service: script.notify_tracker_bezoeker_thuis_ios_caro
+    data_template:
+      bezoeker: '{{ trigger.to_state.attributes.friendly_name }}'
+      bezoeker_state: '{{ trigger.to_state.state }}'
+  - service: script.notify_tracker_bezoeker_thuis_alexa
+    data_template:
+      bezoeker: '{{ trigger.to_state.attributes.friendly_name }}'
+      bezoeker_state: '{{ trigger.to_state.state }}'
+- id: visitor_babysit_001
+  alias: Bezoeker - Babysit - Aangekomen
+  trigger:
+  - platform: state
+    entity_id: calendar.babysit_agenda
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.visitor
+    state: 'off'
+  action:
+  - service: input_boolean.turn_on
+    entity_id:
+      - input_boolean.visitor
+- id: visitor_babysit_002
+  alias: Bezoeker - Babysit - Vertrokken
+  trigger:
+  - platform: state
+    entity_id: calendar.babysit_agenda
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: input_boolean.visitor
+    state: 'off'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_bezoeker_babysit_ios_caro
+      - script.notify_bezoeker_babysit_ios_bert
+- id: visitor_babysit_003
+  alias: Bezoeker - Babysit - Blijft
+  trigger:
+  - platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: LEAVE_VISITOR
+  condition:
+  - condition: state
+    entity_id: input_boolean.visitor
+    state: 'off'
+  action:
+  - service: input_boolean.turn_on
+    entity_id:
+      - input_boolean.visitor
+- id: visitor_babysit_004
+  alias: Bezoeker - Babysit - Gaat Weg
+  trigger:
+    platform: event
+    event_type: ios.notification_action_fired
+    event_data:
+      actionName: RESET_VISITOR
+  action:
+  - service: input_boolean.turn_off
+    entity_id:
+      - input_boolean.visitor
+- id: homeassistant_001
+  alias: HomeAssistant - Restart Check
+  trigger:
+  - event: start
+    platform: homeassistant
+  action:
+  - delay: 00:00:30
+  - service: script.turn_on
+    entity_id:
+      - script.restart_hassio
+      - script.restart_homekit
+      - script.restart_homekit_not
+- id: homeassistant_002
+  alias: HomeAssistant - Update Available
+  initial_state: false
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.updater
+    to: 'on'
+  action:
+  - service: script.turn_on
+    data:
+      entity_id: script.notify_hassio_update
+- id: homeassistant_003
+  alias: HomeAssistant - Update Available HACS
+  initial_state: false
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.hacs
+    above: 00
+  action:
+  - service: script.turn_on
+    data:
+      entity_id: script.notify_hacs_update
+- id: homeassistant_004
+  alias: HomeAssistant - Volle toeren
+  trigger:
+  - platform: numeric_state
+    entity_id:
+      - sensor.memory_use_percent
+      - sensor.disk_use_percent_home
+      - sensor.processor_use
+    above: 90
+  action:
+  - service: script.turn_on
+    data:
+      entity_id: script.notify_hassio_overtime
+- id: harmony_001
+  alias: Harmony Hub - Boolean Change based on Hub Status (1A)
+  trigger:
+  - platform: state
+    entity_id: remote.harmony_hub
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      state: 'unavailable'
+      entity_id:
+        - remote.harmony_hub
+  action:
+  - service: input_select.select_option
+    entity_id: input_select.harmony_hub
+    data_template:
+      option: >
+        {% if state_attr('remote.harmony_hub', 'current_activity') == "PowerOff" %}
+          Powered Off
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Alexa" %}
+          Alexa
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "TV Decoder" %}
+          Tv Decoder
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "WebOS" %}
+          Web OS
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Nintendo Switch" %}
+          Nintendo Switch
+        {% elif state_attr('remote.harmony_hub', 'current_activity') == "Apple tv" %}
+          Apple Tv
+        {% else %}
+          Powered Off
+        {% endif %}
+- id: harmony_002
+  alias: Harmony Hub - Boolean Changes (2A)
+  trigger:
+  - platform: state
+    entity_id: input_select.harmony_hub
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      state: 'unavailable'
+      entity_id:
+        - remote.harmony_hub
+  action:
+  - service: remote.turn_on
+    data_template:
+      entity_id: remote.harmony_hub
+      activity: >
+        {% if states('input_select.harmony_hub') in ['Powered Off'] %}
+          -1
+        {% elif states('input_select.harmony_hub') in ['Alexa'] %}
+          35750774
+        {% elif states('input_select.harmony_hub') in ['Tv Decoder'] %}
+          42338759
+        {% elif states('input_select.harmony_hub') in ['Web OS'] %}
+          42338833
+        {% elif states('input_select.harmony_hub') in ['Apple Tv'] %}
+          29425458
+        {% elif states('input_select.harmony_hub') in ['Nintendo Switch'] %}
+          30703348
+        {% endif %}
+- id: harmony_001b
+  alias: Harmony Hub - Boolean Change based on Hub Status (1B)
+  trigger:
+  - platform: state
+    entity_id: remote.living_room
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      state: 'unavailable'
+      entity_id:
+        - remote.living_room
+  action:
+  - service: input_select.select_option
+    entity_id: input_select.harmony_hub
+    data_template:
+      option: >
+        {% if state_attr('remote.living_room', 'current_activity') == "PowerOff" %}
+          Powered Off
+        {% elif state_attr('remote.living_room', 'current_activity') == "Alexa" %}
+          Alexa
+        {% elif state_attr('remote.living_room', 'current_activity') == "TV Decoder" %}
+          Tv Decoder
+        {% elif state_attr('remote.living_room', 'current_activity') == "WebOS" %}
+          Web OS
+        {% elif state_attr('remote.living_room', 'current_activity') == "Nintendo Switch" %}
+          Nintendo Switch
+        {% elif state_attr('remote.living_room', 'current_activity') == "Apple tv" %}
+          Apple Tv
+        {% else %}
+          Powered Off
+        {% endif %}
+- id: harmony_002b
+  alias: Harmony Hub - Boolean Changes (2B)
+  trigger:
+  - platform: state
+    entity_id: input_select.harmony_hub
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      state: 'unavailable'
+      entity_id:
+        - remote.living_room
+  action:
+  - service: remote.turn_on
+    data_template:
+      entity_id: remote.living_room
+      activity: >
+        {% if states('input_select.harmony_hub') in ['Powered Off'] %}
+          -1
+        {% elif states('input_select.harmony_hub') in ['Alexa'] %}
+          35750774
+        {% elif states('input_select.harmony_hub') in ['Tv Decoder'] %}
+          42338759
+        {% elif states('input_select.harmony_hub') in ['Web OS'] %}
+          42338833
+        {% elif states('input_select.harmony_hub') in ['Apple Tv'] %}
+          29425458
+        {% elif states('input_select.harmony_hub') in ['Nintendo Switch'] %}
+          30703348
+        {% endif %}
+- id: harmony_start_001
+  alias: Harmony Hub - Start Tv avond
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.hue_sensor_woonkamer_motion
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_select.woning_status
+    state:
+    - Thuis
+    - Thuis (Werk)
+    - Thuis (Verlof)
+  - condition: state
+    entity_id: input_select.harmony_hub
+    state:
+    - Powered Off
+    - Alexa
+  - condition: time
+    before: '20:20:00'
+    after: '19:50:00'
+  action:
+  - service: script.turn_on
+    entity_id: script.harmony_hub_tv_decoder
+- id: heating_state_house_001
+  alias: Verwarming - Woning Status - Weg dus Eco Mode
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Weg'
+    for:
+      minutes: 5
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when Away
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Weg'
+    #Only if Evohome is NOT set to Eco
+  - condition: template
+    value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'eco' ) }}"
+    #Only if Time is correct
+  - condition: or
+    conditions:
+      #Away during day in the weekend
+    - condition: time
+      after: !secret awake_weekend_heating
+      before: !secret sleep_weekend
+      weekday:
+        - sat
+        - sun
+      #Away early before work in the week
+    - condition: time
+      after: !secret awake_week_heating
+      before: !secret work_week_start
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+      #Away late after work in the week
+    - condition: time
+      after: !secret work_week_end_heating
+      before: !secret sleep_week
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_economy
+- id: heating_state_house_002
+  alias: Verwarming - Woning Status - Weg dus Auto Mode
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Weg'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only if Evohome is NOT set to Auto
+  - condition: template
+    value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) or (state_attr('climate.ons_huisje', 'preset_mode') != 'Reset') }}"
+    #Only if Time is correct
+  - condition: or
+    conditions:
+      #Away during night in the weekend
+    - condition: time
+      after: !secret sleep_weekend
+      before: !secret awake_weekend_heating
+      weekday:
+        - sat
+        - sun
+      #Away during work in the week
+    - condition: time
+      after: !secret work_week_start
+      before: !secret work_week_end_heating
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+      #Away during night in the week
+    - condition: time
+      after: !secret sleep_week
+      before: !secret awake_week_heating
+      weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal
+- id: heating_state_house_003
+  alias: Verwarming - Woning Status - Thuis dus Auto Mode
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Thuis'
+    for:
+      minutes: 1
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: or
+    conditions:
+      #Only if Kitchen is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Bathroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.badkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Bedroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.slp_kamer', 'preset_mode') != 'none' ) }}"
+      #Only if Bedroom Elmo is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.kamer_elmo', 'preset_mode') != 'none' ) }}"
+      #Only if Dressing is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.dressing', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal
+- id: heating_week_shedule_001
+  alias: Verwarming - Week Schema - Juist Wakker dus Omhoog in Keuken
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Juist Wakker'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
+    #Awake early before heating on
+  - condition: time
+    before: !secret awake_week_heating
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_kitchen_rise
+- id: heating_week_shedule_002
+  alias: Verwarming - Week Schema - Start Werken dus Auto Mode
+  trigger:
+  - platform: time
+    at: !secret work_week_start
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when Away
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Weg'
+    #Only on weekdays
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  - condition: or
+    conditions:
+      #Only if Kitchen is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) or (state_attr('climate.ons_huisje', 'preset_mode') != 'Reset') }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+  - delay: 00:02:00
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal
+- id: heating_week_shedule_003
+  alias: Verwarming - Week Schema - Thuis (Werk) dus Custom Mode
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Thuis (Werk)'
+    for:
+      minutes: 1
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Do not raise when only cleaning help home
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: 'group.bewoners_router'
+      state: 'home'
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: 'group.bezoekers'
+        state: 'home'
+      - condition: state
+        entity_id: 'sensor.kuishulp'
+        state: 'not_home'
+    #Awake early before heating on
+  - condition: time
+    before: !secret work_week_end_heating
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    #Only if Evohome is NOT set to Custom
+  - condition: template
+    value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'Custom') }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_custom
+- id: heating_week_shedule_004
+  alias: Verwarming - Week Schema - Werken gedaan dus Eco Mode
+  trigger:
+  - platform: time
+    at: !secret work_week_end
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when Away
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Weg'
+    #Only if Evohome is NOT set to Eco
+  - condition: template
+    value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'eco' ) }}"
+    #Only on weekdays
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_economy
+- id: heating_week_shedule_005
+  alias: Verwarming - Week Schema - Laat Wakker dus Omhoog in Woonkamer
+  trigger:
+  - platform: time
+    at: !secret sleep_week
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only on weekdays
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    #Only if we are home
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Thuis'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_rise
+- id: heating_week_shedule_006
+  alias: Verwarming - Week Schema - Vroeger slaper dus Lager Beneden
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Slapen'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Sleep early before heating off
+  - condition: time
+    after: !secret awake_week_heating
+    before: !secret sleep_week
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    #Only when not verlof 
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_kitchen_lower
+      - script.evo_zone_living_room_lower
+- id: heating_week_shedule_007
+  alias: Verwarming - Week Schema - Gaan Slapen dus Auto Mode
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Slapen'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: or
+    conditions:
+      #Only if Kitchen is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) or (state_attr('climate.ons_huisje', 'preset_mode') != 'Reset') }}"
+    #Sleep early before heating off week or weekend
+  - condition: time
+    before: !secret awake_week_heating
+    after: !secret sleep_week
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    #Only when not verlof 
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off' 
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+  - delay: 00:02:00
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal
+- id: heating_week_shedule_008
+  alias: Verwarming - Week Schema - Tijd om te gaan slapen dus Auto Mode
+  trigger:
+  - platform: time
+    at: !secret sleep_week
+  condition:
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
+    #Only when Asleep
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Slapen'
+  - condition: or
+    conditions:
+      #Only if Kitchen is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) or (state_attr('climate.ons_huisje', 'preset_mode') != 'Reset') }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+  - delay: 00:02:00
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal
+- id: heating_weekend_shedule_001
+  alias: Verwarming - Weekend Schema - Juist Wakker dus Omhoog Beneden
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Juist Wakker'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
+    #Awake early before heating on
+  - condition: time
+    before: !secret awake_weekend_heating
+    weekday:
+      - sat
+      - sun
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_rise
+      - script.evo_zone_kitchen_rise
+- id: heating_weekend_shedule_002
+  alias: Verwarming - Weekend Schema - Ochtend dus Auto Mode
+  trigger:
+  - platform: time
+    at: !secret awake_weekend
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
+    #Only during weekends
+  - condition: time
+    weekday:
+      - sat
+      - sun
+  - condition: or
+    conditions:
+      #Only if Kitchen is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) or (state_attr('climate.ons_huisje', 'preset_mode') != 'Reset') }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+  - delay: 00:02:00
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal
+- id: heating_weekend_shedule_003
+  alias: Verwarming - Weekend Schema - Vroeger Slapen dus Omlaag Beneden
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Slapen'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Sleep early before heating off
+  - condition: time
+    after: !secret awake_weekend_heating
+    before: !secret sleep_weekend
+    weekday:
+      - sat
+      - sun
+    #Only when not verlof 
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_kitchen_lower
+      - script.evo_zone_living_room_lower
+- id: heating_weekend_shedule_004
+  alias: Verwarming - Weekend Schema - Slapen dus Auto Mode
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Slapen'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: time
+    before: !secret awake_weekend_heating
+    after: !secret sleep_weekend
+    weekday:
+      - sat
+      - sun
+    #Only when not verlof 
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off' 
+  - condition: or
+    conditions:
+      #Only if Kitchen is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) or (state_attr('climate.ons_huisje', 'preset_mode') != 'Reset') }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+  - delay: 00:02:00
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal
+- id: heating_weekend_shedule_005
+  alias: Verwarming - Weekend Schema - Tijd om te gaan Slapen dus Auto Mode
+  trigger:
+  - platform: time
+    at: !secret sleep_weekend
+  condition:
+  - condition: time
+    weekday:
+      - sat
+      - sun
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'    
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Slapen'
+  - condition: or
+    conditions:
+      #Only if Kitchen is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) or (state_attr('climate.ons_huisje', 'preset_mode') != 'Reset') }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+  - delay: 00:02:00
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_normal
+- id: heating_weekend_shedule_006
+  alias: Verwarming - Weekend Schema - Later wakker dus Omhoog Woonkamer
+  trigger:
+  - platform: time
+    at: !secret sleep_weekend
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'       
+    #Only during weekends
+  - condition: time
+    weekday:
+      - sat
+      - sun
+    #Only if we are home and not asleep
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Thuis'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_rise
+- id: heating_vacation_001
+  alias: Verwarming - Vakantie - Dus alles Uit
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Op Vakantie'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only if Evohome is NOT set to Off
+  - condition: template
+    value_template: "{{ (state_attr('climate.ons_huisje', 'hvac_mode') != 'off' ) }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_heating_off
+- id: heating_staycation_001
+  alias: Verwarming - Staycation - Juist Wakker dus Omhoog Beneden
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Juist Wakker'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'on'
+    #Awake early before heating on
+  - condition: time
+    before: !secret awake_weekend_heating
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_rise
+      - script.evo_zone_kitchen_rise
+- id: heating_staycation_002
+  alias: Verwarming - Staycation - Ochtend dus Home Mode
+  trigger:
+  - platform: time
+    at: !secret awake_weekend
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'on'
+  - condition: or
+    conditions:
+      #Only if Kitchen is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to home
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'home' ) }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+      - script.evo_status_home
+- id: heating_staycation_003
+  alias: Verwarming - Staycation - Thuis (Verlof) dus Home Mode
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Thuis (Verlof)'
+    for:
+      minutes: 1
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only if Evohome is NOT set to home
+  - condition: template
+    value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'home' ) }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_home
+- id: heating_staycation_004
+  alias: Verwarming - Staycation - Later wakker dus Omhoog Woonkamer
+  trigger:
+  - platform: time
+    at: !secret sleep_weekend
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'on'
+    #Only if we are home and not asleep
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Thuis (Verlof)'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_rise
+- id: heating_staycation_005
+  alias: Verwarming - Staycation - Vroeger Slapen dus Omlaag Beneden
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Slapen'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Sleep early before heating off
+  - condition: time
+    after: !secret awake_weekend_heating
+    before: !secret sleep_weekend
+    #Only when verlof 
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_kitchen_lower
+      - script.evo_zone_living_room_lower
+- id: heating_staycation_006
+  alias: Verwarming - Staycation - Slapen dus Home Mode
+  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Slapen'
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Sleep early before heating off verlof
+  - condition: time
+    before: !secret awake_weekend_heating
+    after: !secret sleep_weekend
+    #Only when not verlof
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'on'
+  - condition: or
+    conditions:
+      #Only if Kitchen is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to home
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'home' ) }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+      - script.evo_status_home
+- id: heating_staycation_007
+  alias: Verwarming - Staycation - Tijd om te gaan Slapen dus Home Mode
+  trigger:
+  - platform: time
+    at: !secret sleep_weekend
+  condition:
+    #Only when verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'on'
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when sleep
+  - condition: state
+    entity_id: input_select.woning_status
+    state: 'Slapen'
+  - condition: or
+    conditions:
+      #Only if Kitchen is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+      #Only if Livingroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+      #Only if Evohome is NOT set to home
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'home' ) }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_living_room_reset
+      - script.evo_zone_kitchen_reset
+      - script.evo_status_home
+- id: heating_timer_001
+  alias: Verwarming - Timer Overwrite - Badkamer - Auto Mode
+  trigger:
+  - platform: state
+    entity_id: climate.badkamer
+    to: 'Permanent'
+    for:
+      minutes: 180
+  - platform: state
+    entity_id: climate.badkamer
+    to: 'Temporary'
+    for:
+      minutes: 180
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only if Bathroom is NOT set to Auto
+  - condition: template
+    value_template: "{{ (state_attr('climate.badkamer', 'preset_mode') != 'none' ) }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_zone_bathroom_reset
+- id: heating_location_001
+  alias: Verwarming - Location week - Going Home - Custom Mode
+  trigger:
+  - entity_id: person.bert
+    platform: state
+    to: Willebroek Station
+  - entity_id: person.caroline
+    platform: state
+    to: Checkpoint 1
+  - entity_id: person.caroline
+    platform: state
+    to: Checkpoint 3
+  - entity_id: person.caroline
+    platform: state
+    to: Checkpoint 4
+  - entity_id: person.caroline
+    platform: state
+    to: Checkpoint 5
+  condition:
+    #Boolean to indicate heating on/off
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+    #Only when not verlof  
+  - condition: state
+    entity_id: calendar.verlof_agenda
+    state: 'off'
+    #Only if Evohome is NOT set to Custom
+  - condition: template
+    value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'Custom') }}"
+  - condition: or
+    conditions:
+    - condition: time
+      after: !secret work_week_mid
+      before: !secret work_week_end_heating
+      weekday:
+        - mon
+        - tue
+        - thu
+        - fri
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.evo_status_custom
+- id: heating_window_open_001
+  alias: Verwarming - Window Open - Kamer Elmo Koud
+  trigger:
+  - platform: template
+    value_template: "{{ state_attr('climate.slp_kamer', 'current_temperature') < 15.1 }}"
+  - platform: template
+    value_template: "{{ state_attr('climate.kamer_elmo', 'current_temperature') < 15.1 }}"
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_heating_cold_elmo
+- id: heating_outside_temp_001
+  alias: Verwarming - Boolean Change based on Outside Temperature
+  trigger:
+  - platform: template
+    value_template: "{{ state_attr('weather.dark_sky', 'temperature') < 21.0 }}"
+  - platform: template
+    value_template: "{{ state_attr('weather.dark_sky', 'temperature') > 21.5 }}"
+  condition:
+  - condition: template
+    value_template: "{{ not is_state('sensor.season', 'summer') }}"
+  action:
+    service: >
+      {% if state_attr('weather.dark_sky', 'temperature') < 21.0 -%}
+        input_boolean.turn_on
+      {%- elif state_attr('weather.dark_sky', 'temperature') > 21.5 -%}
+        input_boolean.turn_off
+      {%- endif %}
+    data:
+      entity_id:
+        - input_boolean.heating
+- id: heating_season_001
+  alias: Verwarming - Boolean Change based on Season
+  trigger:
+  - entity_id: sensor.season
+    platform: state
+  action:
+    service: >
+      {%- if is_state('sensor.season', 'summer') -%}
+        input_boolean.turn_off
+      {%- else -%}
+        input_boolean.turn_on
+      {%- endif %}
+    data:
+      entity_id:
+        - input_boolean.heating
+- id: heating_boolean_001
+  alias: Verwarming - Boolean - Als de boolean wijzigt
+  trigger:
+  - entity_id: input_boolean.heating
+    platform: state
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if states('input_boolean.heating') == 'on' %}
+          script.evo_status_normal_reset,
+          script.notify_heating_hot_cold_outside
+        {% else %}
+          script.evo_status_heating_off,
+          script.notify_heating_hot_cold_outside
+        {% endif %}
+- id: light_porch_001
+  alias: Licht - Veranda - Aan LED
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.hue_sensor_keuken_motion
+  - platform: template
+    value_template: "{{ states('input_select.woning_status') in ['Juist Wakker', 'Juist Thuis'] }}"
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_veranda_light_level
+    below: !secret lux_veranda_low
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_downstairs
+    state: 'on'
+  - condition: numeric_state
+    entity_id: sensor.hue_sensor_veranda_light_level
+    below: !secret lux_veranda_low
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Slapen', 'Op Vakantie'] }}"
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') in ['Op Vakantie'] and states('group.bezoekers') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('light.hue_smart_plug_veranda') in ['off'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.hue_smart_plug_veranda_on
+- id: light_porch_002
+  alias: Licht - Veranda - Uit LED
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.hue_sensor_keuken_motion
+    for:
+      minutes: 30
+    to: 'off'
+  - platform: state
+    entity_id: binary_sensor.hue_sensor_woonkamer_motion
+    for:
+      minutes: 30
+    to: 'off'
+  - platform: state
+    entity_id: input_boolean.light_downstairs
+    to: 'off'
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_veranda_light_level
+    above: !secret lux_veranda_high
+  condition:
+  - condition: state
+    entity_id: light.hue_smart_plug_veranda
+    state: 'on'
+  - condition: or
+    conditions:
+      - condition: and
+        conditions:
+          - condition: state
+            entity_id: binary_sensor.kitchen_sensor_motion
+            state: 'off'
+            for:
+              minutes: 30
+          - condition: state
+            entity_id: binary_sensor.kitchen_sensor_motion
+            state: 'off'
+            for:
+              minutes: 30
+      - condition: numeric_state
+        entity_id: sensor.hue_sensor_veranda_light_level
+        above: !secret lux_veranda_high
+      - condition: state
+        entity_id: input_boolean.light_downstairs
+        state: 'off'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.veranda_light_off
+- id: light_porch_003
+  alias: Licht - Veranda - Aan Flos Arco
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.hue_sensor_keuken_motion
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_veranda_light_level
+    below: !secret lux_veranda_very_low
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_downstairs
+    state: 'on'
+  - condition: numeric_state
+    entity_id: sensor.hue_sensor_veranda_light_level
+    below: !secret lux_veranda_very_low
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Slapen', 'Op Vakantie'] }}"
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') in ['Op Vakantie'] and states('group.bezoekers') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('light.hue_light_veranda') in ['off'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.hue_light_veranda_on
+- id: light_porch_004
+  alias: Licht - Veranda - Uit Flos Arco
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_veranda_light_level
+    above: !secret lux_veranda_very_low
+  - platform: state
+    entity_id: input_boolean.light_downstairs
+    to: 'off'
+  condition:
+  - condition: template
+    value_template: "{{ states('light.hue_light_veranda') in ['on'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.hue_light_veranda_off
+- id: light_kitchen_001
+  alias: Licht - Keuken - Aan
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_keuken_motion
+    platform: state
+  - platform: template
+    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis'] }}"
+  - platform: state
+    entity_id: input_boolean.light_downstairs
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.hue_sensor_keuken_light_level
+    below: !secret lux_kitchen_low
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Op Vakantie'] }}"
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') in ['Op Vakantie'] and states('group.bezoekers') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('light.milight_keuken') in ['off'] or state_attr('light.milight_keuken', 'brightness') < 250 }}"
+  action:
+  - service: script.turn_on
+    entity_id: script.keuken_light_on
+- id: light_kitchen_002
+  alias: Licht - Keuken - Uit
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_keuken_motion
+    for:
+      minutes: 15
+    platform: state
+    to: 'off'
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_keuken_light_level
+    above: !secret lux_kitchen_high
+  - platform: state
+    entity_id: input_boolean.light_downstairs
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: light.milight_keuken
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.keuken_light_off
+- id: light_kitchen_003
+  alias: Licht - Keuken - Uit - Night
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_keuken_motion
+    for:
+      minutes: 1
+    platform: state
+    to: 'off'
+  - entity_id: light.milight_keuken
+    for:
+      minutes: 5
+    platform: state
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: light.milight_keuken
+    state: 'on'
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Slapen', 'Juist Weg', 'Weg', 'Op Vakantie'] }}"
+  action:
+  - service: script.turn_on
+    entity_id: script.keuken_light_off
+- id: light_kitchen_004
+  alias: Licht - Keuken - Standby of Uit
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_keuken_motion
+    for:
+      minutes: 5
+    platform: state
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: light.milight_keuken
+    state: 'on'
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if states('sun.sun') in ['below_horizon'] and states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] %}
+          script.milight_one_on_standby,
+          script.milight_bridge_one_on_standby
+        {% else %}
+          script.keuken_light_off
+        {% endif %}
+- id: light_kitchen_005
+  alias: Licht - Keuken - Media Play
+  trigger:
+  - platform: state
+    entity_id: input_boolean.media_kitchen
+    to: 'on'
+    for:
+      seconds: 35
+  - platform: state
+    entity_id: input_boolean.media_kitchen
+    to: 'off'
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('input_boolean.media_kitchen') in ['on'] -%}
+          script.plex_on_keuken
+        {%- elif states('input_boolean.media_kitchen') in ['off'] -%}
+          script.plex_off_keuken
+        {% endif %}
+- id: light_livingroom_001
+  alias: Licht - Woonkamer - Aan lux laag
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_woonkamer_motion
+    platform: state
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_downstairs
+    state: 'on'
+  - condition: numeric_state
+    entity_id: sensor.hue_sensor_woonkamer_light_level
+    below: !secret lux_livingroom_low
+  - condition: template
+    value_template: "{{ states('light.hue_smart_plug_woonkamer_one') in ['off'] or (states('light.milight_woonkamer_bridge') in ['off'] and states('input_select.harmony_hub') not in ['Powered Off', 'Alexa']) }}"
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Op Vakantie'] }}"
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') in ['Op Vakantie'] and states('group.bezoekers') in ['home'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.hue_smart_plug_woonkamer_one_on
+      - script.milight_bridge_two_on
+- id: light_livingroom_002
+  alias: Licht - Woonkamer - Aan Kerstmis
+  trigger:
+  - platform: template
+    value_template: "{{ states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] }}"
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_downstairs
+    state: 'on'
+  - condition: template
+    value_template: "{{ states('light.hue_smart_plug_woonkamer_one') in ['off'] }}"
+  - condition: template
+    value_template: "{{ states('input_boolean.keep_christmas_on') in ['on'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.hue_smart_plug_woonkamer_one_on
+- id: light_livingroom_003
+  alias: Licht - Woonkamer - Aan lux heel laag
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_woonkamer_motion
+    platform: state
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_downstairs
+    state: 'on'
+  - condition: numeric_state
+    entity_id: sensor.hue_sensor_woonkamer_light_level
+    below: !secret lux_livingroom_very_low
+  - condition: template
+    value_template: "{{ (states('light.hue_smart_plug_woonkamer_two') in ['off'] and states('input_boolean.media_livingroom') in ['off']) or states('light.hue_light_woonkamer') in ['off'] }}"
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Op Vakantie'] }}"
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') in ['Op Vakantie'] and states('group.bezoekers') in ['home'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.hue_smart_plug_woonkamer_two_on
+      - script.hue_light_woonkamer_on
+- id: light_livingroom_004
+  alias: Licht - Woonkamer - Hue Aan
+  trigger:
+  - entity_id: light.hue_light_woonkamer
+    platform: state
+    to: 'on'
+  - platform: state
+    entity_id: input_select.harmony_hub
+  condition:
+  - condition: template
+    value_template: "{{ states('light.hue_light_woonkamer') in ['on'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.hue_light_woonkamer_on
+- id: light_livingroom_005
+  alias: Licht - Woonkamer - Uit lux hoog
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_woonkamer_light_level
+    above: !secret lux_livingroom_very_low
+  - platform: state
+    entity_id: input_boolean.light_downstairs
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: light.hue_smart_plug_woonkamer_two
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.hue_smart_plug_woonkamer_two_off
+- id: light_livingroom_006
+  alias: Licht - Woonkamer - Uit lux heel hoog
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_woonkamer_light_level
+    above: !secret lux_livingroom_high
+  - platform: state
+    entity_id: input_boolean.light_downstairs
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: light.hue_smart_plug_woonkamer_one
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.woonkamer_light_off
+- id: light_livingroom_007
+  alias: Licht - Woonkamer - Uit Geen beweging
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_woonkamer_motion
+    for:
+      minutes: 15
+    platform: state
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: light.hue_smart_plug_woonkamer_one
+    state: 'on'
+  - condition: template
+    value_template: "{{ states('input_select.harmony_hub') in ['Powered Off', 'Alexa'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.woonkamer_light_off
+- id: light_livingroom_008
+  alias: Licht - Woonkamer - Uit - Night
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_woonkamer_motion
+    for:
+      minutes: 1
+    platform: state
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: light.milight_woonkamer_bridge
+    state: 'on'
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Slapen', 'Juist Weg', 'Weg'] }}"
+  action:
+  - service: script.turn_on
+    entity_id: script.woonkamer_light_off
+- id: light_livingroom_009
+  alias: Licht - Woonkamer - Milight Aan of Uit volgens Harmony
+  trigger:
+  - platform: state
+    entity_id: input_select.harmony_hub
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_downstairs
+    state: 'on'
+  - condition: numeric_state
+    entity_id: sensor.hue_sensor_woonkamer_light_level
+    below: !secret lux_livingroom_low
+  action:
+  - service: script.turn_on
+    entity_id: script.milight_bridge_two_on
+- id: light_livingroom_010
+  alias: Licht - Woonkamer - Boolean (A)
+  trigger:
+  - platform: state
+    entity_id: light.hue_light_woonkamer
+  condition:
+  - condition: template
+    value_template: "{{ states('light.hue_light_woonkamer') in ['on'] or states('light.hue_light_woonkamer') in ['off'] }}"
+  action:
+  - service: input_boolean.turn_{{ trigger.to_state.state }}
+    data:
+      entity_id:
+        - input_boolean.light_livingroom
+- id: light_livingroom_011
+  alias: Licht - Woonkamer - Boolean (B)
+  trigger:
+  - platform: state
+    entity_id: input_boolean.light_livingroom
+  action:
+    service: light.turn_{{ trigger.to_state.state }}
+    data:
+      entity_id:
+        - light.hue_light_woonkamer
+- id: light_livingroom_012
+  alias: Licht - Woonkamer - Media Play
+  trigger:
+  - platform: state
+    entity_id: input_boolean.media_livingroom
+    to: 'on'
+    for:
+      seconds: 35
+  - platform: state
+    entity_id: input_boolean.media_livingroom
+    to: 'off'
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('input_boolean.media_livingroom') in ['on'] -%}
+          script.plex_on_woonkamer
+        {%- elif states('input_boolean.media_livingroom') in ['off'] -%}
+          script.plex_off_woonkamer
+        {% endif %}
+- id: light_dressing_001
+  alias: Licht - Dressing - Aan
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.hue_sensor_dressing_light_level
+    below: !secret lux_dressing_low
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Op Vakantie'] }}"
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') in ['Op Vakantie'] and states('group.bezoekers') in ['home'] }}"
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: light.hue_light_dressing_one
+      state: 'off'
+    - condition: state
+      entity_id: light.hue_light_dressing_two
+      state: 'off'
+    - condition: state
+      entity_id: light.hue_light_dressing_three
+      state: 'off'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.dressing_light_on
+- id: light_dressing_002
+  alias: Licht - Dressing - Uit
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    for:
+      minutes: 1
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    for:
+      minutes: 3
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    for:
+      minutes: 5
+    platform: state
+    to: 'off'
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: light.hue_light_dressing_one
+      state: 'on'
+    - condition: state
+      entity_id: light.hue_light_dressing_two
+      state: 'on'
+    - condition: state
+      entity_id: light.hue_light_dressing_three
+      state: 'on'
+  - condition: state
+    entity_id: binary_sensor.hue_sensor_dressing_motion
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.light_dressing_stay_on
+    state: 'off'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.dressing_light_off
+- id: light_dressing_003
+  alias: Licht - Dressing - Altijd Aan Boolean Changes
+  trigger:
+  - entity_id: input_boolean.light_dressing_stay_on
+    platform: state
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {% if states('input_boolean.light_dressing_stay_on') in ['on'] %}
+          script.hue_light_dressing_on_normal
+        {% elif states('input_boolean.light_dressing_stay_on') in ['off'] %}
+          script.dressing_light_off
+        {% endif %}
+- id: light_dressing_004
+  alias: Licht - Dressing - Altijd Aan Change Boolean after timer
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    for:
+      minutes: 45
+    platform: state
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_dressing_stay_on
+    state: 'on'
+  action:
+  - service: input_boolean.turn_off
+    entity_id:
+      - input_boolean.light_dressing_stay_on
+- id: light_bathroom_001
+  alias: Licht - Badkamer - Aan
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+    for:
+      minutes: 3
+    to: 'off'
+  condition:
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Op Vakantie'] }}"
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') in ['Op Vakantie'] and states('group.bezoekers') in ['home'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.badkamer_light_on
+- id: light_bedroom_elmo_001
+  alias: Licht - Elmo Arlo - Aan Avond
+  trigger:
+  - platform: time
+    at: '19:30:00'
+  - entity_id: input_select.woning_status
+    platform: state
+    to: 'Juist Thuis'
+  condition:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Op Vakantie', 'Juist Weg', 'Weg'] }}"
+  - condition: time
+    after: '19:30:00'
+  - condition: state
+    entity_id: light.aarlo_arlo_elmo
+    state: 'off'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.arlo_light_on
+- id: light_bedroom_elmo_002
+  alias: Licht - Elmo Arlo - Aan Middag
+  trigger:
+  - platform: time
+    at: '12:00:00'
+  condition:
+  - condition: state
+    entity_id: light.aarlo_arlo_elmo
+    state: 'off'
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis (Verlof)'] }}"
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.arlo_light_on
+- id: light_bedroom_elmo_003
+  alias: Licht - Elmo Arlo - Uit Middag
+  trigger:
+  - platform: time
+    at: '15:00:00'
+  condition:
+  - condition: state
+    entity_id: light.aarlo_arlo_elmo
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.arlo_light_off
+- id: light_bedroom_elmo_004
+  alias: Licht - Elmo - Ochtend Week
+  trigger:
+  - platform: time
+    at: '06:45:00'
+  condition:
+  - condition: state
+    entity_id: light.aarlo_arlo_elmo
+    state: 'on'
+  - condition: time
+    after: '06:34:00'
+    before: '07:05:00'
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Op Vakantie', 'Thuis (Verlof)', 'Juist Wakker', 'Slapen'] }}"
+  - condition: time
+    weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_light_elmo
+  - delay: 00:00:30
+  - service: script.turn_on
+    entity_id:
+      - script.hue_light_elmo_one_on_standby
+      - script.arlo_light_off
+- id: light_bedroom_elmo_005
+  alias: Licht - Elmo - Ochtend Weekend
+  trigger:
+  - platform: time
+    at: '07:00:00'
+  condition:
+  - condition: state
+    entity_id: light.aarlo_arlo_elmo
+    state: 'on'
+  - condition: time
+    after: '06:59:00'
+    before: '07:30:00'
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Juist Weg', 'Weg', 'Op Vakantie', 'Juist Wakker', 'Slapen'] }}"
+  - condition: or
+    conditions:
+      - condition: template
+        value_template: "{{ states('input_select.woning_status') in ['Thuis (Verlof)'] }}"
+      - condition: time
+        weekday:
+          - sat
+          - sun
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_light_elmo
+  - delay: 00:00:30
+  - service: script.turn_on
+    entity_id:
+      - script.hue_light_elmo_one_on_standby
+      - script.arlo_light_off
+- id: light_bedroom_elmo_006
+  alias: Licht - Elmo - Uit
+  trigger:
+  - platform: state
+    entity_id: light.hue_light_kamer_elmo_one
+    to: 'on'
+    for:
+      minutes: 30
+  condition:
+  - condition: state
+    entity_id: light.aarlo_arlo_elmo
+    state: 'off'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: light.hue_light_kamer_elmo_one
+      state: 'on'
+    - condition: state
+      entity_id: light.hue_light_kamer_elmo_two
+      state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id:
+      - script.elmo_light_off

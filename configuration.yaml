@@ -17,7 +17,6 @@ default_config:
 
 # (default)
 automation: !include automations.yaml
-automation old: !include_dir_merge_list automations/
 
 # (default) Enables configuration UI
 config:

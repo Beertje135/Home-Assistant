@@ -1,6 +1,7 @@
 include_domains:
   - climate
   - input_boolean
+  - input_select
   - light
   - vacuum
 exclude_domains:
