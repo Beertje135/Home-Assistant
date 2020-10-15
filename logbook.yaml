@@ -10,7 +10,7 @@
       - sensor
       - switch
       - weather
-      - zone    
+      - zone 
     entities:
       - automation.licht_badkamer_aan
       - automation.licht_woonkamer_boolean_a

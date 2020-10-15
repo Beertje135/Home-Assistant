@@ -1,0 +1,425 @@
+empty:
+  alias: Empty
+  sequence:
+  - delay: 00:00:01
+all_switch_off:
+  alias: All - Switch - Uit
+  sequence:
+  - service: light.turn_off
+    entity_id: light.hue_smart_plug_keuken
+all_remote_off:
+  alias: All - Remote - Uit
+  sequence:
+  - service: script.turn_on
+    entity_id: script.harmony_hub_powered_off
+  - condition: state
+    entity_id: input_boolean.keep_pc_on
+    state: 'off'
+  - delay: 00:05:00
+  - condition: state
+    entity_id: input_boolean.keep_pc_on
+    state: 'off'
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Juist Weg', 'Weg', 'Slapen'] }}"
+  - service: script.turn_on
+    entity_id: script.computer_off
+all_remote_harmony_hub_pause:
+  alias: All - Remote - Uit
+  sequence:
+  - service: script.turn_on
+    entity_id: script.harmony_hub_powered_off
+  - condition: state
+    entity_id: input_boolean.keep_pc_on
+    state: 'off'
+  - delay: 00:05:00
+  - condition: state
+    entity_id: input_boolean.keep_pc_on
+    state: 'off'
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') in ['Juist Weg', 'Weg', 'Slapen'] }}"
+  - service: script.turn_on
+    entity_id: script.computer_off
+all_music_off:
+  alias: All - Music - Stop
+  sequence:
+  - service: media_player.turn_off
+    entity_id: media_player.alexa_bathroom, media_player.alexa_livingroom_2, media_player.alexa_kitchen_1, media_player.alexa_kitchen_2, media_player.alexa_livingroom_1, media_player.alexa_everywhere, media_player.alexa_downstairs, media_player.alexa_garden
+all_light_off:
+  alias: All - Light - Uit
+  sequence:
+  - service: light.turn_off
+    entity_id: light.hue_light_woonkamer, light.hue_light_kamer_elmo_one, light.hue_light_kamer_elmo_two, light.hue_light_veranda, light.milight_keuken_bridge, light.milight_woonkamer_bridge, light.hue_smart_plug_woonkamer_one, light.hue_smart_plug_veranda, light.hue_smart_plug_woonkamer_two, light.aarlo_arlo_elmo
+all_all_off:
+  alias: All - All - Uit
+  sequence:
+  - service: script.turn_on
+    entity_id: script.all_light_off, script.all_music_off, script.all_remote_off, script.all_switch_off
+dusty_on:
+  alias: Dusty - Aan
+  sequence:
+  - condition: time
+    after: input_datetime.dusty_start
+    before: input_datetime.dusty_stop
+  - condition: numeric_state
+    entity_id: sensor.hue_sensor_keuken_light_level
+    above: !secret lux_kitchen_very_very_low
+  - condition: template
+    value_template: "{{ states('vacuum.dusty') in ['docked'] }}"
+  - condition: state
+    entity_id: input_boolean.vacuum_cleaned_today
+    state: 'off'
+  - service: vacuum.start
+    data:
+      entity_id: vacuum.dusty
+dusty_off:
+  alias: Dusty - Uit
+  sequence:
+  - condition: template
+    value_template: "{{ states('vacuum.dusty') not in ['docked'] }}"
+  - service: vacuum.return_to_base
+    data:
+      entity_id: vacuum.dusty
+hue_smart_plug_kitchen_off:
+  alias: Hue Smart Plug - Keuken - Uit
+  sequence:
+  - service: light.turn_off
+    entity_id: light.hue_smart_plug_keuken
+hue_smart_plug_kitchen_on:
+  alias: Hue Smart Plug - Keuken - Aan
+  sequence:
+  - service: light.turn_on
+    entity_id: light.hue_smart_plug_keuken
+restart_homekit:
+  alias: Restart - Homekit starten
+  sequence:
+  - delay: 00:02:00
+  - timeout: 00:15:00
+    continue_on_timeout: false
+    wait_template: >
+          {%- if not states('climate.ons_huisje') -%}
+            false
+          {%- elif not states('climate.keuken') -%}
+            false
+          {%- elif not states('light.hue_light_kamer_elmo_one') -%}
+            false
+          {%- elif not states('light.milight_keuken_bridge') -%}
+            false
+          {%- elif not states('light.milight_woonkamer_bridge') -%}
+            false
+          {%- elif not states('device_tracker.router_iphone_bert') -%}
+            false
+          {%- elif not states('sensor.ons_huisje_sensor_water') -%}
+            false
+          {%- elif not states('light.hue_smart_plug_keuken') -%}
+            false
+          {%- else -%}
+            true
+          {%- endif %}
+  - delay: 00:01:00
+  - service: homekit.start
+  - service: script.turn_on
+    entity_id: script.notify_homekit_restart
+restart_homekit_not:
+  alias: Restart - Homekit niet starten
+  sequence:
+  - delay: 00:02:00
+  - timeout: 00:15:00
+    continue_on_timeout: false
+    wait_template: >
+          {%- if not states('climate.ons_huisje') -%}
+            true
+          {%- elif not states('climate.keuken') -%}
+            true
+          {%- elif not states('light.hue_light_kamer_elmo_one') -%}
+            true
+          {%- elif not states('light.milight_keuken_bridge') -%}
+            true
+          {%- elif not states('light.milight_woonkamer_bridge') -%}
+            true
+          {%- elif not states('device_tracker.router_iphone_bert') -%}
+            true
+          {%- elif not states('sensor.ons_huisje_sensor_water') -%}
+            true
+          {%- elif not states('light.hue_smart_plug_keuken') -%}
+            true
+          {%- else -%}
+            false
+          {%- endif %}
+  - service: script.turn_on
+    entity_id: script.notify_homekit_not_restart
+restart_hassio:
+  alias: Restart - Hassio
+  sequence:
+  - delay: 00:01:00
+  - service: automation.turn_on
+    entity_id: all
+  - service: automation.turn_off
+    entity_id: automation.muziek_downstairs_play_1
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.trigger_away, input_boolean.trigger_home, input_boolean.trigger_sleep, input_boolean.trigger_morning
+  - service: input_boolean.turn_on
+    entity_id: input_boolean.light_downstairs
+  - service: script.turn_on
+    entity_id: script.notify_hassio_restart
+  - service: >
+      {%- if states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home'] -%}
+        light.turn_on
+      {%- else -%}
+        light.turn_off
+      {%- endif %}
+    entity_id: light.hue_smart_plug_keuken
+computer_off:
+  alias: Computer - Uit
+  sequence:
+  - condition: state
+    entity_id: input_boolean.keep_pc_on
+    state: 'off'
+  - service: hassio.addon_stdin
+    data:
+      addon: core_rpc_shutdown
+      input: pc_bert_lan
+computer_on:
+  alias: Computer - Aan
+  sequence:
+  - condition: state
+    entity_id: group.bewoners
+    state: 'home'
+  - service: switch.turn_on
+    entity_id: switch.wake_on_lan
+harmony_hub_alexa:
+  alias: Harmony Hub - Alexa
+  sequence:
+  - service: input_select.select_option
+    entity_id: input_select.harmony_hub
+    data:
+      option: "Alexa"
+harmony_hub_powered_off:
+  alias: Harmony Hub - Powered Off
+  sequence:
+  - service: input_select.select_option
+    entity_id: input_select.harmony_hub
+    data:
+      option: "Powered Off"
+harmony_hub_tv_decoder:
+  alias: Harmony Hub - Tv Decoder
+  sequence:
+  - service: input_select.select_option
+    entity_id: input_select.harmony_hub
+    data:
+      option: "Tv Decoder"
+remote_harmony_hub_apple_tv_pause:
+  alias: Remote Harmony Hub - Apple Tv - Pause
+  sequence:
+  - service: remote.send_command
+    data:
+      entity_id: remote.harmony_hub
+      command: Pause
+      device: Apple TV
+remote_harmony_hub_belgacom_dvr_pause:
+  alias: Remote Harmony Hub - Belgacom DVR - Pause
+  sequence:
+  - service: remote.send_command
+    data:
+      entity_id: remote.living_room
+      command: Pause
+      device: Belgacom DVR
+remote_harmony_hub_lg_tv_pause:
+  alias: Remote Harmony Hub - LG Tv - Pause
+  sequence:
+  - service: remote.send_command
+    data:
+      entity_id: remote.harmony_hub
+      command: Pause
+      device: LG Tv
+plex_off_keuken:
+  alias: Plex - Uit - Keuken
+  sequence:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('light.milight_keuken_bridge') in ['on'] -%}
+          script.milight_bridge_one_on
+        {%- else -%}
+          script.empty
+        {%- endif %}
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('light.hue_light_veranda') in ['on'] -%}
+          script.hue_light_veranda_on
+        {%- else -%}
+          script.empty
+        {%- endif %}
+plex_off_woonkamer:
+  alias: Plex - Uit - Woonkamer
+  sequence:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('light.hue_light_woonkamer') in ['on'] -%}
+          script.hue_light_woonkamer_on
+        {%- else -%}
+          script.empty
+        {%- endif %}
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('light.milight_woonkamer_bridge') in ['on'] -%}
+          script.milight_bridge_two_on
+        {%- else -%}
+          script.empty
+        {%- endif %}
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('light.hue_light_veranda') in ['on'] -%}
+          script.hue_light_veranda_on
+        {%- else -%}
+          script.empty
+        {%- endif %}
+  - condition: numeric_state
+    entity_id: sensor.hue_sensor_woonkamer_light_level
+    below: !secret lux_livingroom_very_low
+  - condition: state
+    entity_id: input_boolean.light_downstairs
+    state: 'on'
+  - service: script.turn_on
+    entity_id: script.hue_smart_plug_woonkamer_two_on
+plex_on_keuken:
+  alias: Plex - Aan - Keuken
+  sequence:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('light.milight_keuken_bridge') in ['on'] -%}
+          script.milight_bridge_one_on
+        {%- else -%}
+          script.empty
+        {%- endif %}
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('light.hue_light_veranda') in ['on'] -%}
+          script.hue_light_veranda_on
+        {%- else -%}
+          script.empty
+        {%- endif %}
+plex_on_woonkamer:
+  alias: Plex - Aan - Woonkamer
+  sequence:
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('light.hue_light_woonkamer') in ['on'] -%}
+          script.hue_light_woonkamer_on
+        {%- else -%}
+          script.empty
+        {%- endif %}
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('light.milight_woonkamer_bridge') in ['on'] -%}
+          script.milight_bridge_two_on
+        {%- else -%}
+          script.empty
+        {%- endif %}
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('light.hue_light_veranda') in ['on'] -%}
+          script.hue_light_veranda_on
+        {%- else -%}
+          script.empty
+        {%- endif %}
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('light.hue_smart_plug_woonkamer_two') in ['on'] -%}
+          script.hue_smart_plug_woonkamer_two_off
+        {%- else -%}
+          script.empty
+        {%- endif %}
+notify_battery_alexa:
+notify_battery_ios_bert:
+notify_bezoeker_babysit_ios_bert:
+notify_bezoeker_babysit_ios_caro:
+notify_cooling_downstairs:
+notify_cooling_downstairs_alexa:
+notify_cooling_downstairs_ios_bert:
+notify_cooling_downstairs_ios_caro:
+notify_cooling_upstairs:
+notify_cooling_upstairs_alexa:
+notify_cooling_upstairs_ios_bert:
+notify_cooling_upstairs_ios_caro:
+notify_deurbel:
+notify_deurbel_alexa:
+notify_deurbel_ios_bert:
+notify_deurbel_ios_caro:
+notify_battery:
+notify_heating_cold_elmo_ios_caro:
+notify_heating_hot_cold_outside:
+notify_heating_hot_cold_outside_alexa:
+notify_heating_hot_cold_outside_ios_bert:
+notify_heating_hot_cold_outside_ios_caro:
+notify_homekit_not_restart:
+notify_homekit_not_restart_alexa:
+notify_homekit_not_restart_ios_bert:
+notify_homekit_restart:
+notify_homekit_restart_alexa:
+notify_entity_list:
+notify_hacs_update:
+notify_hacs_update_alexa:
+notify_hacs_update_ios_bert:
+notify_hassio_overtime:
+notify_hassio_overtime_alexa:
+notify_hassio_overtime_ios_bert:
+notify_hassio_restart:
+notify_hassio_restart_alexa:
+notify_hassio_restart_ios_bert:
+notify_hassio_update:
+notify_hassio_update_alexa:
+notify_hassio_update_ios_bert:
+notify_heating_cold_elmo:
+notify_heating_cold_elmo_alexa:
+notify_heating_cold_elmo_ios_bert:
+notify_waste:
+notify_waste_alexa:
+notify_waste_ios_bert:
+notify_waste_ios_caro:
+notify_woning_status:
+notify_woning_status_alexa:
+notify_woning_status_ios_bert:
+notify_woning_status_ios_caro:
+notify_homekit_restart_ios_bert:
+notify_light_elmo:
+notify_light_elmo_alexa:
+notify_light_elmo_ios_bert:
+notify_light_elmo_ios_caro:
+notify_nmbs_brussel_mechelen_ios_bert:
+notify_nmbs_mechelen_brussel_ios_bert:
+notify_nmbs_mechelen_willebroek_ios_bert:
+notify_nmbs_willebroek_mechelen_ios_bert:
+notify_printer:
+notify_printer_alexa:
+notify_printer_ios_bert:
+notify_printer_ios_caro:
+notify_tracker_bert_thuis:
+notify_tracker_bert_thuis_alexa:
+notify_tracker_bert_thuis_ios_caro:
+notify_tracker_bert_zones:
+notify_tracker_bert_zones_alexa:
+notify_tracker_bert_zones_ios_caro:
+notify_tracker_bezoeker_thuis:
+notify_tracker_bezoeker_thuis_alexa:
+notify_tracker_bezoeker_thuis_ios_bert:
+notify_tracker_bezoeker_thuis_ios_caro:
+notify_tracker_caro_thuis:
+notify_tracker_caro_thuis_alexa:
+notify_tracker_caro_thuis_ios_bert:
+notify_tracker_caro_zones:
+notify_tracker_caro_zones_alexa:
+notify_tracker_caro_zones_ios_bert:
+notify_vacuum:
+notify_vacuum_alexa:
+notify_vacuum_ios_bert:
+notify_vacuum_ios_caro:

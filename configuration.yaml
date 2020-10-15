@@ -48,6 +48,7 @@ person:
 
 # (default)
 script: !include_dir_named scripts/
+# script: !include scripts.yaml
 
 # (default) Track the sun
 sun:

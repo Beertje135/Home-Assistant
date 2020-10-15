@@ -2,8 +2,8 @@
 alias: Dusty - Aan
 sequence:
   - condition: time
-    after: '07:00:00'
-    before: '20:00:00'
+    after: input_datetime.dusty_start
+    before: input_datetime.dusty_stop
   - condition: numeric_state
     entity_id: sensor.hue_sensor_keuken_light_level
     above: !secret lux_kitchen_very_very_low

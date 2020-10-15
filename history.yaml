@@ -9,6 +9,7 @@
       - group
       - input_boolean
       - input_select
+      - input_datetime
       - light
       - media_player
       - person
