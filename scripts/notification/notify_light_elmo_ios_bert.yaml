@@ -8,7 +8,7 @@ sequence:
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: "ELMO"
-      message: "Het is tijd om elmo wakker te maken, ik doe stilaan zijn lamp aan"
+      message: "Het is tijd om Elmo te gaan halen, ik doe stilaan zijn lamp aan"
       data:
         push:
           thread-id: "huis"

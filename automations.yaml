@@ -45,7 +45,7 @@
   - service: script.turn_on
     entity_id: script.notify_waste
 - id: waste_003
-  alias: Vuilbakken - Status Woning Changes
+  alias: Vuilbakken - Status Woning Wijzigt
   initial_state: false
   trigger:
   - platform: state
@@ -99,6 +99,7 @@
   - service: script.turn_on
     entity_id:
     - script.beneden_music_play
+  mode: single
 - id: music_downstairs_002
   alias: Muziek - Beneden - Play 1
   trigger:
@@ -143,19 +144,16 @@
     - Thuis (Verlof)
   - condition: state
     entity_id: input_select.harmony_hub
-    state:
-    - Powered Off
-    - Alexa
+    state: Powered Off,Alexa
   action:
   - delay: 00:02:00
   - condition: state
     entity_id: input_select.harmony_hub
-    state:
-    - Powered Off
-    - Alexa
+    state: Powered Off,Alexa
   - service: script.turn_on
     entity_id:
     - script.beneden_music_play
+  mode: single
 - id: music_livingroom_001
   alias: Muziek - Woonkamer - Play
   trigger:
@@ -241,8 +239,7 @@
   alias: Muziek - Woonkamer - Stop
   trigger:
   - entity_id: binary_sensor.hue_sensor_woonkamer_motion
-    for:
-      minutes: 30
+    for: 0:30:00
     platform: state
     to: 'off'
   - platform: time
@@ -270,6 +267,7 @@
     default:
     - service: script.turn_on
       entity_id: script.empty
+  mode: single
 - id: music_bathroom_001
   alias: Muziek - Badkamer - Play
   trigger:
@@ -277,7 +275,14 @@
     platform: state
     from: 'off'
     to: 'on'
+  - entity_id: input_select.woning_status
+    platform: state
+    to: Juist Wakker
+    for: 0:00:10
   condition:
+  - condition: state
+    entity_id: binary_sensor.hue_sensor_dressing_motion
+    state: 'on'
   - condition: time
     after: input_datetime.radio_on
     before: input_datetime.radio_off
@@ -286,17 +291,15 @@
     state: 'on'
   - condition: state
     entity_id: input_select.woning_status
-    state:
-    - Juist Wakker
-    - Thuis
-    - Thuis (Werk)
-    - Thuis (Verlof)
+    state: Juist Wakker,Thuis,Thuis (Werk),Thuis (Verlof)
   - condition: not
     conditions:
     - condition: state
       state: playing
       entity_id:
       - media_player.alexa_bathroom
+  - condition: not
+    conditions:
     - condition: state
       state: playing
       entity_id:
@@ -305,12 +308,12 @@
   - service: script.turn_on
     entity_id:
     - script.badkamer_music_play
+  mode: single
 - id: music_bathroom_002
   alias: Muziek - Badkamer - Stop
   trigger:
   - entity_id: binary_sensor.hue_sensor_dressing_motion
-    for:
-      minutes: 30
+    for: 0:30:00
     platform: state
     to: 'off'
   condition:
@@ -320,6 +323,7 @@
   action:
   - service: script.turn_on
     entity_id: script.badkamer_music_stop
+  mode: single
 - id: music_kitchen_001
   alias: Muziek - Keuken - Play
   trigger:
@@ -365,22 +369,21 @@
       state: playing
       entity_id:
       - media_player.alexa_kitchen_1
+  - condition: not
+    conditions:
     - condition: state
       state: playing
       entity_id:
       - media_player.alexa_downstairs
+  - condition: not
+    conditions:
     - condition: state
       state: playing
       entity_id:
       - media_player.alexa_everywhere
   - condition: state
     entity_id: input_select.woning_status
-    state:
-    - Juist Thuis
-    - Juist Wakker
-    - Thuis
-    - Thuis (Werk)
-    - Thuis (Verlof)
+    state: Juist Thuis,Juist Wakker,Thuis,Thuis (Werk),Thuis (Verlof)
   - condition: state
     entity_id: input_select.harmony_hub
     state: Powered Off,Alexa
@@ -430,8 +433,7 @@
     platform: state
     from: playing
     to: paused
-    for:
-      seconds: 5
+    for: 0:00:05
   condition:
   - condition: state
     entity_id: media_player.alexa_downstairs
@@ -452,8 +454,7 @@
     - input_boolean.media_livingroom
   - condition: state
     entity_id: input_select.harmony_hub
-    state:
-    - Powered Off
+    state: Powered Off
   - condition: not
     conditions:
     - condition: state
@@ -467,8 +468,7 @@
       entity_id:
       - input_select.woning_status
     - condition: state
-      state:
-      - Slapen
+      state: Slapen
       entity_id:
       - input_select.woning_status
   action:
@@ -476,6 +476,7 @@
     entity_id:
     - script.music_follow_off
     - script.keuken_music_stop
+  mode: single
 - id: music_follow_002
   alias: Muziek - Volgen - Enable
   trigger:
@@ -489,8 +490,7 @@
   - platform: state
     entity_id: input_boolean.music_follow
     to: 'off'
-    for:
-      minutes: 4
+    for: 0:04:00
   condition:
   - condition: or
     conditions:
@@ -512,6 +512,7 @@
   - service: script.turn_on
     entity_id:
     - script.music_follow_on
+  mode: single
 - id: music_follow_003
   alias: Muziek - Volgen - Enable 2
   trigger:
@@ -597,11 +598,11 @@
     - media_player.alexa_livingroom_1
   - condition: state
     entity_id: input_select.harmony_hub
-    state:
-    - Alexa
+    state: Alexa
   action:
   - service: script.turn_on
     entity_id: script.woonkamer_music_volume
+  mode: single
 - id: battery_smappee_001
   alias: Batterij - Smappee - Bijna Leeg
   trigger:
@@ -1799,9 +1800,7 @@
     state: 'off'
   action:
   - service: script.turn_on
-    entity_id:
-    - script.notify_bezoeker_babysit_ios_caro
-    - script.notify_bezoeker_babysit_ios_bert
+    entity_id: script.notify_bezoeker_babysit_ios_caro, script.notify_bezoeker_babysit_ios_bert
 - id: visitor_babysit_003
   alias: Bezoeker - Babysit - Blijft
   trigger:
@@ -1826,8 +1825,7 @@
       actionName: RESET_VISITOR
   action:
   - service: input_boolean.turn_off
-    entity_id:
-    - input_boolean.visitor
+    entity_id: input_boolean.visitor
 - id: homeassistant_001
   alias: HomeAssistant - Restart Check
   trigger:
@@ -1836,10 +1834,7 @@
   action:
   - delay: 00:00:30
   - service: script.turn_on
-    entity_id:
-    - script.restart_hassio
-    - script.restart_homekit
-    - script.restart_homekit_not
+    entity_id: script.restart_hassio, script.restart_homekit, script.restart_homekit_not
 - id: homeassistant_002
   alias: HomeAssistant - Update Available
   initial_state: false
@@ -1849,8 +1844,7 @@
     to: 'on'
   action:
   - service: script.turn_on
-    data:
-      entity_id: script.notify_hassio_update
+    entity_id: script.notify_hassio_update
 - id: homeassistant_003
   alias: HomeAssistant - Update Available HACS
   initial_state: false
@@ -1860,8 +1854,7 @@
     above: 0
   action:
   - service: script.turn_on
-    data:
-      entity_id: script.notify_hacs_update
+    entity_id: script.notify_hacs_update
 - id: homeassistant_004
   alias: HomeAssistant - Volle toeren
   trigger:
@@ -1873,8 +1866,7 @@
     above: 90
   action:
   - service: script.turn_on
-    data:
-      entity_id: script.notify_hassio_overtime
+    entity_id: script.notify_hassio_overtime
 - id: harmony_001
   alias: Harmony Hub - Boolean Change based on Hub Status (1A)
   trigger:
@@ -2686,8 +2678,7 @@
     state: Thuis (Verlof)
   action:
   - service: script.turn_on
-    entity_id:
-    - script.evo_zone_living_room_rise
+    entity_id: script.evo_zone_living_room_rise
 - id: heating_staycation_005
   alias: Verwarming - Staycation - Vroeger Slapen dus Omlaag Beneden
   trigger:
@@ -2706,9 +2697,7 @@
     state: 'on'
   action:
   - service: script.turn_on
-    entity_id:
-    - script.evo_zone_kitchen_lower
-    - script.evo_zone_living_room_lower
+    entity_id: script.evo_zone_kitchen_lower, script.evo_zone_living_room_lower
 - id: heating_staycation_006
   alias: Verwarming - Staycation - Slapen dus Home Mode
   trigger:
@@ -2738,10 +2727,7 @@
         ''home'' ) }}'
   action:
   - service: script.turn_on
-    entity_id:
-    - script.evo_zone_living_room_reset
-    - script.evo_zone_kitchen_reset
-    - script.evo_status_home
+    entity_id: script.evo_zone_living_room_reset, script.evo_zone_kitchen_reset, script.evo_status_home
 - id: heating_staycation_007
   alias: Verwarming - Staycation - Tijd om te gaan Slapen dus Home Mode
   trigger:
