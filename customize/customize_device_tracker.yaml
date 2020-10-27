@@ -1,8 +1,5 @@
 # CUSTOMIZATION FOR PERSONS
 
-    person.caroline:
-      entity_picture: /local/people/caroline.jpeg
-
     person.karen:
       entity_picture: /local/people/karen.jpeg
       friendly_name: Karen
@@ -45,27 +42,21 @@
 # CUSTOMIZATION FOR DEVICE TRACKERS
 
     device_tracker.router_iphone_bert:
-      entity_picture: /local/people/bert.jpeg
       friendly_name: Bert (Router)
 
     device_tracker.router_watch_bert:
-      entity_picture: /local/people/bert.jpeg
       friendly_name: Bert Watch (Router)
 
     device_tracker.router_iphone_caro:
-      entity_picture: /local/people/caroline.jpeg
       friendly_name: Caro (Router)
 
     device_tracker.router_iphone_caro_werk:
-      entity_picture: /local/people/caroline.jpeg
       friendly_name: Caro Werk (Router)
 
     device_tracker.iphone_van_bert:
-      entity_picture: /local/people/bert.jpeg
       friendly_name: Bert (iOS)
 
     device_tracker.iphone_van_caro:
-      entity_picture: /local/people/caroline.jpeg
       friendly_name: Caro (iOS)
 
     device_tracker.karen:

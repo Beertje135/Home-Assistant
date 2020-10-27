@@ -291,23 +291,24 @@
     state: 'on'
   - condition: state
     entity_id: input_select.woning_status
-    state: Juist Wakker,Thuis,Thuis (Werk),Thuis (Verlof)
+    state: 
+      - Juist Wakker
+      - Thuis
+      - Thuis (Werk)
+      - Thuis (Verlof)
   - condition: not
     conditions:
     - condition: state
       state: playing
-      entity_id:
-      - media_player.alexa_bathroom
+      entity_id: media_player.alexa_bathroom
   - condition: not
     conditions:
     - condition: state
       state: playing
-      entity_id:
-      - media_player.alexa_everywhere
+      entity_id: media_player.alexa_everywhere
   action:
   - service: script.turn_on
-    entity_id:
-    - script.badkamer_music_play
+    entity_id: script.badkamer_music_play
   mode: single
 - id: music_bathroom_002
   alias: Muziek - Badkamer - Stop
@@ -328,70 +329,67 @@
   alias: Muziek - Keuken - Play
   trigger:
   - platform: state
-    entity_id:
-    - input_boolean.media_kitchen
+    entity_id: input_boolean.media_kitchen
     to: 'off'
     for: 0:03:00
   - platform: state
-    to: Powered Off
+    to: 'Powered Off'
     entity_id: input_select.harmony_hub
   - platform: state
-    to: Alexa
-    entity_id:
-    - input_select.harmony_hub
+    to: 'Alexa'
+    entity_id: input_select.harmony_hub
   - platform: state
-    entity_id:
-    - binary_sensor.hue_sensor_keuken_motion
+    entity_id: binary_sensor.hue_sensor_keuken_motion
     from: 'off'
     to: 'on'
   - platform: state
-    entity_id:
-    - input_boolean.music_follow
+    entity_id: input_boolean.music_follow
     from: 'off'
     to: 'on'
   condition:
   - condition: time
-    after: input_datetime.radio_on
-    before: input_datetime.radio_off
+    after: 05:50:00
+    before: '19:20:00'
   - condition: state
     state: 'on'
-    entity_id:
-    - binary_sensor.hue_sensor_keuken_motion
-    - input_boolean.music_follow
+    entity_id: input_boolean.music_follow
+  - condition: state
+    state: 'on'
+    entity_id: binary_sensor.hue_sensor_keuken_motion
   - condition: state
     state: 'off'
-    entity_id:
-    - input_boolean.media_kitchen
-    - input_boolean.media_livingroom
+    entity_id: input_boolean.media_kitchen
+  - condition: state
+    state: 'off'
+    entity_id: input_boolean.media_livingroom
   - condition: not
     conditions:
     - condition: state
       state: playing
-      entity_id:
-      - media_player.alexa_kitchen_1
-  - condition: not
-    conditions:
+      entity_id: media_player.alexa_downstairs
     - condition: state
       state: playing
-      entity_id:
-      - media_player.alexa_downstairs
-  - condition: not
-    conditions:
+      entity_id: media_player.alexa_everywhere
     - condition: state
       state: playing
-      entity_id:
-      - media_player.alexa_everywhere
+      entity_id: media_player.alexa_kitchen_1
   - condition: state
     entity_id: input_select.woning_status
-    state: Juist Thuis,Juist Wakker,Thuis,Thuis (Werk),Thuis (Verlof)
+    state: 
+      - Juist Thuis
+      - Juist Wakker
+      - Thuis
+      - Thuis (Werk)
+      - Thuis (Verlof)
   - condition: state
     entity_id: input_select.harmony_hub
-    state: Powered Off,Alexa
+    state: 
+      - Powered Off
+      - Alexa
   action:
   - service: script.turn_on
     entity_id: script.keuken_music_play
   - delay: 00:10:00
-  mode: single
 - id: music_kitchen_002
   alias: Muziek - Keuken - Stop
   trigger:

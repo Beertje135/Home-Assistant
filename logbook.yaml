@@ -17,7 +17,6 @@
       - automation.licht_woonkamer_boolean_b
       - group.bewoners
       - group.bewoners_router
-      - group.licht_woonkamer
       - group.media_players
       - input_select.media_player
       - input_select.radio_station
