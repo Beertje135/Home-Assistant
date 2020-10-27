@@ -6,17 +6,36 @@ sequence:
       entity_id: media_player.alexa_kitchen_1
       volume_level: >
         {%- if (states('sensor.time') <= "06:58") and (now().weekday() in (0,1,2,3,4)) -%}
-          0.13
+          0.07
         {%- elif (states('sensor.time') >= "06:58") and (states('sensor.time') <= "07:04") and (now().weekday() in (0,1,2,3,4)) -%}
           0.2
         {%- elif (states('sensor.time') >= "07:04") and (states('sensor.time') <= "07:58") and (now().weekday() in (0,1,2,3,4)) -%}
-          0.13
+          0.1
         {%- elif (states('sensor.time') >= "07:58") and (states('sensor.time') <= "08:04") and (now().weekday() in (0,1,2,3,4)) -%}
           0.2
         {%- elif (states('sensor.time') >= "08:04") and (states('sensor.time') <= "08:58") and (now().weekday() in (0,1,2,3,4)) -%}
-          0.13
+          0.1
         {%- elif (states('sensor.time') <= "07:30") and (now().weekday() in (5,6)) -%}
           0.2
         {%- else -%}
-          0.13
+          0.07
+        {%- endif %}
+  - service: media_player.volume_set
+    data_template:
+      entity_id: media_player.alexa_kitchen_2
+      volume_level: >
+        {%- if (states('sensor.time') <= "06:58") and (now().weekday() in (0,1,2,3,4)) -%}
+          0.07
+        {%- elif (states('sensor.time') >= "06:58") and (states('sensor.time') <= "07:04") and (now().weekday() in (0,1,2,3,4)) -%}
+          0.2
+        {%- elif (states('sensor.time') >= "07:04") and (states('sensor.time') <= "07:58") and (now().weekday() in (0,1,2,3,4)) -%}
+          0.1
+        {%- elif (states('sensor.time') >= "07:58") and (states('sensor.time') <= "08:04") and (now().weekday() in (0,1,2,3,4)) -%}
+          0.2
+        {%- elif (states('sensor.time') >= "08:04") and (states('sensor.time') <= "08:58") and (now().weekday() in (0,1,2,3,4)) -%}
+          0.1
+        {%- elif (states('sensor.time') <= "07:30") and (now().weekday() in (5,6)) -%}
+          0.2
+        {%- else -%}
+          0.07
         {%- endif %}
