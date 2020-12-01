@@ -61,4 +61,4 @@
 
     input_boolean.keep_christmas_on:
       icon: mdi:pine-tree
-      friendly_name: Kerstboom Boolean
+      friendly_name: Kerstboom

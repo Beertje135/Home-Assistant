@@ -291,11 +291,11 @@
     state: 'on'
   - condition: state
     entity_id: input_select.woning_status
-    state: 
-      - Juist Wakker
-      - Thuis
-      - Thuis (Werk)
-      - Thuis (Verlof)
+    state:
+    - Juist Wakker
+    - Thuis
+    - Thuis (Werk)
+    - Thuis (Verlof)
   - condition: not
     conditions:
     - condition: state
@@ -333,10 +333,10 @@
     to: 'off'
     for: 0:03:00
   - platform: state
-    to: 'Powered Off'
+    to: Powered Off
     entity_id: input_select.harmony_hub
   - platform: state
-    to: 'Alexa'
+    to: Alexa
     entity_id: input_select.harmony_hub
   - platform: state
     entity_id: binary_sensor.hue_sensor_keuken_motion
@@ -375,17 +375,17 @@
       entity_id: media_player.alexa_kitchen_1
   - condition: state
     entity_id: input_select.woning_status
-    state: 
-      - Juist Thuis
-      - Juist Wakker
-      - Thuis
-      - Thuis (Werk)
-      - Thuis (Verlof)
+    state:
+    - Juist Thuis
+    - Juist Wakker
+    - Thuis
+    - Thuis (Werk)
+    - Thuis (Verlof)
   - condition: state
     entity_id: input_select.harmony_hub
-    state: 
-      - Powered Off
-      - Alexa
+    state:
+    - Powered Off
+    - Alexa
   action:
   - service: script.turn_on
     entity_id: script.keuken_music_play
@@ -819,7 +819,6 @@
       entity_id: input_boolean.media_kitchen
 - id: vacuum_001
   alias: Stofzuiger - Dusty - Bericht - Status Dusty Wijzigt
-  initial_state: false
   trigger:
   - platform: template
     value_template: '{{ state_attr(''vacuum.dusty'', ''bin_full'') == true }}'
@@ -837,6 +836,8 @@
   - service: script.turn_on
     entity_id:
     - script.notify_vacuum
+  initial_state: false
+  mode: single
 - id: vacuum_002
   alias: Stofzuiger - Dusty - Bericht - Status Woning Wijzigt
   initial_state: false
@@ -864,8 +865,7 @@
     entity_id:
     - vacuum.dusty
     to: cleaning
-    for:
-      minutes: 55
+    for: 0:55:00
   condition:
   - condition: state
     entity_id: input_boolean.vacuum_cleaned_today
@@ -874,6 +874,7 @@
   - service: input_boolean.turn_on
     entity_id:
     - input_boolean.vacuum_cleaned_today
+  mode: single
 - id: vacuum_004
   alias: Stofzuiger - Dusty - Stof Gezogen Vandaag - Kuishulp
   trigger:
@@ -906,15 +907,13 @@
   trigger:
   - platform: numeric_state
     entity_id: sensor.hue_sensor_keuken_light_level
-    above: 10
+    above: '10'
     for:
       minutes: 4
   condition:
   - condition: state
     entity_id: input_select.woning_status
-    state:
-    - Juist Weg
-    - Weg
+    state: Juist Weg,Weg
   - condition: state
     state: docked
     entity_id:
@@ -935,6 +934,7 @@
   action:
   - service: script.turn_on
     entity_id: script.dusty_on
+  mode: single
 - id: printer_001
   alias: Printer - Notify - Ink Low
   initial_state: false
@@ -2609,7 +2609,7 @@
   alias: Verwarming - Staycation - Ochtend dus Home Mode
   trigger:
   - platform: time
-    at: input_datetime.awake_weekend_heating
+    at: input_datetime.awake_weekend
   condition:
   - condition: state
     entity_id: input_boolean.heating

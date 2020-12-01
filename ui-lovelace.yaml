@@ -60,34 +60,6 @@ views:
             card:
               show_name: false
               type: glance
-          - id: device_tracker_0
-            type: entity-filter
-            entities:
-              - entity: sensor.bezoek
-              - entity: sensor.kuishulp
-              - entity: sensor.babysit
-              - entity: person.mama
-              - entity: person.mark
-              - entity: person.papa
-              - entity: person.karen
-              - entity: person.andy
-              - entity: person.oma
-              - entity: person.thomas
-              - entity: person.niki
-              - entity: person.marcus
-              - entity: person.nancy
-              - entity: vacuum.dusty
-              - entity: input_boolean.keep_christmas_on
-            show_header_toggle: false
-            show_empty: false
-            state_filter:
-              - home
-              - 'on'
-              - 'cleaning'
-            card:
-              show_name: true
-              show_state: false
-              type: glance
           - id: heating_tracker_0
             type: entity-filter
             show_header_toggle: false
@@ -156,6 +128,34 @@ views:
               - Not Ok
             card:
               type: entities
+          - id: device_tracker_0
+            type: entity-filter
+            entities:
+              - entity: sensor.bezoek
+              - entity: sensor.kuishulp
+              - entity: sensor.babysit
+              - entity: person.mama
+              - entity: person.mark
+              - entity: person.papa
+              - entity: person.karen
+              - entity: person.andy
+              - entity: person.oma
+              - entity: person.thomas
+              - entity: person.niki
+              - entity: person.marcus
+              - entity: person.nancy
+              - entity: vacuum.dusty
+              - entity: input_boolean.keep_christmas_on
+            show_header_toggle: false
+            show_empty: false
+            state_filter:
+              - home
+              - 'on'
+              - 'cleaning'
+            card:
+              show_name: true
+              show_state: false
+              type: glance
           - id: layout_0
             type: 'custom:layout-card'
             layout: auto
@@ -458,6 +458,74 @@ views:
               - Ziekenhuis Edegem
               - Ziekenhuis Reet
               - Ziekenhuis Middelheim
+          - id: heating_tracker_1
+            type: entity-filter
+            show_header_toggle: false
+            show_empty: false
+            state_filter:
+              - heat
+            card:
+              show_name: false
+              type: entities
+            entities:
+              - entity: climate.ons_huisje
+                name: Evohome
+          - id: problem_tracker_1
+            type: entity-filter
+            entities:
+              - entity: sensor.upstairs_nest_protect_co_status
+                name: Nest Boven
+              - entity: sensor.upstairs_nest_protect_smoke_status
+                name: Nest Boven
+              - entity: binary_sensor.upstairs_nest_protect_online
+                name: Nest Boven
+              - entity: sensor.downstairs_nest_protect_co_status
+                name: Nest Beneden
+              - entity: sensor.downstairs_nest_protect_smoke_status
+                name: Nest Beneden
+              - entity: binary_sensor.downstairs_nest_protect_online
+                name: Nest Beneden
+              - entity: sensor.downstairs_nest_protect_battery_health
+                name: Nest Beneden
+              - entity: sensor.upstairs_nest_protect_battery_health
+                name: Nest Boven
+              - entity: sensor.aarlo_battery_level_arlo_elmo
+                name: Arlo
+                state_filter:
+                  - operator: "<"
+                    value: 10
+              - entity: binary_sensor.hue_sensor_dressing_motion
+                name: Hue Sensor Dressing Battery Low
+                state_filter:
+                  - operator: "<"
+                    value: 10
+                    attribute: battery_level
+              - entity: binary_sensor.hue_sensor_keuken_motion
+                name: Hue Sensor Dressing Battery Low
+                state_filter:
+                  - operator: "<"
+                    value: 10
+                    attribute: battery_level
+              - entity: binary_sensor.hue_sensor_woonkamer_motion
+                name: Hue Sensor Dressing Battery Low
+                state_filter:
+                  - operator: "<"
+                    value: 10
+                    attribute: battery_level
+            show_empty: false
+            show_header_toggle: false
+            state_filter:
+              - Replace
+              - 'off'
+              - Warning
+              - Emergency
+              - gray
+              - yellow
+              - red
+              - Replace
+              - Not Ok
+            card:
+              type: entities
           - id: device_tracker_1
             type: entity-filter
             card:
@@ -479,62 +547,13 @@ views:
               - entity: person.marcus
               - entity: person.nancy
               - entity: vacuum.dusty
+              - entity: input_boolean.keep_christmas_on
             show_header_toggle: false
             show_empty: false
             state_filter:
               - home
               - 'on'
               - 'cleaning'
-          - id: heating_tracker_1
-            type: entity-filter
-            show_header_toggle: false
-            show_empty: false
-            state_filter:
-              - heat
-            card:
-              show_name: false
-              type: entities
-            entities:
-              - entity: climate.ons_huisje
-                name: Evohome
-          - id: smoke_tracker_1a
-            type: entity-filter
-            show_empty: false
-            show_header_toggle: false
-            state_filter:
-              - 'off'
-              - Replace
-            card:
-              title: INKOM
-              type: entities
-            entities:
-              - entity: sensor.downstairs_nest_protect_co_status
-                name: Co2
-              - entity: sensor.downstairs_nest_protect_smoke_status
-                name: Rook
-              - entity: sensor.downstairs_nest_protect_battery_health
-                name: Batterij
-              - entity: binary_sensor.downstairs_nest_protect_online
-                name: Verbinding
-          - id: smoke_tracker_1b
-            type: entity-filter
-            show_empty: false
-            show_header_toggle: false
-            state_filter:
-              - 'off'
-              - Replace
-            card:
-              title: NACHTHAL
-              type: entities
-            entities:
-              - entity: sensor.upstairs_nest_protect_co_status
-                name: Co2
-              - entity: sensor.upstairs_nest_protect_smoke_status
-                name: Rook
-              - entity: sensor.upstairs_nest_protect_battery_health
-                name: Batterij
-              - entity: binary_sensor.upstairs_nest_protect_online
-                name: Verbinding
           - id: layout_1
             type: 'custom:layout-card'
             layout: auto
@@ -1012,6 +1031,18 @@ views:
               - home
               - 'on'
               - 'cleaning'
+          - id: heating_tracker_2
+            type: entity-filter
+            show_header_toggle: false
+            show_empty: false
+            state_filter:
+              - heat
+            card:
+              show_name: false
+              type: entities
+            entities:
+              - entity: climate.ons_huisje
+                name: Evohome
           - id: problem_tracker_2
             type: entity-filter
             entities:
@@ -1368,6 +1399,18 @@ views:
               - home
               - 'on'
               - 'cleaning'
+          - id: heating_tracker_3
+            type: entity-filter
+            show_header_toggle: false
+            show_empty: false
+            state_filter:
+              - heat
+            card:
+              show_name: false
+              type: entities
+            entities:
+              - entity: climate.ons_huisje
+                name: Evohome
           - id: problem_tracker_3
             type: entity-filter
             entities:
@@ -1616,6 +1659,18 @@ views:
               type: glance
               show_name: true
               show_state: false
+          - id: heating_tracker_4
+            type: entity-filter
+            show_header_toggle: false
+            show_empty: false
+            state_filter:
+              - heat
+            card:
+              show_name: false
+              type: entities
+            entities:
+              - entity: climate.ons_huisje
+                name: Evohome
           - id: problem_tracker_4
             type: entity-filter
             entities:
