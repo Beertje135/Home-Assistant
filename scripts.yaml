@@ -13,11 +13,11 @@ all_remote_off:
   - service: script.turn_on
     entity_id: script.harmony_hub_powered_off
   - condition: state
-    entity_id: input_boolean.keep_pc_on
+    entity_id: input_boolean.keep_computer_on
     state: 'off'
   - delay: 00:05:00
   - condition: state
-    entity_id: input_boolean.keep_pc_on
+    entity_id: input_boolean.keep_computer_on
     state: 'off'
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Juist Weg', 'Weg', 'Slapen'] }}"
@@ -29,11 +29,11 @@ all_remote_harmony_hub_pause:
   - service: script.turn_on
     entity_id: script.harmony_hub_powered_off
   - condition: state
-    entity_id: input_boolean.keep_pc_on
+    entity_id: input_boolean.keep_computer_on
     state: 'off'
   - delay: 00:05:00
   - condition: state
-    entity_id: input_boolean.keep_pc_on
+    entity_id: input_boolean.keep_computer_on
     state: 'off'
   - condition: template
     value_template: "{{ states('input_select.woning_status') in ['Juist Weg', 'Weg', 'Slapen'] }}"
@@ -172,7 +172,7 @@ computer_off:
   alias: Computer - Uit
   sequence:
   - condition: state
-    entity_id: input_boolean.keep_pc_on
+    entity_id: input_boolean.keep_computer_on
     state: 'off'
   - service: hassio.addon_stdin
     data:

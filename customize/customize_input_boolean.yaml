@@ -55,9 +55,9 @@
       icon: mdi:plex
       friendly_name: Kitchen Media Boolean
 
-    input_boolean.keep_pc_on:
+    input_boolean.keep_computer_on:
       icon: mdi:desktop-tower-monitor
-      friendly_name: Keep PC On Boolean
+      friendly_name: Computer Altijd Aan
 
     input_boolean.keep_christmas_on:
       icon: mdi:pine-tree

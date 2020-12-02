@@ -907,7 +907,7 @@
   trigger:
   - platform: numeric_state
     entity_id: sensor.hue_sensor_keuken_light_level
-    above: '10'
+    above: 10
     for:
       minutes: 4
   condition:
@@ -1258,7 +1258,9 @@
   condition:
   - condition: state
     entity_id: input_select.woning_status
-    state: Thuis (Werk),Thuis (Verlof)
+    state: 
+      - Thuis (Werk)
+      - Thuis (Verlof)
   action:
   - service: input_select.select_option
     data:

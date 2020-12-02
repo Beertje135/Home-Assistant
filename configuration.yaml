@@ -330,7 +330,7 @@ weather:
 
 aarlo:
   username: !secret username_arlo_2
-  password: !secret password_arlo
+  password: !secret password_arlo_2
   refresh_devices_every: 2
   stream_timeout: 120
 #  tfa_host: imap.gmail.com

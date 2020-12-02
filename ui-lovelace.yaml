@@ -146,6 +146,7 @@ views:
               - entity: person.nancy
               - entity: vacuum.dusty
               - entity: input_boolean.keep_christmas_on
+              - entity: input_boolean.keep_computer_on
             show_header_toggle: false
             show_empty: false
             state_filter:
@@ -548,6 +549,7 @@ views:
               - entity: person.nancy
               - entity: vacuum.dusty
               - entity: input_boolean.keep_christmas_on
+              - entity: input_boolean.keep_computer_on
             show_header_toggle: false
             show_empty: false
             state_filter:
@@ -1004,33 +1006,6 @@ views:
               - Ziekenhuis Edegem
               - Ziekenhuis Reet
               - Ziekenhuis Middelheim
-          - id: device_tracker_2
-            type: entity-filter
-            card:
-              show_name: true
-              show_state: false
-              type: glance
-            entities:
-              - entity: sensor.bezoek
-              - entity: sensor.kuishulp
-              - entity: sensor.babysit
-              - entity: person.mama
-              - entity: person.mark
-              - entity: person.papa
-              - entity: person.karen
-              - entity: person.andy
-              - entity: person.oma
-              - entity: person.thomas
-              - entity: person.niki
-              - entity: person.marcus
-              - entity: person.nancy
-              - entity: vacuum.dusty
-            show_header_toggle: false
-            show_empty: false
-            state_filter:
-              - home
-              - 'on'
-              - 'cleaning'
           - id: heating_tracker_2
             type: entity-filter
             show_header_toggle: false
@@ -1099,6 +1074,35 @@ views:
               - Not Ok
             card:
               type: entities
+          - id: device_tracker_2
+            type: entity-filter
+            entities:
+              - entity: sensor.bezoek
+              - entity: sensor.kuishulp
+              - entity: sensor.babysit
+              - entity: person.mama
+              - entity: person.mark
+              - entity: person.papa
+              - entity: person.karen
+              - entity: person.andy
+              - entity: person.oma
+              - entity: person.thomas
+              - entity: person.niki
+              - entity: person.marcus
+              - entity: person.nancy
+              - entity: vacuum.dusty
+              - entity: input_boolean.keep_christmas_on
+              - entity: input_boolean.keep_computer_on
+            show_header_toggle: false
+            show_empty: false
+            state_filter:
+              - home
+              - 'on'
+              - 'cleaning'
+            card:
+              show_name: true
+              show_state: false
+              type: glance
           - id: computer_tracker_2a
             type: glance
             show_header_toggle: false
@@ -1119,7 +1123,7 @@ views:
                 name: Muziek Volgen
                 tap_action:
                   action: toggle
-              - entity: input_boolean.keep_pc_on
+              - entity: input_boolean.keep_computer_on
                 name: PC Always On
                 tap_action:
                   action: toggle
@@ -1372,33 +1376,6 @@ views:
               - Ziekenhuis Edegem
               - Ziekenhuis Reet
               - Ziekenhuis Middelheim
-          - id: device_tracker_3
-            type: entity-filter
-            show_header_toggle: false
-            show_empty: false
-            card:
-              show_name: true
-              show_state: false
-              type: glance
-            entities:
-              - entity: sensor.bezoek
-              - entity: sensor.kuishulp
-              - entity: sensor.babysit
-              - entity: person.mama
-              - entity: person.mark
-              - entity: person.papa
-              - entity: person.karen
-              - entity: person.andy
-              - entity: person.oma
-              - entity: person.thomas
-              - entity: person.niki
-              - entity: person.marcus
-              - entity: person.nancy
-              - entity: vacuum.dusty
-            state_filter:
-              - home
-              - 'on'
-              - 'cleaning'
           - id: heating_tracker_3
             type: entity-filter
             show_header_toggle: false
@@ -1467,6 +1444,35 @@ views:
               - Not Ok
             card:
               type: entities
+          - id: device_tracker_3
+            type: entity-filter
+            entities:
+              - entity: sensor.bezoek
+              - entity: sensor.kuishulp
+              - entity: sensor.babysit
+              - entity: person.mama
+              - entity: person.mark
+              - entity: person.papa
+              - entity: person.karen
+              - entity: person.andy
+              - entity: person.oma
+              - entity: person.thomas
+              - entity: person.niki
+              - entity: person.marcus
+              - entity: person.nancy
+              - entity: vacuum.dusty
+              - entity: input_boolean.keep_christmas_on
+              - entity: input_boolean.keep_computer_on
+            show_header_toggle: false
+            show_empty: false
+            state_filter:
+              - home
+              - 'on'
+              - 'cleaning'
+            card:
+              show_name: true
+              show_state: false
+              type: glance
           - id: layout_3
             type: 'custom:layout-card'
             layout: auto
@@ -1632,33 +1638,6 @@ views:
             card:
               show_name: false
               type: glance
-          - id: device_tracker_4
-            type: entity-filter
-            entities:
-              - entity: sensor.bezoek
-              - entity: sensor.kuishulp
-              - entity: sensor.babysit
-              - entity: person.mama
-              - entity: person.mark
-              - entity: person.papa
-              - entity: person.karen
-              - entity: person.andy
-              - entity: person.oma
-              - entity: person.thomas
-              - entity: person.niki
-              - entity: person.marcus
-              - entity: person.nancy
-              - entity: vacuum.dusty
-            show_header_toggle: false
-            show_empty: false
-            state_filter:
-              - home
-              - 'on'
-              - 'cleaning'
-            card:
-              type: glance
-              show_name: true
-              show_state: false
           - id: heating_tracker_4
             type: entity-filter
             show_header_toggle: false
@@ -1727,6 +1706,35 @@ views:
               - Not Ok
             card:
               type: entities
+          - id: device_tracker_4
+            type: entity-filter
+            entities:
+              - entity: sensor.bezoek
+              - entity: sensor.kuishulp
+              - entity: sensor.babysit
+              - entity: person.mama
+              - entity: person.mark
+              - entity: person.papa
+              - entity: person.karen
+              - entity: person.andy
+              - entity: person.oma
+              - entity: person.thomas
+              - entity: person.niki
+              - entity: person.marcus
+              - entity: person.nancy
+              - entity: vacuum.dusty
+              - entity: input_boolean.keep_christmas_on
+              - entity: input_boolean.keep_computer_on
+            show_header_toggle: false
+            show_empty: false
+            state_filter:
+              - home
+              - 'on'
+              - 'cleaning'
+            card:
+              show_name: true
+              show_state: false
+              type: glance
           - id: layout_4
             type: 'custom:layout-card'
             layout: auto

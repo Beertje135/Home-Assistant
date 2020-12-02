@@ -242,7 +242,7 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -input_boolean.cooling_upstairs
   -input_boolean.heating
   -input_boolean.keep_christmas_on
-  -input_boolean.keep_pc_on
+  -input_boolean.keep_computer_on
   -input_boolean.light_downstairs
   -input_boolean.light_dressing_stay_on
   -input_boolean.light_livingroom

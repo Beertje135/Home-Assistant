@@ -2,7 +2,7 @@
 alias: Computer - Uit
 sequence:
   - condition: state
-    entity_id: input_boolean.keep_pc_on
+    entity_id: input_boolean.keep_computer_on
     state: 'off'
   - service: hassio.addon_stdin
     data:

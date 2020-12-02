@@ -58,7 +58,7 @@
   vacuum_cleaned_today:
 
 #Used to keep PC on when away
-  keep_pc_on:
+  keep_computer_on:
 
 #Used to keep Christmas Lights on
   keep_christmas_on:
