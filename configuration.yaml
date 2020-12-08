@@ -92,8 +92,6 @@ group: !include groups.yaml
 
 input_boolean: !include input_booleans.yaml
 
-input_select: !include input_selects.yaml
-
 ffmpeg:
 
 stream:

@@ -9,4 +9,4 @@ sequence:
   - delay: 00:00:05
   - service: script.turn_on
     entity_id:
-      - script.keuken_music_volume
+      - script.radio_kitchen_volume

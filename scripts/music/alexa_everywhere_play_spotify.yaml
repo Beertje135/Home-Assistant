@@ -13,6 +13,6 @@ sequence:
   - delay: 00:00:05
   - service: script.turn_on
     entity_id:
-      - script.keuken_music_volume
-      - script.woonkamer_music_volume
-      - script.badkamer_music_volume
+      - script.radio_kitchen_volume
+      - script.radio_livingroom_volume
+      - script.radio_bathroom_volume

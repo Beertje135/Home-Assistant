@@ -331,7 +331,7 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -script.alexa_kitchen_1_play_spotify
   -script.alexa_kitchen_1_play_stubru
   -script.alexa_livingroom_1_play_mnm
-  -script.alexa_play_selected
+  -script.radio_selected_on
   -script.all_all_off
   -script.all_light_off
   -script.all_music_off
@@ -341,11 +341,11 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -script.arlo_light_off
   -script.arlo_light_on
   -script.badkamer_light_on
-  -script.badkamer_music_play
-  -script.badkamer_music_stop
-  -script.badkamer_music_volume
-  -script.beneden_music_play
-  -script.beneden_music_stop
+  -script.radio_bathroom_on
+  -script.radio_bathroom_off
+  -script.radio_bathroom_volume
+  -script.radio_downstairs_on
+  -script.radio_downstairs_off
   -script.computer_off
   -script.computer_on
   -script.dusty_off
@@ -403,9 +403,9 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -script.input_trigger_sleep
   -script.keuken_light_off
   -script.keuken_light_on
-  -script.keuken_music_play
-  -script.keuken_music_stop
-  -script.keuken_music_volume
+  -script.radio_kitchen_on
+  -script.radio_kitchen_off
+  -script.radio_kitchen_volume
   -script.milight_bridge_one_on
   -script.milight_bridge_one_on_dimmed
   -script.milight_bridge_one_on_night
@@ -425,8 +425,8 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -script.milight_two_on_dimmed
   -script.milight_two_on_night
   -script.milight_two_on_normal
-  -script.music_follow_off
-  -script.music_follow_on
+  -script.radio_follow_off
+  -script.radio_follow_on
   -script.notify_battery
   -script.notify_battery_alexa
   -script.notify_battery_ios_bert
@@ -521,9 +521,9 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -script.veranda_light_on
   -script.woonkamer_light_off
   -script.woonkamer_light_on
-  -script.woonkamer_music_play
-  -script.woonkamer_music_stop
-  -script.woonkamer_music_volume
+  -script.radio_livingroom_on
+  -script.radio_livingroom_off
+  -script.radio_livingroom_volume
   -sensor.aarlo_air_quality_arlo_elmo
   -sensor.aarlo_battery_level_arlo_elmo
   -sensor.aarlo_captured_today_arlo_elmo

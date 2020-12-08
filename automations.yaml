@@ -98,7 +98,7 @@
   action:
   - service: script.turn_on
     entity_id:
-    - script.beneden_music_play
+    - script.radio_downstairs_on
   mode: single
 - id: music_downstairs_002
   alias: Muziek - Beneden - Play 1
@@ -152,7 +152,7 @@
     state: Powered Off,Alexa
   - service: script.turn_on
     entity_id:
-    - script.beneden_music_play
+    - script.radio_downstairs_on
   mode: single
 - id: music_livingroom_001
   alias: Muziek - Woonkamer - Play
@@ -217,7 +217,7 @@
           - media_player.alexa_everywhere
       sequence:
       - service: script.turn_on
-        entity_id: script.woonkamer_music_play
+        entity_id: script.radio_livingroom_on
     - conditions:
       - condition: state
         state: playing
@@ -231,7 +231,7 @@
           - input_select.harmony_hub
       sequence:
       - service: script.turn_on
-        entity_id: script.woonkamer_music_stop
+        entity_id: script.radio_livingroom_off
     default:
     - service: script.turn_on
       entity_id: script.empty
@@ -256,14 +256,14 @@
         state: playing
       sequence:
       - service: script.turn_on
-        entity_id: script.beneden_music_stop
+        entity_id: script.radio_downstairs_off
     - conditions:
       - condition: state
         entity_id: media_player.alexa_livingroom_1
         state: playing
       sequence:
       - service: script.turn_on
-        entity_id: script.woonkamer_music_stop
+        entity_id: script.radio_livingroom_off
     default:
     - service: script.turn_on
       entity_id: script.empty
@@ -308,7 +308,7 @@
       entity_id: media_player.alexa_everywhere
   action:
   - service: script.turn_on
-    entity_id: script.badkamer_music_play
+    entity_id: script.radio_bathroom_on
   mode: single
 - id: music_bathroom_002
   alias: Muziek - Badkamer - Stop
@@ -323,7 +323,7 @@
     state: playing
   action:
   - service: script.turn_on
-    entity_id: script.badkamer_music_stop
+    entity_id: script.radio_bathroom_off
   mode: single
 - id: music_kitchen_001
   alias: Muziek - Keuken - Play
@@ -388,7 +388,7 @@
     - Alexa
   action:
   - service: script.turn_on
-    entity_id: script.keuken_music_play
+    entity_id: script.radio_kitchen_on
   - delay: 00:10:00
 - id: music_kitchen_002
   alias: Muziek - Keuken - Stop
@@ -421,7 +421,7 @@
     entity_id: media_player.alexa_kitchen_1
     state: playing
   action:
-  - entity_id: script.keuken_music_stop
+  - entity_id: script.radio_kitchen_off
     service: script.turn_on
   mode: single
 - id: music_follow_001
@@ -472,8 +472,8 @@
   action:
   - service: script.turn_on
     entity_id:
-    - script.music_follow_off
-    - script.keuken_music_stop
+    - script.radio_follow_off
+    - script.radio_kitchen_off
   mode: single
 - id: music_follow_002
   alias: Muziek - Volgen - Enable
@@ -509,7 +509,7 @@
   action:
   - service: script.turn_on
     entity_id:
-    - script.music_follow_on
+    - script.radio_follow_on
   mode: single
 - id: music_follow_003
   alias: Muziek - Volgen - Enable 2
@@ -523,7 +523,7 @@
   action:
   - service: script.turn_on
     entity_id:
-    - script.music_follow_on
+    - script.radio_follow_on
 - id: music_volume_001
   alias: Muziek - Volume - Woonkamer
   trigger:
@@ -540,7 +540,7 @@
   action:
   - service: script.turn_on
     entity_id:
-    - script.woonkamer_music_volume
+    - script.radio_livingroom_volume
 - id: music_volume_002
   alias: Muziek - Volume - Beiden Thuis
   trigger:
@@ -558,9 +558,9 @@
   action:
   - service: script.turn_on
     entity_id:
-    - script.keuken_music_volume
-    - script.woonkamer_music_volume
-    - script.badkamer_music_volume
+    - script.radio_kitchen_volume
+    - script.radio_livingroom_volume
+    - script.radio_bathroom_volume
 - id: music_volume_003
   alias: Muziek - Volume - Keuken Ochtend
   trigger:
@@ -583,7 +583,7 @@
     - Thuis (Verlof)
   action:
   - service: script.turn_on
-    entity_id: script.keuken_music_volume
+    entity_id: script.radio_kitchen_volume
 - id: music_volume_004
   alias: Muziek - Volume - Woonkamer Nieuws
   trigger:
@@ -599,7 +599,7 @@
     state: Alexa
   action:
   - service: script.turn_on
-    entity_id: script.woonkamer_music_volume
+    entity_id: script.radio_livingroom_volume
   mode: single
 - id: battery_smappee_001
   alias: Batterij - Smappee - Bijna Leeg
@@ -1005,7 +1005,7 @@
       - service: script.turn_on
         entity_id:
         - script.input_light_all_beneden_on
-        - script.music_follow_on
+        - script.radio_follow_on
         - script.computer_on
         - script.dusty_off
     - conditions:
@@ -1016,7 +1016,7 @@
       - service: script.turn_on
         entity_id:
         - script.input_light_all_beneden_on
-        - script.music_follow_on
+        - script.radio_follow_on
         - script.computer_on
     - conditions:
       - condition: state

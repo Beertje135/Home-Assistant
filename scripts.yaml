@@ -339,8 +339,20 @@ plex_on_woonkamer:
         {%- else -%}
           script.empty
         {%- endif %}
-radio_on_selected:
-  alias: Radio - Aan - Selected
+radio_follow_on:
+  alias: Radio - Follow - Aan
+  sequence:
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.music_follow
+radio_follow_off:
+  alias: Radio - Follow - Uit
+  sequence:
+    - service: input_boolean.turn_off
+      data:
+        entity_id: input_boolean.music_follow  
+radio_selected_on:
+  alias: Radio - Selected - Aan
   sequence:
   - service: media_player.play_media
     data_template:
@@ -372,20 +384,20 @@ radio_on_selected:
     data_template:
       entity_id: >
         {%- if states('input_select.media_player') in ['Overal', 'Beneden'] -%}
-          script.keuken_music_volume, script.woonkamer_music_volume, script.badkamer_music_volume
+          script.radio_kitchen_volume, script.radio_livingroom_volume, script.radio_bathroom_volume
         {%- elif states('input_select.media_player') in ['Beneden'] -%}
-          script.keuken_music_volume, script.woonkamer_music_volume
+          script.radio_kitchen_volume, script.radio_livingroom_volume
         {%- elif states('input_select.media_player') in ['Keuken'] -%}
-          script.keuken_music_volume
+          script.radio_kitchen_volume
         {%- elif states('input_select.media_player') in ['Woonkamer'] -%}
-          script.woonkamer_music_volume
+          script.radio_livingroom_volume
         {%- elif states('input_select.media_player') in ['Badkamer'] -%}
-          script.badkamer_music_volume
+          script.radio_bathroom_volume
         {%- else -%}
           script.empty
         {%- endif %}
-radio_on_kitchen:
-  alias: Radio - Aan - Keuken
+radio_kitchen_on:
+  alias: Radio - Keuken - Aan
   sequence:
   - service: media_player.play_media
     data:
@@ -395,9 +407,9 @@ radio_on_kitchen:
   - delay: 00:00:05
   - service: script.turn_on
     entity_id:
-      - script.keuken_music_volume
-radio_on_bathroom:
-  alias: Radio - Aan - Badkamer
+      - script.radio_kitchen_volume
+radio_bathroom_on:
+  alias: Radio - Badkamer - Aan
   sequence:
   - service: media_player.play_media
     data:
@@ -407,88 +419,1423 @@ radio_on_bathroom:
   - delay: 00:00:05
   - service: script.turn_on
     entity_id:
-      - script.badkamer_music_volume
+      - script.radio_bathroom_volume
+radio_livingroom_on:
+  alias: Radio - Woonkamer - Aan
+  sequence:
+  - service: media_player.play_media
+    data:
+      entity_id: media_player.alexa_livingroom_1
+      media_content_id: "{{ states('input_text.radio_station_current') }}"
+      media_content_type: TUNEIN
+  - delay: 00:00:05
+  - service: script.turn_on
+    entity_id:
+      - script.radio_livingroom_volume
+radio_downstairs_on:
+  alias: Radio - Beneden - Aan
+  sequence:
+  - service: media_player.play_media
+    data_template:
+      entity_id: media_player.alexa_kitchen_2
+      media_content_id: >
+        "{{ states('input_text.radio_station_current') }}" on Alexa Downstairs group
+      media_content_type: TUNEIN
+  - delay: 00:00:05
+  - service: script.turn_on
+    entity_id:
+      - script.radio_kitchen_volume
+      - script.radio_livingroom_volume
+radio_everywhere_on:
+  alias: Radio - Overal - Aan
+  sequence:
+  - service: media_player.play_media
+    data_template:
+      entity_id: media_player.alexa_kitchen_2
+      media_content_id: >
+        "{{ states('input_text.radio_station_current') }}" on the Alexa Everywhere group
+      media_content_type: TUNEIN
+  - delay: 00:00:05
+  - service: script.turn_on
+    entity_id:
+      - script.radio_kitchen_volume
+      - script.radio_livingroom_volume
+      - script.radio_bathroom_volume
+radio_bathroom_off:
+  alias: Radio - Badkamer - Uit
+  sequence:
+  - condition: state
+    entity_id: media_player.alexa_bathroom
+    state: 'playing'
+  - service: media_player.turn_off
+    entity_id:
+      - media_player.alexa_bathroom
+radio_kitchen_off:
+  alias: Radio - Keuken - Uit
+  sequence:
+  - condition: state
+    entity_id: media_player.alexa_kitchen_1
+    state: 'playing'
+  - service: media_player.turn_off
+    entity_id:
+      - media_player.alexa_kitchen_1
+radio_livingroom_off:
+  alias: Radio - Woonkamer - Uit
+  sequence:
+  - service: media_player.turn_off
+    entity_id:
+      - media_player.alexa_livingroom_1
+radio_livingroom_volume:
+  alias: Radio - Woonkamer - Volume
+  sequence:
+  - service: media_player.volume_set
+    data_template:
+      entity_id: media_player.alexa_bathroom
+      volume_level: >
+        {%- if (states('sensor.time') <= "08:30") and (now().weekday() in (0,1,2,3,4)) -%}
+          0.07
+        {%- elif (states('sensor.time') <= "07:30") and (now().weekday() in (5,6)) -%}
+          0.07
+        {%- elif (states('input_select.woning_status') in ['Juist Wakker']) -%}
+          0.07
+        {%- else -%}
+          0.13
+        {%- endif %}
+radio_kitchen_volume:
+  alias: Radio - Keuken - Volume
+  sequence:
+  - service: media_player.volume_set
+    data_template:
+      entity_id: media_player.alexa_kitchen_1
+      volume_level: >
+        {%- if (states('sensor.time') <= "06:58") and (now().weekday() in (0,1,2,3,4)) -%}
+          0.2
+        {%- elif (states('sensor.time') >= "06:58") and (states('sensor.time') <= "07:04") and (now().weekday() in (0,1,2,3,4)) -%}
+          0.3
+        {%- elif (states('sensor.time') >= "07:04") and (states('sensor.time') <= "07:58") and (now().weekday() in (0,1,2,3,4)) -%}
+          0.2
+        {%- elif (states('sensor.time') >= "07:58") and (states('sensor.time') <= "08:04") and (now().weekday() in (0,1,2,3,4)) -%}
+          0.3
+        {%- elif (states('sensor.time') >= "08:04") and (states('sensor.time') <= "08:58") and (now().weekday() in (0,1,2,3,4)) -%}
+          0.2
+        {%- elif (states('sensor.time') <= "07:30") and (now().weekday() in (5,6)) -%}
+          0.3
+        {%- else -%}
+          0.2
+        {%- endif %}
+radio_bathroom_volume:
+  alias: Radio - Badkamer - Volume
+  sequence:
+  - service: media_player.volume_set
+    data_template:
+      entity_id: media_player.alexa_bathroom
+      volume_level: >
+        {%- if (states('sensor.time') <= "08:30") and (now().weekday() in (0,1,2,3,4)) -%}
+          0.07
+        {%- elif (states('sensor.time') <= "07:30") and (now().weekday() in (5,6)) -%}
+          0.07
+        {%- elif (states('input_select.woning_status') in ['Juist Wakker']) -%}
+          0.07
+        {%- else -%}
+          0.13
+        {%- endif %}
 notify_battery_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - wait_template: "{{ is_state('group.bewoners_router', 'home') }}"
+    timeout: '00:05:00'
+    continue_on_timeout: false
+  - service: notify.alexa_media
+    data:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: 'The battery of Smappee is almost empty'
+      data:
+        type: announce
+        method: speak
 notify_battery_ios_bert:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data:
+      title: "BATTERIJ"
+      message: De batterij van de Smappee Gas & Water is bijna leeg
+      data:
+        push:
+          thread-id: "huis"
 notify_bezoeker_babysit_ios_bert:
+  sequence:
+  - service: notify.mobile_app_iphone_van_bert
+    data:
+      title: "BABYSIT"
+      message: "Mag babysit afgemeld worden? (Action)"
+      data:
+        push:
+          category: "bezoeker"
+          thread-id: "bezoek"
 notify_bezoeker_babysit_ios_caro:
+  sequence:
+  - service: notify.mobile_app_iphone_van_caro
+    data:
+      title: "BABYSIT"
+      message: "Mag babysit afgemeld worden? (Action)"
+      data:
+        push:
+          badge: 5
+          category: "bezoeker"
+          thread-id: "bezoek"
 notify_cooling_downstairs:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_cooling_downstairs_ios_bert
+      - script.notify_cooling_downstairs_ios_caro
+      - script.notify_cooling_downstairs_alexa
 notify_cooling_downstairs_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - wait_template: "{{ is_state('group.bewoners_router', 'home') }}"
+    timeout: '00:05:00'
+    continue_on_timeout: false
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: >
+        {% if states('input_boolean.cooling_downstairs') == 'on' %}
+          'It is colder ouside then in the kitchen. Maybe time to open some windows?'
+        {% else %}
+          'It is getting hot outside. Please close the windows.'
+        {% endif %}
+      data:
+        type: announce
+        method: speak
 notify_cooling_downstairs_ios_bert:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "VERLUCHTING"
+      message: >
+        {% if states('input_boolean.cooling_downstairs') == 'on' %}
+          Het is buiten frisser dan in de keuken. Misschien even verluchten?
+        {% else %}
+          Het is buiten warm aan het worden. Best de ramen sluiten.
+        {% endif %}
+      data:
+        push:
+          thread-id: "huis"
 notify_cooling_downstairs_ios_caro:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_caro') in ['on'] and states('person.caroline') in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_caro
+    data_template:
+      title: "VERLUCHTING"
+      message: >
+        {% if states('input_boolean.cooling_downstairs') == 'on' %}
+          Het is buiten frisser dan in de keuken. Misschien even verluchten?
+        {% else %}
+          Het is buiten warm aan het worden. Best de ramen sluiten.
+        {% endif %}
+      data:
+        push:
+          thread-id: "huis"
 notify_cooling_upstairs:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_cooling_upstairs_ios_bert
+      - script.notify_cooling_upstairs_ios_caro
+      - script.notify_cooling_upstairs_alexa
 notify_cooling_upstairs_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - wait_template: "{{ is_state('group.bewoners_router', 'home') }}"
+    timeout: '00:05:00'
+    continue_on_timeout: false
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: >
+        {% if states('input_boolean.cooling_upstairs') == 'on' %}
+          'It is colder ouside then in Elmo's room. Maybe time to open some windows?'
+        {% else %}
+          'It is getting hot outside. Please check if Elmo's windows are closed.'
+        {% endif %}
+      data:
+        type: announce
+        method: speak
 notify_cooling_upstairs_ios_bert:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "VERLUCHTING"
+      message: >
+        {% if states('input_boolean.cooling_upstairs') == 'on' %}
+          Het is buiten frisser dan op Elmo zijn kamer. Misschien even verluchten?
+        {% else %}
+          Het is buiten warm aan het worden. Zijn Elmo zijn ramen gesloten?
+        {% endif %}
+      data:
+        push:
+          thread-id: "huis"
 notify_cooling_upstairs_ios_caro:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_caro') in ['on'] and states('person.caroline') in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_caro
+    data_template:
+      title: "VERLUCHTING"
+      message: >
+        {% if states('input_boolean.cooling_upstairs') == 'on' %}
+          Het is buiten frisser dan op Elmo zijn kamer. Misschien even verluchten?
+        {% else %}
+          Het is buiten warm aan het worden. Zijn Elmo zijn ramen gesloten?
+        {% endif %}
+      data:
+        push:
+          thread-id: "huis"
 notify_deurbel:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_deurbel_ios_bert
+      - script.notify_deurbel_ios_caro
+      - script.notify_deurbel_alexa
 notify_deurbel_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] or states('group.bezoekers') in ['home']}}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - service: notify.alexa_media
+    data:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_livingroom_2
+      message: "There is someone at the front door"
+      data:
+        type: announce
+        method: speak
+  - condition: time
+    after: input_datetime.awake_week
+    before:  input_datetime.radio_off
+  - service: notify.alexa_media
+    data:
+      target:
+        - media_player.alexa_bathroom
+      message: "There is someone at the front door"
+      data:
+        type: announce
+        method: speak
 notify_deurbel_ios_bert:
+  sequence:
+  - condition: template
+    value_template: "{{ (states('input_boolean.notify_bert') in ['on']) }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "VOORDEUR"
+      message: Ding Dong! Er staat iemand aan de voordeur.
+      data:
+        push:
+          thread-id: "bezoek"
 notify_deurbel_ios_caro:
+  sequence:
+  - condition: template
+    value_template: "{{ (states('input_boolean.notify_caro') in ['on'] and states('device_tracker.router_iphone_caro') in ['home']) or (states('input_boolean.notify_caro') in ['on'] and states('device_tracker.router_iphone_caro') in ['not_home'] and states('device_tracker.router_iphone_bert') in ['not_home']) }}"
+  - service: notify.mobile_app_iphone_van_caro
+    data_template:
+      title: "VOORDEUR"
+      message: Ding Dong! Er staat iemand aan de voordeur.
+      data:
+        push:
+          thread-id: "bezoek"
 notify_battery:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_battery_ios_bert
+      - script.notify_battery_alexa
 notify_heating_cold_elmo_ios_caro:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_caro') in ['on'] and states('person.caroline') in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_caro
+    data_template:
+      title: "VERWARMING"
+      message: Het is koud op Elmo zijn kamer! Staat er nog een raam open?
+      data:
+        apns_headers:
+          'apns-collapse-id': 'elmo-koud'
+        push:
+          thread-id: "huis"
 notify_heating_hot_cold_outside:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_heating_hot_cold_outside_alexa
 notify_heating_hot_cold_outside_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - wait_template: "{{ is_state('group.bewoners_router', 'home') }}"
+    timeout: '00:05:00'
+    continue_on_timeout: false
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: >
+        {% if states('input_boolean.heating') == 'on' %}
+          'It is getting cold outside... I will turn up the heating.'
+        {% else %}
+          'It seems to be hot outside... I will turn down the heating'
+        {% endif %}
+      data:
+        type: announce
+        method: speak
 notify_heating_hot_cold_outside_ios_bert:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "VERWARMING"
+      message: >
+        {% if states('input_boolean.heating') == 'on' %}
+          Het is wat frisser buiten. Ik zet de verwarming aan.
+        {% else %}
+          Het lijkt buiten voldoende warm te zijn, ik zet de verwarming uit.
+        {% endif %}
+      data:
+        push:
+          thread-id: "huis"
 notify_heating_hot_cold_outside_ios_caro:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_caro') in ['on'] and states('person.caroline') in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_caro
+    data_template:
+      title: "VERWARMING"
+      message: >
+        {% if states('input_boolean.heating') == 'on' %}
+          Het is wat frisser buiten. Ik zet de verwarming aan.
+        {% else %}
+          Het lijkt buiten voldoende warm te zijn, ik zet de verwarming uit.
+        {% endif %}
+      data:
+        push:
+          thread-id: "huis"
 notify_homekit_not_restart:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_homekit_not_restart_ios_bert
+      - script.notify_homekit_not_restart_alexa
 notify_homekit_not_restart_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - service: notify.alexa_media
+    data:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: 'Some systems are not operational, I will not restart Homekit'
+      data:
+        type: announce
+        method: speak
 notify_homekit_not_restart_ios_bert:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') not in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "HOMEKIT"
+      message: Er ontbreken componenten. Ik start HomeKit NIET opnieuw op.
+      data:
+        push:
+          thread-id: "server"
 notify_homekit_restart:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_homekit_restart_ios_bert
+      - script.notify_homekit_restart_alexa
 notify_homekit_restart_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] and states('input_select.woning_status') not in ['Slapen'] }}"
+  - service: notify.alexa_media
+    data:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: 'All systems operational, I will restart Homekit'
+      data:
+        type: announce
+        method: speak
 notify_entity_list:
+  sequence:
+  - service: notify.entity_log
+    data_template:
+      message: >
+        {% for state in states %}
+          - {{- state.entity_id -}}
+        {% endfor %}
 notify_hacs_update:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_hacs_update_ios_bert
+      - script.notify_hacs_update_alexa
 notify_hacs_update_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - service: notify.alexa_media
+    data:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: 'I have an update available for a custom component'
+      data:
+        type: announce
+        method: speak
 notify_hacs_update_ios_bert:
+  sequence:
+  - service: notify.mobile_app_iphone_van_bert
+    data:
+      title: "SERVER UPDATE"
+      message: Er is een update beschikbaar voor een Custom Component.
+      data:
+        push:
+          thread-id: "server"
 notify_hassio_overtime:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_hassio_overtime_ios_bert
+      - script.notify_hassio_overtime_alexa
 notify_hassio_overtime_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - service: notify.alexa_media
+    data:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: 'My system is working overtime. Please check my health'
+      data:
+        type: announce
+        method: speak
 notify_hassio_overtime_ios_bert:
+  sequence:
+  - service: notify.mobile_app_iphone_van_bert
+    data:
+      title: "SERVER CRITICAL"
+      message: Het systeem draait op volle toeren!
+      data:
+        push:
+          thread-id: "server"
 notify_hassio_restart:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_hassio_restart_ios_bert
+      - script.notify_hassio_restart_alexa
 notify_hassio_restart_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - service: notify.alexa_media
+    data:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: 'Restart Complete... start system check'
+      data:
+        type: announce
+        method: speak
 notify_hassio_restart_ios_bert:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "SERVER RESTART"
+      message: Ik heb mezelf opnieuw opgestart.
+      data:
+        push:
+          thread-id: "server"
 notify_hassio_update:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_hassio_update_ios_bert
+      - script.notify_hassio_update_alexa
 notify_hassio_update_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - service: notify.alexa_media
+    data:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: 'I have an update available'
+      data:
+        type: announce
+        method: speak
 notify_hassio_update_ios_bert:
+  sequence:
+  - service: notify.mobile_app_iphone_van_bert
+    data:
+      title: "SERVER UPDATE"
+      message: Er is een update beschikbaar.
+      data:
+        push:
+          thread-id: "server"
 notify_heating_cold_elmo:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_heating_cold_elmo_alexa
+      - script.notify_heating_cold_elmo_ios_bert
+      - script.notify_heating_cold_elmo_ios_caro
 notify_heating_cold_elmo_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - wait_template: "{{ is_state('group.bewoners_router', 'home') }}"
+    timeout: '00:05:00'
+    continue_on_timeout: false
+  - service: notify.alexa_media
+    data:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: "It is getting cold in Elmo's Room. Is there a window still open?"
+      data:
+        type: announce
+        method: speak
 notify_heating_cold_elmo_ios_bert:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "VERWARMING"
+      message: Het is koud op Elmo zijn kamer! Staat er nog een raam open?
+      data:
+        apns_headers:
+          'apns-collapse-id': 'elmo-koud'
+        push:
+          thread-id: "huis"
 notify_waste:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_waste_ios_bert
+      - script.notify_waste_ios_caro
+      - script.notify_waste_alexa
 notify_waste_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] or states('group.bezoekers') in ['home']}}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - wait_template: "{{ is_state('group.bewoners_router', 'home') }}"
+    timeout: '00:05:00'
+    continue_on_timeout: false
+  - delay: 00:00:10
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: >
+        {% if ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_glas')) %}
+          Please take out the following trash: paper, the blue bag, glass and waste, pickup is tomorrow morning.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Please take out the following trash: paper, the blue bag and waste, pickup is tomorrow morning.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Please take out the following trash: the blue bag and waste, pickup is tomorrow morning.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Please take out the following trash: paper and the blue bag, pickup is tomorrow morning.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Please take out the following trash: paper and waste, pickup is tomorrow morning.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_glas')) %}
+          Please take out the following trash: paper and glass, pickup is tomorrow morning.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_glas')) %}
+          Please take out the following trash: the blue bag and glas, pickup is tomorrow morning.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_glas')) %}
+          Please take out the following trash: glass and waste, pickup is tomorrow morning.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Please take out the blue bag, pickup is tomorrow morning.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Please take out the paper, pickup is tomorrow morning.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_glas')) %}
+          Please take out the glass, pickup is tomorrow morning.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Please take out the waste, pickup is tomorrow morning.
+        {% endif %}
+      data:
+        type: announce
+        method: speak
 notify_waste_ios_bert:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "VUILZAKKEN"
+      message: >
+        {% if ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_glas')) %}
+          Zet vandaag PMD, PAPIER, GLAS en RESTAFVAL buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Zet vandaag PMD, PAPIER en RESTAFVAL buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Zet vandaag PMD en RESTAFVAL buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Zet vandaag PMD en PAPIER buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Zet vandaag PAPIER en RESTAFVAL buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_glas')) %}
+          Zet vandaag PAPIER en GLAS buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_glas')) %}
+          Zet vandaag PMD en GLAS buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_glas')) %}
+          Zet vandaag GLAS en RESTAFVAL buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Zet vandaag PMD buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Zet vandaag PAPIER buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_glas')) %}
+          Zet vandaag GLAS buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Zet vandaag RESTAFVAL buiten, morgen komen ze deze ophalen.
+        {% else %}
+          Check even of er afval buiten moet. Ik ben niet zeker.
+        {% endif %}
+      data:
+        push:
+          thread-id: "huis"
 notify_waste_ios_caro:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_caro') in ['on'] and states('person.caroline') in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_caro
+    data_template:
+      title: "VUILZAKKEN"
+      message: >
+        {% if ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_glas')) %}
+          Zet vandaag PMD, PAPIER, GLAS en RESTAFVAL buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Zet vandaag PMD, PAPIER en RESTAFVAL buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Zet vandaag PMD en RESTAFVAL buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Zet vandaag PMD en PAPIER buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Zet vandaag PAPIER en RESTAFVAL buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_glas')) %}
+          Zet vandaag PAPIER en GLAS buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_glas')) %}
+          Zet vandaag PMD en GLAS buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_glas')) %}
+          Zet vandaag GLAS en RESTAFVAL buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Zet vandaag PMD buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Zet vandaag PAPIER buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_glas')) %}
+          Zet vandaag GLAS buiten, morgen komen ze deze ophalen.
+        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400)) | timestamp_custom("%Y-%m-%d",true) != states('sensor.recycleapp_glas')) %}
+          Zet vandaag RESTAFVAL buiten, morgen komen ze deze ophalen.
+        {% else %}
+          Check even of er afval buiten moet. Ik ben niet zeker.
+        {% endif %}
+      data:
+        push:
+          thread-id: "huis"
 notify_woning_status:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_woning_status_ios_bert
+      - script.notify_woning_status_ios_caro
+      - script.notify_woning_status_alexa
 notify_woning_status_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - condition: template
+    value_template: "{{ (states('input_select.woning_status') in ['Thuis (Werk)'] and (states('sensor.time')) <= '08:00') or states('input_select.woning_status') in ['Juist Thuis'] or states('input_select.woning_status') in ['Thuis (Verlof)'] }}"
+  - wait_template: "{{ is_state('group.bewoners_router', 'home') }}"
+    timeout: '00:05:00'
+    continue_on_timeout: false
+  - delay: '00:00:10'
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: >
+        {% if states('input_select.woning_status') in ['Thuis (Werk)'] and (states('sensor.time')) <= "09:00" %}
+          'It's nice you are staying home today.'
+        {% elif states('input_select.woning_status') in ['Thuis (Verlof)'] %}
+          'Enjoy your day.'
+        {% elif states('person.bert') not in ['home'] %}
+          'Hello Caroline. Welcome Back Home'
+        {% elif states('person.caroline') not in ['home'] %}
+          'Hello Master Bert. Welcome Back Home, the stupid cat was waiting for you'
+        {% else %}
+          'Welcome Home'
+        {% endif %}
+      data:
+        type: announce
+        method: speak
 notify_woning_status_ios_bert:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"
+  - condition: template
+    value_template: "{{ (states('person.bert') not in ['home'] and states('input_select.woning_status') in ['Op Vakantie']) or (states('person.bert') in ['home'] and states('input_select.woning_status') in ['Thuis (Werk)'] and (states('sensor.time')) <= '16:00') }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "STATUS WONING"
+      message: >
+        {% if states('person.bert') not in ['home'] and states('input_select.woning_status') in ['Op Vakantie'] %}
+          Het lijkt alsof jullie op vakantie zijn. Fijne vakantie geniet er van en binnenkort.
+        {% elif states('input_boolean.heating') in ['off'] %}
+          Het lijkt alsof je nog thuis bent vandaag.
+        {% else %}
+          Het lijkt alsof je nog thuis bent vandaag. Ik zal de verwarming aan laten.
+        {% endif %}
+      data:
+        push:
+          thread-id: "huis"
 notify_woning_status_ios_caro:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_caro') in ['on'] }}"
+  - condition: template
+    value_template: "{{ (states('person.caroline') not in ['home'] and states('input_select.woning_status') in ['Op Vakantie']) or (states('person.caroline') in ['home'] and states('input_select.woning_status') in ['Thuis (Werk)'] and (states('sensor.time')) <= '16:00') }}"
+  - service: notify.mobile_app_iphone_van_caro
+    data_template:
+      title: "STATUS WONING"
+      message: >
+        {% if states('person.caroline') not in ['home'] and states('input_select.woning_status') in ['Op Vakantie'] %}
+          Het lijkt alsof jullie op vakantie zijn. Fijne vakantie geniet er van en binnenkort.
+        {% elif states('input_boolean.heating') in ['off'] %}
+          Het lijkt alsof je nog thuis bent vandaag.
+        {% else %}
+          Het lijkt alsof je nog thuis bent vandaag. Ik zal de verwarming aan laten.
+        {% endif %}
+      data:
+        push:
+          thread-id: "huis"
 notify_homekit_restart_ios_bert:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "HOMEKIT"
+      message: Alle componenten gevonden. Ik start HomeKit opnieuw op.
+      data:
+        push:
+          thread-id: "server"
 notify_light_elmo:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_light_elmo_ios_bert
+      - script.notify_light_elmo_ios_caro
+      - script.notify_light_elmo_alexa
 notify_light_elmo_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - condition: template
+    value_template: "{{ is_state('group.bewoners_router', 'home') }}"
+  - delay: '00:00:10'
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: "It is time to go get Elmo the little Monster."
+      data:
+        type: announce
+        method: speak
 notify_light_elmo_ios_bert:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"
+  - condition: template
+    value_template: "{{ states('person.bert') in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "ELMO"
+      message: "Het is tijd om Elmo te gaan halen, ik doe stilaan zijn lamp aan"
+      data:
+        push:
+          thread-id: "huis"
 notify_light_elmo_ios_caro:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_caro') in ['on'] }}"
+  - condition: template
+    value_template: "{{ states('person.caroline') in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_caro
+    data_template:
+      title: "ELMO"
+      message: "Het is tijd om Elmo te gaan halen, ik doe stilaan zijn lamp aan"
+      data:
+        push:
+          thread-id: "huis"
 notify_nmbs_brussel_mechelen_ios_bert:
+  sequence:
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "TREIN BRUS-MECH"
+      message: >
+        {% if state_attr('sensor.nmbs_4', 'platform_arriving') in ['1', '3', '5', '10', '8'] %}
+          spoor {{ state_attr('sensor.nmbs_4', 'platform_departing') }}, {{ state_attr('sensor.nmbs_4', 'departure') }}.
+          {{ state_attr('sensor.nmbs_4', 'direction') }} --> Links
+        {% else %}
+          spoor {{ state_attr('sensor.nmbs_4', 'platform_departing') }}, {{ state_attr('sensor.nmbs_4', 'departure') }}.
+          {{ state_attr('sensor.nmbs_4', 'direction') }} --> Rechts
+        {% endif %}
+      data:
+        push:
+          thread-id: "trein"
 notify_nmbs_mechelen_brussel_ios_bert:
+  sequence:
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "TREIN MECH-BRUS"
+      message: >
+        {% if state_attr('sensor.nmbs_2', 'platform_arriving') in ['12', '10', '8', '6', '4', '2'] %}
+          spoor {{ state_attr('sensor.nmbs_2', 'platform_departing') }}, {{ state_attr('sensor.nmbs_2', 'departure') }},
+          {{ state_attr('sensor.nmbs_2', 'direction') }} --> Rechts
+        {% else %}
+          spoor {{ state_attr('sensor.nmbs_2', 'platform_departing') }}, {{ state_attr('sensor.nmbs_2', 'departure') }},
+          {{ state_attr('sensor.nmbs_2', 'direction') }} --> Links
+        {% endif %}
+      data:
+        push:
+          thread-id: "trein"
 notify_nmbs_mechelen_willebroek_ios_bert:
+  sequence:
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "TREIN MECH-WILL"
+      message: >
+        {% if state_attr('sensor.nmbs_3', 'platform_arriving') in ['1'] %}
+          spoor {{ state_attr('sensor.nmbs_3', 'platform_departing') }}, {{ state_attr('sensor.nmbs_3', 'departure') }},
+          {{ state_attr('sensor.nmbs_3', 'direction') }} --> Links
+        {% else %}
+          spoor {{ state_attr('sensor.nmbs_3', 'platform_departing') }}, {{ state_attr('sensor.nmbs_3', 'departure') }},
+          {{ state_attr('sensor.nmbs_3', 'direction') }} --> Rechts
+        {% endif %}
+      data:
+        push:
+          thread-id: "trein"
 notify_nmbs_willebroek_mechelen_ios_bert:
+  sequence:
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "TREIN WILL-MECH"
+      message: >
+        {% if state_attr('sensor.nmbs', 'platform_arriving') in ['1', '3', '5', '10', '8'] %}
+          spoor {{ state_attr('sensor.nmbs', 'platform_departing') }}, {{ state_attr('sensor.nmbs', 'departure') }}.
+          {{ state_attr('sensor.nmbs', 'direction') }} --> Links
+        {% else %}
+          spoor {{ state_attr('sensor.nmbs', 'platform_departing') }}, {{ state_attr('sensor.nmbs', 'departure') }}.
+          {{ state_attr('sensor.nmbs', 'direction') }} --> Rechts
+        {% endif %}
+      data:
+        push:
+          thread-id: "trein"
 notify_printer:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_printer_ios_bert
+      - script.notify_printer_ios_caro
+      - script.notify_printer_alexa
 notify_printer_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']}}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - wait_template: "{{ is_state('group.bewoners_router', 'home') }}"
+    timeout: '00:05:00'
+    continue_on_timeout: false
+  - delay: 00:00:12
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: >
+        {% if (states('sensor.hp_deskjet_3700_series_black_ink') | float < 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float < 25)%}
+          'Your Printer is running low on inkt, order both black and color inkt'
+        {% elif (states('sensor.hp_deskjet_3700_series_black_ink') | float < 25)%}
+          'Your Printer is running low on inkt, order black inkt'
+        {% elif  (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float < 25)%}
+          'Your Printer is running low on inkt, order color inkt'
+        {% else %}
+          'Printer is still going strong'
+        {% endif %}
+      data:
+        type: announce
+        method: speak
 notify_printer_ios_bert:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "PRINTER"
+      message: >
+        {% if (states('sensor.hp_deskjet_3700_series_black_ink') | float < 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float < 25)%}
+          'De Printer zit bijna zonder inkt, bestel zowel zwart als kleuren inkt'
+        {% elif (states('sensor.hp_deskjet_3700_series_black_ink') | float < 25)%}
+          'De Printer zit bijna zonder inkt, bestel zwarte inkt'
+        {% elif  (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float < 25)%}
+          'De Printer zit bijna zonder inkt, bestel kleuren inkt'
+        {% else %}
+          'Printer is still going strong'
+        {% endif %}
+      data:
+        push:
+          thread-id: "huis"
 notify_printer_ios_caro:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_caro') in ['on'] }}"
+  - service: notify.mobile_app_iphone_van_caro
+    data_template:
+      title: "PRINTER"
+      message: >
+        {% if (states('sensor.hp_deskjet_3700_series_black_ink') | float < 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float < 25)%}
+          'De Printer zit bijna zonder inkt, bestel zowel zwart als kleuren inkt'
+        {% elif (states('sensor.hp_deskjet_3700_series_black_ink') | float < 25)%}
+          'De Printer zit bijna zonder inkt, bestel zwarte inkt'
+        {% elif  (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float < 25)%}
+          'De Printer zit bijna zonder inkt, bestel kleuren inkt'
+        {% else %}
+          'Printer is still going strong'
+        {% endif %}
+      data:
+        push:
+          thread-id: "huis"
 notify_tracker_bert_thuis:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_tracker_bert_thuis_ios_caro
+      - script.notify_tracker_bert_thuis_alexa
 notify_tracker_bert_thuis_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('person.bert') in ['home'] and states('input_select.woning_status') not in ['Juist Thuis', 'Slapen'] }}"
+  - wait_template: "{{ states('device_tracker.router_iphone_bert') == 'home' and state_attr('device_tracker.router_iphone_bert', 'ap_mac') == 'f0:9f:c2:d6:9e:72' }}"
+    timeout: '00:07:00'
+    continue_on_timeout: false
+  - delay: '00:00:10'
+  - service: notify.alexa_media
+    data:
+      target: 
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_livingroom_2
+      message: 'Hello Master, Welcome Back Home.'
+      data:
+        type: announce
+        method: speak
 notify_tracker_bert_thuis_ios_caro:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_caro') in ['on'] }}"
+  - service: notify.mobile_app_iphone_van_caro
+    data_template:
+      title: "BERT STATUS"
+      message: >
+        {% if states('person.bert') in ['home'] %}
+          Bert is aangekomen thuis.
+        {% else %}
+          Bert is thuis vertrokken.
+        {% endif %}
+      data:
+        apns_headers:
+          'apns-collapse-id': 'bert'
+        push:
+          thread-id: "bewoner"
 notify_tracker_bert_zones:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_tracker_bert_zones_ios_caro
+      - script.notify_tracker_bert_zones_alexa
 notify_tracker_bert_zones_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_caro') in ['on'] }}"
+  - condition: template
+    value_template: "{{ states('group.bewoners') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('person.bert') not in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - wait_template: "{{ states('device_tracker.router_iphone_caro') == 'home' and state_attr('device_tracker.router_iphone_caro', 'ap_mac') == 'f0:9f:c2:d6:9e:72' }}"
+    timeout: '00:05:00'
+    continue_on_timeout: false
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: >
+        {% if states('person.bert') in ['Ivy', 'Nona & Pepe', 'Mimi & Fleri'] %}
+          'Bert just arrived at {{ states('person.caroline') }}.'
+        {% elif states('person.bert') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}
+          'No panic but Bert is near {{ states('person.caroline') }}.'
+        {% elif states('person.bert') in ['Mechelen Station'] %}
+          'Bert is on his way home from work.'
+        {% elif states('person.bert') in ['Checkpoint 3', 'Willebroek Station'] %}
+          'Bert is almost home.'
+        {% endif %}
+      data:
+        type: announce
+        method: speak
 notify_tracker_bert_zones_ios_caro:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_caro') in ['on'] }}"
+  - service: notify.mobile_app_iphone_van_caro
+    data_template:
+      title: "BERT STATUS"
+      message: >
+        {% if states('person.bert') in ['Ivy', 'Nona & Pepe', 'Mimi & Fleri'] %}
+          Bert is aangekomen bij {{ states('person.bert') }}.
+        {% elif states('person.bert') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}
+          Geen paniek maar Bert is nabij het {{ states('person.bert') }}.
+        {% elif states('person.bert') in ['Willebroek Station', 'Mechelen Station'] %}
+          Bert is aangekomen in {{ states('person.bert') }}.
+        {% elif states('person.bert') in ['Checkpoint 3'] %}
+          Bert is bijna thuis. (Fort Breendonck)
+        {% endif %}
+      data:
+        apns_headers:
+          'apns-collapse-id': 'bert'
+        push:
+          thread-id: "bewoner"
 notify_tracker_bezoeker_thuis:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_tracker_bezoeker_thuis_ios_caro
+      - script.notify_tracker_bezoeker_thuis_ios_bert
+      - script.notify_tracker_bezoeker_thuis_alexa
 notify_tracker_bezoeker_thuis_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - wait_template: "{{ is_state('group.bewoners_router', 'home') }}"
+    timeout: '00:05:00'
+    continue_on_timeout: false
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_bathroom
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_livingroom_2
+      message: >
+        {% if (bezoeker_state) == 'home' %}
+          'Just So You Know. {{ bezoeker }} just arrived at our house.'
+        {% else %}
+          '{{ bezoeker }} just left.'
+        {% endif %}
+      data:
+        type: announce
+        method: speak
 notify_tracker_bezoeker_thuis_ios_bert:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') not in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "BEZOEKER"
+      message: >
+        {% if (bezoeker_state) == 'home' %}
+          {{ bezoeker }} is aangekomen bij ons thuis.
+        {% else %}
+          {{ bezoeker }} is weer vertrokken.
+        {% endif %}
+      data:
+        push:
+          thread-id: "bezoek"
 notify_tracker_bezoeker_thuis_ios_caro:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_caro') in ['on'] and states('person.caroline') not in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_caro
+    data_template:
+      title: "BEZOEKER"
+      message: >
+        {% if (bezoeker_state) == 'home' %}
+          {{ bezoeker }} is aangekomen bij ons thuis.
+        {% else %}
+          {{ bezoeker }} is weer vertrokken.
+        {% endif %}
+      data:
+        push:
+          thread-id: "bezoek"
 notify_tracker_caro_thuis:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_tracker_caro_thuis_ios_bert
+      - script.notify_tracker_caro_thuis_alexa
 notify_tracker_caro_thuis_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('person.caroline') in ['home'] and states('input_select.woning_status') not in ['Juist Thuis', 'Slapen'] }}"
+  - wait_template: "{{ states('device_tracker.router_iphone_caro') == 'home' and state_attr('device_tracker.router_iphone_caro', 'ap_mac') == 'f0:9f:c2:d6:9e:72' }}"
+    timeout: '00:07:00'
+    continue_on_timeout: false
+  - delay: 00:00:10
+  - service: notify.alexa_media
+    data_template:
+      target: 
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_livingroom_2
+      message: 'Hello Caroline, Welcome Back Home.'
+      data:
+        type: announce
+        method: speak
 notify_tracker_caro_thuis_ios_bert:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "CARO STATUS"
+      message: >
+        {% if states('person.caroline') in ['home'] %}
+          Caroline is aangekomen thuis.
+        {% else %}
+          Caroline is thuis vertrokken.
+        {% endif %}
+      data:
+        push:
+          thread-id: "bewoner"
 notify_tracker_caro_zones:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_tracker_caro_zones_ios_bert
+      - script.notify_tracker_caro_zones_alexa
 notify_tracker_caro_zones_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"
+  - condition: template
+    value_template: "{{ states('group.bewoners_router') in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('person.caroline') not in ['home'] }}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - wait_template: "{{ states('device_tracker.router_iphone_bert') == 'home' and state_attr('device_tracker.router_iphone_bert', 'ap_mac') == 'f0:9f:c2:d6:9e:72' }}"
+    timeout: '00:07:00'
+    continue_on_timeout: false
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: >
+        {% if states('person.caroline') in ['Ivy', 'Nona & Pepe', 'Mimi & Fleri'] %}
+          'Caroline just arrived at {{ states('person.caroline') }}.
+        {% elif states('person.caroline') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}
+          'No panic but Caroline is near {{ states('person.caroline') }}.
+        {% elif states('person.caroline') in ['Checkpoint 1', 'Checkpoint 4'] %}
+          'Caroline is on her way home from work.'
+        {% elif states('person.caroline') in ['Checkpoint 2', 'Checkpoint 3', 'Checkpoint 5'] %}
+          'Caroline is almost home.'
+        {% else %}
+          'Where is Caroline'
+        {% endif %}
+      data:
+        type: announce
+        method: speak
 notify_tracker_caro_zones_ios_bert:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "CARO STATUS"
+      message: >
+        {% if states('person.caroline') in ['Ivy', 'Nona & Pepe', 'Mimi & Fleri'] %}
+          Caroline is aangekomen bij {{ states('person.caroline') }}.
+        {% elif states('person.caroline') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}
+          Geen paniek maar Caroline is nabij het {{ states('person.caroline') }}.
+        {% elif states('person.caroline') in ['Checkpoint 1'] %}
+          Caroline is onderweg naar huis. (Ikea Wilrijk)
+        {% elif states('person.caroline') in ['Checkpoint 2'] %}
+          Caroline is bijna thuis. (Sleuf)
+        {% elif states('person.caroline') in ['Checkpoint 3'] %}
+          Caroline is bijna thuis. (Fort Breendonck)
+        {% elif states('person.caroline') in ['Checkpoint 4'] %}
+          Caroline is onderweg naar huis. (Edegem)
+        {% elif states('person.caroline') in ['Checkpoint 5'] %}
+          Caroline is bijna thuis. (Rumst E19)
+        {% endif %}
+      data:
+        push:
+          thread-id: "bewoner"
 notify_vacuum:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.notify_vacuum_ios_bert
+      - script.notify_vacuum_ios_caro
+      - script.notify_vacuum_alexa
 notify_vacuum_alexa:
+  sequence:
+  - condition: template
+    value_template: "{{ states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home']}}"
+  - condition: template
+    value_template: "{{ states('input_select.woning_status') not in ['Slapen'] }}"
+  - wait_template: "{{ is_state('group.bewoners_router', 'home') }}"
+    timeout: '00:05:00'
+    continue_on_timeout: false
+  - delay: 00:00:10
+  - service: notify.alexa_media
+    data_template:
+      target:
+        - media_player.alexa_kitchen_2
+        - media_player.alexa_bathroom
+        - media_player.alexa_livingroom_2
+      message: >
+        {% if state_attr('vacuum.dusty', 'status') == 'Stuck' %}
+          'Dusty is stuck. Stupid Dusty'
+        {% elif state_attr('vacuum.dusty', 'bin_full') == true %}
+          'Dusty has eaten to much. Please empty his belly.'
+        {% elif states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_cleaned_today') in ['on'] %}
+          'Dusty has completed his task.'
+        {% elif states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_cleaned_today') in ['off'] %}
+          'Dusty still hasn't completed his task today'
+        {% elif states('vacuum.dusty') in ['cleaning'] %}
+          'Dusty starts cleaning the house. Beep Beep'
+        {% else %}
+          'Dusty is still going strong'
+        {% endif %}
+      data:
+        type: announce
+        method: speak
 notify_vacuum_ios_bert:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_bert') in ['on'] and states('person.bert') not in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: "DUSTY"
+      message: >
+        {% if state_attr('vacuum.dusty', 'status') == 'Stuck' %}
+          'Dusty zit vast. Die Domme Dusty toch.'
+        {% elif state_attr('vacuum.dusty', 'bin_full') == true %}
+          'Dusty heeft te veel gegeten. Maak zijn buikje leeg a.u.b.'
+        {% elif states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_cleaned_today') in ['on'] %}
+          'Dusty is klaar met zijn taak.'
+        {% elif states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_cleaned_today') in ['off'] %}
+          'Dusty is nog niet klaar met zijn taak voor vandaag.'
+        {% elif states('vacuum.dusty') in ['cleaning'] %}
+          'Dusty begint het huis te kuisen. Beep Beep'
+        {% else %}
+          'Dusty is still going strong'
+        {% endif %}
+      data:
+        push:
+          thread-id: "huis"
 notify_vacuum_ios_caro:
+  sequence:
+  - condition: template
+    value_template: "{{ states('input_boolean.notify_caro') in ['on'] and states('person.caroline') not in ['home'] }}"
+  - service: notify.mobile_app_iphone_van_caro
+    data_template:
+      title: "DUSTY"
+      message: >
+        {% if state_attr('vacuum.dusty', 'status') == 'Stuck' %}
+          'Dusty zit vast. Die Domme Dusty toch.'
+        {% elif state_attr('vacuum.dusty', 'bin_full') == true %}
+          'Dusty heeft te veel gegeten. Maak zijn buikje leeg a.u.b.'
+        {% elif states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_cleaned_today') in ['on'] %}
+          'Dusty is klaar met zijn taak.'
+        {% elif states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_cleaned_today') in ['off'] %}
+          'Dusty is nog niet klaar met zijn taak voor vandaag.'
+        {% elif states('vacuum.dusty') in ['cleaning'] %}
+          'Dusty begint het huis te kuisen. Beep Beep'
+        {% else %}
+          'Dusty is still going strong'
+        {% endif %}
+      data:
+        push:
+          thread-id: "huis"

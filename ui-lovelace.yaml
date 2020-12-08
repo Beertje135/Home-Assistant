@@ -4,7 +4,6 @@ views:
   - title: Favorieten
     path: favorieten
     icon: 'mdi:star-box'
-    id: 0
     panel: true
     cards:
       - id: root_stack_0
@@ -403,7 +402,6 @@ views:
                     show_name: false
   - title: Ons Huisje
     icon: 'mdi:home-assistant'
-    id: 1
     panel: true
     cards:
       - id: root_stack_1
@@ -950,7 +948,6 @@ views:
                         name: °C
   - title: Multi-Media
     icon: 'mdi:animation-play'
-    id: 2
     panel: true
     cards:
       - id: root_stack_2
@@ -1139,12 +1136,14 @@ views:
                   - type: entities
                     show_header_toggle: false
                     entities:
-                      - entity: script.alexa_play_selected
-                        name: Play Selected
+                      - entity: input_text.radio_station_current
+                        name: Huidig Station
+                      - entity: script.radio_selected_on
+                        name: Speel Selectie
                       - entity: input_select.radio_station
                         name: Station
                       - entity: input_select.media_player
-                        name: Player
+                        name: Player       
               - title: Spotify Select
                 type: vertical-stack
                 cards:
@@ -1320,7 +1319,6 @@ views:
                       entity: media_player.chromecast_kitchen
   - title: Energie Verbruik
     icon: 'mdi:gauge'
-    id: 3
     panel: true
     cards:
       - id: root_stack_3
@@ -1582,7 +1580,6 @@ views:
                     type: glance
   - title: Beveiliging
     icon: 'mdi:shield-home'
-    id: 4
     panel: true
     cards:
       - id: root_stack_4
