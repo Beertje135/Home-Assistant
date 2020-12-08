@@ -339,6 +339,75 @@ plex_on_woonkamer:
         {%- else -%}
           script.empty
         {%- endif %}
+radio_on_selected:
+  alias: Radio - Aan - Selected
+  sequence:
+  - service: media_player.play_media
+    data_template:
+      entity_id: >
+        {%- if states('input_select.media_player') in ['Overal', 'Beneden'] -%}
+          media_player.alexa_kitchen_2
+        {%- elif states('input_select.media_player') in ['Keuken'] -%}
+          media_player.alexa_kitchen_1
+        {%- elif states('input_select.media_player') in ['Woonkamer'] -%}
+          media_player.alexa_livingroom_1
+        {%- elif states('input_select.media_player') in ['Badkamer'] -%}
+          media_player.alexa_bathroom
+        {%- elif states('input_select.media_player') in ['Mobiele'] -%}
+          media_player.alexa_mobile
+        {%- else -%}
+          script.empty
+        {%- endif %}
+      media_content_id: >
+        {%- if states('input_select.media_player') in ['Overal'] -%}
+          {{ states('input_text.radio_station_current') }} on the Alexa Everywhere group
+        {%- elif states('input_select.media_player') in ['Beneden'] -%}
+          {{ states('input_text.radio_station_current') }} on the Alexa Downstairs group
+        {%- else -%}
+          {{ states('input_text.radio_station_current') }}
+        {%- endif %}
+      media_content_type: TUNEIN
+  - delay: 00:00:05
+  - service: script.turn_on
+    data_template:
+      entity_id: >
+        {%- if states('input_select.media_player') in ['Overal', 'Beneden'] -%}
+          script.keuken_music_volume, script.woonkamer_music_volume, script.badkamer_music_volume
+        {%- elif states('input_select.media_player') in ['Beneden'] -%}
+          script.keuken_music_volume, script.woonkamer_music_volume
+        {%- elif states('input_select.media_player') in ['Keuken'] -%}
+          script.keuken_music_volume
+        {%- elif states('input_select.media_player') in ['Woonkamer'] -%}
+          script.woonkamer_music_volume
+        {%- elif states('input_select.media_player') in ['Badkamer'] -%}
+          script.badkamer_music_volume
+        {%- else -%}
+          script.empty
+        {%- endif %}
+radio_on_kitchen:
+  alias: Radio - Aan - Keuken
+  sequence:
+  - service: media_player.play_media
+    data:
+      entity_id: media_player.alexa_kitchen_1
+      media_content_id: "{{ states('input_text.radio_station_current') }}"
+      media_content_type: TUNEIN
+  - delay: 00:00:05
+  - service: script.turn_on
+    entity_id:
+      - script.keuken_music_volume
+radio_on_bathroom:
+  alias: Radio - Aan - Badkamer
+  sequence:
+  - service: media_player.play_media
+    data:
+      entity_id: media_player.alexa_bathroom
+      media_content_id: "{{ states('input_text.radio_station_current') }}"
+      media_content_type: TUNEIN
+  - delay: 00:00:05
+  - service: script.turn_on
+    entity_id:
+      - script.badkamer_music_volume
 notify_battery_alexa:
 notify_battery_ios_bert:
 notify_bezoeker_babysit_ios_bert:

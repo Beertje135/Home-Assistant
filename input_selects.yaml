@@ -25,16 +25,6 @@
       - Nintendo Switch
       - Apple Tv
 
-# STATION SELECT FOR MEDIA PLAYERS
-
-  radio_station:
-    options:
-      - VRT MNM
-      - VRT STUDIO BRUSSEL
-      - QMusic Belgium
-      - Joe
-      - Spotify
-
 # MEDIA PLAYER SELECT
 
   media_player:
