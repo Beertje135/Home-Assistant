@@ -30,15 +30,15 @@
 #      friendly_name: ALTIJD AAN
 #      icon: mdi:power
 
-#    sensor.smappee_ons_huisje_active_power:
+#    sensor.ons_huisje_total_consumption_active_power:
 #      friendly_name: HUIDIGE VERBRUIK
 #      icon: mdi:gauge
 
-#    sensor.smappee_ons_huisje_active_power_template:
+#    sensor.ons_huisje_total_consumption_active_power_template:
 #      friendly_name: HUIDIGE VERBRUIK
 #      icon: mdi:gauge
 
-#    sensor.smappee_ons_huisje_power_today:
+#    sensor.ons_huisje_total_consumption_today:
 #      friendly_name: VERBRUIK VANDAAG
 #      icon: mdi:power-plug
 
@@ -54,13 +54,13 @@
 #      friendly_name: POWER FACTOR
 #      icon: mdi:power-plug
 
-    sensor.ons_huisje_sensor_water:
-      friendly_name: Smappee Ons Huisje Water Sensor
-      icon: mdi:water
+#    sensor.ons_huisje_sensor_water:
+#      friendly_name: Smappee Ons Huisje Water Sensor
+#      icon: mdi:water
 
-    sensor.ons_huisje_sensor_gas:
-      friendly_name: Smappee Ons Huisje Gas Sensor
-      icon: mdi:fire
+#    sensor.ons_huisje_sensor_gas:
+#      friendly_name: Smappee Ons Huisje Gas Sensor
+#      icon: mdi:fire
 
 #    sensor.template_elektricity_current_usage:
 #      friendly_name: ELEK VERBRUIK HUIDIG

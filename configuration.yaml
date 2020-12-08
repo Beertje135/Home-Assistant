@@ -249,7 +249,7 @@ recorder:
       - sensor.ons_huisje_sensor_water
       - sensor.processor_use
       - sensor.season
-      - sensor.smappee_ons_huisje_power_today
+      - sensor.ons_huisje_total_consumption_today
       - sensor.smappee_ons_huisje_water_sensor_1
       - sensor.smappee_ons_huisje_water_sensor_2
       - sensor.smappee_ons_huisje_water_sensor_humidity

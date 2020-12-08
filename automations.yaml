@@ -817,6 +817,38 @@
     default:
     - service: input_boolean.turn_off
       entity_id: input_boolean.media_kitchen
+- id: media_radio_001
+  alias: Radio - Wijzig Huidige Radio Station 1
+  trigger:
+  - platform: state
+    entity_id: input_select.radio_station
+  action:
+  - service: input_text.set_value
+    data:
+      entity_id: input_text.radio_station_current
+      value: "{{ states('input_select.radio_station') }}"
+- id: media_radio_002
+  alias: Radio - Wijzig Huidige Radio Station 2
+  trigger:
+  - platform: state
+    entity_id:
+    - media_player.alexa_bathroom
+    - media_player.alexa_downstairs
+    - media_player.alexa_everywhere
+    - media_player.alexa_garden
+    - media_player.alexa_kitchen_1
+    - media_player.alexa_kitchen_2
+    - media_player.alexa_livingroom_1
+    - media_player.alexa_livingroom_2
+    to: playing
+  #condition:
+  #- condition: template
+  #  value_template: "{{ trigger.to_state.attributes.media_content_type == 'music' }}"
+  action:
+  - service: input_text.set_value
+    data:
+      entity_id: input_text.radio_station_current
+      value: "{{ trigger.to_state.attributes.media_title }}"
 - id: vacuum_001
   alias: Stofzuiger - Dusty - Bericht - Status Dusty Wijzigt
   trigger:

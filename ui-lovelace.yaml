@@ -351,7 +351,7 @@ views:
                   - type: glance
                     columns: 4
                     entities:
-                      - entity: sensor.smappee_ons_huisje_power_today
+                      - entity: sensor.ons_huisje_total_consumption_today
                       - entity: sensor.solaredge_energy_today_template
                       - entity: sensor.ons_huisje_sensor_gas
                       - entity: sensor.ons_huisje_sensor_water
@@ -1480,7 +1480,7 @@ views:
               - title: Smappee
                 type: vertical-stack
                 cards:
-                  - entity: sensor.smappee_ons_huisje_power_today
+                  - entity: sensor.ons_huisje_total_consumption_today
                     name: Power Vandaag
                     min: 0
                     max: 20000
@@ -1500,7 +1500,7 @@ views:
                     show_header_toggle: true
                     show_name: true
                     type: glance
-                  - entity: sensor.smappee_ons_huisje_active_power
+                  - entity: sensor.ons_huisje_total_consumption_active_power
                     name: Power Actief
                     min: 0
                     max: 7000

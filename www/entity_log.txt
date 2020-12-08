@@ -638,11 +638,11 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -sensor.recycleapp_pmd
   -sensor.recycleapp_restafval
   -sensor.season
-  -sensor.smappee_ons_huisje_active_power
+  -sensor.ons_huisje_total_consumption_active_power
   -sensor.smappee_ons_huisje_always_on_today
   -sensor.smappee_ons_huisje_current
   -sensor.smappee_ons_huisje_power_factor
-  -sensor.smappee_ons_huisje_power_today
+  -sensor.ons_huisje_total_consumption_today
   -sensor.smappee_ons_huisje_solar
   -sensor.smappee_ons_huisje_solar_today
   -sensor.smappee_ons_huisje_voltage
