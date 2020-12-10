@@ -218,9 +218,6 @@ views:
                   - type: glance
                     entities:
                       - entity: input_select.harmony_hub
-                      - entity: light.hue_smart_plug_extra
-                        tap_action:
-                          action: toggle
                       - entity: input_boolean.music_follow
                         tap_action:
                           action: toggle
@@ -708,16 +705,12 @@ views:
                             hold_action:
                               action: more-info
                       - type: glance
-                        columns: 2
+                        columns: 
                         show_name: false
                         show_state: false
                         entities:
                           - entity: switch.wake_on_lan
                             name: Computer
-                            tap_action:
-                              action: toggle
-                          - entity: light.hue_smart_plug_extra
-                            name: Speakers
                             tap_action:
                               action: toggle
                   - type: horizontal-stack
@@ -946,6 +939,20 @@ views:
                     entities:
                       - entity: climate.dressing
                         name: °C
+              - title: Extra
+                type: vertical-stack
+                cards:
+                  - type: horizontal-stack
+                    cards:
+                      - type: glance
+                        columns: 4
+                        show_name: false
+                        show_state: false
+                        entities:
+                          - entity: light.hue_smart_plug_extra
+                            name: Extra Plug
+                            tap_action:
+                              action: toggle
   - title: Multi-Media
     icon: 'mdi:animation-play'
     panel: true
@@ -1100,28 +1107,20 @@ views:
               show_name: true
               show_state: false
               type: glance
-          - id: computer_tracker_2a
+          - id: computer_tracker_2
             type: glance
             show_header_toggle: false
             entities:
-              - entity: light.hue_smart_plug_extra
-                name: Speakers Keuken
-                tap_action:
-                  action: toggle
               - entity: switch.wake_on_lan
                 name: PC
                 tap_action:
                   action: toggle
-          - id: computer_tracker_2b
-            type: glance
-            show_header_toggle: false
-            entities:
-              - entity: input_boolean.music_follow
-                name: Muziek Volgen
-                tap_action:
-                  action: toggle
               - entity: input_boolean.keep_computer_on
                 name: PC Always On
+                tap_action:
+                  action: toggle
+              - entity: input_boolean.music_follow
+                name: Muziek Volgen
                 tap_action:
                   action: toggle
               - entity: group.media_players

@@ -79,13 +79,13 @@ dusty_off:
   - service: vacuum.return_to_base
     data:
       entity_id: vacuum.dusty
-hue_smart_plug_kitchen_off:
-  alias: Hue Smart Plug - Keuken - Uit
+hue_smart_plug_extra_off:
+  alias: Hue Smart Plug - Extra - Uit
   sequence:
   - service: light.turn_off
     entity_id: light.hue_smart_plug_extra
-hue_smart_plug_kitchen_on:
-  alias: Hue Smart Plug - Keuken - Aan
+hue_smart_plug_extra_on:
+  alias: Hue Smart Plug - Extra - Aan
   sequence:
   - service: light.turn_on
     entity_id: light.hue_smart_plug_extra
@@ -161,13 +161,6 @@ restart_hassio:
     entity_id: input_boolean.light_downstairs
   - service: script.turn_on
     entity_id: script.notify_hassio_restart
-  - service: >
-      {%- if states('group.bewoners') in ['home'] or states('group.bezoekers') in ['home'] -%}
-        light.turn_on
-      {%- else -%}
-        light.turn_off
-      {%- endif %}
-    entity_id: light.hue_smart_plug_extra
 computer_off:
   alias: Computer - Uit
   sequence:

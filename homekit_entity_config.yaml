@@ -32,7 +32,7 @@ light.hue_smart_plug_woonkamer_two:
 light.hue_smart_plug_woonkamer_one:
   name: Woonkamer LED Lichtjes
 light.hue_smart_plug_extra:
-  name: Keuken Speakers
+  name: Extra Plug
 
 light.aarlo_arlo_elmo:
   name: Elmo's Kamer Arlo

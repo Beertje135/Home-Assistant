@@ -39,10 +39,8 @@
       display_categories: light
 
     light.hue_smart_plug_extra:
-      friendly_name: Kitchen Speakers
-      icon: mdi:speaker-wireless
-      display_categories: speaker
-      initial_state: on
+      friendly_name: Extra Plug
+      display_categories: light
 
 # CUSTOMIZATION MILIGHT LIGHTS
 

@@ -57,8 +57,8 @@ light.hue_smart_plug_woonkamer_one:
   name: Woonkamer Licht Strip
   room: Woonkamer
 light.hue_smart_plug_extra:
-  name: Speakers
-  room: Keuken
+  name: Extra Plug
+  room: Woning
 
 # MEDIA PLAYERS
 
