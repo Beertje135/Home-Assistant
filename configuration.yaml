@@ -90,8 +90,6 @@ zone: !include zones.yaml
 
 group: !include groups.yaml
 
-input_boolean: !include input_booleans.yaml
-
 ffmpeg:
 
 stream:

@@ -3585,3 +3585,170 @@
   - service: script.turn_on
     entity_id:
     - script.elmo_light_off
+- id: light_gardenshed_001
+  alias: Licht - Tuinhuis - Aan
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.hue_sensor_tuin_motion
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.hue_sensor_tuinhuis_motion
+    to: 'on'
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: light.hue_light_tuinhuis
+      state: 'off'
+  - condition: numeric_state
+    entity_id: sensor.hue_sensor_tuinhuis_light_level
+    below: 70
+  action:
+  - service: script.turn_on
+    entity_id:
+    - script.gardenshed_light_on
+- id: light_gardenshed_002
+  alias: Licht - Tuinhuis - Uit
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_tuin_motion
+    for:
+      minutes: 1
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.hue_sensor_tuinhuis_motion
+    for:
+      minutes: 1
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.hue_sensor_tuin_motion
+    for:
+      minutes: 3
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.hue_sensor_tuinhuis_motion
+    for:
+      minutes: 3
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.hue_sensor_tuin_motion
+    for:
+      minutes: 5
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.hue_sensor_tuinhuis_motion
+    for:
+      minutes: 5
+    platform: state
+    to: 'off'
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: light.hue_light_tuinhuis
+      state: 'on'
+  - condition: state
+    entity_id: binary_sensor.hue_sensor_tuinhuis_motion
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.light_garden_stay_on
+    state: 'off'
+  action:
+  - service: script.turn_on
+    entity_id:
+    - script.gardenshed_light_off
+- id: light_garden_001
+  alias: Licht - Tuin - Aan
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.hue_sensor_tuin_motion
+    to: 'on'
+  - platform: state
+    entity_id: binary_sensor.hue_sensor_tuinhuis_motion
+    to: 'on'
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_tuin_light_level
+    below: 70
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.hue_sensor_tuin_light_level
+    below: 70
+  action:
+  - service: script.turn_on
+    entity_id:
+    - script.garden_light_on
+- id: light_garden_002
+  alias: Licht - Tuin - Uit
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.hue_sensor_tuin_motion
+    for:
+      minutes: 2
+    to: 'off'
+  - entity_id: binary_sensor.hue_sensor_tuinhuis_motion
+    for:
+      minutes: 2
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.hue_sensor_tuin_motion
+    for:
+      minutes: 4
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.hue_sensor_tuinhuis_motion
+    for:
+      minutes: 4
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.hue_sensor_tuin_motion
+    for:
+      minutes: 6
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.hue_sensor_tuinhuis_motion
+    for:
+      minutes: 6
+    platform: state
+    to: 'off'
+  - platform: time
+    at: input_datetime.light_garden_off
+  - platform: state
+    entity_id: input_select.harmony_hub
+    to: Tv Decoder, Web OS, Apple Tv
+  condition:
+  - condition: time
+    after: input_datetime.light_garden_off
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: light.hue_light_tuin_one
+      state: 'on'
+    - condition: state
+      entity_id: light.hue_light_tuin_two
+      state: 'on'
+    - condition: state
+      entity_id: light.hue_light_tuin_three
+      state: 'on'
+    - condition: state
+      entity_id: light.hue_light_tuin_four
+      state: 'on'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.harmony_hub
+      state: Tv Decoder, Web OS, Apple Tv
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Juist Weg, Weg, Slapen, Vacation
+  - condition: state
+    entity_id: binary_sensor.hue_sensor_tuinhuis_motion
+    state: 'off'
+  - condition: state
+    entity_id: binary_sensor.hue_sensor_tuin_motion
+    state: 'off'
+  - condition: state
+    entity_id: input_boolean.light_garden_stay_on
+    state: 'off'
+  action:
+  - service: script.turn_on
+    entity_id:
+    - script.garden_light_off
