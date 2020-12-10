@@ -2,4 +2,5 @@
 alias: All - Switch - Uit
 sequence:
   - service: light.turn_off
-    entity_id: light.hue_smart_plug_extra
+    entity_id: 
+      - light.hue_smart_plug_extra

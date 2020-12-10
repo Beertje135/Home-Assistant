@@ -5,3 +5,4 @@ sequence:
     entity_id:
       - light.hue_light_veranda
       - light.hue_smart_plug_veranda
+      - light.hue_smart_plug_extra

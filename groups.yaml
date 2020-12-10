@@ -57,6 +57,7 @@
     entities:
       - light.hue_light_veranda
       - light.hue_smart_plug_veranda
+      - light.hue_smart_plug_extra
 
   licht_kamer_elmo:
     entities:
