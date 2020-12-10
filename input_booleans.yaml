@@ -6,6 +6,9 @@
 #Used to keep dressing lights on
   light_dressing_stay_on:
 
+#Used to keep garden lights on
+  light_garden_stay_on:
+
 #Used to turn on/off all lights downstairs and not respond to sensors
   light_downstairs:
 
