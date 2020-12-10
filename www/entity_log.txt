@@ -275,7 +275,7 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -light.hue_light_kamer_elmo_two
   -light.hue_light_veranda
   -light.hue_light_woonkamer
-  -light.hue_smart_plug_keuken
+  -light.hue_smart_plug_extra
   -light.hue_smart_plug_veranda
   -light.hue_smart_plug_woonkamer_one
   -light.hue_smart_plug_woonkamer_two

@@ -218,7 +218,7 @@ views:
                   - type: glance
                     entities:
                       - entity: input_select.harmony_hub
-                      - entity: light.hue_smart_plug_keuken
+                      - entity: light.hue_smart_plug_extra
                         tap_action:
                           action: toggle
                       - entity: input_boolean.music_follow
@@ -716,7 +716,7 @@ views:
                             name: Computer
                             tap_action:
                               action: toggle
-                          - entity: light.hue_smart_plug_keuken
+                          - entity: light.hue_smart_plug_extra
                             name: Speakers
                             tap_action:
                               action: toggle
@@ -1104,7 +1104,7 @@ views:
             type: glance
             show_header_toggle: false
             entities:
-              - entity: light.hue_smart_plug_keuken
+              - entity: light.hue_smart_plug_extra
                 name: Speakers Keuken
                 tap_action:
                   action: toggle

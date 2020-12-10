@@ -4,10 +4,6 @@
       icon: mdi:home-lightbulb
       friendly_name: Downstairs Motion Sensors
 
-    input_boolean.visitor:
-      icon: mdi:account-multiple
-      friendly_name: Visitor Boolean
-
     input_boolean.notify_bert:
       icon: mdi:bell
       friendly_name: Bert Notifications

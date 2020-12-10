@@ -9,9 +9,6 @@
 #Used to turn on/off all lights downstairs and not respond to sensors
   light_downstairs:
 
-#used to keep vistor at home without device tracker
-  visitor:
-
 #Used to trigger states with Homekit, Alexa or Google Home
   trigger_away:
 

@@ -6,7 +6,7 @@ all_switch_off:
   alias: All - Switch - Uit
   sequence:
   - service: light.turn_off
-    entity_id: light.hue_smart_plug_keuken
+    entity_id: light.hue_smart_plug_extra
 all_remote_off:
   alias: All - Remote - Uit
   sequence:
@@ -83,12 +83,12 @@ hue_smart_plug_kitchen_off:
   alias: Hue Smart Plug - Keuken - Uit
   sequence:
   - service: light.turn_off
-    entity_id: light.hue_smart_plug_keuken
+    entity_id: light.hue_smart_plug_extra
 hue_smart_plug_kitchen_on:
   alias: Hue Smart Plug - Keuken - Aan
   sequence:
   - service: light.turn_on
-    entity_id: light.hue_smart_plug_keuken
+    entity_id: light.hue_smart_plug_extra
 restart_homekit:
   alias: Restart - Homekit starten
   sequence:
@@ -110,7 +110,7 @@ restart_homekit:
             false
           {%- elif not states('sensor.ons_huisje_sensor_water') -%}
             false
-          {%- elif not states('light.hue_smart_plug_keuken') -%}
+          {%- elif not states('light.hue_smart_plug_extra') -%}
             false
           {%- else -%}
             true
@@ -140,7 +140,7 @@ restart_homekit_not:
             true
           {%- elif not states('sensor.ons_huisje_sensor_water') -%}
             true
-          {%- elif not states('light.hue_smart_plug_keuken') -%}
+          {%- elif not states('light.hue_smart_plug_extra') -%}
             true
           {%- else -%}
             false
@@ -167,7 +167,7 @@ restart_hassio:
       {%- else -%}
         light.turn_off
       {%- endif %}
-    entity_id: light.hue_smart_plug_keuken
+    entity_id: light.hue_smart_plug_extra
 computer_off:
   alias: Computer - Uit
   sequence:

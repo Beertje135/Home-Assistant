@@ -833,8 +833,6 @@
   - platform: state
     entity_id:
     - media_player.alexa_bathroom
-    - media_player.alexa_downstairs
-    - media_player.alexa_everywhere
     - media_player.alexa_garden
     - media_player.alexa_kitchen_1
     - media_player.alexa_kitchen_2
@@ -1473,7 +1471,7 @@
     to: playing
   condition:
   - condition: state
-    entity_id: light.hue_smart_plug_keuken
+    entity_id: light.hue_smart_plug_extra
     state: 'off'
   action:
   - service: script.turn_on
@@ -1500,7 +1498,7 @@
       minutes: 2
   condition:
   - condition: state
-    entity_id: light.hue_smart_plug_keuken
+    entity_id: light.hue_smart_plug_extra
     state: 'on'
   - condition: template
     value_template: '{{ states(''media_player.alexa_everywhere'') not in [''playing'']
@@ -3015,6 +3013,8 @@
   - platform: numeric_state
     entity_id: sensor.hue_sensor_veranda_light_level
     below: 40
+  - platform: state
+    entity_id: input_select.harmony_hub
   condition:
   - condition: state
     entity_id: input_boolean.light_downstairs

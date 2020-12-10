@@ -2,7 +2,7 @@
 alias: Alexa Kitchen 1 - Play Spotify
 sequence:
   - service: switch.turn_on
-    entity_id: light.hue_smart_plug_keuken
+    entity_id: light.hue_smart_plug_extra
   - service: media_player.select_source
     data:
       entity_id: media_player.spotify_bert_verlinden

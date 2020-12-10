@@ -19,7 +19,7 @@ sequence:
             true
           {%- elif not states('sensor.ons_huisje_sensor_water') -%}
             true
-          {%- elif not states('light.hue_smart_plug_keuken') -%}
+          {%- elif not states('light.hue_smart_plug_extra') -%}
             true
           {%- else -%}
             false
