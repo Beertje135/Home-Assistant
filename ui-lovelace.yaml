@@ -271,6 +271,51 @@ views:
                       card:
                         type: media-control
                         entity: media_player.alexa_kitchen_1
+                  - type: conditional
+                    conditions:
+                      - entity: media_player.spotify_bert_verlinden
+                        state_not: "playing"
+                    card:
+                      type: entity-filter
+                      show_empty: false
+                      show_header_toggle: false
+                      entities:
+                        - media_player.alexa_bathroom_show
+                      state_filter:
+                        - playing
+                      card:
+                        type: media-control
+                        entity: media_player.alexa_bathroom_show
+                  - type: conditional
+                    conditions:
+                      - entity: media_player.spotify_bert_verlinden
+                        state_not: "playing"
+                    card:
+                      type: entity-filter
+                      show_empty: false
+                      show_header_toggle: false
+                      entities:
+                        - media_player.alexa_kitchen_show
+                      state_filter:
+                        - playing
+                      card:
+                        type: media-control
+                        entity: media_player.alexa_kitchen_show
+                  - type: conditional
+                    conditions:
+                      - entity: media_player.spotify_bert_verlinden
+                        state_not: "playing"
+                    card:
+                      type: entity-filter
+                      show_empty: false
+                      show_header_toggle: false
+                      entities:
+                        - media_player.alexa_kitchen_amp
+                      state_filter:
+                        - playing
+                      card:
+                        type: media-control
+                        entity: media_player.alexa_kitchen_amp
                   - type: entity-filter
                     show_empty: false
                     show_header_toggle: false
@@ -381,6 +426,14 @@ views:
               - title: Weer
                 type: vertical-stack
                 cards:
+                  - type: entities
+                    entities:
+                    - entity: sensor.hue_sensor_tuin_temperature
+                      icon: mdi:flower
+                      name: Tuin
+                    - entity: sensor.hue_sensor_tuinhuis_temperature
+                      icon: mdi:shovel
+                      name: Tuinhuis
                   - type: weather-forecast
                     entity: weather.dark_sky
                   - type: glance
@@ -747,6 +800,26 @@ views:
                     show_empty: false
                     show_header_toggle: false
                     entities:
+                      - media_player.alexa_kitchen_amp
+                    state_filter:
+                      - playing
+                    card:
+                      type: media-control
+                      entity: media_player.alexa_kitchen_amp
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
+                      - media_player.alexa_kitchen_show
+                    state_filter:
+                      - playing
+                    card:
+                      type: media-control
+                      entity: media_player.alexa_kitchen_show
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
                       - media_player.alexa_kitchen_1
                     state_filter:
                       - playing
@@ -867,6 +940,16 @@ views:
                     show_empty: false
                     show_header_toggle: false
                     entities:
+                      - media_player.alexa_bathroom_show
+                    state_filter:
+                      - playing
+                    card:
+                      type: media-control
+                      entity: media_player.alexa_bathroom_show
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
                       - media_player.alexa_bathroom
                     state_filter:
                       - playing
@@ -970,6 +1053,10 @@ views:
                           yellow: 70
                           red: 0
                         type: gauge
+                  - type: entities
+                    entities:
+                      - entity: sensor.hue_sensor_tuinhuis_temperature
+                        name: °C
               - title: Tuin
                 type: vertical-stack
                 cards:
@@ -1020,6 +1107,10 @@ views:
                           yellow: 70
                           red: 0
                         type: gauge
+                  - type: entities
+                    entities:
+                      - entity: sensor.hue_sensor_tuin_temperature
+                        name: °C
               - title: Extra
                 type: vertical-stack
                 cards:
@@ -1255,6 +1346,21 @@ views:
                       card:
                         type: media-control
                         entity: media_player.alexa_kitchen_1
+                  - type: conditional
+                    conditions:
+                      - entity: media_player.spotify_bert_verlinden
+                        state_not: "playing"
+                    card:
+                      type: entity-filter
+                      show_empty: false
+                      show_header_toggle: false
+                      entities:
+                        - media_player.alexa_kitchen_show
+                      state_filter:
+                        - playing
+                      card:
+                        type: media-control
+                        entity: media_player.alexa_kitchen_show
                   - type: entity-filter
                     show_empty: false
                     show_header_toggle: false
@@ -1265,6 +1371,31 @@ views:
                     card:
                       type: media-control
                       entity: media_player.alexa_bathroom
+                  - type: entity-filter
+                    show_empty: false
+                    show_header_toggle: false
+                    entities:
+                      - media_player.alexa_bathroom_show
+                    state_filter:
+                      - playing
+                    card:
+                      type: media-control
+                      entity: media_player.alexa_bathroom_show
+                  - type: conditional
+                    conditions:
+                      - entity: media_player.spotify_bert_verlinden
+                        state_not: "playing"
+                    card:
+                      type: entity-filter
+                      show_empty: false
+                      show_header_toggle: false
+                      entities:
+                        - media_player.alexa_kitchen_amp
+                      state_filter:
+                        - playing
+                      card:
+                        type: media-control
+                        entity: media_player.alexa_kitchen_amp
                   - type: conditional
                     conditions:
                       - entity: media_player.spotify_bert_verlinden
@@ -1816,20 +1947,44 @@ views:
             type: 'custom:layout-card'
             layout: auto
             cards:
-              - title: Wie is Waar?
+              - title: Wie is Waar ?
                 type: vertical-stack
                 cards:
-                  - type: history-graph
-                    hours_to_show: 12
+                  - type: map
+                    hours_to_show: 24
                     entities:
-                      - entity: input_select.woning_status
-                        name: Woning
-                      - entity: group.bezoekers
-                        name: Bezoek
+                      - device_tracker.iphone_van_caro
+                      - device_tracker.iphone_van_bert
+                  - type: history-graph
+                    hours_to_show: 24
+                    entities:
                       - entity: person.bert
                         name: Bert
                       - entity: person.caroline
                         name: Caroline
+                  - type: logbook
+                    entities:
+                      - person.bert
+                      - person.caroline
+                    hours_to_show: 24
+              - title: Woning Status
+                type: vertical-stack
+                cards:
+                  - type: history-graph
+                    hours_to_show: 24
+                    entities:
+                      - entity: input_select.woning_status
+                        name: Woning
+                      - entity: group.bewoners
+                        name: Bewoners
+                      - entity: group.bezoekers
+                        name: Bezoek
+                  - type: logbook
+                    entities:
+                      - input_select.woning_status
+                      - group.bezoekers
+                      - group.bewoners
+                    hours_to_show: 24
               - title: Afvalkalender
                 type: vertical-stack
                 cards:
@@ -1954,14 +2109,6 @@ views:
                         name: Safe Search
                         tap_action:
                           action: toggle
-              - title: map
-                type: horizontal-stack
-                cards:
-                  - type: map
-                    hours_to_show: 24
-                    entities:
-                      - device_tracker.iphone_van_caro
-                      - device_tracker.iphone_van_bert
               - title: Printer
                 type: horizontal-stack
                 cards:

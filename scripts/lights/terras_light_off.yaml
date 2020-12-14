@@ -1,0 +1,7 @@
+
+alias: Terras - Licht - Uit
+sequence:
+  - service: light.turn_off
+    entity_id:
+      - light.hue_light_tuin_two
+      - light.hue_light_tuin_four

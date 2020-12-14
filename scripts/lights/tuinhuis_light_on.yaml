@@ -1,0 +1,6 @@
+
+alias: Tuinhuis - Licht - Aan
+sequence:
+  - service: script.turn_on
+    entity_id:
+      - script.hue_light_tuinhuis_on

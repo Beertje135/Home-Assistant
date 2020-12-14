@@ -53,7 +53,7 @@
   sensors:
     template_delta_set_temperature:
       value_template: >
-        {% set diffa = ((states('sensor.template_ons_huisje_set_temperature') | float ) - (state_attr('weather.dark_sky', 'temperature') | float )) | round (2) %}
+        {% set diffa = ((states('sensor.template_ons_huisje_set_temperature') | float ) - (states('sensor.hue_sensor_tuin_temperature') | float )) | round (2) %}
         {{ diffa if diffa > 0 else (diffa * -1)}}
       unit_of_measurement: '°C'
 
@@ -61,7 +61,7 @@
   sensors:
     template_delta_temperature:
       value_template: >
-        {% set diffb = ((state_attr('climate.ons_huisje', 'current_temperature') | float ) - (state_attr('weather.dark_sky', 'temperature') | float )) | round (2) %}
+        {% set diffb = ((state_attr('climate.ons_huisje', 'current_temperature') | float ) - (states('sensor.hue_sensor_tuin_temperature') | float )) | round (2) %}
         {{ diffb if diffb > 0 else (diffb * -1)}}
       unit_of_measurement: '°C'
 

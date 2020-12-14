@@ -1,0 +1,9 @@
+
+alias: Hue Light - Tuinhuis - Aan - Normal
+sequence:
+  - service: light.turn_on
+    entity_id:
+      - light.hue_light_tuinhuis
+    data:
+      brightness: 145
+      hs_color: [36.568,66.275]

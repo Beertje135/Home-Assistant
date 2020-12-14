@@ -8,5 +8,5 @@ sequence:
     entity_id:
       - light.milight_keuken
     data:
-      hs_color: [195.059,100]
-      brightness: 200
+      hs_color: [36.568,66.275]
+      brightness: 145
