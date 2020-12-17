@@ -1368,12 +1368,12 @@ views:
                       show_empty: false
                       show_header_toggle: false
                       entities:
-                        - media_player.alexa_kitchen_show
+                        - media_player.alexa_kitchen_2
                       state_filter:
                         - playing
                       card:
                         type: media-control
-                        entity: media_player.alexa_kitchen_show
+                        entity: media_player.alexa_kitchen_2
                   - type: entity-filter
                     show_empty: false
                     show_header_toggle: false

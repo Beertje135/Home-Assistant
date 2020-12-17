@@ -83,12 +83,15 @@
   trigger:
   - platform: state
     to: playing
-    entity_id: media_player.alexa_livingroom_1, media_player.alexa_kitchen_1
+    entity_id: media_player.alexa_livingroom_1
+  - platform: state
+    to: playing
+    entity_id: media_player.alexa_kitchen_amp   
   condition:
   - condition: state
     state: playing
     entity_id:
-    - media_player.alexa_kitchen_1
+    - media_player.alexa_kitchen_amp
     - media_player.alexa_livingroom_1
   - condition: not
     conditions:
@@ -371,7 +374,7 @@
       entity_id: media_player.alexa_everywhere
     - condition: state
       state: playing
-      entity_id: media_player.alexa_kitchen_1
+      entity_id: media_player.alexa_kitchen_amp
   - condition: state
     entity_id: input_select.woning_status
     state:
@@ -422,7 +425,7 @@
     entity_id: input_boolean.music_follow
     state: 'on'
   - condition: state
-    entity_id: media_player.alexa_kitchen_1
+    entity_id: media_player.alexa_kitchen_amp
     state: playing
   action:
   - service: script.turn_on
@@ -431,7 +434,7 @@
 - id: music_follow_001
   alias: Muziek - Volgen - Disable
   trigger:
-  - entity_id: media_player.alexa_kitchen_1
+  - entity_id: media_player.alexa_kitchen_amp
     platform: state
     from: playing
     to: paused
@@ -480,7 +483,7 @@
   - platform: state
     from: paused
     to: playing
-    entity_id: media_player.alexa_kitchen_1, media_player.alexa_downstairs, media_player.alexa_livingroom_1
+    entity_id: media_player.alexa_kitchen_amp, media_player.alexa_downstairs, media_player.alexa_livingroom_1
   - platform: state
     entity_id: input_boolean.music_follow
     to: 'off'
@@ -489,7 +492,7 @@
   - condition: or
     conditions:
     - condition: state
-      entity_id: media_player.alexa_kitchen_1
+      entity_id: media_player.alexa_kitchen_amp
       state: playing
     - condition: state
       entity_id: media_player.alexa_downstairs
@@ -565,7 +568,7 @@
   condition:
   - condition: state
     state: playing
-    entity_id: media_player.alexa_kitchen_1
+    entity_id: media_player.alexa_kitchen_amp
   - condition: state
     entity_id: input_select.woning_status
     state: Thuis,Thuis (Werk),Thuis (Verlof)

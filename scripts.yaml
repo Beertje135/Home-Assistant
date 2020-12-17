@@ -43,7 +43,7 @@ all_music_off:
   alias: All - Music - Stop
   sequence:
   - service: media_player.turn_off
-    entity_id: media_player.alexa_bathroom, media_player.alexa_livingroom_2, media_player.alexa_kitchen_1, media_player.alexa_kitchen_2, media_player.alexa_livingroom_1, media_player.alexa_everywhere, media_player.alexa_downstairs, media_player.alexa_garden
+    entity_id: media_player.alexa_bathroom, media_player.alexa_bathroom_show, media_player.alexa_livingroom_2, media_player.alexa_kitchen_amp, media_player.alexa_kitchen_1, media_player.alexa_kitchen_2, media_player.alexa_livingroom_1, media_player.alexa_everywhere, media_player.alexa_downstairs, media_player.alexa_garden
 all_light_off:
   alias: All - Light - Uit
   sequence:
@@ -305,7 +305,7 @@ radio_selected_on:
         {%- if states('input_select.media_player') in ['Overal', 'Beneden'] -%}
           media_player.alexa_kitchen_2
         {%- elif states('input_select.media_player') in ['Keuken'] -%}
-          media_player.alexa_kitchen_1
+          media_player.alexa_kitchen_amp
         {%- elif states('input_select.media_player') in ['Woonkamer'] -%}
           media_player.alexa_livingroom_1
         {%- elif states('input_select.media_player') in ['Badkamer'] -%}
@@ -346,7 +346,7 @@ radio_kitchen_on:
   sequence:
   - service: media_player.play_media
     data:
-      entity_id: media_player.alexa_kitchen_1
+      entity_id: media_player.alexa_kitchen_amp
       media_content_id: "{{ states('input_text.radio_station_current') }}"
       media_content_type: TUNEIN
   - delay: 00:00:05
@@ -419,11 +419,11 @@ radio_kitchen_off:
   alias: Radio - Keuken - Uit
   sequence:
   - condition: state
-    entity_id: media_player.alexa_kitchen_1
+    entity_id: media_player.alexa_kitchen_amp
     state: 'playing'
   - service: media_player.turn_off
     entity_id:
-      - media_player.alexa_kitchen_1
+      - media_player.alexa_kitchen_amp
 radio_livingroom_off:
   alias: Radio - Woonkamer - Uit
   sequence:
@@ -451,7 +451,7 @@ radio_kitchen_volume:
   sequence:
   - service: media_player.volume_set
     data_template:
-      entity_id: media_player.alexa_kitchen_1
+      entity_id: media_player.alexa_kitchen_amp
       volume_level: >
         {%- if (now().weekday() in (0,1,2,3,4)) and (states('sensor.time') <= "06:58") -%}
           0.15

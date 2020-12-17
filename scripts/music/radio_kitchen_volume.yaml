@@ -3,7 +3,7 @@ alias: Keuken - Music - Volume
 sequence:
   - service: media_player.volume_set
     data_template:
-      entity_id: media_player.alexa_kitchen_1
+      entity_id: media_player.alexa_kitchen_amp
       volume_level: >
         {%- if (now().weekday() in (0,1,2,3,4)) and (states('sensor.time') <= "06:58") -%}
           0.15

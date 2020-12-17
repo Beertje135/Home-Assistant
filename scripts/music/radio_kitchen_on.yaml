@@ -3,7 +3,7 @@ alias: Keuken - Music - Play
 sequence:
   - service: media_player.play_media
     data:
-      entity_id: media_player.alexa_kitchen_1
+      entity_id: media_player.alexa_kitchen_amp
       media_content_id: "{{ states('input_text.radio_station_current') }}"
       media_content_type: TUNEIN
   - delay: 00:00:05

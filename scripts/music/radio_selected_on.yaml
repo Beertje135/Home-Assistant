@@ -7,7 +7,7 @@ sequence:
         {%- if states('input_select.media_player') in ['Overal', 'Beneden'] -%}
           media_player.alexa_kitchen_2
         {%- elif states('input_select.media_player') in ['Keuken'] -%}
-          media_player.alexa_kitchen_1
+          media_player.alexa_kitchen_amp
         {%- elif states('input_select.media_player') in ['Woonkamer'] -%}
           media_player.alexa_livingroom_1
         {%- elif states('input_select.media_player') in ['Badkamer'] -%}
