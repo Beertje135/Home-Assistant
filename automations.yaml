@@ -403,11 +403,6 @@
   - platform: state
     entity_id: remote.harmony_hub
     attribute: current_activity
-    to: Tv Decoder
-  - platform: state
-    entity_id: remote.harmony_hub
-    attribute: current_activity
-    to: WebOS
   - platform: state
     entity_id: input_boolean.media_kitchen
     to: 'on'
@@ -427,6 +422,12 @@
   - condition: state
     entity_id: media_player.alexa_kitchen_amp
     state: playing
+  - condition: state
+    entity_id: remote.harmony_hub
+    attribute: current_activity
+    state: 
+      - Tv Decoder
+      - WebOS
   action:
   - service: script.turn_on
     entity_id: script.radio_kitchen_off
