@@ -1,0 +1,474 @@
+- id: '1608016531053'
+  name: Dressing - Gedimmed
+  entities:
+    light.hue_light_dressing_one:
+      brightness: 10
+      friendly_name: Hue Light Dressing One
+      supported_features: 41
+      state: 'on'
+    light.hue_light_dressing_two:
+      brightness: 10
+      friendly_name: Hue Light Dressing Two
+      supported_features: 41
+      state: 'on'
+    light.hue_light_dressing_three:
+      brightness: 10
+      friendly_name: Hue Light Dressing Three
+      supported_features: 41
+      state: 'on'
+- id: '1608016565504'
+  name: Dressing - Nacht
+  entities:
+    light.hue_light_dressing_one:
+      friendly_name: Hue Light Dressing One
+      supported_features: 41
+      state: 'off'
+    light.hue_light_dressing_two:
+      brightness: 5
+      friendly_name: Hue Light Dressing Two
+      supported_features: 41
+      state: 'on'
+    light.hue_light_dressing_three:
+      friendly_name: Hue Light Dressing Three
+      supported_features: 41
+      state: 'off'
+- id: '1608016595510'
+  name: Dressing - Normaal
+  entities:
+    light.hue_light_dressing_one:
+      brightness: 255
+      friendly_name: Hue Light Dressing One
+      supported_features: 41
+      state: 'on'
+    light.hue_light_dressing_two:
+      brightness: 255
+      friendly_name: Hue Light Dressing Two
+      supported_features: 41
+      state: 'on'
+    light.hue_light_dressing_three:
+      brightness: 255
+      friendly_name: Hue Light Dressing Three
+      supported_features: 41
+      state: 'on'
+- id: '1608016667601'
+  name: Dressing - Uit
+  entities:
+    light.hue_light_dressing_one:
+      friendly_name: Hue Light Dressing One
+      supported_features: 41
+      state: 'off'
+    light.hue_light_dressing_three:
+      friendly_name: Hue Light Dressing Three
+      supported_features: 41
+      state: 'off'
+    light.hue_light_dressing_two:
+      friendly_name: Hue Light Dressing Two
+      supported_features: 41
+      state: 'off'
+- id: '1608032972711'
+  name: Keuken - Nacht
+  entities:
+    light.milight_keuken:
+      min_mireds: 154
+      max_mireds: 370
+      effect_list:
+      - colorloop
+      - night
+      - white
+      brightness: 100
+      hs_color:
+      - 360
+      - 100
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      xy_color:
+      - 0.701
+      - 0.299
+      friendly_name: Kitchen LED
+      assumed_state: true
+      supported_features: 63
+      icon: mdi:led-strip-variant
+      state: 'on'
+    light.milight_keuken_bridge:
+      effect_list:
+      - colorloop
+      - night
+      - white
+      brightness: 100
+      hs_color:
+      - 360
+      - 100
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      xy_color:
+      - 0.701
+      - 0.299
+      friendly_name: Kitchen Tv LED
+      assumed_state: true
+      supported_features: 61
+      icon: mdi:television-clean
+      state: 'on'
+- id: '1608033168765'
+  name: Keuken - Normaal
+  entities:
+    light.milight_keuken:
+      min_mireds: 154
+      max_mireds: 370
+      effect_list:
+      - colorloop
+      - night
+      - white
+      brightness: 255
+      color_temp: 260
+      friendly_name: Kitchen LED
+      assumed_state: true
+      supported_features: 63
+      icon: mdi:led-strip-variant
+      state: 'on'
+    light.milight_keuken_bridge:
+      effect_list:
+      - colorloop
+      - night
+      - white
+      brightness: 255
+      color_temp: 260
+      friendly_name: Kitchen Tv LED
+      assumed_state: true
+      supported_features: 61
+      icon: mdi:television-clean
+      state: 'on'
+- id: '1608033223731'
+  name: Keuken - Gedimmed
+  entities:
+    light.milight_keuken:
+      min_mireds: 154
+      max_mireds: 370
+      effect_list:
+      - colorloop
+      - night
+      - white
+      brightness: 100
+      hs_color:
+      - 35.854
+      - 32.157
+      rgb_color:
+      - 255
+      - 222
+      - 172
+      xy_color:
+      - 0.403
+      - 0.378
+      friendly_name: Kitchen LED
+      assumed_state: true
+      supported_features: 63
+      icon: mdi:led-strip-variant
+      state: 'on'
+    light.milight_keuken_bridge:
+      effect_list:
+      - colorloop
+      - night
+      - white
+      brightness: 100
+      hs_color:
+      - 35.854
+      - 32.157
+      rgb_color:
+      - 255
+      - 222
+      - 172
+      xy_color:
+      - 0.403
+      - 0.378
+      friendly_name: Kitchen Tv LED
+      assumed_state: true
+      supported_features: 61
+      icon: mdi:television-clean
+      state: 'on'
+- id: '1608033360773'
+  name: Keuken - Gedimmed Kleur
+  entities:
+    light.milight_keuken:
+      min_mireds: 154
+      max_mireds: 370
+      effect_list:
+      - colorloop
+      - night
+      - white
+      brightness: 76
+      hs_color:
+      - 255
+      - 42.857
+      rgb_color:
+      - 173
+      - 145
+      - 255
+      xy_color:
+      - 0.262
+      - 0.193
+      friendly_name: Kitchen LED
+      assumed_state: true
+      supported_features: 63
+      icon: mdi:led-strip-variant
+      state: 'on'
+    light.milight_keuken_bridge:
+      effect_list:
+      - colorloop
+      - night
+      - white
+      brightness: 76
+      hs_color:
+      - 255
+      - 42.857
+      rgb_color:
+      - 173
+      - 145
+      - 255
+      xy_color:
+      - 0.262
+      - 0.193
+      friendly_name: Kitchen Tv LED
+      assumed_state: true
+      supported_features: 61
+      icon: mdi:television-clean
+      state: 'on'
+- id: '1608051219785'
+  name: Keuken - Televisie
+  entities:
+    light.hue_light_veranda:
+      brightness: 255
+      friendly_name: Veranda Light
+      supported_features: 41
+      icon: mdi:floor-lamp
+      state: 'on'
+    light.milight_keuken:
+      min_mireds: 154
+      max_mireds: 370
+      effect_list:
+      - colorloop
+      - night
+      - white
+      brightness: 200
+      color_temp: 260
+      friendly_name: Kitchen LED
+      assumed_state: true
+      supported_features: 63
+      icon: mdi:led-strip-variant
+      state: 'on'  
+    light.milight_keuken_bridge:
+      effect_list:
+      - colorloop
+      - night
+      - white
+      brightness: 255
+      hs_color:
+      - 270
+      - 57.143
+      rgb_color:
+      - 182
+      - 109
+      - 255
+      xy_color:
+      - 0.279
+      - 0.159
+      friendly_name: Kitchen Tv LED
+      assumed_state: true
+      supported_features: 61
+      icon: mdi:television-clean
+      state: 'on'
+- id: '1608033504685'
+  name: Keuken - Uit
+  entities:
+    light.milight_keuken:
+      min_mireds: 154
+      max_mireds: 370
+      effect_list:
+      - colorloop
+      - night
+      - white
+      friendly_name: Kitchen LED
+      assumed_state: true
+      supported_features: 63
+      icon: mdi:led-strip-variant
+      state: 'off'
+    light.milight_keuken_bridge:
+      effect_list:
+      - colorloop
+      - night
+      - white
+      friendly_name: Kitchen Tv LED
+      assumed_state: true
+      supported_features: 61
+      icon: mdi:television-clean
+      state: 'off'
+- id: '1608049415666'
+  name: Tuin - Normaal
+  entities:
+    light.hue_light_tuin_one:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      brightness: 145
+      hs_color:
+      - 36.213
+      - 66.275
+      rgb_color:
+      - 255
+      - 187
+      - 85
+      xy_color:
+      - 0.503
+      - 0.413
+      effect: none
+      friendly_name: Hue Light Tuin One
+      supported_features: 63
+      state: 'on'
+    light.hue_light_tuin_three:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      brightness: 145
+      hs_color:
+      - 36.213
+      - 66.275
+      rgb_color:
+      - 255
+      - 187
+      - 85
+      xy_color:
+      - 0.503
+      - 0.413
+      effect: none
+      friendly_name: Hue Light Tuin Three
+      supported_features: 63
+      state: 'on'
+- id: '1608049445477'
+  name: Tuin - Uit
+  entities:
+    light.hue_light_tuin_one:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Hue Light Tuin One
+      supported_features: 63
+      state: 'off'
+    light.hue_light_tuin_three:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Hue Light Tuin Three
+      supported_features: 63
+      state: 'off'
+- id: '1608049487168'
+  name: Terras - Normaal
+  entities:
+    light.hue_light_tuin_two:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      brightness: 145
+      hs_color:
+      - 36.213
+      - 66.275
+      rgb_color:
+      - 255
+      - 187
+      - 85
+      xy_color:
+      - 0.503
+      - 0.413
+      effect: none
+      friendly_name: Hue Light Tuin Two
+      supported_features: 63
+      state: 'on'
+    light.hue_light_tuin_four:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      brightness: 145
+      hs_color:
+      - 36.213
+      - 66.275
+      rgb_color:
+      - 255
+      - 187
+      - 85
+      xy_color:
+      - 0.503
+      - 0.413
+      effect: none
+      friendly_name: Hue Light Tuin Four
+      supported_features: 63
+      state: 'on'
+- id: '1608049519088'
+  name: Terras - Uit
+  entities:
+    light.hue_light_tuin_two:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Hue Light Tuin Two
+      supported_features: 63
+      state: 'off'
+    light.hue_light_tuin_four:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Hue Light Tuin Four
+      supported_features: 63
+      state: 'off'
+- id: '1608049557900'
+  name: Tuinhuis - Normaal
+  entities:
+    light.hue_light_tuinhuis:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      brightness: 145
+      hs_color:
+      - 36.213
+      - 66.275
+      rgb_color:
+      - 255
+      - 187
+      - 85
+      xy_color:
+      - 0.503
+      - 0.413
+      effect: none
+      friendly_name: Hue Light Tuinhuis
+      supported_features: 63
+      state: 'on'
+- id: '1608049578558'
+  name: Tuinhuis - Uit
+  entities:
+    light.hue_light_tuinhuis:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Hue Light Tuinhuis
+      supported_features: 63
+      state: 'off'

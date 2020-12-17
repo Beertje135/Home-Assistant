@@ -18,6 +18,9 @@ default_config:
 # (default)
 automation: !include automations.yaml
 
+# (default)
+scene: !include scenes.yaml
+
 # (default) Enables configuration UI
 config:
 

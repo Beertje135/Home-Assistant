@@ -1,6 +1,17 @@
 
 alias: Dressing - Licht - Aan
 sequence:
-  - service: script.turn_on
-    entity_id:
-      - script.hue_light_dressing_on
+  - service: scene.turn_on
+    data_template:
+      entity_id: >
+        {% if states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') > '05:01' and states('sensor.time') < '23:00') %}
+          scene.dressing_gedimmed
+        {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') >= '23:01' or states('sensor.time') <= '05:00') %}
+          scene.dressing_nacht
+        {% elif states('input_select.woning_status') in ['Juist Wakker'] %}
+          scene.dressing_gedimmed
+        {% elif states('sensor.time') >= '22:00' or states('sensor.time') <= '06:45' %}
+          scene.dressing_gedimmed
+        {% else %}
+          scene.dressing_normaal
+        {% endif %}

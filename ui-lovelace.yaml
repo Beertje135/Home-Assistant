@@ -1034,16 +1034,25 @@ views:
                             show_name: false
                             show_state: false
                             entities:
+                              - binary_sensor.hue_sensor_tuinhuis_motion
+                          - type: glance
+                            columns: 1
+                            show_name: false
+                            show_state: false
+                            entities:
                               - entity: light.hue_light_tuinhuis
                                 tap_action:
                                   action: toggle
                                 hold_action:
-                                  action: more-info 
-                          - type: glance
-                            show_name: false
-                            show_state: false
-                            entities:
-                              - binary_sensor.hue_sensor_tuinhuis_motion
+                                  action: more-info
+                  - type: horizontal-stack
+                    cards:
+                      - type: glance
+                        columns: 1
+                        show_name: false
+                        show_state: true
+                        entities:
+                          - entity: sensor.hue_sensor_tuinhuis_temperature
                       - entity: sensor.hue_sensor_tuinhuis_light_level
                         name: Licht
                         min: 0
@@ -1053,51 +1062,59 @@ views:
                           yellow: 70
                           red: 0
                         type: gauge
-                  - type: entities
-                    entities:
-                      - entity: sensor.hue_sensor_tuinhuis_temperature
-                        name: °C
               - title: Tuin
                 type: vertical-stack
                 cards:
-                  - type: glance
-                    columns: 4
-                    show_name: false
-                    show_state: false
-                    entities:
-                      - entity: light.hue_light_tuin_one
-                        name: Lamp 1
-                        tap_action:
-                          action: toggle
-                        hold_action:
-                          action: more-info
-                      - entity: light.hue_light_tuin_two
-                        name: Lamp 2
-                        tap_action:
-                          action: toggle
-                        hold_action:
-                          action: more-info
-                      - entity: light.hue_light_tuin_three
-                        name: Lamp 3
-                        tap_action:
-                          action: toggle
-                        hold_action:
-                          action: more-info
-                      - entity: light.hue_light_tuin_four
-                        name: Lamp 4
-                        tap_action:
-                          action: toggle
-                        hold_action:
-                          action: more-info
                   - type: horizontal-stack
                     cards:
-                      - type: horizontal-stack
-                        cards:
-                          - type: glance
-                            show_name: false
-                            show_state: false
-                            entities:
-                              - binary_sensor.hue_sensor_tuin_motion
+                    - type: glance
+                      columns: 1
+                      show_name: false
+                      show_state: false
+                      entities: 
+                        - binary_sensor.hue_sensor_tuin_motion
+                    - type: glance
+                      columns: 2
+                      show_name: false
+                      show_state: false
+                      entities:
+                        - entity: light.hue_light_tuin_two
+                          name: Lamp 2
+                          tap_action:
+                            action: toggle
+                          hold_action:
+                            action: more-info
+                        - entity: light.hue_light_tuin_four
+                          name: Lamp 4
+                          tap_action:
+                            action: toggle
+                          hold_action:
+                            action: more-info
+                    - type: glance
+                      columns: 2
+                      show_name: false
+                      show_state: false
+                      entities:
+                        - entity: light.hue_light_tuin_one
+                          name: Lamp 1
+                          tap_action:
+                            action: toggle
+                          hold_action:
+                            action: more-info
+                        - entity: light.hue_light_tuin_three
+                          name: Lamp 3
+                          tap_action:
+                            action: toggle
+                          hold_action:
+                            action: more-info
+                  - type: horizontal-stack
+                    cards:
+                      - type: glance
+                        columns: 1
+                        show_name: false
+                        show_state: true
+                        entities:
+                          - entity: sensor.hue_sensor_tuin_temperature
                       - entity: sensor.hue_sensor_tuin_light_level
                         name: Licht
                         min: 0
@@ -1107,10 +1124,6 @@ views:
                           yellow: 70
                           red: 0
                         type: gauge
-                  - type: entities
-                    entities:
-                      - entity: sensor.hue_sensor_tuin_temperature
-                        name: °C
               - title: Extra
                 type: vertical-stack
                 cards:

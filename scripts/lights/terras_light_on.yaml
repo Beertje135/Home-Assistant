@@ -1,6 +1,6 @@
 
 alias: Terras - Licht - Aan
 sequence:
-  - service: script.turn_on
+  - service: scene.turn_on
     entity_id:
-      - script.hue_light_terras_on
+      - scene.terras_normaal

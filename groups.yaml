@@ -64,3 +64,11 @@
       - light.hue_light_kamer_elmo_one
       - light.hue_light_kamer_elmo_two
       - light.aarlo_arlo_elmo
+
+  licht_tuin:
+    entities:
+      - light.hue_light_tuin_one
+      - light.hue_light_tuin_two
+      - light.hue_light_tuin_three
+      - light.hue_light_tuin_four
+      - light.hue_light_tuinhuis

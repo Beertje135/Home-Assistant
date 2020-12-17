@@ -4,6 +4,8 @@
       - camera
       - device_tracker
       - input_boolean
+      - input_datetime
+      - input_text
       - light
       - remote
       - script
@@ -27,6 +29,8 @@
       - binary_sensor.hue_sensor_dressing_motion
       - binary_sensor.hue_sensor_keuken_motion
       - binary_sensor.hue_sensor_woonkamer_motion
+      - binary_sensor.hue_sensor_tuin_motion
+      - binary_sensor.hue_sensor_tuinhuis_motion
       - binary_sensor.remote_ui
       - binary_sensor.snapshots_stale
       - input_boolean.cooling_downstairs
@@ -58,6 +62,7 @@
       - group.licht_woonkamer
       - group.licht_veranda
       - group.licht_kamer_elmo
+      - group.licht_tuin
 
 #Gebruik dit sjabloon om entiteiten te vinden:
 # {% for e in states.sensor if not e.entity_id.startswith('sensor.dark_sky') %}

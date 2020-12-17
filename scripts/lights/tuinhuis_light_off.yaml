@@ -1,6 +1,0 @@
-
-alias: Tuinhuis - Licht - Uit
-sequence:
-  - service: light.turn_off
-    entity_id:
-      - light.hue_light_tuinhuis

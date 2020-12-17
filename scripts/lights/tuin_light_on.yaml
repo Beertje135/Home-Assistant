@@ -1,6 +1,6 @@
 
 alias: Tuin - Licht - Aan
 sequence:
-  - service: script.turn_on
+  - service: scene.turn_on
     entity_id:
-      - script.hue_light_tuin_on
+      - scene.tuin_normaal
