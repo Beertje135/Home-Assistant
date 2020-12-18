@@ -189,7 +189,7 @@
       icon: mdi:television-clean
       state: 'on'
 - id: '1608033360773'
-  name: Keuken - Gedimmed Kleur
+  name: Keuken - Film
   entities:
     light.milight_keuken:
       min_mireds: 154
@@ -638,3 +638,190 @@
       supported_features: 23
       icon: mdi:lightbulb-on-outline
       state: 'off'
+- id: '1608280007790'
+  name: Badkamer - Gedimmed
+  entities:
+    light.milight_badkamer:
+      min_mireds: 154
+      max_mireds: 370
+      effect_list:
+      - colorloop
+      - night
+      - white
+      brightness: 100
+      hs_color:
+      - 35.854
+      - 32.157
+      rgb_color:
+      - 255
+      - 222
+      - 172
+      xy_color:
+      - 0.403
+      - 0.378
+      friendly_name: Bathroom LED
+      assumed_state: true
+      supported_features: 63
+      icon: mdi:led-strip-variant
+      state: 'on'
+- id: '1608280031081'
+  name: Badkamer - Nacht
+  entities:
+    light.milight_badkamer:
+      min_mireds: 154
+      max_mireds: 370
+      effect_list:
+      - colorloop
+      - night
+      - white
+      brightness: 50
+      hs_color:
+      - 0
+      - 100
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      xy_color:
+      - 0.701
+      - 0.299
+      friendly_name: Bathroom LED
+      assumed_state: true
+      supported_features: 63
+      icon: mdi:led-strip-variant
+      state: 'on'
+- id: '1608280054419'
+  name: Badkamer - Normaal
+  entities:
+    light.milight_badkamer:
+      min_mireds: 154
+      max_mireds: 370
+      effect_list:
+      - colorloop
+      - night
+      - white
+      brightness: 255
+      friendly_name: Bathroom LED
+      assumed_state: true
+      supported_features: 63
+      icon: mdi:led-strip-variant
+      state: 'on'
+- id: '1608280375574'
+  name: Veranda - Uit
+  entities:
+    light.hue_light_veranda:
+      friendly_name: Veranda Light
+      supported_features: 41
+      icon: mdi:floor-lamp
+      state: 'off'
+    light.hue_smart_plug_veranda:
+      friendly_name: Veranda LED
+      supported_features: 40
+      icon: mdi:string-lights
+      display_categories: light
+      state: 'off'
+    light.hue_smart_plug_extra:
+      friendly_name: Extra Plug
+      supported_features: 40
+      display_categories: light
+      state: 'off'
+- id: '1608281388233'
+  name: Veranda - Normaal
+  entities:
+    light.hue_light_veranda:
+      brightness: 255
+      friendly_name: Veranda Light
+      supported_features: 41
+      icon: mdi:floor-lamp
+      state: 'on'
+    light.hue_smart_plug_veranda:
+      friendly_name: Veranda LED
+      supported_features: 40
+      icon: mdi:string-lights
+      display_categories: light
+      state: 'on'
+    light.hue_smart_plug_extra:
+      friendly_name: Extra Plug
+      supported_features: 40
+      display_categories: light
+      state: 'on'
+- id: '1608281440716'
+  name: Veranda - Televisie
+  entities:
+    light.hue_light_veranda:
+      brightness: 76
+      friendly_name: Veranda Light
+      supported_features: 41
+      icon: mdi:floor-lamp
+      state: 'on'
+    light.hue_smart_plug_extra:
+      friendly_name: Extra Plug
+      supported_features: 40
+      display_categories: light
+      state: 'on'
+    light.hue_smart_plug_veranda:
+      friendly_name: Veranda LED
+      supported_features: 40
+      icon: mdi:string-lights
+      display_categories: light
+      state: 'on'
+- id: '1608281477256'
+  name: Veranda - Film
+  entities:
+    light.hue_light_veranda:
+      brightness: 76
+      friendly_name: Veranda Light
+      supported_features: 41
+      icon: mdi:floor-lamp
+      state: 'on'
+    light.hue_smart_plug_extra:
+      friendly_name: Extra Plug
+      supported_features: 40
+      display_categories: light
+      state: 'on'
+    light.hue_smart_plug_veranda:
+      friendly_name: Veranda LED
+      supported_features: 40
+      icon: mdi:string-lights
+      display_categories: light
+      state: 'on'
+- id: '1608281539261'
+  name: Veranda - Nacht
+  entities:
+    light.hue_light_veranda:
+      brightness: 26
+      friendly_name: Veranda Light
+      supported_features: 41
+      icon: mdi:floor-lamp
+      state: 'on'
+    light.hue_smart_plug_extra:
+      friendly_name: Extra Plug
+      supported_features: 40
+      display_categories: light
+      state: 'off'
+    light.hue_smart_plug_veranda:
+      friendly_name: Veranda LED
+      supported_features: 40
+      icon: mdi:string-lights
+      display_categories: light
+      state: 'off'
+- id: '1608281585888'
+  name: Veranda - Gedimmed
+  entities:
+    light.hue_light_veranda:
+      brightness: 51
+      friendly_name: Veranda Light
+      supported_features: 41
+      icon: mdi:floor-lamp
+      state: 'on'
+    light.hue_smart_plug_extra:
+      friendly_name: Extra Plug
+      supported_features: 40
+      display_categories: light
+      state: 'on'
+    light.hue_smart_plug_veranda:
+      friendly_name: Veranda LED
+      supported_features: 40
+      icon: mdi:string-lights
+      display_categories: light
+      state: 'on'

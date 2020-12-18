@@ -1,17 +1,17 @@
 
 alias: Badkamer - Licht - Aan
 sequence:
-  - service: script.turn_on
+  - service: scene.turn_on
     data_template:
       entity_id: >
         {% if states('input_select.woning_status') not in ['Slapen'] and (states('sensor.time') <= '06:00' or states('sensor.time') >= '22:00') %}
-          script.milight_two_on_dimmed
+          scene.badkamer_gedimmed
         {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') >= '05:00' and states('sensor.time') <= '23:30') %}
-          script.milight_two_on_dimmed
+          scene.badkamer_gedimmed
         {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') <= '05:00' or states('sensor.time') >= '23:30') %}
-          script.milight_two_on_night
+          scene.badkamer_nacht
         {% elif states('input_select.woning_status') in ['Juist Wakker'] %}
-          script.milight_two_on_dimmed
+          scene.badkamer_gedimmed
         {% else %}
-          script.milight_two_on_normal
+          scene.badkamer_normaal
         {% endif %}

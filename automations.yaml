@@ -2914,6 +2914,15 @@
   - platform: numeric_state
     entity_id: sensor.hue_sensor_veranda_light_level
     below: 100
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_veranda_light_level
+    above: 40
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_veranda_light_level
+    below: 40
+  - platform: state
+    entity_id: remote.harmony_hub
+    attribute: current_activity
   condition:
   - condition: state
     entity_id: input_boolean.light_downstairs
@@ -2929,14 +2938,11 @@
     - condition: template
       value_template: '{{ states(''input_select.woning_status'') in [''Op Vakantie'']
         and states(''group.bezoekers'') in [''home''] }}'
-  - condition: state
-    state: 'off'
-    entity_id: light.hue_smart_plug_veranda
   action:
   - service: script.turn_on
-    entity_id: script.hue_smart_plug_veranda_on
+    entity_id: script.veranda_light_on
 - id: light_porch_002
-  alias: Licht - Veranda - Uit LED
+  alias: Licht - Veranda - Uit
   trigger:
   - platform: state
     entity_id: binary_sensor.hue_sensor_keuken_motion
@@ -2956,7 +2962,7 @@
     above: 110
   condition:
   - condition: state
-    entity_id: light.hue_smart_plug_veranda
+    entity_id: group.licht_veranda
     state: 'on'
   - condition: or
     conditions:
@@ -2979,56 +2985,8 @@
       entity_id: input_boolean.light_downstairs
       state: 'off'
   action:
-  - service: script.turn_on
-    entity_id: script.veranda_light_off
-- id: light_porch_003
-  alias: Licht - Veranda - Aan Flos Arco
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.hue_sensor_keuken_motion
-  - platform: numeric_state
-    entity_id: sensor.hue_sensor_veranda_light_level
-    below: 40
-  - platform: state
-    entity_id: remote.harmony_hub
-    attribute: current_activity
-  condition:
-  - condition: state
-    entity_id: input_boolean.light_downstairs
-    state: 'on'
-  - condition: state
-    entity_id: light.hue_light_veranda
-    state: 'off'
-  - condition: numeric_state
-    entity_id: sensor.hue_sensor_veranda_light_level
-    below: 40
-  - condition: or
-    conditions:
-    - condition: template
-      value_template: '{{ states(''input_select.woning_status'') not in [''Juist Weg'',
-        ''Weg'', ''Slapen'', ''Op Vakantie''] }}'
-    - condition: template
-      value_template: '{{ states(''input_select.woning_status'') in [''Op Vakantie'']
-        and states(''group.bezoekers'') in [''home''] }}'
-  action:
-  - service: script.turn_on
-    entity_id: script.hue_light_veranda_on
-- id: light_porch_004
-  alias: Licht - Veranda - Uit Flos Arco
-  trigger:
-  - platform: numeric_state
-    entity_id: sensor.hue_sensor_veranda_light_level
-    above: 40
-  - platform: state
-    entity_id: input_boolean.light_downstairs
-    to: 'off'
-  condition:
-  - condition: state
-    state: 'on'
-    entity_id: light.hue_light_veranda
-  action:
-  - service: script.turn_on
-    entity_id: script.hue_light_veranda_off
+  - service: scene.turn_on
+    entity_id: script.veranda_uit
 - id: light_kitchen_001
   alias: Licht - Keuken - Aan
   trigger:
