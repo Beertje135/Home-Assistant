@@ -426,7 +426,7 @@
     entity_id: remote.harmony_hub
     attribute: current_activity
     state: 
-      - Tv Decoder
+      - TV Decoder
       - WebOS
   action:
   - service: script.turn_on
@@ -1844,7 +1844,7 @@
       option: "{% if state_attr('remote.harmony_hub', 'current_activity') == \"PowerOff\"\
         \ %}\n  PowerOff\n{% elif state_attr('remote.harmony_hub', 'current_activity')\
         \ == \"Alexa\" %}\n  Alexa\n{% elif state_attr('remote.harmony_hub', 'current_activity')\
-        \ == \"TV Decoder\" %}\n  Tv Decoder\n{% elif state_attr('remote.harmony_hub',\
+        \ == \"TV Decoder\" %}\n  TV Decoder\n{% elif state_attr('remote.harmony_hub',\
         \ 'current_activity') == \"WebOS\" %}\n  WebOS\n{% elif state_attr('remote.harmony_hub',\
         \ 'current_activity') == \"Nintendo Switch\" %}\n  Nintendo Switch\n{% elif\
         \ state_attr('remote.harmony_hub', 'current_activity') == \"Apple tv\" %}\n\
@@ -1866,7 +1866,7 @@
       entity_id: remote.harmony_hub
       activity: "{% if states('input_select.harmony_hub') in ['PowerOff'] %}\n  -1\n\
         {% elif states('input_select.harmony_hub') in ['Alexa'] %}\n  35750774\n{%\
-        \ elif states('input_select.harmony_hub') in ['Tv Decoder'] %}\n  42338759\n\
+        \ elif states('input_select.harmony_hub') in ['TV Decoder'] %}\n  42338759\n\
         {% elif states('input_select.harmony_hub') in ['WebOS'] %}\n  42338833\n{%\
         \ elif states('input_select.harmony_hub') in ['Apple tv'] %}\n  29425458\n\
         {% elif states('input_select.harmony_hub') in ['Nintendo Switch'] %}\n  30703348\n\
@@ -3740,7 +3740,7 @@
   - platform: state
     entity_id: remote.harmony_hub
     attribute: current_activity
-    to: Tv Decoder
+    to: TV Decoder
   - platform: state
     entity_id: remote.harmony_hub
     attribute: current_activity
@@ -3786,7 +3786,7 @@
         entity_id: remote.harmony_hub
         attribute: current_activity
         state:
-        - Tv Decoder
+        - TV Decoder
         - Web OS
         - Apple Tv
       - condition: state

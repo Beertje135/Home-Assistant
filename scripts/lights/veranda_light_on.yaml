@@ -14,7 +14,7 @@ sequence:
           scene.veranda_televisie
         {% elif states('input_boolean.media_kitchen') in ['on'] %}
           scene.veranda_gedimmed
-          {% elif (states('sensor.hue_sensor_veranda_light_level') | float) > 10 %}
+        {% elif (states('sensor.hue_sensor_veranda_light_level') | float) > 10 %}
           scene.veranda_gedimmed
         {% else %}
           scene.veranda_normaal
