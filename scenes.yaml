@@ -257,7 +257,7 @@
       assumed_state: true
       supported_features: 63
       icon: mdi:led-strip-variant
-      state: 'on'  
+      state: 'on'
     light.milight_keuken_bridge:
       effect_list:
       - colorloop
@@ -471,4 +471,170 @@
       - random
       friendly_name: Hue Light Tuinhuis
       supported_features: 63
+      state: 'off'
+- id: '1608271507499'
+  name: Slaapkamer 2 - Uit
+  entities:
+    light.hue_light_kamer_elmo_one:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Elmo's Room Floor Light
+      supported_features: 63
+      icon: mdi:floor-lamp
+      state: 'off'
+    light.hue_light_kamer_elmo_two:
+      friendly_name: Elmo's Room Light
+      supported_features: 41
+      icon: mdi:ceiling-light
+      state: 'off'
+    light.aarlo_arlo_elmo:
+      min_mireds: 111
+      max_mireds: 400
+      effect_list:
+      - none
+      - rainbow
+      battery_level: 100
+      battery_tech: Rechargeable
+      battery_charging: false
+      charger_type: Regular
+      brightness: 0
+      attribution: Data provided by my.arlo.com
+      brand: Netgear Arlo
+      friendly_name: Elmo's Kamer Arlo Light
+      supported_features: 23
+      icon: mdi:lightbulb-on-outline
+      state: 'off'
+- id: '1608271612872'
+  name: Slaapkamer 2 - Nacht
+  entities:
+    light.hue_light_kamer_elmo_one:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Elmo's Room Floor Light
+      supported_features: 63
+      icon: mdi:floor-lamp
+      state: 'off'
+    light.hue_light_kamer_elmo_two:
+      friendly_name: Elmo's Room Light
+      supported_features: 41
+      icon: mdi:ceiling-light
+      state: 'off'
+    light.aarlo_arlo_elmo:
+      min_mireds: 111
+      max_mireds: 400
+      effect_list:
+      - none
+      - rainbow
+      brightness: 102
+      hs_color:
+      - 356.281
+      - 94.902
+      rgb_color:
+      - 255
+      - 12
+      - 27
+      xy_color:
+      - 0.691
+      - 0.297
+      effect: none
+      battery_level: 100
+      battery_tech: Rechargeable
+      battery_charging: false
+      charger_type: Regular
+      attribution: Data provided by my.arlo.com
+      brand: Netgear Arlo
+      friendly_name: Elmo's Kamer Arlo Light
+      supported_features: 23
+      icon: mdi:lightbulb-on-outline
+      state: 'on'
+- id: '1608271655220'
+  name: Slaapkamer 2 - Ochtend
+  entities:
+    light.hue_light_kamer_elmo_one:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      brightness: 37
+      hs_color:
+      - 66.452
+      - 72.941
+      rgb_color:
+      - 234
+      - 255
+      - 69
+      xy_color:
+      - 0.407
+      - 0.518
+      effect: none
+      friendly_name: Elmo's Room Floor Light
+      supported_features: 63
+      icon: mdi:floor-lamp
+      state: 'on'
+    light.hue_light_kamer_elmo_two:
+      friendly_name: Elmo's Room Light
+      supported_features: 41
+      icon: mdi:ceiling-light
+      state: 'off'
+    light.aarlo_arlo_elmo:
+      min_mireds: 111
+      max_mireds: 400
+      effect_list:
+      - none
+      - rainbow
+      battery_level: 100
+      battery_tech: Rechargeable
+      battery_charging: false
+      charger_type: Regular
+      brightness: 102
+      attribution: Data provided by my.arlo.com
+      brand: Netgear Arlo
+      friendly_name: Elmo's Kamer Arlo Light
+      supported_features: 23
+      icon: mdi:lightbulb-on-outline
+      state: 'off'
+- id: '1608273794216'
+  name: Slaapkamer 2 - Normaal
+  entities:
+    light.hue_light_kamer_elmo_one:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      brightness: 255
+      color_temp: 500
+      effect: none
+      friendly_name: Elmo's Room Floor Light
+      supported_features: 63
+      icon: mdi:floor-lamp
+      state: 'on'
+    light.hue_light_kamer_elmo_two:
+      friendly_name: Elmo's Room Light
+      supported_features: 41
+      icon: mdi:ceiling-light
+      state: 'off'
+    light.aarlo_arlo_elmo:
+      min_mireds: 111
+      max_mireds: 400
+      effect_list:
+      - none
+      - rainbow
+      battery_level: 100
+      battery_tech: Rechargeable
+      battery_charging: false
+      charger_type: Regular
+      brightness: 0
+      attribution: Data provided by my.arlo.com
+      brand: Netgear Arlo
+      friendly_name: Elmo's Kamer Arlo Light
+      supported_features: 23
+      icon: mdi:lightbulb-on-outline
       state: 'off'

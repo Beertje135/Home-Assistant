@@ -3471,55 +3471,35 @@
   - service: script.turn_on
     entity_id: script.badkamer_light_on
 - id: light_bedroom_elmo_001
-  alias: Licht - Elmo Arlo - Aan Avond
+  alias: Licht - Elmo - Aan Nacht
   trigger:
   - platform: time
     at: input_datetime.sleep_elmo
-  - entity_id: input_select.woning_status
-    platform: state
-    to: Juist Thuis
-  condition:
-  - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Op Vakantie'',
-      ''Juist Weg'', ''Weg''] }}'
-  - condition: time
-    after: input_datetime.sleep_elmo
-  - condition: state
-    entity_id: light.aarlo_arlo_elmo
-    state: 'off'
-  action:
-  - service: script.turn_on
-    entity_id: script.arlo_light_on
-- id: light_bedroom_elmo_002
-  alias: Licht - Elmo Arlo - Aan Middag
-  trigger:
   - platform: time
     at: input_datetime.dutje_start
+  - platform: state
+    entity_id: input_select.woning_status
+    to: 'Juist Thuis'
   condition:
-  - condition: state
-    entity_id: light.aarlo_arlo_elmo
-    state: 'off'
   - condition: state
     entity_id: input_select.woning_status
     state:
     - Thuis
     - Juist Thuis
     - Thuis (Verlof)
-  action:
-  - service: script.turn_on
-    entity_id: script.arlo_light_on
-- id: light_bedroom_elmo_003
-  alias: Licht - Elmo Arlo - Uit Middag
-  trigger:
-  - platform: time
-    at: input_datetime.dutje_stop
-  condition:
+  - condition: or
+    conditions:
+    - condition: time
+      after: input_datetime.sleep_elmo
+    - condition: time
+      after: input_datetime.dutje_start
+      before: input_datetime.dutje_stop
   - condition: state
     entity_id: light.aarlo_arlo_elmo
-    state: 'on'
+    state: 'off'
   action:
   - service: script.turn_on
-    entity_id: script.arlo_light_off
+    entity_id: script.slaapkamer_2_light_on
 - id: light_bedroom_elmo_004
   alias: Licht - Elmo - Ochtend Week
   trigger:
@@ -3529,10 +3509,12 @@
   - condition: state
     entity_id: light.aarlo_arlo_elmo
     state: 'on'
-  - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Juist Weg'',
-      ''Weg'', ''Op Vakantie'', ''Thuis (Verlof)'', ''Juist Wakker'', ''Slapen'']
-      }}'
+  - condition: state
+    entity_id: input_select.woning_status
+    state:
+    - Thuis
+    - Juist Thuis
+    - Thuis (Werk)
   - condition: time
     weekday:
     - mon
@@ -3545,7 +3527,7 @@
     entity_id: script.notify_light_elmo
   - delay: 00:00:30
   - service: script.turn_on
-    entity_id: script.hue_light_elmo_one_on_standby, script.arlo_light_off
+    entity_id: script.slaapkamer_2_light_on
 - id: light_bedroom_elmo_005
   alias: Licht - Elmo - Ochtend Weekend
   trigger:
@@ -3555,9 +3537,12 @@
   - condition: state
     entity_id: light.aarlo_arlo_elmo
     state: 'on'
-  - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Juist Weg'',
-      ''Weg'', ''Op Vakantie'', ''Juist Wakker'', ''Slapen''] }}'
+  - condition: state
+    entity_id: input_select.woning_status
+    state:
+    - Thuis
+    - Juist Thuis
+    - Thuis (Verlof)
   - condition: or
     conditions:
     - condition: state
@@ -3572,7 +3557,7 @@
     entity_id: script.notify_light_elmo
   - delay: 00:00:30
   - service: script.turn_on
-    entity_id: script.hue_light_elmo_one_on_standby, script.arlo_light_off
+    entity_id: script.slaapkamer_2_light_on
   mode: single
 - id: light_bedroom_elmo_006
   alias: Licht - Elmo - Uit
@@ -3582,10 +3567,9 @@
     to: 'on'
     for:
       minutes: 30
+  - platform: time
+    at: input_datetime.dutje_stop
   condition:
-  - condition: state
-    entity_id: light.aarlo_arlo_elmo
-    state: 'off'
   - condition: or
     conditions:
     - condition: state
@@ -3594,9 +3578,12 @@
     - condition: state
       entity_id: light.hue_light_kamer_elmo_two
       state: 'on'
+    - condition: state
+      entity_id: light.aarlo_arlo_elmo
+      state: 'on'
   action:
-  - service: script.turn_on
-    entity_id: script.elmo_light_off
+  - service: scene.turn_on
+    entity_id: scene.slaapkamer_2_uit
 - id: light_gardenshed_001
   alias: Licht - Tuinhuis - Aan
   trigger:

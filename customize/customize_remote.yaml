@@ -1,5 +1,0 @@
-    remote.harmoy_hub:
-      friendly_name: Harmony Woonkamer
-      hidden: false
-      assumed_state: true
-      icon: mdi:television-box
