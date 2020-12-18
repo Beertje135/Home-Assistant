@@ -238,12 +238,6 @@
 - id: '1608051219785'
   name: Keuken - Televisie
   entities:
-    light.hue_light_veranda:
-      brightness: 255
-      friendly_name: Veranda Light
-      supported_features: 41
-      icon: mdi:floor-lamp
-      state: 'on'
     light.milight_keuken:
       min_mireds: 154
       max_mireds: 370
@@ -251,7 +245,7 @@
       - colorloop
       - night
       - white
-      brightness: 200
+      brightness: 245
       color_temp: 260
       friendly_name: Kitchen LED
       assumed_state: true
