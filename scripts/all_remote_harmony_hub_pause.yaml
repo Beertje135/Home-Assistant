@@ -4,7 +4,7 @@ sequence:
   - service: script.turn_on
     data_template:
       entity_id: >
-        {%- if states('input_select.harmony_hub') in ['Tv Decoder'] -%}
+        {%- if states('input_select.harmony_hub') in ['TV Decoder'] -%}
           script.remote_harmony_hub_belgacom_dvr_pause
         {%- elif states('input_select.woning_status') in ['Apple Tv'] -%}
           script.remote_harmony_hub_apple_tv_pause

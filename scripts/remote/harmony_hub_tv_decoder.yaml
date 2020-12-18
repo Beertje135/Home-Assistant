@@ -1,7 +1,7 @@
 
-alias: Harmony Hub - Tv Decoder
+alias: Harmony Hub - TV Decoder
 sequence:
 - service: input_select.select_option
   entity_id: input_select.harmony_hub
   data:
-    option: "Tv Decoder"
+    option: "TV Decoder"

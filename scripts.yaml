@@ -184,12 +184,12 @@ harmony_hub_powered_off:
     data:
       option: "PowerOff"
 harmony_hub_tv_decoder:
-  alias: Harmony Hub - Tv Decoder
+  alias: Harmony Hub - TV Decoder
   sequence:
   - service: input_select.select_option
     entity_id: input_select.harmony_hub
     data:
-      option: "Tv Decoder"
+      option: "TV Decoder"
 remote_harmony_hub_apple_tv_pause:
   alias: Remote Harmony Hub - Apple Tv - Pause
   sequence:
