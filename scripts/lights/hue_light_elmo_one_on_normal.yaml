@@ -1,9 +1,0 @@
-
-alias: Hue Light - Elmo One - Aan - Normal
-sequence:
-  - service: light.turn_on
-    entity_id: light.hue_light_kamer_elmo_one
-    data:
-      hs_color: [38,53]
-      brightness: 255
-      transition: 00:05:00

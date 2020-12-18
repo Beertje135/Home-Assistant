@@ -1,5 +1,0 @@
-
-alias: Arlo Light - Uit
-sequence:
-  - service: light.turn_off
-    entity_id: light.aarlo_arlo_elmo
