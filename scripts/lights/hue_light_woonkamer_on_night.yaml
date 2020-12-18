@@ -1,7 +1,0 @@
-
-alias: Hue Light - Woonkamer - Aan - Night
-sequence:
-  - service: light.turn_on
-    entity_id: light.hue_light_woonkamer
-    data:
-      brightness: 5

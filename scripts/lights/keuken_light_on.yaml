@@ -12,6 +12,8 @@ sequence:
           scene.keuken_film
         {% elif states('input_boolean.media_kitchen') in ['on'] %}
           scene.keuken_televisie
+        {% elif states('sensor.time') >= '22:00' %}
+          scene.keuken_gedimmed
         {% elif states('sensor.hue_sensor_keuken_light_level') < '100' and states('binary_sensor.hue_sensor_keuken_motion') in ['off'] and states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] %}
           scene.keuken_gedimmed
         {% else %}

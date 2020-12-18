@@ -1334,7 +1334,7 @@
         \ in ['Slapen'] and states('binary_sensor.hue_sensor_dressing_motion') in\
         \ ['on'] -%}\n  input_boolean.trigger_just_sleep_dressing\n{%- endif %}\n"
 - id: amplifier_livingroom_001
-  alias: Amplifier Woonkamer - Uit - Apple TV Not Playing
+  alias: Amplifier Woonkamer - Uit - Apple tv Not Playing
   trigger:
   - platform: state
     entity_id: media_player.apple_tv_woonkamer
@@ -3040,6 +3040,9 @@
   - platform: state
     entity_id: input_boolean.media_livingroom
     to: 'on'
+  - platform: state
+    entity_id: remote.harmony_hub
+    attribute: current_activity
   condition:
   - condition: numeric_state
     entity_id: sensor.hue_sensor_keuken_light_level
@@ -3129,10 +3132,12 @@
     entity_id: input_boolean.media_livingroom
     to: 'on'
     for:
-      seconds: 35
+      seconds: 30
   - platform: state
     entity_id: input_boolean.media_livingroom
     to: 'off'
+    for:
+      seconds: 5
   - platform: state
     entity_id: light.hue_light_woonkamer
     to: 'on'
@@ -3665,11 +3670,11 @@
   - platform: state
     entity_id: remote.harmony_hub
     attribute: current_activity
-    to: Web OS
+    to: WebOS
   - platform: state
     entity_id: remote.harmony_hub
     attribute: current_activity
-    to: Apple Tv
+    to: Apple tv
   - entity_id: binary_sensor.hue_sensor_tuin_motion
     for:
       minutes: 1
@@ -3708,8 +3713,8 @@
         attribute: current_activity
         state:
         - TV Decoder
-        - Web OS
-        - Apple Tv
+        - WebOS
+        - Apple tv
       - condition: state
         entity_id: input_select.woning_status
         state:

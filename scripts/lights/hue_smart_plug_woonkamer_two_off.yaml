@@ -1,6 +1,0 @@
-
-alias: Hue Smart Plug - Woonkamer Two - Uit
-sequence:
-  - service: light.turn_off
-    entity_id:
-      - light.hue_smart_plug_woonkamer_two

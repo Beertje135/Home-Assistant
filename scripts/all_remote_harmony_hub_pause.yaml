@@ -6,9 +6,9 @@ sequence:
       entity_id: >
         {%- if states('input_select.harmony_hub') in ['TV Decoder'] -%}
           script.remote_harmony_hub_belgacom_dvr_pause
-        {%- elif states('input_select.woning_status') in ['Apple Tv'] -%}
+        {%- elif states('input_select.woning_status') in ['Apple tv'] -%}
           script.remote_harmony_hub_apple_tv_pause
-        {%- elif states('input_select.woning_status') in ['Web OS'] -%}
+        {%- elif states('input_select.woning_status') in ['WebOS'] -%}
           script.remote_harmony_hub_lg_tv_pause
         {%- else -%}
           script.empty

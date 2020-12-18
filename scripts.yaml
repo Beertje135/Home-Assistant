@@ -191,7 +191,7 @@ harmony_hub_tv_decoder:
     data:
       option: "TV Decoder"
 remote_harmony_hub_apple_tv_pause:
-  alias: Remote Harmony Hub - Apple Tv - Pause
+  alias: Remote Harmony Hub - Apple TV - Pause
   sequence:
   - service: remote.send_command
     data:

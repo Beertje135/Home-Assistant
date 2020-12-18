@@ -743,7 +743,7 @@
   name: Veranda - Televisie
   entities:
     light.hue_light_veranda:
-      brightness: 76
+      brightness: 100
       friendly_name: Veranda Light
       supported_features: 41
       icon: mdi:floor-lamp
@@ -763,7 +763,7 @@
   name: Veranda - Film
   entities:
     light.hue_light_veranda:
-      brightness: 76
+      brightness: 51
       friendly_name: Veranda Light
       supported_features: 41
       icon: mdi:floor-lamp
@@ -839,7 +839,7 @@
       supported_features: 40
       icon: mdi:floor-lamp
       display_categories: light
-      state: 'on'
+      state: 'off'
     light.milight_woonkamer_bridge:
       effect_list:
       - colorloop
@@ -919,15 +919,15 @@
       - white
       brightness: 255
       hs_color:
-      - 300
+      - 270
       - 71.429
       rgb_color:
-      - 255
+      - 163
       - 72
       - 255
       xy_color:
-      - 0.38
-      - 0.17
+      - 0.259
+      - 0.122
       friendly_name: Livingroom Tv LED
       assumed_state: true
       supported_features: 61
@@ -960,6 +960,7 @@
       - night
       - white
       brightness: 255
+      color_temp: 260
       friendly_name: Livingroom Tv LED
       assumed_state: true
       supported_features: 61
