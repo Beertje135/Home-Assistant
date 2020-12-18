@@ -819,3 +819,240 @@
       icon: mdi:string-lights
       display_categories: light
       state: 'on'
+- id: '1608317682155'
+  name: Woonkamer - Gedimmed
+  entities:
+    light.hue_light_woonkamer:
+      brightness: 10
+      friendly_name: Livingroom Light
+      supported_features: 41
+      icon: mdi:globe-light
+      state: 'on'
+    light.hue_smart_plug_woonkamer_one:
+      friendly_name: Livingroom LED
+      supported_features: 40
+      icon: mdi:string-lights
+      display_categories: light
+      state: 'on'
+    light.hue_smart_plug_woonkamer_two:
+      friendly_name: Livingroom Spacewalker
+      supported_features: 40
+      icon: mdi:floor-lamp
+      display_categories: light
+      state: 'on'
+    light.milight_woonkamer_bridge:
+      effect_list:
+      - colorloop
+      - night
+      - white
+      friendly_name: Livingroom Tv LED
+      assumed_state: true
+      supported_features: 61
+      icon: mdi:television-clean
+      state: 'off'
+- id: '1608317777471'
+  name: Woonkamer - Nacht
+  entities:
+    light.hue_smart_plug_woonkamer_one:
+      friendly_name: Livingroom LED
+      supported_features: 40
+      icon: mdi:string-lights
+      display_categories: light
+      state: 'off'
+    light.hue_smart_plug_woonkamer_two:
+      friendly_name: Livingroom Spacewalker
+      supported_features: 40
+      icon: mdi:floor-lamp
+      display_categories: light
+      state: 'off'
+    light.hue_light_woonkamer:
+      friendly_name: Livingroom Light
+      supported_features: 41
+      icon: mdi:globe-light
+      state: 'off'
+    light.milight_woonkamer_bridge:
+      effect_list:
+      - colorloop
+      - night
+      - white
+      brightness: 200
+      hs_color:
+      - 0
+      - 100
+      rgb_color:
+      - 255
+      - 0
+      - 0
+      xy_color:
+      - 0.701
+      - 0.299
+      friendly_name: Livingroom Tv LED
+      assumed_state: true
+      supported_features: 61
+      icon: mdi:television-clean
+      state: 'on'
+- id: '1608317939981'
+  name: Woonkamer - Film
+  entities:
+    light.hue_light_woonkamer:
+      brightness: 10
+      friendly_name: Livingroom Light
+      supported_features: 41
+      icon: mdi:globe-light
+      state: 'on'
+    light.hue_smart_plug_woonkamer_one:
+      friendly_name: Livingroom LED
+      supported_features: 40
+      icon: mdi:string-lights
+      display_categories: light
+      state: 'on'
+    light.hue_smart_plug_woonkamer_two:
+      friendly_name: Livingroom Spacewalker
+      supported_features: 40
+      icon: mdi:floor-lamp
+      display_categories: light
+      state: 'off'
+    light.milight_woonkamer_bridge:
+      effect_list:
+      - colorloop
+      - night
+      - white
+      brightness: 255
+      hs_color:
+      - 300
+      - 71.429
+      rgb_color:
+      - 255
+      - 72
+      - 255
+      xy_color:
+      - 0.38
+      - 0.17
+      friendly_name: Livingroom Tv LED
+      assumed_state: true
+      supported_features: 61
+      icon: mdi:television-clean
+      state: 'on'
+- id: '1608318017627'
+  name: Woonkamer - Televisie
+  entities:
+    light.hue_smart_plug_woonkamer_one:
+      friendly_name: Livingroom LED
+      supported_features: 40
+      icon: mdi:string-lights
+      display_categories: light
+      state: 'on'
+    light.hue_smart_plug_woonkamer_two:
+      friendly_name: Livingroom Spacewalker
+      supported_features: 40
+      icon: mdi:floor-lamp
+      display_categories: light
+      state: 'on'
+    light.hue_light_woonkamer:
+      brightness: 64
+      friendly_name: Livingroom Light
+      supported_features: 41
+      icon: mdi:globe-light
+      state: 'on'
+    light.milight_woonkamer_bridge:
+      effect_list:
+      - colorloop
+      - night
+      - white
+      brightness: 255
+      friendly_name: Livingroom Tv LED
+      assumed_state: true
+      supported_features: 61
+      icon: mdi:television-clean
+      state: 'on'
+- id: '1608318063934'
+  name: Woonkamer - Uit
+  entities:
+    light.hue_light_woonkamer:
+      friendly_name: Livingroom Light
+      supported_features: 41
+      icon: mdi:globe-light
+      state: 'off'
+    light.hue_smart_plug_woonkamer_one:
+      friendly_name: Livingroom LED
+      supported_features: 40
+      icon: mdi:string-lights
+      display_categories: light
+      state: 'off'
+    light.hue_smart_plug_woonkamer_two:
+      friendly_name: Livingroom Spacewalker
+      supported_features: 40
+      icon: mdi:floor-lamp
+      display_categories: light
+      state: 'off'
+    light.milight_woonkamer_bridge:
+      effect_list:
+      - colorloop
+      - night
+      - white
+      friendly_name: Livingroom Tv LED
+      assumed_state: true
+      supported_features: 61
+      icon: mdi:television-clean
+      state: 'off'
+- id: '1608318126154'
+  name: Woonkamer - Normaal
+  entities:
+    light.hue_light_woonkamer:
+      brightness: 255
+      friendly_name: Livingroom Light
+      supported_features: 41
+      icon: mdi:globe-light
+      state: 'on'
+    light.hue_smart_plug_woonkamer_one:
+      friendly_name: Livingroom LED
+      supported_features: 40
+      icon: mdi:string-lights
+      display_categories: light
+      state: 'on'
+    light.hue_smart_plug_woonkamer_two:
+      friendly_name: Livingroom Spacewalker
+      supported_features: 40
+      icon: mdi:floor-lamp
+      display_categories: light
+      state: 'on'
+    light.milight_woonkamer_bridge:
+      effect_list:
+      - colorloop
+      - night
+      - white
+      friendly_name: Livingroom Tv LED
+      assumed_state: true
+      supported_features: 61
+      icon: mdi:television-clean
+      state: 'off'
+- id: '1608318958178'
+  name: Woonkamer - Uit Kerstmis
+  entities:
+    light.hue_light_woonkamer:
+      friendly_name: Livingroom Light
+      supported_features: 41
+      icon: mdi:globe-light
+      state: 'off'
+    light.hue_smart_plug_woonkamer_one:
+      friendly_name: Livingroom LED
+      supported_features: 40
+      icon: mdi:string-lights
+      display_categories: light
+      state: 'on'
+    light.hue_smart_plug_woonkamer_two:
+      friendly_name: Livingroom Spacewalker
+      supported_features: 40
+      icon: mdi:floor-lamp
+      display_categories: light
+      state: 'off'
+    light.milight_woonkamer_bridge:
+      effect_list:
+      - colorloop
+      - night
+      - white
+      friendly_name: Livingroom Tv LED
+      assumed_state: true
+      supported_features: 61
+      icon: mdi:television-clean
+      state: 'off'

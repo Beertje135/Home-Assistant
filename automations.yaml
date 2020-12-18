@@ -2900,6 +2900,31 @@
     default:
     - service: script.turn_on
       entity_id: script.evo_status_heating_off, script.notify_heating_hot_cold_outside
+- id: light_livingroom_hue_switch_001
+  alias: Licht - Hue Woonkamer - Boolean (A)
+  trigger:
+  - platform: state
+    entity_id: light.hue_light_woonkamer
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: light.hue_light_woonkamer
+      state: 'on'
+    - condition: state
+      entity_id: light.hue_light_woonkamer
+      state: 'off'
+  action:
+  - service: input_boolean.turn_{{ trigger.to_state.state }}
+    entity_id: input_boolean.light_livingroom
+- id: light_livingroom_hue_switch_002
+  alias: Licht - Hue Woonkamer - Boolean (B)
+  trigger:
+  - platform: state
+    entity_id: input_boolean.light_livingroom
+  action:
+    service: light.turn_{{ trigger.to_state.state }}
+    entity_id: light.hue_light_woonkamer
 - id: light_porch_001
   alias: Licht - Veranda - Aan LED
   trigger:
@@ -3098,8 +3123,25 @@
 - id: light_livingroom_001
   alias: Licht - Woonkamer - Aan lux laag
   trigger:
-  - entity_id: binary_sensor.hue_sensor_woonkamer_motion
-    platform: state
+  - platform: state
+    entity_id: binary_sensor.hue_sensor_woonkamer_motion
+  - platform: state
+    entity_id: input_boolean.media_livingroom
+    to: 'on'
+    for:
+      seconds: 35
+  - platform: state
+    entity_id: input_boolean.media_livingroom
+    to: 'off'
+  - platform: state
+    entity_id: light.hue_light_woonkamer
+    to: 'on'
+  - platform: state
+    entity_id: remote.harmony_hub
+    attribute: current_activity
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_woonkamer_light_level
+    above: 26
   condition:
   - condition: state
     entity_id: input_boolean.light_downstairs
@@ -3107,10 +3149,6 @@
   - condition: numeric_state
     entity_id: sensor.hue_sensor_woonkamer_light_level
     below: 55
-  - condition: template
-    value_template: '{{ states(''light.hue_smart_plug_woonkamer_one'') in [''off'']
-      or (states(''light.milight_woonkamer_bridge'') in [''off''] and state_attr(''remote.harmony_hub'',
-      ''current_activity'') not in [''PowerOff'', ''Alexa'']) }}'
   - condition: or
     conditions:
     - condition: template
@@ -3121,9 +3159,9 @@
         and states(''group.bezoekers'') in [''home''] }}'
   action:
   - service: script.turn_on
-    entity_id: script.hue_smart_plug_woonkamer_one_on, script.milight_bridge_two_on
+    entity_id: script.woonkamer_light_on
 - id: light_livingroom_002
-  alias: Licht - Woonkamer - Aan Kerstmis
+  alias: Licht - Woonkamer - Uit Kerstmis
   trigger:
   - platform: template
     value_template: '{{ states(''input_select.woning_status'') in [''Juist Thuis'',
@@ -3135,72 +3173,13 @@
     - input_boolean.keep_christmas_on
     state: 'on'
   - condition: state
-    entity_id: light.hue_smart_plug_woonkamer_one
+    entity_id: group.licht_woonkamer
     state: 'off'
   action:
   - service: script.turn_on
-    entity_id: script.hue_smart_plug_woonkamer_one_on
+    entity_id: script.woonkamer_light_off
 - id: light_livingroom_003
-  alias: Licht - Woonkamer - Aan lux heel laag
-  trigger:
-  - entity_id: binary_sensor.hue_sensor_woonkamer_motion
-    platform: state
-  condition:
-  - condition: state
-    entity_id: input_boolean.light_downstairs
-    state: 'on'
-  - condition: numeric_state
-    entity_id: sensor.hue_sensor_woonkamer_light_level
-    below: 26
-  - condition: template
-    value_template: '{{ (states(''light.hue_smart_plug_woonkamer_two'') in [''off'']
-      and states(''input_boolean.media_livingroom'') in [''off'']) or states(''light.hue_light_woonkamer'')
-      in [''off''] }}'
-  - condition: or
-    conditions:
-    - condition: template
-      value_template: '{{ states(''input_select.woning_status'') not in [''Juist Weg'',
-        ''Weg'', ''Op Vakantie''] }}'
-    - condition: template
-      value_template: '{{ states(''input_select.woning_status'') in [''Op Vakantie'']
-        and states(''group.bezoekers'') in [''home''] }}'
-  action:
-  - service: script.turn_on
-    entity_id: script.hue_smart_plug_woonkamer_two_on, script.hue_light_woonkamer_on
-- id: light_livingroom_004
-  alias: Licht - Woonkamer - Hue Aan
-  trigger:
-  - entity_id: light.hue_light_woonkamer
-    platform: state
-    to: 'on'
-  - platform: state
-    entity_id: remote.harmony_hub
-    attribute: current_activity
-  condition:
-  - condition: state
-    entity_id: light.hue_light_woonkamer
-    state: 'on'
-  action:
-  - service: script.turn_on
-    entity_id: script.hue_light_woonkamer_on
-- id: light_livingroom_005
-  alias: Licht - Woonkamer - Uit lux hoog
-  trigger:
-  - platform: numeric_state
-    entity_id: sensor.hue_sensor_woonkamer_light_level
-    above: 26
-  - platform: state
-    entity_id: input_boolean.light_downstairs
-    to: 'off'
-  condition:
-  - condition: state
-    entity_id: light.hue_smart_plug_woonkamer_two
-    state: 'on'
-  action:
-  - service: script.turn_on
-    entity_id: script.hue_smart_plug_woonkamer_two_off
-- id: light_livingroom_006
-  alias: Licht - Woonkamer - Uit lux heel hoog
+  alias: Licht - Woonkamer - Uit
   trigger:
   - platform: numeric_state
     entity_id: sensor.hue_sensor_woonkamer_light_level
@@ -3210,12 +3189,12 @@
     to: 'off'
   condition:
   - condition: state
-    entity_id: light.hue_smart_plug_woonkamer_one
+    entity_id: group.licht_woonkamer
     state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.woonkamer_light_off
-- id: light_livingroom_007
+- id: light_livingroom_004
   alias: Licht - Woonkamer - Uit Geen beweging
   trigger:
   - entity_id: binary_sensor.hue_sensor_woonkamer_motion
@@ -3225,19 +3204,19 @@
     to: 'off'
   condition:
   - condition: state
-    entity_id: light.hue_smart_plug_woonkamer_one
+    entity_id: group.licht_woonkamer
     state: 'on'
   - condition: state
     entity_id: remote.harmony_hub
     attribute: current_activity
     state:
-    - PowerOff
-    - Alexa
+      - PowerOff
+      - Alexa
   action:
   - service: script.turn_on
     entity_id: script.woonkamer_light_off
-- id: light_livingroom_008
-  alias: Licht - Woonkamer - Uit - Night
+- id: light_livingroom_005
+  alias: Licht - Woonkamer - Uit Nacht
   trigger:
   - entity_id: binary_sensor.hue_sensor_woonkamer_motion
     for:
@@ -3246,7 +3225,7 @@
     to: 'off'
   condition:
   - condition: state
-    entity_id: light.milight_woonkamer_bridge
+    entity_id: group.licht_woonkamer
     state: 'on'
   - condition: state
     entity_id: input_select.woning_status
@@ -3257,64 +3236,6 @@
   action:
   - service: script.turn_on
     entity_id: script.woonkamer_light_off
-- id: light_livingroom_009
-  alias: Licht - Woonkamer - Milight Aan of Uit volgens Harmony
-  trigger:
-  - platform: state
-    entity_id: remote.harmony_hub
-    attribute: current_activity
-  condition:
-  - condition: state
-    entity_id: input_boolean.light_downstairs
-    state: 'on'
-  - condition: numeric_state
-    entity_id: sensor.hue_sensor_woonkamer_light_level
-    below: 55
-  action:
-  - service: script.turn_on
-    entity_id: script.milight_bridge_two_on
-- id: light_livingroom_010
-  alias: Licht - Woonkamer - Boolean (A)
-  trigger:
-  - platform: state
-    entity_id: light.hue_light_woonkamer
-  condition:
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: light.hue_light_woonkamer
-      state: 'on'
-    - condition: state
-      entity_id: light.hue_light_woonkamer
-      state: 'off'
-  action:
-  - service: input_boolean.turn_{{ trigger.to_state.state }}
-    entity_id: input_boolean.light_livingroom
-- id: light_livingroom_011
-  alias: Licht - Woonkamer - Boolean (B)
-  trigger:
-  - platform: state
-    entity_id: input_boolean.light_livingroom
-  action:
-    service: light.turn_{{ trigger.to_state.state }}
-    entity_id: light.hue_light_woonkamer
-- id: light_livingroom_012
-  alias: Licht - Woonkamer - Media Play
-  trigger:
-  - platform: state
-    entity_id: input_boolean.media_livingroom
-    to: 'on'
-    for:
-      seconds: 35
-  - platform: state
-    entity_id: input_boolean.media_livingroom
-    to: 'off'
-  action:
-  - service: script.turn_on
-    data_template:
-      entity_id: "{%- if states('input_boolean.media_livingroom') in ['on'] -%}\n\
-        \  script.plex_on_woonkamer\n{%- elif states('input_boolean.media_livingroom')\
-        \ in ['off'] -%}\n  script.plex_off_woonkamer\n{% endif %}\n"
 - id: light_dressing_001
   alias: Licht - Dressing - Aan
   trigger:

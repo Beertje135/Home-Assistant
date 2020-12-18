@@ -10,18 +10,14 @@ sequence:
           scene.woonkamer_nacht
         {% elif states('sensor.time') >= states('input_datetime.sleep_elmo') and states('input_boolean.media_livingroom') in ['on'] %}
           scene.woonkamer_film
-        {% elif states('sensor.time') >= states('input_datetime.sleep_elmo') and state_attr('remote.harmony_hub', 'current_activity') in ['Tv Decoder','Web OS','Apple Tv'] %}
+        {% elif states('sensor.time') >= states('input_datetime.sleep_elmo') and state_attr('remote.harmony_hub', 'current_activity') in ['TV Decoder','Web OS','Apple Tv'] %}
           scene.woonkamer_televisie
+        {% elif states('sensor.time') < states('input_datetime.sleep_elmo') and state_attr('remote.harmony_hub', 'current_activity') in ['TV Decoder','Web OS','Apple Tv'] %}
+          scene.woonkamer_gedimmed
         {% elif states('sensor.time') >= '22:00' %}
           scene.woonkamer_gedimmed
-        {% elif (states('sensor.hue_sensor_woonkamer_light_level') | float) > 10 %}
+        {% elif (states('sensor.hue_sensor_woonkamer_light_level') | float) > 26 %}
           scene.woonkamer_gedimmed
         {% else %}
           scene.woonkamer_normaal
         {% endif %}
-  - service: script.turn_on
-    entity_id:
-      - script.hue_light_woonkamer_on
-      - script.hue_smart_plug_woonkamer_one_on
-      - script.hue_smart_plug_woonkamer_two_on
-      - script.milight_bridge_two_on
