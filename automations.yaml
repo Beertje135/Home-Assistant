@@ -2957,6 +2957,15 @@
     below: 100
   - condition: or
     conditions:
+    - condition: state
+      entity_id: group.licht_veranda
+      state: 'off'
+    - condition: numeric_state
+      entity_id: light.hue_light_veranda
+      attribute: brightness
+      below: 255
+  - condition: or
+    conditions:
     - condition: template
       value_template: '{{ states(''input_select.woning_status'') not in [''Juist Weg'',
         ''Weg'', ''Slapen'', ''Op Vakantie''] }}'
@@ -3124,7 +3133,7 @@
     entity_id: scene.keuken_uit
   mode: single
 - id: light_livingroom_001
-  alias: Licht - Woonkamer - Aan lux laag
+  alias: Licht - Woonkamer - Aan
   trigger:
   - platform: state
     entity_id: binary_sensor.hue_sensor_woonkamer_motion
@@ -3166,11 +3175,14 @@
   - service: script.turn_on
     entity_id: script.woonkamer_light_on
 - id: light_livingroom_002
-  alias: Licht - Woonkamer - Uit Kerstmis
+  alias: Licht - Woonkamer - Aan Kerstmis
   trigger:
-  - platform: template
-    value_template: '{{ states(''input_select.woning_status'') in [''Juist Thuis'',
-      ''Juist Wakker'', ''Thuis'', ''Thuis (Werk)'', ''Thuis (Verlof)''] }}'
+  - platform: state
+    entity_id: input_select.woning_status
+    to: Juist Wakker
+  - platform: state
+    entity_id: input_select.woning_status
+    to: Juist Thuis
   condition:
   - condition: state
     entity_id:
