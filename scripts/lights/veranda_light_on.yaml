@@ -16,7 +16,7 @@ sequence:
           scene.veranda_gedimmed
         {% elif states('sensor.time') >= '22:00' %}
           scene.veranda_gedimmed
-        {% elif (states('sensor.hue_sensor_veranda_light_level') | float) > 10 %}
+        {% elif (states('sensor.hue_sensor_veranda_light_level') | float) < 7 %}
           scene.veranda_gedimmed
         {% else %}
           scene.veranda_normaal

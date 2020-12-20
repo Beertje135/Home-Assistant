@@ -1021,7 +1021,6 @@
       sequence:
       - service: script.turn_on
         entity_id:
-        - script.veranda_light_off
         - script.woonkamer_light_off
         - script.all_switch_off
         - script.all_music_off
@@ -2926,10 +2925,8 @@
     service: light.turn_{{ trigger.to_state.state }}
     entity_id: light.hue_light_woonkamer
 - id: light_porch_001
-  alias: Licht - Veranda - Aan LED
+  alias: Licht - Veranda - Aan
   trigger:
-  - platform: state
-    entity_id: binary_sensor.hue_sensor_keuken_motion
   - platform: state
     entity_id: input_select.woning_status
     to: Juist Wakker
@@ -2938,7 +2935,7 @@
     to: Juist Thuis
   - platform: numeric_state
     entity_id: sensor.hue_sensor_veranda_light_level
-    below: 100
+    below: 50
   - platform: numeric_state
     entity_id: sensor.hue_sensor_veranda_light_level
     above: 40
@@ -2948,22 +2945,33 @@
   - platform: state
     entity_id: remote.harmony_hub
     attribute: current_activity
+  - platform: state
+    entity_id: input_boolean.media_kitchen
+    to: 'on'
+    for:
+      seconds: 35
+  - platform: state
+    entity_id: input_boolean.media_livingroom
+    to: 'on'
+    for:
+      seconds: 35
+  - platform: state
+    entity_id: input_boolean.media_kitchen
+    to: 'off'
+    for:
+      seconds: 5
+  - platform: state
+    entity_id: input_boolean.media_livingroom
+    to: 'off'
+    for:
+      seconds: 5
   condition:
   - condition: state
     entity_id: input_boolean.light_downstairs
     state: 'on'
   - condition: numeric_state
     entity_id: sensor.hue_sensor_veranda_light_level
-    below: 100
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: group.licht_veranda
-      state: 'off'
-    - condition: numeric_state
-      entity_id: light.hue_light_veranda
-      attribute: brightness
-      below: 255
+    below: 50
   - condition: or
     conditions:
     - condition: template
@@ -2976,8 +2984,37 @@
   - service: script.turn_on
     entity_id: script.veranda_light_on
 - id: light_porch_002
+  alias: Licht - Veranda - Aan Motion
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.hue_sensor_keuken_motion
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_downstairs
+    state: 'on'
+  - condition: numeric_state
+    entity_id: sensor.hue_sensor_veranda_light_level
+    below: 50
+  - condition: state
+    entity_id: group.licht_veranda
+    state: 'off'
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: '{{ states(''input_select.woning_status'') not in [''Juist Weg'',
+        ''Weg'', ''Slapen'', ''Op Vakantie''] }}'
+    - condition: template
+      value_template: '{{ states(''input_select.woning_status'') in [''Op Vakantie'']
+        and states(''group.bezoekers'') in [''home''] }}'
+  action:
+  - service: script.turn_on
+    entity_id: script.veranda_light_on
+- id: light_porch_003
   alias: Licht - Veranda - Uit
   trigger:
+  - platform: state
+    entity_id: input_select.woning_status
+    to: Slapen
   - platform: state
     entity_id: binary_sensor.hue_sensor_keuken_motion
     for:
@@ -2993,7 +3030,7 @@
     to: 'off'
   - platform: numeric_state
     entity_id: sensor.hue_sensor_veranda_light_level
-    above: 110
+    above: 50
   condition:
   - condition: state
     entity_id: group.licht_veranda
@@ -3014,7 +3051,7 @@
           minutes: 30
     - condition: numeric_state
       entity_id: sensor.hue_sensor_veranda_light_level
-      above: 110
+      above: 50
     - condition: state
       entity_id: input_boolean.light_downstairs
       state: 'off'
@@ -3024,9 +3061,6 @@
 - id: light_kitchen_001
   alias: Licht - Keuken - Aan
   trigger:
-  - entity_id: binary_sensor.hue_sensor_keuken_motion
-    platform: state
-    to: 'on'
   - entity_id: binary_sensor.hue_sensor_keuken_motion
     for:
       minutes: 5
@@ -3044,11 +3078,20 @@
     for:
       seconds: 35
   - platform: state
-    entity_id: input_boolean.media_kitchen
-    to: 'off'
-  - platform: state
     entity_id: input_boolean.media_livingroom
     to: 'on'
+    for:
+      seconds: 35
+  - platform: state
+    entity_id: input_boolean.media_kitchen
+    to: 'off'
+    for:
+      seconds: 5
+  - platform: state
+    entity_id: input_boolean.media_livingroom
+    to: 'off'
+    for:
+      seconds: 5
   - platform: state
     entity_id: remote.harmony_hub
     attribute: current_activity
@@ -3064,19 +3107,34 @@
     - condition: template
       value_template: '{{ states(''input_select.woning_status'') in [''Op Vakantie'']
         and states(''group.bezoekers'') in [''home''] }}'
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: group.licht_keuken
-      state: 'off'
-    - condition: numeric_state
-      entity_id: light.milight_keuken
-      attribute: brightness
-      below: 250
   action:
   - service: script.turn_on
     entity_id: script.keuken_light_on
 - id: light_kitchen_002
+  alias: Licht - Keuken - Aan Motion
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_keuken_motion
+    platform: state
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.hue_sensor_keuken_light_level
+    below: 130
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: '{{ states(''input_select.woning_status'') not in [''Juist Weg'',
+        ''Weg'', ''Op Vakantie''] }}'
+    - condition: template
+      value_template: '{{ states(''input_select.woning_status'') in [''Op Vakantie'']
+        and states(''group.bezoekers'') in [''home''] }}'
+  - condition: state
+    entity_id: group.licht_keuken
+    state: 'off'
+  action:
+  - service: script.turn_on
+    entity_id: script.keuken_light_on
+- id: light_kitchen_003
   alias: Licht - Keuken - Uit
   trigger:
   - entity_id: binary_sensor.hue_sensor_keuken_motion
@@ -3106,7 +3164,7 @@
   action:
   - service: scene.turn_on
     entity_id: scene.keuken_uit
-- id: light_kitchen_003
+- id: light_kitchen_004
   alias: Licht - Keuken - Uit - Night
   trigger:
   - entity_id: binary_sensor.hue_sensor_keuken_motion
@@ -3135,8 +3193,6 @@
 - id: light_livingroom_001
   alias: Licht - Woonkamer - Aan
   trigger:
-  - platform: state
-    entity_id: binary_sensor.hue_sensor_woonkamer_motion
   - platform: state
     entity_id: input_boolean.media_livingroom
     to: 'on'
@@ -3175,6 +3231,45 @@
   - service: script.turn_on
     entity_id: script.woonkamer_light_on
 - id: light_livingroom_002
+  alias: Licht - Woonkamer - Aan Motion
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.hue_sensor_woonkamer_motion
+  condition:
+  - condition: or
+    conditions:
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: light.hue_light_woonkamer
+        state: 'off'
+      - condition: state
+        entity_id: light.milight_woonkamer_bridge
+        state: 'off'
+      - condition: state
+        entity_id: light.hue_smart_plug_woonkamer_two
+        state: 'off'
+    - condition: state
+      entity_id: group.licht_woonkamer
+      state: 'off'
+  - condition: state
+    entity_id: input_boolean.light_downstairs
+    state: 'on'
+  - condition: numeric_state
+    entity_id: sensor.hue_sensor_woonkamer_light_level
+    below: 55
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: '{{ states(''input_select.woning_status'') not in [''Juist Weg'',
+        ''Weg'', ''Op Vakantie''] }}'
+    - condition: template
+      value_template: '{{ states(''input_select.woning_status'') in [''Op Vakantie'']
+        and states(''group.bezoekers'') in [''home''] }}'
+  action:
+  - service: script.turn_on
+    entity_id: script.woonkamer_light_on
+- id: light_livingroom_003
   alias: Licht - Woonkamer - Aan Kerstmis
   trigger:
   - platform: state
@@ -3195,7 +3290,7 @@
   action:
   - service: script.turn_on
     entity_id: script.woonkamer_light_off
-- id: light_livingroom_003
+- id: light_livingroom_004
   alias: Licht - Woonkamer - Uit
   trigger:
   - platform: numeric_state
@@ -3211,7 +3306,7 @@
   action:
   - service: script.turn_on
     entity_id: script.woonkamer_light_off
-- id: light_livingroom_004
+- id: light_livingroom_005
   alias: Licht - Woonkamer - Uit Geen beweging
   trigger:
   - entity_id: binary_sensor.hue_sensor_woonkamer_motion
@@ -3232,7 +3327,7 @@
   action:
   - service: script.turn_on
     entity_id: script.woonkamer_light_off
-- id: light_livingroom_005
+- id: light_livingroom_006
   alias: Licht - Woonkamer - Uit Nacht
   trigger:
   - entity_id: binary_sensor.hue_sensor_woonkamer_motion
