@@ -763,7 +763,7 @@
   name: Veranda - Film
   entities:
     light.hue_light_veranda:
-      brightness: 51
+      brightness: 50
       friendly_name: Veranda Light
       supported_features: 41
       icon: mdi:floor-lamp
@@ -783,11 +783,10 @@
   name: Veranda - Nacht
   entities:
     light.hue_light_veranda:
-      brightness: 26
       friendly_name: Veranda Light
       supported_features: 41
       icon: mdi:floor-lamp
-      state: 'on'
+      state: 'off'
     light.hue_smart_plug_extra:
       friendly_name: Extra Plug
       supported_features: 40
@@ -803,7 +802,7 @@
   name: Veranda - Gedimmed
   entities:
     light.hue_light_veranda:
-      brightness: 51
+      brightness: 100
       friendly_name: Veranda Light
       supported_features: 41
       icon: mdi:floor-lamp
@@ -949,7 +948,7 @@
       display_categories: light
       state: 'on'
     light.hue_light_woonkamer:
-      brightness: 64
+      brightness: 50
       friendly_name: Livingroom Light
       supported_features: 41
       icon: mdi:globe-light

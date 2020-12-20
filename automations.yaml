@@ -2938,10 +2938,10 @@
     below: 50
   - platform: numeric_state
     entity_id: sensor.hue_sensor_veranda_light_level
-    above: 40
+    above: 10
   - platform: numeric_state
     entity_id: sensor.hue_sensor_veranda_light_level
-    below: 40
+    below: 7
   - platform: state
     entity_id: remote.harmony_hub
     attribute: current_activity
@@ -3128,9 +3128,15 @@
     - condition: template
       value_template: '{{ states(''input_select.woning_status'') in [''Op Vakantie'']
         and states(''group.bezoekers'') in [''home''] }}'
-  - condition: state
-    entity_id: group.licht_keuken
-    state: 'off'
+  - condition: or
+    conditions:
+    - condition: numeric_state
+      entity_id: light.milight_keuken
+      attribute: brightness
+      below: 255
+    - condition: state
+      entity_id: group.licht_keuken
+      state: 'off'
   action:
   - service: script.turn_on
     entity_id: script.keuken_light_on
@@ -3154,9 +3160,6 @@
   condition:
   - condition: state
     entity_id: group.licht_keuken
-    state: 'on'
-  - condition: state
-    entity_id: input_boolean.media_livingroom
     state: 'on'
   - condition: state
     entity_id: binary_sensor.hue_sensor_keuken_motion
