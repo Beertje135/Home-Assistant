@@ -3045,10 +3045,13 @@
         for:
           minutes: 30
       - condition: state
-        entity_id: binary_sensor.kitchen_sensor_motion
+        entity_id: binary_sensor.hue_sensor_woonkamer_motion
         state: 'off'
         for:
           minutes: 30
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
     - condition: numeric_state
       entity_id: sensor.hue_sensor_veranda_light_level
       above: 50
@@ -3287,9 +3290,6 @@
     - input_boolean.light_downstairs
     - input_boolean.keep_christmas_on
     state: 'on'
-  - condition: state
-    entity_id: group.licht_woonkamer
-    state: 'off'
   action:
   - service: script.turn_on
     entity_id: script.woonkamer_light_off
@@ -3338,6 +3338,16 @@
       minutes: 1
     platform: state
     to: 'off'
+  - platform: state
+    entity_id: group.licht_woonkamer
+    to: 'on'
+    for:
+      minutes: 2
+  - platform: state
+    entity_id: group.licht_woonkamer
+    to: 'on'
+    for:
+      minutes: 3
   condition:
   - condition: state
     entity_id: group.licht_woonkamer

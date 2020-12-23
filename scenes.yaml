@@ -198,17 +198,17 @@
       - colorloop
       - night
       - white
-      brightness: 76
+      brightness: 128
       hs_color:
-      - 255
-      - 42.857
+      - 270
+      - 71.429
       rgb_color:
-      - 173
-      - 145
+      - 163
+      - 72
       - 255
       xy_color:
-      - 0.262
-      - 0.193
+      - 0.259
+      - 0.122
       friendly_name: Kitchen LED
       assumed_state: true
       supported_features: 63
@@ -219,17 +219,17 @@
       - colorloop
       - night
       - white
-      brightness: 76
+      brightness: 128
       hs_color:
-      - 255
-      - 42.857
+      - 270
+      - 71.429
       rgb_color:
-      - 173
-      - 145
+      - 163
+      - 72
       - 255
       xy_color:
-      - 0.262
-      - 0.193
+      - 0.259
+      - 0.122
       friendly_name: Kitchen Tv LED
       assumed_state: true
       supported_features: 61
@@ -309,15 +309,15 @@
       - random
       brightness: 145
       hs_color:
-      - 36.213
+      - 36.568
       - 66.275
       rgb_color:
       - 255
-      - 187
+      - 188
       - 85
       xy_color:
-      - 0.503
-      - 0.413
+      - 0.502
+      - 0.414
       effect: none
       friendly_name: Hue Light Tuin One
       supported_features: 63
@@ -330,17 +330,38 @@
       - random
       brightness: 145
       hs_color:
-      - 36.213
+      - 36.568
       - 66.275
       rgb_color:
       - 255
-      - 187
+      - 188
       - 85
       xy_color:
-      - 0.503
-      - 0.413
+      - 0.502
+      - 0.414
       effect: none
       friendly_name: Hue Light Tuin Three
+      supported_features: 63
+      state: 'on'
+    light.hue_light_tuin_six:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      brightness: 145
+      hs_color:
+      - 36.568
+      - 66.275
+      rgb_color:
+      - 255
+      - 188
+      - 85
+      xy_color:
+      - 0.502
+      - 0.414
+      effect: none
+      friendly_name: Hue Light Tuin Six
       supported_features: 63
       state: 'on'
 - id: '1608049445477'
@@ -364,6 +385,15 @@
       friendly_name: Hue Light Tuin Three
       supported_features: 63
       state: 'off'
+    light.hue_light_tuin_six:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Hue Light Tuin Six
+      supported_features: 63
+      state: 'off'
 - id: '1608049487168'
   name: Terras - Normaal
   entities:
@@ -375,15 +405,15 @@
       - random
       brightness: 145
       hs_color:
-      - 36.213
+      - 36.568
       - 66.275
       rgb_color:
       - 255
-      - 187
+      - 188
       - 85
       xy_color:
-      - 0.503
-      - 0.413
+      - 0.502
+      - 0.414
       effect: none
       friendly_name: Hue Light Tuin Two
       supported_features: 63
@@ -396,17 +426,38 @@
       - random
       brightness: 145
       hs_color:
-      - 36.213
+      - 36.568
       - 66.275
       rgb_color:
       - 255
-      - 187
+      - 188
       - 85
       xy_color:
-      - 0.503
-      - 0.413
+      - 0.502
+      - 0.414
       effect: none
       friendly_name: Hue Light Tuin Four
+      supported_features: 63
+      state: 'on'
+    light.hue_light_tuin_five:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      brightness: 145
+      hs_color:
+      - 36.568
+      - 66.275
+      rgb_color:
+      - 255
+      - 188
+      - 85
+      xy_color:
+      - 0.502
+      - 0.414
+      effect: none
+      friendly_name: Hue Light Tuin Five
       supported_features: 63
       state: 'on'
 - id: '1608049519088'
@@ -428,6 +479,15 @@
       - colorloop
       - random
       friendly_name: Hue Light Tuin Four
+      supported_features: 63
+      state: 'off'
+    light.hue_light_tuin_five:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Hue Light Tuin Five
       supported_features: 63
       state: 'off'
 - id: '1608049557900'
@@ -695,6 +755,7 @@
       - night
       - white
       brightness: 255
+      color_temp: 370
       friendly_name: Bathroom LED
       assumed_state: true
       supported_features: 63
@@ -763,7 +824,7 @@
   name: Veranda - Film
   entities:
     light.hue_light_veranda:
-      brightness: 50
+      brightness: 3
       friendly_name: Veranda Light
       supported_features: 41
       icon: mdi:floor-lamp
@@ -946,7 +1007,7 @@
       supported_features: 40
       icon: mdi:floor-lamp
       display_categories: light
-      state: 'on'
+      state: 'off'
     light.hue_light_woonkamer:
       brightness: 50
       friendly_name: Livingroom Light
@@ -959,7 +1020,6 @@
       - night
       - white
       brightness: 255
-      color_temp: 260
       friendly_name: Livingroom Tv LED
       assumed_state: true
       supported_features: 61
