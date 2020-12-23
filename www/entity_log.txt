@@ -233,7 +233,7 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -group.bezoekers
   -group.licht_badkamer
   -group.licht_dressing
-  -group.licht_kamer_elmo
+  -group.licht_slaapkamer2
   -group.licht_keuken
   -group.licht_veranda
   -group.licht_woonkamer

@@ -309,15 +309,15 @@
       - random
       brightness: 145
       hs_color:
-      - 36.568
+      - 36.213
       - 66.275
       rgb_color:
       - 255
-      - 188
+      - 187
       - 85
       xy_color:
-      - 0.502
-      - 0.414
+      - 0.503
+      - 0.413
       effect: none
       friendly_name: Hue Light Tuin One
       supported_features: 63
@@ -330,15 +330,15 @@
       - random
       brightness: 145
       hs_color:
-      - 36.568
+      - 36.213
       - 66.275
       rgb_color:
       - 255
-      - 188
+      - 187
       - 85
       xy_color:
-      - 0.502
-      - 0.414
+      - 0.503
+      - 0.413
       effect: none
       friendly_name: Hue Light Tuin Three
       supported_features: 63
@@ -351,17 +351,38 @@
       - random
       brightness: 145
       hs_color:
-      - 36.568
+      - 36.213
       - 66.275
       rgb_color:
       - 255
-      - 188
+      - 187
       - 85
       xy_color:
-      - 0.502
-      - 0.414
+      - 0.503
+      - 0.413
       effect: none
       friendly_name: Hue Light Tuin Six
+      supported_features: 63
+      state: 'on'
+    light.hue_light_tuin_four:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      brightness: 145
+      hs_color:
+      - 36.213
+      - 66.275
+      rgb_color:
+      - 255
+      - 187
+      - 85
+      xy_color:
+      - 0.503
+      - 0.413
+      effect: none
+      friendly_name: Hue Light Tuin Four
       supported_features: 63
       state: 'on'
 - id: '1608049445477'
@@ -394,6 +415,15 @@
       friendly_name: Hue Light Tuin Six
       supported_features: 63
       state: 'off'
+    light.hue_light_tuin_four:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Hue Light Tuin Four
+      supported_features: 63
+      state: 'off'
 - id: '1608049487168'
   name: Terras - Normaal
   entities:
@@ -405,38 +435,17 @@
       - random
       brightness: 145
       hs_color:
-      - 36.568
+      - 36.213
       - 66.275
       rgb_color:
       - 255
-      - 188
+      - 187
       - 85
       xy_color:
-      - 0.502
-      - 0.414
+      - 0.503
+      - 0.413
       effect: none
       friendly_name: Hue Light Tuin Two
-      supported_features: 63
-      state: 'on'
-    light.hue_light_tuin_four:
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      - random
-      brightness: 145
-      hs_color:
-      - 36.568
-      - 66.275
-      rgb_color:
-      - 255
-      - 188
-      - 85
-      xy_color:
-      - 0.502
-      - 0.414
-      effect: none
-      friendly_name: Hue Light Tuin Four
       supported_features: 63
       state: 'on'
     light.hue_light_tuin_five:
@@ -447,15 +456,15 @@
       - random
       brightness: 145
       hs_color:
-      - 36.568
+      - 36.213
       - 66.275
       rgb_color:
       - 255
-      - 188
+      - 187
       - 85
       xy_color:
-      - 0.502
-      - 0.414
+      - 0.503
+      - 0.413
       effect: none
       friendly_name: Hue Light Tuin Five
       supported_features: 63
@@ -470,15 +479,6 @@
       - colorloop
       - random
       friendly_name: Hue Light Tuin Two
-      supported_features: 63
-      state: 'off'
-    light.hue_light_tuin_four:
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      - random
-      friendly_name: Hue Light Tuin Four
       supported_features: 63
       state: 'off'
     light.hue_light_tuin_five:

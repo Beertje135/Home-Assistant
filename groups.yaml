@@ -59,11 +59,15 @@
       - light.hue_smart_plug_veranda
       - light.hue_smart_plug_extra
 
-  licht_kamer_elmo:
+  licht_slaapkamer2:
     entities:
       - light.hue_light_kamer_elmo_one
       - light.hue_light_kamer_elmo_two
       - light.aarlo_arlo_elmo
+
+  licht_slaapkamer1:
+    entities:
+      - light.hue_light_slaapkamer1_one
 
   licht_tuin:
     entities:
@@ -71,4 +75,6 @@
       - light.hue_light_tuin_two
       - light.hue_light_tuin_three
       - light.hue_light_tuin_four
+      - light.hue_light_tuin_five
+      - light.hue_light_tuin_six
       - light.hue_light_tuinhuis

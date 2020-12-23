@@ -17,7 +17,7 @@
       - group.licht_dressing
       - group.licht_woonkamer
       - group.licht_veranda
-      - group.licht_kamer_elmo
+      - group.licht_slaapkamer2
       - device_tracker.router_iphone_bert
       - device_tracker.router_iphone_caro
       - device_tracker.iphone_van_bert

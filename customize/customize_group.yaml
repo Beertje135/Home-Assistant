@@ -36,6 +36,6 @@
       icon: mdi:floor-lamp
       friendly_name: Veranda Lights
 
-    group.licht_kamer_elmo:
+    group.licht_slaapkamer2:
       icon: mdi:baby-carriage
       friendly_name: Elmo's Room Lights
