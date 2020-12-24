@@ -61,8 +61,11 @@
       - group.licht_dressing
       - group.licht_woonkamer
       - group.licht_veranda
+      - group.licht_slaapkamer1
       - group.licht_slaapkamer2
-      - group.licht_tuin
+      - group.licht_tuin1
+      - group.licht_tuin2
+      - group.licht_tuinhuis
 
 #Gebruik dit sjabloon om entiteiten te vinden:
 # {% for e in states.sensor if not e.entity_id.startswith('sensor.dark_sky') %}
