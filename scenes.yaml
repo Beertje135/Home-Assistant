@@ -299,7 +299,7 @@
       icon: mdi:television-clean
       state: 'off'
 - id: '1608049415666'
-  name: Tuin - Normaal
+  name: Tuin 2 - Normaal
   entities:
     light.hue_light_tuin_one:
       min_mireds: 153
@@ -307,86 +307,29 @@
       effect_list:
       - colorloop
       - random
-      brightness: 145
-      hs_color:
-      - 36.213
-      - 66.275
-      rgb_color:
-      - 255
-      - 187
-      - 85
-      xy_color:
-      - 0.503
-      - 0.413
-      effect: none
       friendly_name: Hue Light Tuin One
       supported_features: 63
-      state: 'on'
+      state: 'off'
     light.hue_light_tuin_three:
       min_mireds: 153
       max_mireds: 500
       effect_list:
       - colorloop
       - random
-      brightness: 145
-      hs_color:
-      - 36.213
-      - 66.275
-      rgb_color:
-      - 255
-      - 187
-      - 85
-      xy_color:
-      - 0.503
-      - 0.413
-      effect: none
       friendly_name: Hue Light Tuin Three
       supported_features: 63
-      state: 'on'
-    light.hue_light_tuin_six:
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      - random
-      brightness: 145
-      hs_color:
-      - 36.213
-      - 66.275
-      rgb_color:
-      - 255
-      - 187
-      - 85
-      xy_color:
-      - 0.503
-      - 0.413
-      effect: none
-      friendly_name: Hue Light Tuin Six
-      supported_features: 63
-      state: 'on'
+      state: 'off'
     light.hue_light_tuin_four:
       min_mireds: 153
       max_mireds: 500
       effect_list:
       - colorloop
       - random
-      brightness: 145
-      hs_color:
-      - 36.213
-      - 66.275
-      rgb_color:
-      - 255
-      - 187
-      - 85
-      xy_color:
-      - 0.503
-      - 0.413
-      effect: none
       friendly_name: Hue Light Tuin Four
       supported_features: 63
-      state: 'on'
+      state: 'off'
 - id: '1608049445477'
-  name: Tuin - Uit
+  name: Tuin 2 - Uit
   entities:
     light.hue_light_tuin_one:
       min_mireds: 153
@@ -404,15 +347,6 @@
       - colorloop
       - random
       friendly_name: Hue Light Tuin Three
-      supported_features: 63
-      state: 'off'
-    light.hue_light_tuin_six:
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      - random
-      friendly_name: Hue Light Tuin Six
       supported_features: 63
       state: 'off'
     light.hue_light_tuin_four:
@@ -425,7 +359,7 @@
       supported_features: 63
       state: 'off'
 - id: '1608049487168'
-  name: Terras - Normaal
+  name: Tuin 1 - Normaal
   entities:
     light.hue_light_tuin_two:
       min_mireds: 153
@@ -435,15 +369,15 @@
       - random
       brightness: 145
       hs_color:
-      - 36.213
+      - 36.568
       - 66.275
       rgb_color:
       - 255
-      - 187
+      - 188
       - 85
       xy_color:
-      - 0.503
-      - 0.413
+      - 0.502
+      - 0.414
       effect: none
       friendly_name: Hue Light Tuin Two
       supported_features: 63
@@ -456,21 +390,42 @@
       - random
       brightness: 145
       hs_color:
-      - 36.213
+      - 36.568
       - 66.275
       rgb_color:
       - 255
-      - 187
+      - 188
       - 85
       xy_color:
-      - 0.503
-      - 0.413
+      - 0.502
+      - 0.414
       effect: none
       friendly_name: Hue Light Tuin Five
       supported_features: 63
       state: 'on'
+    light.hue_light_tuin_six:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      brightness: 145
+      hs_color:
+      - 36.568
+      - 66.275
+      rgb_color:
+      - 255
+      - 188
+      - 85
+      xy_color:
+      - 0.502
+      - 0.414
+      effect: none
+      friendly_name: Hue Light Tuin Six
+      supported_features: 63
+      state: 'on'
 - id: '1608049519088'
-  name: Terras - Uit
+  name: Tuin 1 - Uit
   entities:
     light.hue_light_tuin_two:
       min_mireds: 153
@@ -488,6 +443,15 @@
       - colorloop
       - random
       friendly_name: Hue Light Tuin Five
+      supported_features: 63
+      state: 'off'
+    light.hue_light_tuin_six:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Hue Light Tuin Six
       supported_features: 63
       state: 'off'
 - id: '1608049557900'
@@ -1020,6 +984,16 @@
       - night
       - white
       brightness: 255
+      hs_color:
+      - 45
+      - 42.857
+      rgb_color:
+      - 255
+      - 227
+      - 145
+      xy_color:
+      - 0.42
+      - 0.411
       friendly_name: Livingroom Tv LED
       assumed_state: true
       supported_features: 61

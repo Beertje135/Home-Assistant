@@ -1074,7 +1074,7 @@ views:
                       entities: 
                         - binary_sensor.hue_sensor_tuin_motion
                     - type: glance
-                      columns: 2
+                      columns: 3
                       show_name: false
                       show_state: false
                       entities:
@@ -1084,14 +1084,20 @@ views:
                             action: toggle
                           hold_action:
                             action: more-info
-                        - entity: light.hue_light_tuin_four
-                          name: Lamp 4
+                        - entity: light.hue_light_tuin_five
+                          name: Lamp 5
+                          tap_action:
+                            action: toggle
+                          hold_action:
+                            action: more-info
+                        - entity: light.hue_light_tuin_six
+                          name: Lamp 6
                           tap_action:
                             action: toggle
                           hold_action:
                             action: more-info
                     - type: glance
-                      columns: 2
+                      columns: 3
                       show_name: false
                       show_state: false
                       entities:
@@ -1103,6 +1109,12 @@ views:
                             action: more-info
                         - entity: light.hue_light_tuin_three
                           name: Lamp 3
+                          tap_action:
+                            action: toggle
+                          hold_action:
+                            action: more-info
+                        - entity: light.hue_light_tuin_four
+                          name: Lamp 4
                           tap_action:
                             action: toggle
                           hold_action:

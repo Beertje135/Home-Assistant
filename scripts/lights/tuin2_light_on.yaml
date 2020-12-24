@@ -1,0 +1,6 @@
+
+alias: Tuin 2 - Licht - Aan
+sequence:
+  - service: scene.turn_on
+    entity_id:
+      - scene.tuin2_normaal

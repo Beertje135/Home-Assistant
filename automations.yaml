@@ -86,7 +86,7 @@
     entity_id: media_player.alexa_livingroom_1
   - platform: state
     to: playing
-    entity_id: media_player.alexa_kitchen_amp   
+    entity_id: media_player.alexa_kitchen_amp
   condition:
   - condition: state
     state: playing
@@ -425,9 +425,9 @@
   - condition: state
     entity_id: remote.harmony_hub
     attribute: current_activity
-    state: 
-      - TV Decoder
-      - WebOS
+    state:
+    - TV Decoder
+    - WebOS
   action:
   - service: script.turn_on
     entity_id: script.radio_kitchen_off
@@ -3030,7 +3030,7 @@
     to: 'off'
   - platform: numeric_state
     entity_id: sensor.hue_sensor_veranda_light_level
-    above: 50
+    above: '50'
   condition:
   - condition: state
     entity_id: group.licht_veranda
@@ -3054,13 +3054,14 @@
       state: Slapen
     - condition: numeric_state
       entity_id: sensor.hue_sensor_veranda_light_level
-      above: 50
+      above: '50'
     - condition: state
       entity_id: input_boolean.light_downstairs
       state: 'off'
   action:
   - service: scene.turn_on
-    entity_id: script.veranda_uit
+    entity_id: scene.veranda_uit
+  mode: single
 - id: light_kitchen_001
   alias: Licht - Keuken - Aan
   trigger:
@@ -3325,8 +3326,8 @@
     entity_id: remote.harmony_hub
     attribute: current_activity
     state:
-      - PowerOff
-      - Alexa
+    - PowerOff
+    - Alexa
   action:
   - service: script.turn_on
     entity_id: script.woonkamer_light_off
@@ -3495,7 +3496,7 @@
     at: input_datetime.dutje_start
   - platform: state
     entity_id: input_select.woning_status
-    to: 'Juist Thuis'
+    to: Juist Thuis
   condition:
   - condition: state
     entity_id: input_select.woning_status
@@ -3617,7 +3618,7 @@
       state: 'off'
   - condition: numeric_state
     entity_id: sensor.hue_sensor_tuinhuis_light_level
-    below: 5
+    below: 40
   action:
   - service: script.turn_on
     entity_id: script.tuinhuis_light_on
@@ -3626,7 +3627,7 @@
   trigger:
   - platform: numeric_state
     entity_id: sensor.hue_sensor_tuinhuis_light_level
-    above: 10
+    above: 40
   - entity_id: binary_sensor.hue_sensor_tuin_motion
     for:
       minutes: 3
@@ -3657,8 +3658,8 @@
   action:
   - service: scene.turn_on
     entity_id: scene.tuinhuis_uit
-- id: light_garden_001
-  alias: Licht - Tuin - Aan
+- id: light_garden2_001
+  alias: Licht - Tuin2 - Aan
   trigger:
   - platform: state
     entity_id: binary_sensor.hue_sensor_tuin_motion
@@ -3670,19 +3671,22 @@
     entity_id: input_boolean.light_garden_stay_on
     to: 'on'
   condition:
+  - condition: state
+    entity_id: group.licht_tuin2
+    state: 'off'
   - condition: or
     conditions:
     - condition: numeric_state
       entity_id: sensor.hue_sensor_tuin_light_level
-      below: 5
+      below: 40
     - condition: state
       entity_id: input_boolean.light_garden_stay_on
       state: 'on'
   action:
   - service: script.turn_on
-    entity_id: script.tuin_light_on
-- id: light_garden_002
-  alias: Licht - Tuin - Uit
+    entity_id: script.tuin2_light_on
+- id: light_garden2_002
+  alias: Licht - Tuin2 - Uit
   trigger:
   - entity_id: binary_sensor.hue_sensor_tuin_motion
     for:
@@ -3705,14 +3709,9 @@
     platform: state
     to: 'off'
   condition:
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: light.hue_light_tuin_one
-      state: 'on'
-    - condition: state
-      entity_id: light.hue_light_tuin_three
-      state: 'on'
+  - condition: state
+    entity_id: group.licht_tuin2
+    state: 'on'
   - condition: state
     entity_id: binary_sensor.hue_sensor_tuinhuis_motion
     state: 'off'
@@ -3724,9 +3723,9 @@
     state: 'off'
   action:
   - service: scene.turn_on
-    entity_id: scene.tuin_uit
-- id: light_terras_001
-  alias: Licht - Terras - Aan
+    entity_id: scene.tuin2_uit
+- id: light_garden1_001
+  alias: Licht - Tuin1 - Aan
   trigger:
   - platform: state
     entity_id: input_select.woning_status
@@ -3748,21 +3747,42 @@
     to: 'on'
   - platform: numeric_state
     entity_id: sensor.hue_sensor_tuin_light_level
-    below: 5
+    below: 40
+  - entity_id: binary_sensor.hue_sensor_keuken_motion
+    platform: state
+    to: 'on'
   condition:
+  - condition: state
+    entity_id: group.licht_tuin1
+    state: 'off'
+  - condition: or
+    conditions:
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Slapen
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Slapen
+      - condition: state
+        entity_id: binary_sensor.hue_sensor_keuken_motion
+        state: 'off'
   - condition: or
     conditions:
     - condition: numeric_state
       entity_id: sensor.hue_sensor_tuin_light_level
-      below: 5
+      below: 40
     - condition: state
       entity_id: input_boolean.light_garden_stay_on
       state: 'on'
   action:
   - service: script.turn_on
-    entity_id: script.terras_light_on
-- id: light_terras_002
-  alias: Licht - Terras - Uit
+    entity_id: script.tuin1_light_on
+- id: light_garden1_002
+  alias: Licht - Tuin1 - Uit
   trigger:
   - platform: state
     entity_id: input_select.woning_status
@@ -3777,7 +3797,7 @@
       minutes: 3
   - platform: numeric_state
     entity_id: sensor.hue_sensor_tuin_light_level
-    above: 5
+    above: 40
   - platform: state
     entity_id: input_boolean.light_garden_stay_on
     to: 'off'
@@ -3805,6 +3825,11 @@
       minutes: 1
     platform: state
     to: 'off'
+  - entity_id: binary_sensor.hue_sensor_keuken_motion
+    for:
+      minutes: 5
+    platform: state
+    to: 'off'
   - entity_id: binary_sensor.hue_sensor_tuin_motion
     for:
       minutes: 2
@@ -3813,6 +3838,11 @@
   - entity_id: binary_sensor.hue_sensor_tuinhuis_motion
     for:
       minutes: 2
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.hue_sensor_keuken_motion
+    for:
+      minutes: 6
     platform: state
     to: 'off'
   condition:
@@ -3825,7 +3855,7 @@
           | int - 120 ) | timestamp_custom(''%H:%M'', False) }}'
       - condition: numeric_state
         entity_id: sensor.hue_sensor_tuin_light_level
-        above: 5
+        above: 40
     - condition: or
       conditions:
       - condition: state
@@ -3841,14 +3871,9 @@
         - Weg
         - Op Vakantie
         - Slapen
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: light.hue_light_tuin_two
-      state: 'on'
-    - condition: state
-      entity_id: light.hue_light_tuin_four
-      state: 'on'
+  - condition: state
+    entity_id: group.licht_tuin1
+    state: 'on'
   - condition: state
     entity_id: binary_sensor.hue_sensor_tuinhuis_motion
     state: 'off'
@@ -3860,5 +3885,5 @@
     state: 'off'
   action:
   - service: scene.turn_on
-    entity_id: scene.terras_uit
+    entity_id: scene.tuin1_uit
   mode: single

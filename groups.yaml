@@ -69,12 +69,18 @@
     entities:
       - light.hue_light_slaapkamer1_one
 
-  licht_tuin:
+  licht_tuin1:
     entities:
-      - light.hue_light_tuin_one
       - light.hue_light_tuin_two
-      - light.hue_light_tuin_three
-      - light.hue_light_tuin_four
       - light.hue_light_tuin_five
       - light.hue_light_tuin_six
+
+  licht_tuin2:
+    entities:
+      - light.hue_light_tuin_one
+      - light.hue_light_tuin_three
+      - light.hue_light_tuin_four
+
+  licht_tuinhuis:
+    entities:
       - light.hue_light_tuinhuis
