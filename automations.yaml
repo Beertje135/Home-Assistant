@@ -3031,7 +3031,7 @@
     to: 'off'
   - platform: numeric_state
     entity_id: sensor.hue_sensor_veranda_light_level
-    above: '50'
+    above: 50
   condition:
   - condition: state
     entity_id: group.licht_veranda
@@ -3055,7 +3055,7 @@
       state: Slapen
     - condition: numeric_state
       entity_id: sensor.hue_sensor_veranda_light_level
-      above: '50'
+      above: 50
     - condition: state
       entity_id: input_boolean.light_downstairs
       state: 'off'
