@@ -963,10 +963,11 @@
         state: Juist Thuis
       sequence:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.music_follow
+        entity_id: 
+        - input_boolean.music_follow
+        - input_boolean.light_downstairs
       - service: script.turn_on
         entity_id:
-        - script.input_light_all_beneden_on
         - script.computer_on
         - script.dusty_off
     - conditions:
@@ -975,11 +976,11 @@
         state: Juist Wakker
       sequence:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.music_follow
+        entity_id: 
+        - input_boolean.music_follow
+        - input_boolean.light_downstairs
       - service: script.turn_on
-        entity_id:
-        - script.input_light_all_beneden_on
-        - script.computer_on
+        entity_id: script.computer_on
     - conditions:
       - condition: state
         entity_id: input_select.woning_status
@@ -2090,7 +2091,7 @@
         }}'
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_living_room_reset, script.evo_zone_kitchen_reset
+    entity_id: script.evo_zone_livingroom_reset, script.evo_zone_kitchen_reset
   - delay: 00:02:00
   - service: script.turn_on
     entity_id: script.evo_status_normal
@@ -2189,7 +2190,7 @@
     - Thuis (Werk)
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_living_room_rise
+    entity_id: script.evo_zone_livingroom_rise
 - id: heating_week_shedule_006
   alias: Verwarming - Week Schema - Vroeger slaper dus Lager Beneden
   trigger:
@@ -2214,7 +2215,7 @@
     state: 'off'
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_kitchen_lower,script.evo_zone_living_room_lower
+    entity_id: script.evo_zone_kitchen_lower,script.evo_zone_livingroom_lower
 - id: heating_week_shedule_007
   alias: Verwarming - Week Schema - Gaan Slapen dus Auto Mode
   trigger:
@@ -2265,7 +2266,7 @@
     state: 'off'
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_living_room_reset,script.evo_zone_kitchen_reset
+    entity_id: script.evo_zone_livingroom_reset,script.evo_zone_kitchen_reset
   - delay: 00:02:00
   - service: script.turn_on
     entity_id: script.evo_status_normal
@@ -2319,7 +2320,7 @@
         state: Reset
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_living_room_reset, script.evo_zone_kitchen_reset
+    entity_id: script.evo_zone_livingroom_reset, script.evo_zone_kitchen_reset
   - delay: 00:02:00
   - service: script.turn_on
     entity_id: script.evo_status_normal
@@ -2343,7 +2344,7 @@
     - sun
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_living_room_rise,script.evo_zone_kitchen_rise
+    entity_id: script.evo_zone_livingroom_rise,script.evo_zone_kitchen_rise
 - id: heating_weekend_shedule_002
   alias: Verwarming - Weekend Schema - Ochtend dus Auto Mode
   trigger:
@@ -2388,7 +2389,7 @@
         state: Reset
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_living_room_reset,script.evo_zone_kitchen_reset
+    entity_id: script.evo_zone_livingroom_reset,script.evo_zone_kitchen_reset
   - delay: 00:02:00
   - service: script.turn_on
     entity_id: script.evo_status_normal
@@ -2413,7 +2414,7 @@
     state: 'off'
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_kitchen_lower,script.evo_zone_living_room_lower
+    entity_id: script.evo_zone_kitchen_lower,script.evo_zone_livingroom_lower
 - id: heating_weekend_shedule_004
   alias: Verwarming - Weekend Schema - Slapen dus Auto Mode
   trigger:
@@ -2461,7 +2462,7 @@
         state: Reset
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_living_room_reset,script.evo_zone_kitchen_reset
+    entity_id: script.evo_zone_livingroom_reset,script.evo_zone_kitchen_reset
   - delay: 00:02:00
   - service: script.turn_on
     entity_id: script.evo_status_normal
@@ -2512,7 +2513,7 @@
         state: Reset
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_living_room_reset,script.evo_zone_kitchen_reset
+    entity_id: script.evo_zone_livingroom_reset,script.evo_zone_kitchen_reset
   - delay: 00:02:00
   - service: script.turn_on
     entity_id: script.evo_status_normal
@@ -2537,7 +2538,7 @@
     state: Thuis
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_living_room_rise
+    entity_id: script.evo_zone_livingroom_rise
 - id: heating_vacation_001
   alias: Verwarming - Vakantie - Dus alles Uit
   trigger:
@@ -2574,7 +2575,7 @@
     before: input_datetime.awake_weekend_heating
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_living_room_rise, script.evo_zone_kitchen_rise
+    entity_id: script.evo_zone_livingroom_rise, script.evo_zone_kitchen_rise
 - id: heating_staycation_002
   alias: Verwarming - Staycation - Ochtend dus Home Mode
   trigger:
@@ -2609,7 +2610,7 @@
         state: none
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_living_room_reset, script.evo_zone_kitchen_reset, script.evo_status_home
+    entity_id: script.evo_zone_livingroom_reset, script.evo_zone_kitchen_reset, script.evo_status_home
   mode: single
 - id: heating_staycation_003
   alias: Verwarming - Staycation - Thuis (Verlof) dus Home Mode
@@ -2649,7 +2650,7 @@
     state: Thuis (Verlof)
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_living_room_rise
+    entity_id: script.evo_zone_livingroom_rise
 - id: heating_staycation_005
   alias: Verwarming - Staycation - Vroeger Slapen dus Omlaag Beneden
   trigger:
@@ -2668,7 +2669,7 @@
     state: 'on'
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_kitchen_lower, script.evo_zone_living_room_lower
+    entity_id: script.evo_zone_kitchen_lower, script.evo_zone_livingroom_lower
 - id: heating_staycation_006
   alias: Verwarming - Staycation - Slapen dus Home Mode
   trigger:
@@ -2707,7 +2708,7 @@
         state: home
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_living_room_reset, script.evo_zone_kitchen_reset, script.evo_status_home
+    entity_id: script.evo_zone_livingroom_reset, script.evo_zone_kitchen_reset, script.evo_status_home
 - id: heating_staycation_007
   alias: Verwarming - Staycation - Tijd om te gaan Slapen dus Home Mode
   trigger:
@@ -2745,7 +2746,7 @@
         state: home
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_living_room_reset, script.evo_zone_kitchen_reset, script.evo_status_home
+    entity_id: script.evo_zone_livingroom_reset, script.evo_zone_kitchen_reset, script.evo_status_home
 - id: heating_timer_001
   alias: Verwarming - Timer Overwrite - Badkamer - Auto Mode
   trigger:

@@ -418,6 +418,345 @@ radio_bathroom_volume:
         {%- else -%}
           0.13
         {%- endif %}
+badkamer_light_on:
+  alias: Badkamer - Licht - Aan
+  sequence:
+    - service: scene.turn_on
+      data_template:
+        entity_id: >
+          {% if states('input_select.woning_status') not in ['Slapen'] and (states('sensor.time') <= '06:00' or states('sensor.time') >= '22:00') %}
+            scene.badkamer_gedimmed
+          {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') >= '05:00' and states('sensor.time') <= '23:30') %}
+            scene.badkamer_gedimmed
+          {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') <= '05:00' or states('sensor.time') >= '23:30') %}
+            scene.badkamer_nacht
+          {% elif states('input_select.woning_status') in ['Juist Wakker'] %}
+            scene.badkamer_gedimmed
+          {% else %}
+            scene.badkamer_normaal
+          {% endif %}
+dressing_light_on:
+  alias: Dressing - Licht - Aan
+  sequence:
+    - service: scene.turn_on
+      data_template:
+        entity_id: >
+          {% if states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') > '05:01' and states('sensor.time') < '23:00') %}
+            scene.dressing_gedimmed
+          {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') >= '23:01' or states('sensor.time') <= '05:00') %}
+            scene.dressing_nacht
+          {% elif states('input_select.woning_status') in ['Juist Wakker'] %}
+            scene.dressing_gedimmed
+          {% elif states('sensor.time') >= '22:00' or states('sensor.time') <= '06:45' %}
+            scene.dressing_gedimmed
+          {% else %}
+            scene.dressing_normaal
+          {% endif %}
+keuken_light_on:
+  alias: Keuken - Licht - Aan
+  sequence:
+    - service: scene.turn_on
+      data_template:
+        entity_id: >
+          {% if states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') > '05:01' and states('sensor.time') < '23:00') %}
+            scene.keuken_gedimmed
+          {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') >= '23:01' or states('sensor.time') <= '05:00') %}
+            scene.keuken_nacht
+          {% elif states('sensor.time') >= states('input_datetime.sleep_elmo') and states('input_boolean.media_livingroom') in ['on'] %}
+            scene.keuken_film
+          {% elif states('input_boolean.media_kitchen') in ['on'] %}
+            scene.keuken_televisie
+          {% elif states('sensor.time') >= '22:00' %}
+            scene.keuken_gedimmed
+          {% elif states('sensor.hue_sensor_keuken_light_level') < '100' and states('binary_sensor.hue_sensor_keuken_motion') in ['off'] and states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] %}
+            scene.keuken_gedimmed
+          {% else %}
+            scene.keuken_normaal
+          {% endif %}
+slaapkamer2_light_on:
+  alias: Elmo - Licht - Aan
+  sequence:
+    - service: scene.turn_on
+      data_template:
+        entity_id: >
+          {%- if (now().weekday() in (0,1,2,3,4) and states('sensor.time') >= states('input_datetime.awake_week_elmo') and states('sensor.time') <= '08:01') or (now().weekday() in (5,6) and states('sensor.time') >= states('input_datetime.awake_weekend_elmo') and states('sensor.time') <= '08:01') -%}
+            scene.slaapkamer_2_ochtend
+          {%- elif (states('sensor.time') >= states('input_datetime.sleep_elmo')) -%}
+            scene.slaapkamer_2_nacht
+          {%- elif (states('sensor.time') >= states('input_datetime.dutje_start') or states('sensor.time') <= states('input_datetime.dutje_stop')) -%}
+            scene.slaapkamer_2_nacht
+          {%- else -%}
+            scene.slaapkamer_2_normaal
+          {%- endif %}
+tuin1_light_on:
+  alias: Tuin 1 - Licht - Aan
+  sequence:
+    - service: scene.turn_on
+      entity_id:
+        - scene.tuin1_normaal
+tuin2_light_on:
+  alias: Tuin 2 - Licht - Aan
+  sequence:
+    - service: scene.turn_on
+      entity_id:
+        - scene.tuin2_normaal
+tuinhuis_light_on:
+  alias: Tuinhuis - Licht - Aan
+  sequence:
+    - service: scene.turn_on
+      entity_id:
+        - scene.tuinhuis_normaal
+veranda_light_on:
+  alias: Veranda - Licht - Aan
+  sequence:
+    - service: scene.turn_on
+      data_template:
+        entity_id: >
+          {% if states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') > '05:01' and states('sensor.time') < '23:00') %}
+            scene.veranda_gedimmed
+          {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') >= '23:01' or states('sensor.time') <= '05:00') %}
+            scene.veranda_nacht
+          {% elif states('sensor.time') >= states('input_datetime.sleep_elmo') and states('input_boolean.media_livingroom') in ['on'] %}
+            scene.veranda_film
+          {% elif states('sensor.time') >= states('input_datetime.sleep_elmo') and state_attr('remote.harmony_hub', 'current_activity') in ['TV Decoder','WebOS','Apple tv'] %}
+            scene.veranda_televisie
+          {% elif states('input_boolean.media_kitchen') in ['on'] %}
+            scene.veranda_gedimmed
+          {% elif states('sensor.time') >= '22:00' %}
+            scene.veranda_gedimmed
+          {% elif (states('sensor.hue_sensor_veranda_light_level') | float) < 7 %}
+            scene.veranda_gedimmed
+          {% else %}
+            scene.veranda_normaal
+          {% endif %}
+woonkamer_light_on:
+  alias: Woonkamer - Licht - Aan
+  sequence:
+    - service: scene.turn_on
+      data_template:
+        entity_id: >
+          {% if states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') > '05:01' and states('sensor.time') < '23:00') %}
+            scene.woonkamer_gedimmed
+          {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') >= '23:01' or states('sensor.time') <= '05:00') %}
+            scene.woonkamer_nacht
+          {% elif states('sensor.time') >= states('input_datetime.sleep_elmo') and states('input_boolean.media_livingroom') in ['on'] %}
+            scene.woonkamer_film
+          {% elif state_attr('remote.harmony_hub', 'current_activity') in ['TV Decoder','WebOS','Apple tv'] %}
+            scene.woonkamer_televisie
+          {% elif states('sensor.time') >= '22:00' %}
+            scene.woonkamer_gedimmed
+          {% elif (states('sensor.hue_sensor_woonkamer_light_level') | float) > 26 %}
+            scene.woonkamer_gedimmed
+          {% else %}
+            scene.woonkamer_normaal
+          {% endif %}
+woonkamer_light_off:
+  alias: Woonkamer - Licht - Uit
+  sequence:
+    - choose:
+      - conditions:
+        - condition: state
+          entity_id: input_boolean.keep_christmas_on
+          state: 'on'
+        - condition: state
+          entity_id: input_boolean.light_downstairs
+          state: 'on'
+        - condition: state
+          entity_id: input_select.woning_status
+          state:
+            - Thuis
+            - Juist Thuis
+            - Thuis (Verlof)
+            - Thuis (Werk)
+            - Juist Wakker
+        sequence:
+        - service: scene.turn_on
+          entity_id: scene.woonkamer_uit_kerstmis
+      default:
+      - service: scene.turn_on
+        entity_id: scene.woonkamer_uit
+input_trigger_away:
+  alias: Input - Trigger Away
+  sequence:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.trigger_away
+input_trigger_home:
+  alias: Input - Trigger Home
+  sequence:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.trigger_home
+input_trigger_morning:
+  alias: Input - Trigger Morning
+  sequence:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.trigger_morning
+input_trigger_sleep:
+  alias: Input - Trigger Sleep
+  sequence:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.trigger_sleep
+evo_status_away:
+  alias: Evohome - Status - Away
+  sequence:
+      #Only if Evohome is NOT set to Away
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'away' ) }}"
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.ons_huisje
+        preset_mode: away
+evo_status_custom:
+  alias: Evohome - Status - Custom
+  sequence:
+      #Only if Evohome is NOT set to Custom
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'Custom' ) }}"
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.ons_huisje
+        preset_mode: Custom
+evo_status_economy:
+  alias: Evohome - Status - Economy
+  sequence:
+      #Only if Evohome is NOT set to eco
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'eco' ) }}"
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.ons_huisje
+        preset_mode: eco
+evo_status_heating_off:
+  alias: Evohome - Status - Heating Off
+  sequence:
+      #Only if Evohome is NOT set to Off
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'hvac_mode') != 'off' ) }}"
+    - service: climate.set_hvac_mode
+      data:
+        entity_id: climate.ons_huisje
+        hvac_mode: 'off'
+evo_status_home:
+  alias: Evohome - Status - Home
+  sequence:
+      #Only if Evohome is NOT set to Home
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'home' ) }}"
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.ons_huisje
+        preset_mode: home
+evo_status_normal_auto:
+  alias: Evohome - Status - Normal Auto
+  sequence:
+      #Only if Evohome is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) }}"
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.ons_huisje
+        preset_mode: Auto
+evo_status_normal_reset:
+  alias: Evohome - Status - Normal Reset
+  sequence:
+      #Only if Evohome is NOT set to Reset
+    - condition: template
+      value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != 'Reset' ) }}"
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.ons_huisje
+        preset_mode: Reset
+evo_status_normal:
+  alias: Evohome - Status - Normal
+  sequence:
+    - condition: or
+      conditions:
+        #Only if Kitchen is NOT set to Auto
+      - condition: template
+        value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+        #Only if Livingroom is NOT set to Auto
+      - condition: template
+        value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+        #Only if Bathroom is NOT set to Auto
+      - condition: template
+        value_template: "{{ (state_attr('climate.badkamer', 'preset_mode') != 'none' ) }}"
+        #Only if Bedroom is NOT set to Auto
+      - condition: template
+        value_template: "{{ (state_attr('climate.slp_kamer', 'preset_mode') != 'none' ) }}"
+        #Only if Bedroom Elmo is NOT set to Auto
+      - condition: template
+        value_template: "{{ (state_attr('climate.kamer_elmo', 'preset_mode') != 'none' ) }}"
+        #Only if Dressing is NOT set to Auto
+      - condition: template
+        value_template: "{{ (state_attr('climate.dressing', 'preset_mode') != 'none' ) }}"
+        #Only if Evohome is NOT set to Auto
+      - condition: template
+        value_template: "{{ (state_attr('climate.ons_huisje', 'preset_mode') != none ) }}"
+    - service: script.turn_on
+      data_template:
+        entity_id: >
+          {%- if (state_attr('climate.keuken', 'preset_mode') != 'none' ) or (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) or (state_attr('climate.badkamer', 'preset_mode') != 'none' ) or (state_attr('climate.slp_kamer', 'preset_mode') != 'none' ) or (state_attr('climate.kamer_elmo', 'preset_mode') != 'none' ) or (state_attr('climate.dressing', 'preset_mode') != 'none' ) -%}
+            script.evo_status_normal_reset
+          {%- else -%}
+            script.evo_status_normal_auto
+          {%- endif %}
+evo_zone_bathroom_reset:
+  alias: Evohome - Zone - Badkamer - Reset
+  sequence:
+      #Only if Bathroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.badkamer', 'preset_mode') != 'none' ) }}"
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.badkamer
+        preset_mode: none
+evo_zone_kitchen_lower:
+  alias: Evohome - Zone - Keuken - Lager
+  sequence:
+    - service: climate.set_temperature
+      entity_id: climate.keuken
+      data:
+        temperature: !secret heat_kitchen_min
+evo_zone_kitchen_reset:
+  alias: Evohome - Zone - Keuken - Reset
+  sequence:
+      #Only if Kitchen is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.keuken', 'preset_mode') != 'none' ) }}"
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.keuken
+        preset_mode: none
+evo_zone_kitchen_rise:
+  alias: Evohome - Zone - Keuken - Hoger
+  sequence:
+    - service: climate.set_temperature
+      entity_id: climate.keuken
+      data:
+        temperature: !secret heat_kitchen_max
+evo_zone_livingroom_lower:
+  alias: Evohome - Zone - Woonkamer - Lager
+  sequence:
+    - service: climate.set_temperature
+      entity_id: climate.woonkamer
+      data:
+        temperature: !secret heat_living_room_min
+evo_zone_livingroom_reset:
+  alias: Evohome - Zone - Woonkamer - Reset
+  sequence:
+      #Only if Livingroom is NOT set to Auto
+    - condition: template
+      value_template: "{{ (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) }}"
+    - service: climate.set_preset_mode
+      data:
+        entity_id: climate.woonkamer
+        preset_mode: none
+evo_zone_livingroom_rise:
+  alias: Evohome - Zone - Woonkamer - Hoger
+  sequence:
+    - service: climate.set_temperature
+      entity_id: climate.woonkamer
+      data:
+        temperature: !secret heat_living_room_max
 notify_battery_alexa:
   sequence:
   - condition: template

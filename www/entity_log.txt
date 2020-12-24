@@ -369,9 +369,9 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -script.evo_zone_kitchen_lower
   -script.evo_zone_kitchen_reset
   -script.evo_zone_kitchen_rise
-  -script.evo_zone_living_room_lower
-  -script.evo_zone_living_room_reset
-  -script.evo_zone_living_room_rise
+  -script.evo_zone_livingroom_lower
+  -script.evo_zone_livingroom_reset
+  -script.evo_zone_livingroom_rise
   -script.harmony_hub_alexa
   -script.harmony_hub_powered_off
   -script.harmony_hub_tv_decoder
