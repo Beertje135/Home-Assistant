@@ -418,8 +418,8 @@ radio_bathroom_volume:
         {%- else -%}
           0.13
         {%- endif %}
-badkamer_light_on:
-  alias: Badkamer - Licht - Aan
+light_bathroom_on:
+  alias: Licht - Badkamer - Aan
   sequence:
     - service: scene.turn_on
       data_template:
@@ -435,8 +435,8 @@ badkamer_light_on:
           {% else %}
             scene.badkamer_normaal
           {% endif %}
-dressing_light_on:
-  alias: Dressing - Licht - Aan
+light_dressing_on:
+  alias: Licht - Dressing - Aan
   sequence:
     - service: scene.turn_on
       data_template:
@@ -452,8 +452,8 @@ dressing_light_on:
           {% else %}
             scene.dressing_normaal
           {% endif %}
-keuken_light_on:
-  alias: Keuken - Licht - Aan
+light_kitchen_on:
+  alias: Licht - Keuken - Aan
   sequence:
     - service: scene.turn_on
       data_template:
@@ -473,8 +473,8 @@ keuken_light_on:
           {% else %}
             scene.keuken_normaal
           {% endif %}
-slaapkamer2_light_on:
-  alias: Elmo - Licht - Aan
+light_bedroom2_on:
+  alias: Licht - Slaapkamer 2 - Aan
   sequence:
     - service: scene.turn_on
       data_template:
@@ -488,26 +488,26 @@ slaapkamer2_light_on:
           {%- else -%}
             scene.slaapkamer_2_normaal
           {%- endif %}
-tuin1_light_on:
-  alias: Tuin 1 - Licht - Aan
+light_garden1_on:
+  alias: Licht - Tuin 1 - Aan
   sequence:
     - service: scene.turn_on
       entity_id:
         - scene.tuin1_normaal
-tuin2_light_on:
-  alias: Tuin 2 - Licht - Aan
+light_garden2_on:
+  alias: Licht - Tuin 2 - Aan
   sequence:
     - service: scene.turn_on
       entity_id:
         - scene.tuin2_normaal
-tuinhuis_light_on:
-  alias: Tuinhuis - Licht - Aan
+light_gardenshed_on:
+  alias: Licht - Tuinhuis - Aan
   sequence:
     - service: scene.turn_on
       entity_id:
         - scene.tuinhuis_normaal
-veranda_light_on:
-  alias: Veranda - Licht - Aan
+light_porch_on:
+  alias: Licht - Veranda - Aan
   sequence:
     - service: scene.turn_on
       data_template:
@@ -529,8 +529,8 @@ veranda_light_on:
           {% else %}
             scene.veranda_normaal
           {% endif %}
-woonkamer_light_on:
-  alias: Woonkamer - Licht - Aan
+light_livingroom_on:
+  alias: Licht - Woonkamer - Aan
   sequence:
     - service: scene.turn_on
       data_template:
@@ -550,8 +550,8 @@ woonkamer_light_on:
           {% else %}
             scene.woonkamer_normaal
           {% endif %}
-woonkamer_light_off:
-  alias: Woonkamer - Licht - Uit
+light_livingroom_off:
+  alias: Licht - Woonkamer - Uit
   sequence:
     - choose:
       - conditions:
@@ -700,7 +700,7 @@ evo_status_normal:
             script.evo_status_normal_auto
           {%- endif %}
 evo_zone_bathroom_reset:
-  alias: Evohome - Zone - Badkamer - Reset
+  alias: Evohome - Badkamer - Reset
   sequence:
       #Only if Bathroom is NOT set to Auto
     - condition: template
@@ -710,14 +710,14 @@ evo_zone_bathroom_reset:
         entity_id: climate.badkamer
         preset_mode: none
 evo_zone_kitchen_lower:
-  alias: Evohome - Zone - Keuken - Lager
+  alias: Evohome - Keuken - Lager
   sequence:
     - service: climate.set_temperature
       entity_id: climate.keuken
       data:
         temperature: !secret heat_kitchen_min
 evo_zone_kitchen_reset:
-  alias: Evohome - Zone - Keuken - Reset
+  alias: Evohome - Keuken - Reset
   sequence:
       #Only if Kitchen is NOT set to Auto
     - condition: template
@@ -727,21 +727,21 @@ evo_zone_kitchen_reset:
         entity_id: climate.keuken
         preset_mode: none
 evo_zone_kitchen_rise:
-  alias: Evohome - Zone - Keuken - Hoger
+  alias: Evohome - Keuken - Hoger
   sequence:
     - service: climate.set_temperature
       entity_id: climate.keuken
       data:
         temperature: !secret heat_kitchen_max
 evo_zone_livingroom_lower:
-  alias: Evohome - Zone - Woonkamer - Lager
+  alias: Evohome - Woonkamer - Lager
   sequence:
     - service: climate.set_temperature
       entity_id: climate.woonkamer
       data:
         temperature: !secret heat_living_room_min
 evo_zone_livingroom_reset:
-  alias: Evohome - Zone - Woonkamer - Reset
+  alias: Evohome - Woonkamer - Reset
   sequence:
       #Only if Livingroom is NOT set to Auto
     - condition: template
@@ -751,7 +751,7 @@ evo_zone_livingroom_reset:
         entity_id: climate.woonkamer
         preset_mode: none
 evo_zone_livingroom_rise:
-  alias: Evohome - Zone - Woonkamer - Hoger
+  alias: Evohome - Woonkamer - Hoger
   sequence:
     - service: climate.set_temperature
       entity_id: climate.woonkamer

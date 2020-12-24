@@ -82,7 +82,7 @@ Eg. the sequence script will turn on service script light 1 and service script l
     below: !secret lux_kitchen_low
   action:
   - service: script.turn_on
-    entity_id: script.keuken_light_on
+    entity_id: script.light_kitchen_on
 ```
 ### Sequence Script
 ```

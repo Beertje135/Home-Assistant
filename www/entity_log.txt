@@ -340,7 +340,7 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -script.all_switch_off
   -script.arlo_light_off
   -script.arlo_light_on
-  -script.badkamer_light_on
+  -script.light_bathroom_on
   -script.radio_bathroom_on
   -script.radio_bathroom_off
   -script.radio_bathroom_volume
@@ -353,7 +353,7 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -script.doorbell_chime_off
   -script.doorbell_chime_on
   -script.dressing_light_off
-  -script.dressing_light_on
+  -script.light_dressing_on
   -script.elmo_light_off
   -script.elmo_light_on
   -script.empty
@@ -402,7 +402,7 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -script.input_trigger_morning
   -script.input_trigger_sleep
   -script.keuken_light_off
-  -script.keuken_light_on
+  -script.light_kitchen_on
   -script.radio_kitchen_on
   -script.radio_kitchen_off
   -script.radio_kitchen_volume
@@ -518,9 +518,9 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -script.restart_homekit
   -script.restart_homekit_not
   -script.veranda_light_off
-  -script.veranda_light_on
-  -script.woonkamer_light_off
-  -script.woonkamer_light_on
+  -script.light_porch_on
+  -script.light_livingroom_off
+  -script.light_livingroom_on
   -script.radio_livingroom_on
   -script.radio_livingroom_off
   -script.radio_livingroom_volume

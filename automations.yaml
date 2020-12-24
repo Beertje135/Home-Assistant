@@ -1022,7 +1022,7 @@
       sequence:
       - service: script.turn_on
         entity_id:
-        - script.woonkamer_light_off
+        - script.light_livingroom_off
         - script.all_switch_off
         - script.all_music_off
         - script.all_remote_off
@@ -2983,7 +2983,7 @@
         and states(''group.bezoekers'') in [''home''] }}'
   action:
   - service: script.turn_on
-    entity_id: script.veranda_light_on
+    entity_id: script.light_porch_on
 - id: light_porch_002
   alias: Licht - Veranda - Aan Motion
   trigger:
@@ -3009,7 +3009,7 @@
         and states(''group.bezoekers'') in [''home''] }}'
   action:
   - service: script.turn_on
-    entity_id: script.veranda_light_on
+    entity_id: script.light_porch_on
 - id: light_porch_003
   alias: Licht - Veranda - Uit
   trigger:
@@ -3114,7 +3114,7 @@
         and states(''group.bezoekers'') in [''home''] }}'
   action:
   - service: script.turn_on
-    entity_id: script.keuken_light_on
+    entity_id: script.light_kitchen_on
 - id: light_kitchen_002
   alias: Licht - Keuken - Aan Motion
   trigger:
@@ -3144,7 +3144,7 @@
       state: 'off'
   action:
   - service: script.turn_on
-    entity_id: script.keuken_light_on
+    entity_id: script.light_kitchen_on
 - id: light_kitchen_003
   alias: Licht - Keuken - Uit
   trigger:
@@ -3237,7 +3237,7 @@
         and states(''group.bezoekers'') in [''home''] }}'
   action:
   - service: script.turn_on
-    entity_id: script.woonkamer_light_on
+    entity_id: script.light_livingroom_on
 - id: light_livingroom_002
   alias: Licht - Woonkamer - Aan Motion
   trigger:
@@ -3276,7 +3276,7 @@
         and states(''group.bezoekers'') in [''home''] }}'
   action:
   - service: script.turn_on
-    entity_id: script.woonkamer_light_on
+    entity_id: script.light_livingroom_on
 - id: light_livingroom_003
   alias: Licht - Woonkamer - Aan Kerstmis
   trigger:
@@ -3294,7 +3294,7 @@
     state: 'on'
   action:
   - service: script.turn_on
-    entity_id: script.woonkamer_light_off
+    entity_id: script.light_livingroom_off
 - id: light_livingroom_004
   alias: Licht - Woonkamer - Uit
   trigger:
@@ -3310,7 +3310,7 @@
     state: 'on'
   action:
   - service: script.turn_on
-    entity_id: script.woonkamer_light_off
+    entity_id: script.light_livingroom_off
 - id: light_livingroom_005
   alias: Licht - Woonkamer - Uit Geen beweging
   trigger:
@@ -3331,7 +3331,7 @@
     - Alexa
   action:
   - service: script.turn_on
-    entity_id: script.woonkamer_light_off
+    entity_id: script.light_livingroom_off
 - id: light_livingroom_006
   alias: Licht - Woonkamer - Uit Nacht
   trigger:
@@ -3362,7 +3362,7 @@
     - Weg
   action:
   - service: script.turn_on
-    entity_id: script.woonkamer_light_off
+    entity_id: script.light_livingroom_off
 - id: light_dressing_001
   alias: Licht - Dressing - Aan
   trigger:
@@ -3394,7 +3394,7 @@
       state: 'off'
   action:
   - service: script.turn_on
-    entity_id: script.dressing_light_on
+    entity_id: script.light_dressing_on
 - id: light_dressing_002
   alias: Licht - Dressing - Uit
   trigger:
@@ -3487,7 +3487,7 @@
         and states(''group.bezoekers'') in [''home''] }}'
   action:
   - service: script.turn_on
-    entity_id: script.badkamer_light_on
+    entity_id: script.light_bathroom_on
 - id: light_bedroom_elmo_001
   alias: Licht - Elmo - Aan Nacht
   trigger:
@@ -3517,7 +3517,7 @@
     state: 'off'
   action:
   - service: script.turn_on
-    entity_id: script.slaapkamer_2_light_on
+    entity_id: script.light_bedroom2_on
 - id: light_bedroom_elmo_004
   alias: Licht - Elmo - Ochtend Week
   trigger:
@@ -3545,7 +3545,7 @@
     entity_id: script.notify_light_elmo
   - delay: 00:00:30
   - service: script.turn_on
-    entity_id: script.slaapkamer_2_light_on
+    entity_id: script.light_bedroom2_on
 - id: light_bedroom_elmo_005
   alias: Licht - Elmo - Ochtend Weekend
   trigger:
@@ -3575,7 +3575,7 @@
     entity_id: script.notify_light_elmo
   - delay: 00:00:30
   - service: script.turn_on
-    entity_id: script.slaapkamer_2_light_on
+    entity_id: script.light_bedroom2_on
   mode: single
 - id: light_bedroom_elmo_006
   alias: Licht - Elmo - Uit
@@ -3622,7 +3622,7 @@
     below: 40
   action:
   - service: script.turn_on
-    entity_id: script.tuinhuis_light_on
+    entity_id: script.light_gardenshed_on
 - id: light_gardenshed_002
   alias: Licht - Tuinhuis - Uit
   trigger:
@@ -3685,7 +3685,7 @@
       state: 'on'
   action:
   - service: script.turn_on
-    entity_id: script.tuin2_light_on
+    entity_id: script.light_garden2_on
 - id: light_garden2_002
   alias: Licht - Tuin2 - Uit
   trigger:
@@ -3781,7 +3781,7 @@
       state: 'on'
   action:
   - service: script.turn_on
-    entity_id: script.tuin1_light_on
+    entity_id: script.light_garden1_on
 - id: light_garden1_002
   alias: Licht - Tuin1 - Uit
   trigger:
