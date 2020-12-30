@@ -283,14 +283,15 @@ radio_downstairs_on:
   - service: media_player.play_media
     data_template:
       entity_id: media_player.alexa_kitchen_2
-      media_content_id: '"{{ states(''input_text.radio_station_current'') }}" on Alexa Downstairs group'
+      media_content_id: '"{{ states(''input_text.radio_station_current'') }}" on Alexa
+        Downstairs group'
       media_content_type: TUNEIN
   - delay: 00:00:05
   - service: script.turn_on
     data:
       entity_id:
-        - script.radio_kitchen_volume
-        - script.radio_livingroom_volume
+      - script.radio_kitchen_volume
+      - script.radio_livingroom_volume
 radio_everywhere_on:
   alias: Radio - Overal - Aan
   sequence:
@@ -315,7 +316,7 @@ radio_bathroom_off:
     entity_id: media_player.alexa_bathroom
     state: playing
   - service: media_player.turn_off
-    data:  
+    data:
       entity_id: media_player.alexa_bathroom
 radio_kitchen_off:
   alias: Radio - Keuken - Uit
@@ -324,13 +325,13 @@ radio_kitchen_off:
     entity_id: media_player.alexa_kitchen_amp
     state: playing
   - service: media_player.turn_off
-    data:  
+    data:
       entity_id: media_player.alexa_kitchen_amp
 radio_livingroom_off:
   alias: Radio - Woonkamer - Uit
   sequence:
   - service: media_player.turn_off
-    data:  
+    data:
       entity_id: media_player.alexa_livingroom_1
   mode: single
 radio_livingroom_volume:
@@ -369,9 +370,9 @@ radio_bathroom_volume:
     data_template:
       entity_id: media_player.alexa_bathroom
       volume_level: "{%- if (states('sensor.time') <= \"08:30\") and (now().weekday()\
-        \ in (0,1,2,3,4)) -%}\n  0.07\n{%- elif (states('sensor.time') <= \"07:30\"\
-        ) and (now().weekday() in (5,6)) -%}\n  0.07\n{%- elif (states('input_select.woning_status')\
-        \ in ['Juist Wakker']) -%}\n  0.07\n{%- else -%}\n  0.13\n{%- endif %}\n"
+        \ in (0,1,2,3,4)) -%}\n  0.03\n{%- elif (states('sensor.time') <= \"07:30\"\
+        ) and (now().weekday() in (5,6)) -%}\n  0.03\n{%- elif (states('input_select.woning_status')\
+        \ in ['Juist Wakker']) -%}\n  0.03\n{%- else -%}\n  0.13\n{%- endif %}\n"
 light_bathroom_on:
   alias: Licht - Badkamer - Aan
   sequence:
@@ -448,7 +449,7 @@ light_gardenshed_on:
   - service: scene.turn_on
     data:
       entity_id:
-        - scene.tuinhuis_normaal
+      - scene.tuinhuis_normaal
 light_porch_on:
   alias: Licht - Veranda - Aan
   sequence:
@@ -463,9 +464,10 @@ light_porch_on:
         \ and state_attr('remote.harmony_hub', 'current_activity') in ['TV Decoder','WebOS','Apple\
         \ tv'] %}\n  scene.veranda_televisie\n{% elif states('input_boolean.media_kitchen')\
         \ in ['on'] %}\n  scene.veranda_gedimmed\n{% elif states('sensor.time') >=\
-        \ '22:00' %}\n  scene.veranda_gedimmed\n{% elif (states('sensor.hue_sensor_veranda_light_level')\
-        \ | float) < 7 %}\n  scene.veranda_gedimmed\n{% else %}\n  scene.veranda_normaal\n\
-        {% endif %}\n"
+        \ '22:00' %}\n  scene.veranda_gedimmed\n{% elif states('sensor.time') < '07:15'\
+        \ %}\n  scene.veranda_gedimmed\n{% else %}\n  scene.veranda_normaal\n{% endif\
+        \ %}\n"
+  mode: single
 light_livingroom_on:
   alias: Licht - Woonkamer - Aan
   sequence:

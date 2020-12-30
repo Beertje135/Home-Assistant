@@ -960,7 +960,7 @@
         state: Juist Thuis
       sequence:
       - service: input_boolean.turn_on
-        entity_id: 
+        entity_id:
         - input_boolean.music_follow
         - input_boolean.light_downstairs
       - service: script.turn_on
@@ -973,7 +973,7 @@
         state: Juist Wakker
       sequence:
       - service: input_boolean.turn_on
-        entity_id: 
+        entity_id:
         - input_boolean.music_follow
         - input_boolean.light_downstairs
       - service: script.turn_on
@@ -2939,7 +2939,7 @@
     above: 10
   - platform: numeric_state
     entity_id: sensor.hue_sensor_veranda_light_level
-    below: 7
+    below: '7'
   - platform: state
     entity_id: remote.harmony_hub
     attribute: current_activity
@@ -2963,13 +2963,15 @@
     to: 'off'
     for:
       seconds: 5
+  - platform: time
+    at: 07:15
   condition:
   - condition: state
     entity_id: input_boolean.light_downstairs
     state: 'on'
   - condition: numeric_state
     entity_id: sensor.hue_sensor_veranda_light_level
-    below: 50
+    below: '50'
   - condition: or
     conditions:
     - condition: template
@@ -2981,6 +2983,7 @@
   action:
   - service: script.turn_on
     entity_id: script.light_porch_on
+  mode: single
 - id: light_porch_002
   alias: Licht - Veranda - Aan Motion
   trigger:
