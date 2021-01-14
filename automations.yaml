@@ -12,12 +12,28 @@
     - Thuis
     - Thuis (Werk)
     - Thuis (Verlof)
-  - condition: template
-    value_template: '{{ ((as_timestamp(now())+ (86400)) | timestamp_custom(''%Y-%m-%d'',true)
-      == states(''sensor.recycleapp_restafval'')) or ((as_timestamp(now())+ (86400))
-      | timestamp_custom(''%Y-%m-%d'',true) == states(''sensor.recycleapp_papier''))
-      or ((as_timestamp(now())+ (86400)) | timestamp_custom(''%Y-%m-%d'',true) ==
-      states(''sensor.recycleapp_pmd'')) }}'
+  - condition: or
+    conditions:
+    - condition: numeric_state
+      entity_id: sensor.recycleapp_glas
+      attribute: days_until
+      above: 0
+      below: 2
+    - condition: numeric_state
+      entity_id: sensor.recycleapp_papier
+      attribute: days_until
+      above: 0
+      below: 2
+    - condition: numeric_state
+      entity_id: sensor.recycleapp_pmd
+      attribute: days_until
+      above: 0
+      below: 2
+    - condition: numeric_state
+      entity_id: sensor.recycleapp_restafval
+      attribute: days_until
+      above: 0
+      below: 2
   action:
   - wait_for_trigger:
     - platform: state
@@ -30,31 +46,10 @@
   initial_state: false
   mode: single
 - id: waste_002
-  alias: Vuilbakken - Reminder voor avond
+  alias: Vuilbakken - Reminder
   trigger:
   - platform: time
     at: '20:30:00'
-  condition:
-  - condition: state
-    entity_id: input_select.woning_status
-    state:
-    - Juist Thuis
-    - Thuis
-    - Thuis (Werk)
-    - Thuis (Verlof)
-  - condition: template
-    value_template: '{{ ((as_timestamp(now())+ (86400)) | timestamp_custom(''%Y-%m-%d'',true)
-      == states(''sensor.recycleapp_restafval'')) or ((as_timestamp(now())+ (86400))
-      | timestamp_custom(''%Y-%m-%d'',true) == states(''sensor.recycleapp_papier''))
-      or ((as_timestamp(now())+ (86400)) | timestamp_custom(''%Y-%m-%d'',true) ==
-      states(''sensor.recycleapp_pmd'')) }}'
-  action:
-  - service: script.turn_on
-    entity_id: script.notify_waste
-- id: waste_003
-  alias: Vuilbakken - Status Woning Wijzigt
-  initial_state: false
-  trigger:
   - platform: state
     entity_id: input_select.woning_status
     from: Juist Thuis
@@ -68,13 +63,35 @@
     from: Juist Thuis
     to: Thuis (Verlof)
   condition:
-  - condition: template
-    value_template: '{{ ((as_timestamp(now())+ (86400)) | timestamp_custom(''%Y-%m-%d'',true)
-      == states(''sensor.recycleapp_restafval'')) or ((as_timestamp(now())+ (86400))
-      | timestamp_custom(''%Y-%m-%d'',true) == states(''sensor.recycleapp_papier''))
-      or ((as_timestamp(now())+ (86400)) | timestamp_custom(''%Y-%m-%d'',true) ==
-      states(''sensor.recycleapp_pmd'')) or ((as_timestamp(now())+ (86400)) | timestamp_custom(''%Y-%m-%d'',true)
-      == states(''sensor.recycleapp_glas'')) }}'
+  - condition: state
+    entity_id: input_select.woning_status
+    state:
+    - Juist Thuis
+    - Thuis
+    - Thuis (Werk)
+    - Thuis (Verlof)
+  - condition: or
+    conditions:
+    - condition: numeric_state
+      entity_id: sensor.recycleapp_glas
+      attribute: days_until
+      above: 0
+      below: 2
+    - condition: numeric_state
+      entity_id: sensor.recycleapp_papier
+      attribute: days_until
+      above: 0
+      below: 2
+    - condition: numeric_state
+      entity_id: sensor.recycleapp_pmd
+      attribute: days_until
+      above: 0
+      below: 2
+    - condition: numeric_state
+      entity_id: sensor.recycleapp_restafval
+      attribute: days_until
+      above: 0
+      below: 2
   action:
   - service: script.turn_on
     entity_id: script.notify_waste
@@ -3471,10 +3488,10 @@
   trigger:
   - entity_id: binary_sensor.hue_sensor_dressing_motion
     platform: state
+    to: 'on'
   - entity_id: binary_sensor.hue_sensor_dressing_motion
     platform: state
-    for:
-      minutes: 3
+    for: 0:03:00
     to: 'off'
   condition:
   - condition: or
@@ -3488,6 +3505,7 @@
   action:
   - service: script.turn_on
     entity_id: script.light_bathroom_on
+  mode: single
 - id: light_bedroom_elmo_001
   alias: Licht - Elmo - Aan Nacht
   trigger:
