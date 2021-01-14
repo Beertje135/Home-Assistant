@@ -2147,7 +2147,7 @@ views:
                       red: 0
                     type: gauge
                   - entity: sensor.hp_deskjet_3700_series_tri_color_ink
-                    name: Zwarte Inkt
+                    name: Gekleurde Inkt
                     min: 0
                     max: 100
                     severity:
