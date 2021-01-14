@@ -378,15 +378,15 @@ light_bathroom_on:
   sequence:
   - service: scene.turn_on
     data_template:
-      entity_id: "{% if states('input_select.woning_status') not in ['Slapen'] and\
-        \ (states('sensor.time') <= '06:00' or states('sensor.time') >= '22:00') %}\n\
-        \  scene.badkamer_gedimmed\n{% elif states('input_select.woning_status') in\
-        \ ['Slapen'] and (states('sensor.time') >= '05:00' and states('sensor.time')\
-        \ <= '23:30') %}\n  scene.badkamer_gedimmed\n{% elif states('input_select.woning_status')\
-        \ in ['Slapen'] and (states('sensor.time') <= '05:00' or states('sensor.time')\
-        \ >= '23:30') %}\n  scene.badkamer_nacht\n{% elif states('input_select.woning_status')\
-        \ in ['Juist Wakker'] %}\n  scene.badkamer_gedimmed\n{% else %}\n  scene.badkamer_normaal\n\
-        {% endif %}\n"
+      entity_id: "{% if states('input_select.woning_status') in ['Slapen'] and (states('sensor.time')\
+        \ >= '05:00' and states('sensor.time') <= '23:30') %}\n  scene.badkamer_gedimmed\n\
+        {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time')\
+        \ <= '05:00' or states('sensor.time') >= '23:30') %}\n  scene.badkamer_nacht\n\
+        {% elif states('input_select.woning_status') in ['Juist Wakker'] %}\n  scene.badkamer_gedimmed\n\
+        {% elif (states('sensor.time') <= '06:00' or states('sensor.time') >= '22:00')\
+        \ %}\n  scene.badkamer_gedimmed\n{% else %}\n  scene.badkamer_normaal\n{%\
+        \ endif %}\n"
+  mode: single
 light_dressing_on:
   alias: Licht - Dressing - Aan
   sequence:
@@ -589,9 +589,10 @@ evo_status_normal_auto:
     value_template: '{{ (state_attr(''climate.ons_huisje'', ''preset_mode'') != none
       ) }}'
   - service: climate.set_preset_mode
+    entity_id: climate.ons_huisje
     data:
-      entity_id: climate.ons_huisje
       preset_mode: Auto
+  mode: single
 evo_status_normal_reset:
   alias: Evohome - Status - Normal Reset
   sequence:
@@ -599,8 +600,8 @@ evo_status_normal_reset:
     value_template: '{{ (state_attr(''climate.ons_huisje'', ''preset_mode'') != ''Reset''
       ) }}'
   - service: climate.set_preset_mode
+    entity_id: climate.ons_huisje
     data:
-      entity_id: climate.ons_huisje
       preset_mode: Reset
 evo_status_normal:
   alias: Evohome - Status - Normal
