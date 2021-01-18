@@ -1,8 +1,0 @@
-
-alias: Notify All - Woning - Als status aangepast
-sequence:
-  - service: script.turn_on
-    entity_id:
-      - script.notify_woning_status_ios_bert
-      - script.notify_woning_status_ios_caro
-      - script.notify_woning_status_alexa

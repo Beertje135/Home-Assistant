@@ -1,7 +1,0 @@
-
-alias: Notify All - Bewoner Bert - Als in zone
-sequence:
-  - service: script.turn_on
-    entity_id:
-      - script.notify_tracker_bert_zones_ios_caro
-      - script.notify_tracker_bert_zones_alexa

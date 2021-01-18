@@ -1,5 +1,0 @@
-
-alias: Input - Trigger Morning
-sequence:
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.trigger_morning

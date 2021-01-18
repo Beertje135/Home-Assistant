@@ -1,6 +1,0 @@
-
-alias: Light Downstairs - Aan
-sequence:
-  - service: input_boolean.turn_on
-    entity_id:
-      - input_boolean.light_downstairs

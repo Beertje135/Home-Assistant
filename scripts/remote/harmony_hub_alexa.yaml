@@ -1,7 +1,0 @@
-
-alias: Harmony Hub - Alexa
-sequence:
-- service: input_select.select_option
-  entity_id: input_select.harmony_hub
-  data:
-    option: "Alexa"

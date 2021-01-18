@@ -1,8 +1,0 @@
-
-alias: Dusty - Uit
-sequence:
-  - condition: template
-    value_template: "{{ states('vacuum.dusty') not in ['docked'] }}"
-  - service: vacuum.return_to_base
-    data:
-      entity_id: vacuum.dusty

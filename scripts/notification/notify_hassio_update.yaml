@@ -1,7 +1,0 @@
-
-alias: Notify All - Hassio - Update
-sequence:
-  - service: script.turn_on
-    entity_id:
-      - script.notify_hassio_update_ios_bert
-      - script.notify_hassio_update_alexa

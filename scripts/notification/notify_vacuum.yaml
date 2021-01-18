@@ -1,8 +1,0 @@
-
-alias: Notify All - Dusty - Status
-sequence:
-  - service: script.turn_on
-    entity_id:
-      - script.notify_vacuum_ios_bert
-      - script.notify_vacuum_ios_caro
-      - script.notify_vacuum_alexa
