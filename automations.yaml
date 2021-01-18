@@ -569,17 +569,17 @@
   alias: Muziek - Volume - Keuken Ochtend
   trigger:
   - platform: time
-    at: 06:59:50
+    at: '06:59:50'
   - platform: time
-    at: 07:02:30
+    at: '07:02:30'
   - platform: time
-    at: 07:59:50
+    at: '07:59:50'
   - platform: time
-    at: 08:02:30
+    at: '08:02:30'
   - platform: time
-    at: 08:59:50
+    at: '08:59:50'
   - platform: time
-    at: 09:02:30
+    at: '09:02:30'
   condition:
   - condition: state
     state: playing
@@ -2956,7 +2956,7 @@
     above: 10
   - platform: numeric_state
     entity_id: sensor.hue_sensor_veranda_light_level
-    below: '7'
+    below: 7
   - platform: state
     entity_id: remote.harmony_hub
     attribute: current_activity
@@ -2981,7 +2981,7 @@
     for:
       seconds: 5
   - platform: time
-    at: 07:15
+    at: '07:15:00'
   condition:
   - condition: state
     entity_id: input_boolean.light_downstairs
