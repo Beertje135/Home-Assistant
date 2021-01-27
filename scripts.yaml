@@ -423,14 +423,15 @@ light_bedroom2_on:
   - service: scene.turn_on
     data_template:
       entity_id: "{%- if (now().weekday() in (0,1,2,3,4) and states('sensor.time')\
-        \ >= states('input_datetime.awake_week_elmo') and states('sensor.time') <=\
-        \ '08:01') or (now().weekday() in (5,6) and states('sensor.time') >= states('input_datetime.awake_weekend_elmo')\
-        \ and states('sensor.time') <= '08:01') -%}\n  scene.slaapkamer_2_ochtend\n\
+        \ > states('input_datetime.awake_week_elmo') and states('sensor.time') < '08:01:00')\
+        \ or (now().weekday() in (5,6) and states('sensor.time') > states('input_datetime.awake_weekend_elmo')\
+        \ and states('sensor.time') < '08:01:00') -%}\n  scene.slaapkamer_2_ochtend\n\
         {%- elif (states('sensor.time') >= states('input_datetime.sleep_elmo')) -%}\n\
         \  scene.slaapkamer_2_nacht\n{%- elif (states('sensor.time') >= states('input_datetime.dutje_start')\
         \ or states('sensor.time') <= states('input_datetime.dutje_stop')) -%}\n \
         \ scene.slaapkamer_2_nacht\n{%- else -%}\n  scene.slaapkamer_2_normaal\n{%-\
         \ endif %}\n"
+  mode: single
 light_garden1_on:
   alias: Licht - Tuin 1 - Aan
   sequence:
@@ -545,13 +546,17 @@ evo_status_away:
 evo_status_custom:
   alias: Evohome - Status - Custom
   sequence:
-  - condition: template
-    value_template: '{{ (state_attr(''climate.ons_huisje'', ''preset_mode'') != ''Custom''
-      ) }}'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: climate.ons_huisje
+      attribute: preset_mode
+      state: Custom
   - service: climate.set_preset_mode
     data:
-      entity_id: climate.ons_huisje
       preset_mode: Custom
+    entity_id: climate.ons_huisje
+  mode: single
 evo_status_economy:
   alias: Evohome - Status - Economy
   sequence:
@@ -575,13 +580,17 @@ evo_status_heating_off:
 evo_status_home:
   alias: Evohome - Status - Home
   sequence:
-  - condition: template
-    value_template: '{{ (state_attr(''climate.ons_huisje'', ''preset_mode'') != ''home''
-      ) }}'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: climate.ons_huisje
+      attribute: preset_mode
+      state: home
   - service: climate.set_preset_mode
     data:
-      entity_id: climate.ons_huisje
       preset_mode: home
+    entity_id: climate.ons_huisje
+  mode: single
 evo_status_normal_auto:
   alias: Evohome - Status - Normal Auto
   sequence:
