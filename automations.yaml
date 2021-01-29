@@ -2130,27 +2130,6 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: group.bewoners_router
-      state: home
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: group.bezoekers
-        state: home
-      - condition: state
-        entity_id: sensor.kuishulp
-        state: not_home
-  - condition: time
-    before: input_datetime.work_end_heating
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
   - condition: not
     conditions:
     - condition: state
