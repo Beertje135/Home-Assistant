@@ -151,7 +151,7 @@
       - colorloop
       - night
       - white
-      brightness: 100
+      brightness: 101
       hs_color:
       - 35.854
       - 32.157
