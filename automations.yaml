@@ -131,8 +131,8 @@
     to: 'on'
   condition:
   - condition: time
-    after: input_datetime.radio_on
-    before: input_datetime.radio_off
+    after: 07:00
+    before: '18:00'
   - condition: state
     state: 'on'
     entity_id: input_boolean.music_follow
@@ -163,17 +163,13 @@
   - condition: state
     entity_id: remote.harmony_hub
     attribute: current_activity
-    state:
-    - PowerOff
-    - Alexa
+    state: PowerOff,Alexa
   action:
   - delay: 00:02:00
   - condition: state
     entity_id: remote.harmony_hub
     attribute: current_activity
-    state:
-    - PowerOff
-    - Alexa
+    state: PowerOff,Alexa
   - service: script.turn_on
     entity_id: script.radio_downstairs_on
   mode: single
@@ -455,7 +451,7 @@
     data:
       entity_id: script.radio_kitchen_off
   mode: single
-- id: music_follow_001
+- id: music_follow_off_001
   alias: Muziek - Volgen - Disable
   trigger:
   - entity_id: media_player.alexa_kitchen_amp
@@ -463,6 +459,9 @@
     from: playing
     to: paused
     for: 0:00:05
+  - platform: state
+    to: Thuis (Werk)
+    entity_id: input_select.woning_status
   condition:
   - condition: state
     entity_id: media_player.alexa_downstairs
@@ -475,11 +474,25 @@
   - condition: state
     state: 'on'
     entity_id: input_boolean.music_follow
-  - condition: state
-    state: 'off'
-    entity_id:
-    - input_boolean.media_kitchen
-    - input_boolean.media_livingroom
+  - condition: or
+    conditions:
+    - condition: state
+      state: 'off'
+      entity_id:
+      - input_boolean.media_kitchen
+      - input_boolean.media_livingroom
+    - condition: state
+      state: Thuis (Werk)
+      entity_id: input_select.woning_status
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: remote.harmony_hub
+      attribute: current_activity
+      state: PowerOff
+    - condition: state
+      state: Thuis (Werk)
+      entity_id: input_select.woning_status
   - condition: state
     entity_id: remote.harmony_hub
     attribute: current_activity
@@ -501,7 +514,7 @@
   - service: script.turn_on
     entity_id: script.radio_kitchen_off
   mode: single
-- id: music_follow_002
+- id: music_follow_on_001
   alias: Muziek - Volgen - Enable
   trigger:
   - platform: state
@@ -511,10 +524,29 @@
   - platform: state
     entity_id: input_boolean.music_follow
     to: 'off'
-    for: 0:04:00
+    for:
+      minutes: 4
+  - platform: state
+    entity_id: input_boolean.music_follow
+    to: 'off'
+    for:
+      minutes: 180
+  - platform: state
+    from: Thuis (Werk)
+    entity_id: input_select.woning_status
   condition:
+  - condition: not
+    conditions:
+    - condition: state
+      state: Thuis (Werk)
+      entity_id: input_select.woning_status
   - condition: or
     conditions:
+    - condition: state
+      entity_id: input_boolean.music_follow
+      state: 'off'
+      for:
+        minutes: 179
     - condition: state
       entity_id: media_player.alexa_kitchen_amp
       state: playing
@@ -533,17 +565,6 @@
   - service: input_boolean.turn_on
     entity_id: input_boolean.music_follow
   mode: single
-- id: music_follow_003
-  alias: Muziek - Volgen - Enable 2
-  trigger:
-  - platform: state
-    entity_id: input_boolean.music_follow
-    to: 'off'
-    for:
-      minutes: 180
-  action:
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.music_follow
 - id: music_volume_001
   alias: Muziek - Volume - Woonkamer
   trigger:
