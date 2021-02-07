@@ -45,6 +45,30 @@
 
 - platform: template
   sensors:
+    climate_badkamer_attribute_current_temperature:
+      value_template: "{{ (state_attr('climate.badkamer', 'current_temperature') | float ) | round(2) }}"
+      unit_of_measurement: '°C'
+    climate_dressing_attribute_current_temperature:
+      value_template: "{{ (state_attr('climate.dressing', 'current_temperature') | float ) | round(2) }}"
+      unit_of_measurement: '°C'
+    climate_kamer_elmo_attribute_current_temperature:
+      value_template: "{{ (state_attr('climate.kamer_elmo', 'current_temperature') | float ) | round(2) }}"
+      unit_of_measurement: '°C'
+    climate_keuken_attribute_current_temperature:
+      value_template: "{{ (state_attr('climate.keuken', 'current_temperature') | float ) | round(2) }}"
+      unit_of_measurement: '°C'
+    climate_slp_kamer_attribute_current_temperature:
+      value_template: "{{ (state_attr('climate.slp_kamer', 'current_temperature') | float ) | round(2) }}"
+      unit_of_measurement: '°C'
+    climate_woonkamer_attribute_current_temperature:
+      value_template: "{{ (state_attr('climate.woonkamer', 'current_temperature') | float ) | round(2) }}"
+      unit_of_measurement: '°C'
+    climate_veranda_attribute_current_temperature:
+      value_template: "{{ (((state_attr('climate.woonkamer', 'current_temperature') | float ) + (state_attr('climate.keuken', 'current_temperature') | float )) / 2) | round(2) }}"
+      unit_of_measurement: '°C'
+
+- platform: template
+  sensors:
     template_ons_huisje_set_temperature:
       value_template: "{{ (((state_attr('climate.badkamer', 'temperature') | float ) + (state_attr('climate.keuken', 'temperature') | float ) + (state_attr('climate.woonkamer', 'temperature') | float ) + (state_attr('climate.dressing', 'temperature') | float ) + (state_attr('climate.slp_kamer', 'temperature') | float ) + (state_attr('climate.kamer_elmo', 'temperature') | float )) / 6) | round(2) }}"
       unit_of_measurement: '°C'
