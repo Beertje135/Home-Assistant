@@ -1,68 +1,61 @@
   exclude:
     domains:
+      - sun
       - automation
       - binary_sensor
-      - camera
+      - calendar
       - device_tracker
       - input_boolean
       - input_datetime
+      - input_select
       - input_text
       - light
-      - remote
       - script
       - sensor
+      - switch
+      - utility_meter
       - weather
-      - zone 
-    entity_globs:
-      - switch.alexa_*
+      - zone
     entities:
-      - group.licht_tuin
-      - automation.licht_badkamer_aan
-      - automation.licht_woonkamer_boolean_a
-      - automation.licht_woonkamer_boolean_b
-      - group.bewoners
+      - group.arlo
       - group.bewoners_router
+      - group.computer
+      - group.internet_safety
       - group.media_players
-      - input_select.media_player
-      - input_select.radio_station
-      - media_player.alexa_mobile
-      - media_player.this_device    
+      - group.notifications
+      - media_player.nesthub8526
+      - media_player.spotify_bert_verlinden
+      - media_player.this_device 
   include:
     domains:
-      - input_select
+      - climate
       - group
-    entity_globs:
-      - sensor.climate_*
+      - media_player
+      - person
+      - remote
+      - scene
+      - vacuum
     entities:
-      - sensor.hue_sensor_woonkamer_light_level
-      - sensor.hue_sensor_veranda_light_level
-      - sensor.hue_sensor_tuinhuis_light_level
-      - sensor.hue_sensor_tuin_light_level
-      - sensor.hue_sensor_keuken_light_level
-      - sensor.hue_sensor_dressing_light_level
       - binary_sensor.hue_sensor_dressing_motion
       - binary_sensor.hue_sensor_keuken_motion
-      - binary_sensor.hue_sensor_woonkamer_motion
       - binary_sensor.hue_sensor_tuin_motion
       - binary_sensor.hue_sensor_tuinhuis_motion
-      - binary_sensor.remote_ui
-      - binary_sensor.snapshots_stale
-      - input_boolean.cooling_downstairs
-      - input_boolean.cooling_upstairs
-      - input_boolean.heating
-      - input_boolean.media_kitchen
-      - input_boolean.media_livingroom
-      - sensor.downstairs_nest_protect_battery_health
-      - sensor.downstairs_nest_protect_co_status
-      - sensor.downstairs_nest_protect_color_status
-      - sensor.downstairs_nest_protect_smoke_status
-      - sensor.season
-      - sensor.template_delta_set_temperature
-      - sensor.template_delta_temperature
-      - sensor.upstairs_nest_protect_battery_health
-      - sensor.upstairs_nest_protect_co_status
-      - sensor.upstairs_nest_protect_color_status
-      - sensor.upstairs_nest_protect_smoke_status
+      - binary_sensor.hue_sensor_woonkamer_motion
+      - input_boolean.notify_bert
+      - input_boolean.notify_caro
+      - input_select.harmony_hub
+      - input_select.woning_status
+      - switch.adguard_filtering
+      - switch.adguard_parental_control
+      - switch.adguard_protection
+      - switch.adguard_safe_browsing
+      - switch.adguard_safe_search
+      - switch.harmony_hub_alexa
+      - switch.harmony_hub_apple_tv
+      - switch.harmony_hub_nintendo_switch
+      - switch.harmony_hub_tv_decoder
+      - switch.harmony_hub_webos
+      - switch.wake_on_lan
 
 #Gebruik dit sjabloon om entiteiten te vinden:
 # {% for e in states.sensor if not e.entity_id.startswith('sensor.dark_sky') %}
