@@ -194,67 +194,63 @@ utility_meter:
 
 recorder:
   purge_keep_days: 7
-  commit_interval: 30
+  commit_interval: 5
   exclude:
     domains:
+      - sun
       - automation
       - binary_sensor
       - calendar
-      - camera
-      - climate
       - device_tracker
       - input_boolean
       - input_datetime
       - input_select
       - input_text
-      - light
-      - person
-      - remote
       - script
       - sensor
-      - sun
+      - switch
       - utility_meter
-      - vacuum
       - weather
       - zone
-    entity_globs:
-      - switch.alexa_*
+    entities:
+      - group.computer
+      - media_player.nesthub8526
+      - media_player.spotify_bert_verlinden
+      - media_player.this_device
   include:
     domains:
-      - input_select
+      - climate
       - group
-      - switch
+      - light
       - media_player
-    entity_globs:
-      - light.hue_*
-      - light.aarlo_*
-      - light.milight_*
-      - sensor.climate_*
-      - binary_sensor.hue_sensor_*
+      - person
+      - remote
+      - scene
+      - vacuum
     entities:
-      - sensor.hue_sensor_woonkamer_light_level
-      - sensor.hue_sensor_veranda_light_level
-      - sensor.hue_sensor_tuinhuis_light_level
-      - sensor.hue_sensor_tuin_light_level
-      - sensor.hue_sensor_keuken_light_level
-      - sensor.hue_sensor_dressing_light_level
-      - binary_sensor.remote_ui
-      - binary_sensor.snapshots_stale
-      - device_tracker.iphone_van_caro
-      - device_tracker.iphone_van_bert
-      - device_tracker.router_iphone_bert
-      - device_tracker.router_iphone_caro
+      - binary_sensor.hue_sensor_dressing_motion
+      - binary_sensor.hue_sensor_keuken_motion
+      - binary_sensor.hue_sensor_tuin_motion
+      - binary_sensor.hue_sensor_tuinhuis_motion
+      - binary_sensor.hue_sensor_woonkamer_motion
+      - input_boolean.notify_bert
+      - input_boolean.notify_caro
       - input_select.harmony_hub
       - input_select.woning_status
-      - input_boolean.cooling_downstairs
-      - input_boolean.cooling_upstairs
-      - input_boolean.heating
-      - input_boolean.media_kitchen
-      - input_boolean.media_livingroom
       - sensor.aarlo_air_quality_arlo_elmo
       - sensor.aarlo_humidity_arlo_elmo
       - sensor.aarlo_temperature_arlo_elmo
+      - sensor.bezoek
+      - sensor.climate_badkamer_attribute_current_temperature
+      - sensor.climate_dressing_attribute_current_temperature
+      - sensor.climate_kamer_elmo_attribute_current_temperature
+      - sensor.climate_keuken_attribute_current_temperature
+      - sensor.climate_slp_kamer_attribute_current_temperature
+      - sensor.climate_veranda_attribute_current_temperature
+      - sensor.climate_woonkamer_attribute_current_temperature
       - sensor.cpu_temperature
+      - sensor.deurbel_voor_mqtt_battery_sensor
+      - sensor.deurbel_voor_mqtt_sensor
       - sensor.disk_use_percent_home
       - sensor.downstairs_nest_protect_battery_health
       - sensor.downstairs_nest_protect_co_status
@@ -262,29 +258,72 @@ recorder:
       - sensor.downstairs_nest_protect_smoke_status
       - sensor.hp_deskjet_3700_series_black_ink
       - sensor.hp_deskjet_3700_series_tri_color_ink
+      - sensor.hue_schakelaar_elmos_kamer_battery_level
+      - sensor.hue_sensor_dressing_light_level
+      - sensor.hue_sensor_dressing_temperature
+      - sensor.hue_sensor_keuken_light_level
+      - sensor.hue_sensor_keuken_temperature
+      - sensor.hue_sensor_tuin_light_level
+      - sensor.hue_sensor_tuin_temperature
+      - sensor.hue_sensor_tuinhuis_light_level
+      - sensor.hue_sensor_tuinhuis_temperature
+      - sensor.hue_sensor_veranda_light_level
+      - sensor.hue_sensor_woonkamer_light_level
+      - sensor.hue_sensor_woonkamer_temperature
       - sensor.memory_use_percent
-      - sensor.meter_gas_monthly_peak
-      - sensor.meter_gas_yearly_peak
-      - sensor.meter_water_monthly_peak
-      - sensor.meter_water_yearly_peak
+      - sensor.ons_huisje_always_on_active_power
+      - sensor.ons_huisje_always_on_today
+      - sensor.ons_huisje_eta
       - sensor.ons_huisje_sensor_gas
       - sensor.ons_huisje_sensor_water
-      - sensor.processor_use
+      - sensor.ons_huisje_total_consumption_active_power
+      - sensor.ons_huisje_total_consumption_current_hour
+      - sensor.ons_huisje_total_consumption_last_5_minutes
       - sensor.ons_huisje_total_consumption_today
-      - sensor.smappee_ons_huisje_water_sensor_1
-      - sensor.smappee_ons_huisje_water_sensor_2
-      - sensor.smappee_ons_huisje_water_sensor_humidity
-      - sensor.smappee_ons_huisje_water_sensor_temperature
+      - sensor.processor_use
+      - sensor.solaredge_batteries
+      - sensor.solaredge_consumption_power
+      - sensor.solaredge_current_power
       - sensor.solaredge_energy_this_month
+      - sensor.solaredge_energy_this_month_template
       - sensor.solaredge_energy_this_year
+      - sensor.solaredge_energy_this_year_template
       - sensor.solaredge_energy_today
+      - sensor.solaredge_energy_today_template
+      - sensor.solaredge_exported_power
+      - sensor.solaredge_gateways
+      - sensor.solaredge_grid_power
+      - sensor.solaredge_imported_power
+      - sensor.solaredge_inverters
       - sensor.solaredge_lifetime_energy
+      - sensor.solaredge_lifetime_energy_template
+      - sensor.solaredge_meters
+      - sensor.solaredge_power_consumption
+      - sensor.solaredge_production_power
+      - sensor.solaredge_selfconsumption_power
+      - sensor.solaredge_sensors
+      - sensor.solaredge_site_details
+      - sensor.solaredge_solar_power
+      - sensor.solaredge_storage_level
+      - sensor.solaredge_storage_power
       - sensor.template_delta_set_temperature
       - sensor.template_delta_temperature
+      - sensor.template_ons_huisje_set_temperature
       - sensor.upstairs_nest_protect_battery_health
       - sensor.upstairs_nest_protect_co_status
       - sensor.upstairs_nest_protect_color_status
       - sensor.upstairs_nest_protect_smoke_status
+      - switch.adguard_filtering
+      - switch.adguard_parental_control
+      - switch.adguard_protection
+      - switch.adguard_safe_browsing
+      - switch.adguard_safe_search
+      - switch.harmony_hub_alexa
+      - switch.harmony_hub_apple_tv
+      - switch.harmony_hub_nintendo_switch
+      - switch.harmony_hub_tv_decoder
+      - switch.harmony_hub_webos
+      - switch.wake_on_lan
 
 influxdb:
   host: a0d7b954-influxdb
