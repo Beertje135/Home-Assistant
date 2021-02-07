@@ -7,7 +7,7 @@ views:
     panel: true
     cards:
       - id: root_stack_0
-        type: custom:layout-card
+        type: 'custom:layout-card'
         layout: vertical
         column_num: 1
         max_width: [100%]
@@ -19,7 +19,6 @@ views:
               - entity: climate.ons_huisje
               - entity: person.bert
               - entity: person.caroline
-            show_header_toggle: false
             state_filter:
               - home
               - not_home
@@ -61,7 +60,6 @@ views:
               type: glance
           - id: heating_tracker_0
             type: entity-filter
-            show_header_toggle: false
             show_empty: false
             state_filter:
               - heat
@@ -114,7 +112,6 @@ views:
                     value: 10
                     attribute: battery_level
             show_empty: false
-            show_header_toggle: false
             state_filter:
               - Replace
               - 'off'
@@ -146,7 +143,6 @@ views:
               - entity: vacuum.dusty
               - entity: input_boolean.keep_christmas_on
               - entity: input_boolean.keep_computer_on
-            show_header_toggle: false
             show_empty: false
             state_filter:
               - home
@@ -156,76 +152,139 @@ views:
               show_name: true
               show_state: false
               type: glance
+          - id: update_tracker_0
+            type: entity-filter
+            entities:
+              - entity: binary_sensor.updater
+                name: Updates
+              - entity: sensor.hacs
+                name: Updates Hacs
+            show_empty: false
+            state_filter:
+              - 'on'
+              - '1'
+              - '2'
+              - '3'
+              - '4'
+            card:
+              type: glance
+              show_name: true
+              show_state: true
           - id: layout_0
             type: 'custom:layout-card'
             layout: auto
             cards:
-              - type: entity-filter
-                show_header_toggle: false
-                show_empty: false
-                state_filter:
-                  - 'on'
-                  - '1'
-                  - '2'
-                  - '3'
-                  - '4'
-                entities:
-                  - entity: binary_sensor.updater
-                    name: Updates
-                  - entity: sensor.hacs
-                    name: Updates Hacs
-                card:
-                  type: glance
-                  show_name: true
-                  show_state: true
               - title: Verlichting
                 type: vertical-stack
                 cards:
                   - type: entities
                     show_header_toggle: false
                     entities:
-                      - entity: input_boolean.light_downstairs
-                        name: Sensors Beneden
-                        tap_action:
-                          action: toggle
-                      - entity: light.hue_smart_plug_woonkamer_one
-                        name: Woonkamer Led Lichtjes
-                        tap_action:
-                          action: toggle
-                      - entity: light.hue_smart_plug_woonkamer_two
-                        name: Woonkamer Spacewalker
-                        tap_action:
-                          action: toggle
-                      - entity: light.hue_light_woonkamer
-                        name: Woonkamer Lamp Moooi
-                        tap_action:
-                          action: toggle
-                      - entity: light.hue_smart_plug_veranda
-                        name: Veranda Led Lichtjes
-                        tap_action:
-                          action: toggle
-                      - entity: light.hue_light_veranda
-                        name: Veranda Arco
-                      - entity: light.hue_light_kamer_elmo_one
-                        name: Elmo's Staanlamp
-                      - entity: light.aarlo_arlo_elmo
-                        name: Elmo's Arlo
-                        tap_action:
-                          action: toggle
-              - title: Multimedia
+                      - type: buttons
+                        entities:
+                          - entity: group.licht_keuken
+                            tap_action:
+                              action: more-info
+                          - entity: group.licht_woonkamer
+                            tap_action:
+                              action: more-info
+                          - entity: group.licht_veranda
+                            tap_action:
+                              action: more-info
+                          - entity: group.licht_tuin
+                            tap_action:
+                              action: more-info
+                      - type: buttons
+                        entities:
+                          - entity: group.licht_badkamer
+                            tap_action:
+                              action: more-info
+                          - entity: group.licht_slaapkamer1
+                            tap_action:
+                              action: more-info
+                          - entity: group.licht_slaapkamer2
+                            tap_action:
+                              action: more-info
+                          - entity: group.licht_dressing
+                            tap_action:
+                              action: more-info
+                    header:
+                      type: buttons
+                      entities:
+                        - entity: sun.sun
+                          tap_action:
+                            action: more-info
+                        - entity: input_boolean.light_downstairs
+                          name: Beneden
+              - title: Energie
                 type: vertical-stack
                 cards:
                   - type: glance
+                    columns: 4
                     entities:
-                      - entity: input_select.harmony_hub
-                      - entity: input_boolean.music_follow
-                        tap_action:
-                          action: toggle
-                      - entity: input_boolean.keep_computer_on
-                        tap_action:
-                          action: toggle
+                      - entity: sensor.ons_huisje_total_consumption_today
+                      - entity: sensor.solaredge_energy_today_template
+                      - entity: sensor.ons_huisje_sensor_gas
+                      - entity: sensor.ons_huisje_sensor_water
                     show_header_toggle: false
                     show_name: false
+              - title: Verwarming
+                type: vertical-stack
+                cards:
+                  - type: entities
+                    entities:
+                      - entity: climate.keuken
+                        icon: mdi:stove
+                        name: Keuken
+                      - entity: climate.woonkamer
+                        icon: mdi:sofa
+                        name: Woonkamer
+                      - entity: climate.badkamer
+                        icon: mdi:shower
+                        name: Badkamer
+                      - entity: climate.dressing
+                        icon: mdi:hanger
+                        name: Dressing
+                      - entity: climate.slp_kamer
+                        icon: mdi:bed-empty
+                        name: Slp Kamer
+                      - entity: climate.kamer_elmo
+                        icon: mdi:baby-carriage
+                        name: Elmo Kamer
+                    show_header_toggle: false
+                    show_name: false
+                    footer:
+                      type: buttons
+                      entities:
+                        - entity: sensor.season
+                          tap_action:
+                            action: more-info
+                  - type: glance
+                    columns: 2
+                    show_name: false
+                    entities:
+                      - entity: sensor.hue_sensor_tuin_temperature
+                      - entity: sensor.hue_sensor_tuinhuis_temperature
+              - title: Multimedia
+                type: vertical-stack
+                cards:
+                  - type: entities
+                    show_header_toggle: false
+                    entities:
+                      - entity: input_select.harmony_hub
+                    header:
+                      type: buttons
+                      entities:
+                        - entity: input_boolean.music_follow
+                          name: Follow
+                          tap_action:
+                            action: toggle
+                        - entity: group.computer
+                          tap_action:
+                            action: more-info
+                        - entity: group.media_players
+                          tap_action:
+                            action: more-info
                   - type: entity-filter
                     show_empty: false
                     show_header_toggle: false
@@ -386,70 +445,6 @@ views:
                     card:
                       type: media-control
                       entity: media_player.google_home_bedroom
-              - title: Energie
-                type: vertical-stack
-                cards:
-                  - type: glance
-                    columns: 4
-                    entities:
-                      - entity: sensor.ons_huisje_total_consumption_today
-                      - entity: sensor.solaredge_energy_today_template
-                      - entity: sensor.ons_huisje_sensor_gas
-                      - entity: sensor.ons_huisje_sensor_water
-                    show_header_toggle: false
-                    show_name: false
-              - title: Verwarming
-                type: vertical-stack
-                cards:
-                  - type: entities
-                    entities:
-                      - entity: climate.keuken
-                        icon: mdi:stove
-                        name: Keuken
-                      - entity: climate.woonkamer
-                        icon: mdi:sofa
-                        name: Woonkamer
-                      - entity: climate.badkamer
-                        icon: mdi:shower
-                        name: Badkamer
-                      - entity: climate.dressing
-                        icon: mdi:hanger
-                        name: Dressing
-                      - entity: climate.slp_kamer
-                        icon: mdi:bed-empty
-                        name: Slp Kamer
-                      - entity: climate.kamer_elmo
-                        icon: mdi:baby-carriage
-                        name: Elmo Kamer
-                    show_header_toggle: false
-                    show_name: false
-              - title: Weer
-                type: vertical-stack
-                cards:
-                  - type: entities
-                    entities:
-                    - entity: sensor.hue_sensor_tuin_temperature
-                      icon: mdi:flower
-                      name: Tuin
-                    - entity: sensor.hue_sensor_tuinhuis_temperature
-                      icon: mdi:shovel
-                      name: Tuinhuis
-                  - type: weather-forecast
-                    entity: weather.dark_sky
-                  - type: glance
-                    entities:
-                      - entity: sensor.template_delta_set_temperature
-                        name: Delta Set
-                      - entity: sensor.template_delta_temperature
-                        name: Delta Current
-                    show_header_toggle: false
-                    show_name: true
-                  - type: glance
-                    entities:
-                      - entity: sensor.season
-                      - entity: sun.sun
-                    show_header_toggle: false
-                    show_name: false
   - title: Ons Huisje
     icon: 'mdi:home-assistant'
     panel: true
@@ -611,53 +606,29 @@ views:
               - title: Woonkamer
                 type: vertical-stack
                 cards:
-                  - type: glance
-                    columns: 4
-                    show_name: false
-                    show_state: false
-                    entities:
-                      - entity: light.hue_light_woonkamer
-                        tap_action:
-                          action: toggle
-                        hold_action:
-                          action: more-info
-                      - entity: light.hue_smart_plug_woonkamer_one
-                        tap_action:
-                          action: toggle
-                      - entity: light.hue_smart_plug_woonkamer_two
-                        tap_action:
-                          action: toggle
-                      - entity: light.milight_woonkamer_bridge
-                        tap_action:
-                          action: toggle
-                        hold_action:
-                          action: more-info
-                  - type: horizontal-stack
-                    cards:
-                      - type: glance
-                        show_name: false
-                        show_state: false
-                        entities:
-                          - binary_sensor.hue_sensor_woonkamer_motion
-                      - entity: sensor.hue_sensor_woonkamer_light_level
-                        name: Licht
-                        min: 0
-                        max: 200
-                        severity:
-                          green: 150
-                          yellow: 50
-                          red: 0
-                        type: gauge
                   - type: entities
-                    entities:
-                      - entity: climate.keuken
-                        name: °C
-                  - type: entities
-                    id: a391429485bb42178949b68e5023456a
                     show_header_toggle: false
                     entities:
                       - entity: input_select.harmony_hub
-                        name: Tv
+                      - entity: climate.woonkamer
+                        name: °C
+                      - entity: sensor.hue_sensor_woonkamer_light_level
+                        name: LUX  
+                    header:
+                      type: buttons
+                      entities:
+                        - entity: group.licht_woonkamer
+                          icon: mdi:lightbulb-multiple
+                          tap_action:
+                            action: more-info
+                        - entity: binary_sensor.hue_sensor_woonkamer_motion
+                          tap_action:
+                            action: more-info
+                    footer:
+                      type: graph
+                      entity: sensor.hue_sensor_woonkamer_light_level
+                      hours_to_show: 24
+                      detail: 1
                   - type: entity-filter
                     show_empty: false
                     show_header_toggle: false
@@ -701,91 +672,55 @@ views:
               - title: Veranda
                 type: vertical-stack
                 cards:
-                  - type: horizontal-stack
-                    cards:
-                      - type: glance
-                        columns: 2
-                        show_name: false
-                        show_state: false
-                        entities:
-                          - entity: light.hue_smart_plug_veranda
-                            name: Led Strip
-                            tap_action:
-                              action: toggle
-                          - entity: light.hue_light_veranda
-                            name: Flos Arco
-                            tap_action:
-                              action: toggle
-                            hold_action:
-                              action: more-info
-                      - entity: sensor.hue_sensor_veranda_light_level
-                        name: Licht
-                        min: 0
-                        max: 200
-                        severity:
-                          green: 150
-                          yellow: 50
-                          red: 0
-                        type: gauge
                   - type: entities
-                    id: 31b92c9bde72400b85b73ffbfbc30526
                     show_header_toggle: false
                     entities:
-                      - entity: vacuum.dusty
-                        name: Dusty
-                      - entity: input_boolean.vacuum_cleaned_today
-                        name: Vandaag stof gezogen
+                      - entity: sensor.hue_sensor_veranda_light_level
+                        name: LUX  
+                    header:
+                      type: buttons
+                      entities:
+                        - entity: group.licht_veranda
+                          icon: mdi:lightbulb-multiple
+                          tap_action:
+                            action: more-info
+                        - entity: vacuum.dusty
+                          tap_action:
+                            action: more-info
+                        - entity: input_boolean.vacuum_cleaned_today
+                    footer:
+                      type: graph
+                      entity: sensor.hue_sensor_veranda_light_level
+                      hours_to_show: 24
+                      detail: 1
               - title: Keuken
                 type: vertical-stack
                 cards:
-                  - type: horizontal-stack
-                    cards:
-                      - type: glance
-                        columns: 2
-                        show_name: false
-                        show_state: false
-                        entities:
-                          - entity: light.milight_keuken
-                            name: Led Strip
-                            tap_action:
-                              action: toggle
-                            hold_action:
-                              action: more-info
-                          - entity: light.milight_keuken_bridge
-                            name: Led Tv
-                            tap_action:
-                              action: toggle
-                            hold_action:
-                              action: more-info
-                      - type: glance
-                        columns: 
-                        show_name: false
-                        show_state: false
-                        entities:
-                          - entity: switch.wake_on_lan
-                            name: Computer
-                            tap_action:
-                              action: toggle
-                  - type: horizontal-stack
-                    cards:
-                      - type: glance
-                        show_name: false
-                        show_state: false
-                        entities:
-                          - binary_sensor.hue_sensor_keuken_motion
-                      - entity: sensor.hue_sensor_keuken_light_level
-                        name: Licht
-                        min: 0
-                        max: 500
-                        severity:
-                          green: 300
-                          yellow: 150
-                          red: 0
-                        type: gauge
                   - type: entities
+                    show_header_toggle: false
                     entities:
                       - entity: climate.keuken
                         name: °C
+                      - entity: sensor.hue_sensor_keuken_light_level
+                        name: LUX  
+                    header:
+                      type: buttons
+                      entities:
+                        - entity: group.licht_keuken
+                          icon: mdi:lightbulb-multiple
+                          tap_action:
+                            action: more-info
+                        - entity: binary_sensor.hue_sensor_keuken_motion
+                          tap_action:
+                            action: more-info
+                        - entity: group.computer
+                          tap_action:
+                            action: more-info
+                    footer:
+                      type: graph
+                      entity: sensor.hue_sensor_keuken_light_level
+                      hours_to_show: 24
+                      detail: 1
                   - type: entity-filter
                     show_empty: false
                     show_header_toggle: false
@@ -859,93 +794,56 @@ views:
               - title: Elmo's Kamer
                 type: vertical-stack
                 cards:
-                  - type: vertical-stack
-                    cards:
-                      - type: horizontal-stack
-                        cards:
-                          - type: glance
-                            columns: 2
-                            show_name: false
-                            show_state: false
-                            entities:
-                              - entity: light.hue_light_kamer_elmo_one
-                                name: Elmo's Staanlamp
-                                tap_action:
-                                  action: toggle
-                                hold_action:
-                                  action: more-info
-                              - entity: light.hue_light_kamer_elmo_two
-                                name: Elmo's Lamp
-                                tap_action:
-                                  action: toggle
-                                hold_action:
-                                  action: more-info
-                          - type: glance
-                            columns: 2
-                            show_name: false
-                            show_state: false
-                            entities:
-                              - entity: light.aarlo_arlo_elmo
-                                name: Elmo's Arlo
-                                tap_action:
-                                  action: toggle
-                      - type: entities
-                        entities:
-                          - entity: climate.kamer_elmo
-                            name: °C
-                  - type: vertical-stack
-                    cards:
-                      - type: markdown
-                        content: |
-                          **Arlo**
-                      - type: glance
-                        columns: 4
-                        show_name: false
-                        show_state: true
-                        entities:
-                          - entity: sensor.aarlo_temperature_arlo_elmo
-                            name: Temp
-                          - entity: sensor.aarlo_humidity_arlo_elmo
-                            name: Vochtigheid
-                          - entity: sensor.aarlo_air_quality_arlo_elmo
-                            name: Luchtkwaliteit
-                          - entity: sensor.aarlo_battery_level_arlo_elmo
-                            name: Batterij
-                  - type: vertical-stack
-                    title: Slaapkamer
-                    cards:
-                      - type: glance
-                        columns: 4
-                        show_name: false
-                        show_state: false
-                        entities:
-                          - entity: light.hue_light_slaapkamer
-                            tap_action:
-                              action: toggle
-                            hold_action:
-                              action: more-info
-                      - type: entities
-                        entities:
-                          - entity: climate.slp_kamer
-                            name: °C
+                  - type: entities
+                    show_header_toggle: false
+                    entities:
+                      - entity: climate.kamer_elmo
+                        name: °C
+                    header:
+                      type: buttons
+                      entities:
+                        - entity: group.licht_slaapkamer2_group1
+                          icon: mdi:lightbulb-multiple
+                          tap_action:
+                            action: more-info
+                        - entity: group.arlo
+                          tap_action:
+                            action: more-info
+                    footer:
+                      type: graph
+                      entity: sensor.aarlo_humidity_arlo_elmo
+                      hours_to_show: 24
+                      detail: 1
+              - title: Slaapkamer
+                type: vertical-stack
+                cards:
+                  - type: entities
+                    show_header_toggle: false
+                    entities:
+                      - entity: climate.slp_kamer
+                        name: °C
+                    header:
+                      type: buttons
+                      entities:
+                        - entity: group.licht_slaapkamer1
+                          icon: mdi:lightbulb
+                          tap_action:
+                            action: more-info
               - title: Badkamer
                 type: vertical-stack
                 cards:
-                  - type: glance
-                    columns: 4
-                    show_name: false
-                    show_state: false
-                    entities:
-                      - entity: light.milight_badkamer
-                        name: Led Strip
-                        tap_action:
-                          action: toggle
-                        hold_action:
-                          action: more-info
                   - type: entities
+                    show_header_toggle: false
                     entities:
                       - entity: climate.badkamer
                         name: °C
+                    header:
+                      type: buttons
+                      entities:
+                        - entity: group.licht_badkamer
+                          icon: mdi:lightbulb
+                          tap_action:
+                            action: more-info
                   - type: entity-filter
                     show_empty: false
                     show_header_toggle: false
@@ -979,187 +877,82 @@ views:
               - title: Dressing
                 type: vertical-stack
                 cards:
-                  - type: glance
-                    columns: 4
-                    show_name: false
-                    show_state: false
-                    entities:
-                      - entity: light.hue_light_dressing_one
-                        name: Lamp 1
-                        tap_action:
-                          action: toggle
-                        hold_action:
-                          action: more-info
-                      - entity: light.hue_light_dressing_two
-                        name: Lamp 2 (Kleur)
-                        tap_action:
-                          action: toggle
-                        hold_action:
-                          action: more-info
-                      - entity: light.hue_light_dressing_three
-                        name: Lamp 3
-                        tap_action:
-                          action: toggle
-                        hold_action:
-                          action: more-info
-                  - type: horizontal-stack
-                    cards:
-                      - type: horizontal-stack
-                        cards:
-                          - type: glance
-                            show_name: false
-                            show_state: false
-                            entities:
-                              - entity: input_boolean.light_dressing_stay_on
-                                name: Hou licht aan
-                                tap_action:
-                                  action: toggle
-                          - type: glance
-                            show_name: false
-                            show_state: false
-                            entities:
-                              - binary_sensor.hue_sensor_dressing_motion
-                      - entity: sensor.hue_sensor_dressing_light_level
-                        name: Licht
-                        min: 0
-                        max: 150
-                        severity:
-                          green: 75
-                          yellow: 70
-                          red: 0
-                        type: gauge
                   - type: entities
+                    show_header_toggle: false
                     entities:
                       - entity: climate.dressing
                         name: °C
+                      - entity: sensor.hue_sensor_dressing_light_level
+                        name: LUX
+                    header:
+                      type: buttons
+                      entities:
+                        - entity: group.licht_dressing
+                          icon: mdi:lightbulb-multiple
+                          tap_action:
+                            action: more-info
+                        - entity: binary_sensor.hue_sensor_dressing_motion
+                          tap_action:
+                            action: more-info
+                    footer:
+                      type: graph
+                      entity: sensor.hue_sensor_dressing_light_level
+                      hours_to_show: 24
+                      detail: 1
               - title: Tuinhuis
                 type: vertical-stack
                 cards:
-                  - type: horizontal-stack
-                    cards:
-                      - type: horizontal-stack
-                        cards:
-                          - type: glance
-                            columns: 1
-                            show_name: false
-                            show_state: false
-                            entities:
-                              - binary_sensor.hue_sensor_tuinhuis_motion
-                          - type: glance
-                            columns: 1
-                            show_name: false
-                            show_state: false
-                            entities:
-                              - entity: light.hue_light_tuinhuis
-                                tap_action:
-                                  action: toggle
-                                hold_action:
-                                  action: more-info
-                  - type: horizontal-stack
-                    cards:
-                      - type: glance
-                        columns: 1
-                        show_name: false
-                        show_state: true
-                        entities:
-                          - entity: sensor.hue_sensor_tuinhuis_temperature
+                  - type: entities
+                    show_header_toggle: false
+                    entities:
+                      - entity: sensor.hue_sensor_tuinhuis_temperature
+                        name: °C
                       - entity: sensor.hue_sensor_tuinhuis_light_level
-                        name: Licht
-                        min: 0
-                        max: 150
-                        severity:
-                          green: 75
-                          yellow: 70
-                          red: 0
-                        type: gauge
+                        name: LUX  
+                    header:
+                      type: buttons
+                      entities:
+                        - entity: group.licht_tuin_tuinhuis
+                          icon: mdi:lightbulb-multiple
+                          tap_action:
+                            action: more-info
+                        - entity: binary_sensor.hue_sensor_tuinhuis_motion
+                          tap_action:
+                            action: more-info
+                    footer:
+                      type: graph
+                      entity: sensor.hue_sensor_tuinhuis_light_level
+                      hours_to_show: 24
+                      detail: 1
               - title: Tuin
                 type: vertical-stack
                 cards:
-                  - type: horizontal-stack
-                    cards:
-                    - type: glance
-                      columns: 1
-                      show_name: false
-                      show_state: false
-                      entities: 
-                        - binary_sensor.hue_sensor_tuin_motion
-                    - type: glance
-                      columns: 3
-                      show_name: false
-                      show_state: false
-                      entities:
-                        - entity: light.hue_light_tuin_two
-                          name: Lamp 2
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
-                        - entity: light.hue_light_tuin_five
-                          name: Lamp 5
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
-                        - entity: light.hue_light_tuin_six
-                          name: Lamp 6
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
-                    - type: glance
-                      columns: 3
-                      show_name: false
-                      show_state: false
-                      entities:
-                        - entity: light.hue_light_tuin_one
-                          name: Lamp 1
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
-                        - entity: light.hue_light_tuin_three
-                          name: Lamp 3
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
-                        - entity: light.hue_light_tuin_four
-                          name: Lamp 4
-                          tap_action:
-                            action: toggle
-                          hold_action:
-                            action: more-info
-                  - type: horizontal-stack
-                    cards:
-                      - type: glance
-                        columns: 1
-                        show_name: false
-                        show_state: true
-                        entities:
-                          - entity: sensor.hue_sensor_tuin_temperature
+                  - type: entities
+                    show_header_toggle: false
+                    entities:
+                      - entity: sensor.hue_sensor_tuin_temperature
+                        name: °C
                       - entity: sensor.hue_sensor_tuin_light_level
-                        name: Licht
-                        min: 0
-                        max: 150
-                        severity:
-                          green: 75
-                          yellow: 70
-                          red: 0
-                        type: gauge
-              - title: Extra
-                type: vertical-stack
-                cards:
-                  - type: horizontal-stack
-                    cards:
-                      - type: glance
-                        columns: 4
-                        show_name: false
-                        show_state: false
-                        entities:
-                          - entity: light.hue_smart_plug_extra
-                            name: Extra Plug
-                            tap_action:
-                              action: toggle
+                        name: LUX  
+                    header:
+                      type: buttons
+                      entities:
+                        - entity: group.licht_tuin_group1
+                          icon: mdi:lightbulb-multiple
+                          tap_action:
+                            action: more-info
+                        - entity: group.licht_tuin_group2
+                          icon: mdi:lightbulb-multiple
+                          tap_action:
+                            action: more-info
+                        - entity: binary_sensor.hue_sensor_tuin_motion
+                          tap_action:
+                            action: more-info
+                    footer:
+                      type: graph
+                      entity: sensor.hue_sensor_tuin_light_level
+                      hours_to_show: 24
+                      detail: 1
   - title: Multi-Media
     icon: 'mdi:animation-play'
     panel: true
@@ -1314,28 +1107,32 @@ views:
               show_name: true
               show_state: false
               type: glance
-          - id: computer_tracker_2
-            type: glance
-            show_header_toggle: false
-            entities:
-              - entity: switch.wake_on_lan
-                name: PC
-                tap_action:
-                  action: toggle
-              - entity: input_boolean.keep_computer_on
-                name: PC Always On
-                tap_action:
-                  action: toggle
-              - entity: input_boolean.music_follow
-                name: Muziek Volgen
-                tap_action:
-                  action: toggle
-              - entity: group.media_players
-                name: Media Playing
           - id: layout_2
             type: 'custom:layout-card'
             layout: auto
             cards:
+              - title: Multimedia
+                type: vertical-stack
+                cards:
+                  - type: entities
+                    show_header_toggle: false
+                    entities:
+                      - entity: input_select.harmony_hub
+                    header:
+                      type: buttons
+                      entities:
+                        - entity: input_boolean.music_follow
+                          name: Follow
+                          tap_action:
+                            action: toggle
+                        - entity: group.computer
+                          name: PC
+                          tap_action:
+                            action: more-info
+                        - entity: group.media_players
+                          name: Media
+                          tap_action:
+                            action: more-info
               - title: Radio Select
                 type: vertical-stack
                 cards:
@@ -1355,14 +1152,6 @@ views:
                 cards:
                   - type: media-control
                     entity: media_player.spotify_bert_verlinden
-              - title: TV Select
-                type: vertical-stack
-                cards:
-                  - type: entities
-                    show_header_toggle: false
-                    entities:
-                      - entity: input_select.harmony_hub
-                        name: Remote Woonkamer
               - title: Now Playing
                 type: vertical-stack
                 cards:
@@ -2102,14 +1891,8 @@ views:
                     id: 6cd495ed2d424ef1bf513c6dbef715fa
                     show_header_toggle: false
                     entities:
-                      - entity: input_boolean.notify_bert
-                        name: Bert Notify
-                        tap_action:
-                          action: toggle
-                      - entity: input_boolean.notify_caro
-                        name: Caro Notify
-                        tap_action:
-                          action: toggle
+                      - entity: group.notifications
+                        name: Notifications iOS
                       - entity: input_boolean.visitor
                         name: Bezoek
                         tap_action:
@@ -2124,26 +1907,8 @@ views:
                   - type: entities
                     show_header_toggle: false
                     entities:
-                      - entity: switch.adguard_protection
-                        name: Protection
-                        tap_action:
-                          action: toggle
-                      - entity: switch.adguard_filtering
-                        name: Filtering
-                        tap_action:
-                          action: toggle
-                      - entity: switch.adguard_parental_control
-                        name: Parental Control
-                        tap_action:
-                          action: toggle
-                      - entity: switch.adguard_safe_browsing
-                        name: Safe Browsing
-                        tap_action:
-                          action: toggle            
-                      - entity: switch.adguard_safe_search
-                        name: Safe Search
-                        tap_action:
-                          action: toggle
+                      - entity: group.internet_safety
+                        name: Internet Safety
               - title: Printer
                 type: horizontal-stack
                 cards:
