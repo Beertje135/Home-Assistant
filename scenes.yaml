@@ -151,17 +151,8 @@
       - colorloop
       - night
       - white
-      brightness: 101
-      hs_color:
-      - 35.854
-      - 32.157
-      rgb_color:
-      - 255
-      - 222
-      - 172
-      xy_color:
-      - 0.403
-      - 0.378
+      brightness: 38
+      color_temp: 260
       friendly_name: Kitchen LED
       assumed_state: true
       supported_features: 63
@@ -172,17 +163,7 @@
       - colorloop
       - night
       - white
-      brightness: 100
-      hs_color:
-      - 35.854
-      - 32.157
-      rgb_color:
-      - 255
-      - 222
-      - 172
-      xy_color:
-      - 0.403
-      - 0.378
+      brightness: 255
       friendly_name: Kitchen Tv LED
       assumed_state: true
       supported_features: 61
