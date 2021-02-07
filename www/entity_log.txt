@@ -1,153 +1,156 @@
-Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
+Home Assistant notifications (Log started: 2021-02-07T11:49:27.848156+00:00)
 --------------------------------------------------------------------------------
-  -automation.amplifier_keuken_aan_echo_playing
-  -automation.amplifier_keuken_uit_echo_not_playing
-  -automation.amplifier_woonkamer_aan_echo_playing
+-automation.amplifier_woonkamer_aan_echo_playing
   -automation.amplifier_woonkamer_aan_echo_playing_harmony_powered_off
   -automation.amplifier_woonkamer_uit_apple_tv_not_playing
   -automation.amplifier_woonkamer_uit_echo_not_playing
   -automation.apple_tv_toogle_kitchen_room_boolean
   -automation.apple_tv_toogle_living_room_boolean
   -automation.batterij_smappee_bijna_leeg
+  -automation.bewoner_aan_checkpoint
+  -automation.bewoner_aan_opvang
+  -automation.bewoner_aan_ziekenhuis
+  -automation.bewoner_bert_aan_brussel_station
+  -automation.bewoner_bert_aan_brussel_station_change
+  -automation.bewoner_bert_aan_mechelen_station
+  -automation.bewoner_bert_aan_mechelen_station_change_brus
+  -automation.bewoner_bert_aan_mechelen_station_change_wil
+  -automation.bewoner_bert_aan_willebroek_station
+  -automation.bewoner_bert_aan_willebroek_station_change
+  -automation.bewoner_thuis_babysit
+  -automation.bewoner_thuis_of_weg
+  -automation.bewoner_thuis_of_weg_2
   -automation.bezoeker_babysit_aangekomen
   -automation.bezoeker_babysit_blijft
   -automation.bezoeker_babysit_gaat_weg
   -automation.bezoeker_babysit_vertrokken
   -automation.bezoeker_thuis_of_weg
-  -automation.deurbel_als_deurbel_gaat_2
-  -automation.harmony_hub_boolean_change_based_on_hub_status_a1
-  -automation.harmony_hub_boolean_change_based_on_hub_status_a2
-  -automation.harmony_hub_boolean_changes_b1
-  -automation.harmony_hub_boolean_changes_b2
+  -automation.deurbel_voordeur_als_deurbel_gaat
+  -automation.harmony_hub_boolean_change_based_on_hub_status_1a
+  -automation.harmony_hub_boolean_changes_2a
   -automation.harmony_hub_start_tv_evening
-  -automation.hassio_restart_check
-  -automation.hassio_update_available
-  -automation.hassio_update_available_hacs
-  -automation.hassio_volle_toeren
+  -automation.homeassistant_restart_check
+  -automation.homeassistant_update_available
+  -automation.homeassistant_update_available_hacs
+  -automation.homeassistant_volle_toeren
   -automation.licht_badkamer_aan
   -automation.licht_dressing_aan
   -automation.licht_dressing_altijd_aan_boolean_changes
   -automation.licht_dressing_altijd_aan_change_boolean_after_timer
   -automation.licht_dressing_uit
   -automation.licht_elmo_arlo_aan_avond
-  -automation.licht_elmo_arlo_aan_middag
-  -automation.licht_elmo_arlo_uit_middag
   -automation.licht_elmo_ochtend_week
   -automation.licht_elmo_ochtend_weekend
   -automation.licht_elmo_uit
+  -automation.licht_hue_woonkamer_boolean_a
+  -automation.licht_hue_woonkamer_boolean_b
   -automation.licht_keuken_aan
-  -automation.licht_keuken_media_play
-  -automation.licht_keuken_standby_of_uit
   -automation.licht_keuken_uit
   -automation.licht_keuken_uit_night
+  -automation.licht_keuken_uit_night_2
+  -automation.licht_tuin1_aan
+  -automation.licht_tuin1_uit
+  -automation.licht_tuin2_aan
+  -automation.licht_tuin2_uit
+  -automation.licht_tuinhuis_aan
+  -automation.licht_tuinhuis_uit
   -automation.licht_veranda_aan_flos_arco
   -automation.licht_veranda_aan_led
-  -automation.licht_veranda_uit_flos_arco
   -automation.licht_veranda_uit_led
   -automation.licht_woonkamer_aan_kerstmis
   -automation.licht_woonkamer_aan_lux_heel_laag
   -automation.licht_woonkamer_aan_lux_laag
-  -automation.licht_woonkamer_boolean_a
-  -automation.licht_woonkamer_boolean_b
   -automation.licht_woonkamer_hue_aan
-  -automation.licht_woonkamer_media_play
-  -automation.licht_woonkamer_milight_aan_of_uit_volgens_harmony
-  -automation.licht_woonkamer_uit_geen_beweging
-  -automation.licht_woonkamer_uit_lux_heel_hoog
   -automation.licht_woonkamer_uit_lux_hoog
-  -automation.licht_woonkamer_uit_night
+  -automation.licht_woonkamer_uit_nacht
   -automation.muziek_badkamer_play
   -automation.muziek_badkamer_stop
-  -automation.muziek_downstairs_play_1
+  -automation.muziek_beneden_play_1
   -automation.muziek_downstairs_play_2
   -automation.muziek_follow_disable
   -automation.muziek_follow_enable_2
   -automation.muziek_follow_enable_3
   -automation.muziek_keuken_play
   -automation.muziek_keuken_stop
+  -automation.muziek_volgen_disable
+  -automation.muziek_volgen_disable_2
+  -automation.muziek_volgen_enable
+  -automation.muziek_volgen_enable_2
   -automation.muziek_volume_beiden_thuis
   -automation.muziek_volume_keuken_ochtend
   -automation.muziek_volume_woonkamer
   -automation.muziek_volume_woonkamer_nieuws
   -automation.muziek_woonkamer_play
   -automation.muziek_woonkamer_stop
-  -automation.notify_bewoner_aan_checkpoint
-  -automation.notify_bewoner_aan_opvang
-  -automation.notify_bewoner_aan_ziekenhuis
-  -automation.notify_bewoner_bert_aan_brussel_station
-  -automation.notify_bewoner_bert_aan_brussel_station_change
-  -automation.notify_bewoner_bert_aan_mechelen_station
-  -automation.notify_bewoner_bert_aan_mechelen_station_change_brus
-  -automation.notify_bewoner_bert_aan_mechelen_station_change_wil
-  -automation.notify_bewoner_bert_aan_willebroek_station
-  -automation.notify_bewoner_bert_aan_willebroek_station_change
-  -automation.notify_bewoner_thuis_babysit
-  -automation.notify_bewoner_thuis_of_weg
-  -automation.notify_bewoner_thuis_of_weg_2
-  -automation.ons_huisje_alexa_trigger_motion_sensor_dressing
-  -automation.ons_huisje_alexa_trigger_motion_sensor_kitchen
-  -automation.ons_huisje_change_status_bewoner_of_bezoeker
-  -automation.ons_huisje_change_status_juist_wakker
-  -automation.ons_huisje_change_status_thuis_off
-  -automation.ons_huisje_change_status_thuis_on_als_thuis
-  -automation.ons_huisje_change_status_timer
-  -automation.ons_huisje_change_status_trigger
-  -automation.ons_huisje_status_changes
+  -automation.ons_huisje_alexa_trigger_beweging_in_de_dressing
+  -automation.ons_huisje_alexa_trigger_beweging_in_de_keuken
+  -automation.ons_huisje_status_wijzigt
+  -automation.ons_huisje_wijzig_de_status_bewoner_of_bezoeker
+  -automation.ons_huisje_wijzig_de_status_juist_wakker
+  -automation.ons_huisje_wijzig_de_status_thuis_aan_als_thuis
+  -automation.ons_huisje_wijzig_de_status_thuis_uit
+  -automation.ons_huisje_wijzig_de_status_timer
+  -automation.ons_huisje_wijzig_de_status_trigger
   -automation.plex_webhook_to_mqtt
   -automation.plex_webhook_toggle_kitchen_boolean
   -automation.plex_webhook_toggle_living_room_boolean
   -automation.plex_webhook_update_mqtt_sensor
   -automation.printer_notify_ink_low
-  -automation.vacuum_dusty_cleaned_today
-  -automation.vacuum_dusty_cleaned_today_kuishulp
-  -automation.vacuum_dusty_cleaned_today_reset
-  -automation.vacuum_dusty_notify_status_dusty_changes
-  -automation.vacuum_dusty_notify_status_woning_changes
-  -automation.vacuum_dusty_start_when_lux_enough
-  -automation.verluchting_boolean_change_based_on_outside_temperature_beneden
-  -automation.verluchting_boolean_change_based_on_outside_temperature_boven
+  -automation.radio_wijzig_huidige_radio_station_1
+  -automation.stofzuiger_dusty_bericht_status_dusty_wijzigt
+  -automation.stofzuiger_dusty_bericht_status_woning_wijzigt
+  -automation.stofzuiger_dusty_start_wanneer_voldoende_lux
+  -automation.stofzuiger_dusty_stof_gezogen_vandaag
+  -automation.stofzuiger_dusty_stof_gezogen_vandaag_kuishulp
+  -automation.stofzuiger_dusty_stof_gezogen_vandaag_reset
+  -automation.verluchting_boolean_based_on_outside_temperature_beneden
+  -automation.verluchting_boolean_based_on_outside_temperature_boven
+  -automation.verluchting_boolean_changes_beneden
   -automation.verluchting_boolean_changes_boven
+  -automation.verwarming_boolean_als_de_boolean_wijzigt
   -automation.verwarming_boolean_change_based_on_outside_temperature
   -automation.verwarming_boolean_change_based_on_season
-  -automation.verwarming_boolean_changes
   -automation.verwarming_location_week_going_home_custom_mode
-  -automation.verwarming_time_verlof_awake_evening_rise_woonkamer
-  -automation.verwarming_time_verlof_morning_home_mode
-  -automation.verwarming_time_verlof_slapen_home_mode
-  -automation.verwarming_time_week_awake_evening_rise_woonkamer
-  -automation.verwarming_time_week_end_work_eco_mode
-  -automation.verwarming_time_week_slapen_auto_mode
-  -automation.verwarming_time_week_start_work_auto_mode
-  -automation.verwarming_time_weekend_awake_evening_rise_woonkamer
-  -automation.verwarming_time_weekend_morning_auto_mode
-  -automation.verwarming_time_weekend_slapen_auto_mode
+  -automation.verwarming_staycation_juist_wakker_dus_omhoog_beneden
+  -automation.verwarming_staycation_later_wakker_dus_omhoog_woonkamer
+  -automation.verwarming_staycation_ochtend_dus_home_mode
+  -automation.verwarming_staycation_slapen_dus_home_mode
+  -automation.verwarming_staycation_thuis_verlof_dus_home_mode
+  -automation.verwarming_staycation_tijd_om_te_gaan_slapen_dus_home_mode
+  -automation.verwarming_staycation_vroeger_slapen_dus_omlaag_beneden
   -automation.verwarming_timer_overwrite_badkamer_auto_mode
+  -automation.verwarming_vakantie_dus_alles_uit
+  -automation.verwarming_week_schema_gaan_slapen_dus_auto_mode
+  -automation.verwarming_week_schema_juist_wakker_dus_omhoog_in_keuken
+  -automation.verwarming_week_schema_laat_wakker_dus_omhoog_in_woonkamer
+  -automation.verwarming_week_schema_start_werken_dus_auto_mode
+  -automation.verwarming_week_schema_thuis_werk_dus_custom_mode
+  -automation.verwarming_week_schema_tijd_om_te_gaan_slapen_dus_auto_mode
+  -automation.verwarming_week_schema_vroeger_slaper_dus_lager_beneden
+  -automation.verwarming_week_schema_werken_gedaan_dus_eco_mode
+  -automation.verwarming_weekend_schema_juist_wakker_dus_omhoog_beneden
+  -automation.verwarming_weekend_schema_later_wakker_dus_omhoog_woonkamer
+  -automation.verwarming_weekend_schema_ochtend_dus_auto_mode
+  -automation.verwarming_weekend_schema_slapen_dus_auto_mode
+  -automation.verwarming_weekend_schema_tijd_om_te_gaan_slapen_dus_auto_mode
+  -automation.verwarming_weekend_schema_vroeger_slapen_dus_omlaag_beneden
   -automation.verwarming_window_open_kamer_elmo_koud
-  -automation.verwarming_woning_juist_wakker_verlof_rise_beneden
-  -automation.verwarming_woning_juist_wakker_week_rise_keuken
-  -automation.verwarming_woning_juist_wakker_weekend_rise_beneden
-  -automation.verwarming_woning_slapen_verlof_home_mode
-  -automation.verwarming_woning_slapen_verlof_lower_beneden
-  -automation.verwarming_woning_slapen_week_auto_mode
-  -automation.verwarming_woning_slapen_week_lower_beneden
-  -automation.verwarming_woning_slapen_weekend_auto_mode
-  -automation.verwarming_woning_slapen_weekend_lower_beneden
-  -automation.verwarming_woning_thuis_auto_mode
-  -automation.verwarming_woning_thuis_verlof_home_mode
-  -automation.verwarming_woning_thuis_werk_custom_mode
-  -automation.verwarming_woning_vakantie_off
-  -automation.verwarming_woning_weg_auto_mode
-  -automation.verwarming_woning_weg_eco_mode
+  -automation.verwarming_woning_status_thuis_dus_auto_mode
+  -automation.verwarming_woning_status_weg_dus_auto_mode
+  -automation.verwarming_woning_status_weg_dus_eco_mode
   -automation.vuilbakken_bert_thuis
   -automation.vuilbakken_reminder_voor_avond
-  -automation.vuilbakken_status_woning_changes
-  -binary_sensor.dusty_bin_full
   -binary_sensor.downstairs_nest_protect_online
+  -binary_sensor.dusty_bin_full
   -binary_sensor.hue_sensor_dressing_motion
   -binary_sensor.hue_sensor_keuken_motion
+  -binary_sensor.hue_sensor_tuin_motion
+  -binary_sensor.hue_sensor_tuinhuis_motion
   -binary_sensor.hue_sensor_woonkamer_motion
   -binary_sensor.ons_huisje_away
+  -binary_sensor.ons_huisje_presence
   -binary_sensor.remote_ui
+  -binary_sensor.rpi_power_status
   -binary_sensor.snapshots_stale
   -binary_sensor.trigger_just_awake_dressing
   -binary_sensor.trigger_just_awake_kitchen
@@ -157,10 +160,10 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -binary_sensor.trigger_just_sleep_kitchen
   -binary_sensor.updater
   -binary_sensor.upstairs_nest_protect_online
+  -binary_sensor.workday_sensor
   -calendar.babysit_agenda
   -calendar.kuishulp_agenda
   -calendar.verlof_agenda
-  -camera.aarlo_arlo_elmo
   -climate.badkamer
   -climate.dressing
   -climate.kamer_elmo
@@ -168,37 +171,37 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -climate.ons_huisje
   -climate.slp_kamer
   -climate.woonkamer
-  -device_tracker.12d54m2
+  -device_tracker.amazon_1d0471c58
+  -device_tracker.amazon_2774d1c46
   -device_tracker.amazon_echo_dot_v1
   -device_tracker.amazon_echo_dot_v2
   -device_tracker.amazon_echo_dot_v3_black
   -device_tracker.amazon_echo_dot_v3_white_1
-  -device_tracker.amazon_echo_dot_v3_white_2
-  -device_tracker.amazon_echo_v1_badkamer
+  -device_tracker.amazon_echo_v1
   -device_tracker.apple_ipad_air_2
+  -device_tracker.apple_iphone_bert
   -device_tracker.apple_iphone_caro_dmv
   -device_tracker.apple_macbook_bert
   -device_tracker.apple_tv_keuken
   -device_tracker.apple_tv_woonkamer
   -device_tracker.applewacaroline
+  -device_tracker.applewacaroline_2
   -device_tracker.applewahvanbert
-  -device_tracker.applewahvanbert_2
   -device_tracker.arlo_camera_baby
-  -device_tracker.desktop_63g832d
+  -device_tracker.caro_surface_pro
+  -device_tracker.doorbell_front
   -device_tracker.dusty_roomba
-  -device_tracker.esp_a7fca5
   -device_tracker.google_nest_hub
   -device_tracker.harmony_hub
   -device_tracker.honeywell_hub
   -device_tracker.honeywell_hub_le_sucre
-  -device_tracker.ipad_van_karen
-  -device_tracker.ipadvan20180205
-  -device_tracker.iphone_van_andy
+  -device_tracker.hp2bf09f
+  -device_tracker.huawei_p20lite_papa
+  -device_tracker.ipad_van_bert
+  -device_tracker.ipad_van_bert_3
   -device_tracker.iphone_van_bert
   -device_tracker.iphone_van_caro
   -device_tracker.iphone_van_mark
-  -device_tracker.iphonevankaren
-  -device_tracker.iphonevanthomas
   -device_tracker.laptop_bert_bnp
   -device_tracker.lg_tv
   -device_tracker.milight_keuken
@@ -208,36 +211,53 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -device_tracker.nintendo_switch
   -device_tracker.pc_bert_lan
   -device_tracker.phillips_hue_hub
-  -device_tracker.printer
   -device_tracker.raspberry_pi_4b
   -device_tracker.router_iphone_bert
   -device_tracker.router_iphone_caro
   -device_tracker.smappee
   -device_tracker.solar_edge_lan
-  -device_tracker.solar_edge_wifi
-  -device_tracker.unifi_00_00_00_00_00_01_default
-  -device_tracker.unifi_00_0c_4f_72_61_6e_default
-  -device_tracker.unifi_0c_2e_8d_0f_f2_a6_default
-  -device_tracker.unifi_98_e7_f4_28_86_dc_default
-  -device_tracker.unifi_9c_84_bf_51_c3_07_default
-  -device_tracker.unifi_a0_28_ed_79_36_06_default
+  -device_tracker.ugw3
+  -device_tracker.unifi_02_e4_ee_61_42_db_default
+  -device_tracker.unifi_06_82_2f_57_57_bd_default
+  -device_tracker.unifi_08_7c_39_24_6d_d4_default
+  -device_tracker.unifi_1e_43_99_f3_5f_b0_default
+  -device_tracker.unifi_24_fe_ce_77_92_65_default
+  -device_tracker.unifi_32_51_c4_0d_27_b0_default
+  -device_tracker.unifi_38_6d_54_90_85_2d_default
+  -device_tracker.unifi_38_c8_5c_c2_25_f9_default
+  -device_tracker.unifi_4c_33_6e_00_17_ff_default
+  -device_tracker.unifi_5c_81_d0_24_d1_18_default
+  -device_tracker.unifi_64_36_61_33_3a_33_default
+  -device_tracker.unifi_7c_b2_7d_36_00_f6_default
+  -device_tracker.unifi_a6_1c_ec_53_84_92_default
   -device_tracker.unifi_ap_dressing
   -device_tracker.unifi_ap_slaapkamer
-  -device_tracker.unifi_ap_tuin
+  -device_tracker.unifi_ap_tuinhuis
+  -device_tracker.unifi_b0_fc_0d_a3_b8_63_default
+  -device_tracker.unifi_c2_d8_9e_72_f0_6e_default
   -device_tracker.unifi_cloud_key
-  -device_tracker.unifi_e0_63_da_b6_35_c2_default
-  -device_tracker.unifi_switch
-  -device_tracker.unifi_usg
+  -device_tracker.unifi_f8_ee_f3_6a_f5_83_default
+  -device_tracker.us16p150
+  -group.arlo
   -group.bewoners
   -group.bewoners_router
   -group.bezoekers
+  -group.computer
+  -group.internet_safety
   -group.licht_badkamer
   -group.licht_dressing
-  -group.licht_slaapkamer2
   -group.licht_keuken
+  -group.licht_slaapkamer1
+  -group.licht_slaapkamer2
+  -group.licht_slaapkamer2_group1
+  -group.licht_tuin
+  -group.licht_tuin_group1
+  -group.licht_tuin_group2
+  -group.licht_tuin_tuinhuis
   -group.licht_veranda
   -group.licht_woonkamer
   -group.media_players
+  -group.notifications
   -input_boolean.cooling_downstairs
   -input_boolean.cooling_upstairs
   -input_boolean.heating
@@ -245,6 +265,7 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -input_boolean.keep_computer_on
   -input_boolean.light_downstairs
   -input_boolean.light_dressing_stay_on
+  -input_boolean.light_garden_stay_on
   -input_boolean.light_livingroom
   -input_boolean.media_kitchen
   -input_boolean.media_livingroom
@@ -263,16 +284,48 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -input_boolean.trigger_sleep
   -input_boolean.vacuum_cleaned_today
   -input_boolean.visitor
+  -input_datetime.awake_week
+  -input_datetime.awake_week_elmo
+  -input_datetime.awake_week_heating
+  -input_datetime.awake_weekend
+  -input_datetime.awake_weekend_elmo
+  -input_datetime.awake_weekend_heating
+  -input_datetime.dusty_start
+  -input_datetime.dusty_stop
+  -input_datetime.dutje_start
+  -input_datetime.dutje_stop
+  -input_datetime.light_garden_off
+  -input_datetime.radio_off
+  -input_datetime.radio_on
+  -input_datetime.radio_switch_channel
+  -input_datetime.sleep_elmo
+  -input_datetime.sleep_week
+  -input_datetime.sleep_weekend
+  -input_datetime.tv_start
+  -input_datetime.tv_stop
+  -input_datetime.work_end
+  -input_datetime.work_end_heating
+  -input_datetime.work_mid
+  -input_datetime.work_start
   -input_select.harmony_hub
   -input_select.media_player
   -input_select.radio_station
   -input_select.woning_status
+  -input_text.radio_station_current
   -light.aarlo_arlo_elmo
   -light.hue_light_dressing_one
   -light.hue_light_dressing_three
   -light.hue_light_dressing_two
   -light.hue_light_kamer_elmo_one
   -light.hue_light_kamer_elmo_two
+  -light.hue_light_slaapkamer
+  -light.hue_light_tuin_five
+  -light.hue_light_tuin_four
+  -light.hue_light_tuin_one
+  -light.hue_light_tuin_six
+  -light.hue_light_tuin_three
+  -light.hue_light_tuin_two
+  -light.hue_light_tuinhuis
   -light.hue_light_veranda
   -light.hue_light_woonkamer
   -light.hue_smart_plug_extra
@@ -284,20 +337,21 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -light.milight_keuken_bridge
   -light.milight_woonkamer_bridge
   -media_player.alexa_bathroom
+  -media_player.alexa_bathroom_show
   -media_player.alexa_downstairs
   -media_player.alexa_everywhere
   -media_player.alexa_garden
   -media_player.alexa_kitchen_1
   -media_player.alexa_kitchen_2
+  -media_player.alexa_kitchen_amp
+  -media_player.alexa_kitchen_show
   -media_player.alexa_livingroom_1
   -media_player.alexa_livingroom_2
-  -media_player.alexa_mobile
+  -media_player.alexa_tbd
   -media_player.apple_tv_keuken
   -media_player.apple_tv_woonkamer
-  -media_player.chromecast_kitchen
-  -media_player.chromecast_living_room
-  -media_player.google_home_bedroom
   -media_player.nesthub8526
+  -media_player.spotify_bert_verlinden
   -media_player.this_device
   -person.andy
   -person.bert
@@ -314,48 +368,52 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -remote.apple_tv_keuken
   -remote.apple_tv_woonkamer
   -remote.harmony_hub
-  -script.alexa_bathroom_play_mnm
-  -script.alexa_bathroom_play_qmusic
-  -script.alexa_bathroom_play_spotify
-  -script.alexa_bathroom_play_stubru
-  -script.alexa_downstairs_play_mnm
-  -script.alexa_downstairs_play_qmusic
-  -script.alexa_downstairs_play_spotify
-  -script.alexa_downstairs_play_stubru
-  -script.alexa_everywhere_play_mnm
-  -script.alexa_everywhere_play_qmusic
-  -script.alexa_everywhere_play_spotify
-  -script.alexa_everywhere_play_stubru
-  -script.alexa_kitchen_1_play_mnm
-  -script.alexa_kitchen_1_play_qmusic
-  -script.alexa_kitchen_1_play_spotify
-  -script.alexa_kitchen_1_play_stubru
-  -script.alexa_livingroom_1_play_mnm
-  -script.radio_selected_on
+  -scene.badkamer_gedimmed
+  -scene.badkamer_nacht
+  -scene.badkamer_normaal
+  -scene.dressing_gedimmed
+  -scene.dressing_nacht
+  -scene.dressing_normaal
+  -scene.dressing_uit
+  -scene.keuken_film
+  -scene.keuken_gedimmed
+  -scene.keuken_nacht
+  -scene.keuken_normaal
+  -scene.keuken_televisie
+  -scene.keuken_uit
+  -scene.slaapkamer_2_nacht
+  -scene.slaapkamer_2_normaal
+  -scene.slaapkamer_2_ochtend
+  -scene.slaapkamer_2_uit
+  -scene.tuin1_normaal
+  -scene.tuin1_uit
+  -scene.tuin2_normaal
+  -scene.tuin2_uit
+  -scene.tuinhuis_normaal
+  -scene.tuinhuis_uit
+  -scene.veranda_film
+  -scene.veranda_gedimmed
+  -scene.veranda_nacht
+  -scene.veranda_normaal
+  -scene.veranda_televisie
+  -scene.veranda_uit
+  -scene.woonkamer_film
+  -scene.woonkamer_gedimmed
+  -scene.woonkamer_nacht
+  -scene.woonkamer_normaal
+  -scene.woonkamer_televisie
+  -scene.woonkamer_uit
+  -scene.woonkamer_uit_kerstmis
   -script.all_all_off
   -script.all_light_off
   -script.all_music_off
   -script.all_remote_harmony_hub_pause
   -script.all_remote_off
   -script.all_switch_off
-  -script.arlo_light_off
-  -script.arlo_light_on
-  -script.light_bathroom_on
-  -script.radio_bathroom_on
-  -script.radio_bathroom_off
-  -script.radio_bathroom_volume
-  -script.radio_downstairs_on
-  -script.radio_downstairs_off
   -script.computer_off
   -script.computer_on
   -script.dusty_off
   -script.dusty_on
-  -script.doorbell_chime_off
-  -script.doorbell_chime_on
-  -script.dressing_light_off
-  -script.light_dressing_on
-  -script.elmo_light_off
-  -script.elmo_light_on
   -script.empty
   -script.evo_status_away
   -script.evo_status_custom
@@ -375,58 +433,20 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -script.harmony_hub_alexa
   -script.harmony_hub_powered_off
   -script.harmony_hub_tv_decoder
-  -script.hue_light_dressing_on
-  -script.hue_light_dressing_on_dimmed
-  -script.hue_light_dressing_on_night
-  -script.hue_light_dressing_on_normal
-  -script.hue_light_elmo_one_on
-  -script.hue_light_elmo_one_on_night
-  -script.hue_light_elmo_one_on_normal
-  -script.hue_light_elmo_one_on_standby
-  -script.hue_light_veranda_off
-  -script.hue_light_veranda_on
-  -script.hue_light_woonkamer_on
-  -script.hue_light_woonkamer_on_dimmed
-  -script.hue_light_woonkamer_on_night
-  -script.hue_light_woonkamer_on_normal
-  -script.hue_light_woonkamer_on_standby
-  -script.hue_smart_plug_kitchen_off
-  -script.hue_smart_plug_kitchen_on
-  -script.hue_smart_plug_veranda_on
-  -script.hue_smart_plug_woonkamer_one_on
-  -script.hue_smart_plug_woonkamer_two_off
-  -script.hue_smart_plug_woonkamer_two_on
-  -script.input_light_all_beneden_on
   -script.input_trigger_away
   -script.input_trigger_home
   -script.input_trigger_morning
   -script.input_trigger_sleep
-  -script.keuken_light_off
+  -script.light_bathroom_on
+  -script.light_bedroom2_on
+  -script.light_dressing_on
+  -script.light_garden1_on
+  -script.light_garden2_on
+  -script.light_gardenshed_on
   -script.light_kitchen_on
-  -script.radio_kitchen_on
-  -script.radio_kitchen_off
-  -script.radio_kitchen_volume
-  -script.milight_bridge_one_on
-  -script.milight_bridge_one_on_dimmed
-  -script.milight_bridge_one_on_night
-  -script.milight_bridge_one_on_normal
-  -script.milight_bridge_one_on_standby
-  -script.milight_bridge_two_off
-  -script.milight_bridge_two_on
-  -script.milight_bridge_two_on_night
-  -script.milight_bridge_two_on_normal
-  -script.milight_bridge_two_on_standby
-  -script.milight_one_on
-  -script.milight_one_on_dimmed
-  -script.milight_one_on_night
-  -script.milight_one_on_normal
-  -script.milight_one_on_standby
-  -script.milight_two_on
-  -script.milight_two_on_dimmed
-  -script.milight_two_on_night
-  -script.milight_two_on_normal
-  -script.radio_follow_off
-  -script.radio_follow_on
+  -script.light_livingroom_off
+  -script.light_livingroom_on
+  -script.light_porch_on
   -script.notify_battery
   -script.notify_battery_alexa
   -script.notify_battery_ios_bert
@@ -471,6 +491,10 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -script.notify_homekit_restart
   -script.notify_homekit_restart_alexa
   -script.notify_homekit_restart_ios_bert
+  -script.notify_light_elmo
+  -script.notify_light_elmo_alexa
+  -script.notify_light_elmo_ios_bert
+  -script.notify_light_elmo_ios_caro
   -script.notify_nmbs_brussel_mechelen_ios_bert
   -script.notify_nmbs_mechelen_brussel_ios_bert
   -script.notify_nmbs_mechelen_willebroek_ios_bert
@@ -507,26 +531,28 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -script.notify_woning_status_alexa
   -script.notify_woning_status_ios_bert
   -script.notify_woning_status_ios_caro
-  -script.plex_off_keuken
-  -script.plex_off_woonkamer
-  -script.plex_on_keuken
-  -script.plex_on_woonkamer
+  -script.radio_bathroom_off
+  -script.radio_bathroom_on
+  -script.radio_bathroom_volume
+  -script.radio_downstairs_on
+  -script.radio_everywhere_on
+  -script.radio_follow_off
+  -script.radio_follow_on
+  -script.radio_kitchen_off
+  -script.radio_kitchen_on
+  -script.radio_kitchen_volume
+  -script.radio_livingroom_off
+  -script.radio_livingroom_on
+  -script.radio_livingroom_volume
+  -script.radio_selected_on
   -script.remote_harmony_hub_apple_tv_pause
   -script.remote_harmony_hub_belgacom_dvr_pause
   -script.remote_harmony_hub_lg_tv_pause
   -script.restart_hassio
   -script.restart_homekit
   -script.restart_homekit_not
-  -script.veranda_light_off
-  -script.light_porch_on
-  -script.light_livingroom_off
-  -script.light_livingroom_on
-  -script.radio_livingroom_on
-  -script.radio_livingroom_off
-  -script.radio_livingroom_volume
   -sensor.aarlo_air_quality_arlo_elmo
   -sensor.aarlo_battery_level_arlo_elmo
-  -sensor.aarlo_captured_today_arlo_elmo
   -sensor.aarlo_humidity_arlo_elmo
   -sensor.aarlo_temperature_arlo_elmo
   -sensor.adguard_average_processing_speed
@@ -544,21 +570,36 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -sensor.alexa_kitchen_2_next_alarm
   -sensor.alexa_kitchen_2_next_reminder
   -sensor.alexa_kitchen_2_next_timer
+  -sensor.alexa_kitchen_amp_next_alarm
+  -sensor.alexa_kitchen_amp_next_reminder
+  -sensor.alexa_kitchen_amp_next_timer
   -sensor.alexa_livingroom_1_next_alarm
   -sensor.alexa_livingroom_1_next_reminder
   -sensor.alexa_livingroom_1_next_timer
   -sensor.alexa_livingroom_2_next_alarm
   -sensor.alexa_livingroom_2_next_reminder
   -sensor.alexa_livingroom_2_next_timer
-  -sensor.alexa_mobile_next_alarm
-  -sensor.alexa_mobile_next_reminder
-  -sensor.alexa_mobile_next_timer
+  -sensor.alexa_tbd_next_alarm
+  -sensor.alexa_tbd_next_reminder
+  -sensor.alexa_tbd_next_timer
   -sensor.babysit
+  -sensor.berts_2_echo_show_next_alarm
+  -sensor.berts_2_echo_show_next_reminder
+  -sensor.berts_2_echo_show_next_timer
+  -sensor.berts_echo_show_next_alarm
+  -sensor.berts_echo_show_next_reminder
+  -sensor.berts_echo_show_next_timer
   -sensor.bezoek
+  -sensor.climate_badkamer_attribute_current_temperature
+  -sensor.climate_dressing_attribute_current_temperature
+  -sensor.climate_kamer_elmo_attribute_current_temperature
+  -sensor.climate_keuken_attribute_current_temperature
+  -sensor.climate_slp_kamer_attribute_current_temperature
+  -sensor.climate_veranda_attribute_current_temperature
+  -sensor.climate_woonkamer_attribute_current_temperature
   -sensor.cpu_temperature
   -sensor.date
   -sensor.date_time
-  -sensor.dusty_battery_level
   -sensor.deurbel_voor_mqtt_battery_sensor
   -sensor.deurbel_voor_mqtt_sensor
   -sensor.disk_use_percent_home
@@ -566,6 +607,7 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -sensor.downstairs_nest_protect_co_status
   -sensor.downstairs_nest_protect_color_status
   -sensor.downstairs_nest_protect_smoke_status
+  -sensor.dusty_battery_level
   -sensor.hacs
   -sensor.hp_deskjet_3700_series
   -sensor.hp_deskjet_3700_series_black_ink
@@ -575,10 +617,23 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -sensor.hue_sensor_dressing_temperature
   -sensor.hue_sensor_keuken_light_level
   -sensor.hue_sensor_keuken_temperature
+  -sensor.hue_sensor_tuin_light_level
+  -sensor.hue_sensor_tuin_temperature
+  -sensor.hue_sensor_tuinhuis_light_level
+  -sensor.hue_sensor_tuinhuis_temperature
+  -sensor.hue_sensor_veranda_light_level
   -sensor.hue_sensor_woonkamer_light_level
   -sensor.hue_sensor_woonkamer_temperature
   -sensor.ipad_van_bert_battery_level
+  -sensor.ipad_van_bert_battery_level_2
   -sensor.ipad_van_bert_battery_state
+  -sensor.ipad_van_bert_battery_state_2
+  -sensor.ipad_van_bert_bssid
+  -sensor.ipad_van_bert_connection_type
+  -sensor.ipad_van_bert_geocoded_location
+  -sensor.ipad_van_bert_last_update_trigger
+  -sensor.ipad_van_bert_ssid
+  -sensor.ipad_van_bert_storage
   -sensor.iphone_battery_level
   -sensor.iphone_battery_state
   -sensor.iphone_van_bert_activity
@@ -628,9 +683,15 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -sensor.nmbs_4
   -sensor.nmbs_4_template
   -sensor.nmbs_template
+  -sensor.ons_huisje_always_on_active_power
+  -sensor.ons_huisje_always_on_today
   -sensor.ons_huisje_eta
   -sensor.ons_huisje_sensor_gas
   -sensor.ons_huisje_sensor_water
+  -sensor.ons_huisje_total_consumption_active_power
+  -sensor.ons_huisje_total_consumption_current_hour
+  -sensor.ons_huisje_total_consumption_last_5_minutes
+  -sensor.ons_huisje_total_consumption_today
   -sensor.plex_mqtt_sensor
   -sensor.processor_use
   -sensor.recycleapp_glas
@@ -638,19 +699,6 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -sensor.recycleapp_pmd
   -sensor.recycleapp_restafval
   -sensor.season
-  -sensor.ons_huisje_total_consumption_active_power
-  -sensor.smappee_ons_huisje_always_on_today
-  -sensor.smappee_ons_huisje_current
-  -sensor.smappee_ons_huisje_power_factor
-  -sensor.ons_huisje_total_consumption_today
-  -sensor.smappee_ons_huisje_solar
-  -sensor.smappee_ons_huisje_solar_today
-  -sensor.smappee_ons_huisje_voltage
-  -sensor.smappee_ons_huisje_water_sensor_1
-  -sensor.smappee_ons_huisje_water_sensor_2
-  -sensor.smappee_ons_huisje_water_sensor_battery
-  -sensor.smappee_ons_huisje_water_sensor_humidity
-  -sensor.smappee_ons_huisje_water_sensor_temperature
   -sensor.snapshot_backup
   -sensor.solaredge_batteries
   -sensor.solaredge_consumption_power
@@ -675,6 +723,7 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -sensor.solaredge_sensors
   -sensor.solaredge_site_details
   -sensor.solaredge_solar_power
+  -sensor.solaredge_storage_level
   -sensor.solaredge_storage_power
   -sensor.template_delta_set_temperature
   -sensor.template_delta_temperature
@@ -695,6 +744,9 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -switch.adguard_safe_search
   -switch.alexa_bathroom_do_not_disturb_switch
   -switch.alexa_bathroom_repeat_switch
+  -switch.alexa_bathroom_show_do_not_disturb_switch
+  -switch.alexa_bathroom_show_repeat_switch
+  -switch.alexa_bathroom_show_shuffle_switch
   -switch.alexa_bathroom_shuffle_switch
   -switch.alexa_downstairs_do_not_disturb_switch
   -switch.alexa_downstairs_repeat_switch
@@ -711,18 +763,27 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -switch.alexa_kitchen_2_do_not_disturb_switch
   -switch.alexa_kitchen_2_repeat_switch
   -switch.alexa_kitchen_2_shuffle_switch
+  -switch.alexa_kitchen_amp_do_not_disturb_switch
+  -switch.alexa_kitchen_amp_repeat_switch
+  -switch.alexa_kitchen_amp_shuffle_switch
+  -switch.alexa_kitchen_show_do_not_disturb_switch
+  -switch.alexa_kitchen_show_repeat_switch
+  -switch.alexa_kitchen_show_shuffle_switch
   -switch.alexa_livingroom_1_do_not_disturb_switch
   -switch.alexa_livingroom_1_repeat_switch
   -switch.alexa_livingroom_1_shuffle_switch
   -switch.alexa_livingroom_2_do_not_disturb_switch
   -switch.alexa_livingroom_2_repeat_switch
   -switch.alexa_livingroom_2_shuffle_switch
-  -switch.alexa_mobile_do_not_disturb_switch
-  -switch.alexa_mobile_repeat_switch
-  -switch.alexa_mobile_shuffle_switch
+  -switch.alexa_tbd_do_not_disturb_switch
+  -switch.alexa_tbd_repeat_switch
+  -switch.alexa_tbd_shuffle_switch
+  -switch.harmony_hub_alexa
+  -switch.harmony_hub_apple_tv
+  -switch.harmony_hub_nintendo_switch
+  -switch.harmony_hub_tv_decoder
+  -switch.harmony_hub_webos
   -switch.this_device_do_not_disturb_switch
-  -switch.unifi_poe_00_0c_4f_72_61_6e
-  -switch.unifi_poe_e0_63_da_b6_35_c2
   -switch.wake_on_lan
   -utility_meter.meter_gas_monthly
   -utility_meter.meter_gas_yearly
@@ -730,27 +791,28 @@ Home Assistant notifications (Log started: 2020-08-14T14:15:00.610170+00:00)
   -utility_meter.meter_water_yearly
   -vacuum.dusty
   -weather.dark_sky
-  -zone.andy_2
-  -zone.brussel_station_2
-  -zone.checkpoint_1_2
-  -zone.checkpoint_2_2
-  -zone.checkpoint_3_2
-  -zone.checkpoint_4_2
-  -zone.checkpoint_5_2
-  -zone.elly_2
-  -zone.hoevelei_2
+  -zone.andy
+  -zone.brussel_station
+  -zone.checkpoint_1
+  -zone.checkpoint_2
+  -zone.checkpoint_3
+  -zone.checkpoint_4
+  -zone.checkpoint_5
+  -zone.elly
+  -zone.go_fit
+  -zone.hoevelei
   -zone.home
-  -zone.mama_mark_2
-  -zone.mechelen_station_2
-  -zone.nancy_2
-  -zone.nelly_2
-  -zone.niki_marcus_2
-  -zone.oma_2
-  -zone.werk_bert_2
-  -zone.werk_caro_2
-  -zone.willebroek_station_2
-  -zone.ziekenhuis_edegem_2
-  -zone.ziekenhuis_middelheim_2
-  -zone.ziekenhuis_reet_2
-  -zone.ziekenhuis_st_augustinus_2
-  -zone.ziekenhuis_willebroek_2
+  -zone.mama_mark
+  -zone.mechelen_station
+  -zone.nancy
+  -zone.nelly
+  -zone.niki_marcus
+  -zone.oma
+  -zone.werk_bert
+  -zone.werk_caro
+  -zone.willebroek_station
+  -zone.ziekenhuis_edegem
+  -zone.ziekenhuis_middelheim
+  -zone.ziekenhuis_reet
+  -zone.ziekenhuis_st_augustinus
+  -zone.ziekenhuis_willebroek
