@@ -959,15 +959,12 @@
   - condition: state
     state: 'off'
     entity_id: input_boolean.vacuum_cleaned_today
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   - condition: time
     after: input_datetime.work_start
     before: input_datetime.work_mid
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
   action:
   - service: script.turn_on
     entity_id: script.dusty_on
@@ -1231,21 +1228,20 @@
       hours: 1
   - condition: or
     conditions:
-    - condition: time
-      after: input_datetime.awake_weekend
-      before: input_datetime.work_mid
-      weekday:
-      - sat
-      - sun
-    - condition: time
-      after: input_datetime.awake_week
-      before: input_datetime.work_mid
-      weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.workday_sensor
+        state: 'off'
+      - condition: time
+        after: input_datetime.awake_weekend
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.workday_sensor
+        state: 'on'
+      - condition: time
+        after: input_datetime.awake_week
   action:
   - service: input_select.select_option
     data:
@@ -1259,6 +1255,8 @@
   - platform: state
     entity_id: input_select.woning_status
     to: Thuis
+    for:
+      minutes: 1
   - platform: state
     entity_id: calendar.verlof_agenda
     to: 'on'
@@ -1266,28 +1264,28 @@
   - condition: state
     entity_id: input_select.woning_status
     state: Thuis
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: calendar.verlof_agenda
-      state: 'on'
-    - condition: time
-      after: 07:19:00
-      before: '18:01:00'
-      weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  - condition: time
+    after: input_datetime.work_start
+    before: input_datetime.work_end
   action:
-  - service: input_select.select_option
-    entity_id: input_select.woning_status
-    data_template:
-      option: "{% if (states('calendar.verlof_agenda') in ['on']) and (now().weekday()\
-        \ in (0,1,2,3,4)) %}\n  Thuis (Verlof)\n{% elif (states('sensor.time') >=\
-        \ \"07:19\") and (states('sensor.time') <= \"18:01\") and (now().weekday()\
-        \ in (0,1,2,3,4)) %}\n  Thuis (Werk)\n{% else %}\n  Thuis\n{% endif %}\n"
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: calendar.verlof_agenda
+        state: 'on'
+      sequence:
+      - service: input_select.select_option
+        entity_id: input_select.woning_status
+        data:
+          option: Thuis (Verlof)
+    default:
+    - service: input_select.select_option
+      entity_id: input_select.woning_status
+      data:
+        option: Thuis (Werk)
   mode: single
 - id: house_007
   alias: Ons Huisje - Wijzig de Status - Thuis (...) UIT
@@ -1301,13 +1299,13 @@
   - condition: state
     entity_id: input_select.woning_status
     state:
-    - Thuis (Werk)
     - Thuis (Verlof)
+    - Thuis (Werk)
   action:
   - service: input_select.select_option
+    entity_id: input_select.woning_status
     data:
       option: Thuis
-    entity_id: input_select.woning_status
   mode: single
 - id: house_008
   alias: Ons Huisje - Alexa Trigger - Beweging in de Keuken
@@ -1535,20 +1533,22 @@
 - id: home_owner_004
   alias: Bewoner - Aan Opvang
   trigger:
-  - platform: template
-    value_template: '{{ states(''person.caroline'') in [''Ivy'', ''Nona & Pepe'',
-      ''Mimi & Fleri''] }}'
-  - platform: template
-    value_template: '{{ states(''person.bert'') in [''Ivy'', ''Nona & Pepe'', ''Mimi
-      & Fleri''] }}'
+  - platform: state
+    entity_id: person.caroline
+    to:
+    - 'Ivy'
+    - 'Nona & Pepe'
+    - 'Mimi Fleri'
+  - platform: state
+    entity_id: person.bert
+    to:
+    - 'Ivy'
+    - 'Nona & Pepe'
+    - 'Mimi Fleri'
   condition:
-  - condition: time
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   action:
   - service: script.turn_on
     data_template:
@@ -1558,22 +1558,27 @@
 - id: home_owner_005
   alias: Bewoner - Aan Checkpoint
   trigger:
-  - platform: template
-    value_template: '{{ states(''person.caroline'') in [''Checkpoint 1'', ''Checkpoint
-      2'', ''Checkpoint 3'', ''Checkpoint 4'', ''Checkpoint 5''] }}'
-  - platform: template
-    value_template: '{{ states(''person.bert'') in [''Mechelen Station'', ''Willebroek
-      Station'', ''Checkpoint 3''] }}'
+  - platform: state
+    entity_id: person.caroline
+    to:
+    - 'Checkpoint 1'
+    - 'Checkpoint 2'
+    - 'Checkpoint 3'
+    - 'Checkpoint 4'
+    - 'Checkpoint 5'
+  - platform: state
+    entity_id: person.bert
+    to:
+    - 'Mechelen Station'
+    - 'Willebroek Station'
+    - 'Checkpoint 3'
   condition:
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   - condition: time
     after: input_datetime.work_mid
     before: input_datetime.sleep_week
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
   action:
   - service: script.turn_on
     data_template:
@@ -1609,14 +1614,11 @@
     platform: state
     to: Willebroek Station
   condition:
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   - condition: time
     before: input_datetime.work_mid
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
   action:
   - service: script.turn_on
     entity_id: script.notify_nmbs_willebroek_mechelen_ios_bert
@@ -1627,13 +1629,9 @@
     platform: state
     to: Mechelen Station
   condition:
-  - condition: time
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   action:
   - service: script.turn_on
     data_template:
@@ -1648,12 +1646,9 @@
   condition:
   - condition: time
     after: input_datetime.work_mid
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.notify_nmbs_brussel_mechelen_ios_bert
@@ -1668,12 +1663,9 @@
     state: Willebroek Station
   - condition: time
     before: input_datetime.work_mid
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.notify_nmbs_willebroek_mechelen_ios_bert
@@ -1688,12 +1680,9 @@
     state: Mechelen Station
   - condition: time
     after: input_datetime.work_mid
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.notify_nmbs_mechelen_willebroek_ios_bert
@@ -1708,12 +1697,9 @@
     state: Mechelen Station
   - condition: time
     before: input_datetime.work_mid
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.notify_nmbs_mechelen_brussel_ios_bert
@@ -1728,12 +1714,9 @@
     state: Brussel Station
   - condition: time
     after: input_datetime.work_mid
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.notify_nmbs_brussel_mechelen_ios_bert
@@ -1964,30 +1947,30 @@
       state: eco
   - condition: or
     conditions:
-    - condition: time
-      after: input_datetime.awake_weekend_heating
-      before: input_datetime.sleep_weekend
-      weekday:
-      - sat
-      - sun
-    - condition: time
-      after: input_datetime.awake_week_heating
-      before: input_datetime.work_start
-      weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
-    - condition: time
-      after: input_datetime.work_end_heating
-      before: input_datetime.sleep_week
-      weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.workday_sensor
+        state: 'off'
+      - condition: time
+        after: input_datetime.awake_weekend_heating
+        before: input_datetime.sleep_weekend
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.workday_sensor
+        state: 'on'
+      - condition: time
+        after: input_datetime.awake_week_heating
+        before: input_datetime.work_start
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.workday_sensor
+        state: 'on'
+      - condition: time
+        after: input_datetime.work_end_heating
+        before: input_datetime.sleep_week
   action:
   - service: script.turn_on
     entity_id: script.evo_status_economy
@@ -2013,30 +1996,30 @@
       state: Reset
   - condition: or
     conditions:
-    - condition: time
-      after: input_datetime.sleep_weekend
-      before: input_datetime.awake_weekend_heating
-      weekday:
-      - sat
-      - sun
-    - condition: time
-      after: input_datetime.work_start
-      before: input_datetime.work_end_heating
-      weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
-    - condition: time
-      after: input_datetime.sleep_week
-      before: input_datetime.awake_week_heating
-      weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.workday_sensor
+        state: 'off'
+      - condition: time
+        after: input_datetime.sleep_weekend
+        before: input_datetime.awake_weekend_heating
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.workday_sensor
+        state: 'on'
+      - condition: time
+        after: input_datetime.work_start
+        before: input_datetime.work_end_heating
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.workday_sensor
+        state: 'on'
+      - condition: time
+        after: input_datetime.sleep_week
+        before: input_datetime.awake_week_heating
   action:
   - service: script.turn_on
     entity_id: script.evo_status_normal
@@ -2091,14 +2074,11 @@
   - condition: state
     entity_id: calendar.verlof_agenda
     state: 'off'
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   - condition: time
     before: input_datetime.awake_week_heating
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
   action:
   - service: script.turn_on
     entity_id: script.evo_zone_kitchen_rise
@@ -2114,25 +2094,35 @@
   - condition: state
     entity_id: input_select.woning_status
     state: Weg
-  - condition: time
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   - condition: or
     conditions:
-    - condition: template
-      value_template: '{{ (state_attr(''climate.keuken'', ''preset_mode'') != ''none''
-        ) }}'
-    - condition: template
-      value_template: '{{ (state_attr(''climate.woonkamer'', ''preset_mode'') != ''none''
-        ) }}'
-    - condition: template
-      value_template: '{{ (state_attr(''climate.ons_huisje'', ''preset_mode'') !=
-        none ) or (state_attr(''climate.ons_huisje'', ''preset_mode'') != ''Reset'')
-        }}'
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: climate.keuken
+        attribute: preset_mode
+        state: none
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: climate.woonkamer
+        attribute: preset_mode
+        state: none
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: climate.ons_huisje
+        attribute: preset_mode
+        state: none
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: climate.ons_huisje
+        attribute: preset_mode
+        state: Reset
   action:
   - service: script.turn_on
     entity_id: script.evo_zone_livingroom_reset, script.evo_zone_kitchen_reset
@@ -2179,13 +2169,9 @@
       entity_id: climate.ons_huisje
       attribute: preset_mode
       state: eco
-  - condition: time
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.evo_status_economy
@@ -2198,13 +2184,9 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
-  - condition: time
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   - condition: state
     entity_id: input_select.woning_status
     state:
@@ -2224,15 +2206,12 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   - condition: time
     after: input_datetime.awake_week_heating
     before: input_datetime.sleep_week
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
   - condition: state
     entity_id: calendar.verlof_agenda
     state: 'off'
@@ -2278,12 +2257,9 @@
   - condition: time
     before: input_datetime.awake_week_heating
     after: input_datetime.sleep_week
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   - condition: state
     entity_id: calendar.verlof_agenda
     state: 'off'
@@ -2299,13 +2275,9 @@
   - platform: time
     at: input_datetime.sleep_week
   condition:
-  - condition: time
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
@@ -2362,9 +2334,9 @@
     state: 'off'
   - condition: time
     before: input_datetime.awake_weekend_heating
-    weekday:
-    - sat
-    - sun
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'off'
   action:
   - service: script.turn_on
     entity_id: script.evo_zone_livingroom_rise,script.evo_zone_kitchen_rise
@@ -2380,10 +2352,9 @@
   - condition: state
     entity_id: calendar.verlof_agenda
     state: 'off'
-  - condition: time
-    weekday:
-    - sat
-    - sun
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'off'
   - condition: or
     conditions:
     - condition: not
@@ -2429,9 +2400,9 @@
   - condition: time
     after: input_datetime.awake_weekend_heating
     before: input_datetime.sleep_weekend
-    weekday:
-    - sat
-    - sun
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'off'
   - condition: state
     entity_id: calendar.verlof_agenda
     state: 'off'
@@ -2451,9 +2422,9 @@
   - condition: time
     before: input_datetime.awake_weekend_heating
     after: input_datetime.sleep_weekend
-    weekday:
-    - sat
-    - sun
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'off'
   - condition: state
     entity_id: calendar.verlof_agenda
     state: 'off'
@@ -2495,10 +2466,9 @@
   - platform: time
     at: input_datetime.sleep_weekend
   condition:
-  - condition: time
-    weekday:
-    - sat
-    - sun
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'off'
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
@@ -2552,10 +2522,9 @@
   - condition: state
     entity_id: calendar.verlof_agenda
     state: 'off'
-  - condition: time
-    weekday:
-    - sat
-    - sun
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'off'
   - condition: state
     entity_id: input_select.woning_status
     state: Thuis
@@ -2801,19 +2770,15 @@
   trigger:
   - entity_id: person.bert
     platform: state
-    to: Willebroek Station
+    to: 
+    - 'Willebroek Station'
   - entity_id: person.caroline
     platform: state
-    to: Checkpoint 1
-  - entity_id: person.caroline
-    platform: state
-    to: Checkpoint 3
-  - entity_id: person.caroline
-    platform: state
-    to: Checkpoint 4
-  - entity_id: person.caroline
-    platform: state
-    to: Checkpoint 5
+    to: 
+    - 'Checkpoint 1'
+    - 'Checkpoint 3'
+    - 'Checkpoint 4'
+    - 'Checkpoint 5'
   condition:
   - condition: state
     entity_id: input_boolean.heating
@@ -2827,17 +2792,12 @@
       entity_id: climate.ons_huisje
       attribute: preset_mode
       state: Custom
-  - condition: or
-    conditions:
-    - condition: time
-      after: input_datetime.work_mid
-      before: input_datetime.work_end_heating
-      weekday:
-      - mon
-      - tue
-      - wed
-      - thu
-      - fri
+  - condition: time
+    after: input_datetime.work_mid
+    before: input_datetime.work_end_heating
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.evo_status_custom
@@ -3478,7 +3438,7 @@
     - service: scene.turn_on
       entity_id: scene.dressing_uit
 - id: light_dressing_004
-  alias: Licht - Dressing - Altijd Aan Change Boolean after timer
+  alias: Licht - Dressing - Altijd Aan Boolean OFF after timer
   trigger:
   - entity_id: binary_sensor.hue_sensor_dressing_motion
     for:
@@ -3498,19 +3458,39 @@
   - entity_id: binary_sensor.hue_sensor_dressing_motion
     platform: state
     to: 'on'
+    for:
+      seconds: 20
   - entity_id: binary_sensor.hue_sensor_dressing_motion
     platform: state
-    for: 0:03:00
     to: 'off'
+    for:
+      minutes: 3
   condition:
   - condition: or
     conditions:
-    - condition: template
-      value_template: '{{ states(''input_select.woning_status'') not in [''Juist Weg'',
-        ''Weg'', ''Op Vakantie''] }}'
-    - condition: template
-      value_template: '{{ states(''input_select.woning_status'') in [''Op Vakantie'']
-        and states(''group.bezoekers'') in [''home''] }}'
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Juist Weg'
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Weg'
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Op Vakantie'
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: 'Op Vakantie'
+      - condition: state
+        entity_id: group.bezoekers
+        state: 'home'
   action:
   - service: script.turn_on
     entity_id: script.light_bathroom_on
@@ -3560,13 +3540,9 @@
     - Thuis
     - Juist Thuis
     - Thuis (Werk)
-  - condition: time
-    weekday:
-    - mon
-    - tue
-    - wed
-    - thu
-    - fri
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.notify_light_elmo
@@ -3593,10 +3569,9 @@
     - condition: state
       entity_id: input_select.woning_status
       state: Thuis (Verlof)
-    - condition: time
-      weekday:
-      - sat
-      - sun
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'off'
   action:
   - service: script.turn_on
     entity_id: script.notify_light_elmo
@@ -3646,7 +3621,7 @@
       state: 'off'
   - condition: numeric_state
     entity_id: sensor.hue_sensor_tuinhuis_light_level
-    below: 40
+    below: 10
   action:
   - service: script.turn_on
     entity_id: script.light_gardenshed_on
@@ -3655,7 +3630,7 @@
   trigger:
   - platform: numeric_state
     entity_id: sensor.hue_sensor_tuinhuis_light_level
-    above: 40
+    above: 10
   - entity_id: binary_sensor.hue_sensor_tuin_motion
     for:
       minutes: 3
@@ -3700,7 +3675,7 @@
     to: 'on'
   condition:
   - condition: state
-    entity_id: group.licht_tuin2
+    entity_id: group.licht_tuin_group2
     state: 'off'
   - condition: or
     conditions:
@@ -3738,7 +3713,7 @@
     to: 'off'
   condition:
   - condition: state
-    entity_id: group.licht_tuin2
+    entity_id: group.licht_tuin_group2
     state: 'on'
   - condition: state
     entity_id: binary_sensor.hue_sensor_tuinhuis_motion
@@ -3781,7 +3756,7 @@
     to: 'on'
   condition:
   - condition: state
-    entity_id: group.licht_tuin1
+    entity_id: group.licht_tuin_group1
     state: 'off'
   - condition: or
     conditions:
@@ -3900,7 +3875,7 @@
         - Op Vakantie
         - Slapen
   - condition: state
-    entity_id: group.licht_tuin1
+    entity_id: group.licht_tuin_group1
     state: 'on'
   - condition: state
     entity_id: binary_sensor.hue_sensor_tuinhuis_motion
