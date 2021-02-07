@@ -10,6 +10,7 @@
       - input_boolean
       - input_select
       - input_datetime
+      - input_text
       - light
       - media_player
       - person
@@ -21,4 +22,4 @@
       - utility_meter
       - vacuum
       - weather
-      - zone    
+      - zone

@@ -1,5 +1,6 @@
   exclude:
     domains:
+      - automation
       - binary_sensor
       - camera
       - device_tracker
@@ -10,10 +11,12 @@
       - remote
       - script
       - sensor
-      - switch
       - weather
       - zone 
+    entity_globs:
+      - switch.alexa_*
     entities:
+      - group.licht_tuin
       - automation.licht_badkamer_aan
       - automation.licht_woonkamer_boolean_a
       - automation.licht_woonkamer_boolean_b
@@ -25,7 +28,18 @@
       - media_player.alexa_mobile
       - media_player.this_device    
   include:
+    domains:
+      - input_select
+      - group
+    entity_globs:
+      - sensor.climate_*
     entities:
+      - sensor.hue_sensor_woonkamer_light_level
+      - sensor.hue_sensor_veranda_light_level
+      - sensor.hue_sensor_tuinhuis_light_level
+      - sensor.hue_sensor_tuin_light_level
+      - sensor.hue_sensor_keuken_light_level
+      - sensor.hue_sensor_dressing_light_level
       - binary_sensor.hue_sensor_dressing_motion
       - binary_sensor.hue_sensor_keuken_motion
       - binary_sensor.hue_sensor_woonkamer_motion
@@ -49,23 +63,6 @@
       - sensor.upstairs_nest_protect_co_status
       - sensor.upstairs_nest_protect_color_status
       - sensor.upstairs_nest_protect_smoke_status
-      - sensor.climate_badkamer_attributes_temperature
-      - sensor.climate_keuken_attributes_temperature
-      - sensor.climate_woonkamer_attributes_temperature
-      - sensor.climate_dressing_attributes_temperature
-      - sensor.climate_slp_kamer_attributes_temperature
-      - sensor.climate_kamer_elmo_attributes_temperature
-      - sensor.climate_ons_huisje_attributes_preset_mode
-      - group.licht_keuken
-      - group.licht_badkamer
-      - group.licht_dressing
-      - group.licht_woonkamer
-      - group.licht_veranda
-      - group.licht_slaapkamer1
-      - group.licht_slaapkamer2
-      - group.licht_tuin1
-      - group.licht_tuin2
-      - group.licht_tuinhuis
 
 #Gebruik dit sjabloon om entiteiten te vinden:
 # {% for e in states.sensor if not e.entity_id.startswith('sensor.dark_sky') %}
