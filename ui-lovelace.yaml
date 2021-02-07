@@ -610,10 +610,10 @@ views:
                     show_header_toggle: false
                     entities:
                       - entity: input_select.harmony_hub
-                      - entity: climate.woonkamer
-                        name: °C
                       - entity: sensor.hue_sensor_woonkamer_light_level
-                        name: LUX  
+                        name: LUX 
+                      - entity: climate.woonkamer
+                        name: °C 
                     header:
                       type: buttons
                       entities:
@@ -626,7 +626,7 @@ views:
                             action: more-info
                     footer:
                       type: graph
-                      entity: sensor.hue_sensor_woonkamer_light_level
+                      entity: sensor.climate_woonkamer_attribute_current_temperature
                       hours_to_show: 24
                       detail: 1
                   - type: entity-filter
@@ -676,7 +676,11 @@ views:
                     show_header_toggle: false
                     entities:
                       - entity: sensor.hue_sensor_veranda_light_level
+                        icon: hass:brightness-5
                         name: LUX  
+                      - entity: sensor.climate_veranda_attribute_current_temperature
+                        icon: mdi:radiator
+                        name: °C
                     header:
                       type: buttons
                       entities:
@@ -690,7 +694,7 @@ views:
                         - entity: input_boolean.vacuum_cleaned_today
                     footer:
                       type: graph
-                      entity: sensor.hue_sensor_veranda_light_level
+                      entity: sensor.climate_veranda_attribute_current_temperature
                       hours_to_show: 24
                       detail: 1
               - title: Keuken
@@ -699,10 +703,10 @@ views:
                   - type: entities
                     show_header_toggle: false
                     entities:
+                      - entity: sensor.hue_sensor_keuken_light_level
+                        name: LUX
                       - entity: climate.keuken
                         name: °C
-                      - entity: sensor.hue_sensor_keuken_light_level
-                        name: LUX  
                     header:
                       type: buttons
                       entities:
@@ -718,7 +722,7 @@ views:
                             action: more-info
                     footer:
                       type: graph
-                      entity: sensor.hue_sensor_keuken_light_level
+                      entity: sensor.climate_keuken_attribute_current_temperature
                       hours_to_show: 24
                       detail: 1
                   - type: entity-filter
@@ -811,7 +815,7 @@ views:
                             action: more-info
                     footer:
                       type: graph
-                      entity: sensor.aarlo_humidity_arlo_elmo
+                      entity: sensor.climate_kamer_elmo_attribute_current_temperature
                       hours_to_show: 24
                       detail: 1
               - title: Slaapkamer
@@ -829,6 +833,11 @@ views:
                           icon: mdi:lightbulb
                           tap_action:
                             action: more-info
+                    footer:
+                      type: graph
+                      entity: sensor.climate_slp_kamer_attribute_current_temperature
+                      hours_to_show: 24
+                      detail: 1
               - title: Badkamer
                 type: vertical-stack
                 cards:
@@ -844,6 +853,11 @@ views:
                           icon: mdi:lightbulb
                           tap_action:
                             action: more-info
+                    footer:
+                      type: graph
+                      entity: sensor.climate_badkamer_attribute_current_temperature
+                      hours_to_show: 24
+                      detail: 1
                   - type: entity-filter
                     show_empty: false
                     show_header_toggle: false
@@ -880,10 +894,10 @@ views:
                   - type: entities
                     show_header_toggle: false
                     entities:
-                      - entity: climate.dressing
-                        name: °C
                       - entity: sensor.hue_sensor_dressing_light_level
                         name: LUX
+                      - entity: climate.dressing
+                        name: °C
                     header:
                       type: buttons
                       entities:
@@ -896,7 +910,7 @@ views:
                             action: more-info
                     footer:
                       type: graph
-                      entity: sensor.hue_sensor_dressing_light_level
+                      entity: sensor.climate_dressing_attribute_current_temperature
                       hours_to_show: 24
                       detail: 1
               - title: Tuinhuis
@@ -905,10 +919,11 @@ views:
                   - type: entities
                     show_header_toggle: false
                     entities:
-                      - entity: sensor.hue_sensor_tuinhuis_temperature
-                        name: °C
                       - entity: sensor.hue_sensor_tuinhuis_light_level
                         name: LUX  
+                      - entity: sensor.hue_sensor_tuinhuis_temperature
+                        icon: mdi:radiator
+                        name: °C
                     header:
                       type: buttons
                       entities:
@@ -921,7 +936,7 @@ views:
                             action: more-info
                     footer:
                       type: graph
-                      entity: sensor.hue_sensor_tuinhuis_light_level
+                      entity: sensor.hue_sensor_tuinhuis_temperature
                       hours_to_show: 24
                       detail: 1
               - title: Tuin
@@ -930,10 +945,11 @@ views:
                   - type: entities
                     show_header_toggle: false
                     entities:
-                      - entity: sensor.hue_sensor_tuin_temperature
-                        name: °C
                       - entity: sensor.hue_sensor_tuin_light_level
                         name: LUX  
+                      - entity: sensor.hue_sensor_tuin_temperature
+                        icon: mdi:radiator
+                        name: °C
                     header:
                       type: buttons
                       entities:
@@ -950,7 +966,7 @@ views:
                             action: more-info
                     footer:
                       type: graph
-                      entity: sensor.hue_sensor_tuin_light_level
+                      entity: sensor.hue_sensor_tuin_temperature
                       hours_to_show: 24
                       detail: 1
   - title: Multi-Media
