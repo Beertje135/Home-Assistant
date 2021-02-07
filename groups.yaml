@@ -1,14 +1,20 @@
   bewoners:
+    name: Residents
+    icon: mdi:account-multiple
     entities:
       - person.bert
       - person.caroline
 
   bewoners_router:
+    name: Residents Router
+    icon: mdi:account-multiple
     entities:
       - device_tracker.router_iphone_bert
       - device_tracker.router_iphone_caro
 
   bezoekers:
+    name: Visitors
+    icon: mdi:account-multiple-plus
     entities:
       - sensor.bezoek
       - sensor.kuishulp
@@ -25,28 +31,56 @@
       - person.nancy
 
   media_players:
+    name: Media Players
+    icon: mdi:video-vintage
     entities:
       - input_boolean.media_livingroom
       - input_boolean.media_kitchen
 
+  computer:
+    name: Computer
+    icon: mdi:desktop-tower-monitor
+    entities:
+      - switch.wake_on_lan
+      - input_boolean.keep_computer_on
+
+  arlo:
+    name: Arlo Monitor
+    icon: mdi:rabbit
+    entities:
+      - light.aarlo_arlo_elmo
+      - sensor.aarlo_temperature_arlo_elmo
+      - sensor.aarlo_humidity_arlo_elmo
+      - sensor.aarlo_air_quality_arlo_elmo
+      - sensor.aarlo_battery_level_arlo_elmo
+
 #Light Groups for the logbook
 
   licht_keuken:
+    name: Kitchen Lights
+    icon: mdi:stove
     entities:
       - light.milight_keuken_bridge
       - light.milight_keuken
 
   licht_badkamer:
+    name: Bathroom Lights
+    icon: mdi:shower
     entities:
       - light.milight_badkamer
 
   licht_dressing:
+    name: Dressing Lights
+    icon: mdi:hanger
     entities:
       - light.hue_light_dressing_one
       - light.hue_light_dressing_two
       - light.hue_light_dressing_three
+      - input_boolean.light_dressing_stay_on
 
   licht_woonkamer:
+    name: Livingroom Lights
+    icon: mdi:sofa
     entities:
       - light.hue_light_woonkamer
       - light.hue_smart_plug_woonkamer_one
@@ -54,33 +88,82 @@
       - light.milight_woonkamer_bridge
 
   licht_veranda:
+    name: Porch Lights
+    icon: mdi:floor-lamp
     entities:
       - light.hue_light_veranda
       - light.hue_smart_plug_veranda
       - light.hue_smart_plug_extra
 
   licht_slaapkamer2:
+    name: Elmo's Room Lights
+    icon: mdi:baby-carriage
     entities:
       - light.hue_light_kamer_elmo_one
       - light.hue_light_kamer_elmo_two
       - light.aarlo_arlo_elmo
 
-  licht_slaapkamer1:
+  licht_slaapkamer2_group1:
+    name: Elmo's Room Lights
+    icon: mdi:lightbulb-multiple
     entities:
-      - light.hue_light_slaapkamer1_one
+      - light.hue_light_kamer_elmo_one
+      - light.hue_light_kamer_elmo_two
 
-  licht_tuin1:
+  licht_slaapkamer1:
+    name: Bedroom Lights
+    icon: mdi:bed-empty
+    entities:
+      - light.hue_light_slaapkamer
+
+  licht_tuin:
+    name: Garden Lights
+    icon: mdi:flower
+    entities:
+      - light.hue_light_tuinhuis
+      - light.hue_light_tuin_one
+      - light.hue_light_tuin_two
+      - light.hue_light_tuin_three
+      - light.hue_light_tuin_four
+      - light.hue_light_tuin_five
+      - light.hue_light_tuin_six
+      - input_boolean.light_garden_stay_on
+
+  licht_tuin_group1:
+    name: Garden Group 1 Lights
+    icon: mdi:flower
     entities:
       - light.hue_light_tuin_two
       - light.hue_light_tuin_five
       - light.hue_light_tuin_six
 
-  licht_tuin2:
+  licht_tuin_group2:
+    name: Garden Group 2 Lights
+    icon: mdi:flower
     entities:
       - light.hue_light_tuin_one
       - light.hue_light_tuin_three
       - light.hue_light_tuin_four
 
-  licht_tuinhuis:
+  licht_tuin_tuinhuis:
+    name: Garden Shed Lights
+    icon: mdi:shovel
     entities:
       - light.hue_light_tuinhuis
+
+  notifications:
+    name: Notifications
+    icon: mdi:bell
+    entities:
+      - input_boolean.notify_bert
+      - input_boolean.notify_caro
+
+  internet_safety:
+    name: Internet Safety
+    icon: mdi:shield
+    entities:
+      - switch.adguard_protection
+      - switch.adguard_filtering
+      - switch.adguard_parental_control
+      - switch.adguard_safe_browsing
+      - switch.adguard_safe_search
