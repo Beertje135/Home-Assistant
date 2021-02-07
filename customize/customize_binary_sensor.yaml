@@ -2,15 +2,12 @@
 
     binary_sensor.hue_sensor_woonkamer_motion:
       friendly_name: Livingroom Motion Sensor
-      icon: mdi:motion-sensor
 
     binary_sensor.hue_sensor_dressing_motion:
       friendly_name: Dressing Motion Sensor
-      icon: mdi:motion-sensor
 
     binary_sensor.hue_sensor_keuken_motion:
       friendly_name: Kitchen Motion Sensor
-      icon: mdi:motion-sensor
 
     binary_sensor.trigger_just_away_kitchen:
       friendly_name: Kitchen Motion Sensor Just Away
