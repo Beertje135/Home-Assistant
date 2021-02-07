@@ -23,6 +23,7 @@ secrets.yaml
 known_devices.yaml
 .homekit.state
 google_calendars.yaml
+entity_log.txt
 
 # Database
 *.db
