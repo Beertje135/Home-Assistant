@@ -130,6 +130,8 @@ homekit:
   entity_config: !include homekit_entity_config.yaml
 
 binary_sensor:
+  - platform: workday
+    country: BE
   - platform: template
     sensors:
       trigger_just_away_kitchen:
@@ -192,37 +194,58 @@ utility_meter:
 
 recorder:
   purge_keep_days: 7
+  commit_interval: 30
   exclude:
     domains:
+      - automation
       - binary_sensor
+      - calendar
       - camera
+      - climate
       - device_tracker
       - input_boolean
+      - input_datetime
+      - input_select
+      - input_text
+      - light
+      - person
       - remote
       - script
       - sensor
-      - switch
+      - sun
+      - utility_meter
+      - vacuum
       - weather
       - zone
-    entities:
-      - group.bewoners
-      - group.bewoners_router
-      - group.licht_woonkamer
-      - input_select.media_player
-      - input_select.radio_station
-      - media_player.alexa_mobile
-      - media_player.this_device
+    entity_globs:
+      - switch.alexa_*
   include:
+    domains:
+      - input_select
+      - group
+      - switch
+      - media_player
+    entity_globs:
+      - light.hue_*
+      - light.aarlo_*
+      - light.milight_*
+      - sensor.climate_*
+      - binary_sensor.hue_sensor_*
     entities:
-      - binary_sensor.hue_sensor_dressing_motion
-      - binary_sensor.hue_sensor_keuken_motion
-      - binary_sensor.hue_sensor_woonkamer_motion
+      - sensor.hue_sensor_woonkamer_light_level
+      - sensor.hue_sensor_veranda_light_level
+      - sensor.hue_sensor_tuinhuis_light_level
+      - sensor.hue_sensor_tuin_light_level
+      - sensor.hue_sensor_keuken_light_level
+      - sensor.hue_sensor_dressing_light_level
       - binary_sensor.remote_ui
       - binary_sensor.snapshots_stale
       - device_tracker.iphone_van_caro
       - device_tracker.iphone_van_bert
       - device_tracker.router_iphone_bert
       - device_tracker.router_iphone_caro
+      - input_select.harmony_hub
+      - input_select.woning_status
       - input_boolean.cooling_downstairs
       - input_boolean.cooling_upstairs
       - input_boolean.heating
@@ -247,7 +270,6 @@ recorder:
       - sensor.ons_huisje_sensor_gas
       - sensor.ons_huisje_sensor_water
       - sensor.processor_use
-      - sensor.season
       - sensor.ons_huisje_total_consumption_today
       - sensor.smappee_ons_huisje_water_sensor_1
       - sensor.smappee_ons_huisje_water_sensor_2
@@ -263,7 +285,6 @@ recorder:
       - sensor.upstairs_nest_protect_co_status
       - sensor.upstairs_nest_protect_color_status
       - sensor.upstairs_nest_protect_smoke_status
-      - switch.wake_on_lan
 
 influxdb:
   host: a0d7b954-influxdb
