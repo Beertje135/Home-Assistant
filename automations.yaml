@@ -130,42 +130,46 @@
     from: 'off'
     to: 'on'
   condition:
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'off'
   - condition: time
-    after: 07:00
-    before: '18:00'
+    after: '07:15:00'
+    before: '19:00:00'
   - condition: state
     state: 'on'
     entity_id: input_boolean.music_follow
   - condition: state
     state: 'off'
-    entity_id:
-    - input_boolean.media_kitchen
-    - input_boolean.media_livingroom
+    entity_id: group.media_players
   - condition: not
     conditions:
     - condition: state
       state: playing
       entity_id: media_player.alexa_livingroom_1
+  - condition: not
+    conditions:
     - condition: state
       state: playing
       entity_id: media_player.alexa_downstairs
+  - condition: not
+    conditions:
     - condition: state
       state: playing
       entity_id: media_player.alexa_everywhere
   - condition: state
     entity_id: input_select.woning_status
     state:
-    - Juist Thuis
-    - Juist Wakker
-    - Thuis
-    - Thuis (Werk)
-    - Thuis (Verlof)
+      - Thuis
+      - Thuis (Verlof)
   - condition: state
     entity_id: remote.harmony_hub
     attribute: current_activity
-    state: PowerOff,Alexa
+    state: 
+      - PowerOff
+      - Alexa
   action:
-  - delay: 00:02:00
+  - delay: 00:01:00
   - condition: state
     entity_id: remote.harmony_hub
     attribute: current_activity
