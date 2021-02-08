@@ -1,0 +1,132 @@
+binary_sensor.trigger_just_awake_dressing:
+  friendly_name: Dressing Motion Sensor Just Awake
+  device_class: motion
+binary_sensor.trigger_just_sleep_dressing:
+  friendly_name: Dressing Motion Sensor Just Asleep
+  device_class: motion
+binary_sensor.trigger_just_awake_kitchen:
+  friendly_name: Kitchen Motion Sensor Just Awake
+  device_class: motion
+binary_sensor.trigger_just_away_kitchen:
+  friendly_name: Kitchen Motion Sensor Just Away
+  device_class: motion
+binary_sensor.trigger_just_home_kitchen:
+  friendly_name: Kitchen Motion Sensor Just Home
+  device_class: motion
+binary_sensor.trigger_just_sleep_kitchen:
+  friendly_name: Kitchen Motion Sensor Just Asleep
+  device_class: motion
+sensor.aarlo_air_quality_arlo_elmo:
+  friendly_name: Arlo Air Quality
+  icon: mdi:biohazard
+sensor.aarlo_battery_level_arlo_elmo:
+  friendly_name: Arlo Battery
+  icon: mdi:battery-charging
+sensor.aarlo_humidity_arlo_elmo:
+  friendly_name: Arlo Humidity
+  icon: mdi:water-percent
+sensor.aarlo_temperature_arlo_elmo:
+  friendly_name: Arlo Temperature
+light.milight_badkamer:
+  friendly_name: Bathroom LED
+  icon: mdi:led-strip-variant
+light.milight_keuken:
+  friendly_name: Kitchen LED
+light.milight_keuken_bridge:
+  friendly_name: Kitchen Tv LED
+  icon: mdi:television-clean
+light.milight_woonkamer_bridge:
+  friendly_name: Livingroom Tv LED
+  icon: mdi:television-clean
+light.aarlo_arlo_elmo:
+  icon: mdi:lightbulb-on-outline
+  friendly_name: Elmo's Kamer Arlo Light
+sensor.nmbs:
+  icon: mdi:train
+  friendly_name: NMBS WILL-MECH
+sensor.nmbs_template:
+  icon: mdi:train
+  friendly_name: NMBS WILL-MECH TEMPLATE
+sensor.nmbs_2:
+  icon: mdi:train
+  friendly_name: NMBS MECH-BRUS
+sensor.nmbs_2_template:
+  icon: mdi:train
+  friendly_name: NMBS MECH-BRUS TEMPLATE
+sensor.nmbs_3:
+  icon: mdi:train
+  friendly_name: NMBS MECH-WILL
+sensor.nmbs_3_template:
+  icon: mdi:train
+  friendly_name: NMBS MECH-WILL TEMPLATE
+sensor.nmbs_4_template:
+  icon: mdi:train
+  friendly_name: NMBS BRUS-MECH TEMPLATE
+sensor.nmbs_4:
+  icon: mdi:train
+  friendly_name: NMBS BRUS-MECH
+switch.wake_on_lan:
+  icon: mdi:desktop-tower-monitor
+  friendly_name: Kitchen Computer
+  display_categories: smartplug
+sensor.downstairs_nest_protect_co_status:
+  friendly_name: CO2 Downstairs
+  icon: mdi:molecule-co2
+sensor.upstairs_nest_protect_co_status:
+  friendly_name: CO2 Upstairs
+  icon: mdi:molecule-co2
+sensor.downstairs_nest_protect_smoke_status:
+  friendly_name: ROOK Downstairs
+  icon: mdi:cloud
+sensor.upstairs_nest_protect_smoke_status:
+  friendly_name: ROOK Upstairs
+  icon: mdi:cloud
+sensor.upstairs_nest_protect_battery_health:
+  friendly_name: BATTERIJ Upstairs
+  icon: mdi:battery-charging
+sensor.downstairs_nest_protect_battery_health:
+  friendly_name: BATTERIJ Downstairs
+  icon: mdi:battery-charging
+binary_sensor.downstairs_nest_protect_online:
+  friendly_name: CONNECTED Downstairs
+  device_class: connectivity
+binary_sensor.upstairs_nest_protect_online:
+  friendly_name: CONNECTED Upstairs
+  device_class: connectivity
+sensor.bezoek:
+  friendly_name: Visitor Sensor
+  icon: mdi:account-multiple
+sensor.kuishulp:
+  friendly_name: Cleaning Help
+  icon: mdi:broom
+sensor.babysit:
+  friendly_name: Babysit
+  icon: mdi:baby-carriage
+sensor.solaredge_energy_today_template:
+  friendly_name: solaredge (Energy today kWh)
+  icon: mdi:solar-power
+  unit_of_measurement: kWh
+sensor.solaredge_energy_this_month_template:
+  friendly_name: solaredge (Energy this month kWh)
+  icon: mdi:solar-power
+  unit_of_measurement: kWh
+sensor.solaredge_energy_this_year_template:
+  friendly_name: solaredge (Energy this year kWh)
+  icon: mdi:solar-power
+  unit_of_measurement: kWh
+sensor.solaredge_lifetime_energy_template:
+  friendly_name: solaredge (Lifetime energy MWh)
+  icon: mdi:solar-power
+  unit_of_measurement: MWh
+sensor.meter_gas_monthly_peak:
+  friendly_name: GAS MAAND
+  icon: mdi:fire
+sensor.meter_gas_yearly_peak:
+  friendly_name: GAS JAAR
+  icon: mdi:fire
+sensor.meter_water_monthly_peak:
+  friendly_name: WATER MAAND
+  icon: mdi:water
+sensor.meter_water_yearly_peak:
+  friendly_name: WATER JAAR
+  icon: mdi:water
