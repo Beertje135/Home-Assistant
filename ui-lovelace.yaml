@@ -613,7 +613,8 @@ views:
                       - entity: sensor.hue_sensor_woonkamer_light_level
                         name: LUX 
                       - entity: climate.woonkamer
-                        name: °C 
+                        name: °C
+                        icon: mdi:thermometer
                     header:
                       type: buttons
                       entities:
@@ -679,7 +680,7 @@ views:
                         icon: hass:brightness-5
                         name: LUX  
                       - entity: sensor.climate_veranda_attribute_current_temperature
-                        icon: mdi:radiator
+                        icon: mdi:thermometer
                         name: °C
                     header:
                       type: buttons
@@ -706,6 +707,7 @@ views:
                       - entity: sensor.hue_sensor_keuken_light_level
                         name: LUX
                       - entity: climate.keuken
+                        icon: mdi:thermometer
                         name: °C
                     header:
                       type: buttons
@@ -803,6 +805,7 @@ views:
                     entities:
                       - entity: climate.kamer_elmo
                         name: °C
+                        icon: mdi:thermometer
                     header:
                       type: buttons
                       entities:
@@ -826,6 +829,7 @@ views:
                     entities:
                       - entity: climate.slp_kamer
                         name: °C
+                        icon: mdi:thermometer
                     header:
                       type: buttons
                       entities:
@@ -846,6 +850,7 @@ views:
                     entities:
                       - entity: climate.badkamer
                         name: °C
+                        icon: mdi:thermometer
                     header:
                       type: buttons
                       entities:
@@ -898,6 +903,7 @@ views:
                         name: LUX
                       - entity: climate.dressing
                         name: °C
+                        icon: mdi:thermometer
                     header:
                       type: buttons
                       entities:
@@ -922,8 +928,8 @@ views:
                       - entity: sensor.hue_sensor_tuinhuis_light_level
                         name: LUX  
                       - entity: sensor.hue_sensor_tuinhuis_temperature
-                        icon: mdi:radiator
                         name: °C
+                        icon: mdi:thermometer
                     header:
                       type: buttons
                       entities:
@@ -948,8 +954,8 @@ views:
                       - entity: sensor.hue_sensor_tuin_light_level
                         name: LUX  
                       - entity: sensor.hue_sensor_tuin_temperature
-                        icon: mdi:radiator
                         name: °C
+                        icon: mdi:thermometer
                     header:
                       type: buttons
                       entities:
