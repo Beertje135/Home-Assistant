@@ -485,18 +485,32 @@
       entity_id:
       - input_boolean.media_kitchen
       - input_boolean.media_livingroom
-    - condition: state
-      state: Thuis (Werk)
-      entity_id: input_select.woning_status
+    - condition: and
+      conditions:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: person.caroline
+          state: 'home'
+      - condition: state
+        state: Thuis (Werk)
+        entity_id: input_select.woning_status
   - condition: or
     conditions:
     - condition: state
       entity_id: remote.harmony_hub
       attribute: current_activity
       state: PowerOff
-    - condition: state
-      state: Thuis (Werk)
-      entity_id: input_select.woning_status
+    - condition: and
+      conditions:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: person.caroline
+          state: 'home'
+      - condition: state
+        state: Thuis (Werk)
+        entity_id: input_select.woning_status
   - condition: state
     entity_id: remote.harmony_hub
     attribute: current_activity
@@ -506,17 +520,19 @@
     - condition: state
       state: Juist Weg
       entity_id: input_select.woning_status
+  - condition: not
+    conditions:
     - condition: state
       state: Weg
       entity_id: input_select.woning_status
+  - condition: not
+    conditions:
     - condition: state
       state: Slapen
       entity_id: input_select.woning_status
   action:
   - service: input_boolean.turn_off
     entity_id: input_boolean.music_follow
-  - service: script.turn_on
-    entity_id: script.radio_kitchen_off
   mode: single
 - id: music_follow_on_001
   alias: Muziek - Volgen - Enable
