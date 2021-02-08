@@ -1,6 +1,5 @@
 homeassistant:
-  customize: !include_dir_merge_named customize/
-
+  customize: !include customize.yaml
 #lovelace in yaml mode
 lovelace:
   mode: yaml
@@ -135,34 +134,16 @@ binary_sensor:
   - platform: template
     sensors:
       trigger_just_away_kitchen:
-        device_class: motion
-#       entity_id:
-#          - input_boolean.trigger_just_away_kitchen
         value_template: "{{ is_state('input_boolean.trigger_just_away_kitchen', 'on') }}"
       trigger_just_home_kitchen:
-        device_class: motion
-#        entity_id:
-#          - input_boolean.trigger_just_home_kitchen
         value_template: "{{ is_state('input_boolean.trigger_just_home_kitchen', 'on') }}"
       trigger_just_awake_kitchen:
-        device_class: motion
-#        entity_id:
-#          - input_boolean.trigger_just_awake_kitchen
         value_template: "{{ is_state('input_boolean.trigger_just_awake_kitchen', 'on') }}"
       trigger_just_sleep_kitchen:
-        device_class: motion
-#        entity_id:
-#          - input_boolean.trigger_just_sleep_kitchen
         value_template: "{{ is_state('input_boolean.trigger_just_sleep_kitchen', 'on') }}"
       trigger_just_awake_dressing:
-        device_class: motion
-#        entity_id:
-#          - input_boolean.trigger_just_awake_dressing
         value_template: "{{ is_state('input_boolean.trigger_just_awake_dressing', 'on') }}"
       trigger_just_sleep_dressing:
-        device_class: motion
-#        entity_id:
-#          - input_boolean.trigger_just_sleep_dressing
         value_template: "{{ is_state('input_boolean.trigger_just_sleep_dressing', 'on') }}"
 
 # Enable Utility meter
