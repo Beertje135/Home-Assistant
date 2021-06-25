@@ -24,23 +24,6 @@ all_remote_off:
       ''Weg'', ''Slapen''] }}'
   - service: script.turn_on
     entity_id: script.computer_off
-all_remote_harmony_hub_pause:
-  alias: All - Remote - Uit
-  sequence:
-  - service: script.turn_on
-    entity_id: script.harmony_hub_powered_off
-  - condition: state
-    entity_id: input_boolean.keep_computer_on
-    state: 'off'
-  - delay: 00:05:00
-  - condition: state
-    entity_id: input_boolean.keep_computer_on
-    state: 'off'
-  - condition: template
-    value_template: '{{ states(''input_select.woning_status'') in [''Juist Weg'',
-      ''Weg'', ''Slapen''] }}'
-  - service: script.turn_on
-    entity_id: script.computer_off
 all_music_off:
   alias: All - Music - Stop
   sequence:
@@ -349,18 +332,18 @@ radio_kitchen_volume:
     data_template:
       entity_id: media_player.alexa_kitchen_amp
       volume_level: "{%- if (now().weekday() in (0,1,2,3,4)) and (states('sensor.time')\
-        \ <= \"06:58\") -%}\n  0.03\n{%- elif (now().weekday() in (0,1,2,3,4)) and\
+        \ <= \"06:58\") -%}\n  0.04\n{%- elif (now().weekday() in (0,1,2,3,4)) and\
         \ (states('sensor.time') >= \"06:58\") and (states('sensor.time') <= \"07:01\"\
         ) -%}\n  0.3\n{%- elif (now().weekday() in (0,1,2,3,4)) and (states('sensor.time')\
-        \ >= \"07:01\") and (states('sensor.time') <= \"07:59\") -%}\n  0.03\n{%-\
+        \ >= \"07:01\") and (states('sensor.time') <= \"07:59\") -%}\n  0.04\n{%-\
         \ elif (now().weekday() in (0,1,2,3,4)) and (states('sensor.time') >= \"07:58\"\
         ) and (states('sensor.time') <= \"08:01\") -%}\n  0.3\n{%- elif (now().weekday()\
         \ in (0,1,2,3,4)) and (states('sensor.time') >= \"08:01\") and (states('sensor.time')\
         \ <= \"08:59\") -%}\n  0.10\n{%- elif (now().weekday() in (0,1,2,3,4)) and\
         \ (states('sensor.time') >= \"08:58\") and (states('sensor.time') <= \"09:01\"\
         ) -%}\n  0.3\n{%- elif (now().weekday() in (0,1,2,3,4)) and (states('sensor.time')\
-        \ >= \"09:01\") -%}\n  0.03\n{%- elif (now().weekday() in (5,6)) and (states('sensor.time')\
-        \ <= \"07:30\")  -%}\n  0.03\n{%- else -%}\n  0.15\n{%- endif %}\n"
+        \ >= \"09:01\") -%}\n  0.04\n{%- elif (now().weekday() in (5,6)) and (states('sensor.time')\
+        \ <= \"07:30\")  -%}\n  0.04\n{%- else -%}\n  0.15\n{%- endif %}\n"
 radio_bathroom_volume:
   alias: Radio - Badkamer - Volume
   sequence:
@@ -381,7 +364,7 @@ light_bathroom_on:
         {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time')\
         \ <= '05:00' or states('sensor.time') >= '23:30') %}\n  scene.badkamer_nacht\n\
         {% elif states('input_select.woning_status') in ['Juist Wakker'] %}\n  scene.badkamer_gedimmed\n\
-        {% elif (states('sensor.time') <= '06:00' or states('sensor.time') >= '22:00')\
+        {% elif (states('sensor.time') <= '06:00' or states('sensor.time') >= '22:45')\
         \ %}\n  scene.badkamer_gedimmed\n{% else %}\n  scene.badkamer_normaal\n{%\
         \ endif %}\n"
   mode: single
@@ -421,8 +404,8 @@ light_bedroom2_on:
   - service: scene.turn_on
     data_template:
       entity_id: "{%- if (now().weekday() in (0,1,2,3,4) and states('sensor.time')\
-        \ > states('input_datetime.awake_week_elmo') and states('sensor.time') < '08:01:00')\
-        \ or (now().weekday() in (5,6) and states('sensor.time') > states('input_datetime.awake_weekend_elmo')\
+        \ >= states('input_datetime.awake_week_elmo') and states('sensor.time') <\
+        \ '08:01') or (now().weekday() in (5,6) and states('sensor.time') > states('input_datetime.awake_weekend_elmo')\
         \ and states('sensor.time') < '08:01:00') -%}\n  scene.slaapkamer_2_ochtend\n\
         {%- elif (states('sensor.time') >= states('input_datetime.sleep_elmo')) -%}\n\
         \  scene.slaapkamer_2_nacht\n{%- elif (states('sensor.time') >= states('input_datetime.dutje_start')\
@@ -1653,10 +1636,11 @@ notify_light_elmo_alexa:
       - media_player.alexa_kitchen_2
       - media_player.alexa_bathroom
       - media_player.alexa_livingroom_2
-      message: It is time to go get Elmo the little Monster.
+      message: It is almost time to go get Elmo the little Monster.
       data:
         type: announce
         method: speak
+  mode: single
 notify_light_elmo_ios_bert:
   sequence:
   - condition: template
@@ -1666,10 +1650,12 @@ notify_light_elmo_ios_bert:
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: ELMO
-      message: Het is tijd om Elmo te gaan halen, ik doe stilaan zijn lamp aan
+      message: Het is tijd om Elmo te gaan halen, ik doe binnen 1 minuut zijn lamp
+        aan
       data:
         push:
           thread-id: huis
+  mode: single
 notify_light_elmo_ios_caro:
   sequence:
   - condition: template
@@ -1679,10 +1665,12 @@ notify_light_elmo_ios_caro:
   - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: ELMO
-      message: Het is tijd om Elmo te gaan halen, ik doe stilaan zijn lamp aan
+      message: Het is tijd om Elmo te gaan halen, ik doe binnen 1 minuut zijn lamp
+        aan
       data:
         push:
           thread-id: huis
+  mode: single
 notify_nmbs_brussel_mechelen_ios_bert:
   sequence:
   - service: notify.mobile_app_iphone_van_bert
@@ -1879,14 +1867,14 @@ notify_tracker_bert_zones_alexa:
       - media_player.alexa_kitchen_2
       - media_player.alexa_bathroom
       - media_player.alexa_livingroom_2
-      message: "{% if states('person.bert') in ['Ivy', 'Nona & Pepe', 'Mimi & Fleri']\
-        \ %}\n  'Bert just arrived at {{ states('person.caroline') }}.'\n{% elif states('person.bert')\
-        \ in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem',\
-        \ 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}\n  'No panic but Bert is\
-        \ near {{ states('person.caroline') }}.'\n{% elif states('person.bert') in\
-        \ ['Mechelen Station'] %}\n  'Bert is on his way home from work.'\n{% elif\
-        \ states('person.bert') in ['Checkpoint 3', 'Willebroek Station'] %}\n  'Bert\
-        \ is almost home.'\n{% endif %}\n"
+      message: "{% if states('person.bert') in ['School De Wingerd', 'Nona & Pepe',\
+        \ 'Mimi & Fleri'] %}\n  'Bert just arrived at {{ states('person.caroline')\
+        \ }}.'\n{% elif states('person.bert') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis\
+        \ Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim']\
+        \ %}\n  'No panic but Bert is near {{ states('person.caroline') }}.'\n{% elif\
+        \ states('person.bert') in ['Mechelen Station'] %}\n  'Bert is on his way\
+        \ home from work.'\n{% elif states('person.bert') in ['Checkpoint 3', 'Willebroek\
+        \ Station'] %}\n  'Bert is almost home.'\n{% endif %}\n"
       data:
         type: announce
         method: speak
@@ -1897,14 +1885,15 @@ notify_tracker_bert_zones_ios_caro:
   - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: BERT STATUS
-      message: "{% if states('person.bert') in ['Ivy', 'Nona & Pepe', 'Mimi & Fleri']\
-        \ %}\n  Bert is aangekomen bij {{ states('person.bert') }}.\n{% elif states('person.bert')\
-        \ in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis Edegem',\
-        \ 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}\n  Geen paniek maar Bert\
-        \ is nabij het {{ states('person.bert') }}.\n{% elif states('person.bert')\
-        \ in ['Willebroek Station', 'Mechelen Station'] %}\n  Bert is aangekomen in\
-        \ {{ states('person.bert') }}.\n{% elif states('person.bert') in ['Checkpoint\
-        \ 3'] %}\n  Bert is bijna thuis. (Fort Breendonck)\n{% endif %}\n"
+      message: "{% if states('person.bert') in ['School De Wingerd', 'Nona & Pepe',\
+        \ 'Mimi & Fleri'] %}\n  Bert is aangekomen bij {{ states('person.bert') }}.\n\
+        {% elif states('person.bert') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis\
+        \ Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim']\
+        \ %}\n  Geen paniek maar Bert is nabij het {{ states('person.bert') }}.\n\
+        {% elif states('person.bert') in ['Willebroek Station', 'Mechelen Station']\
+        \ %}\n  Bert is aangekomen in {{ states('person.bert') }}.\n{% elif states('person.bert')\
+        \ in ['Checkpoint 3'] %}\n  Bert is bijna thuis. (Fort Breendonck)\n{% endif\
+        \ %}\n"
       data:
         apns_headers:
           apns-collapse-id: bert
@@ -2031,9 +2020,9 @@ notify_tracker_caro_zones_alexa:
       - media_player.alexa_kitchen_2
       - media_player.alexa_bathroom
       - media_player.alexa_livingroom_2
-      message: "{% if states('person.caroline') in ['Ivy', 'Nona & Pepe', 'Mimi &\
-        \ Fleri'] %}\n  'Caroline just arrived at {{ states('person.caroline') }}.\n\
-        {% elif states('person.caroline') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis\
+      message: "{% if states('person.caroline') in ['School De Wingerd', 'Nona & Pepe',\
+        \ 'Mimi & Fleri'] %}\n  'Caroline just arrived at {{ states('person.caroline')\
+        \ }}.\n{% elif states('person.caroline') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis\
         \ Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim']\
         \ %}\n  'No panic but Caroline is near {{ states('person.caroline') }}.\n\
         {% elif states('person.caroline') in ['Checkpoint 1', 'Checkpoint 4'] %}\n\
@@ -2050,9 +2039,9 @@ notify_tracker_caro_zones_ios_bert:
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: CARO STATUS
-      message: "{% if states('person.caroline') in ['Ivy', 'Nona & Pepe', 'Mimi &\
-        \ Fleri'] %}\n  Caroline is aangekomen bij {{ states('person.caroline') }}.\n\
-        {% elif states('person.caroline') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis\
+      message: "{% if states('person.caroline') in ['School De Wingerd', 'Nona & Pepe',\
+        \ 'Mimi & Fleri'] %}\n  Caroline is aangekomen bij {{ states('person.caroline')\
+        \ }}.\n{% elif states('person.caroline') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis\
         \ Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim']\
         \ %}\n  Geen paniek maar Caroline is nabij het {{ states('person.caroline')\
         \ }}.\n{% elif states('person.caroline') in ['Checkpoint 1'] %}\n  Caroline\

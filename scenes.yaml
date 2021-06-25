@@ -597,26 +597,32 @@
       effect_list:
       - colorloop
       - random
-      brightness: 37
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: hs
+      brightness: 140
       hs_color:
-      - 66.452
-      - 72.941
+      - 66.383
+      - 73.725
       rgb_color:
-      - 234
+      - 235
       - 255
-      - 69
+      - 67
       xy_color:
-      - 0.407
+      - 0.409
       - 0.518
       effect: none
-      friendly_name: Elmo's Room Floor Light
-      supported_features: 63
+      friendly_name: Hue Light Kamer Elmo One
       icon: mdi:floor-lamp
+      supported_features: 63
       state: 'on'
     light.hue_light_kamer_elmo_two:
-      friendly_name: Elmo's Room Light
-      supported_features: 41
+      supported_color_modes:
+      - brightness
+      friendly_name: Hue Light Kamer Elmo Two
       icon: mdi:ceiling-light
+      supported_features: 41
       state: 'off'
     light.aarlo_arlo_elmo:
       min_mireds: 111
@@ -624,17 +630,32 @@
       effect_list:
       - none
       - rainbow
+      supported_color_modes:
+      - color_temp
+      - hs
+      color_mode: hs
+      brightness: 102
+      hs_color:
+      - 120
+      - 100
+      rgb_color:
+      - 0
+      - 255
+      - 0
+      xy_color:
+      - 0.172
+      - 0.747
+      effect: none
       battery_level: 100
       battery_tech: Rechargeable
       battery_charging: false
       charger_type: Regular
-      brightness: 102
       attribution: Data provided by my.arlo.com
       brand: Netgear Arlo
       friendly_name: Elmo's Kamer Arlo Light
-      supported_features: 23
       icon: mdi:lightbulb-on-outline
-      state: 'off'
+      supported_features: 23
+      state: 'on'
 - id: '1608273794216'
   name: Slaapkamer 2 - Normaal
   entities:

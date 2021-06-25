@@ -31,7 +31,7 @@ class ArloCfg(object):
 
     @property
     def storage_dir(self):
-        return self._kw.get("storage_dir", "/config/.aarlo")
+        return self._kw.get("storage_dir", "/tmp/.aarlo")
 
     @property
     def name(self):
@@ -105,7 +105,7 @@ class ArloCfg(object):
 
     @property
     def user_agent(self):
-        return self._kw.get("user_agent", "apple")
+        return self._kw.get("user_agent", "arlo")
 
     @property
     def mode_api(self):
@@ -200,6 +200,15 @@ class ArloCfg(object):
         return None
 
     @property
+    def session_file(self):
+        return self.storage_dir + "/session.pickle"
+        return None
+
+    @property
+    def save_session(self):
+        return self._kw.get("save_session", True)
+
+    @property
     def dump_file(self):
         if self.dump:
             return self.storage_dir + "/" + "packets.dump"
@@ -232,3 +241,11 @@ class ArloCfg(object):
     @property
     def save_updates_to(self):
         return self._kw.get("save_updates_to", "")
+
+    @property
+    def save_media_to(self):
+        return self._kw.get("save_media_to", "")
+
+    @property
+    def no_unicode_squash(self):
+        return self._kw.get("no_unicode_squash", True)

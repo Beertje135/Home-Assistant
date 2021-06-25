@@ -8,9 +8,9 @@ views:
     cards:
       - id: root_stack_0
         type: 'custom:layout-card'
-        layout: vertical
-        column_num: 1
-        max_width: [100%]
+        layout_type: custom:vertical-layout
+        layout:
+          max_cols: 1
         cards:
           - id: home_tracker_0
             type: entity-filter
@@ -36,7 +36,7 @@ views:
               - Mimi & Fleri
               - Oma
               - Nelly
-              - Ivy
+              - School De Wingerd
               - Nona & Pepe
               - Niki & Marcus
               - Andy
@@ -69,6 +69,25 @@ views:
             entities:
               - entity: climate.ons_huisje
                 name: Evohome
+          - id: waste_tracker_0
+            type: entity-filter
+            entities:
+              - entity: sensor.recycleapp_papier
+                name: Papier
+              - entity: sensor.recycleapp_glas
+                name: Glas
+              - entity: sensor.recycleapp_pmd
+                name: PMD
+              - entity: sensor.recycleapp_restafval
+                name: Restafval
+            state_filter:
+              - value: 1
+                operator: '<='
+                attribute: Days-until
+            card:
+              show_name: true
+              type: glance
+            show_empty: false
           - id: problem_tracker_0
             type: entity-filter
             entities:
@@ -172,7 +191,7 @@ views:
               show_state: true
           - id: layout_0
             type: 'custom:layout-card'
-            layout: auto
+            layout_type: custom:masonry-layout
             cards:
               - title: Verlichting
                 type: vertical-stack
@@ -483,7 +502,7 @@ views:
               - Mimi & Fleri
               - Oma
               - Nelly
-              - Ivy
+              - School De Wingerd
               - Nona & Pepe
               - Niki & Marcus
               - Andy
@@ -1013,7 +1032,7 @@ views:
               - Mimi & Fleri
               - Oma
               - Nelly
-              - Ivy
+              - School De Wingerd
               - Nona & Pepe
               - Niki & Marcus
               - Andy
@@ -1412,7 +1431,7 @@ views:
               - Mimi & Fleri
               - Oma
               - Nelly
-              - Ivy
+              - School De Wingerd
               - Nona & Pepe
               - Niki & Marcus
               - Andy
@@ -1670,7 +1689,7 @@ views:
               - Mimi & Fleri
               - Oma
               - Nelly
-              - Ivy
+              - School De Wingerd
               - Nona & Pepe
               - Niki & Marcus
               - Andy

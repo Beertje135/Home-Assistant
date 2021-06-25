@@ -16,22 +16,22 @@
     conditions:
     - condition: numeric_state
       entity_id: sensor.recycleapp_glas
-      attribute: days_until
+      attribute: Days-until
       above: 0
       below: 2
     - condition: numeric_state
       entity_id: sensor.recycleapp_papier
-      attribute: days_until
+      attribute: Days-until
       above: 0
       below: 2
     - condition: numeric_state
       entity_id: sensor.recycleapp_pmd
-      attribute: days_until
+      attribute: Days-until
       above: 0
       below: 2
     - condition: numeric_state
       entity_id: sensor.recycleapp_restafval
-      attribute: days_until
+      attribute: Days-until
       above: 0
       below: 2
   action:
@@ -74,22 +74,22 @@
     conditions:
     - condition: numeric_state
       entity_id: sensor.recycleapp_glas
-      attribute: days_until
+      attribute: Days-until
       above: 0
       below: 2
     - condition: numeric_state
       entity_id: sensor.recycleapp_papier
-      attribute: days_until
+      attribute: Days-until
       above: 0
       below: 2
     - condition: numeric_state
       entity_id: sensor.recycleapp_pmd
-      attribute: days_until
+      attribute: Days-until
       above: 0
       below: 2
     - condition: numeric_state
       entity_id: sensor.recycleapp_restafval
-      attribute: days_until
+      attribute: Days-until
       above: 0
       below: 2
   action:
@@ -134,7 +134,7 @@
     entity_id: binary_sensor.workday_sensor
     state: 'off'
   - condition: time
-    after: '07:15:00'
+    after: 07:15:00
     before: '19:00:00'
   - condition: state
     state: 'on'
@@ -160,14 +160,14 @@
   - condition: state
     entity_id: input_select.woning_status
     state:
-      - Thuis
-      - Thuis (Verlof)
+    - Thuis
+    - Thuis (Verlof)
   - condition: state
     entity_id: remote.harmony_hub
     attribute: current_activity
-    state: 
-      - PowerOff
-      - Alexa
+    state:
+    - PowerOff
+    - Alexa
   action:
   - delay: 00:01:00
   - condition: state
@@ -491,7 +491,7 @@
         conditions:
         - condition: state
           entity_id: person.caroline
-          state: 'home'
+          state: home
       - condition: state
         state: Thuis (Werk)
         entity_id: input_select.woning_status
@@ -507,7 +507,7 @@
         conditions:
         - condition: state
           entity_id: person.caroline
-          state: 'home'
+          state: home
       - condition: state
         state: Thuis (Werk)
         entity_id: input_select.woning_status
@@ -681,7 +681,32 @@
     topic: doorbellsensorfront/status
   action:
   - service: script.turn_on
-    entity_id: script.notify_deurbel, script.all_remote_harmony_hub_pause
+    entity_id: script.notify_deurbel
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: remote.harmony_hub
+        state: Apple tv
+      sequence:
+      - service: script.turn_on
+        entity_id: script.remote_harmony_hub_apple_tv_pause
+    - conditions:
+      - condition: state
+        entity_id: remote.harmony_hub
+        state: TV Decoder
+      sequence:
+      - service: script.turn_on
+        entity_id: script.remote_harmony_hub_belgacom_dvr_pause
+    - conditions:
+      - condition: state
+        entity_id: remote.harmony_hub
+        state: WebOS
+      sequence:
+      - service: script.turn_on
+        entity_id: script.remote_harmony_hub_lg_tv_pause
+    default:
+    - service: script.turn_on
+      entity_id: script.empty
   - delay: 00:00:15
 - id: ventilation_upstairs_001
   alias: Verluchting - Boolean based on Outside Temperature (Boven)
@@ -1556,15 +1581,15 @@
   - platform: state
     entity_id: person.caroline
     to:
-    - 'Ivy'
-    - 'Nona & Pepe'
-    - 'Mimi Fleri'
+    - School De Wingerd
+    - Nona & Pepe
+    - Mimi Fleri
   - platform: state
     entity_id: person.bert
     to:
-    - 'Ivy'
-    - 'Nona & Pepe'
-    - 'Mimi Fleri'
+    - School De Wingerd
+    - Nona & Pepe
+    - Mimi Fleri
   condition:
   - condition: state
     entity_id: binary_sensor.workday_sensor
@@ -1581,17 +1606,17 @@
   - platform: state
     entity_id: person.caroline
     to:
-    - 'Checkpoint 1'
-    - 'Checkpoint 2'
-    - 'Checkpoint 3'
-    - 'Checkpoint 4'
-    - 'Checkpoint 5'
+    - Checkpoint 1
+    - Checkpoint 2
+    - Checkpoint 3
+    - Checkpoint 4
+    - Checkpoint 5
   - platform: state
     entity_id: person.bert
     to:
-    - 'Mechelen Station'
-    - 'Willebroek Station'
-    - 'Checkpoint 3'
+    - Mechelen Station
+    - Willebroek Station
+    - Checkpoint 3
   condition:
   - condition: state
     entity_id: binary_sensor.workday_sensor
@@ -2790,15 +2815,15 @@
   trigger:
   - entity_id: person.bert
     platform: state
-    to: 
-    - 'Willebroek Station'
+    to:
+    - Willebroek Station
   - entity_id: person.caroline
     platform: state
-    to: 
-    - 'Checkpoint 1'
-    - 'Checkpoint 3'
-    - 'Checkpoint 4'
-    - 'Checkpoint 5'
+    to:
+    - Checkpoint 1
+    - Checkpoint 3
+    - Checkpoint 4
+    - Checkpoint 5
   condition:
   - condition: state
     entity_id: input_boolean.heating
@@ -2851,7 +2876,31 @@
   - platform: numeric_state
     entity_id: sensor.hue_sensor_tuin_temperature
     above: 21.5
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_tuinhuis_temperature
+    below: 21.0
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_tuinhuis_temperature
+    above: 21.5
   condition:
+  - condition: or
+    conditions:
+    - condition: and
+      conditions:
+      - condition: numeric_state
+        entity_id: sensor.hue_sensor_tuin_temperature
+        above: 21.5
+      - condition: numeric_state
+        entity_id: sensor.hue_sensor_tuinhuis_temperature
+        above: 21.5
+    - condition: and
+      conditions:
+      - condition: numeric_state
+        entity_id: sensor.hue_sensor_tuin_temperature
+        below: 21.0
+      - condition: numeric_state
+        entity_id: sensor.hue_sensor_tuinhuis_temperature
+        below: 21.0
   - condition: not
     conditions:
     - condition: state
@@ -3492,25 +3541,25 @@
       conditions:
       - condition: state
         entity_id: input_select.woning_status
-        state: 'Juist Weg'
+        state: Juist Weg
     - condition: not
       conditions:
       - condition: state
         entity_id: input_select.woning_status
-        state: 'Weg'
+        state: Weg
     - condition: not
       conditions:
       - condition: state
         entity_id: input_select.woning_status
-        state: 'Op Vakantie'
+        state: Op Vakantie
     - condition: and
       conditions:
       - condition: state
         entity_id: input_select.woning_status
-        state: 'Op Vakantie'
+        state: Op Vakantie
       - condition: state
         entity_id: group.bezoekers
-        state: 'home'
+        state: home
   action:
   - service: script.turn_on
     entity_id: script.light_bathroom_on
@@ -3552,23 +3601,30 @@
     at: input_datetime.awake_week_elmo
   condition:
   - condition: state
-    entity_id: light.aarlo_arlo_elmo
-    state: 'on'
-  - condition: state
-    entity_id: input_select.woning_status
-    state:
-    - Thuis
-    - Juist Thuis
-    - Thuis (Werk)
-  - condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Juist Thuis
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis (Werk)
   action:
   - service: script.turn_on
     entity_id: script.notify_light_elmo
-  - delay: 00:00:30
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 2
+      milliseconds: 0
   - service: script.turn_on
     entity_id: script.light_bedroom2_on
+  mode: single
 - id: light_bedroom_elmo_005
   alias: Licht - Elmo - Ochtend Weekend
   trigger:
@@ -3580,22 +3636,23 @@
     state: 'on'
   - condition: state
     entity_id: input_select.woning_status
-    state:
-    - Thuis
-    - Juist Thuis
-    - Thuis (Verlof)
+    state: Thuis,Juist Thuis,Thuis (Verlof)
   - condition: or
     conditions:
     - condition: state
       entity_id: input_select.woning_status
       state: Thuis (Verlof)
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'off'
+    - condition: state
+      entity_id: binary_sensor.workday_sensor
+      state: 'off'
   action:
   - service: script.turn_on
     entity_id: script.notify_light_elmo
-  - delay: 00:00:30
+  - delay:
+      hours: 0
+      minutes: 1
+      seconds: 2
+      milliseconds: 0
   - service: script.turn_on
     entity_id: script.light_bedroom2_on
   mode: single
