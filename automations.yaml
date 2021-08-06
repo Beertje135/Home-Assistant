@@ -953,11 +953,12 @@
     for: 0:55:00
   condition:
   - condition: state
-    entity_id: input_boolean.vacuum_cleaned_today
-    state: 'off'
+    entity_id: input_boolean.vacuum_clean_today
+    state: 'on'
   action:
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.vacuum_cleaned_today
+  - service: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.vacuum_clean_today
   mode: single
 - id: vacuum_004
   alias: Stofzuiger - Dusty - Stof Gezogen Vandaag - Kuishulp
@@ -967,11 +968,13 @@
     to: 'on'
   condition:
   - condition: state
-    entity_id: input_boolean.vacuum_cleaned_today
-    state: 'off'
+    entity_id: input_boolean.vacuum_clean_today
+    state: 'on'
   action:
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.vacuum_cleaned_today
+  - service: input_boolean.turn_off
+    target:
+      entity_id: input_boolean.vacuum_clean_today
+  mode: single
 - id: vacuum_005
   alias: Stofzuiger - Dusty - Stof Gezogen Vandaag - Reset
   trigger:
@@ -979,31 +982,31 @@
     at: '23:59:00'
   condition:
   - condition: state
-    entity_id: input_boolean.vacuum_cleaned_today
+    entity_id: input_boolean.vacuum_clean_today
     state: 'on'
   action:
   - service: input_boolean.turn_off
-    entity_id: input_boolean.vacuum_cleaned_today
+    target:
+      entity_id: input_boolean.vacuum_clean_today
+  mode: single
 - id: vacuum_006
   alias: Stofzuiger - Dusty - Start Wanneer Voldoende lux
   trigger:
   - platform: numeric_state
     entity_id: sensor.hue_sensor_keuken_light_level
-    above: 10
+    above: '10'
     for:
       minutes: 4
   condition:
   - condition: state
     entity_id: input_select.woning_status
-    state:
-    - Juist Weg
-    - Weg
+    state: Juist Weg,Weg
   - condition: state
     state: docked
     entity_id: vacuum.dusty
   - condition: state
-    state: 'off'
-    entity_id: input_boolean.vacuum_cleaned_today
+    state: 'on'
+    entity_id: input_boolean.vacuum_clean_today
   - condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'

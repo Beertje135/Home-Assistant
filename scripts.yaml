@@ -54,15 +54,16 @@ dusty_on:
     before: input_datetime.dusty_stop
   - condition: numeric_state
     entity_id: sensor.hue_sensor_keuken_light_level
-    above: 10
+    above: '10'
   - condition: template
     value_template: '{{ states(''vacuum.dusty'') in [''docked''] }}'
   - condition: state
-    entity_id: input_boolean.vacuum_cleaned_today
-    state: 'off'
+    entity_id: input_boolean.vacuum_clean_today
+    state: 'on'
   - service: vacuum.start
     data:
       entity_id: vacuum.dusty
+  mode: single
 dusty_off:
   alias: Dusty - Uit
   sequence:
@@ -2020,7 +2021,7 @@ notify_tracker_caro_zones_alexa:
       - media_player.alexa_kitchen_2
       - media_player.alexa_bathroom
       - media_player.alexa_livingroom_2
-      message: "{% if states('person.caroline') in ['School De Wingerd', 'Nona & Pepe',\
+      message: "{% if states('person.caroline') in ['BKO Toverbos', 'School De Wingerd', 'Nona & Pepe',\
         \ 'Mimi & Fleri'] %}\n  'Caroline just arrived at {{ states('person.caroline')\
         \ }}.\n{% elif states('person.caroline') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis\
         \ Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim']\
@@ -2039,7 +2040,7 @@ notify_tracker_caro_zones_ios_bert:
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: CARO STATUS
-      message: "{% if states('person.caroline') in ['School De Wingerd', 'Nona & Pepe',\
+      message: "{% if states('person.caroline') in ['BKO Toverbos', 'School De Wingerd', 'Nona & Pepe',\
         \ 'Mimi & Fleri'] %}\n  Caroline is aangekomen bij {{ states('person.caroline')\
         \ }}.\n{% elif states('person.caroline') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis\
         \ Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim']\
@@ -2082,9 +2083,9 @@ notify_vacuum_alexa:
       message: "{% if state_attr('vacuum.dusty', 'status') == 'Stuck' %}\n  'Dusty\
         \ is stuck. Stupid Dusty'\n{% elif state_attr('vacuum.dusty', 'bin_full')\
         \ == true %}\n  'Dusty has eaten to much. Please empty his belly.'\n{% elif\
-        \ states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_cleaned_today')\
-        \ in ['on'] %}\n  'Dusty has completed his task.'\n{% elif states('vacuum.dusty')\
-        \ in ['docked'] and states('input_boolean.vacuum_cleaned_today') in ['off']\
+        \ states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_clean_today')\
+        \ in ['off'] %}\n  'Dusty has completed his task.'\n{% elif states('vacuum.dusty')\
+        \ in ['docked'] and states('input_boolean.vacuum_clean_today') in ['on']\
         \ %}\n  'Dusty still hasn't completed his task today'\n{% elif states('vacuum.dusty')\
         \ in ['cleaning'] %}\n  'Dusty starts cleaning the house. Beep Beep'\n{% else\
         \ %}\n  'Dusty is still going strong'\n{% endif %}\n"
@@ -2102,9 +2103,9 @@ notify_vacuum_ios_bert:
       message: "{% if state_attr('vacuum.dusty', 'status') == 'Stuck' %}\n  'Dusty\
         \ zit vast. Die Domme Dusty toch.'\n{% elif state_attr('vacuum.dusty', 'bin_full')\
         \ == true %}\n  'Dusty heeft te veel gegeten. Maak zijn buikje leeg a.u.b.'\n\
-        {% elif states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_cleaned_today')\
-        \ in ['on'] %}\n  'Dusty is klaar met zijn taak.'\n{% elif states('vacuum.dusty')\
-        \ in ['docked'] and states('input_boolean.vacuum_cleaned_today') in ['off']\
+        {% elif states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_clean_today')\
+        \ in ['off'] %}\n  'Dusty is klaar met zijn taak.'\n{% elif states('vacuum.dusty')\
+        \ in ['docked'] and states('input_boolean.vacuum_clean_today') in ['on']\
         \ %}\n  'Dusty is nog niet klaar met zijn taak voor vandaag.'\n{% elif states('vacuum.dusty')\
         \ in ['cleaning'] %}\n  'Dusty begint het huis te kuisen. Beep Beep'\n{% else\
         \ %}\n  'Dusty is still going strong'\n{% endif %}\n"
@@ -2122,9 +2123,9 @@ notify_vacuum_ios_caro:
       message: "{% if state_attr('vacuum.dusty', 'status') == 'Stuck' %}\n  'Dusty\
         \ zit vast. Die Domme Dusty toch.'\n{% elif state_attr('vacuum.dusty', 'bin_full')\
         \ == true %}\n  'Dusty heeft te veel gegeten. Maak zijn buikje leeg a.u.b.'\n\
-        {% elif states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_cleaned_today')\
-        \ in ['on'] %}\n  'Dusty is klaar met zijn taak.'\n{% elif states('vacuum.dusty')\
-        \ in ['docked'] and states('input_boolean.vacuum_cleaned_today') in ['off']\
+        {% elif states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_clean_today')\
+        \ in ['off'] %}\n  'Dusty is klaar met zijn taak.'\n{% elif states('vacuum.dusty')\
+        \ in ['docked'] and states('input_boolean.vacuum_clean_today') in ['on']\
         \ %}\n  'Dusty is nog niet klaar met zijn taak voor vandaag.'\n{% elif states('vacuum.dusty')\
         \ in ['cleaning'] %}\n  'Dusty begint het huis te kuisen. Beep Beep'\n{% else\
         \ %}\n  'Dusty is still going strong'\n{% endif %}\n"

@@ -107,7 +107,7 @@ script.dusty_on:
   name: Veranda Dusty Start
 script.dusty_off:
   name: Veranda Dusty Stop
-input_boolean.vacuum_cleaned_today:
+input_boolean.vacuum_clean_today:
   name: Veranda Dusty klaar
 
 # DEVICE TRACKERS

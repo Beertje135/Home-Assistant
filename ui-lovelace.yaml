@@ -193,7 +193,7 @@ views:
             type: 'custom:layout-card'
             layout_type: custom:masonry-layout
             cards:
-              - title: Verlichting
+              - title: Controls
                 type: vertical-stack
                 cards:
                   - type: entities
@@ -230,11 +230,13 @@ views:
                     header:
                       type: buttons
                       entities:
+                        - entity: input_boolean.light_downstairs
+                          name: Beneden
                         - entity: sun.sun
                           tap_action:
                             action: more-info
-                        - entity: input_boolean.light_downstairs
-                          name: Beneden
+                        - entity: input_boolean.vacuum_clean_today
+                          name: Dusty
               - title: Energie
                 type: vertical-stack
                 cards:
@@ -469,10 +471,10 @@ views:
     panel: true
     cards:
       - id: root_stack_1
-        type: custom:layout-card
-        layout: vertical
-        column_num: 1
-        max_width: [100%]
+        type: 'custom:layout-card'
+        layout_type: custom:vertical-layout
+        layout:
+          max_cols: 1
         cards:
           - id: home_tracker_1
             type: entity-filter
@@ -620,7 +622,7 @@ views:
               - 'cleaning'
           - id: layout_1
             type: 'custom:layout-card'
-            layout: auto
+            layout_type: custom:masonry-layout
             cards:
               - title: Woonkamer
                 type: vertical-stack
@@ -711,7 +713,7 @@ views:
                         - entity: vacuum.dusty
                           tap_action:
                             action: more-info
-                        - entity: input_boolean.vacuum_cleaned_today
+                        - entity: input_boolean.vacuum_clean_today
                     footer:
                       type: graph
                       entity: sensor.climate_veranda_attribute_current_temperature
@@ -999,10 +1001,10 @@ views:
     panel: true
     cards:
       - id: root_stack_2
-        type: custom:layout-card
-        layout: vertical
-        column_num: 1
-        max_width: [100%]
+        type: 'custom:layout-card'
+        layout_type: custom:vertical-layout
+        layout:
+          max_cols: 1
         cards:
           - id: home_tracker_2
             type: entity-filter
@@ -1150,7 +1152,7 @@ views:
               type: glance
           - id: layout_2
             type: 'custom:layout-card'
-            layout: auto
+            layout_type: custom:masonry-layout
             cards:
               - title: Multimedia
                 type: vertical-stack
@@ -1398,10 +1400,10 @@ views:
     panel: true
     cards:
       - id: root_stack_3
-        type: custom:layout-card
-        layout: vertical
-        column_num: 1
-        max_width: [100%]
+        type: 'custom:layout-card'
+        layout_type: custom:vertical-layout
+        layout:
+          max_cols: 1
         cards:
           - id: home_tracker_3
             type: entity-filter
@@ -1549,7 +1551,7 @@ views:
               type: glance
           - id: layout_3
             type: 'custom:layout-card'
-            layout: auto
+            layout_type: custom:masonry-layout
             cards:
               - title: Smappee
                 type: vertical-stack
@@ -1659,10 +1661,10 @@ views:
     panel: true
     cards:
       - id: root_stack_4
-        type: custom:layout-card
-        layout: vertical
-        column_num: 1
-        max_width: [100%]
+        type: 'custom:layout-card'
+        layout_type: custom:vertical-layout
+        layout:
+          max_cols: 1
         cards:
           - id: home_tracker_4
             type: entity-filter
@@ -1810,8 +1812,24 @@ views:
               type: glance
           - id: layout_4
             type: 'custom:layout-card'
-            layout: auto
+            layout_type: custom:masonry-layout
             cards:
+              - title: Afvalkalender
+                type: vertical-stack
+                cards:
+                  - type: glance
+                    id: af0a835638ca421aa181928f535c4b33
+                    columns: 2
+                    show_header_toggle: false
+                    entities:
+                      - entity: sensor.recycleapp_restafval
+                        name: Restafval
+                      - entity: sensor.recycleapp_pmd
+                        name: Pmd
+                      - entity:  sensor.recycleapp_papier
+                        name: Papier
+                      - entity:  sensor.recycleapp_glas
+                        name: Glas
               - title: Wie is Waar ?
                 type: vertical-stack
                 cards:
@@ -1850,22 +1868,6 @@ views:
                       - group.bezoekers
                       - group.bewoners
                     hours_to_show: 24
-              - title: Afvalkalender
-                type: vertical-stack
-                cards:
-                  - type: glance
-                    id: af0a835638ca421aa181928f535c4b33
-                    columns: 2
-                    show_header_toggle: false
-                    entities:
-                      - entity: sensor.recycleapp_restafval
-                        name: Restafval
-                      - entity: sensor.recycleapp_pmd
-                        name: Pmd
-                      - entity:  sensor.recycleapp_papier
-                        name: Papier
-                      - entity:  sensor.recycleapp_glas
-                        name: Glas
               - title: Server
                 type: vertical-stack
                 cards:
