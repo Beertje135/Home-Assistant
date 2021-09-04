@@ -38,9 +38,6 @@ light.milight_keuken_bridge:
 light.milight_woonkamer_bridge:
   friendly_name: Livingroom Tv LED
   icon: mdi:television-clean
-light.aarlo_arlo_elmo:
-  icon: mdi:lightbulb-on-outline
-  friendly_name: Elmo's Kamer Arlo Light
 sensor.nmbs:
   icon: mdi:train
   friendly_name: NMBS WILL-MECH

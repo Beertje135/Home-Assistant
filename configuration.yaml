@@ -368,14 +368,11 @@ weather:
     api_key: !secret api_key_darksky
     mode: daily
 
-aarlo:
-  username: !secret username_arlo_2
-  password: !secret password_arlo_2
-  refresh_devices_every: 2
-  stream_timeout: 120
-#  tfa_host: imap.gmail.com
-#  tfa_username: VerlindenBert@gmail.com
-#  tfa_password: bmnqmkugvzbllqbo
+#aarlo:
+#  username: !secret username_arlo_2
+#  password: !secret password_arlo_2
+#  refresh_devices_every: 2
+#  stream_timeout: 120
 
 nest:
   client_id: !secret client_id_nest

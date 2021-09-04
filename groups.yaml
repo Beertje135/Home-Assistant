@@ -48,7 +48,6 @@
     name: Arlo Monitor
     icon: mdi:rabbit
     entities:
-      - light.aarlo_arlo_elmo
       - sensor.aarlo_temperature_arlo_elmo
       - sensor.aarlo_humidity_arlo_elmo
       - sensor.aarlo_air_quality_arlo_elmo
@@ -101,7 +100,6 @@
     entities:
       - light.hue_light_kamer_elmo_one
       - light.hue_light_kamer_elmo_two
-      - light.aarlo_arlo_elmo
 
   licht_slaapkamer2_group1:
     name: Elmo's Room Lights

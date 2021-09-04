@@ -3591,9 +3591,6 @@
     - condition: time
       after: input_datetime.dutje_start
       before: input_datetime.dutje_stop
-  - condition: state
-    entity_id: light.aarlo_arlo_elmo
-    state: 'off'
   action:
   - service: script.turn_on
     entity_id: script.light_bedroom2_on
@@ -3635,9 +3632,6 @@
     at: input_datetime.awake_weekend_elmo
   condition:
   - condition: state
-    entity_id: light.aarlo_arlo_elmo
-    state: 'on'
-  - condition: state
     entity_id: input_select.woning_status
     state: Thuis,Juist Thuis,Thuis (Verlof)
   - condition: or
@@ -3677,9 +3671,6 @@
       state: 'on'
     - condition: state
       entity_id: light.hue_light_kamer_elmo_two
-      state: 'on'
-    - condition: state
-      entity_id: light.aarlo_arlo_elmo
       state: 'on'
   action:
   - service: scene.turn_on

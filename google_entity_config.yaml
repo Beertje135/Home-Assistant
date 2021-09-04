@@ -1,11 +1,5 @@
 # CONFIGURATION FOR GOOGLE ENTITIES
 # LIGHTS
-# ARLO
-
-light.aarlo_arlo_elmo:
-  name: Elmo's Lichtje
-  room: Elmo's Kamer
-
 # MILIGHTS
 
 light.milight_woonkamer_bridge:

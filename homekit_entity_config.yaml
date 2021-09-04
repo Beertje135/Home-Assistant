@@ -34,9 +34,6 @@ light.hue_smart_plug_woonkamer_one:
 light.hue_smart_plug_extra:
   name: Extra Plug
 
-light.aarlo_arlo_elmo:
-  name: Elmo's Kamer Arlo
-
 # INPUT SELECT
 
 input_select.harmony_hub:
