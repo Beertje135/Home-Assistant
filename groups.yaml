@@ -44,15 +44,6 @@
       - switch.wake_on_lan
       - input_boolean.keep_computer_on
 
-  arlo:
-    name: Arlo Monitor
-    icon: mdi:rabbit
-    entities:
-      - sensor.aarlo_temperature_arlo_elmo
-      - sensor.aarlo_humidity_arlo_elmo
-      - sensor.aarlo_air_quality_arlo_elmo
-      - sensor.aarlo_battery_level_arlo_elmo
-
 #Light Groups for the logbook
 
   licht_keuken:

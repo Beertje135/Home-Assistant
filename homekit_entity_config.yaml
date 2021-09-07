@@ -80,8 +80,6 @@ binary_sensor.hue_sensor_woonkamer_motion:
   name: Woonkamer Beweging
 sensor.hue_sensor_woonkamer_light_level:
   name: Woonkamer Lichtniveau
-sensor.aarlo_humidity_arlo_elmo:
-  name: Arlo Vochtigheid
 
 # CLIMATE
 

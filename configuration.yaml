@@ -218,9 +218,6 @@ recorder:
       - input_boolean.notify_caro
       - input_select.harmony_hub
       - input_select.woning_status
-      - sensor.aarlo_air_quality_arlo_elmo
-      - sensor.aarlo_humidity_arlo_elmo
-      - sensor.aarlo_temperature_arlo_elmo
       - sensor.bezoek
       - sensor.climate_badkamer_attribute_current_temperature
       - sensor.climate_dressing_attribute_current_temperature
@@ -414,7 +411,7 @@ light:
       - number: 2
         type: rgbww
         name: milight_badkamer
-  - platform: aarlo
+#  - platform: aarlo
   
 switch:
   - platform: wake_on_lan

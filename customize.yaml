@@ -16,17 +16,6 @@ binary_sensor.trigger_just_home_kitchen:
 binary_sensor.trigger_just_sleep_kitchen:
   friendly_name: Kitchen Motion Sensor Just Asleep
   device_class: motion
-sensor.aarlo_air_quality_arlo_elmo:
-  friendly_name: Arlo Air Quality
-  icon: mdi:biohazard
-sensor.aarlo_battery_level_arlo_elmo:
-  friendly_name: Arlo Battery
-  icon: mdi:battery-charging
-sensor.aarlo_humidity_arlo_elmo:
-  friendly_name: Arlo Humidity
-  icon: mdi:water-percent
-sensor.aarlo_temperature_arlo_elmo:
-  friendly_name: Arlo Temperature
 light.milight_badkamer:
   friendly_name: Bathroom LED
   icon: mdi:led-strip-variant
@@ -127,3 +116,9 @@ sensor.meter_water_monthly_peak:
 sensor.meter_water_yearly_peak:
   friendly_name: WATER JAAR
   icon: mdi:water
+sensor.ons_huisje_sensor_water:
+  unit_of_measurement: m³
+  last_reset: '1970-01-01T00:00:00+00:00'
+sensor.ons_huisje_sensor_gas:
+  unit_of_measurement: m³
+  last_reset: '1970-01-01T00:00:00+00:00'

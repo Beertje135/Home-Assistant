@@ -2083,9 +2083,9 @@ notify_vacuum_alexa:
         \ is stuck. Stupid Dusty'\n{% elif state_attr('vacuum.dusty', 'bin_full')\
         \ == true %}\n  'Dusty has eaten to much. Please empty his belly.'\n{% elif\
         \ states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_clean_today')\
-        \ in ['off'] %}\n  'Dusty has completed his task.'\n{% elif states('vacuum.dusty')\
+        \ in ['off'] %}\n  'Dusty has no pending tasks.'\n{% elif states('vacuum.dusty')\
         \ in ['docked'] and states('input_boolean.vacuum_clean_today') in ['on']\
-        \ %}\n  'Dusty still hasn't completed his task today'\n{% elif states('vacuum.dusty')\
+        \ %}\n  'Dusty hasn't completed his task today'\n{% elif states('vacuum.dusty')\
         \ in ['cleaning'] %}\n  'Dusty starts cleaning the house. Beep Beep'\n{% else\
         \ %}\n  'Dusty is still going strong'\n{% endif %}\n"
       data:
@@ -2103,7 +2103,7 @@ notify_vacuum_ios_bert:
         \ zit vast. Die Domme Dusty toch.'\n{% elif state_attr('vacuum.dusty', 'bin_full')\
         \ == true %}\n  'Dusty heeft te veel gegeten. Maak zijn buikje leeg a.u.b.'\n\
         {% elif states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_clean_today')\
-        \ in ['off'] %}\n  'Dusty is klaar met zijn taak.'\n{% elif states('vacuum.dusty')\
+        \ in ['off'] %}\n  'Dusty heeft geen taken meer.'\n{% elif states('vacuum.dusty')\
         \ in ['docked'] and states('input_boolean.vacuum_clean_today') in ['on']\
         \ %}\n  'Dusty is nog niet klaar met zijn taak voor vandaag.'\n{% elif states('vacuum.dusty')\
         \ in ['cleaning'] %}\n  'Dusty begint het huis te kuisen. Beep Beep'\n{% else\
@@ -2123,7 +2123,7 @@ notify_vacuum_ios_caro:
         \ zit vast. Die Domme Dusty toch.'\n{% elif state_attr('vacuum.dusty', 'bin_full')\
         \ == true %}\n  'Dusty heeft te veel gegeten. Maak zijn buikje leeg a.u.b.'\n\
         {% elif states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_clean_today')\
-        \ in ['off'] %}\n  'Dusty is klaar met zijn taak.'\n{% elif states('vacuum.dusty')\
+        \ in ['off'] %}\n  'Dusty heeft geen taken meer.'\n{% elif states('vacuum.dusty')\
         \ in ['docked'] and states('input_boolean.vacuum_clean_today') in ['on']\
         \ %}\n  'Dusty is nog niet klaar met zijn taak voor vandaag.'\n{% elif states('vacuum.dusty')\
         \ in ['cleaning'] %}\n  'Dusty begint het huis te kuisen. Beep Beep'\n{% else\

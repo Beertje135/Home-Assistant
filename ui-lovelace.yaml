@@ -107,11 +107,6 @@ views:
                 name: Nest Beneden
               - entity: sensor.upstairs_nest_protect_battery_health
                 name: Nest Boven
-              - entity: sensor.aarlo_battery_level_arlo_elmo
-                name: Arlo
-                state_filter:
-                  - operator: "<"
-                    value: 10
               - entity: binary_sensor.hue_sensor_dressing_motion
                 name: Hue Sensor Dressing Battery Low
                 state_filter:
@@ -554,11 +549,6 @@ views:
                 name: Nest Beneden
               - entity: sensor.upstairs_nest_protect_battery_health
                 name: Nest Boven
-              - entity: sensor.aarlo_battery_level_arlo_elmo
-                name: Arlo
-                state_filter:
-                  - operator: "<"
-                    value: 10
               - entity: binary_sensor.hue_sensor_dressing_motion
                 name: Hue Sensor Dressing Battery Low
                 state_filter:
@@ -1084,11 +1074,6 @@ views:
                 name: Nest Beneden
               - entity: sensor.upstairs_nest_protect_battery_health
                 name: Nest Boven
-              - entity: sensor.aarlo_battery_level_arlo_elmo
-                name: Arlo
-                state_filter:
-                  - operator: "<"
-                    value: 10
               - entity: binary_sensor.hue_sensor_dressing_motion
                 name: Hue Sensor Dressing Battery Low
                 state_filter:
@@ -1483,11 +1468,6 @@ views:
                 name: Nest Beneden
               - entity: sensor.upstairs_nest_protect_battery_health
                 name: Nest Boven
-              - entity: sensor.aarlo_battery_level_arlo_elmo
-                name: Arlo
-                state_filter:
-                  - operator: "<"
-                    value: 10
               - entity: binary_sensor.hue_sensor_dressing_motion
                 name: Hue Sensor Dressing Battery Low
                 state_filter:
@@ -1744,11 +1724,6 @@ views:
                 name: Nest Beneden
               - entity: sensor.upstairs_nest_protect_battery_health
                 name: Nest Boven
-              - entity: sensor.aarlo_battery_level_arlo_elmo
-                name: Arlo
-                state_filter:
-                  - operator: "<"
-                    value: 10
               - entity: binary_sensor.hue_sensor_dressing_motion
                 name: Hue Sensor Dressing Battery Low
                 state_filter:
