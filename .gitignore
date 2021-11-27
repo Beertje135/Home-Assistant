@@ -34,6 +34,7 @@ entity_log.txt
 *.pickle
 *.xml
 *.log
+*.log.1
 *.mp3
 *.html
 

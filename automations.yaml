@@ -658,27 +658,12 @@
   - service: script.turn_on
     entity_id: script.radio_livingroom_volume
   mode: single
-- id: battery_smappee_001
-  alias: Batterij - Smappee - Bijna Leeg
-  trigger:
-  - below: 20
-    entity_id: sensor.smappee_ons_huisje_water_sensor_battery
-    platform: numeric_state
-  - below: 10
-    entity_id: sensor.smappee_ons_huisje_water_sensor_battery
-    platform: numeric_state
-  - below: 5
-    entity_id: sensor.smappee_ons_huisje_water_sensor_battery
-    platform: numeric_state
-  action:
-  - entity_id: script.notify_battery
-    service: script.turn_on
-  mode: single
 - id: doorbell_front_001
   alias: Deurbel - Voordeur - Als Deurbel Gaat
   trigger:
-    platform: mqtt
-    topic: doorbellsensorfront/status
+    platform: state
+    to: 'on'
+    entity_id: binary_sensor.doorbellfront
   action:
   - service: script.turn_on
     entity_id: script.notify_deurbel
@@ -704,6 +689,55 @@
       sequence:
       - service: script.turn_on
         entity_id: script.remote_harmony_hub_lg_tv_pause
+    - conditions:
+      - condition: state
+        entity_id: media_player.apple_tv_keuken
+        state: playing
+      sequence:
+      - service: media_player.media_pause
+        entity_id: media_player.apple_tv_keuken
+    default:
+    - service: script.turn_on
+      entity_id: script.empty
+  - delay: 00:00:15
+- id: doorbell_back_001
+  alias: Deurbel - Achterdeur - Als Deurbel Gaat
+  trigger:
+    platform: state
+    to: 'on'
+    entity_id: binary_sensor.doorbellback
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_deurbel_back
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: remote.harmony_hub
+        state: Apple tv
+      sequence:
+      - service: script.turn_on
+        entity_id: script.remote_harmony_hub_apple_tv_pause
+    - conditions:
+      - condition: state
+        entity_id: remote.harmony_hub
+        state: TV Decoder
+      sequence:
+      - service: script.turn_on
+        entity_id: script.remote_harmony_hub_belgacom_dvr_pause
+    - conditions:
+      - condition: state
+        entity_id: remote.harmony_hub
+        state: WebOS
+      sequence:
+      - service: script.turn_on
+        entity_id: script.remote_harmony_hub_lg_tv_pause
+    - conditions:
+      - condition: state
+        entity_id: media_player.apple_tv_keuken
+        state: playing
+      sequence:
+      - service: media_player.media_pause
+        entity_id: media_player.apple_tv_keuken
     default:
     - service: script.turn_on
       entity_id: script.empty
@@ -1634,26 +1668,26 @@
         {% elif trigger.from_state.entity_id == 'person.bert' %}\n  script.notify_tracker_bert_zones\n\
         {% endif %}\n"
 - id: home_owner_006
-  alias: Bewoner - Aan Ziekenhuis
+  alias: Bewoner - Aan Hospital
   trigger:
   - platform: template
-    value_template: '{{ states(''person.caroline'') in [''Ziekenhuis St-Augustinus'',
-      ''Ziekenhuis Willebroek'', ''Ziekenhuis Edegem'', ''Ziekenhuis Reet'', ''Ziekenhuis
+    value_template: '{{ states(''person.caroline'') in [''Hospital St-Augustinus'',
+      ''Hospital Willebroek'', ''Hospital Edegem'', ''Hospital Reet'', ''Hospital
       Middelheim''] }}'
   - platform: template
-    value_template: '{{ states(''person.bert'') in [''Ziekenhuis St-Augustinus'',
-      ''Ziekenhuis Willebroek'', ''Ziekenhuis Edegem'', ''Ziekenhuis Reet'', ''Ziekenhuis
+    value_template: '{{ states(''person.bert'') in [''Hospital St-Augustinus'',
+      ''Hospital Willebroek'', ''Hospital Edegem'', ''Hospital Reet'', ''Hospital
       Middelheim''] }}'
   action:
   - delay: 00:02:00
   - service: script.turn_on
     data_template:
       entity_id: "{% if trigger.from_state.entity_id == 'person.caroline' and states('person.bert')\
-        \ not in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis\
-        \ Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}\n  script.notify_tracker_caro_zones\n\
+        \ not in ['Hospital St-Augustinus', 'Hospital Willebroek', 'Hospital\
+        \ Edegem', 'Hospital Reet', 'Hospital Middelheim'] %}\n  script.notify_tracker_caro_zones\n\
         {% elif trigger.from_state.entity_id == 'person.bert' and states('person.caroline')\
-        \ not in ['Ziekenhuis St-Augustinus', 'Ziekenhuis Willebroek', 'Ziekenhuis\
-        \ Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim'] %}\n  script.notify_tracker_bert_zones\n\
+        \ not in ['Hospital St-Augustinus', 'Hospital Willebroek', 'Hospital\
+        \ Edegem', 'Hospital Reet', 'Hospital Middelheim'] %}\n  script.notify_tracker_bert_zones\n\
         {% endif %}\n"
 - id: home_owner_bert_001
   alias: Bewoner - Bert - Aan Willebroek Station
@@ -1993,125 +2027,20 @@
       entity_id: climate.ons_huisje
       attribute: preset_mode
       state: eco
-  - condition: or
-    conditions:
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: binary_sensor.workday_sensor
-        state: 'off'
-      - condition: time
-        after: input_datetime.awake_weekend_heating
-        before: input_datetime.sleep_weekend
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: binary_sensor.workday_sensor
-        state: 'on'
-      - condition: time
-        after: input_datetime.awake_week_heating
-        before: input_datetime.work_start
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: binary_sensor.workday_sensor
-        state: 'on'
-      - condition: time
-        after: input_datetime.work_end_heating
-        before: input_datetime.sleep_week
   action:
   - service: script.turn_on
     entity_id: script.evo_status_economy
 - id: heating_state_house_002
-  alias: Verwarming - Woning Status - Weg dus Auto Mode
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: Weg
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: not
-    conditions:
-    - condition: state
-      entity_id: climate.ons_huisje
-      attribute: preset_mode
-      state: none
-    - condition: state
-      entity_id: climate.ons_huisje
-      attribute: preset_mode
-      state: Reset
-  - condition: or
-    conditions:
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: binary_sensor.workday_sensor
-        state: 'off'
-      - condition: time
-        after: input_datetime.sleep_weekend
-        before: input_datetime.awake_weekend_heating
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: binary_sensor.workday_sensor
-        state: 'on'
-      - condition: time
-        after: input_datetime.work_start
-        before: input_datetime.work_end_heating
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: binary_sensor.workday_sensor
-        state: 'on'
-      - condition: time
-        after: input_datetime.sleep_week
-        before: input_datetime.awake_week_heating
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_status_normal
-- id: heating_state_house_003
-  alias: Verwarming - Woning Status - Thuis dus Auto Mode
+  alias: Verwarming - Woning Status - Thuis of Juist Wakker dus Auto Mode
   trigger:
   - entity_id: input_select.woning_status
     platform: state
     to: Thuis
     for:
       minutes: 1
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: or
-    conditions:
-    - condition: template
-      value_template: '{{ (state_attr(''climate.keuken'', ''preset_mode'') != ''none''
-        ) }}'
-    - condition: template
-      value_template: '{{ (state_attr(''climate.woonkamer'', ''preset_mode'') != ''none''
-        ) }}'
-    - condition: template
-      value_template: '{{ (state_attr(''climate.badkamer'', ''preset_mode'') != ''none''
-        ) }}'
-    - condition: template
-      value_template: '{{ (state_attr(''climate.slp_kamer'', ''preset_mode'') != ''none''
-        ) }}'
-    - condition: template
-      value_template: '{{ (state_attr(''climate.kamer_elmo'', ''preset_mode'') !=
-        ''none'' ) }}'
-    - condition: template
-      value_template: '{{ (state_attr(''climate.dressing'', ''preset_mode'') != ''none''
-        ) }}'
-    - condition: template
-      value_template: '{{ (state_attr(''climate.ons_huisje'', ''preset_mode'') !=
-        none ) }}'
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_status_normal
-- id: heating_week_shedule_001
-  alias: Verwarming - Week Schema - Juist Wakker dus Omhoog in Keuken
-  trigger:
+  - entity_id: input_select.woning_status
+    platform: state
+    to: Juist Thuis
   - entity_id: input_select.woning_status
     platform: state
     to: Juist Wakker
@@ -2119,468 +2048,35 @@
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'off'
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
-  - condition: time
-    before: input_datetime.awake_week_heating
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_zone_kitchen_rise
-- id: heating_week_shedule_002
-  alias: Verwarming - Week Schema - Start Werken dus Auto Mode
-  trigger:
-  - platform: time
-    at: input_datetime.work_start
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: state
-    entity_id: input_select.woning_status
-    state: Weg
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
   - condition: or
     conditions:
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.keuken
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.woonkamer
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.ons_huisje
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.ons_huisje
-        attribute: preset_mode
-        state: Reset
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Juist Thuis
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Juist Wakker
   action:
   - service: script.turn_on
-    entity_id: script.evo_zone_livingroom_reset, script.evo_zone_kitchen_reset
-  - delay: 00:02:00
-  - service: script.turn_on
-    entity_id: script.evo_status_normal
-  mode: single
-- id: heating_week_shedule_003
-  alias: Verwarming - Week Schema - Thuis (Werk) dus Custom Mode
+    entity_id: script.evo_status_auto
+- id: heating_state_house_003
+  alias: Verwarming - Woning Status - Slaper dus Lager Beneden
   trigger:
   - entity_id: input_select.woning_status
     platform: state
-    to: Thuis (Werk)
-    for: 0:01:00
+    to: Slapen
   condition:
   - condition: state
     entity_id: input_boolean.heating
     state: 'on'
-  - condition: not
-    conditions:
-    - condition: state
-      entity_id: climate.ons_huisje
-      attribute: preset_mode
-      state: Custom
   action:
   - service: script.turn_on
     entity_id: script.evo_status_custom
-  mode: single
-- id: heating_week_shedule_004
-  alias: Verwarming - Week Schema - Werken gedaan dus Eco Mode
-  trigger:
-  - platform: time
-    at: input_datetime.work_end
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: state
-    entity_id: input_select.woning_status
-    state: Weg
-  - condition: not
-    conditions:
-    - condition: state
-      entity_id: climate.ons_huisje
-      attribute: preset_mode
-      state: eco
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_status_economy
-- id: heating_week_shedule_005
-  alias: Verwarming - Week Schema - Laat Wakker dus Omhoog in Woonkamer
-  trigger:
-  - platform: time
-    at: input_datetime.sleep_week
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
-  - condition: state
-    entity_id: input_select.woning_status
-    state:
-    - Thuis
-    - Thuis (Verlof)
-    - Thuis (Werk)
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_zone_livingroom_rise
-- id: heating_week_shedule_006
-  alias: Verwarming - Week Schema - Vroeger slaper dus Lager Beneden
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: Slapen
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
-  - condition: time
-    after: input_datetime.awake_week_heating
-    before: input_datetime.sleep_week
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'off'
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_zone_kitchen_lower,script.evo_zone_livingroom_lower
-- id: heating_week_shedule_007
-  alias: Verwarming - Week Schema - Gaan Slapen dus Auto Mode
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: Slapen
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: or
-    conditions:
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.keuken
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.woonkamer
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.ons_huisje
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.ons_huisje
-        attribute: preset_mode
-        state: Reset
-  - condition: time
-    before: input_datetime.awake_week_heating
-    after: input_datetime.sleep_week
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'off'
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_zone_livingroom_reset,script.evo_zone_kitchen_reset
-  - delay: 00:02:00
-  - service: script.turn_on
-    entity_id: script.evo_status_normal
-- id: heating_week_shedule_008
-  alias: Verwarming - Week Schema - Tijd om te gaan slapen dus Auto Mode
-  trigger:
-  - platform: time
-    at: input_datetime.sleep_week
-  condition:
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'off'
-  - condition: state
-    entity_id: input_select.woning_status
-    state: Slapen
-  - condition: or
-    conditions:
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.keuken
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.woonkamer
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.ons_huisje
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.ons_huisje
-        attribute: preset_mode
-        state: Reset
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_zone_livingroom_reset, script.evo_zone_kitchen_reset
-  - delay: 00:02:00
-  - service: script.turn_on
-    entity_id: script.evo_status_normal
-- id: heating_weekend_shedule_001
-  alias: Verwarming - Weekend Schema - Juist Wakker dus Omhoog Beneden
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: Juist Wakker
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'off'
-  - condition: time
-    before: input_datetime.awake_weekend_heating
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'off'
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_zone_livingroom_rise,script.evo_zone_kitchen_rise
-- id: heating_weekend_shedule_002
-  alias: Verwarming - Weekend Schema - Ochtend dus Auto Mode
-  trigger:
-  - platform: time
-    at: input_datetime.awake_weekend
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'off'
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'off'
-  - condition: or
-    conditions:
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.keuken
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.woonkamer
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.ons_huisje
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.ons_huisje
-        attribute: preset_mode
-        state: Reset
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_zone_livingroom_reset,script.evo_zone_kitchen_reset
-  - delay: 00:02:00
-  - service: script.turn_on
-    entity_id: script.evo_status_normal
-- id: heating_weekend_shedule_003
-  alias: Verwarming - Weekend Schema - Vroeger Slapen dus Omlaag Beneden
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: Slapen
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: time
-    after: input_datetime.awake_weekend_heating
-    before: input_datetime.sleep_weekend
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'off'
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'off'
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_zone_kitchen_lower,script.evo_zone_livingroom_lower
-- id: heating_weekend_shedule_004
-  alias: Verwarming - Weekend Schema - Slapen dus Auto Mode
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: Slapen
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: time
-    before: input_datetime.awake_weekend_heating
-    after: input_datetime.sleep_weekend
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'off'
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'off'
-  - condition: or
-    conditions:
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.keuken
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.woonkamer
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.ons_huisje
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.ons_huisje
-        attribute: preset_mode
-        state: Reset
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_zone_livingroom_reset,script.evo_zone_kitchen_reset
-  - delay: 00:02:00
-  - service: script.turn_on
-    entity_id: script.evo_status_normal
-- id: heating_weekend_shedule_005
-  alias: Verwarming - Weekend Schema - Tijd om te gaan Slapen dus Auto Mode
-  trigger:
-  - platform: time
-    at: input_datetime.sleep_weekend
-  condition:
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'off'
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'off'
-  - condition: state
-    entity_id: input_select.woning_status
-    state: Slapen
-  - condition: or
-    conditions:
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.keuken
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.woonkamer
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.ons_huisje
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.ons_huisje
-        attribute: preset_mode
-        state: Reset
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_zone_livingroom_reset,script.evo_zone_kitchen_reset
-  - delay: 00:02:00
-  - service: script.turn_on
-    entity_id: script.evo_status_normal
-- id: heating_weekend_shedule_006
-  alias: Verwarming - Weekend Schema - Later wakker dus Omhoog Woonkamer
-  trigger:
-  - platform: time
-    at: input_datetime.sleep_weekend
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'off'
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'off'
-  - condition: state
-    entity_id: input_select.woning_status
-    state: Thuis
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_zone_livingroom_rise
-- id: heating_vacation_001
-  alias: Verwarming - Vakantie - Dus alles Uit
+- id: heating_state_house_004
+  alias: Verwarming - Woning Status - Vakantie dus alles Uit
   trigger:
   - entity_id: input_select.woning_status
     platform: state
@@ -2598,195 +2094,6 @@
   action:
   - service: script.turn_on
     entity_id: script.evo_status_heating_off
-- id: heating_staycation_001
-  alias: Verwarming - Staycation - Juist Wakker dus Omhoog Beneden
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: Juist Wakker
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'on'
-  - condition: time
-    before: input_datetime.awake_weekend_heating
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_zone_livingroom_rise, script.evo_zone_kitchen_rise
-- id: heating_staycation_002
-  alias: Verwarming - Staycation - Ochtend dus Home Mode
-  trigger:
-  - platform: time
-    at: input_datetime.awake_weekend
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'on'
-  - condition: or
-    conditions:
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.ons_huisje
-        attribute: preset_mode
-        state: home
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.keuken
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.woonkamer
-        attribute: preset_mode
-        state: none
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_zone_livingroom_reset, script.evo_zone_kitchen_reset, script.evo_status_home
-  mode: single
-- id: heating_staycation_003
-  alias: Verwarming - Staycation - Thuis (Verlof) dus Home Mode
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: Thuis (Verlof)
-    for: 0:01:00
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: not
-    conditions:
-    - condition: state
-      entity_id: climate.ons_huisje
-      attribute: preset_mode
-      state: home
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_status_home
-  mode: single
-- id: heating_staycation_004
-  alias: Verwarming - Staycation - Later wakker dus Omhoog Woonkamer
-  trigger:
-  - platform: time
-    at: input_datetime.sleep_weekend
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'on'
-  - condition: state
-    entity_id: input_select.woning_status
-    state: Thuis (Verlof)
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_zone_livingroom_rise
-- id: heating_staycation_005
-  alias: Verwarming - Staycation - Vroeger Slapen dus Omlaag Beneden
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: Slapen
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: time
-    after: input_datetime.awake_weekend_heating
-    before: input_datetime.sleep_weekend
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'on'
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_zone_kitchen_lower, script.evo_zone_livingroom_lower
-- id: heating_staycation_006
-  alias: Verwarming - Staycation - Slapen dus Home Mode
-  trigger:
-  - entity_id: input_select.woning_status
-    platform: state
-    to: Slapen
-  condition:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: time
-    before: input_datetime.awake_weekend_heating
-    after: input_datetime.sleep_weekend
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'on'
-  - condition: or
-    conditions:
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.keuken
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.woonkamer
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.ons_huisje
-        attribute: preset_mode
-        state: home
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_zone_livingroom_reset, script.evo_zone_kitchen_reset, script.evo_status_home
-- id: heating_staycation_007
-  alias: Verwarming - Staycation - Tijd om te gaan Slapen dus Home Mode
-  trigger:
-  - platform: time
-    at: input_datetime.sleep_weekend
-  condition:
-  - condition: state
-    entity_id: calendar.verlof_agenda
-    state: 'on'
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: state
-    entity_id: input_select.woning_status
-    state: Slapen
-  - condition: or
-    conditions:
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.keuken
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.woonkamer
-        attribute: preset_mode
-        state: none
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.ons_huisje
-        attribute: preset_mode
-        state: home
-  action:
-  - service: script.turn_on
-    entity_id: script.evo_zone_livingroom_reset, script.evo_zone_kitchen_reset, script.evo_status_home
 - id: heating_timer_001
   alias: Verwarming - Timer Overwrite - Badkamer - Auto Mode
   trigger:
@@ -2848,7 +2155,7 @@
     state: 'on'
   action:
   - service: script.turn_on
-    entity_id: script.evo_status_custom
+    entity_id: script.evo_status_auto
 - id: heating_window_open_001
   alias: Verwarming - Window Open - Kamer Elmo Koud
   trigger:
@@ -2951,7 +2258,7 @@
         state: 'on'
       sequence:
       - service: script.turn_on
-        entity_id: script.evo_status_normal_reset, script.notify_heating_hot_cold_outside
+        entity_id: script.evo_status_auto, script.notify_heating_hot_cold_outside
     default:
     - service: script.turn_on
       entity_id: script.evo_status_heating_off, script.notify_heating_hot_cold_outside
@@ -3531,7 +2838,17 @@
     platform: state
     to: 'on'
     for:
-      seconds: 20
+      seconds: 15
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+    to: 'on'
+    for:
+      seconds: 30
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+    to: 'off'
+    for:
+      minutes: 1
   - entity_id: binary_sensor.hue_sensor_dressing_motion
     platform: state
     to: 'off'
@@ -3960,4 +3277,6 @@
   action:
   - service: scene.turn_on
     entity_id: scene.tuin1_uit
+  - service: scene.turn_on
+    entity_id: scene.tuin2_uit
   mode: single

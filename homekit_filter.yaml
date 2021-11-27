@@ -1,7 +1,5 @@
 include_domains:
   - climate
-  - input_boolean
-  - input_select
   - light
   - vacuum
 exclude_domains:
@@ -12,6 +10,8 @@ exclude_domains:
   - device_tracker
   - fan
   - group
+  - input_boolean
+  - input_select
   - lock
   - media_player
   - remote
@@ -23,12 +23,17 @@ include_entities:
   - binary_sensor.hue_sensor_keuken_motion
   - binary_sensor.hue_sensor_dressing_motion
   - binary_sensor.hue_sensor_woonkamer_motion
+  - binary_sensor.hue_sensor_tuin_motion
+  - binary_sensor.hue_sensor_tuinhuis_motion
   - sensor.hue_sensor_keuken_light_level
   - sensor.hue_sensor_dressing_light_level
   - sensor.hue_sensor_woonkamer_light_level
+  - sensor.hue_sensor_tuin_light_level
+  - sensor.hue_sensor_tuinhuis_light_level
+  - sensor.hue_sensor_tuin_temperature
+  - sensor.hue_sensor_tuinhuis_temperature
   - sensor.ons_huisje_sensor_water
   - sensor.ons_huisje_sensor_gas
-  - input_select.harmony_hub
   - group.bezoekers
   - device_tracker.router_iphone_bert
   - device_tracker.router_iphone_caro
@@ -39,16 +44,15 @@ include_entities:
   - media_player.alexa_kitchen_amp
   - media_player.alexa_bathroom
   - media_player.alexa_livingroom_1
+  - input_boolean.vacuum_clean_today
+  - input_boolean.visitor
+  - input_boolean.music_follow
+  - input_boolean.light_garden_stay_on
+  - input_boolean.light_dressing_stay_on
+  - input_boolean.light_downstairs
+  - input_boolean.keep_computer_on
+  - input_boolean.keep_christmas_on
+  - input_select.woning_status
+  - input_select.harmony_hub
 exclude_entities:
-  - input_boolean.notify_bert
-  - input_boolean.notify_caro
-  - input_boolean.media_kitchen
-  - input_boolean.media_livingroom
-  - input_boolean.light_livingroom
-  - input_boolean.trigger_just_home_kitchen
-  - input_boolean.trigger_just_awake_kitchen
-  - input_boolean.trigger_just_sleep_kitchen
-  - input_boolean.trigger_just_away_kitchen
-  - input_boolean.trigger_just_awake_dressing
-  - input_boolean.trigger_just_sleep_dressing
   - climate.ons_huisje

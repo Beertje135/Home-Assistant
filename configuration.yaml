@@ -124,7 +124,6 @@ spotify:
 # Enables Homekit
 homekit:
   name: Ons Huisje
-  auto_start: False
   filter: !include homekit_filter.yaml
   entity_config: !include homekit_entity_config.yaml
 
@@ -249,6 +248,7 @@ recorder:
       - sensor.hue_sensor_woonkamer_light_level
       - sensor.hue_sensor_woonkamer_temperature
       - sensor.memory_use_percent
+      - sensor.meter_gas_monthly_peak
       - sensor.ons_huisje_always_on_active_power
       - sensor.ons_huisje_always_on_today
       - sensor.ons_huisje_eta
@@ -258,6 +258,7 @@ recorder:
       - sensor.ons_huisje_total_consumption_current_hour
       - sensor.ons_huisje_total_consumption_last_5_minutes
       - sensor.ons_huisje_total_consumption_today
+      - sensor.ons_huisje_total_consumption_today_cost
       - sensor.processor_use
       - sensor.solaredge_batteries
       - sensor.solaredge_consumption_power
@@ -375,9 +376,9 @@ nest:
   client_id: !secret client_id_nest
   client_secret: !secret client_secret_nest
 
-solaredge:
-  api_key: !secret api_key_solar_edge
-  site_id: !secret client_id_solar_edge
+#solaredge:
+#  api_key: !secret api_key_solar_edge
+#  site_id: !secret client_id_solar_edge
 
 smappee:
   client_id: !secret client_id_smappee

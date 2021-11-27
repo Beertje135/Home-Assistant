@@ -364,7 +364,7 @@ light_bathroom_on:
         {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time')\
         \ <= '05:00' or states('sensor.time') >= '23:30') %}\n  scene.badkamer_nacht\n\
         {% elif states('input_select.woning_status') in ['Juist Wakker'] %}\n  scene.badkamer_gedimmed\n\
-        {% elif (states('sensor.time') <= '06:00' or states('sensor.time') >= '22:45')\
+        {% elif (states('sensor.time') <= '06:00' or states('sensor.time') >= '21:40')\
         \ %}\n  scene.badkamer_gedimmed\n{% else %}\n  scene.badkamer_normaal\n{%\
         \ endif %}\n"
   mode: single
@@ -378,7 +378,7 @@ light_dressing_on:
         {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time')\
         \ >= '23:01' or states('sensor.time') <= '05:00') %}\n  scene.dressing_nacht\n\
         {% elif states('input_select.woning_status') in ['Juist Wakker'] %}\n  scene.dressing_gedimmed\n\
-        {% elif states('sensor.time') >= '22:00' or states('sensor.time') <= '06:45'\
+        {% elif states('sensor.time') >= '21:40' or states('sensor.time') <= '06:45'\
         \ %}\n  scene.dressing_gedimmed\n{% else %}\n  scene.dressing_normaal\n{%\
         \ endif %}\n"
 light_kitchen_on:
@@ -393,7 +393,7 @@ light_kitchen_on:
         {% elif states('sensor.time') >= states('input_datetime.sleep_elmo') and states('input_boolean.media_livingroom')\
         \ in ['on'] %}\n  scene.keuken_film\n{% elif states('input_boolean.media_kitchen')\
         \ in ['on'] %}\n  scene.keuken_televisie\n{% elif states('sensor.time') >=\
-        \ '22:00' %}\n  scene.keuken_gedimmed\n{% elif states('sensor.hue_sensor_keuken_light_level')\
+        \ '21:40' %}\n  scene.keuken_gedimmed\n{% elif states('sensor.hue_sensor_keuken_light_level')\
         \ < '100' and states('binary_sensor.hue_sensor_keuken_motion') in ['off']\
         \ and states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis\
         \ (Werk)', 'Thuis (Verlof)'] %}\n  scene.keuken_gedimmed\n{% else %}\n  scene.keuken_normaal\n\
@@ -446,7 +446,7 @@ light_porch_on:
         \ and state_attr('remote.harmony_hub', 'current_activity') in ['TV Decoder','WebOS','Apple\
         \ tv'] %}\n  scene.veranda_televisie\n{% elif states('input_boolean.media_kitchen')\
         \ in ['on'] %}\n  scene.veranda_gedimmed\n{% elif states('sensor.time') >=\
-        \ '22:00' %}\n  scene.veranda_gedimmed\n{% elif states('sensor.time') < '07:15'\
+        \ '21:40' %}\n  scene.veranda_gedimmed\n{% elif states('sensor.time') < '07:15'\
         \ %}\n  scene.veranda_gedimmed\n{% else %}\n  scene.veranda_normaal\n{% endif\
         \ %}\n"
   mode: single
@@ -462,7 +462,7 @@ light_livingroom_on:
         {% elif states('sensor.time') >= states('input_datetime.sleep_elmo') and states('input_boolean.media_livingroom')\
         \ in ['on'] %}\n  scene.woonkamer_film\n{% elif state_attr('remote.harmony_hub',\
         \ 'current_activity') in ['TV Decoder','WebOS','Apple tv'] %}\n  scene.woonkamer_televisie\n\
-        {% elif states('sensor.time') >= '22:00' %}\n  scene.woonkamer_gedimmed\n\
+        {% elif states('sensor.time') >= '21:40' %}\n  scene.woonkamer_gedimmed\n\
         {% elif (states('sensor.hue_sensor_woonkamer_light_level') | float) > 26 %}\n\
         \  scene.woonkamer_gedimmed\n{% else %}\n  scene.woonkamer_normaal\n{% endif\
         \ %}\n"
@@ -517,116 +517,42 @@ input_trigger_sleep:
 evo_status_away:
   alias: Evohome - Status - Away
   sequence:
-  - condition: template
-    value_template: '{{ (state_attr(''climate.ons_huisje'', ''preset_mode'') != ''away''
-      ) }}'
-  - service: climate.set_preset_mode
+  - service: evohome.set_system_mode
     data:
-      entity_id: climate.ons_huisje
-      preset_mode: away
+      mode: Away
 evo_status_custom:
   alias: Evohome - Status - Custom
   sequence:
-  - condition: not
-    conditions:
-    - condition: state
-      entity_id: climate.ons_huisje
-      attribute: preset_mode
-      state: Custom
-  - service: climate.set_preset_mode
+  - service: evohome.set_system_mode
     data:
-      preset_mode: Custom
-    entity_id: climate.ons_huisje
+      mode: Custom
   mode: single
 evo_status_economy:
   alias: Evohome - Status - Economy
   sequence:
-  - condition: template
-    value_template: '{{ (state_attr(''climate.ons_huisje'', ''preset_mode'') != ''eco''
-      ) }}'
-  - service: climate.set_preset_mode
+  - service: evohome.set_system_mode
     data:
-      entity_id: climate.ons_huisje
-      preset_mode: eco
+      mode: AutoWithEco
 evo_status_heating_off:
   alias: Evohome - Status - Heating Off
   sequence:
-  - condition: template
-    value_template: '{{ (state_attr(''climate.ons_huisje'', ''hvac_mode'') != ''off''
-      ) }}'
-  - service: climate.set_hvac_mode
+  - service: evohome.set_system_mode
     data:
-      entity_id: climate.ons_huisje
-      hvac_mode: 'off'
-evo_status_home:
-  alias: Evohome - Status - Home
+      mode: HeatingOff
+evo_status_day_off:
+  alias: Evohome - Status - Day Off
   sequence:
-  - condition: not
-    conditions:
-    - condition: state
-      entity_id: climate.ons_huisje
-      attribute: preset_mode
-      state: home
-  - service: climate.set_preset_mode
+  - service: evohome.set_system_mode
     data:
-      preset_mode: home
-    entity_id: climate.ons_huisje
+      mode: DayOff
   mode: single
-evo_status_normal_auto:
-  alias: Evohome - Status - Normal Auto
+evo_status_auto:
+  alias: Evohome - Status - Auto
   sequence:
-  - condition: template
-    value_template: '{{ (state_attr(''climate.ons_huisje'', ''preset_mode'') != none
-      ) }}'
-  - service: climate.set_preset_mode
-    entity_id: climate.ons_huisje
+  - service: evohome.set_system_mode
     data:
-      preset_mode: Auto
+      mode: Auto
   mode: single
-evo_status_normal_reset:
-  alias: Evohome - Status - Normal Reset
-  sequence:
-  - condition: template
-    value_template: '{{ (state_attr(''climate.ons_huisje'', ''preset_mode'') != ''Reset''
-      ) }}'
-  - service: climate.set_preset_mode
-    entity_id: climate.ons_huisje
-    data:
-      preset_mode: Reset
-evo_status_normal:
-  alias: Evohome - Status - Normal
-  sequence:
-  - condition: or
-    conditions:
-    - condition: template
-      value_template: '{{ (state_attr(''climate.keuken'', ''preset_mode'') != ''none''
-        ) }}'
-    - condition: template
-      value_template: '{{ (state_attr(''climate.woonkamer'', ''preset_mode'') != ''none''
-        ) }}'
-    - condition: template
-      value_template: '{{ (state_attr(''climate.badkamer'', ''preset_mode'') != ''none''
-        ) }}'
-    - condition: template
-      value_template: '{{ (state_attr(''climate.slp_kamer'', ''preset_mode'') != ''none''
-        ) }}'
-    - condition: template
-      value_template: '{{ (state_attr(''climate.kamer_elmo'', ''preset_mode'') !=
-        ''none'' ) }}'
-    - condition: template
-      value_template: '{{ (state_attr(''climate.dressing'', ''preset_mode'') != ''none''
-        ) }}'
-    - condition: template
-      value_template: '{{ (state_attr(''climate.ons_huisje'', ''preset_mode'') !=
-        none ) }}'
-  - service: script.turn_on
-    data_template:
-      entity_id: "{%- if (state_attr('climate.keuken', 'preset_mode') != 'none' )\
-        \ or (state_attr('climate.woonkamer', 'preset_mode') != 'none' ) or (state_attr('climate.badkamer',\
-        \ 'preset_mode') != 'none' ) or (state_attr('climate.slp_kamer', 'preset_mode')\
-        \ != 'none' ) or (state_attr('climate.kamer_elmo', 'preset_mode') != 'none'\
-        \ ) or (state_attr('climate.dressing', 'preset_mode') != 'none' ) -%}\n  script.evo_status_normal_reset\n\
-        {%- else -%}\n  script.evo_status_normal_auto\n{%- endif %}\n"
 evo_zone_bathroom_reset:
   alias: Evohome - Badkamer - Reset
   sequence:
@@ -1869,8 +1795,8 @@ notify_tracker_bert_zones_alexa:
       - media_player.alexa_livingroom_2
       message: "{% if states('person.bert') in ['School De Wingerd', 'Nona & Pepe',\
         \ 'Mimi & Fleri'] %}\n  'Bert just arrived at {{ states('person.caroline')\
-        \ }}.'\n{% elif states('person.bert') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis\
-        \ Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim']\
+        \ }}.'\n{% elif states('person.bert') in ['Hospital St-Augustinus', 'Hospital\
+        \ Willebroek', 'Hospital Edegem', 'Hospital Reet', 'Hospital Middelheim']\
         \ %}\n  'No panic but Bert is near {{ states('person.caroline') }}.'\n{% elif\
         \ states('person.bert') in ['Mechelen Station'] %}\n  'Bert is on his way\
         \ home from work.'\n{% elif states('person.bert') in ['Checkpoint 3', 'Willebroek\
@@ -1887,8 +1813,8 @@ notify_tracker_bert_zones_ios_caro:
       title: BERT STATUS
       message: "{% if states('person.bert') in ['School De Wingerd', 'Nona & Pepe',\
         \ 'Mimi & Fleri'] %}\n  Bert is aangekomen bij {{ states('person.bert') }}.\n\
-        {% elif states('person.bert') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis\
-        \ Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim']\
+        {% elif states('person.bert') in ['Hospital St-Augustinus', 'Hospital\
+        \ Willebroek', 'Hospital Edegem', 'Hospital Reet', 'Hospital Middelheim']\
         \ %}\n  Geen paniek maar Bert is nabij het {{ states('person.bert') }}.\n\
         {% elif states('person.bert') in ['Willebroek Station', 'Mechelen Station']\
         \ %}\n  Bert is aangekomen in {{ states('person.bert') }}.\n{% elif states('person.bert')\
@@ -2021,14 +1947,14 @@ notify_tracker_caro_zones_alexa:
       - media_player.alexa_bathroom
       - media_player.alexa_livingroom_2
       message: "{% if states('person.caroline') in ['BKO Toverbos', 'School De Wingerd', 'Nona & Pepe',\
-        \ 'Mimi & Fleri'] %}\n  'Caroline just arrived at {{ states('person.caroline')\
-        \ }}.\n{% elif states('person.caroline') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis\
-        \ Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim']\
+        \ 'Mimi & Fleri'] %}\n  'Mama just arrived at {{ states('person.caroline')\
+        \ }}.\n{% elif states('person.caroline') in ['Hospital St-Augustinus', 'Hospital\
+        \ Willebroek', 'Hospital Edegem', 'Hospital Reet', 'Hospital Middelheim']\
         \ %}\n  'No panic but Caroline is near {{ states('person.caroline') }}.\n\
         {% elif states('person.caroline') in ['Checkpoint 1', 'Checkpoint 4'] %}\n\
-        \  'Caroline is on her way home from work.'\n{% elif states('person.caroline')\
-        \ in ['Checkpoint 2', 'Checkpoint 3', 'Checkpoint 5'] %}\n  'Caroline is almost\
-        \ home.'\n{% else %}\n  'Where is Caroline'\n{% endif %}\n"
+        \  'Mama is on her way home from work.'\n{% elif states('person.caroline')\
+        \ in ['Checkpoint 2', 'Checkpoint 3', 'Checkpoint 5'] %}\n  'Mama is almost\
+        \ home.'\n{% else %}\n  'Where is Mama'\n{% endif %}\n"
       data:
         type: announce
         method: speak
@@ -2041,8 +1967,8 @@ notify_tracker_caro_zones_ios_bert:
       title: CARO STATUS
       message: "{% if states('person.caroline') in ['BKO Toverbos', 'School De Wingerd', 'Nona & Pepe',\
         \ 'Mimi & Fleri'] %}\n  Caroline is aangekomen bij {{ states('person.caroline')\
-        \ }}.\n{% elif states('person.caroline') in ['Ziekenhuis St-Augustinus', 'Ziekenhuis\
-        \ Willebroek', 'Ziekenhuis Edegem', 'Ziekenhuis Reet', 'Ziekenhuis Middelheim']\
+        \ }}.\n{% elif states('person.caroline') in ['Hospital St-Augustinus', 'Hospital\
+        \ Willebroek', 'Hospital Edegem', 'Hospital Reet', 'Hospital Middelheim']\
         \ %}\n  Geen paniek maar Caroline is nabij het {{ states('person.caroline')\
         \ }}.\n{% elif states('person.caroline') in ['Checkpoint 1'] %}\n  Caroline\
         \ is onderweg naar huis. (Ikea Wilrijk)\n{% elif states('person.caroline')\
@@ -2131,3 +2057,63 @@ notify_vacuum_ios_caro:
       data:
         push:
           thread-id: huis
+notify_deurbel_back:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+    - script.notify_deurbel_back_ios_bert
+    - script.notify_deurbel_back_ios_caro
+    - script.notify_deurbel_back_alexa
+notify_deurbel_back_alexa:
+  sequence:
+  - condition: template
+    value_template: '{{ states(''group.bewoners_router'') in [''home''] or states(''group.bezoekers'')
+      in [''home'']}}'
+  - condition: template
+    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+      }}'
+  - service: notify.alexa_media
+    data:
+      target:
+      - media_player.alexa_kitchen_2
+      - media_player.alexa_livingroom_2
+      message: There is someone at the back door
+      data:
+        type: announce
+        method: speak
+  - condition: time
+    after: input_datetime.awake_week
+    before: input_datetime.radio_off
+  - service: notify.alexa_media
+    data:
+      target:
+      - media_player.alexa_bathroom
+      message: There is someone at the back door
+      data:
+        type: announce
+        method: speak
+notify_deurbel_back_ios_bert:
+  sequence:
+  - condition: template
+    value_template: '{{ (states(''input_boolean.notify_bert'') in [''on'']) }}'
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: ACHTERDEUR
+      message: Ding Dong! Er staat iemand aan de ACHTERdeur.
+      data:
+        push:
+          thread-id: bezoek
+notify_deurbel_back_ios_caro:
+  sequence:
+  - condition: template
+    value_template: '{{ (states(''input_boolean.notify_caro'') in [''on''] and states(''device_tracker.router_iphone_caro'')
+      in [''home'']) or (states(''input_boolean.notify_caro'') in [''on''] and states(''device_tracker.router_iphone_caro'')
+      in [''not_home''] and states(''device_tracker.router_iphone_bert'') in [''not_home''])
+      }}'
+  - service: notify.mobile_app_iphone_van_caro
+    data_template:
+      title: ACHTERDEUR
+      message: Ding Dong! Er staat iemand aan de ACHTERdeur.
+      data:
+        push:
+          thread-id: bezoek

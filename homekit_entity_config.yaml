@@ -25,6 +25,21 @@ light.hue_light_dressing_two:
 light.hue_light_dressing_three:
   name: Dressing Lamp 3
 
+light.hue_light_tuin_one:
+  name: Tuin Lamp 1
+light.hue_light_tuin_two:
+  name: Tuin Lamp 2
+light.hue_light_tuin_three:
+  name: Tuin Lamp 3
+light.hue_light_tuin_four:
+  name: Tuin Lamp 4
+light.hue_light_tuin_five:
+  name: Tuin Lamp 5
+light.hue_light_tuin_six:
+  name: Tuin Lamp 6
+light.hue_light_tuinhuis:
+  name: Tuinhuis LED Strip
+
 light.hue_smart_plug_veranda:
   name: Veranda LED Lichtjes
 light.hue_smart_plug_woonkamer_two:
@@ -37,7 +52,9 @@ light.hue_smart_plug_extra:
 # INPUT SELECT
 
 input_select.harmony_hub:
-  name: TV
+  name: Woonkamer TV Harmony
+input_select.woning_status:
+  name: Ons Huisje Status
 
 # SWITCHES
 
@@ -48,7 +65,7 @@ switch.wake_on_lan:
 # INPUT BOOLEANS
 
 input_boolean.light_downstairs:
-  name: Ons Huisje Licht Beneden
+  name: Ons Huisje Beweging Licht Beneden
 input_boolean.visitor:
   name: Ons Huisje Bezoek
 input_boolean.heating:
@@ -65,6 +82,8 @@ input_boolean.music_follow:
   name: Ons Huisje Muziek Volgen
 input_boolean.light_dressing_stay_on:
   name: Dressing Licht Aanhouden
+input_boolean.light_garden_stay_on:
+  name: Tuin Licht Aanhouden
 
 # SENSORS
 
@@ -80,6 +99,14 @@ binary_sensor.hue_sensor_woonkamer_motion:
   name: Woonkamer Beweging
 sensor.hue_sensor_woonkamer_light_level:
   name: Woonkamer Lichtniveau
+binary_sensor.hue_sensor_tuin_motion:
+  name: Tuin Beweging
+sensor.hue_sensor_tuin_light_level:
+  name: Tuin Lichtniveau
+binary_sensor.hue_sensor_tuinhuis_motion:
+  name: Tuinhuis Beweging
+sensor.hue_sensor_tuinhuis_light_level:
+  name: Tuinhuis Lichtniveau
 
 # CLIMATE
 
@@ -98,12 +125,8 @@ climate.ons_huisje:
 
 # VACUUM
 
-script.dusty_on:
-  name: Veranda Dusty Start
-script.dusty_off:
-  name: Veranda Dusty Stop
 input_boolean.vacuum_clean_today:
-  name: Veranda Dusty klaar
+  name: Ons Huisje Dusty Kuisen
 
 # DEVICE TRACKERS
 
@@ -111,3 +134,11 @@ device_tracker.router_iphone_bert:
   name: Bert
 device_tracker.router_iphone_caro:
   name: Caroline
+
+# MEDIA PLAYERS
+media_player.alexa_kitchen_amp:
+  name: Keuken Alexa Amp
+media_player.alexa_bathroom:
+  name: Badkamer Alexa
+media_player.alexa_livingroom_1:
+  name: Woonkamer Alexa

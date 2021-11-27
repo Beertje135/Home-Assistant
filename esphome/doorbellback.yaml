@@ -1,0 +1,105 @@
+esphome:
+  name: doorbellback
+  platform: ESP8266
+  board: d1_mini
+ 
+wifi:
+  ssid: Searching...
+  password: BeertjeWI3877078
+ 
+ 
+# Enable logging
+logger:
+ 
+# Enable Home Assistant API
+api:
+ 
+ota:
+ 
+time:
+  - platform: homeassistant
+    id: homeassistant_time
+ 
+text_sensor:
+  - platform: version
+    name: Doorbellback ESPHome Version
+  - platform: wifi_info
+    ip_address:
+      name: Doorbellback IP
+    ssid:
+      name: Doorbellback SSID
+    bssid:
+      name: Doorbellback BSSID
+ 
+sensor:
+  - platform: uptime
+    name: Doorbellback Uptime
+  - platform: wifi_signal
+    name: Doorbellback WiFi Signal
+    update_interval: 60s
+ 
+globals:
+  - id: chime
+    type: bool
+    restore_value: true
+    initial_value: 'true'
+ 
+switch:
+  - platform: gpio
+    pin:
+      number: D1
+      inverted: false
+    name: "Doorbellback Relay"
+    id: relay
+    internal: true
+    icon: mdi:alarm-bell
+  - platform: restart
+    name: "Doorbellback Restart"
+  - platform: template
+    name: Doorbellback Chime Active
+    id: chime_active
+    restore_state: false
+    turn_on_action:
+      - globals.set:
+          id: chime
+          value: 'true'
+    turn_off_action:
+      - globals.set:
+          id: chime
+          value: 'false'
+    lambda: |-
+      return id(chime);
+     
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: D5
+      mode: INPUT_PULLUP
+      inverted: true
+    name: "Doorbellback"
+    filters:
+      # Small filter, to debounce the button press.
+      - delayed_on: 50ms
+      - delayed_off: 3000ms # prevents from re-ringing within 3 seconds
+    on_press:
+      # Only turn on the chime when it is active.
+      then:
+        if:
+          condition:
+            - switch.is_on: chime_active
+          then:
+            - switch.turn_on: relay
+            - delay: 400ms
+            - switch.turn_off: relay
+            - delay: 400ms
+            - switch.turn_on: relay
+            - delay: 400ms
+            - switch.turn_off: relay
+            - delay: 400ms
+            - switch.turn_on: relay
+            - delay: 400ms
+            - switch.turn_off: relay
+            - delay: 400ms
+            
+  - platform: status
+    name: "Status Doorbellback"
