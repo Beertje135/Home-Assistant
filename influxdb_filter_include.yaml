@@ -25,8 +25,6 @@
       - sensor.babysit
       - sensor.bezoek
       - sensor.disk_use_percent_home
-      - sensor.downstairs_nest_protect_co_status
-      - sensor.downstairs_nest_protect_smoke_status
       - sensor.hue_sensor_dressing_light_level
       - sensor.hue_sensor_dressing_temperature
       - sensor.hue_sensor_keuken_light_level
@@ -57,8 +55,6 @@
       - sensor.solaredge_energy_this_year_template
       - sensor.solaredge_energy_today_template
       - sensor.solaredge_lifetime_energy_template
-      - sensor.upstairs_nest_protect_co_status
-      - sensor.upstairs_nest_protect_smoke_status
       - switch.wake_on_lan
       - sensor.meter_elektricity_monthly_peak
       - sensor.meter_elektricity_yearly_peak

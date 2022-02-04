@@ -16,7 +16,7 @@
     display_categories: SWITCH
   input_boolean.visitor:
     display_categories: SWITCH
-  light.hue_smart_plug_extra:
+  switch.hue_smart_plug_eetkamer:
     display_categories: SWITCH
   binary_sensor.trigger_template_just_away_kitchen:
     display_categories: MOTION_SENSOR

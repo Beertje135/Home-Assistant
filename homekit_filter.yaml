@@ -41,11 +41,18 @@ include_entities:
   - switch.adguard_protection
   - switch.adguard_filtering
   - switch.adguard_parental_control
+  - switch.hue_smart_plug_veranda
+  - switch.hue_smart_plug_woonkamer_two
+  - switch.hue_smart_plug_woonkamer_one
+  - switch.hue_smart_plug_eetkamer
+  - switch.hue_smart_plug_dressing
   - media_player.alexa_kitchen_amp
   - media_player.alexa_bathroom
   - media_player.alexa_livingroom_1
   - input_boolean.vacuum_clean_today
   - input_boolean.visitor
+  - input_boolean.notify_caro
+  - input_boolean.notify_bert
   - input_boolean.music_follow
   - input_boolean.light_garden_stay_on
   - input_boolean.light_dressing_stay_on

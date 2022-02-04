@@ -5,8 +5,8 @@ empty:
 all_switch_off:
   alias: All - Switch - Uit
   sequence:
-  - service: light.turn_off
-    entity_id: light.hue_smart_plug_extra
+  - service: switch.turn_off
+    entity_id: switch.hue_smart_plug_eetkamer
 all_remote_off:
   alias: All - Remote - Uit
   sequence:
@@ -37,8 +37,10 @@ all_light_off:
   sequence:
   - service: light.turn_off
     entity_id: light.hue_light_woonkamer, light.hue_light_kamer_elmo_one, light.hue_light_kamer_elmo_two,
-      light.hue_light_veranda, light.milight_keuken_bridge, light.milight_woonkamer_bridge,
-      light.hue_smart_plug_woonkamer_one, light.hue_smart_plug_veranda, light.hue_smart_plug_woonkamer_two
+      light.hue_light_veranda, light.milight_keuken_bridge, light.lightstrip_woonkamer_tv
+  - service: switch.turn_off
+    entity_id: switch.hue_smart_plug_veranda, switch.hue_smart_plug_woonkamer_one,
+      switch.hue_smart_plug_woonkamer_two
 all_all_off:
   alias: All - All - Uit
   sequence:
@@ -80,9 +82,9 @@ restart_homekit:
     wait_template: "{%- if not states('climate.ons_huisje') -%}\n  false\n{%- elif\
       \ not states('climate.keuken') -%}\n  false\n{%- elif not states('light.hue_light_kamer_elmo_one')\
       \ -%}\n  false\n{%- elif not states('light.milight_keuken_bridge') -%}\n  false\n\
-      {%- elif not states('light.milight_woonkamer_bridge') -%}\n  false\n{%- elif\
+      {%- elif not states('light.lightstrip_woonkamer_tv') -%}\n  false\n{%- elif\
       \ not states('device_tracker.router_iphone_bert') -%}\n  false\n{%- elif not\
-      \ states('sensor.ons_huisje_sensor_water') -%}\n  false\n{%- elif not states('light.hue_smart_plug_extra')\
+      \ states('sensor.ons_huisje_sensor_water') -%}\n  false\n{%- elif not states('switch.hue_smart_plug_eetkamer')\
       \ -%}\n  false\n{%- else -%}\n  true\n{%- endif %}\n"
   - delay: 00:01:00
   - service: homekit.start
@@ -97,17 +99,15 @@ restart_homekit_not:
     wait_template: "{%- if not states('climate.ons_huisje') -%}\n  true\n{%- elif\
       \ not states('climate.keuken') -%}\n  true\n{%- elif not states('light.hue_light_kamer_elmo_one')\
       \ -%}\n  true\n{%- elif not states('light.milight_keuken_bridge') -%}\n  true\n\
-      {%- elif not states('light.milight_woonkamer_bridge') -%}\n  true\n{%- elif\
-      \ not states('device_tracker.router_iphone_bert') -%}\n  true\n{%- elif not\
-      \ states('sensor.ons_huisje_sensor_water') -%}\n  true\n{%- elif not states('light.hue_smart_plug_extra')\
-      \ -%}\n  true\n{%- else -%}\n  false\n{%- endif %}\n"
+      {%- elif not states('light.lightstrip_woonkamer_tv') -%}\n  true\n{%- elif not\
+      \ states('device_tracker.router_iphone_bert') -%}\n  true\n{%- elif not states('sensor.ons_huisje_sensor_water')\
+      \ -%}\n  true\n{%- elif not states('switch.hue_smart_plug_eetkamer') -%}\n \
+      \ true\n{%- else -%}\n  false\n{%- endif %}\n"
   - service: script.turn_on
     entity_id: script.notify_homekit_not_restart
 restart_hassio:
   alias: Restart - Hassio
   sequence:
-  - service: automation.turn_on
-    entity_id: all
   - delay: 00:01:00
   - service: input_boolean.turn_off
     entity_id: input_boolean.trigger_away, input_boolean.trigger_home, input_boolean.trigger_sleep,
@@ -116,6 +116,10 @@ restart_hassio:
     entity_id: input_boolean.light_downstairs
   - service: script.turn_on
     entity_id: script.notify_hassio_restart
+  - service: automation.turn_on
+    entity_id: all
+  - service: automation.turn_on
+    entity_id: automation.stofzuiger_dusty_bericht_status_dusty_wijzigt, automation.vuilbakken_bert_thuis, automation.stofzuiger_dusty_bericht_status_woning_wijzigt, automation.printer_notify_ink_low, automation.bewoner_thuis_of_weg, automation.bewoner_thuis_of_weg_2, automation.bewoner_thuis_babysit, automation.bezoeker_thuis_of_weg, automation.homeassistant_update_available, automation.homeassistant_update_available_hacs
   mode: single
 computer_off:
   alias: Computer - Uit
@@ -156,6 +160,13 @@ harmony_hub_tv_decoder:
     entity_id: input_select.harmony_hub
     data:
       option: TV Decoder
+harmony_hub_apple_tv:
+  alias: Harmony Hub - Apple TV
+  sequence:
+  - service: input_select.select_option
+    entity_id: input_select.harmony_hub
+    data:
+      option: Apple tv
 remote_harmony_hub_apple_tv_pause:
   alias: Remote Harmony Hub - Apple TV - Pause
   sequence:
@@ -280,9 +291,7 @@ radio_everywhere_on:
     data_template:
       entity_id: media_player.alexa_kitchen_2
       media_content_id: '"{{ states(''input_text.radio_station_current'') }}" on the
-        Alexa Everywhere group
-
-        '
+        Alexa Everywhere group'
       media_content_type: TUNEIN
   - delay: 00:00:05
   - service: script.turn_on
@@ -334,16 +343,16 @@ radio_kitchen_volume:
       volume_level: "{%- if (now().weekday() in (0,1,2,3,4)) and (states('sensor.time')\
         \ <= \"06:58\") -%}\n  0.04\n{%- elif (now().weekday() in (0,1,2,3,4)) and\
         \ (states('sensor.time') >= \"06:58\") and (states('sensor.time') <= \"07:01\"\
-        ) -%}\n  0.3\n{%- elif (now().weekday() in (0,1,2,3,4)) and (states('sensor.time')\
+        ) -%}\n  0.04\n{%- elif (now().weekday() in (0,1,2,3,4)) and (states('sensor.time')\
         \ >= \"07:01\") and (states('sensor.time') <= \"07:59\") -%}\n  0.04\n{%-\
         \ elif (now().weekday() in (0,1,2,3,4)) and (states('sensor.time') >= \"07:58\"\
-        ) and (states('sensor.time') <= \"08:01\") -%}\n  0.3\n{%- elif (now().weekday()\
+        ) and (states('sensor.time') <= \"08:01\") -%}\n  0.04\n{%- elif (now().weekday()\
         \ in (0,1,2,3,4)) and (states('sensor.time') >= \"08:01\") and (states('sensor.time')\
-        \ <= \"08:59\") -%}\n  0.10\n{%- elif (now().weekday() in (0,1,2,3,4)) and\
+        \ <= \"08:59\") -%}\n  0.04\n{%- elif (now().weekday() in (0,1,2,3,4)) and\
         \ (states('sensor.time') >= \"08:58\") and (states('sensor.time') <= \"09:01\"\
-        ) -%}\n  0.3\n{%- elif (now().weekday() in (0,1,2,3,4)) and (states('sensor.time')\
+        ) -%}\n  0.04\n{%- elif (now().weekday() in (0,1,2,3,4)) and (states('sensor.time')\
         \ >= \"09:01\") -%}\n  0.04\n{%- elif (now().weekday() in (5,6)) and (states('sensor.time')\
-        \ <= \"07:30\")  -%}\n  0.04\n{%- else -%}\n  0.15\n{%- endif %}\n"
+        \ <= \"07:30\")  -%}\n  0.04\n{%- else -%}\n  0.04\n{%- endif %}\n"
 radio_bathroom_volume:
   alias: Radio - Badkamer - Volume
   sequence:
@@ -353,20 +362,21 @@ radio_bathroom_volume:
       volume_level: "{%- if (states('sensor.time') <= \"08:30\") and (now().weekday()\
         \ in (0,1,2,3,4)) -%}\n  0.03\n{%- elif (states('sensor.time') <= \"07:30\"\
         ) and (now().weekday() in (5,6)) -%}\n  0.03\n{%- elif (states('input_select.woning_status')\
-        \ in ['Juist Wakker']) -%}\n  0.03\n{%- else -%}\n  0.13\n{%- endif %}\n"
+        \ in ['Juist Wakker']) -%}\n  0.03\n{%- else -%}\n  0.03\n{%- endif %}\n"
 light_bathroom_on:
   alias: Licht - Badkamer - Aan
   sequence:
   - service: scene.turn_on
     data_template:
-      entity_id: "{% if states('input_select.woning_status') in ['Slapen'] and (states('sensor.time')\
-        \ >= '05:00' and states('sensor.time') <= '23:30') %}\n  scene.badkamer_gedimmed\n\
-        {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time')\
-        \ <= '05:00' or states('sensor.time') >= '23:30') %}\n  scene.badkamer_nacht\n\
-        {% elif states('input_select.woning_status') in ['Juist Wakker'] %}\n  scene.badkamer_gedimmed\n\
-        {% elif (states('sensor.time') <= '06:00' or states('sensor.time') >= '21:40')\
-        \ %}\n  scene.badkamer_gedimmed\n{% else %}\n  scene.badkamer_normaal\n{%\
-        \ endif %}\n"
+      entity_id: 
+        "{% if states('input_select.woning_status') in ['Slapen'] and ((as_timestamp(states.sensor.date.state + ' ' + states.sensor.time.state) - as_timestamp(states.input_select.woning_status.last_changed)) / 60 ) | int < 10 and (states('sensor.time') >= '05:00' and states('sensor.time') <= '23:30') %}  scene.badkamer_normaal
+        {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') >= '05:00' and states('sensor.time') <= '23:30') %} scene.badkamer_gedimmed
+        {% elif states('input_select.woning_status') in ['Slapen'] %} scene.badkamer_nacht
+        {% elif states('input_select.woning_status') in ['Juist Wakker'] %} scene.badkamer_gedimmed
+        {% elif (states('sensor.time') <= '06:10' or states('sensor.time') >= '21:40') %} scene.badkamer_gedimmed
+        {% elif states('sun.sun') in ['above_horizon'] %} scene.badkamer_normaal_dag
+        {% else %} scene.badkamer_normaal
+        {% endif %}"
   mode: single
 light_dressing_on:
   alias: Licht - Dressing - Aan
@@ -374,9 +384,9 @@ light_dressing_on:
   - service: scene.turn_on
     data_template:
       entity_id: "{% if states('input_select.woning_status') in ['Slapen'] and (states('sensor.time')\
-        \ > '05:01' and states('sensor.time') < '23:00') %}\n  scene.dressing_gedimmed\n\
+        \ > '05:01' and states('sensor.time') < '21:50') %}\n  scene.dressing_nacht\n\
         {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time')\
-        \ >= '23:01' or states('sensor.time') <= '05:00') %}\n  scene.dressing_nacht\n\
+        \ >= '21:51' or states('sensor.time') <= '05:00') %}\n  scene.dressing_nacht\n\
         {% elif states('input_select.woning_status') in ['Juist Wakker'] %}\n  scene.dressing_gedimmed\n\
         {% elif states('sensor.time') >= '21:40' or states('sensor.time') <= '06:45'\
         \ %}\n  scene.dressing_gedimmed\n{% else %}\n  scene.dressing_normaal\n{%\
@@ -391,13 +401,14 @@ light_kitchen_on:
         {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time')\
         \ >= '23:01' or states('sensor.time') <= '05:00') %}\n  scene.keuken_nacht\n\
         {% elif states('sensor.time') >= states('input_datetime.sleep_elmo') and states('input_boolean.media_livingroom')\
-        \ in ['on'] %}\n  scene.keuken_film\n{% elif states('input_boolean.media_kitchen')\
-        \ in ['on'] %}\n  scene.keuken_televisie\n{% elif states('sensor.time') >=\
-        \ '21:40' %}\n  scene.keuken_gedimmed\n{% elif states('sensor.hue_sensor_keuken_light_level')\
+        \ in ['on'] %}\n  scene.keuken_film\n{% elif states('sensor.time') >= '21:40'\
+        \ %}\n  scene.keuken_gedimmed\n{% elif states('sensor.hue_sensor_keuken_light_level')\
         \ < '100' and states('binary_sensor.hue_sensor_keuken_motion') in ['off']\
         \ and states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis\
-        \ (Werk)', 'Thuis (Verlof)'] %}\n  scene.keuken_gedimmed\n{% else %}\n  scene.keuken_normaal\n\
+        \ (Werk)', 'Thuis (Verlof)'] %}\n  scene.keuken_gedimmed\n{% elif states('sun.sun')\
+        \ in ['above_horizon'] %}\n  scene.keuken_normaal_dag\n{% else %}\n  scene.keuken_normaal\n\
         {% endif %}\n"
+  mode: single
 light_bedroom2_on:
   alias: Licht - Slaapkamer 2 - Aan
   sequence:
@@ -463,9 +474,9 @@ light_livingroom_on:
         \ in ['on'] %}\n  scene.woonkamer_film\n{% elif state_attr('remote.harmony_hub',\
         \ 'current_activity') in ['TV Decoder','WebOS','Apple tv'] %}\n  scene.woonkamer_televisie\n\
         {% elif states('sensor.time') >= '21:40' %}\n  scene.woonkamer_gedimmed\n\
-        {% elif (states('sensor.hue_sensor_woonkamer_light_level') | float) > 26 %}\n\
-        \  scene.woonkamer_gedimmed\n{% else %}\n  scene.woonkamer_normaal\n{% endif\
-        \ %}\n"
+        {% elif (states('sensor.hue_sensor_woonkamer_light_level') | float(0)) > 26\
+        \ %}\n  scene.woonkamer_gedimmed\n{% else %}\n  scene.woonkamer_normaal\n\
+        {% endif %}\n"
 light_livingroom_off:
   alias: Licht - Woonkamer - Uit
   sequence:
@@ -627,7 +638,7 @@ notify_battery_alexa:
       - media_player.alexa_kitchen_2
       - media_player.alexa_bathroom
       - media_player.alexa_livingroom_2
-      message: The battery of Smappee is almost empty
+      message: There is a battery almost empty
       data:
         type: announce
         method: speak
@@ -638,7 +649,7 @@ notify_battery_ios_bert:
   - service: notify.mobile_app_iphone_van_bert
     data:
       title: BATTERIJ
-      message: De batterij van de Smappee Gas & Water is bijna leeg
+      message: Er is een batterij bijna leeg
       data:
         push:
           thread-id: huis
@@ -832,10 +843,9 @@ notify_deurbel_ios_bert:
 notify_deurbel_ios_caro:
   sequence:
   - condition: template
-    value_template: '{{ (states(''input_boolean.notify_caro'') in [''on''] and states(''device_tracker.router_iphone_caro'')
-      in [''home'']) or (states(''input_boolean.notify_caro'') in [''on''] and states(''device_tracker.router_iphone_caro'')
-      in [''not_home''] and states(''device_tracker.router_iphone_bert'') in [''not_home''])
-      }}'
+    value_template: '{{ (states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
+      in [''home'']) or (states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
+      in [''not_home''] and states(''person.bert'') in [''not_home'']) }}'
   - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: VOORDEUR
@@ -1678,12 +1688,12 @@ notify_printer_alexa:
       - media_player.alexa_kitchen_2
       - media_player.alexa_bathroom
       - media_player.alexa_livingroom_2
-      message: "{% if (states('sensor.hp_deskjet_3700_series_black_ink') | float <\
-        \ 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float <\
-        \ 25)%}\n  'Your Printer is running low on inkt, order both black and color\
-        \ inkt'\n{% elif (states('sensor.hp_deskjet_3700_series_black_ink') | float\
+      message: "{% if (states('sensor.hp_deskjet_3700_series_black_ink') | float(0)\
+        \ < 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float(0)\
+        \ < 25)%}\n  'Your Printer is running low on inkt, order both black and color\
+        \ inkt'\n{% elif (states('sensor.hp_deskjet_3700_series_black_ink') | float(0)\
         \ < 25)%}\n  'Your Printer is running low on inkt, order black inkt'\n{% elif\
-        \  (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float < 25)%}\n\
+        \  (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float(0) < 25)%}\n\
         \  'Your Printer is running low on inkt, order color inkt'\n{% else %}\n \
         \ 'Printer is still going strong'\n{% endif %}\n"
       data:
@@ -1696,12 +1706,12 @@ notify_printer_ios_bert:
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: PRINTER
-      message: "{% if (states('sensor.hp_deskjet_3700_series_black_ink') | float <\
-        \ 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float <\
-        \ 25)%}\n  'De Printer zit bijna zonder inkt, bestel zowel zwart als kleuren\
-        \ inkt'\n{% elif (states('sensor.hp_deskjet_3700_series_black_ink') | float\
+      message: "{% if (states('sensor.hp_deskjet_3700_series_black_ink') | float(0)\
+        \ < 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float(0)\
+        \ < 25)%}\n  'De Printer zit bijna zonder inkt, bestel zowel zwart als kleuren\
+        \ inkt'\n{% elif (states('sensor.hp_deskjet_3700_series_black_ink') | float(0)\
         \ < 25)%}\n  'De Printer zit bijna zonder inkt, bestel zwarte inkt'\n{% elif\
-        \  (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float < 25)%}\n\
+        \  (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float(0) < 25)%}\n\
         \  'De Printer zit bijna zonder inkt, bestel kleuren inkt'\n{% else %}\n \
         \ 'Printer is still going strong'\n{% endif %}\n"
       data:
@@ -1714,12 +1724,12 @@ notify_printer_ios_caro:
   - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: PRINTER
-      message: "{% if (states('sensor.hp_deskjet_3700_series_black_ink') | float <\
-        \ 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float <\
-        \ 25)%}\n  'De Printer zit bijna zonder inkt, bestel zowel zwart als kleuren\
-        \ inkt'\n{% elif (states('sensor.hp_deskjet_3700_series_black_ink') | float\
+      message: "{% if (states('sensor.hp_deskjet_3700_series_black_ink') | float(0)\
+        \ < 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float(0)\
+        \ < 25)%}\n  'De Printer zit bijna zonder inkt, bestel zowel zwart als kleuren\
+        \ inkt'\n{% elif (states('sensor.hp_deskjet_3700_series_black_ink') | float(0)\
         \ < 25)%}\n  'De Printer zit bijna zonder inkt, bestel zwarte inkt'\n{% elif\
-        \  (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float < 25)%}\n\
+        \  (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float(0) < 25)%}\n\
         \  'De Printer zit bijna zonder inkt, bestel kleuren inkt'\n{% else %}\n \
         \ 'Printer is still going strong'\n{% endif %}\n"
       data:
@@ -1813,13 +1823,12 @@ notify_tracker_bert_zones_ios_caro:
       title: BERT STATUS
       message: "{% if states('person.bert') in ['School De Wingerd', 'Nona & Pepe',\
         \ 'Mimi & Fleri'] %}\n  Bert is aangekomen bij {{ states('person.bert') }}.\n\
-        {% elif states('person.bert') in ['Hospital St-Augustinus', 'Hospital\
-        \ Willebroek', 'Hospital Edegem', 'Hospital Reet', 'Hospital Middelheim']\
-        \ %}\n  Geen paniek maar Bert is nabij het {{ states('person.bert') }}.\n\
-        {% elif states('person.bert') in ['Willebroek Station', 'Mechelen Station']\
-        \ %}\n  Bert is aangekomen in {{ states('person.bert') }}.\n{% elif states('person.bert')\
-        \ in ['Checkpoint 3'] %}\n  Bert is bijna thuis. (Fort Breendonck)\n{% endif\
-        \ %}\n"
+        {% elif states('person.bert') in ['Hospital St-Augustinus', 'Hospital Willebroek',\
+        \ 'Hospital Edegem', 'Hospital Reet', 'Hospital Middelheim'] %}\n  Geen paniek\
+        \ maar Bert is nabij het {{ states('person.bert') }}.\n{% elif states('person.bert')\
+        \ in ['Willebroek Station', 'Mechelen Station'] %}\n  Bert is aangekomen in\
+        \ {{ states('person.bert') }}.\n{% elif states('person.bert') in ['Checkpoint\
+        \ 3'] %}\n  Bert is bijna thuis. (Fort Breendonck)\n{% endif %}\n"
       data:
         apns_headers:
           apns-collapse-id: bert
@@ -1946,8 +1955,8 @@ notify_tracker_caro_zones_alexa:
       - media_player.alexa_kitchen_2
       - media_player.alexa_bathroom
       - media_player.alexa_livingroom_2
-      message: "{% if states('person.caroline') in ['BKO Toverbos', 'School De Wingerd', 'Nona & Pepe',\
-        \ 'Mimi & Fleri'] %}\n  'Mama just arrived at {{ states('person.caroline')\
+      message: "{% if states('person.caroline') in ['BKO Toverbos', 'School De Wingerd',\
+        \ 'Nona & Pepe', 'Mimi & Fleri'] %}\n  'Mama just arrived at {{ states('person.caroline')\
         \ }}.\n{% elif states('person.caroline') in ['Hospital St-Augustinus', 'Hospital\
         \ Willebroek', 'Hospital Edegem', 'Hospital Reet', 'Hospital Middelheim']\
         \ %}\n  'No panic but Caroline is near {{ states('person.caroline') }}.\n\
@@ -1965,8 +1974,8 @@ notify_tracker_caro_zones_ios_bert:
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: CARO STATUS
-      message: "{% if states('person.caroline') in ['BKO Toverbos', 'School De Wingerd', 'Nona & Pepe',\
-        \ 'Mimi & Fleri'] %}\n  Caroline is aangekomen bij {{ states('person.caroline')\
+      message: "{% if states('person.caroline') in ['BKO Toverbos', 'School De Wingerd',\
+        \ 'Nona & Pepe', 'Mimi & Fleri'] %}\n  Caroline is aangekomen bij {{ states('person.caroline')\
         \ }}.\n{% elif states('person.caroline') in ['Hospital St-Augustinus', 'Hospital\
         \ Willebroek', 'Hospital Edegem', 'Hospital Reet', 'Hospital Middelheim']\
         \ %}\n  Geen paniek maar Caroline is nabij het {{ states('person.caroline')\
@@ -2010,8 +2019,8 @@ notify_vacuum_alexa:
         \ == true %}\n  'Dusty has eaten to much. Please empty his belly.'\n{% elif\
         \ states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_clean_today')\
         \ in ['off'] %}\n  'Dusty has no pending tasks.'\n{% elif states('vacuum.dusty')\
-        \ in ['docked'] and states('input_boolean.vacuum_clean_today') in ['on']\
-        \ %}\n  'Dusty hasn't completed his task today'\n{% elif states('vacuum.dusty')\
+        \ in ['docked'] and states('input_boolean.vacuum_clean_today') in ['on'] %}\n\
+        \  'Dusty hasn't completed his task today'\n{% elif states('vacuum.dusty')\
         \ in ['cleaning'] %}\n  'Dusty starts cleaning the house. Beep Beep'\n{% else\
         \ %}\n  'Dusty is still going strong'\n{% endif %}\n"
       data:
@@ -2030,8 +2039,8 @@ notify_vacuum_ios_bert:
         \ == true %}\n  'Dusty heeft te veel gegeten. Maak zijn buikje leeg a.u.b.'\n\
         {% elif states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_clean_today')\
         \ in ['off'] %}\n  'Dusty heeft geen taken meer.'\n{% elif states('vacuum.dusty')\
-        \ in ['docked'] and states('input_boolean.vacuum_clean_today') in ['on']\
-        \ %}\n  'Dusty is nog niet klaar met zijn taak voor vandaag.'\n{% elif states('vacuum.dusty')\
+        \ in ['docked'] and states('input_boolean.vacuum_clean_today') in ['on'] %}\n\
+        \  'Dusty is nog niet klaar met zijn taak voor vandaag.'\n{% elif states('vacuum.dusty')\
         \ in ['cleaning'] %}\n  'Dusty begint het huis te kuisen. Beep Beep'\n{% else\
         \ %}\n  'Dusty is still going strong'\n{% endif %}\n"
       data:
@@ -2050,8 +2059,8 @@ notify_vacuum_ios_caro:
         \ == true %}\n  'Dusty heeft te veel gegeten. Maak zijn buikje leeg a.u.b.'\n\
         {% elif states('vacuum.dusty') in ['docked'] and states('input_boolean.vacuum_clean_today')\
         \ in ['off'] %}\n  'Dusty heeft geen taken meer.'\n{% elif states('vacuum.dusty')\
-        \ in ['docked'] and states('input_boolean.vacuum_clean_today') in ['on']\
-        \ %}\n  'Dusty is nog niet klaar met zijn taak voor vandaag.'\n{% elif states('vacuum.dusty')\
+        \ in ['docked'] and states('input_boolean.vacuum_clean_today') in ['on'] %}\n\
+        \  'Dusty is nog niet klaar met zijn taak voor vandaag.'\n{% elif states('vacuum.dusty')\
         \ in ['cleaning'] %}\n  'Dusty begint het huis te kuisen. Beep Beep'\n{% else\
         \ %}\n  'Dusty is still going strong'\n{% endif %}\n"
       data:
@@ -2106,10 +2115,9 @@ notify_deurbel_back_ios_bert:
 notify_deurbel_back_ios_caro:
   sequence:
   - condition: template
-    value_template: '{{ (states(''input_boolean.notify_caro'') in [''on''] and states(''device_tracker.router_iphone_caro'')
-      in [''home'']) or (states(''input_boolean.notify_caro'') in [''on''] and states(''device_tracker.router_iphone_caro'')
-      in [''not_home''] and states(''device_tracker.router_iphone_bert'') in [''not_home''])
-      }}'
+    value_template: '{{ (states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
+      in [''home'']) or (states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
+      in [''not_home''] and states(''person.bert'') in [''not_home'']) }}'
   - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: ACHTERDEUR

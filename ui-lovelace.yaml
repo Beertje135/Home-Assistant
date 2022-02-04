@@ -22,8 +22,8 @@ views:
             state_filter:
               - home
               - not_home
-              - 'on'
-              - 'off'
+              - "on"
+              - "off"
               - Juist Thuis
               - Thuis
               - Juist Weg
@@ -83,7 +83,7 @@ views:
             state_filter:
               - value: 1
                 operator: '<='
-                attribute: Days-until
+                attribute: Days_until
             card:
               show_name: true
               type: glance
@@ -91,44 +91,40 @@ views:
           - id: problem_tracker_0
             type: entity-filter
             entities:
-              - entity: sensor.upstairs_nest_protect_co_status
-                name: Nest Boven
-              - entity: sensor.upstairs_nest_protect_smoke_status
-                name: Nest Boven
-              - entity: binary_sensor.upstairs_nest_protect_online
-                name: Nest Boven
-              - entity: sensor.downstairs_nest_protect_co_status
-                name: Nest Beneden
-              - entity: sensor.downstairs_nest_protect_smoke_status
-                name: Nest Beneden
-              - entity: binary_sensor.downstairs_nest_protect_online
-                name: Nest Beneden
-              - entity: sensor.downstairs_nest_protect_battery_health
-                name: Nest Beneden
-              - entity: sensor.upstairs_nest_protect_battery_health
-                name: Nest Boven
-              - entity: binary_sensor.hue_sensor_dressing_motion
-                name: Hue Sensor Dressing Battery Low
+              - entity: sensor.hue_sensor_tuin_power
+                name: Hue Sensor Battery Low - Tuin
                 state_filter:
                   - operator: "<"
                     value: 10
-                    attribute: battery_level
-              - entity: binary_sensor.hue_sensor_keuken_motion
-                name: Hue Sensor Dressing Battery Low
+              - entity: sensor.hue_sensor_tuinhuis_power
+                name: Hue Sensor Battery Low - Tuinhuis
                 state_filter:
                   - operator: "<"
                     value: 10
-                    attribute: battery_level
-              - entity: binary_sensor.hue_sensor_woonkamer_motion
-                name: Hue Sensor Dressing Battery Low
+              - entity: sensor.hue_sensor_dressing_power
+                name: Hue Sensor Battery Low - Dressing
                 state_filter:
                   - operator: "<"
                     value: 10
-                    attribute: battery_level
+              - entity: sensor.hue_sensor_keuken_power
+                name: Hue Sensor Battery Low - Keuken
+                state_filter:
+                  - operator: "<"
+                    value: 10
+              - entity: sensor.hue_sensor_woonkamer_power
+                name: Hue Sensor Battery Low - Woonkamer
+                state_filter:
+                  - operator: "<"
+                    value: 10
+              - entity: sensor.hue_dimmer_kamer_elmo_power
+                name: Hue Dimmer Battery Low - Elmo
+                state_filter:
+                  - operator: "<"
+                    value: 10
             show_empty: false
             state_filter:
               - Replace
-              - 'off'
+              - "off"
               - Warning
               - Emergency
               - gray
@@ -160,7 +156,7 @@ views:
             show_empty: false
             state_filter:
               - home
-              - 'on'
+              - "on"
               - 'cleaning'
             card:
               show_name: true
@@ -175,7 +171,7 @@ views:
                 name: Updates Hacs
             show_empty: false
             state_filter:
-              - 'on'
+              - "on"
               - '1'
               - '2'
               - '3'
@@ -208,6 +204,8 @@ views:
                           - entity: input_boolean.visitor
                             name: Bezoek
                             icon: mdi:account-multiple
+                          - entity: input_boolean.elmo_wekker
+                            name: Wekker Elmo
               - title: Lights
                 type: vertical-stack
                 cards:
@@ -217,29 +215,37 @@ views:
                       - type: buttons
                         entities:
                           - entity: group.licht_keuken
+                            name: Keuken
                             tap_action:
                               action: more-info
                           - entity: group.licht_woonkamer
+                            name: Living
                             tap_action:
                               action: more-info
                           - entity: group.licht_veranda
+                            name: Veranda
                             tap_action:
                               action: more-info
                           - entity: group.licht_tuin
+                            name: Tuin
                             tap_action:
                               action: more-info
                       - type: buttons
                         entities:
                           - entity: group.licht_badkamer
+                            name: Badkamer
                             tap_action:
                               action: more-info
                           - entity: group.licht_slaapkamer1
+                            name: Slaap 1
                             tap_action:
                               action: more-info
                           - entity: group.licht_slaapkamer2
+                            name: Slaap 2
                             tap_action:
                               action: more-info
                           - entity: group.licht_dressing
+                            name: Dressing
                             tap_action:
                               action: more-info
                     header:
@@ -321,9 +327,11 @@ views:
                           tap_action:
                             action: toggle
                         - entity: group.computer
+                          name: Computer
                           tap_action:
                             action: more-info
                         - entity: group.media_players
+                          name: Media Players
                           tap_action:
                             action: more-info
                   - type: entity-filter
@@ -510,8 +518,8 @@ views:
             state_filter:
               - home
               - not_home
-              - 'on'
-              - 'off'
+              - "on"
+              - "off"
               - Juist Thuis
               - Thuis
               - Juist Weg
@@ -558,45 +566,41 @@ views:
           - id: problem_tracker_1
             type: entity-filter
             entities:
-              - entity: sensor.upstairs_nest_protect_co_status
-                name: Nest Boven
-              - entity: sensor.upstairs_nest_protect_smoke_status
-                name: Nest Boven
-              - entity: binary_sensor.upstairs_nest_protect_online
-                name: Nest Boven
-              - entity: sensor.downstairs_nest_protect_co_status
-                name: Nest Beneden
-              - entity: sensor.downstairs_nest_protect_smoke_status
-                name: Nest Beneden
-              - entity: binary_sensor.downstairs_nest_protect_online
-                name: Nest Beneden
-              - entity: sensor.downstairs_nest_protect_battery_health
-                name: Nest Beneden
-              - entity: sensor.upstairs_nest_protect_battery_health
-                name: Nest Boven
-              - entity: binary_sensor.hue_sensor_dressing_motion
-                name: Hue Sensor Dressing Battery Low
+              - entity: sensor.hue_sensor_tuin_power
+                name: Hue Sensor Battery Low - Tuin
                 state_filter:
                   - operator: "<"
                     value: 10
-                    attribute: battery_level
-              - entity: binary_sensor.hue_sensor_keuken_motion
-                name: Hue Sensor Dressing Battery Low
+              - entity: sensor.hue_sensor_tuinhuis_power
+                name: Hue Sensor Battery Low - Tuinhuis
                 state_filter:
                   - operator: "<"
                     value: 10
-                    attribute: battery_level
-              - entity: binary_sensor.hue_sensor_woonkamer_motion
-                name: Hue Sensor Dressing Battery Low
+              - entity: sensor.hue_sensor_dressing_power
+                name: Hue Sensor Battery Low - Dressing
                 state_filter:
                   - operator: "<"
                     value: 10
-                    attribute: battery_level
+              - entity: sensor.hue_sensor_keuken_power
+                name: Hue Sensor Battery Low - Keuken
+                state_filter:
+                  - operator: "<"
+                    value: 10
+              - entity: sensor.hue_sensor_woonkamer_power
+                name: Hue Sensor Battery Low - Woonkamer
+                state_filter:
+                  - operator: "<"
+                    value: 10
+              - entity: sensor.hue_dimmer_kamer_elmo_power
+                name: Hue Dimmer Battery Low - Elmo
+                state_filter:
+                  - operator: "<"
+                    value: 10
             show_empty: false
             show_header_toggle: false
             state_filter:
               - Replace
-              - 'off'
+              - "off"
               - Warning
               - Emergency
               - gray
@@ -633,7 +637,7 @@ views:
             show_empty: false
             state_filter:
               - home
-              - 'on'
+              - "on"
               - 'cleaning'
           - id: layout_1
             type: 'custom:layout-card'
@@ -654,13 +658,17 @@ views:
                     header:
                       type: buttons
                       entities:
-                        - entity: group.licht_woonkamer
-                          icon: mdi:lightbulb-multiple
-                          tap_action:
-                            action: more-info
                         - entity: binary_sensor.hue_sensor_woonkamer_motion
                           tap_action:
                             action: more-info
+                        - entity: light.hue_light_woonkamer
+                          name: Lamp
+                        - entity: light.lightstrip_woonkamer_tv
+                          name: Tv
+                        - entity: switch.hue_smart_plug_woonkamer_one
+                          name: One
+                        - entity: switch.hue_smart_plug_woonkamer_two
+                          name: Space
                     footer:
                       type: graph
                       entity: sensor.climate_woonkamer_attribute_current_temperature
@@ -721,14 +729,16 @@ views:
                     header:
                       type: buttons
                       entities:
-                        - entity: group.licht_veranda
-                          icon: mdi:lightbulb-multiple
-                          tap_action:
-                            action: more-info
                         - entity: vacuum.dusty
                           tap_action:
                             action: more-info
                         - entity: input_boolean.vacuum_clean_today
+                        - entity: light.hue_light_veranda
+                          name: Flos Arco
+                        - entity: switch.hue_smart_plug_veranda
+                          name: Veranda
+                        - entity: switch.hue_smart_plug_eetkamer
+                          name: Eetkamer
                     footer:
                       type: graph
                       entity: sensor.climate_veranda_attribute_current_temperature
@@ -748,16 +758,14 @@ views:
                     header:
                       type: buttons
                       entities:
-                        - entity: group.licht_keuken
-                          icon: mdi:lightbulb-multiple
-                          tap_action:
-                            action: more-info
                         - entity: binary_sensor.hue_sensor_keuken_motion
-                          tap_action:
-                            action: more-info
                         - entity: group.computer
                           tap_action:
                             action: more-info
+                        - entity: light.lightstrip_keuken
+                          name: Strip
+                        - entity: light.milight_keuken_bridge
+                          name: Tv
                     footer:
                       type: graph
                       entity: sensor.climate_keuken_attribute_current_temperature
@@ -845,10 +853,14 @@ views:
                     header:
                       type: buttons
                       entities:
-                        - entity: group.licht_slaapkamer2_group1
-                          icon: mdi:lightbulb-multiple
-                          tap_action:
-                            action: more-info
+                        - entity: light.hue_light_kamer_elmo_one
+                        - entity: light.hue_light_kamer_elmo_two
+                        - entity: input_boolean.elmo_wekker
+                          name: On/Off
+                        - entity: input_datetime.awake_week_elmo
+                          name: Week
+                        - entity: input_datetime.awake_weekend_elmo
+                          name: Weekend
                     footer:
                       type: graph
                       entity: sensor.climate_kamer_elmo_attribute_current_temperature
@@ -866,15 +878,23 @@ views:
                     header:
                       type: buttons
                       entities:
-                        - entity: group.licht_slaapkamer1
-                          icon: mdi:lightbulb
-                          tap_action:
-                            action: more-info
+                        - entity: light.hue_light_slaapkamer
                     footer:
                       type: graph
                       entity: sensor.climate_slp_kamer_attribute_current_temperature
                       hours_to_show: 24
                       detail: 1
+              - title: Bureau
+                type: vertical-stack
+                cards:
+                  - type: entities
+                    show_header_toggle: false
+                    entities:
+                      - entity: light.hue_light_bureau
+                    header:
+                      type: buttons
+                      entities:
+                        - entity: light.hue_light_bureau
               - title: Badkamer
                 type: vertical-stack
                 cards:
@@ -887,10 +907,7 @@ views:
                     header:
                       type: buttons
                       entities:
-                        - entity: group.licht_badkamer
-                          icon: mdi:lightbulb
-                          tap_action:
-                            action: more-info
+                        - entity: light.lightstrip_badkamer
                     footer:
                       type: graph
                       entity: sensor.climate_badkamer_attribute_current_temperature
@@ -940,13 +957,14 @@ views:
                     header:
                       type: buttons
                       entities:
-                        - entity: group.licht_dressing
-                          icon: mdi:lightbulb-multiple
-                          tap_action:
-                            action: more-info
                         - entity: binary_sensor.hue_sensor_dressing_motion
                           tap_action:
                             action: more-info
+                        - entity: input_boolean.light_dressing_stay_on
+                          name: On/Off
+                        - entity: light.hue_light_dressing_one
+                        - entity: light.hue_light_dressing_two
+                        - entity: light.hue_light_dressing_three
                     footer:
                       type: graph
                       entity: sensor.climate_dressing_attribute_current_temperature
@@ -966,13 +984,10 @@ views:
                     header:
                       type: buttons
                       entities:
-                        - entity: group.licht_tuin_tuinhuis
-                          icon: mdi:lightbulb-multiple
-                          tap_action:
-                            action: more-info
                         - entity: binary_sensor.hue_sensor_tuinhuis_motion
                           tap_action:
                             action: more-info
+                        - entity: light.hue_light_tuinhuis
                     footer:
                       type: graph
                       entity: sensor.hue_sensor_tuinhuis_temperature
@@ -992,17 +1007,21 @@ views:
                     header:
                       type: buttons
                       entities:
-                        - entity: group.licht_tuin_group1
-                          icon: mdi:lightbulb-multiple
-                          tap_action:
-                            action: more-info
-                        - entity: group.licht_tuin_group2
-                          icon: mdi:lightbulb-multiple
-                          tap_action:
-                            action: more-info
                         - entity: binary_sensor.hue_sensor_tuin_motion
                           tap_action:
                             action: more-info
+                        - entity: light.hue_light_tuin_one
+                          name: 1
+                        - entity: light.hue_light_tuin_two
+                          name: 2
+                        - entity: light.hue_light_tuin_three
+                          name: 3
+                        - entity: light.hue_light_tuin_four
+                          name: 4
+                        - entity: light.hue_light_tuin_five
+                          name: 5
+                        - entity: light.hue_light_tuin_six
+                          name: 6
                     footer:
                       type: graph
                       entity: sensor.hue_sensor_tuin_temperature
@@ -1032,8 +1051,8 @@ views:
             state_filter:
               - home
               - not_home
-              - 'on'
-              - 'off'
+              - "on"
+              - "off"
               - Juist Thuis
               - Thuis
               - Juist Weg
@@ -1080,45 +1099,41 @@ views:
           - id: problem_tracker_2
             type: entity-filter
             entities:
-              - entity: sensor.upstairs_nest_protect_co_status
-                name: Nest Boven
-              - entity: sensor.upstairs_nest_protect_smoke_status
-                name: Nest Boven
-              - entity: binary_sensor.upstairs_nest_protect_online
-                name: Nest Boven
-              - entity: sensor.downstairs_nest_protect_co_status
-                name: Nest Beneden
-              - entity: sensor.downstairs_nest_protect_smoke_status
-                name: Nest Beneden
-              - entity: binary_sensor.downstairs_nest_protect_online
-                name: Nest Beneden
-              - entity: sensor.downstairs_nest_protect_battery_health
-                name: Nest Beneden
-              - entity: sensor.upstairs_nest_protect_battery_health
-                name: Nest Boven
-              - entity: binary_sensor.hue_sensor_dressing_motion
-                name: Hue Sensor Dressing Battery Low
+              - entity: sensor.hue_sensor_tuin_power
+                name: Hue Sensor Battery Low - Tuin
                 state_filter:
                   - operator: "<"
                     value: 10
-                    attribute: battery_level
-              - entity: binary_sensor.hue_sensor_keuken_motion
-                name: Hue Sensor Dressing Battery Low
+              - entity: sensor.hue_sensor_tuinhuis_power
+                name: Hue Sensor Battery Low - Tuinhuis
                 state_filter:
                   - operator: "<"
                     value: 10
-                    attribute: battery_level
-              - entity: binary_sensor.hue_sensor_woonkamer_motion
-                name: Hue Sensor Dressing Battery Low
+              - entity: sensor.hue_sensor_dressing_power
+                name: Hue Sensor Battery Low - Dressing
                 state_filter:
                   - operator: "<"
                     value: 10
-                    attribute: battery_level
+              - entity: sensor.hue_sensor_keuken_power
+                name: Hue Sensor Battery Low - Keuken
+                state_filter:
+                  - operator: "<"
+                    value: 10
+              - entity: sensor.hue_sensor_woonkamer_power
+                name: Hue Sensor Battery Low - Woonkamer
+                state_filter:
+                  - operator: "<"
+                    value: 10
+              - entity: sensor.hue_dimmer_kamer_elmo_power
+                name: Hue Dimmer Battery Low - Elmo
+                state_filter:
+                  - operator: "<"
+                    value: 10
             show_empty: false
             show_header_toggle: false
             state_filter:
               - Replace
-              - 'off'
+              - "off"
               - Warning
               - Emergency
               - gray
@@ -1151,7 +1166,7 @@ views:
             show_empty: false
             state_filter:
               - home
-              - 'on'
+              - "on"
               - 'cleaning'
             card:
               show_name: true
@@ -1426,8 +1441,8 @@ views:
             state_filter:
               - home
               - not_home
-              - 'on'
-              - 'off'
+              - "on"
+              - "off"
               - Juist Thuis
               - Thuis
               - Juist Weg
@@ -1474,45 +1489,41 @@ views:
           - id: problem_tracker_3
             type: entity-filter
             entities:
-              - entity: sensor.upstairs_nest_protect_co_status
-                name: Nest Boven
-              - entity: sensor.upstairs_nest_protect_smoke_status
-                name: Nest Boven
-              - entity: binary_sensor.upstairs_nest_protect_online
-                name: Nest Boven
-              - entity: sensor.downstairs_nest_protect_co_status
-                name: Nest Beneden
-              - entity: sensor.downstairs_nest_protect_smoke_status
-                name: Nest Beneden
-              - entity: binary_sensor.downstairs_nest_protect_online
-                name: Nest Beneden
-              - entity: sensor.downstairs_nest_protect_battery_health
-                name: Nest Beneden
-              - entity: sensor.upstairs_nest_protect_battery_health
-                name: Nest Boven
-              - entity: binary_sensor.hue_sensor_dressing_motion
-                name: Hue Sensor Dressing Battery Low
+              - entity: sensor.hue_sensor_tuin_power
+                name: Hue Sensor Battery Low - Tuin
                 state_filter:
                   - operator: "<"
                     value: 10
-                    attribute: battery_level
-              - entity: binary_sensor.hue_sensor_keuken_motion
-                name: Hue Sensor Dressing Battery Low
+              - entity: sensor.hue_sensor_tuinhuis_power
+                name: Hue Sensor Battery Low - Tuinhuis
                 state_filter:
                   - operator: "<"
                     value: 10
-                    attribute: battery_level
-              - entity: binary_sensor.hue_sensor_woonkamer_motion
-                name: Hue Sensor Dressing Battery Low
+              - entity: sensor.hue_sensor_dressing_power
+                name: Hue Sensor Battery Low - Dressing
                 state_filter:
                   - operator: "<"
                     value: 10
-                    attribute: battery_level
+              - entity: sensor.hue_sensor_keuken_power
+                name: Hue Sensor Battery Low - Keuken
+                state_filter:
+                  - operator: "<"
+                    value: 10
+              - entity: sensor.hue_sensor_woonkamer_power
+                name: Hue Sensor Battery Low - Woonkamer
+                state_filter:
+                  - operator: "<"
+                    value: 10
+              - entity: sensor.hue_dimmer_kamer_elmo_power
+                name: Hue Dimmer Battery Low - Elmo
+                state_filter:
+                  - operator: "<"
+                    value: 10
             show_empty: false
             show_header_toggle: false
             state_filter:
               - Replace
-              - 'off'
+              - "off"
               - Warning
               - Emergency
               - gray
@@ -1545,7 +1556,7 @@ views:
             show_empty: false
             state_filter:
               - home
-              - 'on'
+              - "on"
               - 'cleaning'
             card:
               show_name: true
@@ -1679,8 +1690,8 @@ views:
             state_filter:
               - home
               - not_home
-              - 'on'
-              - 'off'
+              - "on"
+              - "off"
               - Juist Thuis
               - Thuis
               - Juist Weg
@@ -1730,45 +1741,41 @@ views:
           - id: problem_tracker_4
             type: entity-filter
             entities:
-              - entity: sensor.upstairs_nest_protect_co_status
-                name: Nest Boven
-              - entity: sensor.upstairs_nest_protect_smoke_status
-                name: Nest Boven
-              - entity: binary_sensor.upstairs_nest_protect_online
-                name: Nest Boven
-              - entity: sensor.downstairs_nest_protect_co_status
-                name: Nest Beneden
-              - entity: sensor.downstairs_nest_protect_smoke_status
-                name: Nest Beneden
-              - entity: binary_sensor.downstairs_nest_protect_online
-                name: Nest Beneden
-              - entity: sensor.downstairs_nest_protect_battery_health
-                name: Nest Beneden
-              - entity: sensor.upstairs_nest_protect_battery_health
-                name: Nest Boven
-              - entity: binary_sensor.hue_sensor_dressing_motion
-                name: Hue Sensor Dressing Battery Low
+              - entity: sensor.hue_sensor_tuin_power
+                name: Hue Sensor Battery Low - Tuin
                 state_filter:
                   - operator: "<"
                     value: 10
-                    attribute: battery_level
-              - entity: binary_sensor.hue_sensor_keuken_motion
-                name: Hue Sensor Dressing Battery Low
+              - entity: sensor.hue_sensor_tuinhuis_power
+                name: Hue Sensor Battery Low - Tuinhuis
                 state_filter:
                   - operator: "<"
                     value: 10
-                    attribute: battery_level
-              - entity: binary_sensor.hue_sensor_woonkamer_motion
-                name: Hue Sensor Dressing Battery Low
+              - entity: sensor.hue_sensor_dressing_power
+                name: Hue Sensor Battery Low - Dressing
                 state_filter:
                   - operator: "<"
                     value: 10
-                    attribute: battery_level
+              - entity: sensor.hue_sensor_keuken_power
+                name: Hue Sensor Battery Low - Keuken
+                state_filter:
+                  - operator: "<"
+                    value: 10
+              - entity: sensor.hue_sensor_woonkamer_power
+                name: Hue Sensor Battery Low - Woonkamer
+                state_filter:
+                  - operator: "<"
+                    value: 10
+              - entity: sensor.hue_dimmer_kamer_elmo_power
+                name: Hue Dimmer Battery Low - Elmo
+                state_filter:
+                  - operator: "<"
+                    value: 10
             show_empty: false
             show_header_toggle: false
             state_filter:
               - Replace
-              - 'off'
+              - "off"
               - Warning
               - Emergency
               - gray
@@ -1801,7 +1808,7 @@ views:
             show_empty: false
             state_filter:
               - home
-              - 'on'
+              - "on"
               - 'cleaning'
             card:
               show_name: true
@@ -1896,7 +1903,7 @@ views:
                     show_header_toggle: false
                     show_empty: false
                     state_filter:
-                      - 'on'
+                      - "on"
                       - '1'
                       - '2'
                       - '3'
@@ -1914,7 +1921,7 @@ views:
                     show_header_toggle: false
                     show_empty: false
                     state_filter:
-                      - 'off'
+                      - "off"
                     entities:
                       - entity: switch.unifi_raspberry_pi
                         name: Server

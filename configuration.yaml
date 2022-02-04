@@ -229,10 +229,6 @@ recorder:
       - sensor.deurbel_voor_mqtt_battery_sensor
       - sensor.deurbel_voor_mqtt_sensor
       - sensor.disk_use_percent_home
-      - sensor.downstairs_nest_protect_battery_health
-      - sensor.downstairs_nest_protect_co_status
-      - sensor.downstairs_nest_protect_color_status
-      - sensor.downstairs_nest_protect_smoke_status
       - sensor.hp_deskjet_3700_series_black_ink
       - sensor.hp_deskjet_3700_series_tri_color_ink
       - sensor.hue_schakelaar_elmos_kamer_battery_level
@@ -288,10 +284,6 @@ recorder:
       - sensor.template_delta_set_temperature
       - sensor.template_delta_temperature
       - sensor.template_ons_huisje_set_temperature
-      - sensor.upstairs_nest_protect_battery_health
-      - sensor.upstairs_nest_protect_co_status
-      - sensor.upstairs_nest_protect_color_status
-      - sensor.upstairs_nest_protect_smoke_status
       - switch.adguard_filtering
       - switch.adguard_parental_control
       - switch.adguard_protection
@@ -366,20 +358,6 @@ weather:
     api_key: !secret api_key_darksky
     mode: daily
 
-#aarlo:
-#  username: !secret username_arlo_2
-#  password: !secret password_arlo_2
-#  refresh_devices_every: 2
-#  stream_timeout: 120
-
-nest:
-  client_id: !secret client_id_nest
-  client_secret: !secret client_secret_nest
-
-#solaredge:
-#  api_key: !secret api_key_solar_edge
-#  site_id: !secret client_id_solar_edge
-
 smappee:
   client_id: !secret client_id_smappee
   client_secret: !secret client_secret_smappee
@@ -396,22 +374,11 @@ google:
 light:
   - platform: limitlessled
     bridges:
-    - host: !secret ip_milight_bridge_1
-      groups:
-      - number: 1
-        type: bridge-led
-        name: milight_woonkamer_bridge
     - host: !secret ip_milight_bridge_2
       groups:
       - number: 1
         type: bridge-led
         name: milight_keuken_bridge
-      - number: 1
-        type: rgbww
-        name: milight_keuken
-      - number: 2
-        type: rgbww
-        name: milight_badkamer
 #  - platform: aarlo
   
 switch:
@@ -451,3 +418,17 @@ switch:
 #    password: !secret password_irobot
 #    name: Dusty
 #    continuous: true
+
+#aarlo:
+#  username: !secret username_arlo_2
+#  password: !secret password_arlo_2
+#  refresh_devices_every: 2
+#  stream_timeout: 120
+
+#nest:
+#  client_id: !secret client_id_nest
+#  client_secret: !secret client_secret_nest
+
+#solaredge:
+#  api_key: !secret api_key_solar_edge
+#  site_id: !secret client_id_solar_edge

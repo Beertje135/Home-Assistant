@@ -51,13 +51,13 @@
     icon: mdi:stove
     entities:
       - light.milight_keuken_bridge
-      - light.milight_keuken
+      - light.lightstrip_keuken
 
   licht_badkamer:
     name: Bathroom Lights
     icon: mdi:shower
     entities:
-      - light.milight_badkamer
+      - light.lightstrip_badkamer
 
   licht_dressing:
     name: Dressing Lights
@@ -73,17 +73,17 @@
     icon: mdi:sofa
     entities:
       - light.hue_light_woonkamer
-      - light.hue_smart_plug_woonkamer_one
-      - light.hue_smart_plug_woonkamer_two
-      - light.milight_woonkamer_bridge
+      - switch.hue_smart_plug_woonkamer_one
+      - switch.hue_smart_plug_woonkamer_two
+      - light.lightstrip_woonkamer_tv
 
   licht_veranda:
     name: Porch Lights
     icon: mdi:floor-lamp
     entities:
       - light.hue_light_veranda
-      - light.hue_smart_plug_veranda
-      - light.hue_smart_plug_extra
+      - switch.hue_smart_plug_veranda
+      - switch.hue_smart_plug_eetkamer
 
   licht_slaapkamer2:
     name: Elmo's Room Lights
@@ -104,6 +104,12 @@
     icon: mdi:bed-empty
     entities:
       - light.hue_light_slaapkamer
+
+  licht_bureau:
+    name: Study Lights
+    icon: mdi:desk
+    entities:
+      - light.hue_light_bureau
 
   licht_tuin:
     name: Garden Lights

@@ -6,7 +6,7 @@ all_switch_off:
   alias: All - Switch - Uit
   sequence:
   - service: light.turn_off
-    entity_id: light.hue_smart_plug_extra
+    entity_id: switch.hue_smart_plug_eetkamer
 all_remote_off:
   alias: All - Remote - Uit
   sequence:
@@ -14,14 +14,14 @@ all_remote_off:
     entity_id: script.harmony_hub_powered_off
   - condition: state
     entity_id: input_boolean.keep_computer_on
-    state: 'off'
+    state: "off"
   - delay: 00:05:00
   - condition: state
     entity_id: input_boolean.keep_computer_on
-    state: 'off'
+    state: "off"
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') in [''Juist Weg'',
-      ''Weg'', ''Slapen''] }}'
+    value_template: '{{ states("input_select.woning_status") in ["Juist Weg",
+      "Weg", "Slapen"] }}'
   - service: script.turn_on
     entity_id: script.computer_off
 all_music_off:
@@ -37,8 +37,8 @@ all_light_off:
   sequence:
   - service: light.turn_off
     entity_id: light.hue_light_woonkamer, light.hue_light_kamer_elmo_one, light.hue_light_kamer_elmo_two,
-      light.hue_light_veranda, light.milight_keuken_bridge, light.milight_woonkamer_bridge,
-      light.hue_smart_plug_woonkamer_one, light.hue_smart_plug_veranda, light.hue_smart_plug_woonkamer_two
+      light.hue_light_veranda, light.milight_keuken_bridge, light.lightstrip_woonkamer_tv,
+      switch.hue_smart_plug_woonkamer_one, switch.hue_smart_plug_veranda, switch.hue_smart_plug_woonkamer_two
 all_all_off:
   alias: All - All - Uit
   sequence:
@@ -55,10 +55,10 @@ dusty_on:
     entity_id: sensor.hue_sensor_keuken_light_level
     above: '10'
   - condition: template
-    value_template: '{{ states(''vacuum.dusty'') in [''docked''] }}'
+    value_template: '{{ states("vacuum.dusty") in ["docked"] }}'
   - condition: state
     entity_id: input_boolean.vacuum_clean_today
-    state: 'on'
+    state: "on"
   - service: vacuum.start
     data:
       entity_id: vacuum.dusty
@@ -67,7 +67,7 @@ dusty_off:
   alias: Dusty - Uit
   sequence:
   - condition: template
-    value_template: '{{ states(''vacuum.dusty'') not in [''docked''] }}'
+    value_template: '{{ states("vacuum.dusty") not in ["docked"] }}'
   - service: vacuum.return_to_base
     data:
       entity_id: vacuum.dusty
@@ -80,9 +80,9 @@ restart_homekit:
     wait_template: "{%- if not states('climate.ons_huisje') -%}\n  false\n{%- elif\
       \ not states('climate.keuken') -%}\n  false\n{%- elif not states('light.hue_light_kamer_elmo_one')\
       \ -%}\n  false\n{%- elif not states('light.milight_keuken_bridge') -%}\n  false\n\
-      {%- elif not states('light.milight_woonkamer_bridge') -%}\n  false\n{%- elif\
+      {%- elif not states('light.lightstrip_woonkamer_tv') -%}\n  false\n{%- elif\
       \ not states('device_tracker.router_iphone_bert') -%}\n  false\n{%- elif not\
-      \ states('sensor.ons_huisje_sensor_water') -%}\n  false\n{%- elif not states('light.hue_smart_plug_extra')\
+      \ states('sensor.ons_huisje_sensor_water') -%}\n  false\n{%- elif not states('switch.hue_smart_plug_eetkamer')\
       \ -%}\n  false\n{%- else -%}\n  true\n{%- endif %}\n"
   - delay: 00:01:00
   - service: homekit.start
@@ -97,9 +97,9 @@ restart_homekit_not:
     wait_template: "{%- if not states('climate.ons_huisje') -%}\n  true\n{%- elif\
       \ not states('climate.keuken') -%}\n  true\n{%- elif not states('light.hue_light_kamer_elmo_one')\
       \ -%}\n  true\n{%- elif not states('light.milight_keuken_bridge') -%}\n  true\n\
-      {%- elif not states('light.milight_woonkamer_bridge') -%}\n  true\n{%- elif\
+      {%- elif not states('light.lightstrip_woonkamer_tv') -%}\n  true\n{%- elif\
       \ not states('device_tracker.router_iphone_bert') -%}\n  true\n{%- elif not\
-      \ states('sensor.ons_huisje_sensor_water') -%}\n  true\n{%- elif not states('light.hue_smart_plug_extra')\
+      \ states('sensor.ons_huisje_sensor_water') -%}\n  true\n{%- elif not states('switch.hue_smart_plug_eetkamer')\
       \ -%}\n  true\n{%- else -%}\n  false\n{%- endif %}\n"
   - service: script.turn_on
     entity_id: script.notify_homekit_not_restart
@@ -122,7 +122,7 @@ computer_off:
   sequence:
   - condition: state
     entity_id: input_boolean.keep_computer_on
-    state: 'off'
+    state: "off"
   - service: hassio.addon_stdin
     data:
       addon: core_rpc_shutdown
@@ -228,7 +228,7 @@ radio_kitchen_on:
   - service: media_player.play_media
     data:
       entity_id: media_player.alexa_kitchen_amp
-      media_content_id: '{{ states(''input_text.radio_station_current'') }}'
+      media_content_id: '{{ states("input_text.radio_station_current") }}'
       media_content_type: TUNEIN
   - delay: 00:00:05
   - service: script.turn_on
@@ -240,7 +240,7 @@ radio_bathroom_on:
   - service: media_player.play_media
     data:
       entity_id: media_player.alexa_bathroom
-      media_content_id: '{{ states(''input_text.radio_station_current'') }}'
+      media_content_id: '{{ states("input_text.radio_station_current") }}'
       media_content_type: TUNEIN
   - delay: 00:00:05
   - service: script.turn_on
@@ -252,7 +252,7 @@ radio_livingroom_on:
   - service: media_player.play_media
     data:
       entity_id: media_player.alexa_livingroom_1
-      media_content_id: '{{ states(''input_text.radio_station_current'') }}'
+      media_content_id: '{{ states("input_text.radio_station_current") }}'
       media_content_type: TUNEIN
   - delay: 00:00:05
   - service: script.turn_on
@@ -264,8 +264,7 @@ radio_downstairs_on:
   - service: media_player.play_media
     data_template:
       entity_id: media_player.alexa_kitchen_2
-      media_content_id: '"{{ states(''input_text.radio_station_current'') }}" on Alexa
-        Downstairs group'
+      media_content_id: '"{{ states(''input_text.radio_station_current'') }}" on Alexa Downstairs group'
       media_content_type: TUNEIN
   - delay: 00:00:05
   - service: script.turn_on
@@ -279,10 +278,7 @@ radio_everywhere_on:
   - service: media_player.play_media
     data_template:
       entity_id: media_player.alexa_kitchen_2
-      media_content_id: '"{{ states(''input_text.radio_station_current'') }}" on the
-        Alexa Everywhere group
-
-        '
+      media_content_id: '"{{ states(''input_text.radio_station_current'') }}" on the Alexa Everywhere group'
       media_content_type: TUNEIN
   - delay: 00:00:05
   - service: script.turn_on
@@ -463,7 +459,7 @@ light_livingroom_on:
         \ in ['on'] %}\n  scene.woonkamer_film\n{% elif state_attr('remote.harmony_hub',\
         \ 'current_activity') in ['TV Decoder','WebOS','Apple tv'] %}\n  scene.woonkamer_televisie\n\
         {% elif states('sensor.time') >= '22:00' %}\n  scene.woonkamer_gedimmed\n\
-        {% elif (states('sensor.hue_sensor_woonkamer_light_level') | float) > 26 %}\n\
+        {% elif (states('sensor.hue_sensor_woonkamer_light_level') | float(0)) > 26 %}\n\
         \  scene.woonkamer_gedimmed\n{% else %}\n  scene.woonkamer_normaal\n{% endif\
         \ %}\n"
 light_livingroom_off:
@@ -473,10 +469,10 @@ light_livingroom_off:
     - conditions:
       - condition: state
         entity_id: input_boolean.keep_christmas_on
-        state: 'on'
+        state: "on"
       - condition: state
         entity_id: input_boolean.light_downstairs
-        state: 'on'
+        state: "on"
       - condition: state
         entity_id: input_select.woning_status
         state:
@@ -518,7 +514,7 @@ evo_status_away:
   alias: Evohome - Status - Away
   sequence:
   - condition: template
-    value_template: '{{ (state_attr(''climate.ons_huisje'', ''preset_mode'') != ''away''
+    value_template: '{{ (state_attr("climate.ons_huisje", "preset_mode") != "away"
       ) }}'
   - service: climate.set_preset_mode
     data:
@@ -542,7 +538,7 @@ evo_status_economy:
   alias: Evohome - Status - Economy
   sequence:
   - condition: template
-    value_template: '{{ (state_attr(''climate.ons_huisje'', ''preset_mode'') != ''eco''
+    value_template: '{{ (state_attr("climate.ons_huisje", "preset_mode") != "eco"
       ) }}'
   - service: climate.set_preset_mode
     data:
@@ -552,12 +548,12 @@ evo_status_heating_off:
   alias: Evohome - Status - Heating Off
   sequence:
   - condition: template
-    value_template: '{{ (state_attr(''climate.ons_huisje'', ''hvac_mode'') != ''off''
+    value_template: '{{ (state_attr("climate.ons_huisje", "hvac_mode") != "off"
       ) }}'
   - service: climate.set_hvac_mode
     data:
       entity_id: climate.ons_huisje
-      hvac_mode: 'off'
+      hvac_mode: "off"
 evo_status_home:
   alias: Evohome - Status - Home
   sequence:
@@ -576,7 +572,7 @@ evo_status_normal_auto:
   alias: Evohome - Status - Normal Auto
   sequence:
   - condition: template
-    value_template: '{{ (state_attr(''climate.ons_huisje'', ''preset_mode'') != none
+    value_template: '{{ (state_attr("climate.ons_huisje", "preset_mode") != none
       ) }}'
   - service: climate.set_preset_mode
     entity_id: climate.ons_huisje
@@ -587,7 +583,7 @@ evo_status_normal_reset:
   alias: Evohome - Status - Normal Reset
   sequence:
   - condition: template
-    value_template: '{{ (state_attr(''climate.ons_huisje'', ''preset_mode'') != ''Reset''
+    value_template: '{{ (state_attr("climate.ons_huisje", "preset_mode") != "Reset"
       ) }}'
   - service: climate.set_preset_mode
     entity_id: climate.ons_huisje
@@ -599,25 +595,25 @@ evo_status_normal:
   - condition: or
     conditions:
     - condition: template
-      value_template: '{{ (state_attr(''climate.keuken'', ''preset_mode'') != ''none''
+      value_template: '{{ (state_attr("climate.keuken", "preset_mode") != "none"
         ) }}'
     - condition: template
-      value_template: '{{ (state_attr(''climate.woonkamer'', ''preset_mode'') != ''none''
+      value_template: '{{ (state_attr("climate.woonkamer", "preset_mode") != "none"
         ) }}'
     - condition: template
-      value_template: '{{ (state_attr(''climate.badkamer'', ''preset_mode'') != ''none''
+      value_template: '{{ (state_attr("climate.badkamer", "preset_mode") != "none"
         ) }}'
     - condition: template
-      value_template: '{{ (state_attr(''climate.slp_kamer'', ''preset_mode'') != ''none''
+      value_template: '{{ (state_attr("climate.slp_kamer", "preset_mode") != "none"
         ) }}'
     - condition: template
-      value_template: '{{ (state_attr(''climate.kamer_elmo'', ''preset_mode'') !=
-        ''none'' ) }}'
+      value_template: '{{ (state_attr("climate.kamer_elmo", "preset_mode") !=
+        "none" ) }}'
     - condition: template
-      value_template: '{{ (state_attr(''climate.dressing'', ''preset_mode'') != ''none''
+      value_template: '{{ (state_attr("climate.dressing", "preset_mode") != "none"
         ) }}'
     - condition: template
-      value_template: '{{ (state_attr(''climate.ons_huisje'', ''preset_mode'') !=
+      value_template: '{{ (state_attr("climate.ons_huisje", "preset_mode") !=
         none ) }}'
   - service: script.turn_on
     data_template:
@@ -631,7 +627,7 @@ evo_zone_bathroom_reset:
   alias: Evohome - Badkamer - Reset
   sequence:
   - condition: template
-    value_template: '{{ (state_attr(''climate.badkamer'', ''preset_mode'') != ''none''
+    value_template: '{{ (state_attr("climate.badkamer", "preset_mode") != "none"
       ) }}'
   - service: climate.set_preset_mode
     data:
@@ -648,7 +644,7 @@ evo_zone_kitchen_reset:
   alias: Evohome - Keuken - Reset
   sequence:
   - condition: template
-    value_template: '{{ (state_attr(''climate.keuken'', ''preset_mode'') != ''none''
+    value_template: '{{ (state_attr("climate.keuken", "preset_mode") != "none"
       ) }}'
   - service: climate.set_preset_mode
     data:
@@ -672,7 +668,7 @@ evo_zone_livingroom_reset:
   alias: Evohome - Woonkamer - Reset
   sequence:
   - condition: template
-    value_template: '{{ (state_attr(''climate.woonkamer'', ''preset_mode'') != ''none''
+    value_template: '{{ (state_attr("climate.woonkamer", "preset_mode") != "none"
       ) }}'
   - service: climate.set_preset_mode
     data:
@@ -688,11 +684,11 @@ evo_zone_livingroom_rise:
 notify_battery_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''group.bewoners'') in [''home''] }}'
+    value_template: '{{ states("group.bewoners") in ["home"] }}'
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
-  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
+  - wait_template: '{{ is_state("group.bewoners_router", "home") }}'
     timeout: 00:05:00
     continue_on_timeout: false
   - service: notify.alexa_media
@@ -708,7 +704,7 @@ notify_battery_alexa:
 notify_battery_ios_bert:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] }}'
+    value_template: '{{ states("input_boolean.notify_bert") in ["on"] }}'
   - service: notify.mobile_app_iphone_van_bert
     data:
       title: BATTERIJ
@@ -747,11 +743,11 @@ notify_cooling_downstairs:
 notify_cooling_downstairs_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''group.bewoners'') in [''home''] }}'
+    value_template: '{{ states("group.bewoners") in ["home"] }}'
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
-  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
+  - wait_template: '{{ is_state("group.bewoners_router", "home") }}'
     timeout: 00:05:00
     continue_on_timeout: false
   - service: notify.alexa_media
@@ -770,8 +766,8 @@ notify_cooling_downstairs_alexa:
 notify_cooling_downstairs_ios_bert:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] and states(''person.bert'')
-      in [''home''] }}'
+    value_template: '{{ states("input_boolean.notify_bert") in ["on"] and states("person.bert")
+      in ["home"] }}'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: VERLUCHTING
@@ -785,8 +781,8 @@ notify_cooling_downstairs_ios_bert:
 notify_cooling_downstairs_ios_caro:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      in [''home''] }}'
+    value_template: '{{ states("input_boolean.notify_caro") in ["on"] and states("person.caroline")
+      in ["home"] }}'
   - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: VERLUCHTING
@@ -807,11 +803,11 @@ notify_cooling_upstairs:
 notify_cooling_upstairs_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''group.bewoners'') in [''home''] }}'
+    value_template: '{{ states("group.bewoners") in ["home"] }}'
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
-  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
+  - wait_template: '{{ is_state("group.bewoners_router", "home") }}'
     timeout: 00:05:00
     continue_on_timeout: false
   - service: notify.alexa_media
@@ -830,8 +826,8 @@ notify_cooling_upstairs_alexa:
 notify_cooling_upstairs_ios_bert:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] and states(''person.bert'')
-      in [''home''] }}'
+    value_template: '{{ states("input_boolean.notify_bert") in ["on"] and states("person.bert")
+      in ["home"] }}'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: VERLUCHTING
@@ -845,8 +841,8 @@ notify_cooling_upstairs_ios_bert:
 notify_cooling_upstairs_ios_caro:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      in [''home''] }}'
+    value_template: '{{ states("input_boolean.notify_caro") in ["on"] and states("person.caroline")
+      in ["home"] }}'
   - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: VERLUCHTING
@@ -867,10 +863,10 @@ notify_deurbel:
 notify_deurbel_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''group.bewoners_router'') in [''home''] or states(''group.bezoekers'')
-      in [''home'']}}'
+    value_template: '{{ states("group.bewoners_router") in ["home"] or states("group.bezoekers")
+      in ["home"]}}'
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
   - service: notify.alexa_media
     data:
@@ -895,7 +891,7 @@ notify_deurbel_alexa:
 notify_deurbel_ios_bert:
   sequence:
   - condition: template
-    value_template: '{{ (states(''input_boolean.notify_bert'') in [''on'']) }}'
+    value_template: '{{ (states("input_boolean.notify_bert") in ["on"]) }}'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: VOORDEUR
@@ -906,9 +902,9 @@ notify_deurbel_ios_bert:
 notify_deurbel_ios_caro:
   sequence:
   - condition: template
-    value_template: '{{ (states(''input_boolean.notify_caro'') in [''on''] and states(''device_tracker.router_iphone_caro'')
-      in [''home'']) or (states(''input_boolean.notify_caro'') in [''on''] and states(''device_tracker.router_iphone_caro'')
-      in [''not_home''] and states(''device_tracker.router_iphone_bert'') in [''not_home''])
+    value_template: '{{ (states("input_boolean.notify_caro") in ["on"] and states("device_tracker.router_iphone_caro")
+      in ["home"]) or (states("input_boolean.notify_caro") in ["on"] and states("device_tracker.router_iphone_caro")
+      in ["not_home"] and states("device_tracker.router_iphone_bert") in ["not_home"])
       }}'
   - service: notify.mobile_app_iphone_van_caro
     data_template:
@@ -926,8 +922,8 @@ notify_battery:
 notify_heating_cold_elmo_ios_caro:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      in [''home''] }}'
+    value_template: '{{ states("input_boolean.notify_caro") in ["on"] and states("person.caroline")
+      in ["home"] }}'
   - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: VERWARMING
@@ -945,11 +941,11 @@ notify_heating_hot_cold_outside:
 notify_heating_hot_cold_outside_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''group.bewoners'') in [''home''] }}'
+    value_template: '{{ states("group.bewoners") in ["home"] }}'
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
-  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
+  - wait_template: '{{ is_state("group.bewoners_router", "home") }}'
     timeout: 00:05:00
     continue_on_timeout: false
   - service: notify.alexa_media
@@ -967,8 +963,8 @@ notify_heating_hot_cold_outside_alexa:
 notify_heating_hot_cold_outside_ios_bert:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] and states(''person.bert'')
-      in [''home''] }}'
+    value_template: '{{ states("input_boolean.notify_bert") in ["on"] and states("person.bert")
+      in ["home"] }}'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: VERWARMING
@@ -981,8 +977,8 @@ notify_heating_hot_cold_outside_ios_bert:
 notify_heating_hot_cold_outside_ios_caro:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      in [''home''] }}'
+    value_template: '{{ states("input_boolean.notify_caro") in ["on"] and states("person.caroline")
+      in ["home"] }}'
   - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: VERWARMING
@@ -1001,9 +997,9 @@ notify_homekit_not_restart:
 notify_homekit_not_restart_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''group.bewoners_router'') in [''home''] }}'
+    value_template: '{{ states("group.bewoners_router") in ["home"] }}'
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
   - service: notify.alexa_media
     data:
@@ -1018,8 +1014,8 @@ notify_homekit_not_restart_alexa:
 notify_homekit_not_restart_ios_bert:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] and states(''person.bert'')
-      not in [''home''] }}'
+    value_template: '{{ states("input_boolean.notify_bert") in ["on"] and states("person.bert")
+      not in ["home"] }}'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: HOMEKIT
@@ -1036,8 +1032,8 @@ notify_homekit_restart:
 notify_homekit_restart_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''group.bewoners_router'') in [''home''] and states(''input_select.woning_status'')
-      not in [''Slapen''] }}'
+    value_template: '{{ states("group.bewoners_router") in ["home"] and states("input_select.woning_status")
+      not in ["Slapen"] }}'
   - service: notify.alexa_media
     data:
       target:
@@ -1063,9 +1059,9 @@ notify_hacs_update:
 notify_hacs_update_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''group.bewoners_router'') in [''home''] }}'
+    value_template: '{{ states("group.bewoners_router") in ["home"] }}'
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
   - service: notify.alexa_media
     data:
@@ -1095,9 +1091,9 @@ notify_hassio_overtime:
 notify_hassio_overtime_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''group.bewoners_router'') in [''home''] }}'
+    value_template: '{{ states("group.bewoners_router") in ["home"] }}'
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
   - service: notify.alexa_media
     data:
@@ -1127,9 +1123,9 @@ notify_hassio_restart:
 notify_hassio_restart_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''group.bewoners_router'') in [''home''] }}'
+    value_template: '{{ states("group.bewoners_router") in ["home"] }}'
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
   - service: notify.alexa_media
     data:
@@ -1144,7 +1140,7 @@ notify_hassio_restart_alexa:
 notify_hassio_restart_ios_bert:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] }}'
+    value_template: '{{ states("input_boolean.notify_bert") in ["on"] }}'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: SERVER RESTART
@@ -1161,9 +1157,9 @@ notify_hassio_update:
 notify_hassio_update_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''group.bewoners_router'') in [''home''] }}'
+    value_template: '{{ states("group.bewoners_router") in ["home"] }}'
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
   - service: notify.alexa_media
     data:
@@ -1194,11 +1190,11 @@ notify_heating_cold_elmo:
 notify_heating_cold_elmo_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''group.bewoners'') in [''home''] }}'
+    value_template: '{{ states("group.bewoners") in ["home"] }}'
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
-  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
+  - wait_template: '{{ is_state("group.bewoners_router", "home") }}'
     timeout: 00:05:00
     continue_on_timeout: false
   - service: notify.alexa_media
@@ -1214,8 +1210,8 @@ notify_heating_cold_elmo_alexa:
 notify_heating_cold_elmo_ios_bert:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] and states(''person.bert'')
-      in [''home''] }}'
+    value_template: '{{ states("input_boolean.notify_bert") in ["on"] and states("person.bert")
+      in ["home"] }}'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: VERWARMING
@@ -1235,12 +1231,12 @@ notify_waste:
 notify_waste_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''group.bewoners_router'') in [''home''] or states(''group.bezoekers'')
-      in [''home'']}}'
+    value_template: '{{ states("group.bewoners_router") in ["home"] or states("group.bezoekers")
+      in ["home"]}}'
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
-  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
+  - wait_template: '{{ is_state("group.bewoners_router", "home") }}'
     timeout: 00:05:00
     continue_on_timeout: false
   - delay: 00:00:10
@@ -1340,8 +1336,8 @@ notify_waste_alexa:
 notify_waste_ios_bert:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] and states(''person.bert'')
-      in [''home''] }}'
+    value_template: '{{ states("input_boolean.notify_bert") in ["on"] and states("person.bert")
+      in ["home"] }}'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: VUILZAKKEN
@@ -1435,8 +1431,8 @@ notify_waste_ios_bert:
 notify_waste_ios_caro:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      in [''home''] }}'
+    value_template: '{{ states("input_boolean.notify_caro") in ["on"] and states("person.caroline")
+      in ["home"] }}'
   - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: VUILZAKKEN
@@ -1537,14 +1533,14 @@ notify_woning_status:
 notify_woning_status_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
   - condition: template
-    value_template: '{{ (states(''input_select.woning_status'') in [''Thuis (Werk)'']
-      and (states(''sensor.time'')) <= ''08:00'') or states(''input_select.woning_status'')
-      in [''Juist Thuis''] or states(''input_select.woning_status'') in [''Thuis (Verlof)'']
+    value_template: '{{ (states("input_select.woning_status") in ["Thuis (Werk)"]
+      and (states("sensor.time")) <= "08:00") or states("input_select.woning_status")
+      in ["Juist Thuis"] or states("input_select.woning_status") in ["Thuis (Verlof)"]
       }}'
-  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
+  - wait_template: '{{ is_state("group.bewoners_router", "home") }}'
     timeout: 00:05:00
     continue_on_timeout: false
   - delay: 00:00:10
@@ -1567,11 +1563,11 @@ notify_woning_status_alexa:
 notify_woning_status_ios_bert:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] }}'
+    value_template: '{{ states("input_boolean.notify_bert") in ["on"] }}'
   - condition: template
-    value_template: '{{ (states(''person.bert'') not in [''home''] and states(''input_select.woning_status'')
-      in [''Op Vakantie'']) or (states(''person.bert'') in [''home''] and states(''input_select.woning_status'')
-      in [''Thuis (Werk)''] and (states(''sensor.time'')) <= ''16:00'') }}'
+    value_template: '{{ (states("person.bert") not in ["home"] and states("input_select.woning_status")
+      in ["Op Vakantie"]) or (states("person.bert") in ["home"] and states("input_select.woning_status")
+      in ["Thuis (Werk)"] and (states("sensor.time")) <= "16:00") }}'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: STATUS WONING
@@ -1587,11 +1583,11 @@ notify_woning_status_ios_bert:
 notify_woning_status_ios_caro:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] }}'
+    value_template: '{{ states("input_boolean.notify_caro") in ["on"] }}'
   - condition: template
-    value_template: '{{ (states(''person.caroline'') not in [''home''] and states(''input_select.woning_status'')
-      in [''Op Vakantie'']) or (states(''person.caroline'') in [''home''] and states(''input_select.woning_status'')
-      in [''Thuis (Werk)''] and (states(''sensor.time'')) <= ''16:00'') }}'
+    value_template: '{{ (states("person.caroline") not in ["home"] and states("input_select.woning_status")
+      in ["Op Vakantie"]) or (states("person.caroline") in ["home"] and states("input_select.woning_status")
+      in ["Thuis (Werk)"] and (states("sensor.time")) <= "16:00") }}'
   - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: STATUS WONING
@@ -1607,7 +1603,7 @@ notify_woning_status_ios_caro:
 notify_homekit_restart_ios_bert:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] }}'
+    value_template: '{{ states("input_boolean.notify_bert") in ["on"] }}'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: HOMEKIT
@@ -1625,10 +1621,10 @@ notify_light_elmo:
 notify_light_elmo_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
   - condition: template
-    value_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
+    value_template: '{{ is_state("group.bewoners_router", "home") }}'
   - delay: 00:00:10
   - service: notify.alexa_media
     data_template:
@@ -1644,9 +1640,9 @@ notify_light_elmo_alexa:
 notify_light_elmo_ios_bert:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] }}'
+    value_template: '{{ states("input_boolean.notify_bert") in ["on"] }}'
   - condition: template
-    value_template: '{{ states(''person.bert'') in [''home''] }}'
+    value_template: '{{ states("person.bert") in ["home"] }}'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: ELMO
@@ -1659,9 +1655,9 @@ notify_light_elmo_ios_bert:
 notify_light_elmo_ios_caro:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] }}'
+    value_template: '{{ states("input_boolean.notify_caro") in ["on"] }}'
   - condition: template
-    value_template: '{{ states(''person.caroline'') in [''home''] }}'
+    value_template: '{{ states("person.caroline") in ["home"] }}'
   - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: ELMO
@@ -1737,12 +1733,12 @@ notify_printer:
 notify_printer_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''group.bewoners'') in [''home''] or states(''group.bezoekers'')
-      in [''home'']}}'
+    value_template: '{{ states("group.bewoners") in ["home"] or states("group.bezoekers")
+      in ["home"]}}'
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
-  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
+  - wait_template: '{{ is_state("group.bewoners_router", "home") }}'
     timeout: 00:05:00
     continue_on_timeout: false
   - delay: 00:00:12
@@ -1752,12 +1748,12 @@ notify_printer_alexa:
       - media_player.alexa_kitchen_2
       - media_player.alexa_bathroom
       - media_player.alexa_livingroom_2
-      message: "{% if (states('sensor.hp_deskjet_3700_series_black_ink') | float <\
-        \ 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float <\
+      message: "{% if (states('sensor.hp_deskjet_3700_series_black_ink') | float(0) <\
+        \ 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float(0) <\
         \ 25)%}\n  'Your Printer is running low on inkt, order both black and color\
-        \ inkt'\n{% elif (states('sensor.hp_deskjet_3700_series_black_ink') | float\
+        \ inkt'\n{% elif (states('sensor.hp_deskjet_3700_series_black_ink') | float(0)\
         \ < 25)%}\n  'Your Printer is running low on inkt, order black inkt'\n{% elif\
-        \  (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float < 25)%}\n\
+        \  (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float(0) < 25)%}\n\
         \  'Your Printer is running low on inkt, order color inkt'\n{% else %}\n \
         \ 'Printer is still going strong'\n{% endif %}\n"
       data:
@@ -1766,16 +1762,16 @@ notify_printer_alexa:
 notify_printer_ios_bert:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] }}'
+    value_template: '{{ states("input_boolean.notify_bert") in ["on"] }}'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: PRINTER
-      message: "{% if (states('sensor.hp_deskjet_3700_series_black_ink') | float <\
-        \ 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float <\
+      message: "{% if (states('sensor.hp_deskjet_3700_series_black_ink') | float(0) <\
+        \ 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float(0) <\
         \ 25)%}\n  'De Printer zit bijna zonder inkt, bestel zowel zwart als kleuren\
-        \ inkt'\n{% elif (states('sensor.hp_deskjet_3700_series_black_ink') | float\
+        \ inkt'\n{% elif (states('sensor.hp_deskjet_3700_series_black_ink') | float(0)\
         \ < 25)%}\n  'De Printer zit bijna zonder inkt, bestel zwarte inkt'\n{% elif\
-        \  (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float < 25)%}\n\
+        \  (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float(0) < 25)%}\n\
         \  'De Printer zit bijna zonder inkt, bestel kleuren inkt'\n{% else %}\n \
         \ 'Printer is still going strong'\n{% endif %}\n"
       data:
@@ -1784,16 +1780,16 @@ notify_printer_ios_bert:
 notify_printer_ios_caro:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] }}'
+    value_template: '{{ states("input_boolean.notify_caro") in ["on"] }}'
   - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: PRINTER
-      message: "{% if (states('sensor.hp_deskjet_3700_series_black_ink') | float <\
-        \ 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float <\
+      message: "{% if (states('sensor.hp_deskjet_3700_series_black_ink') | float(0) <\
+        \ 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float(0) <\
         \ 25)%}\n  'De Printer zit bijna zonder inkt, bestel zowel zwart als kleuren\
-        \ inkt'\n{% elif (states('sensor.hp_deskjet_3700_series_black_ink') | float\
+        \ inkt'\n{% elif (states('sensor.hp_deskjet_3700_series_black_ink') | float(0)\
         \ < 25)%}\n  'De Printer zit bijna zonder inkt, bestel zwarte inkt'\n{% elif\
-        \  (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float < 25)%}\n\
+        \  (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float(0) < 25)%}\n\
         \  'De Printer zit bijna zonder inkt, bestel kleuren inkt'\n{% else %}\n \
         \ 'Printer is still going strong'\n{% endif %}\n"
       data:
@@ -1808,10 +1804,10 @@ notify_tracker_bert_thuis:
 notify_tracker_bert_thuis_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''person.bert'') in [''home''] and states(''input_select.woning_status'')
-      not in [''Juist Thuis'', ''Slapen''] }}'
-  - wait_template: '{{ states(''device_tracker.router_iphone_bert'') == ''home'' and
-      state_attr(''device_tracker.router_iphone_bert'', ''ap_mac'') == ''f0:9f:c2:d6:9e:72''
+    value_template: '{{ states("person.bert") in ["home"] and states("input_select.woning_status")
+      not in ["Juist Thuis", "Slapen"] }}'
+  - wait_template: '{{ states("device_tracker.router_iphone_bert") == "home" and
+      state_attr("device_tracker.router_iphone_bert", "ap_mac") == "f0:9f:c2:d6:9e:72"
       }}'
     timeout: 00:07:00
     continue_on_timeout: false
@@ -1828,7 +1824,7 @@ notify_tracker_bert_thuis_alexa:
 notify_tracker_bert_thuis_ios_caro:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] }}'
+    value_template: '{{ states("input_boolean.notify_caro") in ["on"] }}'
   - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: BERT STATUS
@@ -1848,16 +1844,16 @@ notify_tracker_bert_zones:
 notify_tracker_bert_zones_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] }}'
+    value_template: '{{ states("input_boolean.notify_caro") in ["on"] }}'
   - condition: template
-    value_template: '{{ states(''group.bewoners'') in [''home''] }}'
+    value_template: '{{ states("group.bewoners") in ["home"] }}'
   - condition: template
-    value_template: '{{ states(''person.bert'') not in [''home''] }}'
+    value_template: '{{ states("person.bert") not in ["home"] }}'
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
-  - wait_template: '{{ states(''device_tracker.router_iphone_caro'') == ''home'' and
-      state_attr(''device_tracker.router_iphone_caro'', ''ap_mac'') == ''f0:9f:c2:d6:9e:72''
+  - wait_template: '{{ states("device_tracker.router_iphone_caro") == "home" and
+      state_attr("device_tracker.router_iphone_caro", "ap_mac") == "f0:9f:c2:d6:9e:72"
       }}'
     timeout: 00:05:00
     continue_on_timeout: false
@@ -1881,7 +1877,7 @@ notify_tracker_bert_zones_alexa:
 notify_tracker_bert_zones_ios_caro:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] }}'
+    value_template: '{{ states("input_boolean.notify_caro") in ["on"] }}'
   - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: BERT STATUS
@@ -1909,9 +1905,9 @@ notify_tracker_bezoeker_thuis:
 notify_tracker_bezoeker_thuis_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
-  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
+  - wait_template: '{{ is_state("group.bewoners_router", "home") }}'
     timeout: 00:05:00
     continue_on_timeout: false
   - service: notify.alexa_media
@@ -1929,8 +1925,8 @@ notify_tracker_bezoeker_thuis_alexa:
 notify_tracker_bezoeker_thuis_ios_bert:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] and states(''person.bert'')
-      not in [''home''] }}'
+    value_template: '{{ states("input_boolean.notify_bert") in ["on"] and states("person.bert")
+      not in ["home"] }}'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: BEZOEKER
@@ -1943,8 +1939,8 @@ notify_tracker_bezoeker_thuis_ios_bert:
 notify_tracker_bezoeker_thuis_ios_caro:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      not in [''home''] }}'
+    value_template: '{{ states("input_boolean.notify_caro") in ["on"] and states("person.caroline")
+      not in ["home"] }}'
   - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: BEZOEKER
@@ -1963,10 +1959,10 @@ notify_tracker_caro_thuis:
 notify_tracker_caro_thuis_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''person.caroline'') in [''home''] and states(''input_select.woning_status'')
-      not in [''Juist Thuis'', ''Slapen''] }}'
-  - wait_template: '{{ states(''device_tracker.router_iphone_caro'') == ''home'' and
-      state_attr(''device_tracker.router_iphone_caro'', ''ap_mac'') == ''f0:9f:c2:d6:9e:72''
+    value_template: '{{ states("person.caroline") in ["home"] and states("input_select.woning_status")
+      not in ["Juist Thuis", "Slapen"] }}'
+  - wait_template: '{{ states("device_tracker.router_iphone_caro") == "home" and
+      state_attr("device_tracker.router_iphone_caro", "ap_mac") == "f0:9f:c2:d6:9e:72"
       }}'
     timeout: 00:07:00
     continue_on_timeout: false
@@ -1983,7 +1979,7 @@ notify_tracker_caro_thuis_alexa:
 notify_tracker_caro_thuis_ios_bert:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] }}'
+    value_template: '{{ states("input_boolean.notify_bert") in ["on"] }}'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: CARO STATUS
@@ -2001,16 +1997,16 @@ notify_tracker_caro_zones:
 notify_tracker_caro_zones_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] }}'
+    value_template: '{{ states("input_boolean.notify_bert") in ["on"] }}'
   - condition: template
-    value_template: '{{ states(''group.bewoners_router'') in [''home''] }}'
+    value_template: '{{ states("group.bewoners_router") in ["home"] }}'
   - condition: template
-    value_template: '{{ states(''person.caroline'') not in [''home''] }}'
+    value_template: '{{ states("person.caroline") not in ["home"] }}'
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
-  - wait_template: '{{ states(''device_tracker.router_iphone_bert'') == ''home'' and
-      state_attr(''device_tracker.router_iphone_bert'', ''ap_mac'') == ''f0:9f:c2:d6:9e:72''
+  - wait_template: '{{ states("device_tracker.router_iphone_bert") == "home" and
+      state_attr("device_tracker.router_iphone_bert", "ap_mac") == "f0:9f:c2:d6:9e:72"
       }}'
     timeout: 00:07:00
     continue_on_timeout: false
@@ -2035,7 +2031,7 @@ notify_tracker_caro_zones_alexa:
 notify_tracker_caro_zones_ios_bert:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] }}'
+    value_template: '{{ states("input_boolean.notify_bert") in ["on"] }}'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: CARO STATUS
@@ -2064,12 +2060,12 @@ notify_vacuum:
 notify_vacuum_alexa:
   sequence:
   - condition: template
-    value_template: '{{ states(''group.bewoners'') in [''home''] or states(''group.bezoekers'')
-      in [''home'']}}'
+    value_template: '{{ states("group.bewoners") in ["home"] or states("group.bezoekers")
+      in ["home"]}}'
   - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+    value_template: '{{ states("input_select.woning_status") not in ["Slapen"]
       }}'
-  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
+  - wait_template: '{{ is_state("group.bewoners_router", "home") }}'
     timeout: 00:05:00
     continue_on_timeout: false
   - delay: 00:00:10
@@ -2094,8 +2090,8 @@ notify_vacuum_alexa:
 notify_vacuum_ios_bert:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] and states(''person.bert'')
-      not in [''home''] }}'
+    value_template: '{{ states("input_boolean.notify_bert") in ["on"] and states("person.bert")
+      not in ["home"] }}'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: DUSTY
@@ -2114,8 +2110,8 @@ notify_vacuum_ios_bert:
 notify_vacuum_ios_caro:
   sequence:
   - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      not in [''home''] }}'
+    value_template: '{{ states("input_boolean.notify_caro") in ["on"] and states("person.caroline")
+      not in ["home"] }}'
   - service: notify.mobile_app_iphone_van_caro
     data_template:
       title: DUSTY

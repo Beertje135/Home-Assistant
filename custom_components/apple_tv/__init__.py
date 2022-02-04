@@ -7,8 +7,8 @@ from pyatv import connect, exceptions, scan
 from pyatv.const import DeviceModel, Protocol
 from pyatv.convert import model_str
 
-from homeassistant.components.media_player import DOMAIN as MP_DOMAIN
-from homeassistant.components.remote import DOMAIN as REMOTE_DOMAIN
+from homeassistant.components import zeroconf
+from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import (
     ATTR_CONNECTIONS,
     ATTR_IDENTIFIERS,
@@ -20,8 +20,9 @@ from homeassistant.const import (
     CONF_ADDRESS,
     CONF_NAME,
     EVENT_HOMEASSISTANT_STOP,
+    Platform,
 )
-from homeassistant.core import callback
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.dispatcher import (
@@ -36,15 +37,16 @@ _LOGGER = logging.getLogger(__name__)
 
 DEFAULT_NAME = "Apple TV"
 
+BACKOFF_TIME_LOWER_LIMIT = 15  # seconds
 BACKOFF_TIME_UPPER_LIMIT = 300  # Five minutes
 
 SIGNAL_CONNECTED = "apple_tv_connected"
 SIGNAL_DISCONNECTED = "apple_tv_disconnected"
 
-PLATFORMS = [MP_DOMAIN, REMOTE_DOMAIN]
+PLATFORMS = [Platform.MEDIA_PLAYER, Platform.REMOTE]
 
 
-async def async_setup_entry(hass, entry):
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up a config entry for Apple TV."""
     manager = AppleTVManager(hass, entry)
     hass.data.setdefault(DOMAIN, {})[entry.unique_id] = manager
@@ -72,7 +74,7 @@ async def async_setup_entry(hass, entry):
     return True
 
 
-async def async_unload_entry(hass, entry):
+async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload an Apple TV config entry."""
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
 
@@ -177,7 +179,6 @@ class AppleTVManager:
     def _handle_disconnect(self):
         """Handle that the device disconnected and restart connect loop."""
         if self.atv:
-            self.atv.listener = None
             self.atv.close()
             self.atv = None
         self._dispatch_send(SIGNAL_DISCONNECTED)
@@ -194,8 +195,6 @@ class AppleTVManager:
         self._is_on = False
         try:
             if self.atv:
-                self.atv.push_updater.listener = None
-                self.atv.push_updater.stop()
                 self.atv.close()
                 self.atv = None
             if self._task:
@@ -241,7 +240,11 @@ class AppleTVManager:
             if self.atv is None:
                 self._connection_attempts += 1
                 backoff = min(
-                    randrange(2 ** self._connection_attempts), BACKOFF_TIME_UPPER_LIMIT
+                    max(
+                        BACKOFF_TIME_LOWER_LIMIT,
+                        randrange(2 ** self._connection_attempts),
+                    ),
+                    BACKOFF_TIME_UPPER_LIMIT,
                 )
 
                 _LOGGER.debug("Reconnecting in %d seconds", backoff)
@@ -264,24 +267,24 @@ class AppleTVManager:
         }
 
         _LOGGER.debug("Discovering device %s", self.config_entry.title)
+        aiozc = await zeroconf.async_get_async_instance(self.hass)
         atvs = await scan(
-            self.hass.loop, identifier=identifiers, protocol=protocols, hosts=[address]
+            self.hass.loop,
+            identifier=identifiers,
+            protocol=protocols,
+            hosts=[address],
+            aiozc=aiozc,
         )
         if atvs:
             return atvs[0]
 
         _LOGGER.debug(
-            "Failed to find device %s with address %s, trying to scan",
+            "Failed to find device %s with address %s",
             self.config_entry.title,
             address,
         )
-
-        atvs = await scan(self.hass.loop, identifier=identifiers, protocol=protocols)
-        if atvs:
-            return atvs[0]
-
-        _LOGGER.debug("Failed to find device %s, trying later", self.config_entry.title)
-
+        # We no longer multicast scan for the device since as soon as async_step_zeroconf runs,
+        # it will update the address and reload the config entry when the device is found.
         return None
 
     async def _connect(self, conf):

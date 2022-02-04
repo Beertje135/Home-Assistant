@@ -1,13 +1,14 @@
 # CONFIGURATION FOR HOMEKIT ENTITIES
 # LIGHTS
 
-light.milight_woonkamer_bridge:
-  name: Woonkamer Tv Lampje
 light.milight_keuken_bridge:
   name: Keuken Tv Lampje
-light.milight_keuken:
+
+light.lightstrip_woonkamer_tv:
+  name: Woonkamer Tv Lampje
+light.lightstrip_keuken:
   name: Keuken LED Strip
-light.milight_badkamer:
+light.lightstrip_badkamer:
   name: Badkamer LED Strip
 
 light.hue_light_veranda:
@@ -40,14 +41,16 @@ light.hue_light_tuin_six:
 light.hue_light_tuinhuis:
   name: Tuinhuis LED Strip
 
-light.hue_smart_plug_veranda:
+switch.hue_smart_plug_veranda:
   name: Veranda LED Lichtjes
-light.hue_smart_plug_woonkamer_two:
+switch.hue_smart_plug_woonkamer_two:
   name: Woonkamer Spacewalker
-light.hue_smart_plug_woonkamer_one:
+switch.hue_smart_plug_woonkamer_one:
   name: Woonkamer LED Lichtjes
-light.hue_smart_plug_extra:
+switch.hue_smart_plug_eetkamer:
   name: Extra Plug
+switch.hue_smart_plug_dressing:
+  name: Dressing Plug
 
 # INPUT SELECT
 

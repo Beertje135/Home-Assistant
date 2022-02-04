@@ -16,17 +16,8 @@ binary_sensor.trigger_just_home_kitchen:
 binary_sensor.trigger_just_sleep_kitchen:
   friendly_name: Kitchen Motion Sensor Just Asleep
   device_class: motion
-light.milight_badkamer:
-  friendly_name: Bathroom LED
-  icon: mdi:led-strip-variant
-light.milight_keuken:
-  friendly_name: Kitchen LED
 light.milight_keuken_bridge:
   friendly_name: Kitchen Tv LED
-  icon: mdi:television-clean
-light.milight_woonkamer_bridge:
-  friendly_name: Livingroom Tv LED
-  icon: mdi:television-clean
 sensor.nmbs:
   icon: mdi:train
   friendly_name: NMBS WILL-MECH
@@ -55,30 +46,6 @@ switch.wake_on_lan:
   icon: mdi:desktop-tower-monitor
   friendly_name: Kitchen Computer
   display_categories: smartplug
-sensor.downstairs_nest_protect_co_status:
-  friendly_name: CO2 Downstairs
-  icon: mdi:molecule-co2
-sensor.upstairs_nest_protect_co_status:
-  friendly_name: CO2 Upstairs
-  icon: mdi:molecule-co2
-sensor.downstairs_nest_protect_smoke_status:
-  friendly_name: ROOK Downstairs
-  icon: mdi:cloud
-sensor.upstairs_nest_protect_smoke_status:
-  friendly_name: ROOK Upstairs
-  icon: mdi:cloud
-sensor.upstairs_nest_protect_battery_health:
-  friendly_name: BATTERIJ Upstairs
-  icon: mdi:battery-charging
-sensor.downstairs_nest_protect_battery_health:
-  friendly_name: BATTERIJ Downstairs
-  icon: mdi:battery-charging
-binary_sensor.downstairs_nest_protect_online:
-  friendly_name: CONNECTED Downstairs
-  device_class: connectivity
-binary_sensor.upstairs_nest_protect_online:
-  friendly_name: CONNECTED Upstairs
-  device_class: connectivity
 sensor.bezoek:
   friendly_name: Visitor Sensor
   icon: mdi:account-multiple

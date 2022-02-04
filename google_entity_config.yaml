@@ -2,16 +2,16 @@
 # LIGHTS
 # MILIGHTS
 
-light.milight_woonkamer_bridge:
+light.lightstrip_woonkamer_tv:
   name: Woonkamer Tv Licht
   room: Woonkamer
 light.milight_keuken_bridge:
   name: Keuken Tv Licht
   room: Keuken
-light.milight_keuken:
+light.lightstrip_keuken:
   name: Keuken Licht
   room: Keuken
-light.milight_badkamer:
+light.lightstrip_badkamer:
   name: Badkamer Licht
   room: Badkamer
 
@@ -41,16 +41,16 @@ light.hue_light_dressing_three:
 
 # HUE SMART PLUGS
 
-light.hue_smart_plug_veranda:
+switch.hue_smart_plug_veranda:
   name: Veranda Licht Strip
   room: Veranda
-light.hue_smart_plug_woonkamer_two:
+switch.hue_smart_plug_woonkamer_two:
   name: Woonkamer Spacewalker
   room: Woonkamer
-light.hue_smart_plug_woonkamer_one:
+switch.hue_smart_plug_woonkamer_one:
   name: Woonkamer Licht Strip
   room: Woonkamer
-light.hue_smart_plug_extra:
+switch.hue_smart_plug_eetkamer:
   name: Extra Plug
   room: Woning
 
