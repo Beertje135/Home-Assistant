@@ -73,38 +73,6 @@ dusty_off:
   - service: vacuum.return_to_base
     data:
       entity_id: vacuum.dusty
-restart_homekit:
-  alias: Restart - Homekit starten
-  sequence:
-  - delay: 00:02:00
-  - timeout: 00:15:00
-    continue_on_timeout: false
-    wait_template: "{%- if not states('climate.ons_huisje') -%}\n  false\n{%- elif\
-      \ not states('climate.keuken') -%}\n  false\n{%- elif not states('light.hue_light_kamer_elmo_one')\
-      \ -%}\n  false\n{%- elif not states('light.milight_keuken_bridge') -%}\n  false\n\
-      {%- elif not states('light.lightstrip_woonkamer_tv') -%}\n  false\n{%- elif\
-      \ not states('device_tracker.router_iphone_bert') -%}\n  false\n{%- elif not\
-      \ states('sensor.ons_huisje_sensor_water') -%}\n  false\n{%- elif not states('switch.hue_smart_plug_eetkamer')\
-      \ -%}\n  false\n{%- else -%}\n  true\n{%- endif %}\n"
-  - delay: 00:01:00
-  - service: homekit.start
-  - service: script.turn_on
-    entity_id: script.notify_homekit_restart
-restart_homekit_not:
-  alias: Restart - Homekit niet starten
-  sequence:
-  - delay: 00:02:00
-  - timeout: 00:15:00
-    continue_on_timeout: false
-    wait_template: "{%- if not states('climate.ons_huisje') -%}\n  true\n{%- elif\
-      \ not states('climate.keuken') -%}\n  true\n{%- elif not states('light.hue_light_kamer_elmo_one')\
-      \ -%}\n  true\n{%- elif not states('light.milight_keuken_bridge') -%}\n  true\n\
-      {%- elif not states('light.lightstrip_woonkamer_tv') -%}\n  true\n{%- elif not\
-      \ states('device_tracker.router_iphone_bert') -%}\n  true\n{%- elif not states('sensor.ons_huisje_sensor_water')\
-      \ -%}\n  true\n{%- elif not states('switch.hue_smart_plug_eetkamer') -%}\n \
-      \ true\n{%- else -%}\n  false\n{%- endif %}\n"
-  - service: script.turn_on
-    entity_id: script.notify_homekit_not_restart
 restart_hassio:
   alias: Restart - Hassio
   sequence:
@@ -928,62 +896,6 @@ notify_heating_hot_cold_outside_ios_caro:
       data:
         push:
           thread-id: huis
-notify_homekit_not_restart:
-  sequence:
-  - service: script.turn_on
-    entity_id:
-    - script.notify_homekit_not_restart_ios_bert
-    - script.notify_homekit_not_restart_alexa
-notify_homekit_not_restart_alexa:
-  sequence:
-  - condition: template
-    value_template: '{{ states(''group.bewoners_router'') in [''home''] }}'
-  - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
-      }}'
-  - service: notify.alexa_media
-    data:
-      target:
-      - media_player.alexa_kitchen_2
-      - media_player.alexa_bathroom
-      - media_player.alexa_livingroom_2
-      message: Some systems are not operational, I will not restart Homekit
-      data:
-        type: announce
-        method: speak
-notify_homekit_not_restart_ios_bert:
-  sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] and states(''person.bert'')
-      not in [''home''] }}'
-  - service: notify.mobile_app_iphone_van_bert
-    data_template:
-      title: HOMEKIT
-      message: Er ontbreken componenten. Ik start HomeKit NIET opnieuw op.
-      data:
-        push:
-          thread-id: server
-notify_homekit_restart:
-  sequence:
-  - service: script.turn_on
-    entity_id:
-    - script.notify_homekit_restart_ios_bert
-    - script.notify_homekit_restart_alexa
-notify_homekit_restart_alexa:
-  sequence:
-  - condition: template
-    value_template: '{{ states(''group.bewoners_router'') in [''home''] and states(''input_select.woning_status'')
-      not in [''Slapen''] }}'
-  - service: notify.alexa_media
-    data:
-      target:
-      - media_player.alexa_kitchen_2
-      - media_player.alexa_bathroom
-      - media_player.alexa_livingroom_2
-      message: All systems operational, I will restart Homekit
-      data:
-        type: announce
-        method: speak
 notify_entity_list:
   sequence:
   - service: notify.entity_log

@@ -74,22 +74,22 @@
     conditions:
     - condition: numeric_state
       entity_id: sensor.recycleapp_glas
-      attribute: Days-until
+      attribute: Days_until
       above: 0
       below: 2
     - condition: numeric_state
       entity_id: sensor.recycleapp_papier
-      attribute: Days-until
+      attribute: Days_until
       above: 0
       below: 2
     - condition: numeric_state
       entity_id: sensor.recycleapp_pmd
-      attribute: Days-until
+      attribute: Days_until
       above: 0
       below: 2
     - condition: numeric_state
       entity_id: sensor.recycleapp_restafval
-      attribute: Days-until
+      attribute: Days_until
       above: 0
       below: 2
   action:
@@ -1893,7 +1893,7 @@
   action:
   - delay: 00:00:30
   - service: script.turn_on
-    entity_id: script.restart_hassio, script.restart_homekit, script.restart_homekit_not
+    entity_id: script.restart_hassio
 - id: homeassistant_002
   alias: HomeAssistant - Update Available
   initial_state: false
@@ -2400,7 +2400,7 @@
     - condition: and
       conditions:
       - condition: state
-        entity_id: binary_sensor.kitchen_sensor_motion
+        entity_id: binary_sensor.hue_sensor_keuken_motion
         state: 'off'
         for:
           minutes: 30
@@ -2518,9 +2518,13 @@
   - platform: state
     entity_id: input_boolean.light_downstairs
     to: 'off'
+    for:
+      seconds: 5
   - platform: state
     entity_id: input_boolean.media_livingroom
     to: 'off'
+    for:
+      seconds: 5
   condition:
   - condition: state
     entity_id: group.licht_keuken
@@ -2830,19 +2834,55 @@
   trigger:
   - entity_id: binary_sensor.hue_sensor_dressing_motion
     platform: state
-    to: 'on'
+    to: "on"
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+    to: "on"
+    for:
+      seconds: 10
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+    to: "on"
+    for:
+      seconds: 15
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+    to: "on"
     for:
       seconds: 20
   - entity_id: binary_sensor.hue_sensor_dressing_motion
     platform: state
-    to: 'on'
+    to: "on"
     for:
-      seconds: 40
+      seconds: 25
   - entity_id: binary_sensor.hue_sensor_dressing_motion
     platform: state
-    to: 'off'
+    to: "on"
     for:
-      minutes: 3
+      seconds: 30
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+    to: "off"
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+    to: "off"
+    for:
+      seconds: 5
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+    to: "off"
+    for:
+      seconds: 10
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+    to: "off"
+    for:
+      seconds: 20
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+    to: "off"
+    for:
+      seconds: 30
   - platform: state
     entity_id: light.lightstrip_badkamer
     from: unavailable

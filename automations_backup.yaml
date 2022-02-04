@@ -3099,7 +3099,7 @@
     - condition: and
       conditions:
       - condition: state
-        entity_id: binary_sensor.kitchen_sensor_motion
+        entity_id: binary_sensor.hue_sensor_keuken_motion
         state: "off"
         for:
           minutes: 30
@@ -3530,8 +3530,16 @@
   - entity_id: binary_sensor.hue_sensor_dressing_motion
     platform: state
     to: "on"
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+    to: "on"
     for:
-      seconds: 15
+      seconds: 10
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+    to: "on"
+    for:
+      seconds: 20
   - entity_id: binary_sensor.hue_sensor_dressing_motion
     platform: state
     to: "on"
@@ -3540,13 +3548,21 @@
   - entity_id: binary_sensor.hue_sensor_dressing_motion
     platform: state
     to: "off"
-    for:
-      minutes: 1
   - entity_id: binary_sensor.hue_sensor_dressing_motion
     platform: state
     to: "off"
     for:
-      minutes: 3
+      seconds: 10
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+    to: "off"
+    for:
+      seconds: 20
+  - entity_id: binary_sensor.hue_sensor_dressing_motion
+    platform: state
+    to: "off"
+    for:
+      seconds: 30
   condition:
   - condition: or
     conditions:
