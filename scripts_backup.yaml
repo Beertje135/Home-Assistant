@@ -724,7 +724,7 @@ notify_bezoeker_babysit_ios_bert:
           thread-id: bezoek
 notify_bezoeker_babysit_ios_caro:
   sequence:
-  - service: notify.mobile_app_iphone_van_caro
+  - service: notify.mobile_app_iphone_van_caroline
     data:
       title: BABYSIT
       message: Mag babysit afgemeld worden? (Action)
@@ -783,7 +783,7 @@ notify_cooling_downstairs_ios_caro:
   - condition: template
     value_template: '{{ states("input_boolean.notify_caro") in ["on"] and states("person.caroline")
       in ["home"] }}'
-  - service: notify.mobile_app_iphone_van_caro
+  - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: VERLUCHTING
       message: "{% if states('input_boolean.cooling_downstairs') == 'on' %}\n  Het\
@@ -843,7 +843,7 @@ notify_cooling_upstairs_ios_caro:
   - condition: template
     value_template: '{{ states("input_boolean.notify_caro") in ["on"] and states("person.caroline")
       in ["home"] }}'
-  - service: notify.mobile_app_iphone_van_caro
+  - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: VERLUCHTING
       message: "{% if states('input_boolean.cooling_upstairs') == 'on' %}\n  Het is\
@@ -906,7 +906,7 @@ notify_deurbel_ios_caro:
       in ["home"]) or (states("input_boolean.notify_caro") in ["on"] and states("device_tracker.router_iphone_caro")
       in ["not_home"] and states("device_tracker.router_iphone_bert") in ["not_home"])
       }}'
-  - service: notify.mobile_app_iphone_van_caro
+  - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: VOORDEUR
       message: Ding Dong! Er staat iemand aan de voordeur.
@@ -924,7 +924,7 @@ notify_heating_cold_elmo_ios_caro:
   - condition: template
     value_template: '{{ states("input_boolean.notify_caro") in ["on"] and states("person.caroline")
       in ["home"] }}'
-  - service: notify.mobile_app_iphone_van_caro
+  - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: VERWARMING
       message: Het is koud op Elmo zijn kamer! Staat er nog een raam open?
@@ -979,7 +979,7 @@ notify_heating_hot_cold_outside_ios_caro:
   - condition: template
     value_template: '{{ states("input_boolean.notify_caro") in ["on"] and states("person.caroline")
       in ["home"] }}'
-  - service: notify.mobile_app_iphone_van_caro
+  - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: VERWARMING
       message: "{% if states('input_boolean.heating') == 'on' %}\n  Het is wat frisser\
@@ -1433,7 +1433,7 @@ notify_waste_ios_caro:
   - condition: template
     value_template: '{{ states("input_boolean.notify_caro") in ["on"] and states("person.caroline")
       in ["home"] }}'
-  - service: notify.mobile_app_iphone_van_caro
+  - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: VUILZAKKEN
       message: "{% if ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\"\
@@ -1588,7 +1588,7 @@ notify_woning_status_ios_caro:
     value_template: '{{ (states("person.caroline") not in ["home"] and states("input_select.woning_status")
       in ["Op Vakantie"]) or (states("person.caroline") in ["home"] and states("input_select.woning_status")
       in ["Thuis (Werk)"] and (states("sensor.time")) <= "16:00") }}'
-  - service: notify.mobile_app_iphone_van_caro
+  - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: STATUS WONING
       message: "{% if states('person.caroline') not in ['home'] and states('input_select.woning_status')\
@@ -1658,7 +1658,7 @@ notify_light_elmo_ios_caro:
     value_template: '{{ states("input_boolean.notify_caro") in ["on"] }}'
   - condition: template
     value_template: '{{ states("person.caroline") in ["home"] }}'
-  - service: notify.mobile_app_iphone_van_caro
+  - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: ELMO
       message: Het is tijd om Elmo te gaan halen, ik doe binnen 1 minuut zijn lamp
@@ -1781,7 +1781,7 @@ notify_printer_ios_caro:
   sequence:
   - condition: template
     value_template: '{{ states("input_boolean.notify_caro") in ["on"] }}'
-  - service: notify.mobile_app_iphone_van_caro
+  - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: PRINTER
       message: "{% if (states('sensor.hp_deskjet_3700_series_black_ink') | float(0) <\
@@ -1825,7 +1825,7 @@ notify_tracker_bert_thuis_ios_caro:
   sequence:
   - condition: template
     value_template: '{{ states("input_boolean.notify_caro") in ["on"] }}'
-  - service: notify.mobile_app_iphone_van_caro
+  - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: BERT STATUS
       message: "{% if states('person.bert') in ['home'] %}\n  Bert is aangekomen thuis.\n\
@@ -1878,7 +1878,7 @@ notify_tracker_bert_zones_ios_caro:
   sequence:
   - condition: template
     value_template: '{{ states("input_boolean.notify_caro") in ["on"] }}'
-  - service: notify.mobile_app_iphone_van_caro
+  - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: BERT STATUS
       message: "{% if states('person.bert') in ['School De Wingerd', 'Nona & Pepe',\
@@ -1941,7 +1941,7 @@ notify_tracker_bezoeker_thuis_ios_caro:
   - condition: template
     value_template: '{{ states("input_boolean.notify_caro") in ["on"] and states("person.caroline")
       not in ["home"] }}'
-  - service: notify.mobile_app_iphone_van_caro
+  - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: BEZOEKER
       message: "{% if (bezoeker_state) == 'home' %}\n  {{ bezoeker }} is aangekomen\
@@ -2112,7 +2112,7 @@ notify_vacuum_ios_caro:
   - condition: template
     value_template: '{{ states("input_boolean.notify_caro") in ["on"] and states("person.caroline")
       not in ["home"] }}'
-  - service: notify.mobile_app_iphone_van_caro
+  - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: DUSTY
       message: "{% if state_attr('vacuum.dusty', 'status') == 'Stuck' %}\n  'Dusty\

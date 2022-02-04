@@ -1885,30 +1885,6 @@
   action:
   - service: script.turn_on
     entity_id: script.notify_bezoeker_babysit_ios_caro, script.notify_bezoeker_babysit_ios_bert
-- id: visitor_babysit_003
-  alias: Bezoeker - Babysit - Blijft
-  trigger:
-  - platform: event
-    event_type: ios.notification_action_fired
-    event_data:
-      actionName: LEAVE_VISITOR
-  condition:
-  - condition: state
-    entity_id: input_boolean.visitor
-    state: 'off'
-  action:
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.visitor
-- id: visitor_babysit_004
-  alias: Bezoeker - Babysit - Gaat Weg
-  trigger:
-    platform: event
-    event_type: ios.notification_action_fired
-    event_data:
-      actionName: RESET_VISITOR
-  action:
-  - service: input_boolean.turn_off
-    entity_id: input_boolean.visitor
 - id: homeassistant_001
   alias: HomeAssistant - Restart Check
   trigger:

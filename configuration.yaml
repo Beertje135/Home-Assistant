@@ -68,23 +68,6 @@ discovery:
 hassio:
 
 ios:
-  push:
-    categories:
-      - name: Bezoeker
-        identifier: 'bezoeker'
-        actions:
-          - identifier: 'RESET_VISITOR'
-            title: 'Stuur Babysit naar huis'
-            activationMode: 'background'
-            authenticationRequired: false
-            destructive: true
-            behavior: 'default'
-          - identifier: 'LEAVE_VISITOR'
-            title: 'Babysit blijft nog even'
-            activationMode: 'background'
-            authenticationRequired: false
-            destructive: false
-            behavior: 'default'
 
 sensor: !include sensors.yaml
 
