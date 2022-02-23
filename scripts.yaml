@@ -87,7 +87,11 @@ restart_hassio:
   - service: automation.turn_on
     entity_id: all
   - service: automation.turn_on
-    entity_id: automation.stofzuiger_dusty_bericht_status_dusty_wijzigt, automation.vuilbakken_bert_thuis, automation.stofzuiger_dusty_bericht_status_woning_wijzigt, automation.printer_notify_ink_low, automation.bewoner_thuis_of_weg, automation.bewoner_thuis_of_weg_2, automation.bewoner_thuis_babysit, automation.bezoeker_thuis_of_weg, automation.homeassistant_update_available, automation.homeassistant_update_available_hacs
+    entity_id: automation.stofzuiger_dusty_bericht_status_dusty_wijzigt, automation.vuilbakken_bert_thuis,
+      automation.stofzuiger_dusty_bericht_status_woning_wijzigt, automation.printer_notify_ink_low,
+      automation.bewoner_thuis_of_weg, automation.bewoner_thuis_of_weg_2, automation.bewoner_thuis_babysit,
+      automation.bezoeker_thuis_of_weg, automation.homeassistant_update_available,
+      automation.homeassistant_update_available_hacs
   mode: single
 computer_off:
   alias: Computer - Uit
@@ -336,15 +340,18 @@ light_bathroom_on:
   sequence:
   - service: scene.turn_on
     data_template:
-      entity_id: 
-        "{% if states('input_select.woning_status') in ['Slapen'] and ((as_timestamp(states.sensor.date.state + ' ' + states.sensor.time.state) - as_timestamp(states.input_select.woning_status.last_changed)) / 60 ) | int < 10 and (states('sensor.time') >= '05:00' and states('sensor.time') <= '23:30') %}  scene.badkamer_normaal
-        {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time') >= '05:00' and states('sensor.time') <= '23:30') %} scene.badkamer_gedimmed
-        {% elif states('input_select.woning_status') in ['Slapen'] %} scene.badkamer_nacht
-        {% elif states('input_select.woning_status') in ['Juist Wakker'] %} scene.badkamer_gedimmed
-        {% elif (states('sensor.time') <= '06:10' or states('sensor.time') >= '21:40') %} scene.badkamer_gedimmed
-        {% elif states('sun.sun') in ['above_horizon'] %} scene.badkamer_normaal_dag
-        {% else %} scene.badkamer_normaal
-        {% endif %}"
+      entity_id: '{% if states(''input_select.woning_status'') in [''Slapen''] and
+        ((as_timestamp(states.sensor.date.state + '' '' + states.sensor.time.state)
+        - as_timestamp(states.input_select.woning_status.last_changed)) / 60 ) | int
+        < 6 and (states(''sensor.time'') >= ''05:00'' and states(''sensor.time'')
+        <= ''23:30'') %}  scene.badkamer_normaal {% elif states(''input_select.woning_status'')
+        in [''Slapen''] and (states(''sensor.time'') >= ''05:00'' and states(''sensor.time'')
+        <= ''23:30'') %} scene.badkamer_gedimmed {% elif states(''input_select.woning_status'')
+        in [''Slapen''] %} scene.badkamer_nacht {% elif states(''input_select.woning_status'')
+        in [''Juist Wakker''] %} scene.badkamer_gedimmed {% elif (states(''sensor.time'')
+        <= ''06:10'' or states(''sensor.time'') >= ''21:40'') %} scene.badkamer_gedimmed
+        {% elif states(''sun.sun'') in [''above_horizon''] %} scene.badkamer_normaal_dag
+        {% else %} scene.badkamer_normaal {% endif %}'
   mode: single
 light_dressing_on:
   alias: Licht - Dressing - Aan
@@ -369,13 +376,13 @@ light_kitchen_on:
         {% elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time')\
         \ >= '23:01' or states('sensor.time') <= '05:00') %}\n  scene.keuken_nacht\n\
         {% elif states('sensor.time') >= states('input_datetime.sleep_elmo') and states('input_boolean.media_livingroom')\
-        \ in ['on'] %}\n  scene.keuken_film\n{% elif states('sensor.time') >= '21:40'\
-        \ %}\n  scene.keuken_gedimmed\n{% elif states('sensor.hue_sensor_keuken_light_level')\
-        \ < '100' and states('binary_sensor.hue_sensor_keuken_motion') in ['off']\
-        \ and states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis\
-        \ (Werk)', 'Thuis (Verlof)'] %}\n  scene.keuken_gedimmed\n{% elif states('sun.sun')\
-        \ in ['above_horizon'] %}\n  scene.keuken_normaal_dag\n{% else %}\n  scene.keuken_normaal\n\
-        {% endif %}\n"
+        \ in ['on'] %}\n  scene.keuken_film\n{% elif (states('sensor.time') >= '21:40'\
+        \ and states('sensor.time') <= '06:30') %}\n  scene.keuken_gedimmed\n{% elif\
+        \ states('sensor.hue_sensor_keuken_light_level') < '100' and states('binary_sensor.hue_sensor_keuken_motion')\
+        \ in ['off'] and states('input_select.woning_status') in ['Thuis', 'Juist\
+        \ Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] %}\n  scene.keuken_gedimmed\n\
+        {% elif states('sun.sun') in ['above_horizon'] %}\n  scene.keuken_normaal_dag\n\
+        {% else %}\n  scene.keuken_normaal\n{% endif %}\n"
   mode: single
 light_bedroom2_on:
   alias: Licht - Slaapkamer 2 - Aan
@@ -1187,194 +1194,650 @@ notify_waste_alexa:
         method: speak
 notify_waste_ios_bert:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] and states(''person.bert'')
-      in [''home''] }}'
-  - service: notify.mobile_app_iphone_van_bert
-    data_template:
-      title: VUILZAKKEN
-      message: "{% if ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\"\
-        ,true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+\
-        \ (86400)) | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag PMD, PAPIER, GLAS en RESTAFVAL buiten, morgen komen ze\
-        \ deze ophalen.\n{% elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"\
-        %Y-%m-%d\",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+\
-        \ (86400)) | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag PMD, PAPIER en RESTAFVAL buiten, morgen komen ze deze\
-        \ ophalen.\n{% elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"\
-        %Y-%m-%d\",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+\
-        \ (86400)) | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag PMD en RESTAFVAL buiten, morgen komen ze deze ophalen.\n\
-        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag PMD en PAPIER buiten, morgen komen ze deze ophalen.\n\
-        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag PAPIER en RESTAFVAL buiten, morgen komen ze deze ophalen.\n\
-        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag PAPIER en GLAS buiten, morgen komen ze deze ophalen.\n\
-        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag PMD en GLAS buiten, morgen komen ze deze ophalen.\n{%\
-        \ elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag GLAS en RESTAFVAL buiten, morgen komen ze deze ophalen.\n\
-        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag PMD buiten, morgen komen ze deze ophalen.\n{% elif ((as_timestamp(now())+\
-        \ (86400)) | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_restafval'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_pmd'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_glas')) %}\n  Zet vandaag PAPIER buiten, morgen\
-        \ komen ze deze ophalen.\n{% elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"\
-        %Y-%m-%d\",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+\
-        \ (86400)) | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag GLAS buiten, morgen komen ze deze ophalen.\n{% elif ((as_timestamp(now())+\
-        \ (86400)) | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_restafval'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_pmd'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_glas')) %}\n  Zet vandaag RESTAFVAL buiten,\
-        \ morgen komen ze deze ophalen.\n{% else %}\n  Check even of er afval buiten\
-        \ moet. Ik ben niet zeker.\n{% endif %}\n"
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - condition: state
+    entity_id: person.bert
+    state: 'home'
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        below: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: VUILZAKKEN
+          message: Zet PMD, PAPIER, GLAS en RESTAFVAL buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        above: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: VUILZAKKEN
+          message: Zet PMD, PAPIER en het GLAS buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        below: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: VUILZAKKEN
+          message: Zet PAPIER, GLAS en RESTAFVAL buiten, ze komen deze ophalen..
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        below: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: VUILZAKKEN
+          message: Zet PMD, GLAS en RESTAFVAL buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        below: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: VUILZAKKEN
+          message: Zet PMD, PAPIER en RESTAFVAL buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        above: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: VUILZAKKEN
+          message: Zet PAPIER en GLAS buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        above: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: VUILZAKKEN
+          message: Zet PMD en het GLAS buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        below: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: VUILZAKKEN
+          message: Zet GLAS en RESTAFVAL buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        above: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: VUILZAKKEN
+          message: Zet PMD en het PAPIER buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        below: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: VUILZAKKEN
+          message: Zet PAPIER en RESTAFVAL buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        below: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: VUILZAKKEN
+          message: Zet PMD en RESTAFVAL buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        attribute: Days_until
+        above: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: VUILZAKKEN
+          message: Zet GLAS buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        attribute: Days_until
+        above: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: VUILZAKKEN
+          message: Zet PAPIER buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        attribute: Days_until
+        above: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: VUILZAKKEN
+          message: Zet het PMD buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        attribute: Days_until
+        below: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: VUILZAKKEN
+          message: Zet het RESTAFVAL buiten, ze komen deze ophalen.
+    default:
+    - service: notify.mobile_app_iphone_van_bert
       data:
-        push:
-          thread-id: huis
+        title: VUILZAKKEN
+        message: Check even of er afval buiten moet. Ik ben niet zeker.          
+  mode: single
 notify_waste_ios_caro:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      in [''home''] }}'
-  - service: notify.mobile_app_iphone_van_caroline
-    data_template:
-      title: VUILZAKKEN
-      message: "{% if ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\"\
-        ,true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+\
-        \ (86400)) | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag PMD, PAPIER, GLAS en RESTAFVAL buiten, morgen komen ze\
-        \ deze ophalen.\n{% elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"\
-        %Y-%m-%d\",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+\
-        \ (86400)) | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag PMD, PAPIER en RESTAFVAL buiten, morgen komen ze deze\
-        \ ophalen.\n{% elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"\
-        %Y-%m-%d\",true) == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+\
-        \ (86400)) | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag PMD en RESTAFVAL buiten, morgen komen ze deze ophalen.\n\
-        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag PMD en PAPIER buiten, morgen komen ze deze ophalen.\n\
-        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag PAPIER en RESTAFVAL buiten, morgen komen ze deze ophalen.\n\
-        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag PAPIER en GLAS buiten, morgen komen ze deze ophalen.\n\
-        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag PMD en GLAS buiten, morgen komen ze deze ophalen.\n{%\
-        \ elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag GLAS en RESTAFVAL buiten, morgen komen ze deze ophalen.\n\
-        {% elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag PMD buiten, morgen komen ze deze ophalen.\n{% elif ((as_timestamp(now())+\
-        \ (86400)) | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_restafval'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ == states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_pmd'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_glas')) %}\n  Zet vandaag PAPIER buiten, morgen\
-        \ komen ze deze ophalen.\n{% elif ((as_timestamp(now())+ (86400)) | timestamp_custom(\"\
-        %Y-%m-%d\",true) != states('sensor.recycleapp_restafval')) and ((as_timestamp(now())+\
-        \ (86400)) | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_papier'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_pmd')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_glas'))\
-        \ %}\n  Zet vandaag GLAS buiten, morgen komen ze deze ophalen.\n{% elif ((as_timestamp(now())+\
-        \ (86400)) | timestamp_custom(\"%Y-%m-%d\",true) == states('sensor.recycleapp_restafval'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_papier')) and ((as_timestamp(now())+ (86400))\
-        \ | timestamp_custom(\"%Y-%m-%d\",true) != states('sensor.recycleapp_pmd'))\
-        \ and ((as_timestamp(now())+ (86400)) | timestamp_custom(\"%Y-%m-%d\",true)\
-        \ != states('sensor.recycleapp_glas')) %}\n  Zet vandaag RESTAFVAL buiten,\
-        \ morgen komen ze deze ophalen.\n{% else %}\n  Check even of er afval buiten\
-        \ moet. Ik ben niet zeker.\n{% endif %}\n"
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - condition: state
+    entity_id: person.caroline
+    state: 'home'
+  - choose:
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        below: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: VUILZAKKEN
+          message: Zet PMD, PAPIER, GLAS en RESTAFVAL buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        above: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: VUILZAKKEN
+          message: Zet PMD, PAPIER en het GLAS buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        below: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: VUILZAKKEN
+          message: Zet PAPIER, GLAS en RESTAFVAL buiten, ze komen deze ophalen..
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        below: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: VUILZAKKEN
+          message: Zet PMD, GLAS en RESTAFVAL buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        below: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: VUILZAKKEN
+          message: Zet PMD, PAPIER en RESTAFVAL buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        above: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: VUILZAKKEN
+          message: Zet PAPIER en GLAS buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        above: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: VUILZAKKEN
+          message: Zet PMD en het GLAS buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        below: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: VUILZAKKEN
+          message: Zet GLAS en RESTAFVAL buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        above: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: VUILZAKKEN
+          message: Zet PMD en het PAPIER buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        below: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: VUILZAKKEN
+          message: Zet PAPIER en RESTAFVAL buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        below: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: VUILZAKKEN
+          message: Zet PMD en RESTAFVAL buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        attribute: Days_until
+        above: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: VUILZAKKEN
+          message: Zet GLAS buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        attribute: Days_until
+        above: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: VUILZAKKEN
+          message: Zet PAPIER buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        attribute: Days_until
+        below: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        attribute: Days_until
+        above: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: VUILZAKKEN
+          message: Zet het PMD buiten, ze komen deze ophalen.
+    - conditions:
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_glas
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_papier
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_pmd
+        attribute: Days_until
+        above: '2'
+      - condition: numeric_state
+        entity_id: sensor.recycleapp_restafval
+        attribute: Days_until
+        below: '2'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: VUILZAKKEN
+          message: Zet het RESTAFVAL buiten, ze komen deze ophalen.
+    default:
+    - service: notify.mobile_app_iphone_van_caroline
       data:
-        push:
-          thread-id: huis
+        title: VUILZAKKEN
+        message: Check even of er afval buiten moet. Ik ben niet zeker.          
+  mode: single
 notify_woning_status:
   sequence:
   - service: script.turn_on
@@ -1408,7 +1871,7 @@ notify_woning_status_alexa:
         \ %}\n  'Enjoy your day.'\n{% elif states('person.bert') not in ['home'] %}\n\
         \  'Hello Caroline. Welcome Back Home'\n{% elif states('person.caroline')\
         \ not in ['home'] %}\n  'Hello Master Bert. Welcome Back Home, the stupid\
-        \ cat was waiting for you'\n{% else %}\n  'Welcome Home'\n{% endif %}\n"
+        \ cat is waiting for you'\n{% else %}\n  'Welcome Home'\n{% endif %}\n"
       data:
         type: announce
         method: speak
