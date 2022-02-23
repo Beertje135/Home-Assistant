@@ -35,6 +35,7 @@ entity_log.txt
 *.xml
 *.log
 *.log.1
+*.log.fault
 *.mp3
 *.html
 
