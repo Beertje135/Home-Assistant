@@ -204,6 +204,10 @@ views:
                           - entity: input_boolean.visitor
                             name: Bezoek
                             icon: mdi:account-multiple
+                          - entity: input_button.wake_elmo
+                            name: Elmo
+                            tap_action:
+                              action: toggle
                           - entity: input_boolean.elmo_wekker
                             name: Wekker Elmo
               - title: Lights
