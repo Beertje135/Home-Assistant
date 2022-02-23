@@ -619,8 +619,9 @@ notify_battery_alexa:
         method: speak
 notify_battery_ios_bert:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data:
       title: BATTERIJ
@@ -630,6 +631,9 @@ notify_battery_ios_bert:
           thread-id: huis
 notify_bezoeker_babysit_ios_bert:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data:
       title: BABYSIT
@@ -640,6 +644,9 @@ notify_bezoeker_babysit_ios_bert:
           thread-id: bezoek
 notify_bezoeker_babysit_ios_caro:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
   - service: notify.mobile_app_iphone_van_caroline
     data:
       title: BABYSIT
@@ -681,9 +688,12 @@ notify_cooling_downstairs_alexa:
         method: speak
 notify_cooling_downstairs_ios_bert:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] and states(''person.bert'')
-      in [''home''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - condition: state
+    entity_id: person.bert
+    state: 'home'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: VERLUCHTING
@@ -696,9 +706,12 @@ notify_cooling_downstairs_ios_bert:
           thread-id: huis
 notify_cooling_downstairs_ios_caro:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      in [''home''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - condition: state
+    entity_id: person.caroline
+    state: 'home'
   - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: VERLUCHTING
@@ -741,9 +754,12 @@ notify_cooling_upstairs_alexa:
         method: speak
 notify_cooling_upstairs_ios_bert:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] and states(''person.bert'')
-      in [''home''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - condition: state
+    entity_id: person.bert
+    state: 'home'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: VERLUCHTING
@@ -756,9 +772,12 @@ notify_cooling_upstairs_ios_bert:
           thread-id: huis
 notify_cooling_upstairs_ios_caro:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      in [''home''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - condition: state
+    entity_id: person.caroline
+    state: 'home'
   - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: VERLUCHTING
@@ -806,8 +825,9 @@ notify_deurbel_alexa:
         method: speak
 notify_deurbel_ios_bert:
   sequence:
-  - condition: template
-    value_template: '{{ (states(''input_boolean.notify_bert'') in [''on'']) }}'
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: VOORDEUR
@@ -817,14 +837,98 @@ notify_deurbel_ios_bert:
           thread-id: bezoek
 notify_deurbel_ios_caro:
   sequence:
-  - condition: template
-    value_template: '{{ (states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      in [''home'']) or (states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      in [''not_home''] and states(''person.bert'') in [''not_home'']) }}'
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: person.caroline
+      state: 'home'
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: person.caroline
+        state: 'not_home'
+      - condition: state
+        entity_id: person.caroline
+        state: 'not_home'
   - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: VOORDEUR
       message: Ding Dong! Er staat iemand aan de voordeur.
+      data:
+        push:
+          thread-id: bezoek
+notify_deurbel_back:
+  sequence:
+  - service: script.turn_on
+    entity_id:
+    - script.notify_deurbel_back_ios_bert
+    - script.notify_deurbel_back_ios_caro
+    - script.notify_deurbel_back_alexa
+notify_deurbel_back_alexa:
+  sequence:
+  - condition: template
+    value_template: '{{ states(''group.bewoners_router'') in [''home''] or states(''group.bezoekers'')
+      in [''home'']}}'
+  - condition: template
+    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
+      }}'
+  - service: notify.alexa_media
+    data:
+      target:
+      - media_player.alexa_kitchen_2
+      - media_player.alexa_livingroom_2
+      message: There is someone at the back door
+      data:
+        type: announce
+        method: speak
+  - condition: time
+    after: input_datetime.awake_week
+    before: input_datetime.radio_off
+  - service: notify.alexa_media
+    data:
+      target:
+      - media_player.alexa_bathroom
+      message: There is someone at the back door
+      data:
+        type: announce
+        method: speak
+notify_deurbel_back_ios_bert:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: ACHTERDEUR
+      message: Ding Dong! Er staat iemand aan de ACHTERdeur.
+      data:
+        push:
+          thread-id: bezoek
+notify_deurbel_back_ios_caro:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: person.caroline
+      state: 'home'
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: person.caroline
+        state: 'not_home'
+      - condition: state
+        entity_id: person.caroline
+        state: 'not_home'
+  - service: notify.mobile_app_iphone_van_caroline
+    data_template:
+      title: ACHTERDEUR
+      message: Ding Dong! Er staat iemand aan de ACHTERdeur.
       data:
         push:
           thread-id: bezoek
@@ -836,9 +940,12 @@ notify_battery:
     - script.notify_battery_alexa
 notify_heating_cold_elmo_ios_caro:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      in [''home''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - condition: state
+    entity_id: person.caroline
+    state: 'home'
   - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: VERWARMING
@@ -877,9 +984,12 @@ notify_heating_hot_cold_outside_alexa:
         method: speak
 notify_heating_hot_cold_outside_ios_bert:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] and states(''person.bert'')
-      in [''home''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - condition: state
+    entity_id: person.bert
+    state: 'home'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: VERWARMING
@@ -891,9 +1001,12 @@ notify_heating_hot_cold_outside_ios_bert:
           thread-id: huis
 notify_heating_hot_cold_outside_ios_caro:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      in [''home''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - condition: state
+    entity_id: person.caroline
+    state: 'home'
   - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: VERWARMING
@@ -934,6 +1047,9 @@ notify_hacs_update_alexa:
         method: speak
 notify_hacs_update_ios_bert:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data:
       title: SERVER UPDATE
@@ -998,8 +1114,9 @@ notify_hassio_restart_alexa:
         method: speak
 notify_hassio_restart_ios_bert:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: SERVER RESTART
@@ -1032,6 +1149,9 @@ notify_hassio_update_alexa:
         method: speak
 notify_hassio_update_ios_bert:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data:
       title: SERVER UPDATE
@@ -1068,9 +1188,12 @@ notify_heating_cold_elmo_alexa:
         method: speak
 notify_heating_cold_elmo_ios_bert:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] and states(''person.bert'')
-      in [''home''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - condition: state
+    entity_id: person.bert
+    state: 'home'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: VERWARMING
@@ -1221,6 +1344,8 @@ notify_waste_ios_bert:
         data:
           title: VUILZAKKEN
           message: Zet PMD, PAPIER, GLAS en RESTAFVAL buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1241,6 +1366,8 @@ notify_waste_ios_bert:
         data:
           title: VUILZAKKEN
           message: Zet PMD, PAPIER en het GLAS buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1260,7 +1387,9 @@ notify_waste_ios_bert:
       - service: notify.mobile_app_iphone_van_bert
         data:
           title: VUILZAKKEN
-          message: Zet PAPIER, GLAS en RESTAFVAL buiten, ze komen deze ophalen..
+          message: Zet PAPIER, GLAS en RESTAFVAL buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1281,6 +1410,8 @@ notify_waste_ios_bert:
         data:
           title: VUILZAKKEN
           message: Zet PMD, GLAS en RESTAFVAL buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1301,6 +1432,8 @@ notify_waste_ios_bert:
         data:
           title: VUILZAKKEN
           message: Zet PMD, PAPIER en RESTAFVAL buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1321,6 +1454,8 @@ notify_waste_ios_bert:
         data:
           title: VUILZAKKEN
           message: Zet PAPIER en GLAS buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1341,6 +1476,8 @@ notify_waste_ios_bert:
         data:
           title: VUILZAKKEN
           message: Zet PMD en het GLAS buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1361,6 +1498,8 @@ notify_waste_ios_bert:
         data:
           title: VUILZAKKEN
           message: Zet GLAS en RESTAFVAL buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1381,6 +1520,8 @@ notify_waste_ios_bert:
         data:
           title: VUILZAKKEN
           message: Zet PMD en het PAPIER buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1401,6 +1542,8 @@ notify_waste_ios_bert:
         data:
           title: VUILZAKKEN
           message: Zet PAPIER en RESTAFVAL buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1421,6 +1564,8 @@ notify_waste_ios_bert:
         data:
           title: VUILZAKKEN
           message: Zet PMD en RESTAFVAL buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1443,6 +1588,8 @@ notify_waste_ios_bert:
         data:
           title: VUILZAKKEN
           message: Zet GLAS buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1465,6 +1612,8 @@ notify_waste_ios_bert:
         data:
           title: VUILZAKKEN
           message: Zet PAPIER buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1487,6 +1636,8 @@ notify_waste_ios_bert:
         data:
           title: VUILZAKKEN
           message: Zet het PMD buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1507,13 +1658,17 @@ notify_waste_ios_bert:
       sequence:
       - service: notify.mobile_app_iphone_van_bert
         data:
-          title: VUILZAKKEN
-          message: Zet het RESTAFVAL buiten, ze komen deze ophalen.
+          title: 'VUILZAKKEN'
+          message: 'Zet het RESTAFVAL buiten, ze komen deze ophalen.'
+          data:
+            group: 'Ons Huisje'
     default:
     - service: notify.mobile_app_iphone_van_bert
       data:
-        title: VUILZAKKEN
-        message: Check even of er afval buiten moet. Ik ben niet zeker.          
+        title: 'VUILZAKKEN'
+        message: 'Check even of er afval buiten moet. Ik ben niet zeker.'
+        data:
+          group: 'Ons Huisje'
   mode: single
 notify_waste_ios_caro:
   sequence:
@@ -1544,6 +1699,8 @@ notify_waste_ios_caro:
         data:
           title: VUILZAKKEN
           message: Zet PMD, PAPIER, GLAS en RESTAFVAL buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1564,6 +1721,8 @@ notify_waste_ios_caro:
         data:
           title: VUILZAKKEN
           message: Zet PMD, PAPIER en het GLAS buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1583,7 +1742,9 @@ notify_waste_ios_caro:
       - service: notify.mobile_app_iphone_van_caroline
         data:
           title: VUILZAKKEN
-          message: Zet PAPIER, GLAS en RESTAFVAL buiten, ze komen deze ophalen..
+          message: Zet PAPIER, GLAS en RESTAFVAL buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1604,6 +1765,8 @@ notify_waste_ios_caro:
         data:
           title: VUILZAKKEN
           message: Zet PMD, GLAS en RESTAFVAL buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1624,6 +1787,8 @@ notify_waste_ios_caro:
         data:
           title: VUILZAKKEN
           message: Zet PMD, PAPIER en RESTAFVAL buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1644,6 +1809,8 @@ notify_waste_ios_caro:
         data:
           title: VUILZAKKEN
           message: Zet PAPIER en GLAS buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1664,6 +1831,8 @@ notify_waste_ios_caro:
         data:
           title: VUILZAKKEN
           message: Zet PMD en het GLAS buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1684,6 +1853,8 @@ notify_waste_ios_caro:
         data:
           title: VUILZAKKEN
           message: Zet GLAS en RESTAFVAL buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1704,6 +1875,8 @@ notify_waste_ios_caro:
         data:
           title: VUILZAKKEN
           message: Zet PMD en het PAPIER buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1724,6 +1897,8 @@ notify_waste_ios_caro:
         data:
           title: VUILZAKKEN
           message: Zet PAPIER en RESTAFVAL buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1744,6 +1919,8 @@ notify_waste_ios_caro:
         data:
           title: VUILZAKKEN
           message: Zet PMD en RESTAFVAL buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1766,6 +1943,8 @@ notify_waste_ios_caro:
         data:
           title: VUILZAKKEN
           message: Zet GLAS buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1788,6 +1967,8 @@ notify_waste_ios_caro:
         data:
           title: VUILZAKKEN
           message: Zet PAPIER buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1810,6 +1991,8 @@ notify_waste_ios_caro:
         data:
           title: VUILZAKKEN
           message: Zet het PMD buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     - conditions:
       - condition: numeric_state
         entity_id: sensor.recycleapp_glas
@@ -1832,11 +2015,15 @@ notify_waste_ios_caro:
         data:
           title: VUILZAKKEN
           message: Zet het RESTAFVAL buiten, ze komen deze ophalen.
+          data:
+            group: 'Ons Huisje'
     default:
     - service: notify.mobile_app_iphone_van_caroline
       data:
         title: VUILZAKKEN
-        message: Check even of er afval buiten moet. Ik ben niet zeker.          
+        message: Check even of er afval buiten moet. Ik ben niet zeker.    
+        data:
+            group: 'Ons Huisje'      
   mode: single
 notify_woning_status:
   sequence:
@@ -1877,8 +2064,9 @@ notify_woning_status_alexa:
         method: speak
 notify_woning_status_ios_bert:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
   - condition: template
     value_template: '{{ (states(''person.bert'') not in [''home''] and states(''input_select.woning_status'')
       in [''Op Vakantie'']) or (states(''person.bert'') in [''home''] and states(''input_select.woning_status'')
@@ -1893,12 +2081,12 @@ notify_woning_status_ios_bert:
         \  Het lijkt alsof je nog thuis bent vandaag. Ik zal de verwarming aan laten.\n\
         {% endif %}\n"
       data:
-        push:
-          thread-id: huis
+        group: 'Ons Huisje'
 notify_woning_status_ios_caro:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
   - condition: template
     value_template: '{{ (states(''person.caroline'') not in [''home''] and states(''input_select.woning_status'')
       in [''Op Vakantie'']) or (states(''person.caroline'') in [''home''] and states(''input_select.woning_status'')
@@ -1917,8 +2105,9 @@ notify_woning_status_ios_caro:
           thread-id: huis
 notify_homekit_restart_ios_bert:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: HOMEKIT
@@ -1954,10 +2143,12 @@ notify_light_elmo_alexa:
   mode: single
 notify_light_elmo_ios_bert:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] }}'
-  - condition: template
-    value_template: '{{ states(''person.bert'') in [''home''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - condition: state
+    entity_id: person.bert
+    state: 'home'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: ELMO
@@ -1969,10 +2160,12 @@ notify_light_elmo_ios_bert:
   mode: single
 notify_light_elmo_ios_caro:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] }}'
-  - condition: template
-    value_template: '{{ states(''person.caroline'') in [''home''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - condition: state
+    entity_id: person.caroline
+    state: 'home'
   - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: ELMO
@@ -1984,6 +2177,9 @@ notify_light_elmo_ios_caro:
   mode: single
 notify_nmbs_brussel_mechelen_ios_bert:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: TREIN BRUS-MECH
@@ -1998,6 +2194,9 @@ notify_nmbs_brussel_mechelen_ios_bert:
           thread-id: trein
 notify_nmbs_mechelen_brussel_ios_bert:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: TREIN MECH-BRUS
@@ -2012,6 +2211,9 @@ notify_nmbs_mechelen_brussel_ios_bert:
           thread-id: trein
 notify_nmbs_mechelen_willebroek_ios_bert:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: TREIN MECH-WILL
@@ -2026,6 +2228,9 @@ notify_nmbs_mechelen_willebroek_ios_bert:
           thread-id: trein
 notify_nmbs_willebroek_mechelen_ios_bert:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: TREIN WILL-MECH
@@ -2076,8 +2281,9 @@ notify_printer_alexa:
         method: speak
 notify_printer_ios_bert:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: PRINTER
@@ -2094,8 +2300,9 @@ notify_printer_ios_bert:
           thread-id: huis
 notify_printer_ios_caro:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
   - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: PRINTER
@@ -2138,8 +2345,9 @@ notify_tracker_bert_thuis_alexa:
         method: speak
 notify_tracker_bert_thuis_ios_caro:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
   - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: BERT STATUS
@@ -2191,8 +2399,9 @@ notify_tracker_bert_zones_alexa:
         method: speak
 notify_tracker_bert_zones_ios_caro:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
   - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: BERT STATUS
@@ -2238,9 +2447,14 @@ notify_tracker_bezoeker_thuis_alexa:
         method: speak
 notify_tracker_bezoeker_thuis_ios_bert:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] and states(''person.bert'')
-      not in [''home''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: person.bert
+      state: 'home'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: BEZOEKER
@@ -2252,9 +2466,14 @@ notify_tracker_bezoeker_thuis_ios_bert:
           thread-id: bezoek
 notify_tracker_bezoeker_thuis_ios_caro:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      not in [''home''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: person.caroline
+      state: 'home'
   - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: BEZOEKER
@@ -2292,8 +2511,9 @@ notify_tracker_caro_thuis_alexa:
         method: speak
 notify_tracker_caro_thuis_ios_bert:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: CARO STATUS
@@ -2403,9 +2623,14 @@ notify_vacuum_alexa:
         method: speak
 notify_vacuum_ios_bert:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_bert'') in [''on''] and states(''person.bert'')
-      not in [''home''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: person.bert
+      state: 'home'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
       title: DUSTY
@@ -2423,9 +2648,14 @@ notify_vacuum_ios_bert:
           thread-id: huis
 notify_vacuum_ios_caro:
   sequence:
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      not in [''home''] }}'
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: person.caroline
+      state: 'home'
   - service: notify.mobile_app_iphone_van_caroline
     data_template:
       title: DUSTY
@@ -2441,62 +2671,3 @@ notify_vacuum_ios_caro:
       data:
         push:
           thread-id: huis
-notify_deurbel_back:
-  sequence:
-  - service: script.turn_on
-    entity_id:
-    - script.notify_deurbel_back_ios_bert
-    - script.notify_deurbel_back_ios_caro
-    - script.notify_deurbel_back_alexa
-notify_deurbel_back_alexa:
-  sequence:
-  - condition: template
-    value_template: '{{ states(''group.bewoners_router'') in [''home''] or states(''group.bezoekers'')
-      in [''home'']}}'
-  - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
-      }}'
-  - service: notify.alexa_media
-    data:
-      target:
-      - media_player.alexa_kitchen_2
-      - media_player.alexa_livingroom_2
-      message: There is someone at the back door
-      data:
-        type: announce
-        method: speak
-  - condition: time
-    after: input_datetime.awake_week
-    before: input_datetime.radio_off
-  - service: notify.alexa_media
-    data:
-      target:
-      - media_player.alexa_bathroom
-      message: There is someone at the back door
-      data:
-        type: announce
-        method: speak
-notify_deurbel_back_ios_bert:
-  sequence:
-  - condition: template
-    value_template: '{{ (states(''input_boolean.notify_bert'') in [''on'']) }}'
-  - service: notify.mobile_app_iphone_van_bert
-    data_template:
-      title: ACHTERDEUR
-      message: Ding Dong! Er staat iemand aan de ACHTERdeur.
-      data:
-        push:
-          thread-id: bezoek
-notify_deurbel_back_ios_caro:
-  sequence:
-  - condition: template
-    value_template: '{{ (states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      in [''home'']) or (states(''input_boolean.notify_caro'') in [''on''] and states(''person.caroline'')
-      in [''not_home''] and states(''person.bert'') in [''not_home'']) }}'
-  - service: notify.mobile_app_iphone_van_caroline
-    data_template:
-      title: ACHTERDEUR
-      message: Ding Dong! Er staat iemand aan de ACHTERdeur.
-      data:
-        push:
-          thread-id: bezoek
