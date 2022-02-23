@@ -143,27 +143,27 @@
   alias: Muziek - Beneden - Play 2
   trigger:
   - platform: state
-    to: 'playing'
+    to: playing
     entity_id: media_player.alexa_livingroom_1
   - platform: state
-    to: 'playing'
+    to: playing
     entity_id: media_player.alexa_kitchen_amp
   condition:
   - condition: or
     conditions:
     - condition: state
-      state: 'playing'
+      state: playing
       entity_id: media_player.alexa_kitchen_amp
     - condition: state
-      state: 'playing'
+      state: playing
       entity_id: media_player.alexa_livingroom_1
   - condition: not
     conditions:
     - condition: state
-      state: 'playing'
+      state: playing
       entity_id: media_player.alexa_downstairs
     - condition: state
-      state: 'playing'
+      state: playing
       entity_id: media_player.alexa_everywhere
   action:
   - service: script.turn_on
@@ -192,36 +192,36 @@
   - condition: not
     conditions:
     - condition: state
-      state: 'playing'
+      state: playing
       entity_id: media_player.alexa_livingroom_1
   - condition: not
     conditions:
     - condition: state
-      state: 'playing'
+      state: playing
       entity_id: media_player.alexa_downstairs
   - condition: not
     conditions:
     - condition: state
-      state: 'playing'
+      state: playing
       entity_id: media_player.alexa_everywhere
   - condition: or
     conditions:
     - condition: state
       entity_id: input_select.woning_status
-      state: 'Thuis'
+      state: Thuis
     - condition: state
       entity_id: input_select.woning_status
-      state: 'Thuis (Verlof)'
+      state: Thuis (Verlof)
   - condition: or
     conditions:
     - condition: state
       entity_id: remote.harmony_hub
       attribute: current_activity
-      state: 'PowerOff'
+      state: PowerOff
     - condition: state
       entity_id: remote.harmony_hub
       attribute: current_activity
-      state: 'Alexa'
+      state: Alexa
   action:
   - delay: 00:01:00
   - condition: or
@@ -229,11 +229,11 @@
     - condition: state
       entity_id: remote.harmony_hub
       attribute: current_activity
-      state: 'PowerOff'
+      state: PowerOff
     - condition: state
       entity_id: remote.harmony_hub
       attribute: current_activity
-      state: 'Alexa'
+      state: Alexa
   - service: script.turn_on
     entity_id: script.radio_downstairs_on
   mode: single
@@ -810,11 +810,11 @@
   alias: Verluchting - Boolean based on Outside Temperature (Boven)
   trigger:
   - platform: template
-    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float(0)
-      + 2) < state_attr('climate.kamer_elmo'', ''current_temperature') }}"
+    value_template: '{{ (state_attr(''weather.dark_sky'', ''temperature'')| float(0)
+      + 2) < state_attr(''climate.kamer_elmo'''', ''''current_temperature'') }}'
   - platform: template
-    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float(0)
-      + 1) > state_attr('climate.kamer_elmo', 'current_temperature') }}"
+    value_template: '{{ (state_attr(''weather.dark_sky'', ''temperature'')| float(0)
+      + 1) > state_attr(''climate.kamer_elmo'', ''current_temperature'') }}'
   condition:
   - condition: state
     entity_id: sensor.season
@@ -830,11 +830,11 @@
   alias: Verluchting - Boolean based on Outside Temperature (Beneden)
   trigger:
   - platform: template
-    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float(0)
-      + 2) < state_attr('climate.keuken', 'current_temperature') }}"
+    value_template: '{{ (state_attr(''weather.dark_sky'', ''temperature'')| float(0)
+      + 2) < state_attr(''climate.keuken'', ''current_temperature'') }}'
   - platform: template
-    value_template: "{{ (state_attr('weather.dark_sky', 'temperature')| float(0)
-      + 1) > state_attr('climate.keuken', 'current_temperature') }}"
+    value_template: '{{ (state_attr(''weather.dark_sky'', ''temperature'')| float(0)
+      + 1) > state_attr(''climate.keuken'', ''current_temperature'') }}'
   condition:
   - condition: state
     entity_id: sensor.season
@@ -1275,23 +1275,20 @@
   - condition: or
     conditions:
     - condition: template
-      value_template: "{{ (states('input_select.woning_status') in ['Weg',
-        'Op Vakantie'] and states('group.bewoners') in ['home'])
-        or (states('input_select.woning_status') in ['Weg'] and states('group.bezoekers')
-        in ['home']) }}"
+      value_template: "{{ (states('input_select.woning_status') in ['Weg', 'Op
+        Vakantie'] and states('group.bewoners') in ['home']) or (states('input_select.woning_status')
+        in ['Weg'] and states('group.bezoekers') in ['home']) }}"
     - condition: template
-      value_template: "{{ states('input_select.woning_status') in ['Juist
-        Thuis', 'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] and
-        states('group.bewoners') in ['not_home'] and states('group.bezoekers')
-        in ['not_home'] }}"
+      value_template: "{{ states('input_select.woning_status') in ['Juist Thuis',
+        'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] and states('group.bewoners')
+        in ['not_home'] and states('group.bezoekers') in ['not_home'] }}"
     - condition: template
-      value_template: "{{ states('input_select.woning_status') in ['Juist
-        Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers')
-        in ['home']) and states('calendar.verlof_agenda') in ['on']
-        }}"
+      value_template: "{{ states('input_select.woning_status') in ['Juist Weg']
+        and (states('group.bewoners') in ['home'] or states('group.bezoekers')
+        in ['home']) and states('calendar.verlof_agenda') in ['on'] }}"
     - condition: template
-      value_template: "{{ states('input_select.woning_status') in ['Juist
-        Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers')
+      value_template: "{{ states('input_select.woning_status') in ['Juist Weg']
+        and (states('group.bewoners') in ['home'] or states('group.bezoekers')
         in ['home']) }}"
   action:
   - service: input_select.select_option
@@ -3427,7 +3424,7 @@
 - id: battery_001
   alias: Batterij - Bijna Leeg
   trigger:
-  - below: 9
+  - below: '9'
     entity_id:
     - sensor.hue_sensor_tuin_power
     - sensor.hue_sensor_tuinhuis_power
