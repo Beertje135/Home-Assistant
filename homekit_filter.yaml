@@ -20,6 +20,7 @@ exclude_domains:
   - sensor
   - switch
 include_entities:
+  - input_button.wake_elmo
   - binary_sensor.hue_sensor_keuken_motion
   - binary_sensor.hue_sensor_dressing_motion
   - binary_sensor.hue_sensor_woonkamer_motion
@@ -50,6 +51,7 @@ include_entities:
   - media_player.alexa_bathroom
   - media_player.alexa_livingroom_1
   - input_boolean.vacuum_clean_today
+  - input_boolean.elmo_wekker
   - input_boolean.visitor
   - input_boolean.notify_caro
   - input_boolean.notify_bert
