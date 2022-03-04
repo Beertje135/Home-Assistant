@@ -165,7 +165,7 @@ views:
           - id: update_tracker_0
             type: entity-filter
             entities:
-              - entity: binary_sensor.updater
+              - entity: binary_sensor.home_assistant_website_update_available
                 name: Updates
               - entity: sensor.hacs
                 name: Updates Hacs
@@ -1913,7 +1913,7 @@ views:
                       - '3'
                       - '4'
                     entities:
-                      - entity: binary_sensor.updater
+                      - entity: binary_sensor.home_assistant_website_update_available
                         name: Updates
                       - entity: sensor.hacs
                         name: Updates Hacs
