@@ -19,9 +19,17 @@ all_remote_off:
   - condition: state
     entity_id: input_boolean.keep_computer_on
     state: 'off'
-  - condition: template
-    value_template: '{{ states(''input_select.woning_status'') in [''Juist Weg'',
-      ''Weg'', ''Slapen''] }}'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: 'Juist Weg'
+    - condition: state
+      entity_id: input_select.woning_status
+      state: 'Weg'
+    - condition: state
+      entity_id: input_select.woning_status
+      state: 'Slapen'
   - service: script.turn_on
     entity_id: script.computer_off
 all_music_off:
@@ -56,8 +64,9 @@ dusty_on:
   - condition: numeric_state
     entity_id: sensor.hue_sensor_keuken_light_level
     above: '10'
-  - condition: template
-    value_template: '{{ states(''vacuum.dusty'') in [''docked''] }}'
+  - condition: state
+    entity_id: vacuum.dusty
+    state: 'docked'
   - condition: state
     entity_id: input_boolean.vacuum_clean_today
     state: 'on'
@@ -68,8 +77,11 @@ dusty_on:
 dusty_off:
   alias: Dusty - Uit
   sequence:
-  - condition: template
-    value_template: '{{ states(''vacuum.dusty'') not in [''docked''] }}'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: vacuum.dusty
+      state: 'docked'
   - service: vacuum.return_to_base
     data:
       entity_id: vacuum.dusty
@@ -463,14 +475,23 @@ light_livingroom_off:
       - condition: state
         entity_id: input_boolean.light_downstairs
         state: 'on'
-      - condition: state
-        entity_id: input_select.woning_status
-        state:
-        - Thuis
-        - Juist Thuis
-        - Thuis (Verlof)
-        - Thuis (Werk)
-        - Juist Wakker
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: input_select.woning_status
+          state: 'Thuis'
+        - condition: state
+          entity_id: input_select.woning_status
+          state: 'Juist Thuis'
+        - condition: state
+          entity_id: input_select.woning_status
+          state: 'Thuis (Verlof)'
+        - condition: state
+          entity_id: input_select.woning_status
+          state: 'Thuis (Werk)'
+        - condition: state
+          entity_id: input_select.woning_status
+          state: 'Juist Wakker'
       sequence:
       - service: scene.turn_on
         data:
