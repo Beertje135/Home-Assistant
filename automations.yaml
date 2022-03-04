@@ -140,23 +140,15 @@
   - service: script.turn_on
     entity_id: script.notify_waste
 - id: music_downstairs_001
-  alias: Muziek - Beneden - Play 2
+  alias: Muziek - Beneden - Play Sync With Kitchen
   trigger:
   - platform: state
     to: playing
     entity_id: media_player.alexa_livingroom_1
-  - platform: state
-    to: playing
-    entity_id: media_player.alexa_kitchen_amp
   condition:
-  - condition: or
-    conditions:
-    - condition: state
-      state: playing
-      entity_id: media_player.alexa_kitchen_amp
-    - condition: state
-      state: playing
-      entity_id: media_player.alexa_livingroom_1
+  - condition: state
+    state: playing
+    entity_id: media_player.alexa_kitchen_amp
   - condition: not
     conditions:
     - condition: state
@@ -170,18 +162,23 @@
     entity_id: script.radio_downstairs_on
   mode: single
 - id: music_downstairs_002
-  alias: Muziek - Beneden - Play 1
+  alias: Muziek - Beneden - Play
   trigger:
   - platform: state
     entity_id: binary_sensor.hue_sensor_woonkamer_motion
     from: 'off'
     to: 'on'
   condition:
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'off'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: sensor.bezoek
+      state: home
+    - condition: state
+      entity_id: binary_sensor.workday_sensor
+      state: 'off'
   - condition: time
-    after: 07:15:00
+    after: 08:00:00
     before: '19:00:00'
   - condition: state
     state: 'on'
@@ -193,17 +190,13 @@
     conditions:
     - condition: state
       state: playing
+      entity_id: media_player.alexa_everywhere
+    - condition: state
+      state: playing
       entity_id: media_player.alexa_livingroom_1
-  - condition: not
-    conditions:
     - condition: state
       state: playing
       entity_id: media_player.alexa_downstairs
-  - condition: not
-    conditions:
-    - condition: state
-      state: playing
-      entity_id: media_player.alexa_everywhere
   - condition: or
     conditions:
     - condition: state
@@ -236,6 +229,63 @@
       state: Alexa
   - service: script.turn_on
     entity_id: script.radio_downstairs_on
+  mode: single
+- id: music_downstairs_003
+  alias: Muziek - Beneden - Stop
+  trigger:
+  - entity_id: binary_sensor.hue_sensor_woonkamer_motion
+    for: 0:30:00
+    platform: state
+    to: 'off'
+  - platform: time
+    at: input_datetime.radio_off
+  - platform: state
+    entity_id: remote.harmony_hub
+    attribute: current_activity
+    to: TV Decoder
+  - platform: state
+    entity_id: remote.harmony_hub
+    attribute: current_activity
+    to: Apple tv
+  - platform: state
+    entity_id: remote.harmony_hub
+    attribute: current_activity
+    to: WebOS
+  - platform: state
+    entity_id: input_boolean.media_kitchen
+    to: 'on'
+  - platform: state
+    entity_id: media_player.apple_tv_keuken
+    to: playing
+  - platform: state
+    entity_id: input_boolean.media_livingroom
+    to: 'on'
+  - platform: state
+    entity_id: media_player.apple_tv_woonkamer
+    to: playing
+  condition:
+  - condition: state
+    entity_id: media_player.alexa_livingroom_1
+    state: playing
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: media_player.alexa_downstairs
+        state: playing
+      sequence:
+      - service: script.turn_on
+        entity_id: script.radio_downstairs_off
+    - conditions:
+      - condition: state
+        entity_id: media_player.alexa_livingroom_1
+        state: playing
+      sequence:
+      - service: script.turn_on
+        entity_id: script.radio_livingroom_off
+    default:
+    - service: script.turn_on
+      entity_id: script.empty
   mode: single
 - id: music_livingroom_001
   alias: Muziek - Woonkamer - Play
@@ -311,39 +361,6 @@
     default:
     - service: script.turn_on
       entity_id: script.empty
-- id: music_livingroom_002
-  alias: Muziek - Woonkamer - Stop
-  trigger:
-  - entity_id: binary_sensor.hue_sensor_woonkamer_motion
-    for: 0:30:00
-    platform: state
-    to: 'off'
-  - platform: time
-    at: input_datetime.radio_off
-  condition:
-  - condition: state
-    entity_id: media_player.alexa_livingroom_1
-    state: playing
-  action:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: media_player.alexa_downstairs
-        state: playing
-      sequence:
-      - service: script.turn_on
-        entity_id: script.radio_downstairs_off
-    - conditions:
-      - condition: state
-        entity_id: media_player.alexa_livingroom_1
-        state: playing
-      sequence:
-      - service: script.turn_on
-        entity_id: script.radio_livingroom_off
-    default:
-    - service: script.turn_on
-      entity_id: script.empty
-  mode: single
 - id: music_bathroom_001
   alias: Muziek - Badkamer - Play
   trigger:
@@ -485,20 +502,17 @@
     to: 'on'
   - platform: state
     entity_id: media_player.apple_tv_keuken
-    to: playing
+    to: 'playing'
   - platform: state
     entity_id: input_boolean.media_livingroom
     to: 'on'
   - platform: state
     entity_id: media_player.apple_tv_woonkamer
-    to: playing
+    to: 'playing'
   condition:
   - condition: state
-    entity_id: input_boolean.music_follow
-    state: 'on'
-  - condition: state
     entity_id: media_player.alexa_kitchen_amp
-    state: playing
+    state: 'playing'
   - condition: or
     conditions:
     - condition: state
@@ -811,7 +825,7 @@
   trigger:
   - platform: template
     value_template: '{{ (state_attr(''weather.dark_sky'', ''temperature'')| float(0)
-      + 2) < state_attr(''climate.kamer_elmo'''', ''''current_temperature'') }}'
+      + 2) < state_attr(''climate.kamer_elmo'', ''current_temperature'') }}'
   - platform: template
     value_template: '{{ (state_attr(''weather.dark_sky'', ''temperature'')| float(0)
       + 1) > state_attr(''climate.kamer_elmo'', ''current_temperature'') }}'
@@ -1279,17 +1293,17 @@
         Vakantie'] and states('group.bewoners') in ['home']) or (states('input_select.woning_status')
         in ['Weg'] and states('group.bezoekers') in ['home']) }}"
     - condition: template
-      value_template: "{{ states('input_select.woning_status') in ['Juist Thuis',
-        'Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] and states('group.bewoners')
-        in ['not_home'] and states('group.bezoekers') in ['not_home'] }}"
+      value_template: "{{ states(''input_select.woning_status'') in [''Juist Thuis'',
+        ''Thuis'', ''Thuis (Werk)'', ''Thuis (Verlof)''] and states(''group.bewoners'')
+        in [''not_home''] and states(''group.bezoekers'') in [''not_home''] }}"
     - condition: template
-      value_template: "{{ states('input_select.woning_status') in ['Juist Weg']
-        and (states('group.bewoners') in ['home'] or states('group.bezoekers')
-        in ['home']) and states('calendar.verlof_agenda') in ['on'] }}"
+      value_template: "{{ states(''input_select.woning_status'') in [''Juist Weg'']
+        and (states(''group.bewoners'') in [''home''] or states(''group.bezoekers'')
+        in [''home'']) and states(''calendar.verlof_agenda'') in [''on''] }}"
     - condition: template
-      value_template: "{{ states('input_select.woning_status') in ['Juist Weg']
-        and (states('group.bewoners') in ['home'] or states('group.bezoekers')
-        in ['home']) }}"
+      value_template: "{{ states(''input_select.woning_status'') in [''Juist Weg'']
+        and (states(''group.bewoners'') in [''home''] or states(''group.bezoekers'')
+        in [''home'']) }}"
   action:
   - service: input_select.select_option
     entity_id: input_select.woning_status
@@ -1963,7 +1977,7 @@
   initial_state: false
   trigger:
   - platform: state
-    entity_id: binary_sensor.updater
+    entity_id: binary_sensor.home_assistant_website_update_available
     to: 'on'
   action:
   - service: script.turn_on
@@ -3017,6 +3031,9 @@
       minutes: 1
       seconds: 2
       milliseconds: 0
+  - condition: state
+    entity_id: input_boolean.elmo_wekker
+    state: 'on'
   - service: script.turn_on
     entity_id: script.light_bedroom2_on
   mode: single
@@ -3048,6 +3065,9 @@
       minutes: 1
       seconds: 2
       milliseconds: 0
+  - condition: state
+    entity_id: input_boolean.elmo_wekker
+    state: 'on'
   - service: script.turn_on
     entity_id: script.light_bedroom2_on
   mode: single
