@@ -10,6 +10,7 @@
       - input_select
       - input_text
       - light
+      - scene
       - script
       - sensor
       - switch
@@ -33,7 +34,6 @@
       - media_player
       - person
       - remote
-      - scene
       - vacuum
     entities:
       - binary_sensor.hue_sensor_dressing_motion
