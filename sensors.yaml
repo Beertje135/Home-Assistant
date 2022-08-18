@@ -66,11 +66,14 @@
     climate_veranda_attribute_current_temperature:
       value_template: "{{ (((state_attr('climate.woonkamer', 'current_temperature') | float(0) ) + (state_attr('climate.keuken', 'current_temperature') | float(0) )) / 2) | round(2) }}"
       unit_of_measurement: '°C'
+    climate_zolder_attribute_current_temperature:
+      value_template: "{{ (state_attr('climate.zolder', 'current_temperature') | float(0) ) | round(2) }}"
+      unit_of_measurement: '°C'
 
 - platform: template
   sensors:
     template_ons_huisje_set_temperature:
-      value_template: "{{ (((state_attr('climate.badkamer', 'temperature') | float(0) ) + (state_attr('climate.keuken', 'temperature') | float(0) ) + (state_attr('climate.woonkamer', 'temperature') | float(0) ) + (state_attr('climate.dressing', 'temperature') | float(0) ) + (state_attr('climate.slp_kamer', 'temperature') | float(0) ) + (state_attr('climate.kamer_elmo', 'temperature') | float(0) )) / 6) | round(2) }}"
+      value_template: "{{ (((state_attr('climate.badkamer', 'temperature') | float(0) ) + (state_attr('climate.zolder', 'temperature') | float(0) ) + (state_attr('climate.keuken', 'temperature') | float(0) ) + (state_attr('climate.woonkamer', 'temperature') | float(0) ) + (state_attr('climate.dressing', 'temperature') | float(0) ) + (state_attr('climate.slp_kamer', 'temperature') | float(0) ) + (state_attr('climate.kamer_elmo', 'temperature') | float(0) )) / 7) | round(2) }}"
       unit_of_measurement: '°C'
 
 - platform: template

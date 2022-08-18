@@ -5,33 +5,33 @@
       brightness: 10
       friendly_name: Hue Light Dressing One
       supported_features: 41
-      state: "on"
+      state: 'on'
     light.hue_light_dressing_two:
       brightness: 10
       friendly_name: Hue Light Dressing Two
       supported_features: 41
-      state: "on"
+      state: 'on'
     light.hue_light_dressing_three:
       brightness: 10
       friendly_name: Hue Light Dressing Three
       supported_features: 41
-      state: "on"
+      state: 'on'
 - id: '1608016565504'
   name: Dressing - Nacht
   entities:
     light.hue_light_dressing_one:
       friendly_name: Hue Light Dressing One
       supported_features: 41
-      state: "off"
+      state: 'off'
     light.hue_light_dressing_two:
       brightness: 5
       friendly_name: Hue Light Dressing Two
       supported_features: 41
-      state: "on"
+      state: 'on'
     light.hue_light_dressing_three:
       friendly_name: Hue Light Dressing Three
       supported_features: 41
-      state: "off"
+      state: 'off'
 - id: '1608016595510'
   name: Dressing - Normaal
   entities:
@@ -39,32 +39,32 @@
       brightness: 255
       friendly_name: Hue Light Dressing One
       supported_features: 41
-      state: "on"
+      state: 'on'
     light.hue_light_dressing_two:
       brightness: 255
       friendly_name: Hue Light Dressing Two
       supported_features: 41
-      state: "on"
+      state: 'on'
     light.hue_light_dressing_three:
       brightness: 255
       friendly_name: Hue Light Dressing Three
       supported_features: 41
-      state: "on"
+      state: 'on'
 - id: '1608016667601'
   name: Dressing - Uit
   entities:
     light.hue_light_dressing_one:
       friendly_name: Hue Light Dressing One
       supported_features: 41
-      state: "off"
+      state: 'off'
     light.hue_light_dressing_three:
       friendly_name: Hue Light Dressing Three
       supported_features: 41
-      state: "off"
+      state: 'off'
     light.hue_light_dressing_two:
       friendly_name: Hue Light Dressing Two
       supported_features: 41
-      state: "off"
+      state: 'off'
 - id: '1608032972711'
   name: Keuken - Nacht
   entities:
@@ -91,7 +91,7 @@
       off_brightness:
       friendly_name: Kitchen LED
       supported_features: 63
-      state: "on"
+      state: 'on'
     light.milight_keuken_bridge:
       effect_list:
       - colorloop
@@ -115,7 +115,7 @@
       friendly_name: Kitchen Tv LED
       supported_features: 61
       icon: mdi:television-clean
-      state: "on"
+      state: 'on'
 - id: '1608033168765'
   name: Keuken - Normaal
   entities:
@@ -143,7 +143,7 @@
       off_brightness:
       friendly_name: Kitchen LED
       supported_features: 63
-      state: "on"
+      state: 'on'
     light.milight_keuken_bridge:
       effect_list:
       - colorloop
@@ -167,7 +167,7 @@
       friendly_name: Kitchen Tv LED
       supported_features: 61
       icon: mdi:television-clean
-      state: "on"
+      state: 'on'
 - id: '1608033223731'
   name: Keuken - Gedimmed
   entities:
@@ -195,7 +195,7 @@
       off_brightness:
       friendly_name: Kitchen LED
       supported_features: 63
-      state: "on"
+      state: 'on'
     light.milight_keuken_bridge:
       effect_list:
       - colorloop
@@ -219,7 +219,7 @@
       friendly_name: Kitchen Tv LED
       supported_features: 61
       icon: mdi:television-clean
-      state: "on"
+      state: 'on'
 - id: '1608033360773'
   name: Keuken - Film
   entities:
@@ -247,7 +247,7 @@
       off_brightness:
       friendly_name: Lightstrip Keuken On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
     light.milight_keuken_bridge:
       effect_list:
       - colorloop
@@ -270,7 +270,7 @@
       assumed_state: true
       friendly_name: Kitchen Tv LED
       supported_features: 61
-      state: "on"
+      state: 'on'
 - id: '1608051219785'
   name: Keuken - Televisie
   entities:
@@ -298,7 +298,7 @@
       off_brightness:
       friendly_name: Kitchen LED
       supported_features: 63
-      state: "on"
+      state: 'on'
     light.milight_keuken_bridge:
       effect_list:
       - colorloop
@@ -322,7 +322,7 @@
       friendly_name: Kitchen Tv LED
       supported_features: 61
       icon: mdi:television-clean
-      state: "on"
+      state: 'on'
 - id: '1608033504685'
   name: Keuken - Uit
   entities:
@@ -337,7 +337,7 @@
       off_brightness:
       friendly_name: Kitchen LED
       supported_features: 63
-      state: "off"
+      state: 'off'
     light.milight_keuken_bridge:
       effect_list:
       - colorloop
@@ -349,7 +349,7 @@
       friendly_name: Kitchen Tv LED
       supported_features: 61
       icon: mdi:television-clean
-      state: "off"
+      state: 'off'
 - id: '1608049415666'
   name: Tuin 2 - Normaal
   entities:
@@ -377,7 +377,7 @@
       off_brightness:
       friendly_name: Hue Light Tuin One On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
     light.hue_light_tuin_three:
       min_mireds: 153
       max_mireds: 500
@@ -402,7 +402,7 @@
       off_brightness:
       friendly_name: Hue Light Tuin Three On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
     light.hue_light_tuin_four:
       min_mireds: 153
       max_mireds: 500
@@ -427,7 +427,7 @@
       off_brightness:
       friendly_name: Hue Light Tuin Four On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
 - id: '1608049445477'
   name: Tuin 2 - Uit
   entities:
@@ -442,7 +442,7 @@
       off_brightness:
       friendly_name: Hue Light Tuin One On/Off
       supported_features: 63
-      state: "off"
+      state: 'off'
     light.hue_light_tuin_three:
       min_mireds: 153
       max_mireds: 500
@@ -454,7 +454,7 @@
       off_brightness:
       friendly_name: Hue Light Tuin Three On/Off
       supported_features: 63
-      state: "off"
+      state: 'off'
     light.hue_light_tuin_four:
       min_mireds: 153
       max_mireds: 500
@@ -466,7 +466,7 @@
       off_brightness:
       friendly_name: Hue Light Tuin Four On/Off
       supported_features: 63
-      state: "off"
+      state: 'off'
 - id: '1608049487168'
   name: Tuin 1 - Normaal
   entities:
@@ -494,7 +494,7 @@
       off_brightness:
       friendly_name: Hue Light Tuin Two On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
     light.hue_light_tuin_five:
       min_mireds: 153
       max_mireds: 500
@@ -519,7 +519,7 @@
       off_brightness:
       friendly_name: Hue Light Tuin Five On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
     light.hue_light_tuin_six:
       min_mireds: 153
       max_mireds: 500
@@ -544,7 +544,7 @@
       off_brightness:
       friendly_name: Hue Light Tuin Six On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
 - id: '1608049519088'
   name: Tuin 1 - Uit
   entities:
@@ -559,7 +559,7 @@
       off_brightness:
       friendly_name: Hue Light Tuin Two On/Off
       supported_features: 63
-      state: "off"
+      state: 'off'
     light.hue_light_tuin_five:
       min_mireds: 153
       max_mireds: 500
@@ -571,7 +571,7 @@
       off_brightness:
       friendly_name: Hue Light Tuin Five On/Off
       supported_features: 63
-      state: "off"
+      state: 'off'
     light.hue_light_tuin_six:
       min_mireds: 153
       max_mireds: 500
@@ -583,7 +583,7 @@
       off_brightness:
       friendly_name: Hue Light Tuin Six On/Off
       supported_features: 63
-      state: "off"
+      state: 'off'
 - id: '1608049557900'
   name: Tuinhuis - Normaal
   entities:
@@ -611,7 +611,7 @@
       off_brightness:
       friendly_name: Hue Light Tuinhuis On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
 - id: '1608049578558'
   name: Tuinhuis - Uit
   entities:
@@ -626,7 +626,7 @@
       off_brightness:
       friendly_name: Hue Light Tuinhuis On/Off
       supported_features: 63
-      state: "off"
+      state: 'off'
 - id: '1608271507499'
   name: Slaapkamer 2 - Uit
   entities:
@@ -639,12 +639,12 @@
       friendly_name: Elmo's Room Floor Light
       supported_features: 63
       icon: mdi:floor-lamp
-      state: "off"
+      state: 'off'
     light.hue_light_kamer_elmo_two:
       friendly_name: Elmo's Room Light
       supported_features: 41
       icon: mdi:ceiling-light
-      state: "off"
+      state: 'off'
 - id: '1608271612872'
   name: Slaapkamer 2 - Nacht
   entities:
@@ -657,12 +657,12 @@
       friendly_name: Elmo's Room Floor Light
       supported_features: 63
       icon: mdi:floor-lamp
-      state: "off"
+      state: 'off'
     light.hue_light_kamer_elmo_two:
       friendly_name: Elmo's Room Light
       supported_features: 41
       icon: mdi:ceiling-light
-      state: "off"
+      state: 'off'
 - id: '1608271655220'
   name: Slaapkamer 2 - Ochtend
   entities:
@@ -691,14 +691,14 @@
       friendly_name: Hue Light Kamer Elmo One
       icon: mdi:floor-lamp
       supported_features: 63
-      state: "on"
+      state: 'on'
     light.hue_light_kamer_elmo_two:
       supported_color_modes:
       - brightness
       friendly_name: Hue Light Kamer Elmo Two
       icon: mdi:ceiling-light
       supported_features: 41
-      state: "off"
+      state: 'off'
 - id: '1608273794216'
   name: Slaapkamer 2 - Normaal
   entities:
@@ -714,12 +714,12 @@
       friendly_name: Elmo's Room Floor Light
       supported_features: 63
       icon: mdi:floor-lamp
-      state: "on"
+      state: 'on'
     light.hue_light_kamer_elmo_two:
       friendly_name: Elmo's Room Light
       supported_features: 41
       icon: mdi:ceiling-light
-      state: "off"
+      state: 'off'
 - id: '1608280007790'
   name: Badkamer - Gedimmed
   entities:
@@ -748,7 +748,7 @@
       friendly_name: Bathroom LED
       supported_features: 63
       icon: mdi:led-strip-variant
-      state: "on"
+      state: 'on'
 - id: '1608280031081'
   name: Badkamer - Nacht
   entities:
@@ -775,7 +775,7 @@
       off_brightness:
       friendly_name: Lightstrip Badkamer On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
 - id: '1608280054419'
   name: Badkamer - Normaal
   entities:
@@ -804,7 +804,7 @@
       friendly_name: Bathroom LED
       supported_features: 63
       icon: mdi:led-strip-variant
-      state: "on"
+      state: 'on'
 - id: '1608280375574'
   name: Veranda - Uit
   entities:
@@ -812,18 +812,18 @@
       friendly_name: Veranda Light
       supported_features: 41
       icon: mdi:floor-lamp
-      state: "off"
+      state: 'off'
     switch.hue_smart_plug_veranda:
       friendly_name: Veranda LED
       supported_features: 40
       icon: mdi:string-lights
       display_categories: light
-      state: "off"
+      state: 'off'
     switch.hue_smart_plug_eetkamer:
       friendly_name: Extra Plug
       supported_features: 40
       display_categories: light
-      state: "off"
+      state: 'off'
 - id: '1608281388233'
   name: Veranda - Normaal
   entities:
@@ -851,13 +851,13 @@
       off_brightness:
       friendly_name: Hue Light Veranda On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
     switch.hue_smart_plug_veranda:
       friendly_name: Hue Smart Plug Veranda On/Off
-      state: "on"
+      state: 'on'
     switch.hue_smart_plug_eetkamer:
       friendly_name: Hue Smart Plug Eetkamer On/Off
-      state: "on"
+      state: 'on'
 - id: '1608281440716'
   name: Veranda - Televisie
   entities:
@@ -885,13 +885,13 @@
       off_brightness:
       friendly_name: Hue Light Veranda On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
     switch.hue_smart_plug_eetkamer:
       friendly_name: Hue Smart Plug Eetkamer On/Off
-      state: "on"
+      state: 'on'
     switch.hue_smart_plug_veranda:
       friendly_name: Hue Smart Plug Veranda On/Off
-      state: "on"
+      state: 'on'
 - id: '1608281477256'
   name: Veranda - Film
   entities:
@@ -919,13 +919,13 @@
       off_brightness:
       friendly_name: Hue Light Veranda On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
     switch.hue_smart_plug_eetkamer:
       friendly_name: Hue Smart Plug Eetkamer On/Off
-      state: "off"
+      state: 'off'
     switch.hue_smart_plug_veranda:
       friendly_name: Hue Smart Plug Veranda On/Off
-      state: "off"
+      state: 'off'
 - id: '1608281539261'
   name: Veranda - Nacht
   entities:
@@ -952,13 +952,13 @@
       off_brightness:
       friendly_name: Hue Light Veranda On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
     switch.hue_smart_plug_eetkamer:
       friendly_name: Hue Smart Plug Eetkamer On/Off
-      state: "on"
+      state: 'on'
     switch.hue_smart_plug_veranda:
       friendly_name: Hue Smart Plug Veranda On/Off
-      state: "on"
+      state: 'on'
 - id: '1608281585888'
   name: Veranda - Gedimmed
   entities:
@@ -986,13 +986,13 @@
       off_brightness:
       friendly_name: Hue Light Veranda On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
     switch.hue_smart_plug_eetkamer:
       friendly_name: Hue Smart Plug Eetkamer On/Off
-      state: "on"
+      state: 'on'
     switch.hue_smart_plug_veranda:
       friendly_name: Hue Smart Plug Veranda On/Off
-      state: "on"
+      state: 'on'
 - id: '1608317682155'
   name: Woonkamer - Gedimmed
   entities:
@@ -1004,13 +1004,13 @@
       off_brightness:
       friendly_name: Hue Light Woonkamer On/Off
       supported_features: 41
-      state: "on"
+      state: 'on'
     switch.hue_smart_plug_woonkamer_one:
       friendly_name: Hue Smart Plug Woonkamer One On/Off
-      state: "on"
+      state: 'on'
     switch.hue_smart_plug_woonkamer_two:
       friendly_name: Hue Smart Plug Woonkamer Two On/Off
-      state: "off"
+      state: 'off'
     light.lightstrip_woonkamer_tv:
       min_mireds: 155
       max_mireds: 495
@@ -1035,7 +1035,7 @@
       off_brightness:
       friendly_name: Lightstrip Woonkamer Tv On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
 - id: '1608317777471'
   name: Woonkamer - Nacht
   entities:
@@ -1044,18 +1044,18 @@
       supported_features: 40
       icon: mdi:string-lights
       display_categories: light
-      state: "off"
+      state: 'off'
     switch.hue_smart_plug_woonkamer_two:
       friendly_name: Livingroom Spacewalker
       supported_features: 40
       icon: mdi:floor-lamp
       display_categories: light
-      state: "off"
+      state: 'off'
     light.hue_light_woonkamer:
       friendly_name: Livingroom Light
       supported_features: 41
       icon: mdi:globe-light
-      state: "off"
+      state: 'off'
     light.lightstrip_woonkamer_tv:
       effect_list:
       - colorloop
@@ -1076,7 +1076,7 @@
       assumed_state: true
       supported_features: 61
       icon: mdi:television-clean
-      state: "on"
+      state: 'on'
 - id: '1608317939981'
   name: Woonkamer - Film
   entities:
@@ -1086,13 +1086,13 @@
       off_brightness:
       friendly_name: Hue Light Woonkamer On/Off
       supported_features: 41
-      state: "off"
+      state: 'off'
     switch.hue_smart_plug_woonkamer_one:
       friendly_name: Hue Smart Plug Woonkamer One On/Off
-      state: "off"
+      state: 'off'
     switch.hue_smart_plug_woonkamer_two:
       friendly_name: Hue Smart Plug Woonkamer Two On/Off
-      state: "off"
+      state: 'off'
     light.lightstrip_woonkamer_tv:
       min_mireds: 155
       max_mireds: 495
@@ -1117,16 +1117,16 @@
       off_brightness:
       friendly_name: Lightstrip Woonkamer Tv On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
 - id: '1608318017627'
   name: Woonkamer - Televisie
   entities:
     switch.hue_smart_plug_woonkamer_one:
       friendly_name: Hue Smart Plug Woonkamer One On/Off
-      state: "on"
+      state: 'on'
     switch.hue_smart_plug_woonkamer_two:
       friendly_name: Hue Smart Plug Woonkamer Two On/Off
-      state: "off"
+      state: 'off'
     light.hue_light_woonkamer:
       supported_color_modes:
       - brightness
@@ -1135,7 +1135,7 @@
       off_brightness:
       friendly_name: Hue Light Woonkamer On/Off
       supported_features: 41
-      state: "on"
+      state: 'on'
     light.lightstrip_woonkamer_tv:
       min_mireds: 155
       max_mireds: 495
@@ -1160,37 +1160,35 @@
       off_brightness:
       friendly_name: Lightstrip Woonkamer Tv On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
 - id: '1608318063934'
   name: Woonkamer - Uit
   entities:
     light.hue_light_woonkamer:
-      friendly_name: Livingroom Light
+      supported_color_modes:
+      - brightness
+      off_brightness:
+      friendly_name: Hue Light Woonkamer On/Off
       supported_features: 41
-      icon: mdi:globe-light
-      state: "off"
+      state: 'off'
     switch.hue_smart_plug_woonkamer_one:
-      friendly_name: Livingroom LED
-      supported_features: 40
-      icon: mdi:string-lights
-      display_categories: light
-      state: "off"
+      friendly_name: Hue Smart Plug Woonkamer One On/Off
+      state: 'off'
     switch.hue_smart_plug_woonkamer_two:
-      friendly_name: Livingroom Spacewalker
-      supported_features: 40
-      icon: mdi:floor-lamp
-      display_categories: light
-      state: "off"
+      friendly_name: Hue Smart Plug Woonkamer Two On/Off
+      state: 'off'
     light.lightstrip_woonkamer_tv:
+      min_mireds: 155
+      max_mireds: 495
       effect_list:
       - colorloop
-      - night
-      - white
-      friendly_name: Livingroom Tv LED
-      assumed_state: true
-      supported_features: 61
-      icon: mdi:television-clean
-      state: "off"
+      supported_color_modes:
+      - color_temp
+      - hs
+      off_brightness:
+      friendly_name: Lightstrip Woonkamer Tv On/Off
+      supported_features: 63
+      state: 'off'
 - id: '1608318126154'
   name: Woonkamer - Normaal
   entities:
@@ -1202,13 +1200,13 @@
       off_brightness:
       friendly_name: Hue Light Woonkamer On/Off
       supported_features: 41
-      state: "on"
+      state: 'on'
     switch.hue_smart_plug_woonkamer_one:
       friendly_name: Hue Smart Plug Woonkamer One On/Off
-      state: "on"
+      state: 'on'
     switch.hue_smart_plug_woonkamer_two:
       friendly_name: Hue Smart Plug Woonkamer Two On/Off
-      state: "on"
+      state: 'on'
     light.lightstrip_woonkamer_tv:
       min_mireds: 155
       max_mireds: 495
@@ -1233,7 +1231,7 @@
       off_brightness:
       friendly_name: Lightstrip Woonkamer Tv On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
 - id: '1608318958178'
   name: Woonkamer - Uit Kerstmis
   entities:
@@ -1241,19 +1239,19 @@
       friendly_name: Livingroom Light
       supported_features: 41
       icon: mdi:globe-light
-      state: "off"
+      state: 'off'
     switch.hue_smart_plug_woonkamer_one:
       friendly_name: Livingroom LED
       supported_features: 40
       icon: mdi:string-lights
       display_categories: light
-      state: "on"
+      state: 'on'
     switch.hue_smart_plug_woonkamer_two:
       friendly_name: Livingroom Spacewalker
       supported_features: 40
       icon: mdi:floor-lamp
       display_categories: light
-      state: "off"
+      state: 'off'
     light.lightstrip_woonkamer_tv:
       effect_list:
       - colorloop
@@ -1263,7 +1261,7 @@
       assumed_state: true
       supported_features: 61
       icon: mdi:television-clean
-      state: "off"
+      state: 'off'
 - id: '1641383280311'
   name: Keuken - Normaal Dag
   entities:
@@ -1291,7 +1289,7 @@
       off_brightness:
       friendly_name: Lightstrip Keuken On/Off
       supported_features: 63
-      state: "on"
+      state: 'on'
     light.milight_keuken_bridge:
       effect_list:
       - colorloop
@@ -1302,7 +1300,7 @@
       assumed_state: true
       friendly_name: Kitchen Tv LED
       supported_features: 61
-      state: "off"
+      state: 'off'
 - id: '1641399091432'
   name: Badkamer - Normaal Dag
   entities:
@@ -1331,4 +1329,4 @@
       friendly_name: Bathroom LED
       supported_features: 63
       icon: mdi:led-strip-variant
-      state: "on"
+      state: 'on'

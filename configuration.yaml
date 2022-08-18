@@ -86,6 +86,14 @@ logger:
     homeassistant.core: critical
 
 # Text to speech
+tts:
+  - platform: google_translate
+    cache: true
+    cache_dir: /tmp/tts
+    time_memory: 300
+    base_url:   http://192.168.2.7:8123/
+    service_name: google_say
+
 notify:
   - platform: alexa_media
     name: alexa_media
@@ -93,12 +101,6 @@ notify:
     name: entity_log
     filename: /config/www/entity_log.txt
     timestamp: false
-
-# Enable Mediaplayers
-spotify:
-  client_id: !secret client_id_spotify
-  client_secret: !secret client_secret_spotify
-
 
 # Enables Homekit
 homekit:
@@ -343,12 +345,6 @@ smappee:
 #  host: !secret ip_smappee
 #  username: !secret username_smappee
 #  password: !secret password_smappee
-
-# USED FOR CONNECTING TO CALENDARS
-google:
-  client_id: !secret client_id_google
-  client_secret: !secret client_secret_google
-  track_new_calendar: False
 
 light:
   - platform: limitlessled

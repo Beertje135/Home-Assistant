@@ -48,7 +48,6 @@
     timeout: 00:05:00
   - service: script.turn_on
     entity_id: script.notify_waste_ios_bert
-  initial_state: false
   mode: single
 - id: waste_002
   alias: Vuilbakken - Reminder
@@ -179,7 +178,7 @@
       state: 'off'
   - condition: time
     after: 08:00:00
-    before: '19:00:00'
+    before: '18:35:00'
   - condition: state
     state: 'on'
     entity_id: input_boolean.music_follow
@@ -237,6 +236,8 @@
     for: 0:30:00
     platform: state
     to: 'off'
+  - platform: time
+    at: '18:35:00'
   - platform: time
     at: input_datetime.radio_off
   - platform: state
@@ -502,17 +503,17 @@
     to: 'on'
   - platform: state
     entity_id: media_player.apple_tv_keuken
-    to: 'playing'
+    to: playing
   - platform: state
     entity_id: input_boolean.media_livingroom
     to: 'on'
   - platform: state
     entity_id: media_player.apple_tv_woonkamer
-    to: 'playing'
+    to: playing
   condition:
   - condition: state
     entity_id: media_player.alexa_kitchen_amp
-    state: 'playing'
+    state: playing
   - condition: or
     conditions:
     - condition: state
@@ -541,9 +542,6 @@
     from: playing
     to: paused
     for: 0:00:05
-  - platform: state
-    to: Thuis (Werk)
-    entity_id: input_select.woning_status
   condition:
   - condition: state
     entity_id: media_player.alexa_downstairs
@@ -612,6 +610,20 @@
   - service: input_boolean.turn_off
     entity_id: input_boolean.music_follow
   mode: single
+- id: music_follow_on_002
+  alias: Muziek - Volgen - Reset Tomorrowland
+  trigger:
+  - platform: time
+    at: '03:00:00'
+  condition:
+  - condition: state
+    entity_id: input_select.radio_station
+    state: 'TOMORROWLAND ONE WORLD RADIO'
+  action:
+  - service: input_select.select_option
+    entity_id: input_select.radio_station
+    data:
+      option: 'QMUSIC BELGIUM'
 - id: music_follow_on_001
   alias: Muziek - Volgen - Enable
   trigger:
@@ -619,6 +631,8 @@
     from: paused
     to: playing
     entity_id: media_player.alexa_kitchen_amp, media_player.alexa_downstairs, media_player.alexa_livingroom_1
+  - platform: state
+    entity_id: input_select.woning_status
   - platform: state
     entity_id: input_boolean.music_follow
     to: 'off'
@@ -629,15 +643,12 @@
     to: 'off'
     for:
       minutes: 180
-  - platform: state
-    from: Thuis (Werk)
-    entity_id: input_select.woning_status
   condition:
-  - condition: not
-    conditions:
-    - condition: state
-      state: Thuis (Werk)
-      entity_id: input_select.woning_status
+  - condition: state
+    entity_id: input_boolean.music_follow
+    state: 'off'
+    for:
+      minutes: 3
   - condition: or
     conditions:
     - condition: state
@@ -654,11 +665,6 @@
     - condition: state
       entity_id: media_player.alexa_livingroom_1
       state: playing
-  - condition: state
-    entity_id: input_boolean.music_follow
-    state: 'off'
-    for:
-      minutes: 3
   action:
   - service: input_boolean.turn_on
     entity_id: input_boolean.music_follow
@@ -696,25 +702,12 @@
 - id: music_volume_003
   alias: Muziek - Volume - Keuken Ochtend
   trigger:
-  - platform: time
-    at: 06:59:50
-  - platform: time
-    at: 07:02:30
-  - platform: time
-    at: 07:59:50
-  - platform: time
-    at: 08:02:30
-  - platform: time
-    at: 08:59:50
-  - platform: time
-    at: 09:02:30
+  - platform: state
+    entity_id: input_select.woning_status
   condition:
   - condition: state
     state: playing
     entity_id: media_player.alexa_kitchen_amp
-  - condition: state
-    entity_id: input_select.woning_status
-    state: Thuis,Thuis (Werk),Thuis (Verlof)
   action:
   - service: script.turn_on
     entity_id: script.radio_kitchen_volume
@@ -834,10 +827,10 @@
     entity_id: sensor.season
     state: summer
   action:
-    service: "{% if (state_attr('weather.dark_sky', 'temperature')| float(0) + 2)\
-      \ < state_attr('climate.kamer_elmo', 'current_temperature') -%}\n  input_boolean.turn_on\n\
-      {%- elif (state_attr('weather.dark_sky', 'temperature')| float(0) + 1) > state_attr('climate.kamer_elmo',\
-      \ 'current_temperature') -%}\n  input_boolean.turn_off\n{%- endif %}\n"
+    service: "{% if (state_attr('weather.dark_sky', 'temperature')| float(0) + 2)
+      < state_attr('climate.kamer_elmo', 'current_temperature') -%}\n  input_boolean.turn_on\n{%-
+      elif (state_attr('weather.dark_sky', 'temperature')| float(0) + 1) > state_attr('climate.kamer_elmo',
+      'current_temperature') -%}\n  input_boolean.turn_off\n{%- endif %}\n"
     data:
       entity_id: input_boolean.cooling_upstairs
 - id: ventilation_downstairs_001
@@ -854,10 +847,10 @@
     entity_id: sensor.season
     state: summer
   action:
-    service: "{% if (state_attr('weather.dark_sky', 'temperature')| float(0) + 2)\
-      \ < state_attr('climate.keuken', 'current_temperature') -%}\n  input_boolean.turn_on\n\
-      {%- elif (state_attr('weather.dark_sky', 'temperature')| float(0) + 1) > state_attr('climate.keuken',\
-      \ 'current_temperature') -%}\n  input_boolean.turn_off\n{%- endif %}\n"
+    service: "{% if (state_attr('weather.dark_sky', 'temperature')| float(0) + 2)
+      < state_attr('climate.keuken', 'current_temperature') -%}\n  input_boolean.turn_on\n{%-
+      elif (state_attr('weather.dark_sky', 'temperature')| float(0) + 1) > state_attr('climate.keuken',
+      'current_temperature') -%}\n  input_boolean.turn_off\n{%- endif %}\n"
     data:
       entity_id: input_boolean.cooling_downstairs
 - id: ventilation_upstairs_002
@@ -904,12 +897,12 @@
     data_template:
       topic: plex/update/sensor
       retain: true
-      payload_template: "{  \"Player\":\"{{ trigger.payload_json.Player.title }}\"\
-        ,\n   \"UUID\":\"{{ trigger.payload_json.Player.uuid }}\",\n   \"Event\":\"\
-        {{ trigger.payload_json.event }}\",\n   \"Account\":\"{{ trigger.payload_json.Account.title\
-        \ }}\",\n   \"Title\":\"{{ trigger.payload_json.Metadata.grandparentTitle\
-        \ }}\",\n   \"Type\":\"{{ trigger.payload_json.Metadata.librarySectionType\
-        \ }}\",\n   \"Image\":\"{{ trigger.payload_json.Metadata.thumb }}\" }\n"
+      payload_template: "{  \"Player\":\"{{ trigger.payload_json.Player.title }}\",\n
+        \  \"UUID\":\"{{ trigger.payload_json.Player.uuid }}\",\n   \"Event\":\"{{
+        trigger.payload_json.event }}\",\n   \"Account\":\"{{ trigger.payload_json.Account.title
+        }}\",\n   \"Title\":\"{{ trigger.payload_json.Metadata.grandparentTitle }}\",\n
+        \  \"Type\":\"{{ trigger.payload_json.Metadata.librarySectionType }}\",\n
+        \  \"Image\":\"{{ trigger.payload_json.Metadata.thumb }}\" }\n"
 - id: media_plex_003
   alias: Plex - Webhook - Wijzig Woonkamer Boolean
   trigger:
@@ -933,10 +926,10 @@
       - condition: template
         value_template: '{{trigger.payload_json.Player.title == ''LG OLED55C9MLB''}}'
   action:
-    service: "{% if ((trigger.payload_json.event == 'media.play') or (trigger.payload_json.event\
-      \ == 'media.resume')) %}\n  input_boolean.turn_on\n{% elif ((trigger.payload_json.event\
-      \ == 'media.pause') or (trigger.payload_json.event == 'media.stop')) %}\n  input_boolean.turn_off\n\
-      {% endif %}\n"
+    service: "{% if ((trigger.payload_json.event == 'media.play') or (trigger.payload_json.event
+      == 'media.resume')) %}\n  input_boolean.turn_on\n{% elif ((trigger.payload_json.event
+      == 'media.pause') or (trigger.payload_json.event == 'media.stop')) %}\n  input_boolean.turn_off\n{%
+      endif %}\n"
     entity_id: input_boolean.media_livingroom
 - id: media_plex_004
   alias: Plex - Webhook - Wijzig Keuken Boolean
@@ -961,10 +954,10 @@
       - condition: template
         value_template: '{{trigger.payload_json.Player.title == ''Chrome''}}'
   action:
-    service: "{%- if ((trigger.payload_json.event == 'media.play') or (trigger.payload_json.event\
-      \ == 'media.resume')) -%}\n  input_boolean.turn_on\n{%- elif ((trigger.payload_json.event\
-      \ == 'media.pause') or (trigger.payload_json.event == 'media.stop')) -%}\n \
-      \ input_boolean.turn_off\n{%- endif %}\n"
+    service: "{%- if ((trigger.payload_json.event == 'media.play') or (trigger.payload_json.event
+      == 'media.resume')) -%}\n  input_boolean.turn_on\n{%- elif ((trigger.payload_json.event
+      == 'media.pause') or (trigger.payload_json.event == 'media.stop')) -%}\n  input_boolean.turn_off\n{%-
+      endif %}\n"
     entity_id: input_boolean.media_kitchen
 - id: media_appletv_001
   alias: Apple TV - Wijzig Woonkamer Boolean
@@ -997,12 +990,23 @@
   - platform: state
     entity_id: media_player.apple_tv_keuken
     from: playing
+  - platform: state
+    entity_id: media_player.keuken
+    to: playing
+  - platform: state
+    entity_id: media_player.keuken
+    from: playing
   action:
   - choose:
     - conditions:
-      - condition: state
-        entity_id: media_player.apple_tv_keuken
-        state: playing
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: media_player.apple_tv_keuken
+          state: playing
+        - condition: state
+          entity_id: media_player.keuken
+          state: playing
       sequence:
       - service: input_boolean.turn_on
         entity_id: input_boolean.media_kitchen
@@ -1035,11 +1039,9 @@
   action:
   - service: script.turn_on
     entity_id: script.notify_vacuum
-  initial_state: false
   mode: single
 - id: vacuum_002
   alias: Stofzuiger - Dusty - Bericht - Status Woning Wijzigt
-  initial_state: false
   trigger:
   - platform: state
     entity_id: input_select.woning_status
@@ -1131,7 +1133,6 @@
   mode: single
 - id: printer_001
   alias: Printer - Notify - Ink Low
-  initial_state: false
   trigger:
   - platform: numeric_state
     entity_id: sensor.hp_deskjet_3700_series_black_ink
@@ -1264,15 +1265,15 @@
   - service: input_select.select_option
     data_template:
       entity_id: input_select.woning_status
-      option: "{%- if states('input_select.woning_status') in ['Weg', 'Juist Weg',\
-        \ 'Op Vakantie'] and trigger.entity_id == 'input_boolean.trigger_home' -%}\n\
-        \  Juist Thuis\n{%- elif states('input_select.woning_status') in ['Slapen']\
-        \ and trigger.entity_id == 'input_boolean.trigger_morning' -%}\n  Juist Wakker\n\
-        {%- elif states('input_select.woning_status') in ['Thuis', 'Juist Thuis',\
-        \ 'Thuis (Werk)', 'Thuis (Verlof)'] and trigger.entity_id == 'input_boolean.trigger_sleep'\
-        \ -%}\n  Slapen\n{%- elif states('input_select.woning_status') in ['Thuis',\
-        \ 'Juist Wakker', 'Juist Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] and trigger.entity_id\
-        \ == 'input_boolean.trigger_away' -%}\n  Juist Weg\n{%- endif %}"
+      option: "{%- if states('input_select.woning_status') in ['Weg', 'Juist Weg',
+        'Op Vakantie'] and trigger.entity_id == 'input_boolean.trigger_home' -%}\n
+        \ Juist Thuis\n{%- elif states('input_select.woning_status') in ['Slapen']
+        and trigger.entity_id == 'input_boolean.trigger_morning' -%}\n  Juist Wakker\n{%-
+        elif states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis
+        (Werk)', 'Thuis (Verlof)'] and trigger.entity_id == 'input_boolean.trigger_sleep'
+        -%}\n  Slapen\n{%- elif states('input_select.woning_status') in ['Thuis',
+        'Juist Wakker', 'Juist Thuis', 'Thuis (Werk)', 'Thuis (Verlof)'] and trigger.entity_id
+        == 'input_boolean.trigger_away' -%}\n  Juist Weg\n{%- endif %}"
   - delay: 00:01:00
   - service: input_boolean.turn_off
     data_template:
@@ -1288,50 +1289,106 @@
   condition:
   - condition: or
     conditions:
-    - condition: template
-      value_template: "{{ (states('input_select.woning_status') in ['Weg', 'Op
-        Vakantie'] and states('group.bewoners') in ['home']) or (states('input_select.woning_status')
-        in ['Weg'] and states('group.bezoekers') in ['home']) }}"
-    - condition: template
-      value_template: "{{ states(''input_select.woning_status'') in [''Juist Thuis'',
-        ''Thuis'', ''Thuis (Werk)'', ''Thuis (Verlof)''] and states(''group.bewoners'')
-        in [''not_home''] and states(''group.bezoekers'') in [''not_home''] }}"
-    - condition: template
-      value_template: "{{ states(''input_select.woning_status'') in [''Juist Weg'']
-        and (states(''group.bewoners'') in [''home''] or states(''group.bezoekers'')
-        in [''home'']) and states(''calendar.verlof_agenda'') in [''on''] }}"
-    - condition: template
-      value_template: "{{ states(''input_select.woning_status'') in [''Juist Weg'']
-        and (states(''group.bewoners'') in [''home''] or states(''group.bezoekers'')
-        in [''home'']) }}"
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Weg
+      - condition: state
+        entity_id: group.bezoekers
+        state: home
+    - condition: and
+      conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: input_select.woning_status
+          state: Weg
+        - condition: state
+          entity_id: input_select.woning_status
+          state: Op Vakantie
+      - condition: state
+        entity_id: group.bewoners
+        state: home
+    - condition: and
+      conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: input_select.woning_status
+          state: Juist Thuis
+        - condition: state
+          entity_id: input_select.woning_status
+          state: Thuis
+        - condition: state
+          entity_id: input_select.woning_status
+          state: Thuis (Werk)
+        - condition: state
+          entity_id: input_select.woning_status
+          state: Thuis (Verlof)
+      - condition: state
+        entity_id: group.bewoners
+        state: not_home
+      - condition: state
+        entity_id: group.bezoekers
+        state: not_home
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Juist Thuis
+      - condition: state
+        entity_id: calendar.verlof_agenda
+        state: 'on'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: group.bewoners
+          state: home
+        - condition: state
+          entity_id: group.bezoekers
+          state: home
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Juist Weg
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: group.bewoners
+          state: home
+        - condition: state
+          entity_id: group.bezoekers
+          state: home
   action:
   - service: input_select.select_option
     entity_id: input_select.woning_status
     data_template:
-      option: "{% if (states('input_select.woning_status') in ['Weg', 'Op Vakantie']\
-        \ and states('group.bewoners') in ['home']) or (states('input_select.woning_status')\
-        \ in ['Weg'] and states('group.bezoekers') in ['home']) %}\n  Juist Thuis\n\
-        {% elif states('input_select.woning_status') in ['Juist Thuis', 'Thuis', 'Thuis\
-        \ (Werk)', 'Thuis (Verlof)'] and states('group.bewoners') in ['not_home']\
-        \ and states('group.bezoekers') in ['not_home'] %}\n  Juist Weg\n{% elif states('input_select.woning_status')\
-        \ in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers')\
-        \ in ['home']) and states('calendar.verlof_agenda') in ['on'] %}\n  Thuis\
-        \ (Verlof)\n{% elif states('input_select.woning_status') in ['Juist Weg']\
-        \ and (states('group.bewoners') in ['home'] or states('group.bezoekers') in\
-        \ ['home']) and (states('sensor.time') >= \"07:20\") and (states('sensor.time')\
-        \ <= \"18:00\") and (now().weekday() in (0,1,2,3,4)) %}\n  Thuis (Werk)\n\
-        {% elif states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners')\
-        \ in ['home'] or states('group.bezoekers') in ['home']) %}\n  Thuis\n{% elif\
-        \ states('input_select.woning_status') in ['Juist Weg'] %}\n  Juist Weg\n\
-        {% elif states('input_select.woning_status') in ['Juist Thuis'] %}\n  Juist\
-        \ Thuis\n{% elif states('input_select.woning_status') in ['Juist Wakker']\
-        \ %}\n  Juist Wakker\n{% elif states('input_select.woning_status') in ['Thuis']\
-        \ %}\n  Thuis\n{% elif states('input_select.woning_status') in ['Thuis (Verlof)']\
-        \ %}\n  Thuis (Verlof)\n{% elif states('input_select.woning_status') in ['Thuis\
-        \ (Werk)'] %}\n  Thuis (Werk)\n{% elif states('input_select.woning_status')\
-        \ in ['Weg'] %}\n  Weg\n{% elif states('input_select.woning_status') in ['Slapen']\
-        \ %}\n  Slapen\n{% elif states('input_select.woning_status') in ['Op Vakantie']\
-        \ %}\n  Op Vakantie\n{% endif %}\n"
+      option: "{% if (states('input_select.woning_status') in ['Weg', 'Op Vakantie']
+        and states('group.bewoners') in ['home']) or (states('input_select.woning_status')
+        in ['Weg'] and states('group.bezoekers') in ['home']) %}\n  Juist Thuis\n{%
+        elif states('input_select.woning_status') in ['Juist Thuis', 'Thuis', 'Thuis
+        (Werk)', 'Thuis (Verlof)'] and states('group.bewoners') in ['not_home'] and
+        states('group.bezoekers') in ['not_home'] %}\n  Juist Weg\n{% elif states('input_select.woning_status')
+        in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers')
+        in ['home']) and states('calendar.verlof_agenda') in ['on'] %}\n  Thuis (Verlof)\n{%
+        elif states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners')
+        in ['home'] or states('group.bezoekers') in ['home']) and (states('sensor.time') 
+        >= states('input_datetime.work_start')) and (states('sensor.time') 
+        <= states('input_datetime.work_home_end')) and (now().weekday()
+        in (0,1,2,3,4)) %}\n  Thuis (Werk)\n{% elif states('input_select.woning_status')
+        in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('group.bezoekers')
+        in ['home']) %}\n  Thuis\n{% elif states('input_select.woning_status') in
+        ['Juist Weg'] %}\n  Juist Weg\n{% elif states('input_select.woning_status')
+        in ['Juist Thuis'] %}\n  Juist Thuis\n{% elif states('input_select.woning_status')
+        in ['Juist Wakker'] %}\n  Juist Wakker\n{% elif states('input_select.woning_status')
+        in ['Thuis'] %}\n  Thuis\n{% elif states('input_select.woning_status') in
+        ['Thuis (Verlof)'] %}\n  Thuis (Verlof)\n{% elif states('input_select.woning_status')
+        in ['Thuis (Werk)'] %}\n  Thuis (Werk)\n{% elif states('input_select.woning_status')
+        in ['Weg'] %}\n  Weg\n{% elif states('input_select.woning_status') in ['Slapen']
+        %}\n  Slapen\n{% elif states('input_select.woning_status') in ['Op Vakantie']
+        %}\n  Op Vakantie\n{% endif %}\n"
 - id: house_004
   alias: Ons Huisje - Wijzig de Status - Timer
   trigger:
@@ -1339,12 +1396,12 @@
     entity_id: input_select.woning_status
     to: Juist Thuis
     for:
-      minutes: 5
+      minutes: 10
   - platform: state
     entity_id: input_select.woning_status
     to: Juist Wakker
     for:
-      minutes: 5
+      minutes: 10
   - platform: state
     entity_id: input_select.woning_status
     to: Juist Weg
@@ -1367,14 +1424,15 @@
   - service: input_select.select_option
     entity_id: input_select.woning_status
     data_template:
-      option: "{% if states('input_select.woning_status') in ['Juist Thuis', 'Juist\
-        \ Wakker'] and states('calendar.verlof_agenda') in ['on'] and (now().weekday()\
-        \ in (0,1,2,3,4)) %}\n  Thuis (Verlof)\n{% elif states('input_select.woning_status')\
-        \ in ['Juist Thuis', 'Juist Wakker'] and (states('sensor.time') >= \"07:20\"\
-        ) and (states('sensor.time') <= \"18:00\") and (now().weekday() in (0,1,2,3,4))\
-        \ %}\n  Thuis (Werk)\n{% elif states('input_select.woning_status') in ['Juist\
-        \ Thuis', 'Juist Wakker'] %}\n  Thuis\n{% elif states('input_select.woning_status')\
-        \ in ['Juist Weg'] %}\n  Weg\n{% else %}\n  Op Vakantie\n{% endif %}\n"
+      option: "{% if states('input_select.woning_status') in ['Juist Thuis', 'Juist
+        Wakker'] and states('calendar.verlof_agenda') in ['on'] and (now().weekday()
+        in (0,1,2,3,4)) %}\n  Thuis (Verlof)\n{% elif (states('input_select.woning_status')
+        in ['Juist Thuis', 'Juist Wakker']) and (states('sensor.time') 
+        >= states('input_datetime.work_start')) and (states('sensor.time') 
+        <= states('input_datetime.work_home_end')) and (now().weekday() in (0,1,2,3,4))
+        %}\n  Thuis (Werk)\n{% elif states('input_select.woning_status') in ['Juist
+        Thuis', 'Juist Wakker'] %}\n  Thuis\n{% elif states('input_select.woning_status')
+        in ['Juist Weg'] %}\n  Weg\n{% else %}\n  Op Vakantie\n{% endif %}\n"
 - id: house_005
   alias: Ons Huisje - Wijzig de Status - Juist Wakker
   trigger:
@@ -1429,7 +1487,7 @@
     state: 'on'
   - condition: time
     after: input_datetime.work_start
-    before: input_datetime.work_end
+    before: input_datetime.work_home_end
   action:
   - choose:
     - conditions:
@@ -1452,6 +1510,8 @@
   trigger:
   - platform: time
     at: input_datetime.work_end
+  - platform: time
+    at: input_datetime.work_home_end
   - platform: state
     entity_id: calendar.verlof_agenda
     to: 'off'
@@ -1496,14 +1556,14 @@
   action:
   - service: input_boolean.turn_on
     data_template:
-      entity_id: "{%- if states('input_select.woning_status') in ['Juist Thuis'] and\
-        \ states('binary_sensor.hue_sensor_keuken_motion') in ['on'] -%}\n  input_boolean.trigger_just_home_kitchen\n\
-        {%- elif states('input_select.woning_status') in ['Juist Wakker'] and states('binary_sensor.hue_sensor_keuken_motion')\
-        \ in ['on'] -%}\n  input_boolean.trigger_just_awake_kitchen\n{%- elif states('input_select.woning_status')\
-        \ in ['Slapen'] and states('binary_sensor.hue_sensor_keuken_motion') in ['on']\
-        \ -%}\n  input_boolean.trigger_just_sleep_kitchen\n{%- elif states('input_select.woning_status')\
-        \ in ['Juist Weg'] and states('binary_sensor.hue_sensor_keuken_motion') in\
-        \ ['on'] -%}\n  input_boolean.trigger_just_away_kitchen\n{%- endif %}\n"
+      entity_id: "{%- if states('input_select.woning_status') in ['Juist Thuis'] and
+        states('binary_sensor.hue_sensor_keuken_motion') in ['on'] -%}\n  input_boolean.trigger_just_home_kitchen\n{%-
+        elif states('input_select.woning_status') in ['Juist Wakker'] and states('binary_sensor.hue_sensor_keuken_motion')
+        in ['on'] -%}\n  input_boolean.trigger_just_awake_kitchen\n{%- elif states('input_select.woning_status')
+        in ['Slapen'] and states('binary_sensor.hue_sensor_keuken_motion') in ['on']
+        -%}\n  input_boolean.trigger_just_sleep_kitchen\n{%- elif states('input_select.woning_status')
+        in ['Juist Weg'] and states('binary_sensor.hue_sensor_keuken_motion') in ['on']
+        -%}\n  input_boolean.trigger_just_away_kitchen\n{%- endif %}\n"
 - id: house_009
   alias: Ons Huisje - Alexa Trigger - Beweging in de Dressing
   trigger:
@@ -1530,11 +1590,10 @@
   - delay: 00:00:05
   - service: input_boolean.turn_on
     data_template:
-      entity_id: "{%- if states('input_select.woning_status') in ['Juist Wakker']\
-        \ and states('binary_sensor.hue_sensor_dressing_motion') in ['on'] -%}\n \
-        \ input_boolean.trigger_just_awake_dressing\n{%- elif states('input_select.woning_status')\
-        \ in ['Slapen'] and states('binary_sensor.hue_sensor_dressing_motion') in\
-        \ ['on'] -%}\n  input_boolean.trigger_just_sleep_dressing\n{%- endif %}\n"
+      entity_id: "{%- if states('input_select.woning_status') in ['Juist Wakker']
+        and states('binary_sensor.hue_sensor_dressing_motion') in ['on'] -%}\n  input_boolean.trigger_just_awake_dressing\n{%-
+        elif states('input_select.woning_status') in ['Slapen'] and states('binary_sensor.hue_sensor_dressing_motion')
+        in ['on'] -%}\n  input_boolean.trigger_just_sleep_dressing\n{%- endif %}\n"
 - id: amplifier_livingroom_001
   alias: Amplifier Woonkamer - Uit - Apple tv Not Playing
   trigger:
@@ -1655,9 +1714,29 @@
   - delay: 00:00:05
   - service: script.turn_on
     entity_id: script.harmony_hub_alexa
+- id: amplifier_livingroom_005
+  alias: Amplifier Woonkamer - Aan - Apple tv Playing
+  description: ''
+  trigger:
+  - platform: device
+    device_id: 25ef59116f22c76ca9cf9b2691a4df57
+    domain: media_player
+    entity_id: media_player.apple_tv_woonkamer
+    type: playing
+  condition:
+  - condition: device
+    type: is_off
+    device_id: d4bfe137373a4685b374eabfe782bce7
+    entity_id: remote.harmony_hub
+    domain: remote
+  action:
+  - type: turn_on
+    device_id: d4bfe137373a4685b374eabfe782bce7
+    entity_id: switch.harmony_hub_apple_tv
+    domain: switch
+  mode: single
 - id: home_owner_001
   alias: Bewoner - Thuis of Weg
-  initial_state: false
   trigger:
   - platform: state
     entity_id: person.caroline,person.bert
@@ -1669,12 +1748,11 @@
   action:
   - service: script.turn_on
     data_template:
-      entity_id: "{% if trigger.from_state.entity_id == 'person.caroline' %}\n  script.notify_tracker_caro_thuis\n\
-        {% elif trigger.from_state.entity_id == 'person.bert' %}\n  script.notify_tracker_bert_thuis\n\
-        {% endif %}\n"
+      entity_id: "{% if trigger.from_state.entity_id == 'person.caroline' %}\n  script.notify_tracker_caro_thuis\n{%
+        elif trigger.from_state.entity_id == 'person.bert' %}\n  script.notify_tracker_bert_thuis\n{%
+        endif %}\n"
 - id: home_owner_002
   alias: Bewoner - Thuis of Weg 2
-  initial_state: false
   trigger:
   - platform: state
     entity_id: person.caroline
@@ -1682,11 +1760,10 @@
   action:
   - service: script.turn_on
     data_template:
-      entity_id: "{% if trigger.from_state.entity_id == 'person.caroline' %}\n  script.notify_tracker_caro_thuis_ios_bert\n\
-        {% endif %}\n"
+      entity_id: "{% if trigger.from_state.entity_id == 'person.caroline' %}\n  script.notify_tracker_caro_thuis_ios_bert\n{%
+        endif %}\n"
 - id: home_owner_003
   alias: Bewoner - Thuis - Babysit
-  initial_state: false
   trigger:
   - platform: state
     entity_id: person.caroline,person.bert
@@ -1699,24 +1776,28 @@
   action:
   - service: script.turn_on
     data_template:
-      entity_id: "{% if trigger.from_state.entity_id == 'person.caroline' %}\n  script.notify_bezoeker_babysit_ios_caro\n\
-        {% elif trigger.from_state.entity_id == 'person.bert' %}\n  script.notify_bezoeker_babysit_ios_bert\n\
-        {% endif %}\n"
+      entity_id: "{% if trigger.from_state.entity_id == 'person.caroline' %}\n  script.notify_bezoeker_babysit_ios_caro\n{%
+        elif trigger.from_state.entity_id == 'person.bert' %}\n  script.notify_bezoeker_babysit_ios_bert\n{%
+        endif %}\n"
 - id: home_owner_004
   alias: Bewoner - Aan Opvang
   trigger:
   - platform: state
     entity_id: person.caroline
     to:
-    - School De Wingerd
     - Nona & Pepe
     - Mimi & Fleri
+    - Daycare Ivy
+    for:
+      minutes: 2
   - platform: state
     entity_id: person.bert
     to:
-    - School De Wingerd
     - Nona & Pepe
     - Mimi & Fleri
+    - Daycare Ivy
+    for:
+      minutes: 2
   condition:
   - condition: state
     entity_id: binary_sensor.workday_sensor
@@ -1724,9 +1805,9 @@
   action:
   - service: script.turn_on
     data_template:
-      entity_id: "{% if trigger.from_state.entity_id == 'person.caroline' %}\n  script.notify_tracker_caro_zones\n\
-        {% elif trigger.from_state.entity_id == 'person.bert' %}\n  script.notify_tracker_bert_zones\n\
-        {% endif %}\n"
+      entity_id: "{% if trigger.from_state.entity_id == 'person.caroline' %}\n  script.notify_tracker_caro_zones\n{%
+        elif trigger.from_state.entity_id == 'person.bert' %}\n  script.notify_tracker_bert_zones\n{%
+        endif %}\n"
 - id: home_owner_005
   alias: Bewoner - Aan Checkpoint
   trigger:
@@ -1754,9 +1835,9 @@
   action:
   - service: script.turn_on
     data_template:
-      entity_id: "{% if trigger.from_state.entity_id == 'person.caroline' %}\n  script.notify_tracker_caro_zones\n\
-        {% elif trigger.from_state.entity_id == 'person.bert' %}\n  script.notify_tracker_bert_zones\n\
-        {% endif %}\n"
+      entity_id: "{% if trigger.from_state.entity_id == 'person.caroline' %}\n  script.notify_tracker_caro_zones\n{%
+        elif trigger.from_state.entity_id == 'person.bert' %}\n  script.notify_tracker_bert_zones\n{%
+        endif %}\n"
 - id: home_owner_006
   alias: Bewoner - Aan Hospital
   trigger:
@@ -1764,21 +1845,51 @@
     value_template: '{{ states(''person.caroline'') in [''Hospital St-Augustinus'',
       ''Hospital Willebroek'', ''Hospital Edegem'', ''Hospital Reet'', ''Hospital
       Middelheim''] }}'
+    for:
+      minutes: 3
   - platform: template
     value_template: '{{ states(''person.bert'') in [''Hospital St-Augustinus'', ''Hospital
       Willebroek'', ''Hospital Edegem'', ''Hospital Reet'', ''Hospital Middelheim'']
       }}'
+    for:
+      minutes: 3
   action:
-  - delay: 00:02:00
   - service: script.turn_on
     data_template:
-      entity_id: "{% if trigger.from_state.entity_id == 'person.caroline' and states('person.bert')\
-        \ not in ['Hospital St-Augustinus', 'Hospital Willebroek', 'Hospital Edegem',\
-        \ 'Hospital Reet', 'Hospital Middelheim'] %}\n  script.notify_tracker_caro_zones\n\
-        {% elif trigger.from_state.entity_id == 'person.bert' and states('person.caroline')\
-        \ not in ['Hospital St-Augustinus', 'Hospital Willebroek', 'Hospital Edegem',\
-        \ 'Hospital Reet', 'Hospital Middelheim'] %}\n  script.notify_tracker_bert_zones\n\
-        {% endif %}\n"
+      entity_id: "{% if trigger.from_state.entity_id == 'person.caroline' and states('person.bert')
+        not in ['Hospital St-Augustinus', 'Hospital Willebroek', 'Hospital Edegem',
+        'Hospital Reet', 'Hospital Middelheim'] %}\n  script.notify_tracker_caro_zones\n{%
+        elif trigger.from_state.entity_id == 'person.bert' and states('person.caroline')
+        not in ['Hospital St-Augustinus', 'Hospital Willebroek', 'Hospital Edegem',
+        'Hospital Reet', 'Hospital Middelheim'] %}\n  script.notify_tracker_bert_zones\n{%
+        endif %}\n"
+- id: home_owner_007
+  alias: Bewoner - Aan School
+  trigger:
+  - platform: state
+    entity_id: person.caroline
+    to:
+    - School De Wingerd
+    - BKO Toverbos
+    for:
+      minutes: 1
+  - platform: state
+    entity_id: person.bert
+    to:
+    - School De Wingerd
+    - BKO Toverbos
+  condition:
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+    for:
+      minutes: 1
+  action:
+  - service: script.turn_on
+    data_template:
+      entity_id: "{% if trigger.from_state.entity_id == 'person.caroline' %}\n  script.notify_tracker_caro_zones\n{%
+        elif trigger.from_state.entity_id == 'person.bert' %}\n  script.notify_tracker_bert_zones\n{%
+        endif %}\n"
 - id: home_owner_bert_001
   alias: Bewoner - Bert - Aan Willebroek Station
   trigger:
@@ -1807,8 +1918,8 @@
   action:
   - service: script.turn_on
     data_template:
-      entity_id: "{% if (states('sensor.time') <= \"13:00\") %}\n  script.notify_nmbs_mechelen_brussel_ios_bert\n\
-        {% else %}\n  script.notify_nmbs_mechelen_willebroek_ios_bert\n{% endif %}\n"
+      entity_id: "{% if (states('sensor.time') <= \"13:00\") %}\n  script.notify_nmbs_mechelen_brussel_ios_bert\n{%
+        else %}\n  script.notify_nmbs_mechelen_willebroek_ios_bert\n{% endif %}\n"
 - id: home_owner_bert_003
   alias: Bewoner - Bert - Aan Brussel Station
   trigger:
@@ -1894,7 +2005,6 @@
     entity_id: script.notify_nmbs_brussel_mechelen_ios_bert
 - id: visitor_001
   alias: Bezoeker - Thuis of Weg
-  initial_state: false
   trigger:
   - platform: state
     entity_id:
@@ -1974,7 +2084,6 @@
     entity_id: script.restart_hassio
 - id: homeassistant_002
   alias: HomeAssistant - Update Available
-  initial_state: false
   trigger:
   - platform: state
     entity_id: binary_sensor.home_assistant_website_update_available
@@ -1984,7 +2093,6 @@
     entity_id: script.notify_hassio_update
 - id: homeassistant_003
   alias: HomeAssistant - Update Available HACS
-  initial_state: false
   trigger:
   - platform: numeric_state
     entity_id: sensor.hacs
@@ -2016,14 +2124,14 @@
   - service: input_select.select_option
     entity_id: input_select.harmony_hub
     data_template:
-      option: "{% if state_attr('remote.harmony_hub', 'current_activity') == \"PowerOff\"\
-        \ %}\n  PowerOff\n{% elif state_attr('remote.harmony_hub', 'current_activity')\
-        \ == \"Alexa\" %}\n  Alexa\n{% elif state_attr('remote.harmony_hub', 'current_activity')\
-        \ == \"TV Decoder\" %}\n  TV Decoder\n{% elif state_attr('remote.harmony_hub',\
-        \ 'current_activity') == \"WebOS\" %}\n  WebOS\n{% elif state_attr('remote.harmony_hub',\
-        \ 'current_activity') == \"Nintendo Switch\" %}\n  Nintendo Switch\n{% elif\
-        \ state_attr('remote.harmony_hub', 'current_activity') == \"Apple tv\" %}\n\
-        \  Apple tv\n{% else %}\n  PowerOff\n{% endif %}\n"
+      option: "{% if state_attr('remote.harmony_hub', 'current_activity') == \"PowerOff\"
+        %}\n  PowerOff\n{% elif state_attr('remote.harmony_hub', 'current_activity')
+        == \"Alexa\" %}\n  Alexa\n{% elif state_attr('remote.harmony_hub', 'current_activity')
+        == \"TV Decoder\" %}\n  TV Decoder\n{% elif state_attr('remote.harmony_hub',
+        'current_activity') == \"WebOS\" %}\n  WebOS\n{% elif state_attr('remote.harmony_hub',
+        'current_activity') == \"Nintendo Switch\" %}\n  Nintendo Switch\n{% elif
+        state_attr('remote.harmony_hub', 'current_activity') == \"Apple tv\" %}\n
+        \ Apple tv\n{% else %}\n  PowerOff\n{% endif %}\n"
 - id: harmony_002
   alias: Harmony Hub - Boolean Changes (2A)
   trigger:
@@ -2039,13 +2147,13 @@
   - service: remote.turn_on
     data_template:
       entity_id: remote.harmony_hub
-      activity: "{% if states('input_select.harmony_hub') in ['PowerOff'] %}\n  -1\n\
-        {% elif states('input_select.harmony_hub') in ['Alexa'] %}\n  35750774\n{%\
-        \ elif states('input_select.harmony_hub') in ['TV Decoder'] %}\n  42338759\n\
-        {% elif states('input_select.harmony_hub') in ['WebOS'] %}\n  42338833\n{%\
-        \ elif states('input_select.harmony_hub') in ['Apple tv'] %}\n  29425458\n\
-        {% elif states('input_select.harmony_hub') in ['Nintendo Switch'] %}\n  30703348\n\
-        {% endif %}\n"
+      activity: '{% if states(''input_select.harmony_hub'') in [''PowerOff''] %} -1
+        {% elif states(''input_select.harmony_hub'') in [''Alexa''] %} 35750774 {%
+        elif states(''input_select.harmony_hub'') in [''TV Decoder''] %} 42338759
+        {% elif states(''input_select.harmony_hub'') in [''WebOS''] %} 42338833 {%
+        elif states(''input_select.harmony_hub'') in [''Apple tv''] %} 29425458 {%
+        elif states(''input_select.harmony_hub'') in [''Nintendo Switch''] %} 30703348
+        {% endif %}'
 - id: harmony_start_001
   alias: Harmony Hub - Start Tv avond
   trigger:
@@ -2261,36 +2369,20 @@
   alias: Verwarming - Boolean Change based on Outside Temperature
   trigger:
   - platform: numeric_state
-    entity_id: sensor.hue_sensor_tuin_temperature
+    entity_id: sensor.hue_sensor_terras_temperature
     below: 21.0
   - platform: numeric_state
-    entity_id: sensor.hue_sensor_tuin_temperature
-    above: 21.5
-  - platform: numeric_state
-    entity_id: sensor.hue_sensor_tuinhuis_temperature
-    below: 21.0
-  - platform: numeric_state
-    entity_id: sensor.hue_sensor_tuinhuis_temperature
+    entity_id: sensor.hue_sensor_terras_temperature
     above: 21.5
   condition:
   - condition: or
     conditions:
-    - condition: and
-      conditions:
-      - condition: numeric_state
-        entity_id: sensor.hue_sensor_tuin_temperature
-        above: 21.5
-      - condition: numeric_state
-        entity_id: sensor.hue_sensor_tuinhuis_temperature
-        above: 21.5
-    - condition: and
-      conditions:
-      - condition: numeric_state
-        entity_id: sensor.hue_sensor_tuin_temperature
-        below: 21.0
-      - condition: numeric_state
-        entity_id: sensor.hue_sensor_tuinhuis_temperature
-        below: 21.0
+    - condition: numeric_state
+      entity_id: sensor.hue_sensor_terras_temperature
+      above: 21.5
+    - condition: numeric_state
+      entity_id: sensor.hue_sensor_terras_temperature
+      below: 21.0
   - condition: not
     conditions:
     - condition: state
@@ -2300,7 +2392,7 @@
   - choose:
     - conditions:
       - condition: numeric_state
-        entity_id: sensor.hue_sensor_tuin_temperature
+        entity_id: sensor.hue_sensor_terras_temperature
         above: 21.5
       sequence:
       - service: input_boolean.turn_off
@@ -2548,7 +2640,7 @@
   condition:
   - condition: numeric_state
     entity_id: sensor.hue_sensor_keuken_light_level
-    below: '75'
+    below: 75
   - condition: or
     conditions:
     - condition: template
@@ -2569,7 +2661,7 @@
   condition:
   - condition: numeric_state
     entity_id: sensor.hue_sensor_keuken_light_level
-    below: '75'
+    below: 75
   - condition: or
     conditions:
     - condition: template
@@ -2647,6 +2739,19 @@
   - service: scene.turn_on
     entity_id: scene.keuken_uit
   mode: single
+- id: light_kitchen_005
+  alias: Licht - Keuken - Aan Slapen
+  trigger:
+  - platform: state
+    entity_id: input_select.woning_status
+    to: Slapen
+  condition:
+  - condition: state
+    entity_id: group.licht_keuken
+    state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id: script.light_kitchen_on
 - id: light_livingroom_001
   alias: Licht - Woonkamer - Aan
   trigger:
@@ -2665,7 +2770,7 @@
     attribute: current_activity
   - platform: numeric_state
     entity_id: sensor.hue_sensor_woonkamer_light_level
-    above: 15
+    above: 20
   condition:
   - condition: state
     entity_id: input_boolean.light_downstairs
@@ -2743,7 +2848,7 @@
   trigger:
   - platform: numeric_state
     entity_id: sensor.hue_sensor_woonkamer_light_level
-    above: 65
+    above: 50
   - platform: state
     entity_id: input_boolean.light_downstairs
     to: 'off'
@@ -2760,6 +2865,11 @@
   - entity_id: binary_sensor.hue_sensor_woonkamer_motion
     for:
       minutes: 10
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.hue_sensor_woonkamer_motion
+    for:
+      minutes: 15
     platform: state
     to: 'off'
   condition:
@@ -2909,6 +3019,38 @@
   action:
   - service: input_boolean.turn_off
     entity_id: input_boolean.light_dressing_stay_on
+- id: light_dressing_005
+  alias: Licht - Dressing - Aan 2
+  trigger:
+  - platform: state
+    entity_id: input_select.woning_status
+    to: Slapen
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.hue_sensor_dressing_light_level
+    below: 70
+  - condition: or
+    conditions:
+    - condition: template
+      value_template: '{{ states(''input_select.woning_status'') not in [''Juist Weg'',
+        ''Weg'', ''Op Vakantie''] }}'
+    - condition: template
+      value_template: '{{ states(''input_select.woning_status'') in [''Op Vakantie'']
+        and states(''group.bezoekers'') in [''home''] }}'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: light.hue_light_dressing_one
+      state: 'on'
+    - condition: state
+      entity_id: light.hue_light_dressing_two
+      state: 'on'
+    - condition: state
+      entity_id: light.hue_light_dressing_three
+      state: 'on'
+  action:
+  - service: script.turn_on
+    entity_id: script.light_dressing_on
 - id: light_bathroom_001
   alias: Licht - Badkamer - Aan
   trigger:
@@ -3000,6 +3142,17 @@
   - service: script.turn_on
     entity_id: script.light_bathroom_on
   mode: single
+- id: light_bedroom_elmo_dimmer_001
+  alias: Licht - Elmo - Dimmer
+  description: ''
+  use_blueprint:
+    path: vanstinator/zha-philips-hue-dimmer-switch-rwl020-rwl021.yaml
+    input:
+      remote: 3b1bcb1c3e3dd4802a47d8ae449f8566
+      light:
+        device_id: 673f99e0527c87283f7527fdfacec67d
+      force_brightness: false
+      brightness: 100
 - id: light_bedroom_elmo_004
   alias: Licht - Elmo - Wekker Ochtend Week
   trigger:
@@ -3165,7 +3318,7 @@
   - service: scene.turn_on
     entity_id: scene.tuinhuis_uit
 - id: light_garden2_001
-  alias: Licht - Tuin2 - Aan
+  alias: Licht - Tuin2 (alles) - Aan
   trigger:
   - platform: state
     entity_id: binary_sensor.hue_sensor_tuin_motion
@@ -3174,16 +3327,35 @@
     entity_id: binary_sensor.hue_sensor_tuinhuis_motion
     to: 'on'
   - platform: state
+    entity_id: binary_sensor.hue_sensor_terras_motion
+    to: 'on'
+  - platform: state
     entity_id: input_boolean.light_garden_stay_on
     to: 'on'
   condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: 'Slapen'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: group.bewoners
+      state: 'home'
+    - condition: state
+      entity_id: group.bezoekers
+      state: 'home'
+    - condition: state
+      entity_id: input_select.woning_status
+      state: 'Op Vakantie'
   - condition: state
     entity_id: group.licht_tuin_group2
     state: 'off'
   - condition: or
     conditions:
     - condition: numeric_state
-      entity_id: sensor.hue_sensor_tuin_light_level
+      entity_id: sensor.hue_sensor_terras_light_level
       below: 40
     - condition: state
       entity_id: input_boolean.light_garden_stay_on
@@ -3192,8 +3364,11 @@
   - service: script.turn_on
     entity_id: script.light_garden2_on
 - id: light_garden2_002
-  alias: Licht - Tuin2 - Uit
+  alias: Licht - Tuin2 (alles) - Uit
   trigger:
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_terras_light_level
+    above: 60
   - entity_id: binary_sensor.hue_sensor_tuin_motion
     for:
       minutes: 5
@@ -3202,6 +3377,16 @@
   - entity_id: binary_sensor.hue_sensor_tuinhuis_motion
     for:
       minutes: 5
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.hue_sensor_terras_motion
+    for:
+      minutes: 5
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.hue_sensor_terras_motion
+    for:
+      minutes: 6
     platform: state
     to: 'off'
   - entity_id: binary_sensor.hue_sensor_tuin_motion
@@ -3225,13 +3410,16 @@
     entity_id: binary_sensor.hue_sensor_tuin_motion
     state: 'off'
   - condition: state
+    entity_id: binary_sensor.hue_sensor_terras_motion
+    state: 'off'
+  - condition: state
     entity_id: input_boolean.light_garden_stay_on
     state: 'off'
   action:
   - service: scene.turn_on
     entity_id: scene.tuin2_uit
 - id: light_garden1_001
-  alias: Licht - Tuin1 - Aan
+  alias: Licht - Tuin1 (deel) - Aan
   trigger:
   - platform: state
     entity_id: input_select.woning_status
@@ -3252,7 +3440,7 @@
     entity_id: input_boolean.light_garden_stay_on
     to: 'on'
   - platform: numeric_state
-    entity_id: sensor.hue_sensor_tuin_light_level
+    entity_id: sensor.hue_sensor_terras_light_level
     below: 40
   - entity_id: binary_sensor.hue_sensor_keuken_motion
     platform: state
@@ -3288,7 +3476,7 @@
   - service: script.turn_on
     entity_id: script.light_garden1_on
 - id: light_garden1_002
-  alias: Licht - Tuin1 - Uit
+  alias: Licht - Tuin1 (deel) - Uit
   trigger:
   - platform: state
     entity_id: input_select.woning_status
@@ -3302,8 +3490,8 @@
     for:
       minutes: 3
   - platform: numeric_state
-    entity_id: sensor.hue_sensor_tuin_light_level
-    above: 40
+    entity_id: sensor.hue_sensor_terras_light_level
+    above: 60
   - platform: state
     entity_id: input_boolean.light_garden_stay_on
     to: 'off'
@@ -3326,14 +3514,14 @@
       minutes: 1
     platform: state
     to: 'off'
-  - entity_id: binary_sensor.hue_sensor_tuinhuis_motion
+  - entity_id: binary_sensor.hue_sensor_terras_motion
     for:
       minutes: 1
     platform: state
     to: 'off'
-  - entity_id: binary_sensor.hue_sensor_keuken_motion
+  - entity_id: binary_sensor.hue_sensor_tuinhuis_motion
     for:
-      minutes: 5
+      minutes: 1
     platform: state
     to: 'off'
   - entity_id: binary_sensor.hue_sensor_tuin_motion
@@ -3341,9 +3529,19 @@
       minutes: 2
     platform: state
     to: 'off'
+  - entity_id: binary_sensor.hue_sensor_terras_motion
+    for:
+      minutes: 2
+    platform: state
+    to: 'off'
   - entity_id: binary_sensor.hue_sensor_tuinhuis_motion
     for:
       minutes: 2
+    platform: state
+    to: 'off'
+  - entity_id: binary_sensor.hue_sensor_keuken_motion
+    for:
+      minutes: 5
     platform: state
     to: 'off'
   - entity_id: binary_sensor.hue_sensor_keuken_motion
@@ -3360,8 +3558,8 @@
         value_template: '{{ states(''sensor.time'') > ( states.input_datetime.light_garden_off.attributes.timestamp
           | int - 120 ) | timestamp_custom(''%H:%M'', False) }}'
       - condition: numeric_state
-        entity_id: sensor.hue_sensor_tuin_light_level
-        above: 40
+        entity_id: sensor.hue_sensor_terras_light_level
+        above: 60
     - condition: or
       conditions:
       - condition: state
@@ -3384,6 +3582,9 @@
     entity_id: binary_sensor.hue_sensor_tuinhuis_motion
     state: 'off'
   - condition: state
+    entity_id: binary_sensor.hue_sensor_terras_motion
+    state: 'off'
+  - condition: state
     entity_id: binary_sensor.hue_sensor_tuin_motion
     state: 'off'
   - condition: state
@@ -3395,51 +3596,64 @@
   - service: scene.turn_on
     entity_id: scene.tuin2_uit
   mode: single
-- id: light_dimmer_001
-  alias: Licht - Elmo - Dimmer Aan
+- id: light_garden_001
+  alias: Licht - Tuin - Altijd Aan Boolean OFF after timer
+  trigger:
+  - platform: state
+    entity_id: input_select.woning_status
+    to: Weg
+  - platform: state
+    entity_id: input_select.woning_status
+    to: Op Vakantie
+  - platform: state
+    entity_id: input_select.woning_status
+    to: Slapen
+    for:
+      minutes: 3
+  - entity_id: input_boolean.light_garden_stay_on
+    for:
+      minutes: 300
+    platform: state
+    to: 'on'
+  - entity_id: input_boolean.sun_up_down
+    platform: state
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: input_boolean.light_garden_stay_on
+    state: 'on'
+  action:
+  - service: input_boolean.turn_off
+    entity_id: input_boolean.light_garden_stay_on
+- id: light_sun_001
+  alias: Licht - Zon - Onder/Op
   description: ''
   trigger:
-  - device_id: 3b1bcb1c3e3dd4802a47d8ae449f8566
-    domain: zha
-    platform: device
-    type: remote_button_short_press
-    subtype: turn_on
+  - platform: sun
+    event: sunset
+    offset: -01:00:00
+  - platform: sun
+    event: sunrise
+    offset: 01:00:00
   condition: []
   action:
-  - service: scene.turn_on
-    target:
-      entity_id: scene.slaapkamer_2_ochtend
-  mode: single
-- id: light_dimmer_002
-  alias: Licht - Elmo - Dimmer Uit
-  description: ''
-  trigger:
-  - device_id: 3b1bcb1c3e3dd4802a47d8ae449f8566
-    domain: zha
-    platform: device
-    type: remote_button_short_press
-    subtype: turn_off
-  condition: []
-  action:
-  - type: turn_off
-    device_id: 673f99e0527c87283f7527fdfacec67d
-    entity_id: light.hue_light_kamer_elmo_one
-    domain: light
-  mode: single
-- id: light_dimmer_003
-  alias: Licht - Elmo - Dimmer Aan 2
-  description: ''
-  trigger:
-  - device_id: 3b1bcb1c3e3dd4802a47d8ae449f8566
-    domain: zha
-    platform: device
-    type: remote_button_double_press
-    subtype: turn_on
-  condition: []
-  action:
-  - service: scene.turn_on
-    target:
-      entity_id: scene.slaapkamer_2_nacht
+  - choose:
+    - conditions:
+      - condition: sun
+        before: sunset
+        before_offset: -00:55:00
+        after: sunrise
+        after_offset: 00:55:00
+      sequence:
+      - service: input_boolean.turn_on
+        data: {}
+        target:
+          entity_id: input_boolean.sun_up_down
+    default:
+    - service: input_boolean.turn_off
+      data: {}
+      target:
+        entity_id: input_boolean.sun_up_down
   mode: single
 - id: battery_001
   alias: Batterij - Bijna Leeg
@@ -3448,6 +3662,7 @@
     entity_id:
     - sensor.hue_sensor_tuin_power
     - sensor.hue_sensor_tuinhuis_power
+    - sensor.hue_sensor_terras_power
     - sensor.hue_sensor_dressing_power
     - sensor.hue_sensor_keuken_power
     - sensor.hue_sensor_woonkamer_power
@@ -3457,3 +3672,28 @@
   - entity_id: script.notify_battery
     service: script.turn_on
   mode: single
+- id: energy_solar_status_001
+  alias: Energy - Solar - ON/OFF
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.solaredge_current_power
+    above: 500
+  - entity_id: group.bewoners_router
+    platform: state
+    from: not_home
+    to: home
+    for:
+      minutes: 5
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: above_horizon
+  - condition: state
+    entity_id: input_select.woning_status
+    state:
+    - Thuis
+    - Thuis (Werk)
+    - Thuis (Verlof)
+  action:
+  - service: script.turn_on
+    entity_id: script.notify_energy_solar_status

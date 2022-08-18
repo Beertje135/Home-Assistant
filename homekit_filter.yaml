@@ -33,9 +33,6 @@ include_entities:
   - sensor.hue_sensor_tuinhuis_light_level
   - sensor.hue_sensor_tuin_temperature
   - sensor.hue_sensor_tuinhuis_temperature
-  - sensor.ons_huisje_sensor_water
-  - sensor.ons_huisje_sensor_gas
-  - group.bezoekers
   - device_tracker.router_iphone_bert
   - device_tracker.router_iphone_caro
   - switch.wake_on_lan
@@ -47,9 +44,6 @@ include_entities:
   - switch.hue_smart_plug_woonkamer_one
   - switch.hue_smart_plug_eetkamer
   - switch.hue_smart_plug_dressing
-  - media_player.alexa_kitchen_amp
-  - media_player.alexa_bathroom
-  - media_player.alexa_livingroom_1
   - input_boolean.vacuum_clean_today
   - input_boolean.elmo_wekker
   - input_boolean.visitor

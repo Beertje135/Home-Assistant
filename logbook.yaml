@@ -43,6 +43,8 @@
       - binary_sensor.hue_sensor_woonkamer_motion
       - input_boolean.notify_bert
       - input_boolean.notify_caro
+      - input_boolean.media_livingroom
+      - input_boolean.media_kitchen
       - input_select.harmony_hub
       - input_select.woning_status
       - switch.adguard_filtering

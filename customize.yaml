@@ -59,6 +59,7 @@ sensor.solaredge_energy_today_template:
   friendly_name: solaredge (Energy today kWh)
   icon: mdi:solar-power
   unit_of_measurement: kWh
+  device_class: enery
 sensor.solaredge_energy_this_month_template:
   friendly_name: solaredge (Energy this month kWh)
   icon: mdi:solar-power
