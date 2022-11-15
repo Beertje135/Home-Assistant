@@ -91,7 +91,6 @@ tts:
     cache: true
     cache_dir: /tmp/tts
     time_memory: 300
-    base_url:   http://192.168.2.7:8123/
     service_name: google_say
 
 notify:
@@ -101,6 +100,19 @@ notify:
     name: entity_log
     filename: /config/www/entity_log.txt
     timestamp: false
+
+#MQTT
+
+mqtt:
+  sensor:
+  - name: "Deurbel Voor MQTT Battery Sensor"
+    state_topic: "doorbellsensorfront/status/battery"
+    value_template: "{{value_json.batt}}"
+    unit_of_measurement: "Volts"
+  - name: "Deurbel Voor MQTT Sensor"
+    state_topic: "doorbellsensorfront/status"
+    value_template: "{{value_json.Event}}"
+
 
 # Enables Homekit
 homekit:
@@ -159,7 +171,6 @@ recorder:
   exclude:
     domains:
       - sun
-      - automation
       - binary_sensor
       - calendar
       - device_tracker
@@ -167,7 +178,6 @@ recorder:
       - input_datetime
       - input_select
       - input_text
-      - script
       - sensor
       - switch
       - utility_meter
@@ -180,6 +190,8 @@ recorder:
       - media_player.this_device
   include:
     domains:
+      - automation
+      - script
       - climate
       - group
       - light
@@ -193,6 +205,7 @@ recorder:
       - binary_sensor.hue_sensor_keuken_motion
       - binary_sensor.hue_sensor_tuin_motion
       - binary_sensor.hue_sensor_tuinhuis_motion
+      - binary_sensor.hue_sensor_terras_motion
       - binary_sensor.hue_sensor_woonkamer_motion
       - input_boolean.notify_bert
       - input_boolean.notify_caro
@@ -206,6 +219,7 @@ recorder:
       - sensor.climate_slp_kamer_attribute_current_temperature
       - sensor.climate_veranda_attribute_current_temperature
       - sensor.climate_woonkamer_attribute_current_temperature
+      - sensor.climate_zolder_attribute_current_temperature
       - sensor.cpu_temperature
       - sensor.deurbel_voor_mqtt_battery_sensor
       - sensor.deurbel_voor_mqtt_sensor
@@ -219,6 +233,9 @@ recorder:
       - sensor.hue_sensor_keuken_temperature
       - sensor.hue_sensor_tuin_light_level
       - sensor.hue_sensor_tuin_temperature
+      - sensor.hue_sensor_terras_light_level
+      - sensor.hue_sensor_terras_temperature
+      - sensor.hue_sensor_buiten_temperature
       - sensor.hue_sensor_tuinhuis_light_level
       - sensor.hue_sensor_tuinhuis_temperature
       - sensor.hue_sensor_veranda_light_level
@@ -334,10 +351,10 @@ influxdb:
     weather.*:
       override_measurement: celsius_weather
 
-weather:
-  - platform: darksky
-    api_key: !secret api_key_darksky
-    mode: daily
+#weather:
+#  - platform: darksky
+#    api_key: !secret api_key_darksky
+#    mode: daily
 
 smappee:
   client_id: !secret client_id_smappee

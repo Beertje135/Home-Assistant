@@ -245,6 +245,18 @@ class AlexaMediaFlowHandler(config_entries.ConfigFlow):
                 description_placeholders={"message": ""},
             )
         hass_url: str = user_input.get(CONF_HASS_URL)
+        if hass_url is None:
+            try:
+                hass_url = get_url(self.hass, prefer_external=True)
+            except NoURLAvailableError:
+                _LOGGER.debug(
+                    "No Home Assistant URL found in config or detected; forcing user form"
+                )
+                return self.async_show_form(
+                    step_id="user",
+                    data_schema=vol.Schema(self.proxy_schema),
+                    description_placeholders={"message": ""},
+                )
         hass_url_valid: bool = False
         hass_url_error: str = ""
         async with ClientSession() as session:
@@ -268,9 +280,9 @@ class AlexaMediaFlowHandler(config_entries.ConfigFlow):
                 description_placeholders={
                     "email": self.login.email,
                     "hass_url": hass_url,
-                    "error": hass_url_error
+                    "error": hass_url_error,
                 },
-            )        
+            )
         if (
             user_input
             and user_input.get(CONF_OTPSECRET)
@@ -301,7 +313,8 @@ class AlexaMediaFlowHandler(config_entries.ConfigFlow):
         if not self.proxy:
             try:
                 self.proxy = AlexaProxy(
-                    self.login, str(URL(self.config.get(CONF_HASS_URL)).with_path(AUTH_PROXY_PATH))
+                    self.login,
+                    str(URL(self.config.get(CONF_HASS_URL)).with_path(AUTH_PROXY_PATH)),
                 )
             except ValueError as ex:
                 return self.async_show_form(
@@ -558,7 +571,7 @@ class AlexaMediaFlowHandler(config_entries.ConfigFlow):
                 "access_token": login.access_token,
                 "refresh_token": login.refresh_token,
                 "expires_in": login.expires_in,
-                "mac_dms": login.mac_dms
+                "mac_dms": login.mac_dms,
             }
             self.hass.data.setdefault(
                 DATA_ALEXAMEDIA,

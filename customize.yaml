@@ -85,8 +85,9 @@ sensor.meter_water_yearly_peak:
   friendly_name: WATER JAAR
   icon: mdi:water
 sensor.ons_huisje_sensor_water:
-  unit_of_measurement: 'm³'
-  last_reset: '1970-01-01T00:00:00+00:00'
+  unit_of_measurement: L
+  state_class: total_increasing
+  device_class: water
 sensor.ons_huisje_sensor_gas:
   unit_of_measurement: m³
   state_class: total_increasing

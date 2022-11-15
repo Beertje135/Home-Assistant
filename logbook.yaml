@@ -1,7 +1,6 @@
   exclude:
     domains:
-      - sun
-      - automation
+      - sun   
       - binary_sensor
       - calendar
       - device_tracker
@@ -10,8 +9,6 @@
       - input_select
       - input_text
       - light
-      - scene
-      - script
       - sensor
       - switch
       - utility_meter
@@ -29,6 +26,9 @@
       - media_player.this_device 
   include:
     domains:
+      - automation
+      - script
+      - scene
       - climate
       - group
       - media_player
@@ -36,16 +36,12 @@
       - remote
       - vacuum
     entities:
-      - binary_sensor.hue_sensor_dressing_motion
-      - binary_sensor.hue_sensor_keuken_motion
-      - binary_sensor.hue_sensor_tuin_motion
-      - binary_sensor.hue_sensor_tuinhuis_motion
-      - binary_sensor.hue_sensor_woonkamer_motion
       - input_boolean.notify_bert
       - input_boolean.notify_caro
       - input_boolean.media_livingroom
       - input_boolean.media_kitchen
       - input_select.harmony_hub
+      - input_boolean.pre_heat
       - input_select.woning_status
       - switch.adguard_filtering
       - switch.adguard_parental_control

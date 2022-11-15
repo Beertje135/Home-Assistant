@@ -8,9 +8,10 @@ https://community.home-assistant.io/t/echo-devices-alexa-as-media-player-testers
 """
 from datetime import timedelta
 
-__version__ = "4.1.0"
+__version__ = "4.3.2"
 PROJECT_URL = "https://github.com/custom-components/alexa_media_player/"
 ISSUE_URL = f"{PROJECT_URL}issues"
+NOTIFY_URL = f"{PROJECT_URL}wiki/Configuration%3A-Notification-Component#use-the-notifyalexa_media-service"
 
 DOMAIN = "alexa_media"
 DATA_ALEXAMEDIA = "alexa_media"
@@ -29,6 +30,7 @@ DEPENDENT_ALEXA_COMPONENTS = [
     "sensor",
     "alarm_control_panel",
     "light",
+    "binary_sensor"
 ]
 
 HTTP_COOKIE_HEADER = "# HTTP Cookie File"

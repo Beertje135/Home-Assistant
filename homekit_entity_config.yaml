@@ -61,8 +61,11 @@ switch.hue_smart_plug_woonkamer_one:
   name: Woonkamer LED Lichtjes
 switch.hue_smart_plug_eetkamer:
   name: Extra Plug
-switch.hue_smart_plug_dressing:
-  name: Dressing Plug
+switch.hue_smart_plug_five:
+  name: Kamer van Trix Camera van Trix
+switch.hue_smart_plug_six:
+  name: Kamer van Elmo Camera van Elmo
+
 
 # INPUT SELECT
 
@@ -101,7 +104,9 @@ input_boolean.light_dressing_stay_on:
 input_boolean.light_garden_stay_on:
   name: Tuin Licht Aanhouden
 input_boolean.elmo_wekker:
-  name: Kamer van Elmo Wekker 
+  name: Kamer van Elmo Wekker
+input_boolean.pre_heat:
+  name: Ons Huisje Pre-Heat
 
 # SENSORS MOTION
 
@@ -115,7 +120,8 @@ binary_sensor.hue_sensor_tuin_motion:
   name: Tuin Beweging
 binary_sensor.hue_sensor_tuinhuis_motion:
   name: Tuinhuis Beweging
-
+binary_sensor.hue_sensor_terras_motion:
+  name: Terras Beweging
 
 # SENORS LIGHT LEVEL
 
@@ -129,6 +135,8 @@ sensor.hue_sensor_tuin_light_level:
   name: Tuin Lichtniveau
 sensor.hue_sensor_tuinhuis_light_level:
   name: Tuinhuis Lichtniveau
+sensor.hue_sensor_terras_light_level:
+  name: Terras Lichtniveau
 
 # CLIMATE
 
@@ -146,6 +154,12 @@ climate.woonkamer:
   name: Woonkamer Thermostaat
 climate.ons_huisje:
   name: Ons Huisje Thermostaat
+sensor.hue_sensor_tuin_temperature:
+  name: Tuin Temperatuur
+sensor.hue_sensor_tuinhuis_temperature:
+  name: Tuinhuis Temperatuur
+sensor.hue_sensor_terras_temperature:
+  name: Terras Temperatuur
 
 # VACUUM
 

@@ -351,7 +351,7 @@
       icon: mdi:television-clean
       state: 'off'
 - id: '1608049415666'
-  name: Tuin 2 - Normaal
+  name: Tuin 2 (alles) - Normaal
   entities:
     light.hue_light_tuin_one:
       min_mireds: 153
@@ -360,7 +360,11 @@
       - colorloop
       supported_color_modes:
       - color_temp
-      - hs
+      - xy
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Hue Light Tuin One On/Off
+      supported_features: 44
       color_mode: color_temp
       brightness: 191
       color_temp: 377
@@ -374,9 +378,6 @@
       xy_color:
       - 0.532
       - 0.387
-      off_brightness:
-      friendly_name: Hue Light Tuin One On/Off
-      supported_features: 63
       state: 'on'
     light.hue_light_tuin_three:
       min_mireds: 153
@@ -385,7 +386,11 @@
       - colorloop
       supported_color_modes:
       - color_temp
-      - hs
+      - xy
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Hue Light Tuin Three On/Off
+      supported_features: 44
       color_mode: color_temp
       brightness: 191
       color_temp: 378
@@ -399,9 +404,6 @@
       xy_color:
       - 0.532
       - 0.388
-      off_brightness:
-      friendly_name: Hue Light Tuin Three On/Off
-      supported_features: 63
       state: 'on'
     light.hue_light_tuin_four:
       min_mireds: 153
@@ -410,7 +412,11 @@
       - colorloop
       supported_color_modes:
       - color_temp
-      - hs
+      - xy
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Hue Light Tuin Four On/Off
+      supported_features: 44
       color_mode: color_temp
       brightness: 191
       color_temp: 377
@@ -424,12 +430,88 @@
       xy_color:
       - 0.532
       - 0.387
-      off_brightness:
-      friendly_name: Hue Light Tuin Four On/Off
-      supported_features: 63
       state: 'on'
+    light.hue_light_tuin_two:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Hue Light Tuin Two On/Off
+      supported_features: 44
+      color_mode: color_temp
+      brightness: 191
+      color_temp: 377
+      hs_color:
+      - 28.502
+      - 67.279
+      rgb_color:
+      - 255
+      - 164
+      - 83
+      xy_color:
+      - 0.532
+      - 0.387
+      state: 'on'
+    light.hue_light_tuin_six:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Hue Light Tuin Six On/Off
+      supported_features: 44
+      color_mode: color_temp
+      brightness: 191
+      color_temp: 377
+      hs_color:
+      - 28.502
+      - 67.279
+      rgb_color:
+      - 255
+      - 164
+      - 83
+      xy_color:
+      - 0.532
+      - 0.387
+      state: 'on'
+    light.hue_light_tuin_five:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Hue Light Tuin Five On/Off
+      supported_features: 44
+      color_mode: color_temp
+      brightness: 191
+      color_temp: 377
+      hs_color:
+      - 28.502
+      - 67.279
+      rgb_color:
+      - 255
+      - 164
+      - 83
+      xy_color:
+      - 0.532
+      - 0.387
+      state: 'on'
+  metadata: {}
 - id: '1608049445477'
-  name: Tuin 2 - Uit
+  name: Tuin 2 (alles) - Uit
   entities:
     light.hue_light_tuin_one:
       min_mireds: 153
@@ -438,10 +520,11 @@
       - colorloop
       supported_color_modes:
       - color_temp
-      - hs
-      off_brightness:
+      - xy
+      off_with_transition: false
+      off_brightness: 191
       friendly_name: Hue Light Tuin One On/Off
-      supported_features: 63
+      supported_features: 44
       state: 'off'
     light.hue_light_tuin_three:
       min_mireds: 153
@@ -450,10 +533,11 @@
       - colorloop
       supported_color_modes:
       - color_temp
-      - hs
-      off_brightness:
+      - xy
+      off_with_transition: false
+      off_brightness: 191
       friendly_name: Hue Light Tuin Three On/Off
-      supported_features: 63
+      supported_features: 44
       state: 'off'
     light.hue_light_tuin_four:
       min_mireds: 153
@@ -462,13 +546,54 @@
       - colorloop
       supported_color_modes:
       - color_temp
-      - hs
-      off_brightness:
+      - xy
+      off_with_transition: false
+      off_brightness: 191
       friendly_name: Hue Light Tuin Four On/Off
-      supported_features: 63
+      supported_features: 44
       state: 'off'
+    light.hue_light_tuin_two:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      off_with_transition: false
+      off_brightness: 191
+      friendly_name: Hue Light Tuin Two On/Off
+      supported_features: 44
+      state: 'off'
+    light.hue_light_tuin_five:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      off_with_transition: false
+      off_brightness: 191
+      friendly_name: Hue Light Tuin Five On/Off
+      supported_features: 44
+      state: 'off'
+    light.hue_light_tuin_six:
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      off_with_transition: false
+      off_brightness: 3
+      friendly_name: Hue Light Tuin Six On/Off
+      supported_features: 44
+      state: 'off'
+  metadata: {}
 - id: '1608049487168'
-  name: Tuin 1 - Normaal
+  name: Tuin 1 (deel) - Normaal
   entities:
     light.hue_light_tuin_two:
       min_mireds: 153
@@ -477,7 +602,11 @@
       - colorloop
       supported_color_modes:
       - color_temp
-      - hs
+      - xy
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Hue Light Tuin Two On/Off
+      supported_features: 44
       color_mode: color_temp
       brightness: 177
       color_temp: 377
@@ -491,9 +620,6 @@
       xy_color:
       - 0.532
       - 0.387
-      off_brightness:
-      friendly_name: Hue Light Tuin Two On/Off
-      supported_features: 63
       state: 'on'
     light.hue_light_tuin_five:
       min_mireds: 153
@@ -502,7 +628,11 @@
       - colorloop
       supported_color_modes:
       - color_temp
-      - hs
+      - xy
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Hue Light Tuin Five On/Off
+      supported_features: 44
       color_mode: color_temp
       brightness: 191
       color_temp: 377
@@ -516,9 +646,6 @@
       xy_color:
       - 0.532
       - 0.387
-      off_brightness:
-      friendly_name: Hue Light Tuin Five On/Off
-      supported_features: 63
       state: 'on'
     light.hue_light_tuin_six:
       min_mireds: 153
@@ -527,7 +654,11 @@
       - colorloop
       supported_color_modes:
       - color_temp
-      - hs
+      - xy
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Hue Light Tuin Six On/Off
+      supported_features: 44
       color_mode: color_temp
       brightness: 191
       color_temp: 377
@@ -541,12 +672,10 @@
       xy_color:
       - 0.532
       - 0.387
-      off_brightness:
-      friendly_name: Hue Light Tuin Six On/Off
-      supported_features: 63
       state: 'on'
+  metadata: {}
 - id: '1608049519088'
-  name: Tuin 1 - Uit
+  name: Tuin 1 (deel) - Uit
   entities:
     light.hue_light_tuin_two:
       min_mireds: 153
@@ -555,10 +684,11 @@
       - colorloop
       supported_color_modes:
       - color_temp
-      - hs
-      off_brightness:
+      - xy
+      off_with_transition: false
+      off_brightness: 177
       friendly_name: Hue Light Tuin Two On/Off
-      supported_features: 63
+      supported_features: 44
       state: 'off'
     light.hue_light_tuin_five:
       min_mireds: 153
@@ -567,10 +697,11 @@
       - colorloop
       supported_color_modes:
       - color_temp
-      - hs
-      off_brightness:
+      - xy
+      off_with_transition: false
+      off_brightness: 191
       friendly_name: Hue Light Tuin Five On/Off
-      supported_features: 63
+      supported_features: 44
       state: 'off'
     light.hue_light_tuin_six:
       min_mireds: 153
@@ -579,11 +710,13 @@
       - colorloop
       supported_color_modes:
       - color_temp
-      - hs
-      off_brightness:
+      - xy
+      off_with_transition: false
+      off_brightness: 191
       friendly_name: Hue Light Tuin Six On/Off
-      supported_features: 63
+      supported_features: 44
       state: 'off'
+  metadata: {}
 - id: '1608049557900'
   name: Tuinhuis - Normaal
   entities:
