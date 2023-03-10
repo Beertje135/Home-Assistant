@@ -6,1980 +6,3610 @@ views:
     icon: 'mdi:star-box'
     panel: true
     cards:
-      - id: root_stack_0
-        type: 'custom:layout-card'
-        layout_type: custom:vertical-layout
-        layout:
-          max_cols: 1
+    - id: root_stack_0
+      type: 'custom:layout-card'
+      layout_type: custom:vertical-layout
+      layout:
+        max_cols: 1
+      cards:
+      - id: home_tracker
+        type: horizontal-stack
         cards:
-          - id: home_tracker_0
-            type: horizontal-stack
-            cards:
-              - type: tile
-                entity: input_select.woning_status
-                color: purple
-                name: Status
-              - type: tile
-                entity: person.bert
-                show_entity_picture: true
-              - type: tile
-                entity: person.caroline
-                show_entity_picture: true
-          - id: controls_tracker_0
-            type: glance
-            columns: 3
-            entities:
-              - entity: input_button.controls
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/controls
-              - entity: input_button.lights
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/lights
-              - entity: input_button.multimedia
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/multimedia
+        - type: tile
+          entity: input_select.woning_status
+          color: purple
+          name: Status
+        - type: tile
+          entity: person.bert
+          show_entity_picture: true
+        - type: tile
+          entity: person.caroline
+          show_entity_picture: true
+      - id: waste_tracker
+        type: horizontal-stack
+        cards:
+        - type: entity-filter
+          entities:
+            - entity: sensor.recycleapp_papier
+              name: Papier
+            - entity: sensor.recycleapp_glas
+              name: Glas
+            - entity: sensor.recycleapp_pmd
+              name: PMD
+            - entity: sensor.recycleapp_restafval
+              name: Restafval
+          state_filter:
+            - value: 1
+              operator: '='
+              attribute: Days_until
+          card:
             show_name: true
-            show_state: false
-          - id: waste_tracker_0
-            type: entity-filter
-            entities:
-              - entity: sensor.recycleapp_papier
-                name: Papier
-              - entity: sensor.recycleapp_glas
-                name: Glas
-              - entity: sensor.recycleapp_pmd
-                name: PMD
-              - entity: sensor.recycleapp_restafval
-                name: Restafval
-            state_filter:
-              - value: 1
-                operator: '<='
-                attribute: Days_until
-            card:
-              show_name: true
-              type: glance
-            show_empty: false
-          - id: problem_tracker_0
-            type: entity-filter
-            entities:
-              - entity: sensor.hue_sensor_tuin_power
-                name: Hue Sensor Battery Low - Tuin
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_tuinhuis_power
-                name: Hue Sensor Battery Low - Tuinhuis
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_dressing_power
-                name: Hue Sensor Battery Low - Dressing
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_keuken_power
-                name: Hue Sensor Battery Low - Keuken
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_woonkamer_power
-                name: Hue Sensor Battery Low - Woonkamer
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_dimmer_kamer_elmo_power
-                name: Hue Dimmer Battery Low - Elmo
-                state_filter:
-                  - operator: "<"
-                    value: 10
-            show_empty: false
-            state_filter:
-              - Replace
-              - "off"
-              - Warning
-              - Emergency
-              - gray
-              - yellow
-              - red
-              - Replace
-              - Not Ok
-            card:
-              type: entities
-          - id: device_tracker_0
-            type: entity-filter
-            entities:
-              - entity: sensor.bezoek
-              - entity: sensor.kuishulp
-              - entity: sensor.babysit
-              - entity: person.mama
-              - entity: person.mark
-              - entity: person.papa
-              - entity: person.karen
-              - entity: person.andy
-              - entity: person.oma
-              - entity: person.thomas
-              - entity: person.niki
-              - entity: person.marcus
-              - entity: person.nancy
-              - entity: vacuum.dusty
-              - entity: switch.hue_smart_plug_five
-              - entity: switch.hue_smart_plug_six
-              - entity: input_boolean.keep_christmas_on
-              - entity: input_boolean.keep_computer_on
-            show_empty: false
-            state_filter:
-              - home
-              - "on"
-              - 'cleaning'
-            card:
-              show_name: true
-              show_state: false
-              type: glance
-          - id: update_tracker_0
-            type: entity-filter
-            entities:
-              - entity: update.home_assistant_operating_system_update
-                name: Update OS
-              - entity: update.home_assistant_core_update
-                name: Update Core
-              - entity: update.home_assistant_supervisor_update
-                name: Update Supervisor
-              - entity: sensor.hacs
-                name: Update Hacs
-              - entity: update.adguard_home_update
-                name: Update AdGuard
-              - entity: update.esphome_update
-                name: Update ESPHome
-              - entity: update.file_editor_update
-                name: Update File Editor
-              - entity: update.grafana_update
-                name: Update Grafana
-              - entity: update.home_assistant_google_drive_backup_update
-                name: Update Google Drive Backup
-              - entity: update.influxdb_update
-                name: Update InfluxDB
-              - entity: update.mosquitto_broker_update
-                name: Update Mosquito Broker
-              - entity: update.plex_media_server_update
-                name: Update Plex Server
-              - entity: update.rpc_shutdown_update
-                name: Update RPC Shutdown
-              - entity: update.samba_share_update
-                name: Update Samba Share
-              - entity: update.ssh_web_terminal_update
-                name: Update SSH Terminal
-            show_empty: false
-            state_filter:
-              - "on"
-              - '1'
-              - '2'
-              - '3'
-              - '4'
-            card:
-              type: glance
-              show_name: true
-              show_state: true
-          - id: layout_0
-            type: 'custom:layout-card'
-            layout_type: custom:masonry-layout
-            cards:
-              - type: vertical-stack
-                cards:
-                  - type: glance
-                    columns: 4
-                    entities:
-                      - sensor.ons_huisje_total_consumption_today
-                      - sensor.solaredge_energy_today_template
-                      - sensor.ons_huisje_sensor_gas
-                      - sensor.ons_huisje_sensor_water
-                    show_header_toggle: false
-                    show_name: false
-              - type: vertical-stack
-                cards:
-                  - type: entities
-                    entities:
-                      - entity: climate.keuken
-                        icon: mdi:stove
-                        name: Keuken
-                      - entity: climate.woonkamer
-                        icon: mdi:sofa
-                        name: Woonkamer
-                      - entity: climate.badkamer
-                        icon: mdi:shower
-                        name: Badkamer
-                      - entity: climate.dressing
-                        icon: mdi:hanger
-                        name: Dressing
-                      - entity: climate.slp_kamer
-                        icon: mdi:bed-empty
-                        name: Kamer van Trix
-                      - entity: climate.kamer_elmo
-                        icon: mdi:bed-empty
-                        name: Kamer van Elmo
-                      - entity: climate.zolder
-                        icon: mdi:home-roof
-                        name: Zolder
-                      - entity: sensor.hue_sensor_buiten_temperature
-                        icon: mdi:flower-tulip
-                        name: Buiten
-                    show_header_toggle: false
-                    show_name: false
-                    footer:
-                      type: buttons
-                      entities:
-                        - entity: sensor.season
-                          tap_action:
-                            action: more-info
-                        - entity: input_boolean.pre_heat
-              - type: vertical-stack
-                cards:
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.apple_tv_keuken
-                    state_filter:
-                      - playing
-                    card:
-                      type: media-control
-                      entity: media_player.apple_tv_keuken
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.apple_tv_woonkamer
-                    state_filter:
-                      - playing
-                    card:
-                      type: media-control
-                      entity: media_player.apple_tv_woonkamer
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.keuken
-                    state_filter:
-                      - playing
-                    card:
-                      type: media-control
-                      entity: media_player.keuken
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.spotify_bert_verlinden
-                    state_filter:
-                      - playing
-                    card:
-                      type: media-control
-                      entity: media_player.spotify_bert_verlinden
-                  - type: conditional
-                    conditions:
-                      - entity: media_player.spotify_bert_verlinden
-                        state_not: "playing"
-                    card:
-                      type: entity-filter
-                      show_empty: false
-                      show_header_toggle: false
-                      entities:
-                        - media_player.alexa_downstairs
-                      state_filter:
-                        - playing
-                      card:
-                        type: media-control
-                        entity: media_player.alexa_downstairs
-                  - type: conditional
-                    conditions:
-                      - entity: media_player.spotify_bert_verlinden
-                        state_not: "playing"
-                    card:
-                      type: entity-filter
-                      show_empty: false
-                      show_header_toggle: false
-                      entities:
-                        - media_player.alexa_everywhere
-                      state_filter:
-                        - playing
-                      card:
-                        type: media-control
-                        entity: media_player.alexa_everywhere
-                  - type: conditional
-                    conditions:
-                      - entity: media_player.spotify_bert_verlinden
-                        state_not: "playing"
-                      - entity: media_player.alexa_downstairs
-                        state_not: "playing"
-                      - entity: media_player.alexa_everywhere
-                        state_not: "playing"
-                    card:
-                      type: entity-filter
-                      show_empty: false
-                      show_header_toggle: false
-                      entities:
-                        - media_player.alexa_mobile
-                      state_filter:
-                        - playing
-                      card:
-                        type: media-control
-                        entity: media_player.alexa_mobile
-                  - type: conditional
-                    conditions:
-                      - entity: media_player.spotify_bert_verlinden
-                        state_not: "playing"
-                      - entity: media_player.alexa_downstairs
-                        state_not: "playing"
-                      - entity: media_player.alexa_everywhere
-                        state_not: "playing"
-                    card:
-                      type: entity-filter
-                      show_empty: false
-                      show_header_toggle: false
-                      entities:
-                        - media_player.alexa_kitchen_amp
-                      state_filter:
-                        - playing
-                      card:
-                        type: media-control
-                        entity: media_player.alexa_kitchen_amp
-                  - type: conditional
-                    conditions:
-                      - entity: media_player.spotify_bert_verlinden
-                        state_not: "playing"
-                      - entity: media_player.alexa_everywhere
-                        state_not: "playing"
-                    card:
-                      type: entity-filter
-                      show_empty: false
-                      show_header_toggle: false
-                      entities:
-                        - media_player.alexa_study_1
-                      state_filter:
-                        - playing
-                      card:
-                        type: media-control
-                        entity: media_player.alexa_study_1
-                  - type: conditional
-                    conditions:
-                      - entity: media_player.spotify_bert_verlinden
-                        state_not: "playing"
-                      - entity: media_player.alexa_downstairs
-                        state_not: "playing"
-                      - entity: media_player.alexa_everywhere
-                        state_not: "playing"
-                    card:
-                      type: entity-filter
-                      show_empty: false
-                      show_header_toggle: false
-                      entities:
-                        - media_player.alexa_livingroom_1
-                      state_filter:
-                        - playing
-                      card:
-                        type: media-control
-                        entity: media_player.alexa_livingroom_1
-                  - type: conditional
-                    conditions:
-                      - entity: media_player.spotify_bert_verlinden
-                        state_not: "playing"
-                      - entity: media_player.alexa_everywhere
-                        state_not: "playing"
-                    card:
-                      type: entity-filter
-                      show_empty: false
-                      show_header_toggle: false
-                      entities:
-                        - media_player.alexa_bathroom
-                      state_filter:
-                        - playing
-                      card:
-                        type: media-control
-                        entity: media_player.alexa_bathroom
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.alexa_kitchen_2
-                    state_filter:
-                      - playing
-                    card:
-                      type: media-control
-                      entity: media_player.alexa_kitchen_2
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.alexa_livingroom_2
-                    state_filter:
-                      - playing
-                    card:
-                      type: media-control
-                      entity: media_player.alexa_livingroom_2
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.plex_plex_for_ios_ipad
-                    state_filter:
-                      - playing
-                      - paused
-                    card:
-                      type: media-control
-                      entity: media_player.plex_plex_for_ios_ipad
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.plex_plex_for_windows_pcbert
-                    state_filter:
-                      - playing
-                      - paused
-                    card:
-                      type: media-control
-                      entity: media_player.plex_plex_for_windows_pcbert
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.plex_plex_web_microsoft_edge_windows
-                    state_filter:
-                      - playing
-                      - paused
-                    card:
-                      type: media-control
-                      entity: media_player.plex_plex_web_microsoft_edge_windows
-  - title: Ons Huisje
-    icon: 'mdi:home-assistant'
-    panel: true
-    cards:
-      - id: root_stack_1
-        type: 'custom:layout-card'
-        layout_type: custom:vertical-layout
-        layout:
-          max_cols: 1
-        cards:
-          - id: home_tracker_1
-            type: horizontal-stack
-            cards:
-              - type: tile
-                entity: input_select.woning_status
-                color: purple
-                name: Status
-              - type: tile
-                entity: person.bert
-                show_entity_picture: true
-              - type: tile
-                entity: person.caroline
-                show_entity_picture: true
-          - id: controls_tracker_1
             type: glance
-            columns: 3
-            entities:
-              - entity: input_button.controls
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/controls
-              - entity: input_button.lights
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/lights
-              - entity: input_button.multimedia
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/multimedia
-            show_name: true
-            show_state: false
-          - id: problem_tracker_1
-            type: entity-filter
-            entities:
-              - entity: sensor.hue_sensor_tuin_power
-                name: Hue Sensor Battery Low - Tuin
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_tuinhuis_power
-                name: Hue Sensor Battery Low - Tuinhuis
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_terras_power
-                name: Hue Sensor Battery Low - Tuinhuis
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_dressing_power
-                name: Hue Sensor Battery Low - Dressing
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_keuken_power
-                name: Hue Sensor Battery Low - Keuken
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_woonkamer_power
-                name: Hue Sensor Battery Low - Woonkamer
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_dimmer_kamer_elmo_power
-                name: Hue Dimmer Battery Low - Elmo
-                state_filter:
-                  - operator: "<"
-                    value: 10
-            show_empty: false
-            show_header_toggle: false
-            state_filter:
-              - Replace
-              - "off"
-              - Warning
-              - Emergency
-              - gray
-              - yellow
-              - red
-              - Replace
-              - Not Ok
-            card:
-              type: entities
-          - id: device_tracker_1
-            type: entity-filter
-            card:
-              show_name: true
-              show_state: false
-              type: glance
-            entities:
-              - entity: sensor.bezoek
-              - entity: sensor.kuishulp
-              - entity: sensor.babysit
-              - entity: person.mama
-              - entity: person.mark
-              - entity: person.papa
-              - entity: person.karen
-              - entity: person.andy
-              - entity: person.oma
-              - entity: person.thomas
-              - entity: person.niki
-              - entity: person.marcus
-              - entity: person.nancy
-              - entity: vacuum.dusty
-              - entity: switch.hue_smart_plug_five
-              - entity: switch.hue_smart_plug_six
-              - entity: input_boolean.keep_christmas_on
-              - entity: input_boolean.keep_computer_on
-            show_header_toggle: false
-            show_empty: false
-            state_filter:
-              - home
-              - "on"
-              - 'cleaning'
-          - id: layout_1
-            type: 'custom:layout-card'
-            layout_type: custom:masonry-layout
-            cards:
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.alexa_downstairs
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.alexa_downstairs
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.alexa_everywhere
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.alexa_everywhere
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.alexa_mobile
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.alexa_mobile
-              - title: Woonkamer
-                type: vertical-stack
-                cards:
-                  - type: entities
-                    show_header_toggle: false
-                    entities:
-                      - entity: input_select.harmony_hub
-                      - entity: sensor.hue_sensor_woonkamer_light_level
-                        name: LUX 
-                      - entity: climate.woonkamer
-                        name: °C
-                        icon: mdi:thermometer
-                    header:
-                      type: buttons
-                      entities:
-                        - entity: binary_sensor.hue_sensor_woonkamer_motion
-                          tap_action:
-                            action: more-info
-                        - entity: light.hue_light_woonkamer
-                          name: Lamp
-                        - entity: light.lightstrip_woonkamer_tv
-                          name: Tv
-                        - entity: switch.hue_smart_plug_woonkamer_one
-                          name: One
-                        - entity: switch.hue_smart_plug_woonkamer_two
-                          name: Space
-                    footer:
-                      type: graph
-                      entity: sensor.climate_woonkamer_attribute_current_temperature
-                      hours_to_show: 24
-                      detail: 2
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.apple_tv_woonkamer
-                    state_filter:
-                      - playing
-                    card:
-                      type: media-control
-                      entity: media_player.apple_tv_woonkamer
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.alexa_livingroom_1
-                    state_filter:
-                      - playing
-                    card:
-                      type: media-control
-                      entity: media_player.alexa_livingroom_1
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.alexa_livingroom_2
-                    state_filter:
-                      - playing
-                    card:
-                      type: media-control
-                      entity: media_player.alexa_livingroom_2
-              - title: Veranda
-                type: vertical-stack
-                cards:
-                  - type: entities
-                    show_header_toggle: false
-                    entities:
-                      - entity: sensor.hue_sensor_veranda_light_level
-                        icon: hass:brightness-5
-                        name: LUX  
-                      - entity: sensor.climate_veranda_attribute_current_temperature
-                        icon: mdi:thermometer
-                        name: °C
-                    header:
-                      type: buttons
-                      entities:
-                        - entity: vacuum.dusty
-                          tap_action:
-                            action: more-info
-                        - entity: input_boolean.vacuum_clean_today
-                        - entity: light.hue_light_veranda
-                          name: Flos Arco
-                        - entity: switch.hue_smart_plug_veranda
-                          name: Veranda
-                        - entity: switch.hue_smart_plug_eetkamer
-                          name: Eetkamer
-                    footer:
-                      type: graph
-                      entity: sensor.climate_veranda_attribute_current_temperature
-                      hours_to_show: 24
-                      detail: 2
-              - title: Keuken
-                type: vertical-stack
-                cards:
-                  - type: entities
-                    show_header_toggle: false
-                    entities:
-                      - entity: sensor.hue_sensor_keuken_light_level
-                        name: LUX
-                      - entity: climate.keuken
-                        icon: mdi:thermometer
-                        name: °C
-                    header:
-                      type: buttons
-                      entities:
-                        - entity: binary_sensor.hue_sensor_keuken_motion
-                        - entity: group.computer
-                          tap_action:
-                            action: more-info
-                        - entity: light.lightstrip_keuken
-                          name: Strip
-                        - entity: light.milight_keuken_bridge
-                          name: Tv
-                    footer:
-                      type: graph
-                      entity: sensor.climate_keuken_attribute_current_temperature
-                      hours_to_show: 24
-                      detail: 2
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.apple_tv_keuken
-                    state_filter:
-                      - playing
-                    card:
-                      type: media-control
-                      entity: media_player.apple_tv_keuken
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.keuken
-                    state_filter:
-                      - playing
-                    card:
-                      type: media-control
-                      entity: media_player.keuken
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.alexa_kitchen_amp
-                    state_filter:
-                      - playing
-                    card:
-                      type: media-control
-                      entity: media_player.alexa_kitchen_amp
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.alexa_kitchen_2
-                    state_filter:
-                      - playing
-                    card:
-                      type: media-control
-                      entity: media_player.alexa_kitchen_2
-              - title: Kamer van Elmo
-                type: vertical-stack
-                cards:
-                  - type: entities
-                    show_header_toggle: false
-                    entities:
-                      - entity: climate.kamer_elmo
-                        name: °C
-                        icon: mdi:thermometer
-                    header:
-                      type: buttons
-                      entities:
-                        - entity: light.hue_light_kamer_elmo_one
-                        - entity: light.hue_light_kamer_elmo_two
-                        - entity: switch.hue_smart_plug_six
-                        - entity: input_boolean.elmo_wekker
-                          name: On/Off
-                        - entity: input_datetime.awake_week_elmo
-                          name: Week
-                        - entity: input_datetime.awake_weekend_elmo
-                          name: Weekend
-                    footer:
-                      type: graph
-                      entity: sensor.climate_kamer_elmo_attribute_current_temperature
-                      hours_to_show: 24
-                      detail: 2
-              - title: Kamer van Trix
-                type: vertical-stack
-                cards:
-                  - type: entities
-                    show_header_toggle: false
-                    entities:
-                      - entity: climate.slp_kamer
-                        name: °C
-                        icon: mdi:thermometer
-                    header:
-                      type: buttons
-                      entities:
-                        - entity: light.hue_light_slaapkamer
-                        - entity: switch.hue_smart_plug_five
-                    footer:
-                      type: graph
-                      entity: sensor.climate_slp_kamer_attribute_current_temperature
-                      hours_to_show: 24
-                      detail: 2
-              - title: Kamer Zolder
-                type: vertical-stack
-                cards:
-                  - type: entities
-                    show_header_toggle: false
-                    entities:
-                      - entity: climate.zolder
-                        name: °C
-                        icon: mdi:thermometer
-                    footer:
-                      type: graph
-                      entity: sensor.climate_zolder_attribute_current_temperature
-                      hours_to_show: 24
-                      detail: 2
-              - title: Bureau
-                type: vertical-stack
-                cards:
-                  - type: entities
-                    show_header_toggle: false
-                    entities:
-                      - entity: light.hue_light_bureau
-                    header:
-                      type: buttons
-                      entities:
-                        - entity: light.hue_light_bureau
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.alexa_study_1
-                    state_filter:
-                      - playing
-                    card:
-                      type: media-control
-                      entity: media_player.alexa_study_1
-              - title: Badkamer
-                type: vertical-stack
-                cards:
-                  - type: entities
-                    show_header_toggle: false
-                    entities:
-                      - entity: climate.badkamer
-                        name: °C
-                        icon: mdi:thermometer
-                    header:
-                      type: buttons
-                      entities:
-                        - entity: light.lightstrip_badkamer
-                    footer:
-                      type: graph
-                      entity: sensor.climate_badkamer_attribute_current_temperature
-                      hours_to_show: 24
-                      detail: 2
-                  - type: entity-filter
-                    show_empty: false
-                    show_header_toggle: false
-                    entities:
-                      - media_player.alexa_bathroom
-                    state_filter:
-                      - playing
-                    card:
-                      type: media-control
-                      entity: media_player.alexa_bathroom
-              - title: Dressing
-                type: vertical-stack
-                cards:
-                  - type: entities
-                    show_header_toggle: false
-                    entities:
-                      - entity: sensor.hue_sensor_dressing_light_level
-                        name: LUX
-                      - entity: climate.dressing
-                        name: °C
-                        icon: mdi:thermometer
-                    header:
-                      type: buttons
-                      entities:
-                        - entity: binary_sensor.hue_sensor_dressing_motion
-                          tap_action:
-                            action: more-info
-                        - entity: input_boolean.light_dressing_stay_on
-                          name: On/Off
-                        - entity: light.hue_light_dressing_one
-                        - entity: light.hue_light_dressing_two
-                        - entity: light.hue_light_dressing_three
-                    footer:
-                      type: graph
-                      entity: sensor.climate_dressing_attribute_current_temperature
-                      hours_to_show: 24
-                      detail: 2
-              - title: Terras
-                type: vertical-stack
-                cards:
-                  - type: entities
-                    show_header_toggle: false
-                    entities:
-                      - entity: sensor.hue_sensor_terras_light_level
-                        name: LUX  
-                      - entity: sensor.hue_sensor_terras_temperature
-                        name: °C
-                        icon: mdi:thermometer
-                    header:
-                      type: buttons
-                      entities:
-                        - entity: binary_sensor.hue_sensor_terras_motion
-                          tap_action:
-                            action: more-info
-                        - entity: input_boolean.light_garden_stay_on
-                          name: On/Off
-                    footer:
-                      type: graph
-                      entity: sensor.hue_sensor_terras_temperature
-                      hours_to_show: 24
-                      detail: 2
-              - title: Tuin
-                type: vertical-stack
-                cards:
-                  - type: entities
-                    show_header_toggle: false
-                    entities:
-                      - entity: sensor.hue_sensor_tuin_light_level
-                        name: LUX  
-                      - entity: sensor.hue_sensor_tuin_temperature
-                        name: °C
-                        icon: mdi:thermometer
-                    header:
-                      type: buttons
-                      entities:
-                        - entity: binary_sensor.hue_sensor_tuin_motion
-                          tap_action:
-                            action: more-info
-                        - entity: light.hue_light_tuin_one
-                          name: 1
-                        - entity: light.hue_light_tuin_two
-                          name: 2
-                        - entity: light.hue_light_tuin_three
-                          name: 3
-                        - entity: light.hue_light_tuin_four
-                          name: 4
-                        - entity: light.hue_light_tuin_five
-                          name: 5
-                        - entity: light.hue_light_tuin_six
-                          name: 6
-                    footer:
-                      type: graph
-                      entity: sensor.hue_sensor_tuin_temperature
-                      hours_to_show: 24
-                      detail: 2
-              - title: Tuinhuis
-                type: vertical-stack
-                cards:
-                  - type: entities
-                    show_header_toggle: false
-                    entities:
-                      - entity: sensor.hue_sensor_tuinhuis_light_level
-                        name: LUX  
-                      - entity: sensor.hue_sensor_tuinhuis_temperature
-                        name: °C
-                        icon: mdi:thermometer
-                    header:
-                      type: buttons
-                      entities:
-                        - entity: binary_sensor.hue_sensor_tuinhuis_motion
-                          tap_action:
-                            action: more-info
-                        - entity: light.hue_light_tuinhuis
-                    footer:
-                      type: graph
-                      entity: sensor.hue_sensor_tuinhuis_temperature
-                      hours_to_show: 24
-                      detail: 2
-  - title: Energie Verbruik
-    icon: 'mdi:gauge'
-    panel: true
-    cards:
-      - id: root_stack_2
-        type: 'custom:layout-card'
-        layout_type: custom:vertical-layout
-        layout:
-          max_cols: 1
+          show_empty: false
+      - id: problem_tracker
+        type: horizontal-stack
         cards:
-          - id: home_tracker_2
-            type: horizontal-stack
-            cards:
-              - type: tile
-                entity: input_select.woning_status
-                color: purple
-                name: Status
-              - type: tile
-                entity: person.bert
-                show_entity_picture: true
-              - type: tile
-                entity: person.caroline
-                show_entity_picture: true
-          - id: controls_tracker_2
+        - type: entity-filter
+          entities:
+            - entity: sensor.tradfri_shortcut_button_white_1_battery
+              name: Ikea Tradfri Knop Batterij Laag
+              state_filter:
+                - operator: "<"
+                  value: 10
+            - entity: sensor.hue_outdoor_sensor_3_power
+              name: Hue Sensor Battery Low - Tuin
+              state_filter:
+                - operator: "<"
+                  value: 10
+            - entity: sensor.hue_outdoor_sensor_1_power
+              name: Hue Sensor Battery Low - Tuinhuis
+              state_filter:
+                - operator: "<"
+                  value: 10
+            - entity: sensor.hue_motion_sensor_1_power
+              name: Hue Sensor Battery Low - Dressing
+              state_filter:
+                - operator: "<"
+                  value: 10
+            - entity: sensor.hue_motion_sensor_2_power
+              name: Hue Sensor Battery Low - Keuken
+              state_filter:
+                - operator: "<"
+                  value: 10
+            - entity: sensor.hue_motion_sensor_3_power
+              name: Hue Sensor Battery Low - Woonkamer
+              state_filter:
+                - operator: "<"
+                  value: 10
+            - entity: sensor.hue_dimmer_switch_1_power
+              name: Hue Dimmer Battery Low - Elmo
+              state_filter:
+                - operator: "<"
+                  value: 10
+            - entity: sensor.hue_dimmer_switch_2_power
+              name: Hue Dimmer Battery Low - Trix
+              state_filter:
+                - operator: "<"
+                  value: 10
+          show_empty: false
+          card:
+            type: entities
+      - id: device_tracker
+        type: horizontal-stack
+        cards:
+        - id: device_tracker_0a
+          type: conditional
+          conditions:
+          - entity: input_boolean.keep_computer_on
+            state: 'on'
+          card:
+            type: tile
+            color: yellow
+            entity: input_boolean.keep_computer_on
+        - id: device_tracker_0c
+          type: conditional
+          conditions:
+          - entity: input_boolean.keep_christmas_on
+            state: 'on'
+          card:
+            type: tile
+            color: yellow
+            entity: input_boolean.keep_christmas_on
+        - id: device_tracker_0d
+          type: conditional
+          conditions:
+          - entity: binary_sensor.bezoek
+            state: 'on'
+          card:
+            type: tile
+            color: yellow
+            entity: binary_sensor.bezoek
+        - id: device_tracker_0e
+          type: conditional
+          conditions:
+          - entity: input_select.woning_status
+            state: 'Weg'
+          - entity: input_boolean.pre_heat
+            state: 'off'
+          card:
+            type: tile
+            color: yellow
+            entity: input_boolean.pre_heat
+        - id: device_tracker_0f
+          type: conditional
+          conditions:
+          - entity: input_select.woning_status
+            state: 'Op Vakantie'
+          - entity: input_boolean.pre_heat
+            state: 'off'
+          card:
+            type: tile
+            color: yellow
+            entity: input_boolean.pre_heat
+        - id: device_tracker_0g
+          type: conditional
+          conditions:
+          - entity: input_boolean.pre_heat
+            state: 'on'
+          card:
+            type: tile
+            color: yellow
+            entity: input_boolean.pre_heat
+        - id: device_tracker_0h
+          type: conditional
+          conditions:
+          - entity: vacuum.dusty
+            state_not: 'docked'
+          card:
+            type: tile
+            entity: vacuum.dusty
+            features:
+            - type: "vacuum-commands"
+              commands:
+                - start_pause
+                - stop
+                - return_home
+        - id: camera_tracker_0a
+          type: conditional
+          conditions:
+          - entity: switch.hue_smart_plug_5
+            state: 'off'
+          - entity: input_boolean.toon_camera
+            state: 'on'
+          card:
+            type: tile
+            entity: switch.hue_smart_plug_5
+        - id: camera_tracker_0b
+          type: conditional
+          conditions:
+          - entity: switch.hue_smart_plug_6
+            state: 'off'
+          - entity: input_boolean.toon_camera
+            state: 'on'
+          card:
+            type: tile
+            entity: switch.hue_smart_plug_6
+        - id: camera_tracker_0c
+          type: conditional
+          conditions:
+          - entity: switch.hue_smart_plug_5
+            state: 'on'
+          card:
+            color: yellow
+            type: tile
+            entity: switch.hue_smart_plug_5
+        - id: camera_tracker_0d
+          type: conditional
+          conditions:
+          - entity: switch.hue_smart_plug_6
+            state: 'on'
+          card:
+            color: yellow
+            type: tile
+            entity: switch.hue_smart_plug_6
+      - id: update_tracker
+        type: horizontal-stack
+        cards:
+        - type: entity-filter
+          entities:
+            - entity: update.home_assistant_operating_system_update
+              name: Update OS
+            - entity: update.home_assistant_core_update
+              name: Update Core
+            - entity: update.home_assistant_supervisor_update
+              name: Update Supervisor
+            - entity: sensor.hacs
+              name: Update Hacs
+            - entity: update.adguard_home_update
+              name: Update AdGuard
+            - entity: update.esphome_update
+              name: Update ESPHome
+            - entity: update.file_editor_update
+              name: Update File Editor
+            - entity: update.grafana_update
+              name: Update Grafana
+            - entity: update.home_assistant_google_drive_backup_update
+              name: Update Google Drive Backup
+            - entity: update.influxdb_update
+              name: Update InfluxDB
+            - entity: update.mosquitto_broker_update
+              name: Update Mosquito Broker
+            - entity: update.plex_media_server_update
+              name: Update Plex Server
+            - entity: update.rpc_shutdown_update
+              name: Update RPC Shutdown
+            - entity: update.samba_share_update
+              name: Update Samba Share
+            - entity: update.ssh_web_terminal_update
+              name: Update SSH Terminal
+          show_empty: false
+          state_filter:
+            - "on"
+            - '1'
+            - '2'
+            - '3'
+            - '4'
+          card:
             type: glance
-            columns: 3
-            entities:
-              - entity: input_button.controls
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/controls
-              - entity: input_button.lights
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/lights
-              - entity: input_button.multimedia
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/multimedia
             show_name: true
-            show_state: false
-          - id: problem_tracker_2
-            type: entity-filter
-            entities:
-              - entity: sensor.hue_sensor_tuin_power
-                name: Hue Sensor Battery Low - Tuin
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_tuinhuis_power
-                name: Hue Sensor Battery Low - Tuinhuis
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_terras_power
-                name: Hue Sensor Battery Low - Tuinhuis
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_dressing_power
-                name: Hue Sensor Battery Low - Dressing
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_keuken_power
-                name: Hue Sensor Battery Low - Keuken
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_woonkamer_power
-                name: Hue Sensor Battery Low - Woonkamer
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_dimmer_kamer_elmo_power
-                name: Hue Dimmer Battery Low - Elmo
-                state_filter:
-                  - operator: "<"
-                    value: 10
-            show_empty: false
-            show_header_toggle: false
-            state_filter:
-              - Replace
-              - "off"
-              - Warning
-              - Emergency
-              - gray
-              - yellow
-              - red
-              - Replace
-              - Not Ok
-            card:
-              type: entities
-          - id: device_tracker_2
-            type: entity-filter
-            entities:
-              - entity: sensor.bezoek
-              - entity: sensor.kuishulp
-              - entity: sensor.babysit
-              - entity: person.mama
-              - entity: person.mark
-              - entity: person.papa
-              - entity: person.karen
-              - entity: person.andy
-              - entity: person.oma
-              - entity: person.thomas
-              - entity: person.niki
-              - entity: person.marcus
-              - entity: person.nancy
-              - entity: vacuum.dusty
-              - entity: switch.hue_smart_plug_five
-              - entity: switch.hue_smart_plug_six
-              - entity: input_boolean.keep_christmas_on
-              - entity: input_boolean.keep_computer_on
-            show_header_toggle: false
-            show_empty: false
-            state_filter:
-              - home
-              - "on"
-              - 'cleaning'
-            card:
-              show_name: true
-              show_state: false
-              type: glance
-          - id: layout_2
-            type: 'custom:layout-card'
-            layout_type: custom:masonry-layout
-            cards:
-              - type: vertical-stack
-                cards:
-                  - type: horizontal-stack
-                    cards:
-                      - entity: sensor.ons_huisje_total_consumption_active_power
-                        name: Power Actief
-                        min: 0
-                        max: 7000
-                        severity:
-                          green: 0
-                          yellow: 3000
-                          red: 5000
-                        type: gauge
-                      - entity: sensor.ons_huisje_total_consumption_today
-                        name: Power Vandaag
-                        min: 0
-                        max: 20000
-                        severity:
-                          green: 0
-                          yellow: 10000
-                          red: 15000
-                        type: gauge
-                  - columns: 3
-                    entities:
-                      - entity: sensor.ons_huisje_total_consumption_last_5_minutes
-                        name: Laatste 5min
-                      - entity: sensor.ons_huisje_total_consumption_current_hour
-                        name: Laatste uur
-                      - entity: sensor.ons_huisje_always_on_active_power
-                        name: Altijd aan
-                    show_header_toggle: true
-                    show_name: true
-                    type: glance
-              - type: vertical-stack
-                cards:
-                  - cards:
-                      - entity: sensor.solaredge_energy_today_template
-                        max: 35
-                        min: 0
-                        name: Zon
-                        severity:
-                          green: 25
-                          yellow: 15
-                          red: 0
-                        type: gauge
-                    type: horizontal-stack
-                  - columns: 3
-                    entities:
-                      - entity: sensor.solaredge_energy_this_month_template
-                        name: Deze Maand
-                      - entity: sensor.solaredge_energy_this_year_template
-                        name: Dit Jaar
-                      - entity: sensor.solaredge_lifetime_energy_template
-                        name: Lifetime
-                    show_header_toggle: true
-                    show_name: true
-                    type: glance
-              - type: vertical-stack
-                cards:
-                  - cards:
-                      - entity: sensor.ons_huisje_sensor_water
-                        max: 500
-                        min: 0
-                        name: Water
-                        severity:
-                          green: 0
-                          red: 300
-                          yellow: 100
-                        type: gauge
-                    type: horizontal-stack
-                  - columns: 2
-                    entities:
-                      - entity: sensor.meter_water_monthly_peak
-                        name: Deze Maand
-                      - entity: sensor.meter_water_yearly_peak
-                        name: Dit Jaar
-                    show_header_toggle: true
-                    show_name: true
-                    type: glance
-              - type: vertical-stack
-                cards:
-                  - cards:
-                      - entity: sensor.ons_huisje_sensor_gas
-                        max: 20
-                        min: 0
-                        name: Gas
-                        severity:
-                          green: 0
-                          red: 15
-                          yellow: 10
-                        type: gauge
-                    type: horizontal-stack
-                  - columns: 2
-                    entities:
-                      - entity: sensor.meter_gas_monthly_peak
-                        name: Deze Maand
-                      - entity: sensor.meter_gas_yearly_peak
-                        name: Dit Jaar
-                    show_header_toggle: true
-                    show_name: true
-                    type: glance
-  - title: Beveiliging
-    icon: 'mdi:shield-home'
-    panel: true
-    cards:
-      - id: root_stack_3
-        type: 'custom:layout-card'
-        layout_type: custom:vertical-layout
-        layout:
-          max_cols: 1
+            show_state: true
+      - id: controls_tracker
+        type: horizontal-stack
         cards:
-          - id: home_tracker_3
-            type: horizontal-stack
-            cards:
-              - type: tile
-                entity: input_select.woning_status
-                color: purple
-                name: Status
-              - type: tile
-                entity: person.bert
-                show_entity_picture: true
-              - type: tile
-                entity: person.caroline
-                show_entity_picture: true
-          - id: controls_tracker_3
-            type: glance
-            columns: 3
+        - type: glance
+          columns: 5
+          entities:
+            - entity: input_button.rooms
+              tap_action:
+                action: navigate
+                navigation_path: /lovelace/favorieten
+            - entity: input_button.controls
+              tap_action:
+                action: navigate
+                navigation_path: /lovelace/controls
+            - entity: input_button.heating
+              tap_action:
+                action: navigate
+                navigation_path: /lovelace/heating
+            - entity: input_button.multimedia
+              tap_action:
+                action: navigate
+                navigation_path: /lovelace/multimedia
+            - entity: input_button.informatie
+              tap_action:
+                action: navigate
+                navigation_path: /lovelace/information
+          show_name: false
+          show_state: false
+      - id: rooms
+        type: vertical-stack
+        cards:
+        - type: horizontal-stack
+          cards:
+          - type: tile
+            entity: group.licht_keuken
+            name: Keuken
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/room_kitchen
+          - type: tile
+            entity: group.licht_woonkamer
+            name: Woonkamer
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/room_livingroom
+        - type: horizontal-stack
+          cards:
+          - type: tile
+            entity: group.licht_veranda
+            name: Veranda
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/room_porch
+          - type: tile
+            entity: group.licht_bureau
+            name: Bureau
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/room_study
+        - type: horizontal-stack
+          cards:
+          - type: tile
+            entity: group.licht_badkamer
+            name: Badkamer
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/room_bathroom
+          - type: tile
+            entity: group.licht_dressing
+            name: Dressing
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/room_dressing
+        - type: horizontal-stack
+          cards:
+          - type: tile
+            entity: group.licht_slaapkamer1
+            name: Trix
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/room_bedroom1
+          - type: tile
+            entity: group.licht_slaapkamer2
+            name: Elmo
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/room_bedroom2
+        - type: horizontal-stack
+          cards:
+          - type: tile
+            entity: group.licht_slaapkamer
+            name: Slaapkamer
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/room_bedroom
+          - type: tile
+            entity: group.licht_tuin
+            name: Tuin
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/room_garden
+      - id: energy_tracker
+        type: vertical-stack
+        cards:
+          - type: glance
+            columns: 4
             entities:
-              - entity: input_button.controls
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/controls
-              - entity: input_button.lights
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/lights
-              - entity: input_button.multimedia
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/multimedia
-            show_name: true
-            show_state: false
-          - id: problem_tracker_3
+              - sensor.ons_huisje_total_consumption_today
+              - sensor.solaredge_energy_today_template
+              - sensor.ons_huisje_sensor_gas
+              - sensor.ons_huisje_sensor_water
+            show_header_toggle: false
+            show_name: false
+      - id: media_tracker
+        type: vertical-stack
+        cards:
+        - type: entity-filter
+          show_empty: false
+          show_header_toggle: false
+          entities:
+            - media_player.apple_tv_4k_2
+          state_filter:
+            - playing
+          card:
+            type: media-control
+            entity: media_player.apple_tv_4k_2
+        - type: entity-filter
+          show_empty: false
+          show_header_toggle: false
+          entities:
+            - media_player.apple_tv_4k_1
+          state_filter:
+            - playing
+          card:
+            type: media-control
+            entity: media_player.apple_tv_4k_1
+        - type: entity-filter
+          show_empty: false
+          show_header_toggle: false
+          entities:
+            - media_player.apple_homepod_mini_zwart_1
+          state_filter:
+            - playing
+          card:
+            type: media-control
+            entity: media_player.apple_homepod_mini_zwart_1
+        - type: entity-filter
+          show_empty: false
+          show_header_toggle: false
+          entities:
+            - media_player.apple_homepod_mini_wit_1
+          state_filter:
+            - playing
+          card:
+            type: media-control
+            entity: media_player.apple_homepod_mini_wit_1
+        - type: entity-filter
+          show_empty: false
+          show_header_toggle: false
+          entities:
+            - media_player.apple_homepod_mini_wit_2
+          state_filter:
+            - playing
+          card:
+            type: media-control
+            entity: media_player.apple_homepod_mini_wit_2
+        - type: entity-filter
+          show_empty: false
+          show_header_toggle: false
+          entities:
+            - media_player.apple_homepod_mini_wit_3
+          state_filter:
+            - playing
+          card:
+            type: media-control
+            entity: media_player.apple_homepod_mini_wit_3
+        - type: entity-filter
+          show_empty: false
+          show_header_toggle: false
+          entities:
+            - media_player.spotify_bert_verlinden
+          state_filter:
+            - playing
+          card:
+            type: media-control
+            entity: media_player.spotify_bert_verlinden
+        - type: conditional
+          conditions:
+            - entity: media_player.spotify_bert_verlinden
+              state_not: "playing"
+          card:
             type: entity-filter
-            entities:
-              - entity: sensor.hue_sensor_tuin_power
-                name: Hue Sensor Battery Low - Tuin
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_tuinhuis_power
-                name: Hue Sensor Battery Low - Tuinhuis
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_terras_power
-                name: Hue Sensor Battery Low - Tuinhuis
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_dressing_power
-                name: Hue Sensor Battery Low - Dressing
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_keuken_power
-                name: Hue Sensor Battery Low - Keuken
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_sensor_woonkamer_power
-                name: Hue Sensor Battery Low - Woonkamer
-                state_filter:
-                  - operator: "<"
-                    value: 10
-              - entity: sensor.hue_dimmer_kamer_elmo_power
-                name: Hue Dimmer Battery Low - Elmo
-                state_filter:
-                  - operator: "<"
-                    value: 10
             show_empty: false
             show_header_toggle: false
-            state_filter:
-              - Replace
-              - "off"
-              - Warning
-              - Emergency
-              - gray
-              - yellow
-              - red
-              - Replace
-              - Not Ok
-            card:
-              type: entities
-          - id: device_tracker_3
-            type: entity-filter
             entities:
-              - entity: sensor.bezoek
-              - entity: sensor.kuishulp
-              - entity: sensor.babysit
-              - entity: person.mama
-              - entity: person.mark
-              - entity: person.papa
-              - entity: person.karen
-              - entity: person.andy
-              - entity: person.oma
-              - entity: person.thomas
-              - entity: person.niki
-              - entity: person.marcus
-              - entity: person.nancy
-              - entity: vacuum.dusty
-              - entity: switch.hue_smart_plug_five
-              - entity: switch.hue_smart_plug_six
-              - entity: input_boolean.keep_christmas_on
-              - entity: input_boolean.keep_computer_on
-            show_header_toggle: false
-            show_empty: false
+              - media_player.alexa_mobile
             state_filter:
-              - home
-              - "on"
-              - 'cleaning'
+              - playing
             card:
-              show_name: true
-              show_state: false
-              type: glance
-          - id: layout_3
-            type: 'custom:layout-card'
-            layout_type: custom:masonry-layout
-            cards:
-              - type: vertical-stack
-                cards:
-                  - type: entities
-                    show_header_toggle: false
-                    entities:
-                      - entity: group.internet_safety
-                        name: Internet Safety
-              - title: Afvalkalender
-                type: vertical-stack
-                cards:
-                  - type: glance
-                    id: af0a835638ca421aa181928f535c4b33
-                    columns: 2
-                    show_header_toggle: false
-                    entities:
-                      - entity: sensor.recycleapp_restafval
-                        name: Restafval
-                      - entity: sensor.recycleapp_pmd
-                        name: Pmd
-                      - entity:  sensor.recycleapp_papier
-                        name: Papier
-                      - entity:  sensor.recycleapp_glas
-                        name: Glas
-              - title: Wie is Waar ?
-                type: vertical-stack
-                cards:
-                  - type: history-graph
-                    hours_to_show: 24
-                    entities:
-                      - entity: person.bert
-                        name: Bert
-                      - entity: person.caroline
-                        name: Caroline
-                  - type: logbook
-                    entities:
-                      - person.bert
-                      - person.caroline
-                    hours_to_show: 24
-              - title: Woning Status
-                type: vertical-stack
-                cards:
-                  - type: history-graph
-                    hours_to_show: 24
-                    entities:
-                      - entity: input_select.woning_status
-                        name: Woning
-                      - entity: group.bewoners
-                        name: Bewoners
-                      - entity: group.bezoekers
-                        name: Bezoek
-                  - type: logbook
-                    entities:
-                      - input_select.woning_status
-                      - group.bezoekers
-                      - group.bewoners
-                    hours_to_show: 24
-              - title: Server
-                type: vertical-stack
-                cards:
-                  - type: vertical-stack
-                    cards:
-                      - type: custom:mini-graph-card
-                        name: Server
-                        show:
-                          icon: false
-                          name: false
-                          state: true
-                        entities:
-                          - entity: sensor.processor_use
-                            name: Processor
-                          - entity: sensor.memory_use_percent
-                            name: RAM
-                          - entity: sensor.disk_use_percent_home
-                            name: DISK
-                      - type: custom:mini-graph-card
-                        name: Server
-                        show:
-                          icon: false
-                          name: false
-                          state: true
-                        entities:
-                          - entity: sensor.cpu_temperature
-                            name: Processor
-                  - type: entity-filter
-                    show_header_toggle: false
-                    show_empty: false
-                    state_filter:
-                      - "on"
-                      - '1'
-                      - '2'
-                      - '3'
-                      - '4'
-                    entities:
-                      - entity: binary_sensor.home_assistant_website_update_available
-                        name: Updates
-                      - entity: sensor.hacs
-                        name: Updates Hacs
-                    card:
-                      type: glance
-                      show_name: true
-                      show_state: true
-                  - type: entity-filter
-                    show_header_toggle: false
-                    show_empty: false
-                    state_filter:
-                      - "off"
-                    entities:
-                      - entity: switch.unifi_raspberry_pi
-                        name: Server
-                      - entity: binary_sensor.remote_ui
-                        name: Remote
-                    card:
-                      type: glance
-                      show_name: true
-                      show_state: false     
-              - title: Printer
-                type: horizontal-stack
-                cards:
-                  - entity: sensor.hp_deskjet_3700_series_black_ink
-                    name: Zwarte Inkt
-                    min: 0
-                    max: 100
-                    severity:
-                      green: 50
-                      yellow: 25
-                      red: 0
-                    type: gauge
-                  - entity: sensor.hp_deskjet_3700_series_tri_color_ink
-                    name: Gekleurde Inkt
-                    min: 0
-                    max: 100
-                    severity:
-                      green: 50
-                      yellow: 25
-                      red: 0
-                    type: gauge
-  - title: Controls
-    path: controls
-    icon: 'mdi:star-box'
-    subview: true
-    cards:
-      - id: root_stack_4
-        type: 'custom:layout-card'
-        layout_type: custom:vertical-layout
-        layout:
-          max_cols: 1
-        cards:
-          - id: layout_4
-            type: 'custom:layout-card'
-            layout_type: custom:masonry-layout
-            cards:
-              - id: home_tracker_4
-                type: horizontal-stack
-                cards:
-                  - type: tile
-                    entity: input_select.woning_status
-                    color: purple
-                    name: Status
-                  - type: tile
-                    entity: person.bert
-                    show_entity_picture: true
-                  - type: tile
-                    entity: person.caroline
-                    show_entity_picture: true
-              - id: controls_buttons_4
-                type: glance
-                columns: 3
-                entities:
-                  - entity: input_button.controls
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/controls
-                  - entity: input_button.lights
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/lights
-                  - entity: input_button.multimedia
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/multimedia
-                show_name: true
-                show_state: false
-              - id: controls
-                type: vertical-stack
-                cards:
-                  - type: entities
-                    show_header_toggle: false
-                    entities:
-                      - type: buttons
-                        entities:
-                          - entity: input_boolean.pre_heat
-                            name: Huis Voorverwarmen
-                            tap_action:
-                              action: toggle
-                      - type: buttons
-                        entities:
-                          - entity: input_button.wake_elmo
-                            name: Maak Elmo wakker
-                            tap_action:
-                              action: toggle
-                          - entity: input_boolean.elmo_wekker
-                            name: Wekker Elmo
-                      - type: buttons
-                        entities:
-                          - entity: switch.hue_smart_plug_five
-                            name: Camera Trix
-                          - entity: switch.hue_smart_plug_six
-                            name: Camera Elmo
-                      - type: buttons
-                        entities:
-                          - entity: input_boolean.music_follow
-                            name: Laat muziek volgen
-                            icon: mdi:account-music
-                          - entity: input_boolean.keep_computer_on
-                            name: Laat computer aan
-                            icon: mdi:desktop-classic
-                      - type: buttons
-                        entities:
-                          - entity: vacuum.dusty
-                            name: Dusty
-                            tap_action:
-                              action: more-info
-                          - entity: input_boolean.vacuum_clean_today
-                            name: Vandaag stofzuigen
-                      - type: buttons
-                        entities:
-                          - entity: group.notifications
-                            name: iOS Notificaties
-                          - entity: input_boolean.visitor
-                            name: Bezoek
-                            icon: mdi:account-multiple
-                          - entity: input_boolean.keep_christmas_on
-                            name: Kerstboom
-                      - type: buttons
-                        entities:
-                          - entity: group.internet_safety
-                            name: Internet beveiliging
-  - title: Lights
-    path: lights
-    icon: 'mdi:star-box'
-    subview: true
-    cards:
-      - id: root_stack_5
-        type: 'custom:layout-card'
-        layout_type: custom:vertical-layout
-        layout:
-          max_cols: 1
-        cards:
-          - id: layout_5
-            type: 'custom:layout-card'
-            layout_type: custom:masonry-layout
-            cards:
-              - id: home_tracker_5
-                type: horizontal-stack
-                cards:
-                  - type: tile
-                    entity: input_select.woning_status
-                    color: purple
-                    name: Status
-                  - type: tile
-                    entity: person.bert
-                    show_entity_picture: true
-                  - type: tile
-                    entity: person.caroline
-                    show_entity_picture: true
-              - id: controls_buttons_5
-                type: glance
-                columns: 3
-                entities:
-                  - entity: input_button.controls
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/controls
-                  - entity: input_button.lights
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/lights
-                  - entity: input_button.multimedia
-                    tap_action:
-                      action: navigate
-                      navigation_path: /lovelace/multimedia
-                show_name: true
-                show_state: false
-              - id: Lights
-                type: vertical-stack
-                cards:
-                  - type: entities
-                    show_header_toggle: false
-                    entities:
-                      - type: buttons
-                        entities:
-                          - entity: group.licht_keuken
-                            name: Keuken
-                            tap_action:
-                              action: more-info
-                          - entity: group.licht_woonkamer
-                            name: Living
-                            tap_action:
-                              action: more-info
-                          - entity: group.licht_veranda
-                            name: Veranda
-                            tap_action:
-                              action: more-info
-                      - type: buttons
-                        entities:
-                          - entity: group.licht_badkamer
-                            name: Badkamer
-                            tap_action:
-                              action: more-info
-                          - entity: group.licht_dressing
-                            name: Dressing
-                            tap_action:
-                              action: more-info
-                      - type: buttons
-                        entities:
-                          - entity: group.licht_slaapkamer1
-                            name: Kamer Trix
-                            tap_action:
-                              action: more-info
-                          - entity: group.licht_slaapkamer2
-                            name: Kamer Elmo
-                            tap_action:
-                              action: more-info
-                      - type: buttons
-                        entities:
-                          - entity: group.licht_tuin
-                            name: Tuin
-                            tap_action:
-                              action: more-info
-                    footer:
-                      type: buttons
-                      entities:
-                        - entity: input_boolean.light_downstairs
-                          name: Sensors
-                          icon: mdi:motion-sensor
-                        - entity: input_boolean.light_dressing_stay_on
-                          name: Dressing
-                          icon: mdi:power
-                        - entity: input_boolean.light_garden_stay_on
-                          name: Tuin
-                          icon: mdi:power
+              type: media-control
+              entity: media_player.alexa_mobile
+        - type: conditional
+          conditions:
+            - entity: media_player.spotify_bert_verlinden
+              state_not: "playing"
+          card:
+            type: entity-filter
+            show_empty: false
+            show_header_toggle: false
+            entities:
+              - media_player.alexa_kitchen_amp
+            state_filter:
+              - playing
+            card:
+              type: media-control
+              entity: media_player.alexa_kitchen_amp
+        - type: entity-filter
+          show_empty: false
+          show_header_toggle: false
+          entities:
+            - media_player.plex_plex_for_ios_ipad
+          state_filter:
+            - playing
+            - paused
+          card:
+            type: media-control
+            entity: media_player.plex_plex_for_ios_ipad
+        - type: entity-filter
+          show_empty: false
+          show_header_toggle: false
+          entities:
+            - media_player.plex_plex_for_windows_pcbert
+          state_filter:
+            - playing
+            - paused
+          card:
+            type: media-control
+            entity: media_player.plex_plex_for_windows_pcbert
+        - type: entity-filter
+          show_empty: false
+          show_header_toggle: false
+          entities:
+            - media_player.plex_plex_web_microsoft_edge_windows
+          state_filter:
+            - playing
+            - paused
+          card:
+            type: media-control
+            entity: media_player.plex_plex_web_microsoft_edge_windows
   - title: Multimedia
     path: multimedia
-    icon: 'mdi:star-box'
+    back_path: /lovelace/favorieten
     subview: true
     cards:
-      - id: layout_6
-        type: 'custom:layout-card'
-        layout_type: custom:masonry-layout
+    - id: home_tracker
+      type: horizontal-stack
+      cards:
+      - type: tile
+        entity: input_select.woning_status
+        color: purple
+        name: Status
+      - type: tile
+        entity: person.bert
+        show_entity_picture: true
+      - type: tile
+        entity: person.caroline
+        show_entity_picture: true
+    - id: waste_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: sensor.recycleapp_papier
+            name: Papier
+          - entity: sensor.recycleapp_glas
+            name: Glas
+          - entity: sensor.recycleapp_pmd
+            name: PMD
+          - entity: sensor.recycleapp_restafval
+            name: Restafval
+        state_filter:
+          - value: 1
+            operator: '='
+            attribute: Days_until
+        card:
+          show_name: true
+          type: glance
+        show_empty: false
+    - id: problem_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: sensor.tradfri_shortcut_button_white_1_battery
+            name: Ikea Tradfri Knop Batterij Laag
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_outdoor_sensor_3_power
+            name: Hue Sensor Battery Low - Tuin
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_outdoor_sensor_1_power
+            name: Hue Sensor Battery Low - Tuinhuis
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_1_power
+            name: Hue Sensor Battery Low - Dressing
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_2_power
+            name: Hue Sensor Battery Low - Keuken
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_3_power
+            name: Hue Sensor Battery Low - Woonkamer
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_dimmer_switch_1_power
+            name: Hue Dimmer Battery Low - Elmo
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_dimmer_switch_2_power
+            name: Hue Dimmer Battery Low - Trix
+            state_filter:
+              - operator: "<"
+                value: 10
+        show_empty: false
+        card:
+          type: entities
+    - id: device_tracker
+      type: horizontal-stack
+      cards:
+      - id: device_tracker_0a
+        type: conditional
+        conditions:
+        - entity: input_boolean.keep_computer_on
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.keep_computer_on
+      - id: device_tracker_0b
+        type: conditional
+        conditions:
+        - entity: vacuum.dusty
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: vacuum.dusty
+      - id: device_tracker_0c
+        type: conditional
+        conditions:
+        - entity: input_boolean.keep_christmas_on
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.keep_christmas_on
+      - id: device_tracker_0d
+        type: conditional
+        conditions:
+        - entity: binary_sensor.bezoek
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: binary_sensor.bezoek
+      - id: device_tracker_0e
+        type: conditional
+        conditions:
+        - entity: input_select.woning_status
+          state: 'Weg'
+        - entity: input_boolean.pre_heat
+          state: 'off'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: device_tracker_0f
+        type: conditional
+        conditions:
+        - entity: input_select.woning_status
+          state: 'Op Vakantie'
+        - entity: input_boolean.pre_heat
+          state: 'off'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: device_tracker_0g
+        type: conditional
+        conditions:
+        - entity: input_boolean.pre_heat
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: camera_tracker_0a
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_5
+          state: 'off'
+        - entity: input_boolean.toon_camera
+          state: 'on'
+        card:
+          type: tile
+          entity: switch.hue_smart_plug_5
+      - id: camera_tracker_0b
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_6
+          state: 'off'
+        - entity: input_boolean.toon_camera
+          state: 'on'
+        card:
+          type: tile
+          entity: switch.hue_smart_plug_6
+      - id: camera_tracker_0c
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_5
+          state: 'on'
+        card:
+          color: yellow
+          type: tile
+          entity: switch.hue_smart_plug_5
+      - id: camera_tracker_0d
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_6
+          state: 'on'
+        card:
+          color: yellow
+          type: tile
+          entity: switch.hue_smart_plug_6
+    - id: update_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: update.home_assistant_operating_system_update
+            name: Update OS
+          - entity: update.home_assistant_core_update
+            name: Update Core
+          - entity: update.home_assistant_supervisor_update
+            name: Update Supervisor
+          - entity: sensor.hacs
+            name: Update Hacs
+          - entity: update.adguard_home_update
+            name: Update AdGuard
+          - entity: update.esphome_update
+            name: Update ESPHome
+          - entity: update.file_editor_update
+            name: Update File Editor
+          - entity: update.grafana_update
+            name: Update Grafana
+          - entity: update.home_assistant_google_drive_backup_update
+            name: Update Google Drive Backup
+          - entity: update.influxdb_update
+            name: Update InfluxDB
+          - entity: update.mosquitto_broker_update
+            name: Update Mosquito Broker
+          - entity: update.plex_media_server_update
+            name: Update Plex Server
+          - entity: update.rpc_shutdown_update
+            name: Update RPC Shutdown
+          - entity: update.samba_share_update
+            name: Update Samba Share
+          - entity: update.ssh_web_terminal_update
+            name: Update SSH Terminal
+        show_empty: false
+        state_filter:
+          - "on"
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+        card:
+          type: glance
+          show_name: true
+          show_state: true
+    - id: controls_tracker
+      type: horizontal-stack
+      cards:
+      - type: glance
+        columns: 5
+        entities:
+          - entity: input_button.rooms
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/favorieten
+          - entity: input_button.controls
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/controls
+          - entity: input_button.heating
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/heating
+          - entity: input_button.multimedia
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/multimedia
+          - entity: input_button.informatie
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/information
+        show_name: false
+        show_state: false
+    - id: multimedia
+      type: vertical-stack
+      cards:
+      - type: entities
+        show_header_toggle: false
+        entities:
+          - entity: input_select.harmony_hub
+      - type: horizontal-stack
         cards:
-          - id: home_tracker_6
-            type: horizontal-stack
+        - type: tile
+          entity: input_boolean.music_follow
+        - type: tile
+          entity: input_boolean.keep_computer_on
+      - type: horizontal-stack
+        cards:
+        - type: tile
+          entity: switch.wake_on_lan
+        - type: tile
+          entity: input_boolean.media_kitchen
+        - type: tile
+          entity: input_boolean.media_livingroom
+      - type: media-control
+        entity: media_player.apple_homepod_mini_wit_1
+      - type: media-control
+        entity: media_player.apple_homepod_mini_zwart_1
+      - type: media-control
+        entity: media_player.apple_homepod_mini_wit_2
+      - type: media-control
+        entity: media_player.apple_homepod_mini_wit_3
+      - type: media-control
+        entity: media_player.apple_tv_4k_1
+      - type: media-control
+        entity: media_player.apple_tv_4k_2
+      - type: vertical-stack
+        cards:
+          - type: conditional
+            conditions:
+              - entity: media_player.spotify_bert_verlinden
+                state_not: "playing"
+              - entity: media_player.alexa_downstairs
+                state_not: "playing"
+              - entity: media_player.alexa_everywhere
+                state_not: "playing"
+            card:
+              type: entity-filter
+              show_empty: false
+              show_header_toggle: false
+              entities:
+                - media_player.alexa_kitchen_amp
+              state_filter:
+                - playing
+              card:
+                type: media-control
+                entity: media_player.alexa_kitchen_amp
+          - type: entity-filter
+            show_empty: false
+            show_header_toggle: false
+            entities:
+              - media_player.plex_plex_for_ios_ipad
+            state_filter:
+              - playing
+            card:
+              type: media-control
+              entity: media_player.plex_plex_for_ios_ipad
+          - type: entity-filter
+            show_empty: false
+            show_header_toggle: false
+            entities:
+              - media_player.plex_plex_for_windows_pcbert
+            state_filter:
+              - playing
+            card:
+              type: media-control
+              entity: media_player.plex_plex_for_windows_pcbert
+          - type: entity-filter
+            show_empty: false
+            show_header_toggle: false
+            entities:
+              - media_player.plex_plex_web_microsoft_edge_windows
+            state_filter:
+              - playing
+            card:
+              type: media-control
+              entity: media_player.plex_plex_web_microsoft_edge_windows
+  - title: Verwarming
+    path: heating
+    back_path: /lovelace/favorieten
+    subview: true
+    cards:
+    - id: home_tracker
+      type: horizontal-stack
+      cards:
+      - type: tile
+        entity: input_select.woning_status
+        color: purple
+        name: Status
+      - type: tile
+        entity: person.bert
+        show_entity_picture: true
+      - type: tile
+        entity: person.caroline
+        show_entity_picture: true
+    - id: waste_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: sensor.recycleapp_papier
+            name: Papier
+          - entity: sensor.recycleapp_glas
+            name: Glas
+          - entity: sensor.recycleapp_pmd
+            name: PMD
+          - entity: sensor.recycleapp_restafval
+            name: Restafval
+        state_filter:
+          - value: 1
+            operator: '='
+            attribute: Days_until
+        card:
+          show_name: true
+          type: glance
+        show_empty: false
+    - id: problem_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: sensor.tradfri_shortcut_button_white_1_battery
+            name: Ikea Tradfri Knop Batterij Laag
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_outdoor_sensor_3_power
+            name: Hue Sensor Battery Low - Tuin
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_outdoor_sensor_1_power
+            name: Hue Sensor Battery Low - Tuinhuis
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_1_power
+            name: Hue Sensor Battery Low - Dressing
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_2_power
+            name: Hue Sensor Battery Low - Keuken
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_3_power
+            name: Hue Sensor Battery Low - Woonkamer
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_dimmer_switch_1_power
+            name: Hue Dimmer Battery Low - Elmo
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_dimmer_switch_2_power
+            name: Hue Dimmer Battery Low - Trix
+            state_filter:
+              - operator: "<"
+                value: 10
+        show_empty: false
+        card:
+          type: entities
+    - id: device_tracker
+      type: horizontal-stack
+      cards:
+      - id: device_tracker_0a
+        type: conditional
+        conditions:
+        - entity: input_boolean.keep_computer_on
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.keep_computer_on
+      - id: device_tracker_0b
+        type: conditional
+        conditions:
+        - entity: vacuum.dusty
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: vacuum.dusty
+      - id: device_tracker_0c
+        type: conditional
+        conditions:
+        - entity: input_boolean.keep_christmas_on
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.keep_christmas_on
+      - id: device_tracker_0d
+        type: conditional
+        conditions:
+        - entity: binary_sensor.bezoek
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: binary_sensor.bezoek
+      - id: device_tracker_0e
+        type: conditional
+        conditions:
+        - entity: input_select.woning_status
+          state: 'Weg'
+        - entity: input_boolean.pre_heat
+          state: 'off'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: device_tracker_0f
+        type: conditional
+        conditions:
+        - entity: input_select.woning_status
+          state: 'Op Vakantie'
+        - entity: input_boolean.pre_heat
+          state: 'off'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: device_tracker_0g
+        type: conditional
+        conditions:
+        - entity: input_boolean.pre_heat
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: camera_tracker_0a
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_5
+          state: 'off'
+        - entity: input_boolean.toon_camera
+          state: 'on'
+        card:
+          type: tile
+          entity: switch.hue_smart_plug_5
+      - id: camera_tracker_0b
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_6
+          state: 'off'
+        - entity: input_boolean.toon_camera
+          state: 'on'
+        card:
+          type: tile
+          entity: switch.hue_smart_plug_6
+      - id: camera_tracker_0c
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_5
+          state: 'on'
+        card:
+          color: yellow
+          type: tile
+          entity: switch.hue_smart_plug_5
+      - id: camera_tracker_0d
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_6
+          state: 'on'
+        card:
+          color: yellow
+          type: tile
+          entity: switch.hue_smart_plug_6
+    - id: update_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: update.home_assistant_operating_system_update
+            name: Update OS
+          - entity: update.home_assistant_core_update
+            name: Update Core
+          - entity: update.home_assistant_supervisor_update
+            name: Update Supervisor
+          - entity: sensor.hacs
+            name: Update Hacs
+          - entity: update.adguard_home_update
+            name: Update AdGuard
+          - entity: update.esphome_update
+            name: Update ESPHome
+          - entity: update.file_editor_update
+            name: Update File Editor
+          - entity: update.grafana_update
+            name: Update Grafana
+          - entity: update.home_assistant_google_drive_backup_update
+            name: Update Google Drive Backup
+          - entity: update.influxdb_update
+            name: Update InfluxDB
+          - entity: update.mosquitto_broker_update
+            name: Update Mosquito Broker
+          - entity: update.plex_media_server_update
+            name: Update Plex Server
+          - entity: update.rpc_shutdown_update
+            name: Update RPC Shutdown
+          - entity: update.samba_share_update
+            name: Update Samba Share
+          - entity: update.ssh_web_terminal_update
+            name: Update SSH Terminal
+        show_empty: false
+        state_filter:
+          - "on"
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+        card:
+          type: glance
+          show_name: true
+          show_state: true
+    - id: controls_tracker
+      type: horizontal-stack
+      cards:
+      - type: glance
+        columns: 5
+        entities:
+          - entity: input_button.rooms
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/favorieten
+          - entity: input_button.controls
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/controls
+          - entity: input_button.heating
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/heating
+          - entity: input_button.multimedia
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/multimedia
+          - entity: input_button.informatie
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/information
+        show_name: false
+        show_state: false
+    - type: vertical-stack
+      cards:
+      - type: entities
+        entities:
+          - entity: climate.keuken
+          - entity: climate.woonkamer
+          - entity: climate.badkamer
+          - entity: climate.dressing
+          - entity: climate.trix
+          - entity: climate.elmo
+          - entity: climate.slaapkamer
+          - entity: sensor.hue_sensor_buiten_temperature
+            icon: mdi:flower-tulip
+        show_header_toggle: false
+        show_name: false
+      - type: horizontal-stack
+        cards:
+        - type: tile
+          entity: sensor.season
+        - type: tile
+          color: red
+          entity: input_boolean.pre_heat
+  - title: Controls
+    path: controls
+    back_path: /lovelace/favorieten
+    subview: true
+    cards:
+    - id: home_tracker
+      type: horizontal-stack
+      cards:
+      - type: tile
+        entity: input_select.woning_status
+        color: purple
+        name: Status
+      - type: tile
+        entity: person.bert
+        show_entity_picture: true
+      - type: tile
+        entity: person.caroline
+        show_entity_picture: true
+    - id: waste_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: sensor.recycleapp_papier
+            name: Papier
+          - entity: sensor.recycleapp_glas
+            name: Glas
+          - entity: sensor.recycleapp_pmd
+            name: PMD
+          - entity: sensor.recycleapp_restafval
+            name: Restafval
+        state_filter:
+          - value: 1
+            operator: '='
+            attribute: Days_until
+        card:
+          show_name: true
+          type: glance
+        show_empty: false
+    - id: problem_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: sensor.tradfri_shortcut_button_white_1_battery
+            name: Ikea Tradfri Knop Batterij Laag
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_outdoor_sensor_3_power
+            name: Hue Sensor Battery Low - Tuin
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_outdoor_sensor_1_power
+            name: Hue Sensor Battery Low - Tuinhuis
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_1_power
+            name: Hue Sensor Battery Low - Dressing
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_2_power
+            name: Hue Sensor Battery Low - Keuken
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_3_power
+            name: Hue Sensor Battery Low - Woonkamer
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_dimmer_switch_1_power
+            name: Hue Dimmer Battery Low - Elmo
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_dimmer_switch_2_power
+            name: Hue Dimmer Battery Low - Trix
+            state_filter:
+              - operator: "<"
+                value: 10
+        show_empty: false
+        card:
+          type: entities
+    - id: device_tracker
+      type: horizontal-stack
+      cards:
+      - id: device_tracker_0a
+        type: conditional
+        conditions:
+        - entity: input_boolean.keep_computer_on
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.keep_computer_on
+      - id: device_tracker_0b
+        type: conditional
+        conditions:
+        - entity: vacuum.dusty
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: vacuum.dusty
+      - id: device_tracker_0c
+        type: conditional
+        conditions:
+        - entity: input_boolean.keep_christmas_on
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.keep_christmas_on
+      - id: device_tracker_0d
+        type: conditional
+        conditions:
+        - entity: binary_sensor.bezoek
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: binary_sensor.bezoek
+      - id: device_tracker_0e
+        type: conditional
+        conditions:
+        - entity: input_select.woning_status
+          state: 'Weg'
+        - entity: input_boolean.pre_heat
+          state: 'off'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: device_tracker_0f
+        type: conditional
+        conditions:
+        - entity: input_select.woning_status
+          state: 'Op Vakantie'
+        - entity: input_boolean.pre_heat
+          state: 'off'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: device_tracker_0g
+        type: conditional
+        conditions:
+        - entity: input_boolean.pre_heat
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: camera_tracker_0a
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_5
+          state: 'off'
+        - entity: input_boolean.toon_camera
+          state: 'on'
+        card:
+          type: tile
+          entity: switch.hue_smart_plug_5
+      - id: camera_tracker_0b
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_6
+          state: 'off'
+        - entity: input_boolean.toon_camera
+          state: 'on'
+        card:
+          type: tile
+          entity: switch.hue_smart_plug_6
+      - id: camera_tracker_0c
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_5
+          state: 'on'
+        card:
+          color: yellow
+          type: tile
+          entity: switch.hue_smart_plug_5
+      - id: camera_tracker_0d
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_6
+          state: 'on'
+        card:
+          color: yellow
+          type: tile
+          entity: switch.hue_smart_plug_6
+    - id: update_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: update.home_assistant_operating_system_update
+            name: Update OS
+          - entity: update.home_assistant_core_update
+            name: Update Core
+          - entity: update.home_assistant_supervisor_update
+            name: Update Supervisor
+          - entity: sensor.hacs
+            name: Update Hacs
+          - entity: update.adguard_home_update
+            name: Update AdGuard
+          - entity: update.esphome_update
+            name: Update ESPHome
+          - entity: update.file_editor_update
+            name: Update File Editor
+          - entity: update.grafana_update
+            name: Update Grafana
+          - entity: update.home_assistant_google_drive_backup_update
+            name: Update Google Drive Backup
+          - entity: update.influxdb_update
+            name: Update InfluxDB
+          - entity: update.mosquitto_broker_update
+            name: Update Mosquito Broker
+          - entity: update.plex_media_server_update
+            name: Update Plex Server
+          - entity: update.rpc_shutdown_update
+            name: Update RPC Shutdown
+          - entity: update.samba_share_update
+            name: Update Samba Share
+          - entity: update.ssh_web_terminal_update
+            name: Update SSH Terminal
+        show_empty: false
+        state_filter:
+          - "on"
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+        card:
+          type: glance
+          show_name: true
+          show_state: true
+    - id: controls_tracker
+      type: horizontal-stack
+      cards:
+      - type: glance
+        columns: 5
+        entities:
+          - entity: input_button.rooms
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/favorieten
+          - entity: input_button.controls
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/controls
+          - entity: input_button.heating
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/heating
+          - entity: input_button.multimedia
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/multimedia
+          - entity: input_button.informatie
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/information
+        show_name: false
+        show_state: false
+    - id: controls
+      type: vertical-stack
+      cards:
+      - type: horizontal-stack
+        cards:
+        - type: tile
+          entity: vacuum.dusty
+          features:
+          - type: "vacuum-commands"
+            commands:
+              - start_pause
+              - stop
+              - return_home
+      - type: horizontal-stack
+        cards:
+        - type: tile
+          entity: input_boolean.pre_heat
+          name: Huis Voorverwarmen
+        - type: tile
+          entity: input_boolean.vacuum_clean_today
+      - type: horizontal-stack
+        cards:
+        - type: tile
+          entity: input_boolean.kids_wekker
+      - type: horizontal-stack
+        cards:
+        - type: tile
+          entity: input_button.elmo_alarm
+        - type: tile
+          entity: input_button.trix_alarm
+      - type: horizontal-stack
+        cards:
+        - type: tile
+          entity: switch.hue_smart_plug_5
+          name: Camera Trix
+        - type: tile
+          entity: switch.hue_smart_plug_6
+          name: Camera Elmo
+      - type: horizontal-stack
+        cards:
+        - type: tile
+          entity: input_boolean.music_follow
+          name: Laat muziek volgen
+        - type: tile
+          entity: input_boolean.keep_computer_on
+          name: Laat computer aan
+      - type: horizontal-stack
+        cards:
+        - type: tile
+          entity: input_boolean.visitor
+        - type: tile
+          entity: input_boolean.keep_christmas_on
+      - type: horizontal-stack
+        cards:
+        - type: tile
+          entity: group.internet_safety
+          name: Internet beveiliging
+        - type: tile
+          entity: group.notifications
+          name: iOS Notificaties
+  - title: Informatie
+    path: information
+    back_path: /lovelace/favorieten
+    subview: true
+    cards:
+    - id: home_tracker
+      type: horizontal-stack
+      cards:
+      - type: tile
+        entity: input_select.woning_status
+        color: purple
+        name: Status
+      - type: tile
+        entity: person.bert
+        show_entity_picture: true
+      - type: tile
+        entity: person.caroline
+        show_entity_picture: true
+    - id: waste_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: sensor.recycleapp_papier
+            name: Papier
+          - entity: sensor.recycleapp_glas
+            name: Glas
+          - entity: sensor.recycleapp_pmd
+            name: PMD
+          - entity: sensor.recycleapp_restafval
+            name: Restafval
+        state_filter:
+          - value: 1
+            operator: '='
+            attribute: Days_until
+        card:
+          show_name: true
+          type: glance
+        show_empty: false
+    - id: problem_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: sensor.tradfri_shortcut_button_white_1_battery
+            name: Ikea Tradfri Knop Batterij Laag
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_outdoor_sensor_3_power
+            name: Hue Sensor Battery Low - Tuin
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_outdoor_sensor_1_power
+            name: Hue Sensor Battery Low - Tuinhuis
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_1_power
+            name: Hue Sensor Battery Low - Dressing
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_2_power
+            name: Hue Sensor Battery Low - Keuken
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_3_power
+            name: Hue Sensor Battery Low - Woonkamer
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_dimmer_switch_1_power
+            name: Hue Dimmer Battery Low - Elmo
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_dimmer_switch_2_power
+            name: Hue Dimmer Battery Low - Trix
+            state_filter:
+              - operator: "<"
+                value: 10
+        show_empty: false
+        card:
+          type: entities
+    - id: device_tracker
+      type: horizontal-stack
+      cards:
+      - id: device_tracker_0a
+        type: conditional
+        conditions:
+        - entity: input_boolean.keep_computer_on
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.keep_computer_on
+      - id: device_tracker_0b
+        type: conditional
+        conditions:
+        - entity: vacuum.dusty
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: vacuum.dusty
+      - id: device_tracker_0c
+        type: conditional
+        conditions:
+        - entity: input_boolean.keep_christmas_on
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.keep_christmas_on
+      - id: device_tracker_0d
+        type: conditional
+        conditions:
+        - entity: binary_sensor.bezoek
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: binary_sensor.bezoek
+      - id: device_tracker_0e
+        type: conditional
+        conditions:
+        - entity: input_select.woning_status
+          state: 'Weg'
+        - entity: input_boolean.pre_heat
+          state: 'off'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: device_tracker_0f
+        type: conditional
+        conditions:
+        - entity: input_select.woning_status
+          state: 'Op Vakantie'
+        - entity: input_boolean.pre_heat
+          state: 'off'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: device_tracker_0g
+        type: conditional
+        conditions:
+        - entity: input_boolean.pre_heat
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: camera_tracker_0a
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_5
+          state: 'off'
+        - entity: input_boolean.toon_camera
+          state: 'on'
+        card:
+          type: tile
+          entity: switch.hue_smart_plug_5
+      - id: camera_tracker_0b
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_6
+          state: 'off'
+        - entity: input_boolean.toon_camera
+          state: 'on'
+        card:
+          type: tile
+          entity: switch.hue_smart_plug_6
+      - id: camera_tracker_0c
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_5
+          state: 'on'
+        card:
+          color: yellow
+          type: tile
+          entity: switch.hue_smart_plug_5
+      - id: camera_tracker_0d
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_6
+          state: 'on'
+        card:
+          color: yellow
+          type: tile
+          entity: switch.hue_smart_plug_6
+    - id: update_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: update.home_assistant_operating_system_update
+            name: Update OS
+          - entity: update.home_assistant_core_update
+            name: Update Core
+          - entity: update.home_assistant_supervisor_update
+            name: Update Supervisor
+          - entity: sensor.hacs
+            name: Update Hacs
+          - entity: update.adguard_home_update
+            name: Update AdGuard
+          - entity: update.esphome_update
+            name: Update ESPHome
+          - entity: update.file_editor_update
+            name: Update File Editor
+          - entity: update.grafana_update
+            name: Update Grafana
+          - entity: update.home_assistant_google_drive_backup_update
+            name: Update Google Drive Backup
+          - entity: update.influxdb_update
+            name: Update InfluxDB
+          - entity: update.mosquitto_broker_update
+            name: Update Mosquito Broker
+          - entity: update.plex_media_server_update
+            name: Update Plex Server
+          - entity: update.rpc_shutdown_update
+            name: Update RPC Shutdown
+          - entity: update.samba_share_update
+            name: Update Samba Share
+          - entity: update.ssh_web_terminal_update
+            name: Update SSH Terminal
+        show_empty: false
+        state_filter:
+          - "on"
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+        card:
+          type: glance
+          show_name: true
+          show_state: true
+    - id: controls_tracker
+      type: horizontal-stack
+      cards:
+      - type: glance
+        columns: 5
+        entities:
+          - entity: input_button.rooms
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/favorieten
+          - entity: input_button.controls
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/controls
+          - entity: input_button.heating
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/heating
+          - entity: input_button.multimedia
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/multimedia
+          - entity: input_button.informatie
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/information
+        show_name: false
+        show_state: false
+    - id: information
+      type: vertical-stack
+      cards:
+      - id: controls_tracker_b
+        type: horizontal-stack
+        cards:
+        - type: glance
+          columns: 4
+          entities:
+          - entity: input_button.batterijen
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/battery
+          - entity: input_button.internet
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/internet
+          - entity: input_button.server
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/server
+          - entity: input_button.energie
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/energy
+          show_name: false
+          show_state: false
+      - title: Afvalkalender
+        type: vertical-stack
+        cards:
+          - type: glance
+            id: af0a835638ca421aa181928f535c4b33
+            columns: 2
+            show_header_toggle: false
+            entities:
+              - entity: sensor.recycleapp_restafval
+                name: Restafval
+              - entity: sensor.recycleapp_pmd
+                name: Pmd
+              - entity:  sensor.recycleapp_papier
+                name: Papier
+              - entity:  sensor.recycleapp_glas
+                name: Glas
+      - title: Printer
+        type: horizontal-stack
+        cards:
+          - entity: sensor.hp_deskjet_3700_series_black_ink
+            name: Zwarte Inkt
+            min: 0
+            max: 100
+            severity:
+              green: 50
+              yellow: 25
+              red: 0
+            type: gauge
+          - entity: sensor.hp_deskjet_3700_series_tri_color_ink
+            name: Gekleurde Inkt
+            min: 0
+            max: 100
+            severity:
+              green: 50
+              yellow: 25
+              red: 0
+            type: gauge
+      - title: Wie is Waar ?
+        type: vertical-stack
+        cards:
+          - type: history-graph
+            hours_to_show: 24
+            entities:
+              - entity: input_select.woning_status
+                name: Woning
+              - entity: person.bert
+                name: Bert
+              - entity: person.caroline
+                name: Caroline
+              - entity: group.bewoners
+                name: Bewoners
+              - entity: binary_sensor.bezoek
+                name: Bezoek
+          - type: horizontal-stack
             cards:
             - type: tile
-              entity: input_select.woning_status
+              entity: proximity.home
               color: purple
               name: Status
             - type: tile
-              entity: person.bert
+              entity: proximity.bert
               show_entity_picture: true
             - type: tile
-              entity: person.caroline
+              entity: proximity.caroline
               show_entity_picture: true
-          - id: controls_buttons_6
-            type: glance
-            columns: 3
+          - type: logbook
             entities:
-              - entity: input_button.controls
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/controls
-              - entity: input_button.lights
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/lights
-              - entity: input_button.multimedia
-                tap_action:
-                  action: navigate
-                  navigation_path: /lovelace/multimedia
-            show_name: true
-            show_state: false
-          - id: Multimedia
-            type: vertical-stack
-            cards:
-              - type: entities
-                show_header_toggle: false
-                entities:
-                  - entity: input_select.harmony_hub
-                header:
-                  type: buttons
-                  entities:
-                    - entity: input_boolean.media_kitchen
-                      name: Keuken
-                      tap_action:
-                        action: more-info
-                    - entity: input_boolean.media_livingroom
-                      name: Woonkamer
-                      tap_action:
-                        action: more-info
-                    - entity: switch.wake_on_lan
-                      name: Computer
-                      tap_action:
-                        action: more-info
-                footer:
-                  type: buttons
-                  entities:
-                    - entity: input_boolean.music_follow
-                      name: Laat muziek volgen
-                      tap_action:
-                        action: toggle
-                    - entity: input_boolean.keep_computer_on
-                      name: Laat computer aan
-                      tap_action:
-                        action: toggle
-          - title: Radio Select
-            type: vertical-stack
-            cards:
-              - type: entities
-                show_header_toggle: false
-                entities:
-                  - entity: input_text.radio_station_current
-                    name: Huidig Station
-                  - entity: script.radio_selected_on
-                    name: Speel Selectie
-                  - entity: input_select.radio_station
-                    name: Station
-                  - entity: input_select.media_player
-                    name: Player
-          - type: vertical-stack
-            cards:
-              - type: conditional
-                conditions:
-                  - entity: media_player.spotify_bert_verlinden
-                    state_not: "playing"
-                card:
-                  type: entity-filter
-                  show_empty: false
-                  show_header_toggle: false
-                  entities:
-                    - media_player.alexa_downstairs
-                  state_filter:
-                    - playing
-                  card:
-                    type: media-control
-                    entity: media_player.alexa_downstairs
-              - type: conditional
-                conditions:
-                  - entity: media_player.spotify_bert_verlinden
-                    state_not: "playing"
-                card:
-                  type: entity-filter
-                  show_empty: false
-                  show_header_toggle: false
-                  entities:
-                    - media_player.alexa_everywhere
-                  state_filter:
-                    - playing
-                  card:
-                    type: media-control
-                    entity: media_player.alexa_everywhere
-              - type: conditional
-                conditions:
-                  - entity: media_player.spotify_bert_verlinden
-                    state_not: "playing"
-                card:
-                  type: entity-filter
-                  show_empty: false
-                  show_header_toggle: false
-                  entities:
-                    - media_player.alexa_kitchen_1
-                  state_filter:
-                    - playing
-                  card:
-                    type: media-control
-                    entity: media_player.alexa_kitchen_1
-              - type: conditional
-                conditions:
-                  - entity: media_player.spotify_bert_verlinden
-                    state_not: "playing"
-                card:
-                  type: entity-filter
-                  show_empty: false
-                  show_header_toggle: false
-                  entities:
-                    - media_player.alexa_kitchen_2
-                  state_filter:
-                    - playing
-                  card:
-                    type: media-control
-                    entity: media_player.alexa_kitchen_2
-              - type: conditional
-                conditions:
-                  - entity: media_player.spotify_bert_verlinden
-                    state_not: "playing"
-                  - entity: media_player.alexa_everywhere
-                    state_not: "playing"
-                card:
-                  type: entity-filter
-                  show_empty: false
-                  show_header_toggle: false
-                  entities:
-                    - media_player.alexa_bathroom
-                  state_filter:
-                    - playing
-                  card:
-                    type: media-control
-                    entity: media_player.alexa_bathroom
-              - type: conditional
-                conditions:
-                  - entity: media_player.spotify_bert_verlinden
-                    state_not: "playing"
-                  - entity: media_player.alexa_downstairs
-                    state_not: "playing"
-                  - entity: media_player.alexa_everywhere
-                    state_not: "playing"
-                card:
-                  type: entity-filter
-                  show_empty: false
-                  show_header_toggle: false
-                  entities:
-                    - media_player.alexa_kitchen_amp
-                  state_filter:
-                    - playing
-                  card:
-                    type: media-control
-                    entity: media_player.alexa_kitchen_amp
-              - type: conditional
-                conditions:
-                  - entity: media_player.spotify_bert_verlinden
-                    state_not: "playing"
-                  - entity: media_player.alexa_downstairs
-                    state_not: "playing"
-                  - entity: media_player.alexa_everywhere
-                    state_not: "playing"
-                card:
-                  type: entity-filter
-                  show_empty: false
-                  show_header_toggle: false
-                  entities:
-                    - media_player.alexa_livingroom_1
-                  state_filter:
-                    - playing
-                  card:
-                    type: media-control
-                    entity: media_player.alexa_livingroom_1
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.alexa_livingroom_2
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.alexa_livingroom_2
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.alexa_kitchen_2
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.alexa_kitchen_2
-              - type: conditional
-                conditions:
-                  - entity: media_player.spotify_bert_verlinden
-                    state_not: "playing"
-                  - entity: media_player.alexa_downstairs
-                    state_not: "playing"
-                  - entity: media_player.alexa_everywhere
-                    state_not: "playing"
-                card:
-                  type: entity-filter
-                  show_empty: false
-                  show_header_toggle: false
-                  entities:
-                    - media_player.alexa_mobile
-                  state_filter:
-                    - playing
-                  card:
-                    type: media-control
-                    entity: media_player.alexa_mobile
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.apple_tv_woonkamer
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.apple_tv_woonkamer
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.apple_tv_keuken
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.apple_tv_keuken
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.keuken
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.keuken
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.plex_plex_for_ios_ipad
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.plex_plex_for_ios_ipad
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.plex_plex_for_windows_pcbert
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.plex_plex_for_windows_pcbert
-              - type: entity-filter
-                show_empty: false
-                show_header_toggle: false
-                entities:
-                  - media_player.plex_plex_web_microsoft_edge_windows
-                state_filter:
-                  - playing
-                card:
-                  type: media-control
-                  entity: media_player.plex_plex_web_microsoft_edge_windows
+              - person.bert
+              - person.caroline
+              - binary_sensor.bezoek
+            hours_to_show: 24
+  - title: Batterijen
+    path: battery
+    back_path: /lovelace/information
+    subview: true
+    cards:
+    - id: home_tracker
+      type: horizontal-stack
+      cards:
+      - type: tile
+        entity: input_select.woning_status
+        color: purple
+        name: Status
+      - type: tile
+        entity: person.bert
+        show_entity_picture: true
+      - type: tile
+        entity: person.caroline
+        show_entity_picture: true
+    - id: waste_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: sensor.recycleapp_papier
+            name: Papier
+          - entity: sensor.recycleapp_glas
+            name: Glas
+          - entity: sensor.recycleapp_pmd
+            name: PMD
+          - entity: sensor.recycleapp_restafval
+            name: Restafval
+        state_filter:
+          - value: 1
+            operator: '='
+            attribute: Days_until
+        card:
+          show_name: true
+          type: glance
+        show_empty: false
+    - id: problem_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: sensor.tradfri_shortcut_button_white_1_battery
+            name: Ikea Tradfri Knop Batterij Laag
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_outdoor_sensor_3_power
+            name: Hue Sensor Battery Low - Tuin
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_outdoor_sensor_1_power
+            name: Hue Sensor Battery Low - Tuinhuis
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_1_power
+            name: Hue Sensor Battery Low - Dressing
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_2_power
+            name: Hue Sensor Battery Low - Keuken
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_3_power
+            name: Hue Sensor Battery Low - Woonkamer
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_dimmer_switch_1_power
+            name: Hue Dimmer Battery Low - Elmo
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_dimmer_switch_2_power
+            name: Hue Dimmer Battery Low - Trix
+            state_filter:
+              - operator: "<"
+                value: 10
+        show_empty: false
+        card:
+          type: entities
+    - id: device_tracker
+      type: horizontal-stack
+      cards:
+      - id: device_tracker_0a
+        type: conditional
+        conditions:
+        - entity: input_boolean.keep_computer_on
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.keep_computer_on
+      - id: device_tracker_0b
+        type: conditional
+        conditions:
+        - entity: vacuum.dusty
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: vacuum.dusty
+      - id: device_tracker_0c
+        type: conditional
+        conditions:
+        - entity: input_boolean.keep_christmas_on
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.keep_christmas_on
+      - id: device_tracker_0d
+        type: conditional
+        conditions:
+        - entity: binary_sensor.bezoek
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: binary_sensor.bezoek
+      - id: device_tracker_0e
+        type: conditional
+        conditions:
+        - entity: input_select.woning_status
+          state: 'Weg'
+        - entity: input_boolean.pre_heat
+          state: 'off'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: device_tracker_0f
+        type: conditional
+        conditions:
+        - entity: input_select.woning_status
+          state: 'Op Vakantie'
+        - entity: input_boolean.pre_heat
+          state: 'off'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: device_tracker_0g
+        type: conditional
+        conditions:
+        - entity: input_boolean.pre_heat
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: camera_tracker_0a
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_5
+          state: 'off'
+        - entity: input_boolean.toon_camera
+          state: 'on'
+        card:
+          type: tile
+          entity: switch.hue_smart_plug_5
+      - id: camera_tracker_0b
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_6
+          state: 'off'
+        - entity: input_boolean.toon_camera
+          state: 'on'
+        card:
+          type: tile
+          entity: switch.hue_smart_plug_6
+      - id: camera_tracker_0c
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_5
+          state: 'on'
+        card:
+          color: yellow
+          type: tile
+          entity: switch.hue_smart_plug_5
+      - id: camera_tracker_0d
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_6
+          state: 'on'
+        card:
+          color: yellow
+          type: tile
+          entity: switch.hue_smart_plug_6
+    - id: update_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: update.home_assistant_operating_system_update
+            name: Update OS
+          - entity: update.home_assistant_core_update
+            name: Update Core
+          - entity: update.home_assistant_supervisor_update
+            name: Update Supervisor
+          - entity: sensor.hacs
+            name: Update Hacs
+          - entity: update.adguard_home_update
+            name: Update AdGuard
+          - entity: update.esphome_update
+            name: Update ESPHome
+          - entity: update.file_editor_update
+            name: Update File Editor
+          - entity: update.grafana_update
+            name: Update Grafana
+          - entity: update.home_assistant_google_drive_backup_update
+            name: Update Google Drive Backup
+          - entity: update.influxdb_update
+            name: Update InfluxDB
+          - entity: update.mosquitto_broker_update
+            name: Update Mosquito Broker
+          - entity: update.plex_media_server_update
+            name: Update Plex Server
+          - entity: update.rpc_shutdown_update
+            name: Update RPC Shutdown
+          - entity: update.samba_share_update
+            name: Update Samba Share
+          - entity: update.ssh_web_terminal_update
+            name: Update SSH Terminal
+        show_empty: false
+        state_filter:
+          - "on"
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+        card:
+          type: glance
+          show_name: true
+          show_state: true
+    - id: controls_tracker
+      type: horizontal-stack
+      cards:
+      - type: glance
+        columns: 5
+        entities:
+          - entity: input_button.rooms
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/favorieten
+          - entity: input_button.controls
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/controls
+          - entity: input_button.heating
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/heating
+          - entity: input_button.multimedia
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/multimedia
+          - entity: input_button.informatie
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/information
+        show_name: false
+        show_state: false
+    - id: batterijen
+      type: vertical-stack
+      cards:
+      - id: controls_tracker_b
+        type: horizontal-stack
+        cards:
+        - type: glance
+          columns: 4
+          entities:
+          - entity: input_button.batterijen
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/battery
+          - entity: input_button.internet
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/internet
+          - entity: input_button.server
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/server
+          - entity: input_button.energie
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/energy
+          show_name: false
+          show_state: false
+      - type: glance
+        columns: 3
+        entities:
+          - entity: sensor.hue_dimmer_switch_1_power
+          - entity: sensor.hue_dimmer_switch_2_power
+          - entity: sensor.tradfri_shortcut_button_white_1_battery
+          - entity: sensor.hue_motion_sensor_1_power
+          - entity: sensor.hue_motion_sensor_2_power
+          - entity: sensor.hue_motion_sensor_3_power
+          - entity: sensor.hue_outdoor_sensor_1_power
+          - entity: sensor.hue_outdoor_sensor_2_power
+          - entity: sensor.hue_outdoor_sensor_3_power
+  - title: Internet
+    path: internet
+    back_path: /lovelace/information
+    subview: true
+    cards:
+    - id: home_tracker
+      type: horizontal-stack
+      cards:
+      - type: tile
+        entity: input_select.woning_status
+        color: purple
+        name: Status
+      - type: tile
+        entity: person.bert
+        show_entity_picture: true
+      - type: tile
+        entity: person.caroline
+        show_entity_picture: true
+    - id: waste_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: sensor.recycleapp_papier
+            name: Papier
+          - entity: sensor.recycleapp_glas
+            name: Glas
+          - entity: sensor.recycleapp_pmd
+            name: PMD
+          - entity: sensor.recycleapp_restafval
+            name: Restafval
+        state_filter:
+          - value: 1
+            operator: '='
+            attribute: Days_until
+        card:
+          show_name: true
+          type: glance
+        show_empty: false
+    - id: problem_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: sensor.tradfri_shortcut_button_white_1_battery
+            name: Ikea Tradfri Knop Batterij Laag
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_outdoor_sensor_3_power
+            name: Hue Sensor Battery Low - Tuin
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_outdoor_sensor_1_power
+            name: Hue Sensor Battery Low - Tuinhuis
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_1_power
+            name: Hue Sensor Battery Low - Dressing
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_2_power
+            name: Hue Sensor Battery Low - Keuken
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_3_power
+            name: Hue Sensor Battery Low - Woonkamer
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_dimmer_switch_1_power
+            name: Hue Dimmer Battery Low - Elmo
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_dimmer_switch_2_power
+            name: Hue Dimmer Battery Low - Trix
+            state_filter:
+              - operator: "<"
+                value: 10
+        show_empty: false
+        card:
+          type: entities
+    - id: device_tracker
+      type: horizontal-stack
+      cards:
+      - id: device_tracker_0a
+        type: conditional
+        conditions:
+        - entity: input_boolean.keep_computer_on
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.keep_computer_on
+      - id: device_tracker_0b
+        type: conditional
+        conditions:
+        - entity: vacuum.dusty
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: vacuum.dusty
+      - id: device_tracker_0c
+        type: conditional
+        conditions:
+        - entity: input_boolean.keep_christmas_on
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.keep_christmas_on
+      - id: device_tracker_0d
+        type: conditional
+        conditions:
+        - entity: binary_sensor.bezoek
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: binary_sensor.bezoek
+      - id: device_tracker_0e
+        type: conditional
+        conditions:
+        - entity: input_select.woning_status
+          state: 'Weg'
+        - entity: input_boolean.pre_heat
+          state: 'off'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: device_tracker_0f
+        type: conditional
+        conditions:
+        - entity: input_select.woning_status
+          state: 'Op Vakantie'
+        - entity: input_boolean.pre_heat
+          state: 'off'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: device_tracker_0g
+        type: conditional
+        conditions:
+        - entity: input_boolean.pre_heat
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: camera_tracker_0a
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_5
+          state: 'off'
+        - entity: input_boolean.toon_camera
+          state: 'on'
+        card:
+          type: tile
+          entity: switch.hue_smart_plug_5
+      - id: camera_tracker_0b
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_6
+          state: 'off'
+        - entity: input_boolean.toon_camera
+          state: 'on'
+        card:
+          type: tile
+          entity: switch.hue_smart_plug_6
+      - id: camera_tracker_0c
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_5
+          state: 'on'
+        card:
+          color: yellow
+          type: tile
+          entity: switch.hue_smart_plug_5
+      - id: camera_tracker_0d
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_6
+          state: 'on'
+        card:
+          color: yellow
+          type: tile
+          entity: switch.hue_smart_plug_6
+    - id: update_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: update.home_assistant_operating_system_update
+            name: Update OS
+          - entity: update.home_assistant_core_update
+            name: Update Core
+          - entity: update.home_assistant_supervisor_update
+            name: Update Supervisor
+          - entity: sensor.hacs
+            name: Update Hacs
+          - entity: update.adguard_home_update
+            name: Update AdGuard
+          - entity: update.esphome_update
+            name: Update ESPHome
+          - entity: update.file_editor_update
+            name: Update File Editor
+          - entity: update.grafana_update
+            name: Update Grafana
+          - entity: update.home_assistant_google_drive_backup_update
+            name: Update Google Drive Backup
+          - entity: update.influxdb_update
+            name: Update InfluxDB
+          - entity: update.mosquitto_broker_update
+            name: Update Mosquito Broker
+          - entity: update.plex_media_server_update
+            name: Update Plex Server
+          - entity: update.rpc_shutdown_update
+            name: Update RPC Shutdown
+          - entity: update.samba_share_update
+            name: Update Samba Share
+          - entity: update.ssh_web_terminal_update
+            name: Update SSH Terminal
+        show_empty: false
+        state_filter:
+          - "on"
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+        card:
+          type: glance
+          show_name: true
+          show_state: true
+    - id: controls_tracker
+      type: horizontal-stack
+      cards:
+      - type: glance
+        columns: 5
+        entities:
+          - entity: input_button.rooms
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/favorieten
+          - entity: input_button.controls
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/controls
+          - entity: input_button.heating
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/heating
+          - entity: input_button.multimedia
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/multimedia
+          - entity: input_button.informatie
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/information
+        show_name: false
+        show_state: false
+    - id: internet
+      type: vertical-stack
+      cards:
+      - id: controls_tracker_b
+        type: horizontal-stack
+        cards:
+        - type: glance
+          columns: 4
+          entities:
+          - entity: input_button.batterijen
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/battery
+          - entity: input_button.internet
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/internet
+          - entity: input_button.server
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/server
+          - entity: input_button.energie
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/energy
+          show_name: false
+          show_state: false
+      - type: horizontal-stack
+        cards:
+        - type: tile
+          entity: update.ugw3
+          name: USG
+          show_entity_picture: true
+        - type: tile
+          entity: update.us16p150
+          name: Switch
+          show_entity_picture: true
+      - type: horizontal-stack
+        cards:
+        - type: tile
+          entity: update.unifi_ap_ac_pro_1
+          name: AP Kelder
+          show_entity_picture: true
+        - type: tile
+          entity: update.unifi_ap_ac_pro_2
+          name: AP Bureau
+          show_entity_picture: true
+        - type: tile
+          entity: update.unifi_ap_ac_pro_3
+          name: AP Tuinhuis
+          show_entity_picture: true
+        - type: tile
+          entity: update.unifi_ap_u6_pro_1
+          name: AP Dressing
+          show_entity_picture: true
+      - type: glance
+        columns: 3
+        show_state: false
+        entities:
+          - entity: switch.adguard_protection
+            tap_action:
+              action: toggle
+          - entity: switch.adguard_filtering
+            tap_action:
+              action: toggle
+          - entity: switch.adguard_parental_control
+            tap_action:
+              action: toggle
+          - entity: switch.adguard_safe_browsing
+            tap_action:
+              action: toggle
+          - entity: switch.adguard_safe_search
+            tap_action:
+              action: toggle
+      - type: history-graph
+        show:
+          icon: false
+          name: false
+          state: true
+        entities:
+          - entity: sensor.adguard_average_processing_speed
+      - type: history-graph
+        show:
+          icon: false
+          name: false
+          state: true
+        entities:
+          - entity: sensor.adguard_dns_queries
+      - type: history-graph
+        show:
+          icon: false
+          name: false
+          state: true
+        entities:
+          - entity: sensor.adguard_dns_queries_blocked_ratio
+      - type: history-graph
+        show:
+          icon: false
+          name: false
+          state: true
+        entities:
+          - entity: sensor.adguard_parental_control_blocked
+          - entity: sensor.adguard_safe_browsing_blocked
+          - entity: sensor.adguard_safe_searches_enforced
+  - title: Server
+    path: server
+    back_path: /lovelace/information
+    subview: true
+    cards:
+    - id: home_tracker
+      type: horizontal-stack
+      cards:
+      - type: tile
+        entity: input_select.woning_status
+        color: purple
+        name: Status
+      - type: tile
+        entity: person.bert
+        show_entity_picture: true
+      - type: tile
+        entity: person.caroline
+        show_entity_picture: true
+    - id: waste_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: sensor.recycleapp_papier
+            name: Papier
+          - entity: sensor.recycleapp_glas
+            name: Glas
+          - entity: sensor.recycleapp_pmd
+            name: PMD
+          - entity: sensor.recycleapp_restafval
+            name: Restafval
+        state_filter:
+          - value: 1
+            operator: '='
+            attribute: Days_until
+        card:
+          show_name: true
+          type: glance
+        show_empty: false
+    - id: problem_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: sensor.tradfri_shortcut_button_white_1_battery
+            name: Ikea Tradfri Knop Batterij Laag
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_outdoor_sensor_3_power
+            name: Hue Sensor Battery Low - Tuin
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_outdoor_sensor_1_power
+            name: Hue Sensor Battery Low - Tuinhuis
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_1_power
+            name: Hue Sensor Battery Low - Dressing
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_2_power
+            name: Hue Sensor Battery Low - Keuken
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_3_power
+            name: Hue Sensor Battery Low - Woonkamer
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_dimmer_switch_1_power
+            name: Hue Dimmer Battery Low - Elmo
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_dimmer_switch_2_power
+            name: Hue Dimmer Battery Low - Trix
+            state_filter:
+              - operator: "<"
+                value: 10
+        show_empty: false
+        card:
+          type: entities
+    - id: device_tracker
+      type: horizontal-stack
+      cards:
+      - id: device_tracker_0a
+        type: conditional
+        conditions:
+        - entity: input_boolean.keep_computer_on
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.keep_computer_on
+      - id: device_tracker_0b
+        type: conditional
+        conditions:
+        - entity: vacuum.dusty
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: vacuum.dusty
+      - id: device_tracker_0c
+        type: conditional
+        conditions:
+        - entity: input_boolean.keep_christmas_on
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.keep_christmas_on
+      - id: device_tracker_0d
+        type: conditional
+        conditions:
+        - entity: binary_sensor.bezoek
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: binary_sensor.bezoek
+      - id: device_tracker_0e
+        type: conditional
+        conditions:
+        - entity: input_select.woning_status
+          state: 'Weg'
+        - entity: input_boolean.pre_heat
+          state: 'off'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: device_tracker_0f
+        type: conditional
+        conditions:
+        - entity: input_select.woning_status
+          state: 'Op Vakantie'
+        - entity: input_boolean.pre_heat
+          state: 'off'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: device_tracker_0g
+        type: conditional
+        conditions:
+        - entity: input_boolean.pre_heat
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: camera_tracker_0a
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_5
+          state: 'off'
+        - entity: input_boolean.toon_camera
+          state: 'on'
+        card:
+          type: tile
+          entity: switch.hue_smart_plug_5
+      - id: camera_tracker_0b
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_6
+          state: 'off'
+        - entity: input_boolean.toon_camera
+          state: 'on'
+        card:
+          type: tile
+          entity: switch.hue_smart_plug_6
+      - id: camera_tracker_0c
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_5
+          state: 'on'
+        card:
+          color: yellow
+          type: tile
+          entity: switch.hue_smart_plug_5
+      - id: camera_tracker_0d
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_6
+          state: 'on'
+        card:
+          color: yellow
+          type: tile
+          entity: switch.hue_smart_plug_6
+    - id: update_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: update.home_assistant_operating_system_update
+            name: Update OS
+          - entity: update.home_assistant_core_update
+            name: Update Core
+          - entity: update.home_assistant_supervisor_update
+            name: Update Supervisor
+          - entity: sensor.hacs
+            name: Update Hacs
+          - entity: update.adguard_home_update
+            name: Update AdGuard
+          - entity: update.esphome_update
+            name: Update ESPHome
+          - entity: update.file_editor_update
+            name: Update File Editor
+          - entity: update.grafana_update
+            name: Update Grafana
+          - entity: update.home_assistant_google_drive_backup_update
+            name: Update Google Drive Backup
+          - entity: update.influxdb_update
+            name: Update InfluxDB
+          - entity: update.mosquitto_broker_update
+            name: Update Mosquito Broker
+          - entity: update.plex_media_server_update
+            name: Update Plex Server
+          - entity: update.rpc_shutdown_update
+            name: Update RPC Shutdown
+          - entity: update.samba_share_update
+            name: Update Samba Share
+          - entity: update.ssh_web_terminal_update
+            name: Update SSH Terminal
+        show_empty: false
+        state_filter:
+          - "on"
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+        card:
+          type: glance
+          show_name: true
+          show_state: true
+    - id: controls_tracker
+      type: horizontal-stack
+      cards:
+      - type: glance
+        columns: 5
+        entities:
+          - entity: input_button.rooms
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/favorieten
+          - entity: input_button.controls
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/controls
+          - entity: input_button.heating
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/heating
+          - entity: input_button.multimedia
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/multimedia
+          - entity: input_button.informatie
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/information
+        show_name: false
+        show_state: false
+    - id: server
+      type: vertical-stack
+      cards:
+      - id: controls_tracker_b
+        type: horizontal-stack
+        cards:
+        - type: glance
+          columns: 4
+          entities:
+          - entity: input_button.batterijen
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/battery
+          - entity: input_button.internet
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/internet
+          - entity: input_button.server
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/server
+          - entity: input_button.energie
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/energy
+          show_name: false
+          show_state: false
+      - type: entity-filter
+        show_header_toggle: false
+        show_empty: false
+        state_filter:
+          - "on"
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+        entities:
+          - entity: binary_sensor.home_assistant_website_update_available
+            name: Updates
+          - entity: sensor.hacs
+            name: Updates Hacs
+        card:
+          type: glance
+          show_name: true
+          show_state: true
+      - type: glance
+        columns: 2
+        entities:
+          - entity: binary_sensor.remote_ui
+          - entity: binary_sensor.rpi_power_status
+      - type: history-graph
+        name: Server
+        show:
+          icon: false
+          name: false
+          state: true
+        entities:
+          - entity: sensor.processor_use
+            name: Processor
+          - entity: sensor.memory_use_percent
+            name: RAM
+          - entity: sensor.disk_use_percent_home
+            name: DISK
+      - type: history-graph
+        name: Server
+        show:
+          icon: false
+          name: false
+          state: true
+        entities:
+          - entity: sensor.cpu_temperature
+            name: Temperatuur
+  - title: Energie
+    path: energy
+    back_path: /lovelace/information
+    subview: true
+    cards:
+    - id: home_tracker
+      type: horizontal-stack
+      cards:
+      - type: tile
+        entity: input_select.woning_status
+        color: purple
+        name: Status
+      - type: tile
+        entity: person.bert
+        show_entity_picture: true
+      - type: tile
+        entity: person.caroline
+        show_entity_picture: true
+    - id: waste_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: sensor.recycleapp_papier
+            name: Papier
+          - entity: sensor.recycleapp_glas
+            name: Glas
+          - entity: sensor.recycleapp_pmd
+            name: PMD
+          - entity: sensor.recycleapp_restafval
+            name: Restafval
+        state_filter:
+          - value: 1
+            operator: '='
+            attribute: Days_until
+        card:
+          show_name: true
+          type: glance
+        show_empty: false
+    - id: problem_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: sensor.tradfri_shortcut_button_white_1_battery
+            name: Ikea Tradfri Knop Batterij Laag
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_outdoor_sensor_3_power
+            name: Hue Sensor Battery Low - Tuin
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_outdoor_sensor_1_power
+            name: Hue Sensor Battery Low - Tuinhuis
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_1_power
+            name: Hue Sensor Battery Low - Dressing
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_2_power
+            name: Hue Sensor Battery Low - Keuken
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_motion_sensor_3_power
+            name: Hue Sensor Battery Low - Woonkamer
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_dimmer_switch_1_power
+            name: Hue Dimmer Battery Low - Elmo
+            state_filter:
+              - operator: "<"
+                value: 10
+          - entity: sensor.hue_dimmer_switch_2_power
+            name: Hue Dimmer Battery Low - Trix
+            state_filter:
+              - operator: "<"
+                value: 10
+        show_empty: false
+        card:
+          type: entities
+    - id: device_tracker
+      type: horizontal-stack
+      cards:
+      - id: device_tracker_0a
+        type: conditional
+        conditions:
+        - entity: input_boolean.keep_computer_on
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.keep_computer_on
+      - id: device_tracker_0b
+        type: conditional
+        conditions:
+        - entity: vacuum.dusty
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: vacuum.dusty
+      - id: device_tracker_0c
+        type: conditional
+        conditions:
+        - entity: input_boolean.keep_christmas_on
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.keep_christmas_on
+      - id: device_tracker_0d
+        type: conditional
+        conditions:
+        - entity: binary_sensor.bezoek
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: binary_sensor.bezoek
+      - id: device_tracker_0e
+        type: conditional
+        conditions:
+        - entity: input_select.woning_status
+          state: 'Weg'
+        - entity: input_boolean.pre_heat
+          state: 'off'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: device_tracker_0f
+        type: conditional
+        conditions:
+        - entity: input_select.woning_status
+          state: 'Op Vakantie'
+        - entity: input_boolean.pre_heat
+          state: 'off'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: device_tracker_0g
+        type: conditional
+        conditions:
+        - entity: input_boolean.pre_heat
+          state: 'on'
+        card:
+          type: tile
+          color: yellow
+          entity: input_boolean.pre_heat
+      - id: camera_tracker_0a
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_5
+          state: 'off'
+        - entity: input_boolean.toon_camera
+          state: 'on'
+        card:
+          type: tile
+          entity: switch.hue_smart_plug_5
+      - id: camera_tracker_0b
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_6
+          state: 'off'
+        - entity: input_boolean.toon_camera
+          state: 'on'
+        card:
+          type: tile
+          entity: switch.hue_smart_plug_6
+      - id: camera_tracker_0c
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_5
+          state: 'on'
+        card:
+          color: yellow
+          type: tile
+          entity: switch.hue_smart_plug_5
+      - id: camera_tracker_0d
+        type: conditional
+        conditions:
+        - entity: switch.hue_smart_plug_6
+          state: 'on'
+        card:
+          color: yellow
+          type: tile
+          entity: switch.hue_smart_plug_6
+    - id: update_tracker
+      type: horizontal-stack
+      cards:
+      - type: entity-filter
+        entities:
+          - entity: update.home_assistant_operating_system_update
+            name: Update OS
+          - entity: update.home_assistant_core_update
+            name: Update Core
+          - entity: update.home_assistant_supervisor_update
+            name: Update Supervisor
+          - entity: sensor.hacs
+            name: Update Hacs
+          - entity: update.adguard_home_update
+            name: Update AdGuard
+          - entity: update.esphome_update
+            name: Update ESPHome
+          - entity: update.file_editor_update
+            name: Update File Editor
+          - entity: update.grafana_update
+            name: Update Grafana
+          - entity: update.home_assistant_google_drive_backup_update
+            name: Update Google Drive Backup
+          - entity: update.influxdb_update
+            name: Update InfluxDB
+          - entity: update.mosquitto_broker_update
+            name: Update Mosquito Broker
+          - entity: update.plex_media_server_update
+            name: Update Plex Server
+          - entity: update.rpc_shutdown_update
+            name: Update RPC Shutdown
+          - entity: update.samba_share_update
+            name: Update Samba Share
+          - entity: update.ssh_web_terminal_update
+            name: Update SSH Terminal
+        show_empty: false
+        state_filter:
+          - "on"
+          - '1'
+          - '2'
+          - '3'
+          - '4'
+        card:
+          type: glance
+          show_name: true
+          show_state: true
+    - id: controls_tracker
+      type: horizontal-stack
+      cards:
+      - type: glance
+        columns: 5
+        entities:
+          - entity: input_button.rooms
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/favorieten
+          - entity: input_button.controls
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/controls
+          - entity: input_button.heating
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/heating
+          - entity: input_button.multimedia
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/multimedia
+          - entity: input_button.informatie
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/information
+        show_name: false
+        show_state: false
+    - id: energie
+      type: vertical-stack
+      cards:
+      - id: controls_tracker_b
+        type: horizontal-stack
+        cards:
+        - type: glance
+          columns: 4
+          entities:
+          - entity: input_button.batterijen
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/battery
+          - entity: input_button.internet
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/internet
+          - entity: input_button.server
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/server
+          - entity: input_button.energie
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/energy
+          show_name: false
+          show_state: false
+      - type: vertical-stack
+        cards:
+        - type: horizontal-stack
+          cards:
+          - type: gauge
+            entity: sensor.ons_huisje_total_consumption_active_power
+            name: Power Actief
+            min: 0
+            max: 7000
+            severity:
+              green: 0
+              yellow: 3000
+              red: 5000
+          - type: gauge 
+            entity: sensor.ons_huisje_total_consumption_today
+            name: Power Vandaag
+            min: 0
+            max: 20000
+            severity:
+              green: 0
+              yellow: 10000
+              red: 15000
+        - type: glance
+          columns: 3
+          entities:
+            - entity: sensor.ons_huisje_total_consumption_last_5_minutes
+              name: Laatste 5min
+            - entity: sensor.ons_huisje_total_consumption_current_hour
+              name: Laatste uur
+            - entity: sensor.ons_huisje_always_on_active_power
+              name: Altijd aan
+          show_header_toggle: true
+          show_name: true
+      - type: vertical-stack
+        cards:
+        - type: gauge
+          entity: sensor.solaredge_energy_today_template
+          max: 35
+          min: 0
+          name: Zon
+          severity:
+            green: 25
+            yellow: 15
+            red: 0
+        - type: glance
+          columns: 3
+          entities:
+            - entity: sensor.solaredge_energy_this_month_template
+              name: Deze Maand
+            - entity: sensor.solaredge_energy_this_year_template
+              name: Dit Jaar
+            - entity: sensor.solaredge_lifetime_energy_template
+              name: Lifetime
+          show_header_toggle: true
+          show_name: true
+      - type: vertical-stack
+        cards:
+        - type: gauge
+          entity: sensor.ons_huisje_sensor_water
+          max: 500
+          min: 0
+          name: Water
+          severity:
+            green: 0
+            red: 300
+            yellow: 100
+        - type: glance
+          columns: 2
+          entities:
+            - entity: sensor.meter_water_monthly_peak
+              name: Deze Maand
+            - entity: sensor.meter_water_yearly_peak
+              name: Dit Jaar
+          show_header_toggle: true
+          show_name: true
+      - type: vertical-stack
+        cards:
+        - type: gauge
+          entity: sensor.ons_huisje_sensor_gas
+          max: 20
+          min: 0
+          name: Gas
+          severity:
+            green: 0
+            red: 15
+            yellow: 10
+        - type: glance
+          columns: 2
+          entities:
+            - entity: sensor.meter_gas_monthly_peak
+              name: Deze Maand
+            - entity: sensor.meter_gas_yearly_peak
+              name: Dit Jaar
+          show_header_toggle: true
+          show_name: true
+  - title: Kamers
+    path: kamers
+    back_path: /lovelace/favorieten
+    subview: true
+    cards:
+    - id: home_tracker_5
+      type: horizontal-stack
+      cards:
+        - type: tile
+          entity: input_select.woning_status
+          color: purple
+          name: Status
+        - type: tile
+          entity: person.bert
+          show_entity_picture: true
+        - type: tile
+          entity: person.caroline
+          show_entity_picture: true
+    - id: Rooms
+      type: vertical-stack
+      cards:
+      - type: horizontal-stack
+        cards:
+        - type: tile
+          entity: group.licht_keuken
+          name: Keuken
+          tap_action:
+            action: navigate
+            navigation_path: /lovelace/room_kitchen
+        - type: tile
+          entity: group.licht_woonkamer
+          name: Woonkamer
+          tap_action:
+            action: navigate
+            navigation_path: /lovelace/room_livingroom
+      - type: horizontal-stack
+        cards:
+        - type: tile
+          entity: group.licht_veranda
+          name: Veranda
+          tap_action:
+            action: navigate
+            navigation_path: /lovelace/room_porch
+        - type: tile
+          entity: group.licht_bureau
+          name: Bureau
+          tap_action:
+            action: navigate
+            navigation_path: /lovelace/room_study
+      - type: horizontal-stack
+        cards:
+        - type: tile
+          entity: group.licht_badkamer
+          name: Badkamer
+          tap_action:
+            action: navigate
+            navigation_path: /lovelace/room_bathroom
+        - type: tile
+          entity: group.licht_dressing
+          name: Dressing
+          tap_action:
+            action: navigate
+            navigation_path: /lovelace/room_dressing
+      - type: horizontal-stack
+        cards:
+        - type: tile
+          entity: group.licht_slaapkamer1
+          name: Trix
+          tap_action:
+            action: navigate
+            navigation_path: /lovelace/room_bedroom1
+        - type: tile
+          entity: group.licht_slaapkamer2
+          name: Elmo
+          tap_action:
+            action: navigate
+            navigation_path: /lovelace/room_bedroom2
+      - type: horizontal-stack
+        cards:
+        - type: tile
+          entity: group.licht_tuin
+          name: Tuin
+          tap_action:
+            action: navigate
+            navigation_path: /lovelace/room_garden
+        - type: tile
+          entity: group.licht_tuin_tuinhuis
+          name: Tuinhuis
+          tap_action:
+            action: navigate
+            navigation_path: /lovelace/room_garden
+  - title: Kamer Keuken
+    path: room_kitchen
+    subview: true
+    cards:
+    - type: entities
+      entities:
+      - entity: climate.keuken
+    - type: horizontal-stack
+      cards:
+      - type: tile
+        entity: binary_sensor.hue_motion_sensor_2_motion
+      - type: tile
+        entity: sensor.hue_motion_sensor_2_light_level
+    - type: horizontal-stack
+      cards:
+      - type: tile
+        entity: switch.wake_on_lan
+      - type: tile
+        entity: input_boolean.keep_computer_on
+    - type: tile
+      entity: light.lightstrip_keuken
+      features:
+      - type: "light-brightness"
+    - type: tile
+      entity: light.milight_keuken_bridge
+      features:
+      - type: "light-brightness"
+    - type: media-control
+      entity: media_player.apple_homepod_mini_wit_1
+  - title: Kamer Woonkamer
+    path: room_livingroom
+    subview: true
+    cards:
+    - type: entities
+      entities:
+      - entity: climate.woonkamer
+    - type: horizontal-stack
+      cards:
+      - type: tile
+        entity: binary_sensor.hue_motion_sensor_3_motion
+      - type: tile
+        entity: sensor.hue_motion_sensor_3_light_level
+    - type: horizontal-stack
+      cards:
+      - type: tile
+        entity: switch.hue_smart_plug_1
+      - type: tile
+        entity: switch.hue_smart_plug_2
+    - type: tile
+      entity: light.hue_white_filament_globe_g125_1
+      features:
+      - type: "light-brightness"
+    - type: tile
+      entity: light.lightstrip_woonkamer_tv
+      features:
+      - type: "light-brightness"
+    - type: media-control
+      entity: media_player.apple_tv_4k_1
+    - type: media-control
+      entity: media_player.apple_homepod_mini_zwart_1
+  - title: Kamer Veranda
+    path: room_porch
+    subview: true
+    cards:
+    - type: horizontal-stack
+      cards:
+      - type: tile
+        entity: sensor.hue_sensor_veranda_temperature
+      - type: tile
+        entity: sensor.hue_sensor_veranda_light_level
+    - type: horizontal-stack
+      cards:
+      - type: tile
+        entity: switch.hue_smart_plug_4
+      - type: tile
+        entity: switch.hue_smart_plug_3
+    - type: tile
+      entity: light.hue_white_b22_2
+      features:
+      - type: "light-brightness"
+  - title: Kamer Bureau
+    path: room_study
+    subview: true
+    cards:
+    - type: entities
+      entities:
+      - entity: sensor.hue_motion_sensor_4_temperature
+    - type: horizontal-stack
+      cards:
+      - type: tile
+        entity: binary_sensor.hue_motion_sensor_4_motion
+      - type: tile
+        entity: sensor.hue_motion_sensor_4_light_level
+    - type: tile
+      entity: light.hue_white_b22_1
+      features:
+      - type: "light-brightness"
+  - title: Kamer Badkamer
+    path: room_bathroom
+    subview: true
+    cards:
+    - type: entities
+      entities:
+      - entity: climate.badkamer
+    - type: tile
+      entity: light.lightstrip_badkamer
+      features:
+      - type: "light-brightness"
+    - type: media-control
+      entity: media_player.apple_homepod_mini_wit_2
+  - title: Kamer Trix
+    path: room_bedroom1
+    subview: true
+    cards:
+    - type: entities
+      entities:
+      - entity: climate.trix
+    - type: horizontal-stack
+      cards:
+      - type: tile
+        entity: switch.hue_smart_plug_5
+      - type: tile
+        entity: input_boolean.kids_wekker
+      - type: tile
+        entity: input_button.trix_alarm
+    - type: tile
+      entity: light.hue_white_filament_globe_g125_2
+      features:
+      - type: "light-brightness"
+    - type: tile
+      entity: light.hue_white_and_color_ambiance_a19_gen2_2
+      features:
+      - type: "light-brightness"
+  - title: Kamer Elmo
+    path: room_bedroom2
+    subview: true
+    cards:
+    - type: entities
+      entities:
+      - entity: climate.elmo
+    - type: horizontal-stack
+      cards:
+      - type: tile
+        entity: switch.hue_smart_plug_6
+      - type: tile
+        entity: input_boolean.kids_wekker
+      - type: tile
+        entity: input_button.elmo_alarm
+    - type: tile
+      entity: light.hue_white_and_color_ambiance_a19_gen2_1
+      features:
+      - type: "light-brightness"
+  - title: Kamer Dressing
+    path: room_dressing
+    subview: true
+    cards:
+    - type: entities
+      entities:
+      - entity: climate.dressing
+    - type: horizontal-stack
+      cards:
+      - type: tile
+        entity: binary_sensor.hue_motion_sensor_1_motion
+      - type: tile
+        entity: sensor.hue_motion_sensor_1_light_level
+    - type: horizontal-stack
+      cards:
+      - type: tile
+        entity: input_boolean.light_dressing_stay_on
+    - type: tile
+      entity: light.hue_white_filament_bulb_g93_1
+      features:
+      - type: "light-brightness"
+    - type: tile
+      entity: light.hue_white_filament_bulb_g93_2
+      features:
+      - type: "light-brightness"
+    - type: tile
+      entity: light.hue_white_filament_bulb_g93_3
+      features:
+      - type: "light-brightness"
+  - title: Kamer Tuin
+    path: room_garden
+    subview: true
+    cards:
+    - type: glance
+      columns: 3
+      show_name: false
+      entities:
+      - entity: binary_sensor.hue_outdoor_sensor_2_motion
+        show_state: false
+      - entity: binary_sensor.hue_outdoor_sensor_3_motion
+        show_state: false
+      - entity: binary_sensor.hue_outdoor_sensor_1_motion
+        show_state: false
+      - entity: sensor.hue_outdoor_sensor_2_temperature
+        show_name: false
+      - entity: sensor.hue_outdoor_sensor_3_temperature
+        show_name: false
+      - entity: sensor.hue_outdoor_sensor_1_temperature
+        show_name: false
+      - entity: sensor.hue_outdoor_sensor_2_light_level
+        show_name: false
+      - entity: sensor.hue_outdoor_sensor_3_light_level
+        show_name: false
+      - entity: sensor.hue_outdoor_sensor_1_light_level
+        show_name: false
+    - type: tile
+      entity: light.hue_lightstrip_outdoor_2m_1
+      features:
+      - type: "light-brightness"
+    - type: horizontal-stack
+      cards:
+      - type: tile
+        entity: light.hue_lily_outdoor_spot_light_rgbcct_1
+        features:
+        - type: "light-brightness"
+      - type: tile
+        entity: light.hue_lily_outdoor_spot_light_rgbcct_2
+        features:
+        - type: "light-brightness"
+    - type: horizontal-stack
+      cards:
+      - type: tile
+        entity: light.hue_lily_outdoor_spot_light_rgbcct_3
+        features:
+        - type: "light-brightness"
+      - type: tile
+        entity: light.hue_lily_outdoor_spot_light_rgbcct_4
+        features:
+        - type: "light-brightness"
+    - type: horizontal-stack
+      cards:
+      - type: tile
+        entity: light.hue_lily_outdoor_spot_light_rgbcct_5
+        features:
+        - type: "light-brightness"
+      - type: tile
+        entity: light.hue_lily_outdoor_spot_light_rgbcct_6
+        features:
+        - type: "light-brightness"
+  - title: Kamer Tuinhuis
+    path: room_gardenshed
+    subview: true
+    cards:
+    - type: entities
+      entities:
+      - entity: sensor.hue_outdoor_sensor_1_temperature
+    - type: horizontal-stack
+      cards:
+      - type: tile
+        entity: binary_sensor.hue_outdoor_sensor_1_motion
+      - type: tile
+        entity: sensor.hue_outdoor_sensor_1_light_level
+    - type: tile
+      entity: light.hue_lightstrip_outdoor_2m_1
+      features:
+      - type: "light-brightness"
+  - title: Kamer Slaapkamer
+    path: room_bedroom
+    subview: true
+    cards:
+    - type: entities
+      entities:
+      - entity: climate.slaapkamer
+    - type: media-control
+      entity: media_player.apple_homepod_mini_wit_3

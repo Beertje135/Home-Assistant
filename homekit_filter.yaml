@@ -20,36 +20,48 @@ exclude_domains:
   - sensor
   - switch
 include_entities:
-  - input_button.wake_elmo
-  - binary_sensor.hue_sensor_keuken_motion
-  - binary_sensor.hue_sensor_dressing_motion
-  - binary_sensor.hue_sensor_woonkamer_motion
-  - binary_sensor.hue_sensor_tuin_motion
-  - binary_sensor.hue_sensor_tuinhuis_motion
-  - binary_sensor.hue_sensor_terras_motion
-  - sensor.hue_sensor_keuken_light_level
-  - sensor.hue_sensor_dressing_light_level
-  - sensor.hue_sensor_woonkamer_light_level
-  - sensor.hue_sensor_tuin_light_level
-  - sensor.hue_sensor_tuinhuis_light_level
-  - sensor.hue_sensor_terras_light_level
-  - sensor.hue_sensor_tuin_temperature
-  - sensor.hue_sensor_tuinhuis_temperature
-  - sensor.hue_sensor_terras_temperature
+  - input_button.elmo_alarm
+  - input_button.trix_alarm
+  - binary_sensor.hue_motion_sensor_2_motion
+  - binary_sensor.hue_motion_sensor_1_motion
+  - binary_sensor.hue_motion_sensor_3_motion
+  - binary_sensor.hue_motion_sensor_4_motion
+  - binary_sensor.hue_outdoor_sensor_3_motion
+  - binary_sensor.hue_outdoor_sensor_1_motion
+  - binary_sensor.hue_outdoor_sensor_2_motion
+  - binary_sensor.bezoek
+  - sensor.hue_motion_sensor_2_light_level
+  - sensor.hue_motion_sensor_1_light_level
+  - sensor.hue_motion_sensor_3_light_level
+  - sensor.hue_motion_sensor_4_light_level
+  - sensor.hue_outdoor_sensor_3_light_level
+  - sensor.hue_outdoor_sensor_1_light_level
+  - sensor.hue_outdoor_sensor_2_light_level
+  - sensor.hue_sensor_veranda_light_level
+  - sensor.hue_sensor_veranda_temperature
+  - sensor.hue_motion_sensor_1_temperature
+  - sensor.hue_motion_sensor_2_temperature
+  - sensor.hue_motion_sensor_3_temperature
+  - sensor.hue_motion_sensor_4_temperature
+  - sensor.hue_outdoor_sensor_3_temperature
+  - sensor.hue_outdoor_sensor_1_temperature
+  - sensor.hue_outdoor_sensor_2_temperature
   - device_tracker.router_iphone_bert
   - device_tracker.router_iphone_caro
   - switch.wake_on_lan
+  - switch.adguard_safe_browsing
+  - switch.adguard_safe_search
   - switch.adguard_protection
   - switch.adguard_filtering
   - switch.adguard_parental_control
-  - switch.hue_smart_plug_veranda
-  - switch.hue_smart_plug_woonkamer_two
-  - switch.hue_smart_plug_woonkamer_one
-  - switch.hue_smart_plug_eetkamer
-  - switch.hue_smart_plug_five
-  - switch.hue_smart_plug_six
+  - switch.hue_smart_plug_1
+  - switch.hue_smart_plug_2
+  - switch.hue_smart_plug_3
+  - switch.hue_smart_plug_4
+  - switch.hue_smart_plug_5
+  - switch.hue_smart_plug_6
   - input_boolean.vacuum_clean_today
-  - input_boolean.elmo_wekker
+  - input_boolean.kids_wekker
   - input_boolean.visitor
   - input_boolean.notify_caro
   - input_boolean.notify_bert

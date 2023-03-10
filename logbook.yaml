@@ -43,6 +43,7 @@
       - input_select.harmony_hub
       - input_boolean.pre_heat
       - input_select.woning_status
+      - binary_sensor.bezoek
       - switch.adguard_filtering
       - switch.adguard_parental_control
       - switch.adguard_protection

@@ -25,13 +25,13 @@
       - sensor.babysit
       - sensor.bezoek
       - sensor.disk_use_percent_home
-      - sensor.hue_sensor_dressing_light_level
-      - sensor.hue_sensor_dressing_temperature
-      - sensor.hue_sensor_keuken_light_level
-      - sensor.hue_sensor_keuken_temperature
+      - sensor.hue_motion_sensor_1_light_level
+      - sensor.hue_motion_sensor_1_temperature
+      - sensor.hue_motion_sensor_2_light_level
+      - sensor.hue_motion_sensor_2_temperature
       - sensor.kuishulp
-      - sensor.hue_sensor_woonkamer_light_level
-      - sensor.hue_sensor_woonkamer_temperature
+      - sensor.hue_motion_sensor_3_light_level
+      - sensor.hue_motion_sensor_3_temperature
       - sensor.memory_use_percent
       - sensor.processor_use
       - sensor.cpu_temperature

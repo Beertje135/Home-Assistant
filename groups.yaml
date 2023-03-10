@@ -1,34 +1,16 @@
   bewoners:
-    name: Residents
+    name: Bewoners
     icon: mdi:account-multiple
     entities:
       - person.bert
       - person.caroline
 
   bewoners_router:
-    name: Residents Router
+    name: Bewoners Router
     icon: mdi:account-multiple
     entities:
       - device_tracker.router_iphone_bert
       - device_tracker.router_iphone_caro
-
-  bezoekers:
-    name: Visitors
-    icon: mdi:account-multiple-plus
-    entities:
-      - sensor.bezoek
-      - sensor.kuishulp
-      - sensor.babysit
-      - person.mama
-      - person.mark
-      - person.papa
-      - person.karen
-      - person.andy
-      - person.oma
-      - person.thomas
-      - person.niki
-      - person.marcus
-      - person.nancy
 
   media_players:
     name: Media Players
@@ -36,6 +18,14 @@
     entities:
       - input_boolean.media_livingroom
       - input_boolean.media_kitchen
+
+  homepods:
+    name: HomePods Group
+    icon: mdi:apple
+    entities:
+      - media_player.apple_homepod_mini_zwart_1
+      - media_player.apple_homepod_mini_wit_1
+      - media_player.apple_homepod_mini_wit_2
 
   computer:
     name: Computer
@@ -47,104 +37,97 @@
 #Light Groups for the logbook
 
   licht_keuken:
-    name: Kitchen Lights
     icon: mdi:stove
     entities:
       - light.milight_keuken_bridge
       - light.lightstrip_keuken
 
   licht_badkamer:
-    name: Bathroom Lights
     icon: mdi:shower
     entities:
       - light.lightstrip_badkamer
 
   licht_dressing:
-    name: Dressing Lights
     icon: mdi:hanger
     entities:
-      - light.hue_light_dressing_one
-      - light.hue_light_dressing_two
-      - light.hue_light_dressing_three
-      - input_boolean.light_dressing_stay_on
+      - light.hue_white_filament_bulb_g93_1
+      - light.hue_white_filament_bulb_g93_2
+      - light.hue_white_filament_bulb_g93_3
 
   licht_woonkamer:
-    name: Livingroom Lights
     icon: mdi:sofa
     entities:
-      - light.hue_light_woonkamer
-      - switch.hue_smart_plug_woonkamer_one
-      - switch.hue_smart_plug_woonkamer_two
+      - light.hue_white_filament_globe_g125_1
+      - switch.hue_smart_plug_1
+      - switch.hue_smart_plug_2
       - light.lightstrip_woonkamer_tv
 
+  licht_slaapkamer:
+    icon: mdi:home-roof
+    entities:
+      - climate.slaapkamer
+
   licht_veranda:
-    name: Porch Lights
     icon: mdi:floor-lamp
     entities:
-      - light.hue_light_veranda
-      - switch.hue_smart_plug_veranda
-      - switch.hue_smart_plug_eetkamer
-
-  licht_slaapkamer2:
-    name: Elmo's Room Lights
-    icon: mdi:baby-carriage
-    entities:
-      - light.hue_light_kamer_elmo_one
-      - light.hue_light_kamer_elmo_two
-
-  licht_slaapkamer2_group1:
-    name: Elmo's Room Lights
-    icon: mdi:lightbulb-multiple
-    entities:
-      - light.hue_light_kamer_elmo_one
-      - light.hue_light_kamer_elmo_two
-
+      - light.hue_white_b22_2
+      - switch.hue_smart_plug_4
+      - switch.hue_smart_plug_3
+  
   licht_slaapkamer1:
-    name: Bedroom Lights
     icon: mdi:bed-empty
     entities:
-      - light.hue_light_slaapkamer
+      - light.hue_white_and_color_ambiance_a19_gen2_2
+      - light.hue_white_filament_globe_g125_2
+      - switch.hue_smart_plug_5
+
+  licht_slaapkamer2:
+    icon: mdi:bed-empty
+    entities:
+      - light.hue_white_and_color_ambiance_a19_gen2_1
+      - switch.hue_smart_plug_6
+
+  licht_slaapkamer2_group1:
+    icon: mdi:lightbulb-multiple
+    entities:
+      - light.hue_white_and_color_ambiance_a19_gen2_1
 
   licht_bureau:
-    name: Study Lights
     icon: mdi:desk
     entities:
-      - light.hue_light_bureau
+      - light.hue_white_b22_1
 
   licht_tuin:
-    name: Garden Lights
     icon: mdi:flower
     entities:
-      - light.hue_light_tuinhuis
-      - light.hue_light_tuin_one
-      - light.hue_light_tuin_two
-      - light.hue_light_tuin_three
-      - light.hue_light_tuin_four
-      - light.hue_light_tuin_five
-      - light.hue_light_tuin_six
+      - light.hue_lightstrip_outdoor_2m_1
+      - light.hue_lily_outdoor_spot_light_rgbcct_1
+      - light.hue_lily_outdoor_spot_light_rgbcct_2
+      - light.hue_lily_outdoor_spot_light_rgbcct_3
+      - light.hue_lily_outdoor_spot_light_rgbcct_4
+      - light.hue_lily_outdoor_spot_light_rgbcct_5
+      - light.hue_lily_outdoor_spot_light_rgbcct_6
       - input_boolean.light_garden_stay_on
 
   licht_tuin_group1:
-    name: Garden Group 1 Lights
     icon: mdi:flower
     entities:
-      - light.hue_light_tuin_two
-      - light.hue_light_tuin_five
-      - light.hue_light_tuin_six
+      - light.hue_lily_outdoor_spot_light_rgbcct_5
+      
 
   licht_tuin_group2:
-    name: Garden Group 2 Lights
     icon: mdi:flower
     entities:
-      - light.hue_light_tuin_one
-      - light.hue_light_tuin_three
-      - light.hue_light_tuin_four
+      - light.hue_lily_outdoor_spot_light_rgbcct_1
+      - light.hue_lily_outdoor_spot_light_rgbcct_2
+      - light.hue_lily_outdoor_spot_light_rgbcct_3
+      - light.hue_lily_outdoor_spot_light_rgbcct_4
+      - light.hue_lily_outdoor_spot_light_rgbcct_6
 
   licht_tuin_tuinhuis:
-    name: Garden Shed Lights
     icon: mdi:shovel
     entities:
-      - light.hue_light_tuinhuis
+      - light.hue_lightstrip_outdoor_2m_1
 
   notifications:
     name: Notifications

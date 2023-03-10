@@ -15,54 +15,30 @@
   dutch: 1
   builtinicons: 1
 
-# SENSORS USED TO DIPLAY ONLY CURRENT TEMPERATURE ON FRONTEND (ELSE YOU HAVE SET TEMPERATURE)
-
-- platform: template
-  sensors:
-    climate_badkamer_attribute_current_temperature:
-      value_template: "{{ (state_attr('climate.badkamer', 'current_temperature') | float(0) ) | round(2) }}"
-      unit_of_measurement: '°C'
-    climate_dressing_attribute_current_temperature:
-      value_template: "{{ (state_attr('climate.dressing', 'current_temperature') | float(0) ) | round(2) }}"
-      unit_of_measurement: '°C'
-    climate_kamer_elmo_attribute_current_temperature:
-      value_template: "{{ (state_attr('climate.kamer_elmo', 'current_temperature') | float(0) ) | round(2) }}"
-      unit_of_measurement: '°C'
-    climate_keuken_attribute_current_temperature:
-      value_template: "{{ (state_attr('climate.keuken', 'current_temperature') | float(0) ) | round(2) }}"
-      unit_of_measurement: '°C'
-    climate_slp_kamer_attribute_current_temperature:
-      value_template: "{{ (state_attr('climate.slp_kamer', 'current_temperature') | float(0) ) | round(2) }}"
-      unit_of_measurement: '°C'
-    climate_woonkamer_attribute_current_temperature:
-      value_template: "{{ (state_attr('climate.woonkamer', 'current_temperature') | float(0) ) | round(2) }}"
-      unit_of_measurement: '°C'
-    climate_veranda_attribute_current_temperature:
-      value_template: "{{ (((state_attr('climate.woonkamer', 'current_temperature') | float(0) ) + (state_attr('climate.keuken', 'current_temperature') | float(0) )) / 2) | round(2) }}"
-      unit_of_measurement: '°C'
-    climate_zolder_attribute_current_temperature:
-      value_template: "{{ (state_attr('climate.zolder', 'current_temperature') | float(0) ) | round(2) }}"
-      unit_of_measurement: '°C'
+# SENSORS TO CALCULATE MIN AND MAX FOR OUTSIDE TEMPERATURE
 
 - platform: min_max
+  unique_id: hue_sensor_buiten_temperature
   type: min
   name: hue_sensor_buiten_temperature
   entity_ids:
-  - sensor.hue_sensor_tuin_temperature
-  - sensor.hue_sensor_tuinhuis_temperature
-  - sensor.hue_sensor_terras_temperature
+  - sensor.hue_outdoor_sensor_3_temperature
+  - sensor.hue_outdoor_sensor_1_temperature
+  - sensor.hue_outdoor_sensor_2_temperature
+
+# SENSORS USED IN LONG TERM DATA TO SEE INFLUENCE OF DELTA TEMPERATURES ON GAS USE
 
 - platform: template
   sensors:
     template_ons_huisje_set_temperature:
-      value_template: "{{ (((state_attr('climate.badkamer', 'temperature') | float(0) ) + (state_attr('climate.zolder', 'temperature') | float(0) ) + (state_attr('climate.keuken', 'temperature') | float(0) ) + (state_attr('climate.woonkamer', 'temperature') | float(0) ) + (state_attr('climate.dressing', 'temperature') | float(0) ) + (state_attr('climate.slp_kamer', 'temperature') | float(0) ) + (state_attr('climate.kamer_elmo', 'temperature') | float(0) )) / 7) | round(2) }}"
+      value_template: "{{ (((state_attr('climate.badkamer', 'temperature') | float(0) ) + (state_attr('climate.slaapkamer', 'temperature') | float(0) ) + (state_attr('climate.keuken', 'temperature') | float(0) ) + (state_attr('climate.woonkamer', 'temperature') | float(0) ) + (state_attr('climate.dressing', 'temperature') | float(0) ) + (state_attr('climate.trix', 'temperature') | float(0) ) + (state_attr('climate.elmo', 'temperature') | float(0) )) / 7) | round(2) }}"
       unit_of_measurement: '°C'
 
 - platform: template
   sensors:
     template_delta_set_temperature:
       value_template: >
-        {% set diffa = ((states('sensor.template_ons_huisje_set_temperature') | float(0) ) - (states('sensor.hue_sensor_terras_temperature') | float(0) )) | round (2) %}
+        {% set diffa = ((states('sensor.template_ons_huisje_set_temperature') | float(0) ) - (states('sensor.hue_outdoor_sensor_2_temperature') | float(0) )) | round (2) %}
         {{ diffa if diffa > 0 else (diffa * -1)}}
       unit_of_measurement: '°C'
 
@@ -70,52 +46,23 @@
   sensors:
     template_delta_temperature:
       value_template: >
-        {% set diffb = ((state_attr('climate.ons_huisje', 'current_temperature') | float(0) ) - (states('sensor.hue_sensor_terras_temperature') | float(0) )) | round (2) %}
+        {% set diffb = ((state_attr('climate.ons_huisje', 'current_temperature') | float(0) ) - (states('sensor.hue_outdoor_sensor_2_temperature') | float(0) )) | round (2) %}
         {{ diffb if diffb > 0 else (diffb * -1)}}
       unit_of_measurement: '°C'
+
+# CREATE HUE SENSOR FOR THE VERANDA BASED ON LIVINGROOM AND KITCHEN 
 
 - platform: template
   sensors:
     hue_sensor_veranda_light_level:
+      unique_id: hue_sensor_veranda_light_level
       value_template: >
-        {{ (((states('sensor.hue_sensor_keuken_light_level') | float(0)) + (states('sensor.hue_sensor_keuken_light_level') | float(0)) + (states('sensor.hue_sensor_woonkamer_light_level') | float(0))) / 3) | round(2) }}
+        {{ (((states('sensor.hue_motion_sensor_2_light_level') | float(0)) + (states('sensor.hue_motion_sensor_2_light_level') | float(0)) + (states('sensor.hue_motion_sensor_3_light_level') | float(0))) / 3) | round(2) }}
       unit_of_measurement: 'lx'
-
-# SENSOR TO RENAME ON AND OFF FOR VISITOR SO IT CAN BE INCLUDED IN GROUP_BEZOEKER
-
-- platform: template
-  sensors:
-    bezoek:
-      value_template: >-
-        {% if is_state("input_boolean.visitor", "on") %}
-          home
-        {% else %}
-          not_home
-        {% endif %}
-
-# SENSOR TO RENAME ON AND OFF FOR KUISDAG CALENDER SO IT CAN BE INCLUDED IN GROUP_BEZOEKER
-
-- platform: template
-  sensors:
-    kuishulp:
-      value_template: >-
-        {% if is_state("calendar.kuishulp_agenda", "on") %}
-          home
-        {% else %}
-          not_home
-        {% endif %}
-
-# SENSOR TO RENAME ON AND OFF FOR BABYSIT SO IT CAN BE INCLUDED
-
-- platform: template
-  sensors:
-    babysit:
-      value_template: >-
-        {% if is_state("calendar.babysit_agenda", "on") %}
-          home
-        {% else %}
-          not_home
-        {% endif %}
+    hue_sensor_veranda_temperature:
+      unique_id: hue_sensor_veranda_temperature
+      value_template: "{{ (((state_attr('climate.woonkamer', 'current_temperature') | float(0) ) + (state_attr('climate.keuken', 'current_temperature') | float(0) )) / 2) | round(2) }}"
+      unit_of_measurement: '°C'
 
 # SENSOR TO MONITOR TRAIN CONNECTION
 
@@ -146,59 +93,38 @@
 - platform: template
   sensors:
     nmbs_template:
+      unique_id: nmbs_template
       value_template: "{{ state_attr('sensor.nmbs', 'vehicle_id') }}"
     nmbs_2_template:
+      unique_id: nmbs_2_template
       value_template: "{{ state_attr('sensor.nmbs_2', 'vehicle_id') }}"
     nmbs_3_template:
+      unique_id: nmbs_3_template
       value_template: "{{ state_attr('sensor.nmbs_3', 'vehicle_id') }}"
     nmbs_4_template:
+      unique_id: nmbs_4_template
       value_template: "{{ state_attr('sensor.nmbs_4', 'vehicle_id') }}"
 
-# SENSORS TO CALCULATE SMAPPEE - STANDARD SMAPPEE NUMBERS ARE WRONG!
-
-#- platform: template
-#  sensors:
-#    ons_huisje_sensor_water:
-#      value_template: "{{ states('sensor.smappee_ons_huisje_water_sensor_1') | int / 2 }}"
-#      unit_of_measurement: m³
-#    ons_huisje_sensor_gas:
-#      value_template: "{{ states('sensor.smappee_ons_huisje_water_sensor_2') | int / 100 }}"
-#      unit_of_measurement: m³
-
-#- platform: template
-#  sensors:
-#    template_elektricity_current_usage:
-#      value_template: "{{ ((states('sensor.ons_huisje_total_consumption_active_power') | float(0) ) + (states('sensor.solaredge_current_power') | float(0) )) | round(2) }}"
-#      unit_of_measurement: 'W'
-#    template_elektricity_daily_usage:
-#      value_template: "{{ ((states('sensor.ons_huisje_total_consumption_today') | float(0) ) + (states('sensor.solaredge_energy_today_template') | float(0) )) | round(2) }}"
-#      unit_of_measurement: 'kWh'
-
-# SENSORS TO ADAPT SOLAR EDGE & SMAPPEE DISPLAYED UNITS
+# SENSORS TO ADAPT SOLAR EDGE DISPLAYED UNITS
 
 - platform: template
   sensors:
-#    solaredge_current_power_template:
-#      value_template: "{{ (states('sensor.solaredge_current_power') | float(0) / 1000) | round(2) }}"
-#      unit_of_measurement: 'kWh'
     solaredge_energy_today_template:
+      unique_id: solaredge_energy_today_template
       value_template: "{{ (states('sensor.solaredge_energy_today') | float(0) / 1000) | round(2) }}"
       unit_of_measurement: 'kWh'
     solaredge_energy_this_month_template:
+      unique_id: solaredge_energy_this_month_template
       value_template: "{{ (states('sensor.solaredge_energy_this_month') | float(0) / 1000) | round(2) }}"
       unit_of_measurement: 'kWh'
     solaredge_energy_this_year_template:
+      unique_id: solaredge_energy_this_year_template
       value_template: "{{ (states('sensor.solaredge_energy_this_year') | float(0) / 1000) | round(2) }}"
       unit_of_measurement: 'kWh'
     solaredge_lifetime_energy_template:
+      unique_id: solaredge_lifetime_energy_template
       value_template: "{{ (states('sensor.solaredge_lifetime_energy') | float(0) / 1000000) | round(2) }}"
       unit_of_measurement: 'MWh'
-#    smappee_ons_huisje_power_today_template:
-#      value_template: "{{ (states('sensor.ons_huisje_total_consumption_today') | float(0) * 1000) | round(2) }}"
-#      unit_of_measurement: 'Wh'
-#    smappee_ons_huisje_active_power_template:
-#      value_template: "{{ (states('sensor.ons_huisje_total_consumption_active_power') | float(0) / 1000) | round(2) }}"
-#      unit_of_measurement: 'kWh'
 
 # SENSOR TO CHECK STATE OF RASPBERRY PI
 
@@ -216,15 +142,6 @@
   # If errors occur, make sure configuration file is encoded as UTF-8
   unit_of_measurement: '°C'
   value_template: "{{ value | multiply(0.001) | round(1) }}"
-
-# SENSOR TO CONNECT ARLO BABY CAMERA
-
-#- platform: aarlo
-#  monitored_conditions:
-#   - battery_level
-#   - temperature
-#   - humidity
-#   - air_quality
 
 # SENSOR TO USE DATE AND TIME
 

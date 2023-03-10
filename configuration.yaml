@@ -8,8 +8,6 @@ lovelace:
       type: module
     - url: /hacsfiles/lovelace-layout-card/layout-card.js
       type: module
-    - url: /hacsfiles/mini-graph-card/mini-graph-card-bundle.js
-      type: module
 
 # Start with a default configuration (will start new things when available)
 default_config:
@@ -34,10 +32,6 @@ logbook: !include logbook.yaml
 
 #(default)
 cloud:
-  alexa:
-    entity_config: !include alexa_entity_config.yaml
-  google_actions:
-    entity_config: !include google_entity_config.yaml
 
 # (default)
 map:
@@ -63,8 +57,6 @@ discovery:
 
 hassio:
 
-ios:
-
 sensor: !include sensors.yaml
 
 zone: !include zones.yaml
@@ -75,6 +67,39 @@ ffmpeg:
 
 stream:
 
+zha:
+  zigpy_config:
+    ota:
+      ikea_provider: true                        # Auto update Trådfri devices
+
+proximity:
+  home:
+    zone: home
+    ignored_zones:
+      - Werk (Bert)
+      - Werk (Caro)
+    devices:
+      - device_tracker.iphone_van_bert
+      - device_tracker.iphone_van_caroline
+    tolerance: 50
+    unit_of_measurement: km
+  caroline:
+    zone: home
+    ignored_zones:
+      - Werk (Caro)
+    devices:
+      - device_tracker.iphone_van_caroline
+    tolerance: 50
+    unit_of_measurement: km
+  bert:
+    zone: home
+    ignored_zones:
+      - Werk (Bert)
+    devices:
+      - device_tracker.iphone_van_bert
+    tolerance: 50
+    unit_of_measurement: km
+
 evohome:
   username: !secret username_evohome
   password: !secret password_evohome
@@ -84,59 +109,41 @@ logger:
   default: info
   logs:
     homeassistant.core: critical
+    homeassistant.components.zha: debug
+    zigpy: debug
 
 # Text to speech
 tts:
   - platform: google_translate
-    cache: true
-    cache_dir: /tmp/tts
-    time_memory: 300
-    service_name: google_say
+    language: "nl"
 
 notify:
-  - platform: alexa_media
-    name: alexa_media
   - platform: file
     name: entity_log
     filename: /config/www/entity_log.txt
     timestamp: false
-
-#MQTT
-
-mqtt:
-  sensor:
-  - name: "Deurbel Voor MQTT Battery Sensor"
-    state_topic: "doorbellsensorfront/status/battery"
-    value_template: "{{value_json.batt}}"
-    unit_of_measurement: "Volts"
-  - name: "Deurbel Voor MQTT Sensor"
-    state_topic: "doorbellsensorfront/status"
-    value_template: "{{value_json.Event}}"
 
 
 # Enables Homekit
 homekit:
   name: Ons Huisje
   filter: !include homekit_filter.yaml
-  entity_config: !include homekit_entity_config.yaml
 
 binary_sensor:
   - platform: workday
     country: BE
   - platform: template
     sensors:
-      trigger_just_away_kitchen:
-        value_template: "{{ is_state('input_boolean.trigger_just_away_kitchen', 'on') }}"
-      trigger_just_home_kitchen:
-        value_template: "{{ is_state('input_boolean.trigger_just_home_kitchen', 'on') }}"
-      trigger_just_awake_kitchen:
-        value_template: "{{ is_state('input_boolean.trigger_just_awake_kitchen', 'on') }}"
-      trigger_just_sleep_kitchen:
-        value_template: "{{ is_state('input_boolean.trigger_just_sleep_kitchen', 'on') }}"
-      trigger_just_awake_dressing:
-        value_template: "{{ is_state('input_boolean.trigger_just_awake_dressing', 'on') }}"
-      trigger_just_sleep_dressing:
-        value_template: "{{ is_state('input_boolean.trigger_just_sleep_dressing', 'on') }}"
+      bezoek:
+        device_class: occupancy
+        unique_id: bezoek
+        value_template: >-
+          {% if is_state("input_boolean.visitor", "on") or is_state("calendar.kuishulp_agenda", "on") or is_state("calendar.babysit_agenda", "on")%}
+            on
+          {% else %}
+            off
+          {% endif %}
+
 
 # Enable Utility meter
 utility_meter:
@@ -191,6 +198,7 @@ recorder:
   include:
     domains:
       - automation
+      - proximity
       - script
       - climate
       - group
@@ -201,46 +209,51 @@ recorder:
       - scene
       - vacuum
     entities:
-      - binary_sensor.hue_sensor_dressing_motion
-      - binary_sensor.hue_sensor_keuken_motion
-      - binary_sensor.hue_sensor_tuin_motion
-      - binary_sensor.hue_sensor_tuinhuis_motion
-      - binary_sensor.hue_sensor_terras_motion
-      - binary_sensor.hue_sensor_woonkamer_motion
+      - binary_sensor.hue_motion_sensor_1_motion
+      - binary_sensor.hue_motion_sensor_2_motion
+      - binary_sensor.hue_motion_sensor_3_motion
+      - binary_sensor.hue_motion_sensor_4_motion
+      - binary_sensor.hue_outdoor_sensor_3_motion
+      - binary_sensor.hue_outdoor_sensor_1_motion
+      - binary_sensor.hue_outdoor_sensor_2_motion
+      - binary_sensor.rpi_power_status
+      - binary_sensor.remote_ui
+      - binary_sensor.bezoek
       - input_boolean.notify_bert
       - input_boolean.notify_caro
+      - input_boolean.pre_heat
       - input_select.harmony_hub
       - input_select.woning_status
-      - sensor.bezoek
-      - sensor.climate_badkamer_attribute_current_temperature
-      - sensor.climate_dressing_attribute_current_temperature
-      - sensor.climate_kamer_elmo_attribute_current_temperature
-      - sensor.climate_keuken_attribute_current_temperature
-      - sensor.climate_slp_kamer_attribute_current_temperature
-      - sensor.climate_veranda_attribute_current_temperature
-      - sensor.climate_woonkamer_attribute_current_temperature
-      - sensor.climate_zolder_attribute_current_temperature
       - sensor.cpu_temperature
-      - sensor.deurbel_voor_mqtt_battery_sensor
-      - sensor.deurbel_voor_mqtt_sensor
+      - sensor.tradfri_shortcut_button_white_1_battery
+      - sensor.dusty_battery_level
       - sensor.disk_use_percent_home
       - sensor.hp_deskjet_3700_series_black_ink
       - sensor.hp_deskjet_3700_series_tri_color_ink
-      - sensor.hue_schakelaar_elmos_kamer_battery_level
-      - sensor.hue_sensor_dressing_light_level
-      - sensor.hue_sensor_dressing_temperature
-      - sensor.hue_sensor_keuken_light_level
-      - sensor.hue_sensor_keuken_temperature
-      - sensor.hue_sensor_tuin_light_level
-      - sensor.hue_sensor_tuin_temperature
-      - sensor.hue_sensor_terras_light_level
-      - sensor.hue_sensor_terras_temperature
-      - sensor.hue_sensor_buiten_temperature
-      - sensor.hue_sensor_tuinhuis_light_level
-      - sensor.hue_sensor_tuinhuis_temperature
+      - sensor.hue_dimmer_switch_1_power
+      - sensor.hue_motion_sensor_1_light_level
+      - sensor.hue_motion_sensor_1_temperature
+      - sensor.hue_motion_sensor_1_power
+      - sensor.hue_motion_sensor_2_light_level
+      - sensor.hue_motion_sensor_2_temperature
+      - sensor.hue_motion_sensor_2_power
+      - sensor.hue_motion_sensor_3_light_level
+      - sensor.hue_motion_sensor_3_temperature
+      - sensor.hue_motion_sensor_3_power
+      - sensor.hue_motion_sensor_4_light_level
+      - sensor.hue_motion_sensor_4_temperature
+      - sensor.hue_motion_sensor_4_power
+      - sensor.hue_outdoor_sensor_3_light_level
+      - sensor.hue_outdoor_sensor_3_temperature
+      - sensor.hue_outdoor_sensor_3_power
+      - sensor.hue_outdoor_sensor_2_light_level
+      - sensor.hue_outdoor_sensor_2_temperature
+      - sensor.hue_outdoor_sensor_2_power
+      - sensor.hue_outdoor_sensor_1_light_level
+      - sensor.hue_outdoor_sensor_1_temperature
+      - sensor.hue_outdoor_sensor_1_power
       - sensor.hue_sensor_veranda_light_level
-      - sensor.hue_sensor_woonkamer_light_level
-      - sensor.hue_sensor_woonkamer_temperature
+      - sensor.hue_sensor_buiten_temperature
       - sensor.memory_use_percent
       - sensor.meter_gas_monthly_peak
       - sensor.ons_huisje_always_on_active_power
@@ -282,6 +295,12 @@ recorder:
       - sensor.template_delta_set_temperature
       - sensor.template_delta_temperature
       - sensor.template_ons_huisje_set_temperature
+      - sensor.adguard_average_processing_speed
+      - sensor.adguard_dns_queries
+      - sensor.adguard_dns_queries_blocked_ratio
+      - sensor.adguard_parental_control_blocked
+      - sensor.adguard_safe_browsing_blocked
+      - sensor.adguard_safe_searches_enforced
       - switch.adguard_filtering
       - switch.adguard_parental_control
       - switch.adguard_protection
@@ -351,17 +370,9 @@ influxdb:
     weather.*:
       override_measurement: celsius_weather
 
-#weather:
-#  - platform: darksky
-#    api_key: !secret api_key_darksky
-#    mode: daily
-
 smappee:
   client_id: !secret client_id_smappee
   client_secret: !secret client_secret_smappee
-#  host: !secret ip_smappee
-#  username: !secret username_smappee
-#  password: !secret password_smappee
 
 light:
   - platform: limitlessled
@@ -371,7 +382,6 @@ light:
       - number: 1
         type: bridge-led
         name: milight_keuken_bridge
-#  - platform: aarlo
   
 switch:
   - platform: wake_on_lan
@@ -379,48 +389,3 @@ switch:
     host: !secret ip_computer_lan
     turn_off:
       service: script.computer_off
-
-# OLD COMPONENTS
-#hacs:
-#  token: !secret api_key_hacs
-#  appdaemon: False
-#  python_script: False
-
-#emulated_hue:
-#  host_ip: !secret ip_homeassistant
-#  expose_by_default: false
-#  off_maps_to_on_domains:
-#    - script
-#  exposed_domains:
-#    - switch
-#    - light
-#    - input_boolean
-#  entities: !include emulated_hue_entity_config.yaml
-
-#hue:
-#  bridges:
-#    host: !secret ip_hue
-#    allow_unreachable: true
-#    allow_hue_groups: false
-
-#vacuum:
-#  - platform: roomba
-#    host: !secret ip_irobot
-#    username: !secret username_irobot
-#    password: !secret password_irobot
-#    name: Dusty
-#    continuous: true
-
-#aarlo:
-#  username: !secret username_arlo_2
-#  password: !secret password_arlo_2
-#  refresh_devices_every: 2
-#  stream_timeout: 120
-
-#nest:
-#  client_id: !secret client_id_nest
-#  client_secret: !secret client_secret_nest
-
-#solaredge:
-#  api_key: !secret api_key_solar_edge
-#  site_id: !secret client_id_solar_edge
