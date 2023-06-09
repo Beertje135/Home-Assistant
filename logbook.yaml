@@ -21,7 +21,6 @@
       - group.internet_safety
       - group.media_players
       - group.notifications
-      - media_player.nesthub8526
       - media_player.spotify_bert_verlinden
       - media_player.this_device 
   include:
@@ -40,6 +39,10 @@
       - input_boolean.notify_caro
       - input_boolean.media_livingroom
       - input_boolean.media_kitchen
+      - input_boolean.muziek_keuken
+      - input_boolean.muziek_badkamer
+      - input_boolean.muziek_woonkamer
+      - input_boolean.muziek_slaapkamer
       - input_select.harmony_hub
       - input_boolean.pre_heat
       - input_select.woning_status
@@ -55,6 +58,12 @@
       - switch.harmony_hub_tv_decoder
       - switch.harmony_hub_webos
       - switch.wake_on_lan
+      - switch.hue_smart_plug_1
+      - switch.hue_smart_plug_2
+      - switch.hue_smart_plug_3
+      - switch.hue_smart_plug_4
+      - switch.hue_smart_plug_5
+      - switch.hue_smart_plug_6
 
 #Gebruik dit sjabloon om entiteiten te vinden:
 # {% for e in states.sensor if not e.entity_id.startswith('sensor.dark_sky') %}

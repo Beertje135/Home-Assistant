@@ -532,6 +532,8 @@
   name: Tuin 2 (alles) - Uit
   entities:
     light.hue_lily_outdoor_spot_light_rgbcct_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 500
       effect_list:
@@ -541,10 +543,12 @@
       - xy
       off_with_transition: false
       off_brightness: 191
-      friendly_name: Hue Light Tuin One On/Off
+      friendly_name: Tuin Spot 1 (L)
       supported_features: 44
       state: 'off'
     light.hue_lily_outdoor_spot_light_rgbcct_3:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 500
       effect_list:
@@ -554,10 +558,12 @@
       - xy
       off_with_transition: false
       off_brightness: 191
-      friendly_name: Hue Light Tuin Three On/Off
+      friendly_name: Tuin Spot 3
       supported_features: 44
       state: 'off'
     light.hue_lily_outdoor_spot_light_rgbcct_4:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 500
       effect_list:
@@ -567,10 +573,12 @@
       - xy
       off_with_transition: false
       off_brightness: 191
-      friendly_name: Hue Light Tuin Four On/Off
+      friendly_name: Tuin Spot 4
       supported_features: 44
       state: 'off'
     light.hue_lily_outdoor_spot_light_rgbcct_2:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 500
       effect_list:
@@ -580,10 +588,12 @@
       - xy
       off_with_transition: false
       off_brightness: 191
-      friendly_name: Hue Light Tuin Two On/Off
+      friendly_name: Tuin Spot 2 (Slaapboom)
       supported_features: 44
       state: 'off'
     light.hue_lily_outdoor_spot_light_rgbcct_5:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 500
       effect_list:
@@ -593,10 +603,12 @@
       - xy
       off_with_transition: false
       off_brightness: 191
-      friendly_name: Hue Light Tuin Five On/Off
+      friendly_name: Tuin Spot 5 (Terras)
       supported_features: 44
       state: 'off'
     light.hue_lily_outdoor_spot_light_rgbcct_6:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 500
       effect_list:
@@ -605,8 +617,8 @@
       - color_temp
       - xy
       off_with_transition: false
-      off_brightness: 3
-      friendly_name: Hue Light Tuin Six On/Off
+      off_brightness: 191
+      friendly_name: Tuin Spot 6 (Kerselaar)
       supported_features: 44
       state: 'off'
   metadata: {}
@@ -742,7 +754,7 @@
       friendly_name: Elmo Staanlamp
       supported_features: 44
       color_mode: xy
-      brightness: 51
+      brightness: 38
       hs_color:
       - 0
       - 100
@@ -1686,7 +1698,7 @@
       friendly_name: Trix Staanlamp
       supported_features: 44
       color_mode: xy
-      brightness: 51
+      brightness: 26
       hs_color:
       - 0
       - 100
@@ -1750,7 +1762,7 @@
       friendly_name: Trix Staanlamp
       supported_features: 44
       color_mode: xy
-      brightness: 153
+      brightness: 13
       hs_color:
       - 120
       - 100

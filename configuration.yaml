@@ -100,6 +100,14 @@ proximity:
     tolerance: 50
     unit_of_measurement: km
 
+command_line:
+  - sensor:
+      name: CPU Temperature
+      command: "cat /sys/class/thermal/thermal_zone0/temp"
+      # If errors occur, make sure configuration file is encoded as UTF-8
+      unit_of_measurement: '°C'
+      value_template: "{{ value | multiply(0.001) | round(1) }}"
+
 evohome:
   username: !secret username_evohome
   password: !secret password_evohome
@@ -130,8 +138,6 @@ homekit:
   filter: !include homekit_filter.yaml
 
 binary_sensor:
-  - platform: workday
-    country: BE
   - platform: template
     sensors:
       bezoek:
@@ -222,6 +228,10 @@ recorder:
       - input_boolean.notify_bert
       - input_boolean.notify_caro
       - input_boolean.pre_heat
+      - input_boolean.muziek_keuken
+      - input_boolean.muziek_badkamer
+      - input_boolean.muziek_woonkamer
+      - input_boolean.muziek_slaapkamer
       - input_select.harmony_hub
       - input_select.woning_status
       - sensor.cpu_temperature
@@ -312,6 +322,12 @@ recorder:
       - switch.harmony_hub_tv_decoder
       - switch.harmony_hub_webos
       - switch.wake_on_lan
+      - switch.hue_smart_plug_1
+      - switch.hue_smart_plug_2
+      - switch.hue_smart_plug_3
+      - switch.hue_smart_plug_4
+      - switch.hue_smart_plug_5
+      - switch.hue_smart_plug_6
 
 influxdb:
   host: a0d7b954-influxdb

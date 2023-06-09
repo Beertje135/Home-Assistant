@@ -941,16 +941,22 @@
   alias: Stofzuiger - Dusty - Start
   description: TBD
   trigger:
+  - platform: state
+    entity_id: input_boolean.vacuum_clean_today
+    to: 'on'
+  - platform: state
+    entity_id:
+    - input_select.woning_status
+    to: Weg
+    for:
+      hours: 1
+      minutes: 30
+      seconds: 0
   - platform: numeric_state
     entity_id: sensor.hue_motion_sensor_2_light_level
     above: '10'
     for:
       minutes: 4
-  - platform: state
-    entity_id: input_boolean.vacuum_clean_today
-    to: 'on'
-  - platform: time
-    at: input_datetime.work_start
   condition:
   - condition: state
     state: 'on'
@@ -961,15 +967,22 @@
   - condition: state
     state: docked
     entity_id: vacuum.dusty
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
-  - condition: time
-    after: input_datetime.work_start
-    before: input_datetime.work_mid
   - condition: numeric_state
     entity_id: sensor.hue_motion_sensor_2_light_level
     above: '10'
+  - condition: or
+    conditions:
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.workday_sensor
+        state: 'on'
+      - condition: time
+        after: input_datetime.work_start
+        before: input_datetime.work_mid
+    - condition: state
+      entity_id: binary_sensor.workday_sensor
+      state: 'off'
   action:
   - service: script.turn_on
     entity_id: script.dusty_on
@@ -985,21 +998,38 @@
   - entity_id: person.bert
     platform: state
     to: Werk (Bert)
+  - platform: state
+    entity_id:
+    - input_select.woning_status
+    to: Weg
+    for:
+      hours: 1
+      minutes: 30
+      seconds: 0
   condition:
   - condition: state
     entity_id: input_boolean.vacuum_clean_today
     state: 'off'
-  - condition: and
+  - condition: or
     conditions:
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Weg
+      - condition: state
+        entity_id: person.caroline
+        state: Werk (Caro)
+      - condition: state
+        entity_id: person.bert
+        state: Werk (Bert)
     - condition: state
       entity_id: input_select.woning_status
       state: Weg
-    - condition: state
-      entity_id: person.caroline
-      state: Werk (Caro)
-    - condition: state
-      entity_id: person.bert
-      state: Werk (Bert)
+      for:
+        hours: 1
+        minutes: 30
+        seconds: 0
   action:
   - service: input_boolean.turn_on
     target:
@@ -1388,11 +1418,10 @@
 - id: house_008
   alias: Ons Huisje - Wijzig de Status - Op Vakantie
   description: TBD
-  max_exceeded: silent
   trigger:
   - entity_id: proximity.home
     platform: numeric_state
-    above: 100
+    above: 55
   condition:
   - condition: state
     entity_id: proximity.home
@@ -1406,10 +1435,10 @@
     data:
       entity_id: input_select.woning_status
       option: Op Vakantie
-- id: amplifier_livingroom_001
-  alias: Amplifier Woonkamer - Uit - Apple tv Not Playing
-  description: TBD
   max_exceeded: silent
+- id: amplifier_livingroom_001
+  alias: Amplifier Woonkamer - Uit - Apple TV Speelt Niet
+  description: TBD
   trigger:
   - platform: state
     entity_id: media_player.apple_tv_4k_1
@@ -1446,10 +1475,10 @@
   action:
   - service: script.turn_on
     entity_id: script.harmony_hub_powered_off
-- id: amplifier_livingroom_005
-  alias: Amplifier Woonkamer - Aan - Apple tv Playing
-  description: TBD
   max_exceeded: silent
+- id: amplifier_livingroom_005
+  alias: Amplifier Woonkamer - Aan - Apple TV Speelt
+  description: TBD
   trigger:
   - platform: state
     entity_id: media_player.apple_tv_4k_1
@@ -1470,6 +1499,7 @@
   action:
   - service: script.turn_on
     entity_id: script.harmony_hub_apple_tv
+  max_exceeded: silent
   mode: single
 - id: home_owner_001
   alias: Bewoner - Thuis of Weg
@@ -1818,9 +1848,8 @@
   - service: script.turn_on
     entity_id: script.restart_hassio
 - id: homeassistant_002
-  alias: HomeAssistant - Update Available
+  alias: HomeAssistant - Update Beschikbaar
   description: TBD
-  max_exceeded: silent
   trigger:
   - platform: state
     entity_id: binary_sensor.home_assistant_website_update_available
@@ -1828,10 +1857,10 @@
   action:
   - service: script.turn_on
     entity_id: script.notify_hassio_update
-- id: homeassistant_003
-  alias: HomeAssistant - Update Available HACS
-  description: TBD
   max_exceeded: silent
+- id: homeassistant_003
+  alias: HomeAssistant - Update Beschikbaar HACS
+  description: TBD
   trigger:
   - platform: numeric_state
     entity_id: sensor.hacs
@@ -1839,6 +1868,7 @@
   action:
   - service: script.turn_on
     entity_id: script.notify_hacs_update
+  max_exceeded: silent
 - id: homeassistant_004
   alias: HomeAssistant - Volle toeren
   description: TBD
@@ -2148,11 +2178,10 @@
 - id: heating_preheat_001b
   alias: Verwarming - Preheat - Button Aan Terug van Vakantie
   description: TBD
-  max_exceeded: silent
   trigger:
   - entity_id: proximity.home
     platform: numeric_state
-    below: 100
+    below: 70
   - entity_id: proximity.home
     platform: numeric_state
     below: 10
@@ -2184,6 +2213,7 @@
   - service: input_boolean.turn_on
     data:
       entity_id: input_boolean.pre_heat
+  max_exceeded: silent
 - id: heating_preheat_002
   alias: Verwarming - Preheat - Button Uit
   description: TBD
@@ -2304,11 +2334,10 @@
 - id: heating_outside_temp_001
   alias: Verwarming - Boolean Change based on Outside Temperature
   description: TBD
-  max_exceeded: silent
   trigger:
   - platform: numeric_state
     entity_id: sensor.hue_sensor_buiten_temperature
-    below: 21.0
+    below: 21
   - platform: numeric_state
     entity_id: sensor.hue_sensor_buiten_temperature
     above: 21.5
@@ -2320,12 +2349,17 @@
       above: 21.5
     - condition: numeric_state
       entity_id: sensor.hue_sensor_buiten_temperature
-      below: 21.0
+      below: 21
   - condition: not
     conditions:
     - condition: state
       entity_id: sensor.season
       state: summer
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Op Vakantie
   action:
   - choose:
     - conditions:
@@ -2338,6 +2372,7 @@
     default:
     - service: input_boolean.turn_on
       entity_id: input_boolean.heating
+  max_exceeded: silent
 - id: heating_season_001
   alias: Verwarming - Boolean Change based on Season
   description: TBD
@@ -2587,7 +2622,6 @@
 - id: light_kitchen_001
   alias: Licht - Keuken - Aan
   description: TBD
-  max_exceeded: silent
   trigger:
   - entity_id: binary_sensor.hue_motion_sensor_2_motion
     for:
@@ -2625,7 +2659,7 @@
   condition:
   - condition: numeric_state
     entity_id: sensor.hue_motion_sensor_2_light_level
-    below: 60
+    below: 80
   - condition: or
     conditions:
     - condition: not
@@ -2650,18 +2684,21 @@
   action:
   - service: script.turn_on
     entity_id: script.light_kitchen_on
+  max_exceeded: silent
 - id: light_kitchen_002
   alias: Licht - Keuken - Aan Motion
   description: TBD
-  max_exceeded: silent
   trigger:
   - entity_id: binary_sensor.hue_motion_sensor_2_motion
     platform: state
     to: 'on'
+  - platform: numeric_state
+    entity_id: sensor.hue_motion_sensor_2_light_level
+    below: 80
   condition:
   - condition: numeric_state
     entity_id: sensor.hue_motion_sensor_2_light_level
-    below: 60
+    below: 80
   - condition: or
     conditions:
     - condition: not
@@ -2695,10 +2732,10 @@
   action:
   - service: script.turn_on
     entity_id: script.light_kitchen_on
+  max_exceeded: silent
 - id: light_kitchen_003
   alias: Licht - Keuken - Uit
   description: TBD
-  max_exceeded: silent
   trigger:
   - entity_id: binary_sensor.hue_motion_sensor_2_motion
     for:
@@ -2707,7 +2744,7 @@
     to: 'off'
   - platform: numeric_state
     entity_id: sensor.hue_motion_sensor_2_light_level
-    above: 60
+    above: 90
   - platform: state
     entity_id: input_boolean.light_downstairs
     to: 'off'
@@ -2725,6 +2762,7 @@
   action:
   - service: scene.turn_on
     entity_id: scene.keuken_uit
+  max_exceeded: silent
 - id: light_kitchen_004
   alias: Licht - Keuken - Uit - Night
   description: TBD
@@ -3349,7 +3387,7 @@
     entity_id: script.light_elmo
   - delay:
       hours: 0
-      minutes: 2
+      minutes: 10
       seconds: 0
       milliseconds: 0
   - type: turn_off
@@ -3397,7 +3435,7 @@
     entity_id: script.light_elmo
   - delay:
       hours: 0
-      minutes: 2
+      minutes: 10
       seconds: 0
       milliseconds: 0
   - type: turn_off
@@ -3415,8 +3453,6 @@
     to: 'on'
     for:
       minutes: 30
-  - platform: time
-    at: input_datetime.dutje_stop
   - platform: state
     entity_id: light.hue_white_and_color_ambiance_a19_gen2_1
     from: Unavailable
@@ -3497,7 +3533,7 @@
     entity_id: script.light_trix
   - delay:
       hours: 0
-      minutes: 2
+      minutes: 10
       seconds: 0
       milliseconds: 0
   - type: turn_off
@@ -3545,7 +3581,7 @@
     entity_id: script.light_trix
   - delay:
       hours: 0
-      minutes: 2
+      minutes: 10
       seconds: 0
       milliseconds: 0
   - type: turn_off
@@ -4152,9 +4188,8 @@
   - service: script.turn_on
     entity_id: script.notify_energy_solar_status
 - id: camera_trix_002
-  alias: Camera - Trix - Notify
+  alias: Camera - Trix - Notificatie
   description: Notify Papa als de camera van Trix aangaat. Ochtend
-  max_exceeded: silent
   trigger:
   - platform: state
     entity_id: switch.hue_smart_plug_5
@@ -4167,6 +4202,7 @@
   action:
   - service: script.turn_on
     entity_id: script.notify_camera_trix_ios_bert
+  max_exceeded: silent
 - id: camera_001
   alias: Camera - Trix - Aan
   description: Zet de camera van de kinderen aan als hij niet aan staat. Avond
@@ -4358,7 +4394,7 @@
       domain: switch
   mode: single
 - id: '1678182729666'
-  alias: Dimmer Elmo
+  alias: Dimmer - Elmo
   description: ''
   trigger:
   - device_id: 3b1bcb1c3e3dd4802a47d8ae449f8566
@@ -4385,6 +4421,30 @@
     type: remote_button_short_press
     subtype: turn_off
     id: ' Hue Knop Elmo'
+  - device_id: 3b1bcb1c3e3dd4802a47d8ae449f8566
+    domain: zha
+    platform: device
+    type: remote_button_long_press
+    subtype: turn_on
+    id: Aan Uit Knop Elmo Continu
+  - device_id: 3b1bcb1c3e3dd4802a47d8ae449f8566
+    domain: zha
+    platform: device
+    type: remote_button_double_press
+    subtype: turn_on
+    id: Aan Uit Knop Elmo Dubbel
+  - device_id: 3b1bcb1c3e3dd4802a47d8ae449f8566
+    domain: zha
+    platform: device
+    type: remote_button_long_press
+    subtype: turn_off
+    id: ' Hue Knop Elmo Continu'
+  - device_id: 3b1bcb1c3e3dd4802a47d8ae449f8566
+    domain: zha
+    platform: device
+    type: remote_button_double_press
+    subtype: turn_off
+    id: ' Hue Knop Elmo Dubbel'
   condition: []
   action:
   - if:
@@ -4395,6 +4455,26 @@
       data: {}
       target:
         entity_id: script.light_elmo
+  - if:
+    - condition: trigger
+      id: Aan Uit Knop Elmo Continu
+    then:
+    - service: scene.turn_on
+      target:
+        entity_id: scene.elmo_uit
+      metadata: {}
+    - service: scene.turn_on
+      target:
+        entity_id: scene.trix_uit
+      metadata: {}
+  - if:
+    - condition: trigger
+      id: Aan Uit Knop Elmo Dubbel
+    then:
+    - service: scene.turn_on
+      target:
+        entity_id: scene.elmo_normaal
+      metadata: {}
   - if:
     - condition: trigger
       id: Dim Omhoog Elmo
@@ -4416,6 +4496,30 @@
       id: ' Hue Knop Elmo'
     then:
     - type: toggle
+      device_id: 2dbd7ce304ab902393dcc8f4596b397a
+      entity_id: switch.hue_smart_plug_6
+      domain: switch
+  - if:
+    - condition: trigger
+      id: ' Hue Knop Elmo Continu'
+    then:
+    - type: turn_off
+      device_id: 2dbd7ce304ab902393dcc8f4596b397a
+      entity_id: switch.hue_smart_plug_6
+      domain: switch
+    - type: turn_off
+      device_id: 49f53c6bd982ffff9c69e47fa9c12fc0
+      entity_id: switch.hue_smart_plug_5
+      domain: switch
+  - if:
+    - condition: trigger
+      id: ' Hue Knop Elmo Dubbel'
+    then:
+    - type: turn_on
+      device_id: 49f53c6bd982ffff9c69e47fa9c12fc0
+      entity_id: switch.hue_smart_plug_5
+      domain: switch
+    - type: turn_on
       device_id: 2dbd7ce304ab902393dcc8f4596b397a
       entity_id: switch.hue_smart_plug_6
       domain: switch
@@ -4454,3 +4558,22 @@
     metadata: {}
   mode: single
   max_exceeded: silent
+- id: '1683790519691'
+  alias: Harmony Hub - Start Tv Elmo
+  description: ''
+  trigger:
+  - platform: device
+    type: turned_on
+    device_id: d4bfe137373a4685b374eabfe782bce7
+    entity_id: switch.harmony_hub_alexa
+    domain: switch
+  condition: []
+  action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 3
+      milliseconds: 0
+  - service: script.harmony_hub_elmo_trix
+    data: {}
+  mode: single

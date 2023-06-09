@@ -97,7 +97,7 @@ dusty_off:
       entity_id: vacuum.dusty
   mode: single
 restart_hassio:
-  alias: Restart - Hassio
+  alias: HASSiO - Restart
   sequence:
   - delay: 00:01:00
   - service: input_boolean.turn_off
@@ -130,6 +130,184 @@ computer_on:
   - service: switch.turn_on
     entity_id: switch.wake_on_lan
   mode: single
+harmony_hub_elmo_trix:
+  alias: Harmony Hub - Televisie - Elmo Trix
+  sequence:
+  - type: turn_on
+    device_id: d4bfe137373a4685b374eabfe782bce7
+    entity_id: switch.harmony_hub_apple_tv
+    domain: switch
+    enabled: false
+  - service: script.turn_on
+    data: {}
+    target:
+      entity_id: script.harmony_hub_apple_tv
+    enabled: false
+  - condition: device
+    device_id: d4bfe137373a4685b374eabfe782bce7
+    domain: select
+    entity_id: select.harmony_hub_activities
+    type: selected_option
+    option: Apple tv
+  - wait_for_trigger:
+    - platform: device
+      type: turned_on
+      device_id: d4bfe137373a4685b374eabfe782bce7
+      entity_id: switch.harmony_hub_apple_tv
+      domain: switch
+    continue_on_timeout: true
+    timeout:
+      hours: 0
+      minutes: 0
+      seconds: 10
+      milliseconds: 0
+  - service: remote.send_command
+    data:
+      hold_secs: 0
+      delay_secs: 2
+      command: menu
+    alias: Apple TV - Menu
+    target:
+      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
+    enabled: true
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - service: remote.send_command
+    data:
+      hold_secs: 0
+      delay_secs: 2
+      command: top_menu
+    alias: Apple TV - Top Menu
+    target:
+      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
+  - service: remote.send_command
+    data:
+      device: Pioneer AV Receiver
+      command: VolumeDown
+      num_repeats: 30
+      delay_secs: 0.4
+    target:
+      device_id: d4bfe137373a4685b374eabfe782bce7
+    alias: Pioneer - Volume Down
+  - service: remote.send_command
+    data:
+      hold_secs: 0
+      command: home
+      delay_secs: 1
+      num_repeats: 1
+    alias: Apple TV - Home
+    target:
+      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
+  - service: remote.send_command
+    data:
+      num_repeats: 1
+      delay_secs: 0.4
+      hold_secs: 0
+      command: right
+    alias: Apple TV - Rechts
+    target:
+      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
+  - service: remote.send_command
+    data:
+      num_repeats: 1
+      delay_secs: 0.4
+      hold_secs: 0
+      command: select
+    alias: Apple TV - Enter
+    target:
+      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
+  - service: remote.send_command
+    data:
+      hold_secs: 0
+      delay_secs: 1
+      num_repeats: 1
+      command: menu
+    alias: Apple TV - Return
+    target:
+      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
+  - service: remote.send_command
+    data:
+      num_repeats: 3
+      delay_secs: 0.4
+      hold_secs: 0
+      command: left
+    alias: Apple TV - Left
+    target:
+      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
+  - service: remote.send_command
+    data:
+      num_repeats: 3
+      delay_secs: 0.4
+      hold_secs: 0
+      command: up
+    alias: Apple TV - Up
+    target:
+      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
+  - service: remote.send_command
+    data:
+      num_repeats: 1
+      delay_secs: 0.4
+      hold_secs: 0
+      command: select
+    alias: Apple TV - Enter
+    target:
+      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
+  - service: remote.send_command
+    data:
+      delay_secs: 0.4
+      hold_secs: 0
+      command: right
+      num_repeats: 4
+    alias: Apple TV - Rechts
+    target:
+      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
+  - service: remote.send_command
+    data:
+      num_repeats: 1
+      delay_secs: 0.4
+      hold_secs: 0
+      command: select
+    alias: Apple TV - Enter
+    target:
+      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 2
+      milliseconds: 0
+  - service: remote.send_command
+    data:
+      delay_secs: 0.4
+      hold_secs: 0
+      command: down
+      num_repeats: 2
+    alias: Apple TV - Down
+    target:
+      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
+  - service: remote.send_command
+    data:
+      num_repeats: 2
+      delay_secs: 0.4
+      hold_secs: 0
+      command: select
+    alias: Apple TV - Enter
+    target:
+      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
+  - service: remote.send_command
+    data:
+      num_repeats: 24
+      delay_secs: 0.4
+      hold_secs: 0
+      device: Pioneer AV Receiver
+      command: VolumeUp
+    target:
+      device_id: d4bfe137373a4685b374eabfe782bce7
+    alias: Pioneer - Volume Up
+  mode: restart
+  icon: mdi:youtube-tv
 harmony_hub_alexa:
   alias: Harmony Hub - Alexa
   sequence:
@@ -163,7 +341,7 @@ harmony_hub_apple_tv:
       option: Apple tv
   mode: single
 remote_harmony_hub_apple_tv_pause:
-  alias: Remote Harmony Hub - Apple TV - Pause
+  alias: Harmony Hub Remote - Apple TV - Pause
   sequence:
   - service: remote.send_command
     data:
@@ -172,7 +350,7 @@ remote_harmony_hub_apple_tv_pause:
       device: Apple TV
   mode: single
 remote_harmony_hub_belgacom_dvr_pause:
-  alias: Remote Harmony Hub - Belgacom DVR - Pause
+  alias: Harmony Hub Remote - Belgacom DVR - Pause
   sequence:
   - service: remote.send_command
     data:
@@ -181,7 +359,7 @@ remote_harmony_hub_belgacom_dvr_pause:
       device: Belgacom DVR
   mode: single
 remote_harmony_hub_lg_tv_pause:
-  alias: Remote Harmony Hub - LG Tv - Pause
+  alias: Harmony Hub Remote - LG Tv - Pause
   sequence:
   - service: remote.send_command
     data:
@@ -242,6 +420,14 @@ radio_kitchen_on:
     data: {}
     target:
       entity_id: media_player.apple_homepod_mini_wit_1
+    enabled: true
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.muziek_keuken
+  - delay: 00:00:30
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.muziek_keuken
   mode: single
 radio_bathroom_on:
   alias: Muziek - Badkamer - Aan
@@ -253,6 +439,13 @@ radio_bathroom_on:
     data: {}
     target:
       entity_id: media_player.apple_homepod_mini_wit_2
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.muziek_badkamer
+  - delay: 00:00:30
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.muziek_badkamer
   mode: single
 radio_livingroom_on:
   alias: Muziek - Woonkamer - Aan
@@ -264,6 +457,13 @@ radio_livingroom_on:
     data: {}
     target:
       entity_id: media_player.apple_homepod_mini_zwart_1
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.muziek_woonkamer
+  - delay: 00:00:30
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.muziek_woonkamer
   mode: single
 radio_bedroom_on:
   alias: Muziek - Slaapkamer - Aan
@@ -275,6 +475,13 @@ radio_bedroom_on:
     data: {}
     target:
       entity_id: media_player.apple_homepod_mini_wit_3
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.muziek_slaapkamer
+  - delay: 00:00:30
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.muziek_slaapkamer
   mode: single
 radio_bathroom_off:
   alias: Muziek - Badkamer - Uit
@@ -639,6 +846,8 @@ light_bureau_on:
         elif states('sensor.time') >= '21:40' or states('sensor.time') <= '06:45'
         %}\n  scene.bureau_gedimmed\n{% else %}\n  scene.bureau_normaal\n{% endif
         %}\n"
+  mode: single
+  max_exceeded: silent
 light_kitchen_on:
   alias: Licht - Keuken - Aan
   sequence:
@@ -661,6 +870,7 @@ light_kitchen_on:
         '06:55' %}\n scene.keuken_gedimmed\n{% else %}\n  scene.keuken_normaal\n{%
         endif %}\n"
   mode: single
+  max_exceeded: silent
 light_elmo:
   alias: Licht - Slaapkamer Elmo
   sequence:
@@ -824,6 +1034,8 @@ light_porch_on:
   mode: single
 light_livingroom_on:
   alias: Licht - Woonkamer - Aan
+  mode: single
+  max_exceeded: silent
   sequence:
   - service: scene.turn_on
     data_template:
@@ -1001,6 +1213,9 @@ notify_battery:
   mode: single
 notify_battery_speak:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - condition: template
     value_template: '{{ states(''group.bewoners'') in [''home''] }}'
   - condition: template
@@ -1076,6 +1291,9 @@ notify_cooling_downstairs:
   mode: single
 notify_cooling_downstairs_speak:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - condition: template
     value_template: '{{ states(''group.bewoners'') in [''home''] }}'
   - condition: template
@@ -1151,6 +1369,9 @@ notify_cooling_upstairs:
   mode: single
 notify_cooling_upstairs_speak:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - condition: state
     entity_id: group.bewoners
     state: home
@@ -1233,6 +1454,9 @@ notify_deurbel_speak:
   alias: Notificatie - Deurbel - Spreek
   mode: single
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - condition: template
     value_template: '{{ states(''group.bewoners_router'') in [''home''] or states(''binary_sensor.bezoek'')
       in [''on'']}}'
@@ -1303,6 +1527,9 @@ notify_deurbel_back_speak:
   alias: Notificatie - Deurbel Achter - Spreek
   mode: single
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - condition: template
     value_template: '{{ states(''group.bewoners_router'') in [''home''] or states(''binary_sensor.bezoek'')
       in [''on'']}}'
@@ -1368,8 +1595,13 @@ notify_heating_hot_cold_outside:
     - script.notify_heating_hot_cold_outside_ios_bert
     - script.notify_heating_hot_cold_outside_ios_caro
     - script.notify_heating_hot_cold_outside_speak
+  alias: Notificatie - Verwarming Buitentemperatuur
+  mode: single
 notify_heating_hot_cold_outside_speak:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - condition: template
     value_template: '{{ states(''group.bewoners'') in [''home''] }}'
   - condition: template
@@ -1393,6 +1625,8 @@ notify_heating_hot_cold_outside_speak:
   - service: script.turn_on
     entity_id:
     - script.notify_resume_media
+  alias: Notificatie - Verwarming Buitentemperatuur - Spreek
+  mode: single
 notify_heating_hot_cold_outside_ios_bert:
   sequence:
   - condition: state
@@ -1410,6 +1644,8 @@ notify_heating_hot_cold_outside_ios_bert:
       data:
         group: huis
         tag: verwarming-status
+  alias: Notificatie - Verwarming Buitentemperatuur - iOS Bert
+  mode: single
 notify_heating_hot_cold_outside_ios_caro:
   sequence:
   - condition: state
@@ -1427,12 +1663,16 @@ notify_heating_hot_cold_outside_ios_caro:
       data:
         group: huis
         tag: verwarming-status
+  alias: Notificatie - Verwarming Buitentemperatuur - iOS Caroline
+  mode: single
 notify_heating_economy:
   sequence:
   - service: script.turn_on
     entity_id:
     - script.notify_heating_economy_ios_bert
     - script.notify_heating_economy_ios_caro
+  alias: Notificatie - Verwarming Economy
+  mode: single
 notify_heating_economy_ios_bert:
   sequence:
   - condition: state
@@ -1445,6 +1685,8 @@ notify_heating_economy_ios_bert:
       data:
         group: huis
         tag: verwarming-status
+  alias: Notificatie - Verwarming Economy - iOS Bert
+  mode: single
 notify_heating_economy_ios_caro:
   sequence:
   - condition: state
@@ -1457,6 +1699,8 @@ notify_heating_economy_ios_caro:
       data:
         group: huis
         tag: verwarming-status
+  alias: Notificatie - Verwarming Economy - iOS Caroline
+  mode: single
 notify_entity_list:
   sequence:
   - service: notify.entity_log
@@ -1470,6 +1714,8 @@ notify_hacs_update:
   - service: script.turn_on
     entity_id:
     - script.notify_hacs_update_ios_bert
+  alias: Notificatie - HACS Update
+  mode: single
 notify_hacs_update_ios_bert:
   sequence:
   - condition: state
@@ -1482,11 +1728,15 @@ notify_hacs_update_ios_bert:
       data:
         group: server
         tag: server-hacs
+  alias: Notificatie - HACS Update - iOS Bert
+  mode: single
 notify_hassio_overtime:
   sequence:
   - service: script.turn_on
     entity_id:
     - script.notify_hassio_overtime_ios_bert
+  alias: Notificatie - HASSiO Overdrive
+  mode: single
 notify_hassio_overtime_ios_bert:
   sequence:
   - service: notify.mobile_app_iphone_van_bert
@@ -1495,11 +1745,15 @@ notify_hassio_overtime_ios_bert:
       message: Het systeem draait op volle toeren!
       data:
         group: server
+  alias: Notificatie - HASSiO Overdrive - iOS Bert
+  mode: single
 notify_hassio_restart:
   sequence:
   - service: script.turn_on
     entity_id:
     - script.notify_hassio_restart_ios_bert
+  alias: Notificatie - HASSiO Restart
+  mode: single
 notify_hassio_restart_ios_bert:
   sequence:
   - condition: state
@@ -1512,11 +1766,15 @@ notify_hassio_restart_ios_bert:
       data:
         group: server
         tag: server-restart
+  alias: Notificatie - HASSiO Restart - iOS Bert
+  mode: single
 notify_hassio_update:
   sequence:
   - service: script.turn_on
     entity_id:
     - script.notify_hassio_update_ios_bert
+  alias: Notificatie - HASSiO Update
+  mode: single
 notify_hassio_update_ios_bert:
   sequence:
   - condition: state
@@ -1529,6 +1787,8 @@ notify_hassio_update_ios_bert:
       data:
         group: server
         tag: server-update
+  alias: Notificatie - HASSiO Update - iOS Bert
+  mode: single
 notify_heating_cold_elmo:
   sequence:
   - service: script.turn_on
@@ -1536,8 +1796,13 @@ notify_heating_cold_elmo:
     - script.notify_heating_cold_elmo_ios_bert
     - script.notify_heating_cold_elmo_ios_caro
     - script.notify_heating_cold_elmo_speak
+  alias: Notificatie - Verwarming Elmo Koud
+  mode: single
 notify_heating_cold_elmo_speak:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - condition: template
     value_template: '{{ states(''group.bewoners'') in [''home''] }}'
   - condition: template
@@ -1560,6 +1825,8 @@ notify_heating_cold_elmo_speak:
   - service: script.turn_on
     entity_id:
     - script.notify_resume_media
+  alias: Notificatie - Verwarming Elmo Koud - Spreek
+  mode: single
 notify_heating_cold_elmo_ios_bert:
   sequence:
   - condition: state
@@ -1575,6 +1842,8 @@ notify_heating_cold_elmo_ios_bert:
       data:
         group: huis
         tag: elmo-status
+  alias: Notificatie - Verwarming Elmo Koud - iOS Bert
+  mode: single
 notify_heating_cold_elmo_ios_caro:
   sequence:
   - condition: state
@@ -1590,6 +1859,8 @@ notify_heating_cold_elmo_ios_caro:
       data:
         group: huis
         tag: elmo-status
+  alias: Notificatie - Verwarming Elmo Koud - iOS Caroline
+  mode: single
 notify_waste:
   sequence:
   - service: script.turn_on
@@ -1600,6 +1871,9 @@ notify_waste:
   mode: single
 notify_waste_speak:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - condition: template
     value_template: '{{ states(''group.bewoners_router'') in [''home''] or states(''binary_sensor.bezoek'')
       in [''on'']}}'
@@ -2506,6 +2780,9 @@ notify_woning_status:
   alias: Notificatie - Woning Status
 notify_woning_status_speak:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - wait_template: '{{ (states(''device_tracker.router_iphone_caro'') == ''home''
       and state_attr(''device_tracker.router_iphone_caro'', ''ap_mac'') == ''60:22:32:e4:6c:99'')
       or (states(''device_tracker.router_iphone_bert'') == ''home'' and state_attr(''device_tracker.router_iphone_bert'',
@@ -2657,15 +2934,14 @@ notify_light_elmo:
       - script.notify_light_elmo_ios_bert
       - script.notify_light_elmo_ios_caro
       - script.notify_light_elmo_speak
-  - delay:
-      hours: 0
-      minutes: 20
-      seconds: 0
-      milliseconds: 0
-  alias: Notificatie Wekker Kids
+  alias: Notificatie - Wekker Elmo & Trix
   mode: single
+  max_exceeded: silent
 notify_light_elmo_speak:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - condition: template
     value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
       }}'
@@ -2684,6 +2960,14 @@ notify_light_elmo_speak:
   - service: script.turn_on
     entity_id:
     - script.notify_resume_media
+  - delay:
+      hours: 0
+      minutes: 20
+      seconds: 0
+      milliseconds: 0
+  mode: single
+  max_exceeded: silent
+  alias: Notificatie - Wekker Elmo & Trix - Spreek
 notify_light_elmo_ios_bert:
   sequence:
   - condition: state
@@ -2700,7 +2984,14 @@ notify_light_elmo_ios_bert:
       data:
         group: huis
         tag: elmo-wekker
+  - delay:
+      hours: 0
+      minutes: 20
+      seconds: 0
+      milliseconds: 0
   mode: single
+  max_exceeded: silent
+  alias: Notificatie - Wekker Elmo & Trix - iOS Bert
 notify_light_elmo_ios_caro:
   sequence:
   - condition: state
@@ -2717,7 +3008,14 @@ notify_light_elmo_ios_caro:
       data:
         group: huis
         tag: elmo-wekker
+  - delay:
+      hours: 0
+      minutes: 20
+      seconds: 0
+      milliseconds: 0
   mode: single
+  max_exceeded: silent
+  alias: Notificatie - Wekker Elmo & Trix - iOS Caroline
 notify_nmbs_brussel_mechelen_ios_bert:
   sequence:
   - condition: state
@@ -2735,6 +3033,8 @@ notify_nmbs_brussel_mechelen_ios_bert:
       data:
         group: trein
         tag: trein-status
+  alias: 'Notificatie - NMBS Brussel Mechelen - iOS Bert '
+  mode: single
 notify_nmbs_mechelen_brussel_ios_bert:
   sequence:
   - condition: state
@@ -2752,6 +3052,8 @@ notify_nmbs_mechelen_brussel_ios_bert:
       data:
         group: trein
         tag: trein-status
+  alias: 'Notificatie - NMBS Mechelen Brussel - iOS Bert '
+  mode: single
 notify_nmbs_mechelen_willebroek_ios_bert:
   sequence:
   - condition: state
@@ -2769,6 +3071,8 @@ notify_nmbs_mechelen_willebroek_ios_bert:
       data:
         group: trein
         tag: trein-status
+  alias: 'Notificatie - NMBS Mechelen Willebroek - iOS Bert '
+  mode: single
 notify_nmbs_willebroek_mechelen_ios_bert:
   sequence:
   - condition: state
@@ -2786,12 +3090,16 @@ notify_nmbs_willebroek_mechelen_ios_bert:
       data:
         group: trein
         tag: trein-status
+  alias: 'Notificatie - NMBS Willebroek Mechelen - iOS Bert '
+  mode: single
 notify_printer:
   sequence:
   - service: script.turn_on
     entity_id:
     - script.notify_printer_ios_bert
     - script.notify_printer_ios_caro
+  alias: Notificatie - Printer
+  mode: single
 notify_printer_ios_bert:
   sequence:
   - condition: state
@@ -2811,6 +3119,8 @@ notify_printer_ios_bert:
       data:
         push:
           thread-id: huis
+  alias: Notificatie - Printer - iOS Bert
+  mode: single
 notify_printer_ios_caro:
   sequence:
   - condition: state
@@ -2830,14 +3140,21 @@ notify_printer_ios_caro:
       data:
         push:
           thread-id: huis
+  alias: Notificatie - Printer - iOS Caroline
+  mode: single
 notify_tracker_bert_thuis:
   sequence:
   - service: script.turn_on
     entity_id:
     - script.notify_tracker_bert_thuis_ios_caro
     - script.notify_tracker_bert_thuis_speak
+  alias: Notificatie - Bert Tracker Thuis
+  mode: single
 notify_tracker_bert_thuis_speak:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - wait_template: '{{ states(''device_tracker.router_iphone_bert'') == ''home'' and
       state_attr(''device_tracker.router_iphone_bert'', ''ap_mac'') == ''60:22:32:e4:6c:99''}}'
     timeout: 00:10:00
@@ -2870,6 +3187,8 @@ notify_tracker_bert_thuis_speak:
   - service: script.turn_on
     entity_id:
     - script.notify_resume_media
+  alias: Notificatie - Bert Tracker Thuis - Spreek
+  mode: single
 notify_tracker_bert_thuis_ios_caro:
   sequence:
   - condition: state
@@ -2883,14 +3202,21 @@ notify_tracker_bert_thuis_ios_caro:
       data:
         group: bewoner
         tag: bert-status
+  alias: Notificatie - Bert Tracker Thuis - iOS Caroline
+  mode: single
 notify_tracker_bert_zones:
   sequence:
   - service: script.turn_on
     entity_id:
     - script.notify_tracker_bert_zones_ios_caro
     - script.notify_tracker_bert_zones_speak
+  alias: Notificatie - Bert Tracker Zones
+  mode: single
 notify_tracker_bert_zones_speak:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - condition: template
     value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] }}'
   - condition: template
@@ -2925,6 +3251,8 @@ notify_tracker_bert_zones_speak:
   - service: script.turn_on
     entity_id:
     - script.notify_resume_media
+  alias: Notificatie - Bert Tracker Zones - Spreek
+  mode: single
 notify_tracker_bert_zones_ios_caro:
   sequence:
   - condition: state
@@ -2944,12 +3272,16 @@ notify_tracker_bert_zones_ios_caro:
       data:
         group: bewoner
         tag: bert-status
+  alias: Notificatie - Bert Tracker Zones - iOS Caroline
+  mode: single
 notify_tracker_bezoeker_thuis:
   sequence:
   - service: script.turn_on
     entity_id:
     - script.notify_tracker_bezoeker_thuis_ios_caro
     - script.notify_tracker_bezoeker_thuis_ios_bert
+  alias: Notificatie - Bezoeker Tracker Thuis
+  mode: single
 notify_tracker_bezoeker_thuis_ios_bert:
   sequence:
   - condition: state
@@ -2968,6 +3300,8 @@ notify_tracker_bezoeker_thuis_ios_bert:
         %}\n"
       data:
         group: bezoek
+  alias: Notificatie - Bezoeker Tracker Thuis - iOS Bert
+  mode: single
 notify_tracker_bezoeker_thuis_ios_caro:
   sequence:
   - condition: state
@@ -2986,14 +3320,24 @@ notify_tracker_bezoeker_thuis_ios_caro:
         %}\n"
       data:
         group: bezoek
+  alias: Notificatie - Bezoeker Tracker Thuis - iOS Caroline
+  mode: single
 notify_tracker_caro_thuis:
+  mode: single
+  max_exceeded: silent
   sequence:
   - service: script.turn_on
     entity_id:
     - script.notify_tracker_caro_thuis_ios_bert
     - script.notify_tracker_caro_thuis_speak
+  alias: Notificatie - Caroline Tracker Thuis
 notify_tracker_caro_thuis_speak:
+  mode: single
+  max_exceeded: silent
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - wait_template: '{{ states(''device_tracker.router_iphone_caro'') == ''home'' and
       state_attr(''device_tracker.router_iphone_caro'', ''ap_mac'') == ''60:22:32:e4:6c:99''
       }}'
@@ -3027,7 +3371,10 @@ notify_tracker_caro_thuis_speak:
   - service: script.turn_on
     entity_id:
     - script.notify_resume_media
+  alias: Notificatie - Caroline Tracker Thuis - Spreek
 notify_tracker_caro_thuis_ios_bert:
+  mode: single
+  max_exceeded: silent
   sequence:
   - condition: state
     entity_id: input_boolean.notify_bert
@@ -3040,15 +3387,20 @@ notify_tracker_caro_thuis_ios_bert:
       data:
         group: bewoner
         tag: caro-status
-  mode: single
+  alias: Notificatie - Caroline Tracker Thuis - iOS Bert
 notify_tracker_caro_zones:
   sequence:
   - service: script.turn_on
     entity_id:
     - script.notify_tracker_caro_zones_ios_bert
     - script.notify_tracker_caro_zones_speak
+  alias: Notificatie - Caroline Tracker Zones
+  mode: single
 notify_tracker_caro_zones_speak:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - condition: state
     entity_id: input_boolean.notify_bert
     state: 'on'
@@ -3090,6 +3442,8 @@ notify_tracker_caro_zones_speak:
   - service: script.turn_on
     entity_id:
     - script.notify_resume_media
+  alias: Notificatie - Caroline Tracker Zones - Spreek
+  mode: single
 notify_tracker_caro_zones_ios_bert:
   sequence:
   - condition: state
@@ -3113,6 +3467,8 @@ notify_tracker_caro_zones_ios_bert:
       data:
         group: bewoner
         tag: caro-status
+  alias: Notificatie - Caroline Tracker Zones - iOS Bert
+  mode: single
 notify_vacuum:
   sequence:
   - service: script.turn_on
@@ -3124,6 +3480,9 @@ notify_vacuum:
   mode: single
 notify_vacuum_speak:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - condition: or
     conditions:
     - condition: state
@@ -3250,8 +3609,13 @@ notify_energy_solar_status:
     entity_id:
     - script.notify_energy_solar_status_ios_bert
     - script.notify_energy_solar_status_ios_caro
+  alias: Notificatie - Zonne-energie
+  mode: single
 notify_energy_solar_status_speak:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - condition: state
     entity_id: group.bewoners
     state: home
@@ -3296,6 +3660,8 @@ notify_energy_solar_status_speak:
     - service: script.turn_on
       entity_id:
       - script.notify_resume_media
+  alias: Notificatie - Zonne-energie - Spreek
+  mode: single
 notify_energy_solar_status_ios_bert:
   sequence:
   - condition: state
@@ -3325,6 +3691,8 @@ notify_energy_solar_status_ios_bert:
         data:
           group: energie
           tag: energie-status
+  alias: Notificatie - Zonne-energie - iOS Bert
+  mode: single
 notify_energy_solar_status_ios_caro:
   sequence:
   - condition: state
@@ -3354,6 +3722,8 @@ notify_energy_solar_status_ios_caro:
         data:
           group: energie
           tag: energie-status
+  alias: Notificatie - Zonne-energie - iOS Caroline
+  mode: single
 notify_camera_trix_ios_bert:
   sequence:
   - condition: state
@@ -3378,8 +3748,13 @@ notify_time_book_pap:
     - script.notify_time_book_pap_speak
     - script.notify_time_book_pap_ios_bert
     - script.notify_time_book_pap_ios_caro
+  alias: Notificatie - Boek & Pap Elmo & Trix
+  mode: single
 notify_time_book_pap_speak:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - condition: state
     entity_id: group.bewoners
     state: home
@@ -3403,6 +3778,8 @@ notify_time_book_pap_speak:
   - service: script.turn_on
     entity_id:
     - script.notify_resume_media
+  alias: Notificatie - Boek & Pap Elmo & Trix - Spreek
+  mode: single
 notify_time_book_pap_ios_bert:
   sequence:
   - condition: state
@@ -3418,6 +3795,8 @@ notify_time_book_pap_ios_bert:
       data:
         group: huis
         tag: elmo-wekker
+  alias: Notificatie - Boek & Pap Elmo & Trix - iOS Bert
+  mode: single
 notify_time_book_pap_ios_caro:
   sequence:
   - condition: state
@@ -3433,12 +3812,16 @@ notify_time_book_pap_ios_caro:
       data:
         group: huis
         tag: elmo-wekker
+  alias: Notificatie - Boek & Pap Elmo & Trix - iOS Caroline
+  mode: single
 notify_preheat_status:
   sequence:
   - service: script.turn_on
     entity_id:
     - script.notify_preheat_status_ios_bert
     - script.notify_preheat_status_ios_caro
+  alias: Notificatie - Verwarming Preheat
+  mode: single
 notify_preheat_status_ios_bert:
   sequence:
   - condition: state
@@ -3451,6 +3834,8 @@ notify_preheat_status_ios_bert:
       data:
         group: huis
         tag: huis-status
+  alias: Notificatie - Verwarming Preheat - iOS Bert
+  mode: single
 notify_preheat_status_ios_caro:
   sequence:
   - condition: state
@@ -3463,6 +3848,8 @@ notify_preheat_status_ios_caro:
       data:
         group: huis
         tag: huis-status
+  alias: Notificatie - Verwarming Preheat - iOS Caroline
+  mode: single
 notify_prepare_media:
   alias: Notificatie - Voorbereiden Muziek Volume
   mode: single
@@ -3597,6 +3984,16 @@ notify_resume_media_kitchen:
     data: {}
     target:
       entity_id: media_player.apple_homepod_mini_wit_1
+    enabled: true
+  - service: script.turn_on
+    entity_id: script.radio_kitchen_volume
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.muziek_keuken
+  - delay: 00:00:30
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.muziek_keuken
 notify_resume_media_livingroom:
   alias: Notificatie - Hervat Muziek - Woonkamer
   mode: single
@@ -3614,6 +4011,13 @@ notify_resume_media_livingroom:
       entity_id: media_player.apple_homepod_mini_zwart_1
   - service: script.turn_on
     entity_id: script.radio_livingroom_volume
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.muziek_woonkamer
+  - delay: 00:00:30
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.muziek_woonkamer
 notify_resume_media_bathroom:
   alias: Notificatie - Hervat Muziek - Badkamer
   mode: single
@@ -3630,6 +4034,13 @@ notify_resume_media_bathroom:
       entity_id: media_player.apple_homepod_mini_wit_2
   - service: script.turn_on
     entity_id: script.radio_bathroom_volume
+  - service: input_boolean.turn_on
+    data:
+      entity_id: input_boolean.muziek_badkamer
+  - delay: 00:00:30
+  - service: input_boolean.turn_off
+    data:
+      entity_id: input_boolean.muziek_badkamer
 notify_energy_use_high:
   sequence:
   - service: script.turn_on
@@ -3637,8 +4048,13 @@ notify_energy_use_high:
     - script.notify_energy_use_high_speak
     - script.notify_energy_use_high_ios_bert
     - script.notify_energy_use_high_ios_caro
+  alias: Notificatie - Energie Verbruik
+  mode: single
 notify_energy_use_high_speak:
   sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
   - condition: state
     entity_id: group.bewoners
     state: home
@@ -3662,6 +4078,8 @@ notify_energy_use_high_speak:
   - service: script.turn_on
     entity_id:
     - script.notify_resume_media
+  alias: Notificatie - Energie Verbruik - Spreek
+  mode: single
 notify_energy_use_high_ios_bert:
   sequence:
   - condition: state
@@ -3677,6 +4095,8 @@ notify_energy_use_high_ios_bert:
       data:
         group: energie
         tag: energie-status
+  alias: Notificatie - Energie Verbruik - iOS Bert
+  mode: single
 notify_energy_use_high_ios_caro:
   sequence:
   - condition: state
@@ -3692,3 +4112,5 @@ notify_energy_use_high_ios_caro:
       data:
         group: energie
         tag: energie-status
+  alias: Notificatie - Energie Verbruik - iOS Caroline
+  mode: single

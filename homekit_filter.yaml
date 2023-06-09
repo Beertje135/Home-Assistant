@@ -60,6 +60,10 @@ include_entities:
   - switch.hue_smart_plug_4
   - switch.hue_smart_plug_5
   - switch.hue_smart_plug_6
+  - input_boolean.muziek_keuken
+  - input_boolean.muziek_badkamer
+  - input_boolean.muziek_woonkamer
+  - input_boolean.muziek_slaapkamer
   - input_boolean.vacuum_clean_today
   - input_boolean.kids_wekker
   - input_boolean.visitor

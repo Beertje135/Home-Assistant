@@ -135,6 +135,7 @@
     entities:
       - input_boolean.notify_bert
       - input_boolean.notify_caro
+      - input_boolean.notify_speak
 
   internet_safety:
     name: Internet Safety
@@ -145,3 +146,55 @@
       - switch.adguard_parental_control
       - switch.adguard_safe_browsing
       - switch.adguard_safe_search
+
+  motion_keuken:
+    icon: mdi:stove
+    entities:
+      - binary_sensor.hue_motion_sensor_2_motion
+
+  motion_badkamer:
+    icon: mdi:shower
+    entities:
+      - input_button.rooms_motion
+
+  motion_dressing:
+    icon: mdi:hanger
+    entities:
+      - binary_sensor.hue_motion_sensor_1_motion
+
+  motion_woonkamer:
+    icon: mdi:sofa
+    entities:
+      - binary_sensor.hue_motion_sensor_3_motion
+
+  motion_veranda:
+    icon: mdi:floor-lamp
+    entities:
+      - input_button.rooms_motion
+
+  motion_slaapkamer:
+    icon: mdi:home-roof
+    entities:
+      - input_button.rooms_motion
+
+  motion_slaapkamer1:
+    icon: mdi:bed-empty
+    entities:
+      - input_button.rooms_motion
+
+  motion_slaapkamer2:
+    icon: mdi:bed-empty
+    entities:
+      - input_button.rooms_motion
+
+  motion_bureau:
+    icon: mdi:desk
+    entities:
+      - binary_sensor.hue_motion_sensor_4_motion
+
+  motion_tuin:
+    icon: mdi:flower
+    entities:
+      - binary_sensor.hue_outdoor_sensor_1_motion
+      - binary_sensor.hue_outdoor_sensor_2_motion
+      - binary_sensor.hue_outdoor_sensor_3_motion
