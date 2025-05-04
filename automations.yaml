@@ -1,5 +1,5 @@
 - id: waste_001
-  alias: Vuilbakken - Bert Thuis
+  alias: Herinneringen - Vuilbakken - Bert Thuis
   description: Notificatie voor vuilbakken als Bert thuis komt.
   max_exceeded: silent
   trigger:
@@ -51,7 +51,7 @@
     entity_id: script.notify_waste_ios_bert
   mode: single
 - id: waste_002
-  alias: Vuilbakken - Reminder
+  alias: Herinneringen - Vuilbakken - Dag ervoor
   description: Herinnering voor vuilbakken sturen de dag ervoor.
   max_exceeded: silent
   trigger:
@@ -110,7 +110,7 @@
   - service: script.turn_on
     entity_id: script.notify_waste
 - id: waste_003
-  alias: Vuilbakken - Reminder Ochtend
+  alias: Herinneringen - Vuilbakken - Ochtend
   description: Herrinering voor vuilbakken sturen de dag zelf.
   max_exceeded: silent
   trigger:
@@ -146,8 +146,6 @@
 - id: music_bathroom_001
   alias: Muziek - Badkamer - Play
   description: TBD
-  max_exceeded: silent
-  mode: single
   trigger:
   - entity_id: binary_sensor.hue_motion_sensor_1_motion
     platform: state
@@ -161,9 +159,9 @@
   - condition: state
     entity_id: binary_sensor.hue_motion_sensor_1_motion
     state: 'on'
-  - condition: time
-    after: input_datetime.radio_on
-    before: input_datetime.radio_off
+  - condition: state
+    entity_id: schedule.radio_auto_aan
+    state: 'on'
   - condition: state
     entity_id: input_boolean.music_follow
     state: 'on'
@@ -197,6 +195,8 @@
   action:
   - service: script.turn_on
     entity_id: script.radio_bathroom_on
+  max_exceeded: silent
+  mode: single
 - id: music_bathroom_002
   alias: Muziek - Badkamer - Stop
   description: Stop muziek in badkamer
@@ -213,6 +213,10 @@
       hours: 0
       minutes: 20
       seconds: 0
+  - platform: state
+    entity_id:
+    - input_select.woning_status
+    to: Slapen
   condition:
   - condition: state
     entity_id: media_player.apple_homepod_mini_wit_2
@@ -248,34 +252,31 @@
           state: Juist Wakker
       sequence:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.music_bathroom_state
+        metadata: {}
+        data: {}
+        target:
+          entity_id:
+          - input_boolean.music_bathroom_state
     default:
     - service: input_boolean.turn_off
       entity_id: input_boolean.music_bathroom_state
 - id: music_kitchen_001
   alias: Muziek - Keuken - Play
   description: Speel muziek in de keuken
-  max_exceeded: silent
-  mode: single
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.hue_motion_sensor_2_motion
+  triggers:
+  - entity_id: binary_sensor.hue_motion_sensor_2_motion
     from: 'off'
     to: 'on'
-  condition:
-  - condition: time
-    after: 05:50:00
-    before: '19:20:00'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: schedule.radio_auto_aan
+    state: 'on'
   - condition: state
     state: 'on'
     entity_id:
     - input_boolean.music_follow
     - binary_sensor.hue_motion_sensor_2_motion
-  - condition: state
-    state: 'off'
-    entity_id:
-    - input_boolean.media_kitchen
-    - input_boolean.media_livingroom
   - condition: and
     conditions:
     - condition: not
@@ -302,9 +303,27 @@
     attribute: current_activity
     state:
     - PowerOff
-  action:
-  - service: script.turn_on
-    entity_id: script.radio_kitchen_on
+  - condition: and
+    conditions:
+    - condition: state
+      state: 'off'
+      entity_id: input_boolean.media_kitchen
+      for:
+        hours: 0
+        minutes: 1
+        seconds: 0
+    - condition: state
+      state: 'off'
+      entity_id: input_boolean.media_livingroom
+      for:
+        hours: 0
+        minutes: 1
+        seconds: 0
+  actions:
+  - entity_id: script.radio_kitchen_on
+    action: script.turn_on
+  max_exceeded: silent
+  mode: single
 - id: music_kitchen_002
   alias: Muziek - Keuken - Stop
   description: Stop muziek in keuken
@@ -332,7 +351,6 @@
 - id: music_kitchen_003
   alias: Muziek - Keuken - Stop Tv Aan
   description: Stop muziek in keuken als tv aan gaat
-  max_exceeded: silent
   trigger:
   - platform: state
     entity_id: remote.harmony_hub
@@ -347,10 +365,9 @@
   - condition: state
     entity_id: media_player.apple_homepod_mini_wit_1
     state: playing
-  - condition: and
-    conditions:
-    - condition: time
-      after: '19:10:00'
+  - condition: state
+    entity_id: schedule.radio_auto_aan
+    state: 'off'
   - condition: or
     conditions:
     - condition: state
@@ -370,6 +387,7 @@
   - service: script.turn_on
     data:
       entity_id: script.radio_kitchen_off
+  max_exceeded: silent
   mode: single
 - id: music_livingroom_001
   alias: Muziek - Woonkamer - Stop Tv Aan
@@ -421,7 +439,11 @@
         state: playing
       sequence:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.music_kitchen_state
+        metadata: {}
+        data: {}
+        target:
+          entity_id:
+          - input_boolean.music_kitchen_state
     default:
     - service: input_boolean.turn_off
       entity_id: input_boolean.music_kitchen_state
@@ -500,31 +522,25 @@
 - id: music_follow_on_001
   alias: Muziek - Overal - Volgen Aan
   description: TBD
-  max_exceeded: silent
-  trigger:
-  - platform: time
-    at: '19:15:00'
-  - platform: state
-    entity_id: group.homepods
+  triggers:
+  - at: '19:15:00'
+    trigger: time
+  - entity_id: group.homepods
     to: 'on'
-  - platform: state
-    entity_id: input_select.woning_status
-  - platform: state
-    entity_id: input_boolean.music_follow
+    trigger: state
+  - entity_id: input_select.woning_status
+    trigger: state
+  - entity_id: input_boolean.music_follow
     to: 'off'
     for:
       minutes: 4
-  - platform: state
-    entity_id: input_boolean.music_follow
+    trigger: state
+  - entity_id: input_boolean.music_follow
     to: 'off'
     for:
       minutes: 180
-  condition:
-  - condition: state
-    entity_id: input_boolean.music_follow
-    state: 'off'
-    for:
-      minutes: 3
+    trigger: state
+  conditions:
   - condition: or
     conditions:
     - condition: state
@@ -540,9 +556,26 @@
     - condition: state
       entity_id: media_player.apple_homepod_mini_zwart_1
       state: playing
-  action:
-  - service: input_boolean.turn_on
-    entity_id: input_boolean.music_follow
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: input_boolean.music_follow
+      state: 'off'
+      for:
+        minutes: 3
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Thuis Werk
+  actions:
+  - metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - input_boolean.music_follow
+    action: input_boolean.turn_on
+  max_exceeded: silent
   mode: single
 - id: music_volume_001
   alias: Muziek - Overal - Volume
@@ -671,64 +704,158 @@
       entity_id: script.empty
   - delay: 00:00:15
 - id: ventilation_upstairs_001
-  alias: Verluchting - Boolean based on Outside Temperature (Boven)
+  alias: HVAC - Airco Boven - Koelen Aan/Uit volgens Buiten Temperatuur
   description: TBD
-  max_exceeded: silent
   trigger:
   - platform: numeric_state
     entity_id: sensor.hue_sensor_buiten_temperature
-    above: 25.0
+    above: sensor.climate_elmo_attribute_current_temperature
+    id: Elmo Warm
   - platform: numeric_state
     entity_id: sensor.hue_sensor_buiten_temperature
-    below: 23.5
+    below: sensor.climate_elmo_attribute_current_temperature
+    id: Elmo Kouder
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_buiten_temperature
+    above: sensor.climate_trix_attribute_current_temperature
+    id: Trix Warm
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_buiten_temperature
+    below: sensor.climate_trix_attribute_current_temperature
+    id: Trix Kouder
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_buiten_temperature
+    above: 23.5
+    id: Buiten Warm
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_buiten_temperature
+    below: 23
+    id: Buiten Kouder
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  - platform: numeric_state
+    entity_id:
+    - climate.elmo
+    attribute: current_temperature
+    above: 23
+    id: Elmo Kamer Warm
+  - platform: numeric_state
+    entity_id:
+    - climate.trix
+    above: 23
+    id: Trix Kamer Warm
+    attribute: current_temperature
   condition:
   - condition: state
     entity_id: sensor.season
     state: summer
+    enabled: false
   action:
   - choose:
     - conditions:
+      - condition: trigger
+        id:
+        - Elmo Warm
+        - Trix Warm
+        - Buiten Warm
+        - Elmo Kamer Warm
+        - Trix Kamer Warm
       - condition: numeric_state
         entity_id: sensor.hue_sensor_buiten_temperature
-        above: 25.0
+        above: 23.5
+        enabled: false
       sequence:
-      - service: input_boolean.turn_off
+      - condition: state
         entity_id: input_boolean.cooling_upstairs
+        state: 'off'
+      - condition: state
+        entity_id: climate.ons_huisje
+        state: 'off'
+      - metadata: {}
+        data: {}
+        target:
+          entity_id:
+          - input_boolean.cooling_upstairs
+        action: input_boolean.turn_on
     default:
-    - service: input_boolean.turn_on
+    - condition: state
       entity_id: input_boolean.cooling_upstairs
-- id: ventilation_downstairs_001
-  alias: Verluchting - Boolean based on Outside Temperature (Beneden)
-  description: TBD
+      state: 'on'
+    - entity_id: input_boolean.cooling_upstairs
+      action: input_boolean.turn_off
   max_exceeded: silent
+- id: ventilation_downstairs_001
+  alias: HVAC - Airco Beneden - Koelen Aan/Uit volgens Buiten Temperatuur
+  description: TBD
   trigger:
   - platform: template
-    value_template: '{{(states("sensor.hue_sensor_buiten_temperature")|float(0) -
-      1) - state_attr("climate.keuken", "current_temperature")|float(0) > 0 }}'
+    id: Keuken Warm
+    value_template: '{{states("sensor.hue_sensor_buiten_temperature")|float(0) - 1
+      - state_attr("climate.keuken", "current_temperature")|float(0) > 0 }}'
   - platform: template
+    id: Keuken Kouder
     value_template: '{{states("sensor.hue_sensor_buiten_temperature")|float(0) + 1
       - state_attr("climate.keuken", "current_temperature")|float(0) < 0 }}'
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_buiten_temperature
+    above: 23.5
+    id: Buiten Warm
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+  - platform: numeric_state
+    entity_id: sensor.hue_sensor_buiten_temperature
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    below: 23
+    id: Buiten Kouder
   condition:
   - condition: state
     entity_id: sensor.season
     state: summer
+    enabled: false
   action:
   - choose:
     - conditions:
-      - condition: template
-        value_template: '{{(states("sensor.hue_sensor_buiten_temperature")|float(0)
-          - 1) - state_attr("climate.keuken", "current_temperature")|float(0) > 0
-          }}'
+      - condition: trigger
+        id:
+        - Keuken Warm
+        - Buiten Warm
+      - condition: numeric_state
+        entity_id: sensor.hue_sensor_buiten_temperature
+        above: 23.5
       sequence:
-      - service: input_boolean.turn_off
+      - condition: state
+        entity_id: climate.ons_huisje
+        state: 'off'
+      - condition: state
         entity_id: input_boolean.cooling_downstairs
+        state: 'off'
+      - service: input_boolean.turn_on
+        metadata: {}
+        data: {}
+        target:
+          entity_id:
+          - input_boolean.cooling_downstairs
     default:
-    - service: input_boolean.turn_on
+    - condition: state
       entity_id: input_boolean.cooling_downstairs
-- id: ventilation_upstairs_002
-  alias: Verluchting - Boolean Changes (Boven)
-  description: TBD
+      state: 'on'
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.cooling_downstairs
   max_exceeded: silent
+- id: ventilation_upstairs_002
+  alias: HVAC - Airco Boven - Trix Aan/Uit volgens Boolean
+  description: TBD
   trigger:
   - entity_id: input_boolean.cooling_upstairs
     platform: state
@@ -738,16 +865,57 @@
     - condition: state
       entity_id: input_select.woning_status
       state: Slapen
-  - condition: time
-    after: 07:30:00
-    before: '19:00:00'
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Op Vakantie
+  - condition: state
+    entity_id: schedule.slapen_trix
+    state: 'off'
   action:
-  - service: script.turn_on
-    entity_id: script.notify_cooling_upstairs
-- id: ventilation_downstairs_002
-  alias: Verluchting - Boolean Changes (Beneden)
-  description: TBD
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.cooling_upstairs
+        state: 'on'
+      - condition: state
+        entity_id: switch.hue_smart_plug_5
+        state: 'off'
+      - condition: state
+        entity_id: climate.airco_trix
+        attribute: hvac_action
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.ewelink_ds01_02_opening
+        state: 'off'
+      sequence:
+      - device_id: f0bb97139c00ae23445e7cc8eb4edd42
+        domain: climate
+        entity_id: climate.airco_trix
+        type: set_hvac_mode
+        hvac_mode: cool
+      - service: climate.set_temperature
+        data:
+          temperature: 22
+        target:
+          entity_id: climate.airco_trix
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.cooling_upstairs
+        state: 'off'
+      - condition: state
+        entity_id: climate.airco_trix
+        attribute: hvac_action
+        state: cooling
+      sequence:
+      - device_id: f0bb97139c00ae23445e7cc8eb4edd42
+        domain: climate
+        entity_id: climate.airco_trix
+        type: set_hvac_mode
+        hvac_mode: 'off'
   max_exceeded: silent
+- id: ventilation_downstairs_002
+  alias: HVAC - Airco Beneden
+  description: TBD
   trigger:
   - entity_id: input_boolean.cooling_downstairs
     platform: state
@@ -760,6 +928,7 @@
   action:
   - service: script.turn_on
     entity_id: script.notify_cooling_downstairs
+  max_exceeded: silent
 - id: media_keuken_001
   alias: Media - Wijzig Keuken Boolean
   description: TBD
@@ -799,7 +968,11 @@
           state: playing
       sequence:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.media_kitchen
+        metadata: {}
+        data: {}
+        target:
+          entity_id:
+          - input_boolean.media_kitchen
     default:
     - service: input_boolean.turn_off
       entity_id: input_boolean.media_kitchen
@@ -823,7 +996,11 @@
         state: playing
       sequence:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.media_livingroom
+        metadata: {}
+        data: {}
+        target:
+          entity_id:
+          - input_boolean.media_livingroom
     default:
     - service: input_boolean.turn_off
       entity_id: input_boolean.media_livingroom
@@ -841,7 +1018,7 @@
       entity_id: input_text.radio_station_current
       value: '{{ states(''input_select.radio_station'') }}'
 - id: vacuum_001
-  alias: Stofzuiger - Dusty - Bericht - Status Dusty Wijzigt
+  alias: Notificatie - Stofzuiger Dusty - Status Dusty Wijzigt
   description: TBD
   max_exceeded: silent
   trigger:
@@ -864,7 +1041,7 @@
     entity_id: script.notify_vacuum
   mode: single
 - id: vacuum_002
-  alias: Stofzuiger - Dusty - Bericht - Status Woning Wijzigt
+  alias: Notificatie - Stofzuiger Dusty - Status Woning Wijzigt 2
   description: TBD
   max_exceeded: silent
   trigger:
@@ -884,7 +1061,7 @@
   - service: script.turn_on
     entity_id: script.notify_vacuum
 - id: vacuum_003
-  alias: Stofzuiger - Dusty - Stof Gezogen Vandaag - Uit
+  alias: Toestellen - Stofzuiger Dusty - Stof Gezogen Vandaag Uit
   description: TBD
   trigger:
   - platform: state
@@ -903,7 +1080,7 @@
   max_exceeded: silent
   mode: single
 - id: vacuum_004
-  alias: Stofzuiger - Dusty - Stof Gezogen Vandaag - Uit Kuishulp
+  alias: Toestellen - Stofzuiger Dusty - Stof Gezogen Vandaag Uit Kuishulp
   description: TBD
   trigger:
   - platform: state
@@ -921,7 +1098,7 @@
   max_exceeded: silent
   mode: single
 - id: vacuum_005
-  alias: Stofzuiger - Dusty - Stof Gezogen Vandaag - Uit Reset
+  alias: Toestellen - Stofzuiger Dusty - Stof Gezogen Vandaag Uit Reset
   description: TBD
   trigger:
   - platform: time
@@ -938,7 +1115,7 @@
   max_exceeded: silent
   mode: single
 - id: vacuum_006
-  alias: Stofzuiger - Dusty - Start
+  alias: Toestellen - Stofzuiger Dusty - Start
   description: TBD
   trigger:
   - platform: state
@@ -970,26 +1147,13 @@
   - condition: numeric_state
     entity_id: sensor.hue_motion_sensor_2_light_level
     above: '10'
-  - condition: or
-    conditions:
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: binary_sensor.workday_sensor
-        state: 'on'
-      - condition: time
-        after: input_datetime.work_start
-        before: input_datetime.work_mid
-    - condition: state
-      entity_id: binary_sensor.workday_sensor
-      state: 'off'
   action:
   - service: script.turn_on
     entity_id: script.dusty_on
   max_exceeded: silent
   mode: single
 - id: vacuum_007
-  alias: Stofzuiger - Dusty - Stof Gezogen Vandaag - Aan
+  alias: Toestellen - Stofzuiger Dusty - Stof Gezogen Vandaag Aan
   description: TBD
   trigger:
   - entity_id: person.caroline
@@ -1032,13 +1196,15 @@
         seconds: 0
   action:
   - service: input_boolean.turn_on
-    target:
-      entity_id: input_boolean.vacuum_clean_today
+    metadata: {}
     data: {}
+    target:
+      entity_id:
+      - input_boolean.vacuum_clean_today
   max_exceeded: silent
   mode: single
 - id: printer_001
-  alias: Printer - Notify - Ink Low
+  alias: Herinneringen - Printer - Inkt bijna op
   description: TBD
   max_exceeded: silent
   trigger:
@@ -1055,103 +1221,114 @@
 - id: house_001
   alias: Ons Huisje - Status Wijzigt
   description: TBD
-  trigger:
-  - platform: state
-    entity_id: input_select.woning_status
-  action:
+  triggers:
+  - entity_id: input_select.woning_status
+    trigger: state
+  actions:
   - choose:
     - conditions:
       - condition: state
         entity_id: input_select.woning_status
         state: Juist Thuis
       sequence:
-      - service: input_boolean.turn_on
-        entity_id:
-        - input_boolean.music_follow
-        - input_boolean.light_downstairs
-      - service: script.turn_on
-        entity_id:
-        - script.computer_on
-        - script.dusty_off
+      - data: {}
+        target:
+          entity_id:
+          - script.dusty_off
+        action: script.turn_on
+      - metadata: {}
+        data: {}
+        target:
+          entity_id:
+          - input_boolean.music_follow
+          - input_boolean.light_downstairs
+        action: input_boolean.turn_on
     - conditions:
       - condition: state
         entity_id: input_select.woning_status
         state: Juist Wakker
       sequence:
-      - service: input_boolean.turn_on
-        entity_id:
-        - input_boolean.music_follow
-        - input_boolean.light_downstairs
-      - service: script.turn_on
-        entity_id: script.computer_on
+      - metadata: {}
+        data: {}
+        target:
+          entity_id:
+          - input_boolean.music_follow
+          - input_boolean.light_downstairs
+        action: input_boolean.turn_on
     - conditions:
       - condition: state
         entity_id: input_select.woning_status
         state: Thuis
       sequence:
-      - service: script.turn_on
-        entity_id:
+      - entity_id:
         - script.dusty_off
+        action: script.turn_on
     - conditions:
       - condition: state
         entity_id: input_select.woning_status
         state: Thuis Verlof
       sequence:
-      - service: script.turn_on
-        entity_id:
+      - entity_id:
         - script.dusty_off
+        action: script.turn_on
     - conditions:
       - condition: state
         entity_id: input_select.woning_status
         state: Thuis Werk
       sequence:
-      - service: script.turn_on
-        entity_id:
+      - entity_id:
         - script.dusty_off
+        action: script.turn_on
     - conditions:
       - condition: state
         entity_id: input_select.woning_status
         state: Juist Weg
       sequence:
-      - service: script.turn_on
-        entity_id:
+      - entity_id:
         - script.all_light_off
         - script.all_music_off
         - script.harmony_hub_powered_off
+        action: script.turn_on
     - conditions:
       - condition: state
         entity_id: input_select.woning_status
         state: Slapen
       sequence:
-      - service: script.turn_on
-        entity_id:
-        - script.light_livingroom_off
-        - script.all_switch_off
-        - script.all_music_off
-        - script.all_remote_off
+      - action: script.light_livingroom_off
+        metadata: {}
+        data: {}
+      - action: script.all_switch_off
+        metadata: {}
+        data: {}
+      - action: script.all_music_off
+        metadata: {}
+        data: {}
+      - action: script.all_remote_off
+        metadata: {}
+        data: {}
     - conditions:
       - condition: state
         entity_id: input_select.woning_status
         state: Weg
       sequence:
-      - service: script.turn_on
-        entity_id:
+      - entity_id:
         - script.all_all_off
         - script.dusty_on
-      - service: switch.turn_off
-        entity_id: switch.hue_smart_plug_5, switch.hue_smart_plug_6
+        action: script.turn_on
+      - entity_id: switch.hue_smart_plug_5, switch.hue_smart_plug_6
+        action: switch.turn_off
     - conditions:
       - condition: state
         entity_id: input_select.woning_status
         state: Op Vakantie
       sequence:
-      - service: script.turn_on
-        entity_id: script.all_all_off
+      - entity_id: script.all_all_off
+        action: script.turn_on
     default:
-    - service: script.turn_on
-      entity_id: script.empty
-  - service: script.turn_on
-    entity_id: script.notify_woning_status
+    - entity_id: script.empty
+      action: script.turn_on
+  - entity_id: script.notify_woning_status
+    action: script.turn_on
   max_exceeded: silent
 - id: house_003
   alias: Ons Huisje - Wijzig de Status - Bewoner of Bezoeker
@@ -1250,10 +1427,9 @@
         ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('binary_sensor.bezoek')
         in ['on']) and states('calendar.verlof_agenda') in ['on'] %}\n  Thuis Verlof\n{%
         elif states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners')
-        in ['home'] or states('binary_sensor.bezoek') in ['on']) and (states('sensor.time')
-        >= states('input_datetime.work_start')) and (states('sensor.time') <= states('input_datetime.work_home_end'))
-        and (('binary_sensor.workday_sensor') in ['on']) %}\n  Thuis Werk\n{% elif
-        states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners')
+        in ['home'] or states('binary_sensor.bezoek') in ['on']) and states('schedule.werk')
+        in ['on'] and (('binary_sensor.workday_sensor') in ['on']) %}\n  Thuis Werk\n{%
+        elif states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners')
         in ['home'] or states('binary_sensor.bezoek') in ['on']) %}\n  Thuis\n{% elif
         states('input_select.woning_status') in ['Juist Weg'] %}\n  Juist Weg\n{%
         elif states('input_select.woning_status') in ['Juist Thuis'] %}\n  Juist Thuis\n{%
@@ -1305,15 +1481,14 @@
       option: "{% if states('input_select.woning_status') in ['Juist Thuis', 'Juist
         Wakker'] and states('calendar.verlof_agenda') in ['on'] and (('binary_sensor.workday_sensor')
         in ['on']) %}\n  Thuis Verlof\n{% elif (states('input_select.woning_status')
-        in ['Juist Thuis', 'Juist Wakker']) and (states('sensor.time') >= states('input_datetime.work_start'))
-        and (states('sensor.time') <= states('input_datetime.work_home_end')) and
-        (('binary_sensor.workday_sensor') in ['on']) %}\n  Thuis Werk\n{% elif states('input_select.woning_status')
-        in ['Juist Thuis', 'Juist Wakker'] %}\n  Thuis\n{% elif states('input_select.woning_status')
-        in ['Juist Weg'] %}\n  Weg\n{% else %}\n  Op Vakantie\n{% endif %}\n"
+        in ['Juist Thuis', 'Juist Wakker']) and states('schedule.werk') in ['on']
+        and (('binary_sensor.workday_sensor') in ['on']) %}\n  Thuis Werk\n{% elif
+        states('input_select.woning_status') in ['Juist Thuis', 'Juist Wakker'] %}\n
+        \ Thuis\n{% elif states('input_select.woning_status') in ['Juist Weg'] %}\n
+        \ Weg\n{% else %}\n  Op Vakantie\n{% endif %}\n"
 - id: house_005
   alias: Ons Huisje - Wijzig de Status - Juist Wakker
   description: TBD
-  max_exceeded: silent
   trigger:
   - entity_id: binary_sensor.hue_motion_sensor_1_motion
     platform: state
@@ -1323,34 +1498,23 @@
     state: Slapen
     for:
       hours: 1
-  - condition: or
-    conditions:
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: binary_sensor.workday_sensor
-        state: 'off'
-      - condition: time
-        after: input_datetime.awake_weekend
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: binary_sensor.workday_sensor
-        state: 'on'
-      - condition: time
-        after: input_datetime.awake_week
+  - condition: state
+    entity_id: schedule.slapen
+    state: 'off'
   action:
   - service: input_select.select_option
     data:
       entity_id: input_select.woning_status
       option: Juist Wakker
+  max_exceeded: silent
 - id: house_006
   alias: Ons Huisje - Wijzig de Status - Thuis (...) AAN (als Thuis)
   description: TBD
-  max_exceeded: silent
   trigger:
-  - platform: time
-    at: input_datetime.work_start
+  - platform: state
+    entity_id:
+    - schedule.werk
+    to: 'on'
   - platform: state
     entity_id: input_select.woning_status
     to: Thuis
@@ -1360,6 +1524,12 @@
     entity_id: calendar.verlof_agenda
     to: 'on'
   condition:
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  - condition: state
+    entity_id: schedule.werk
+    state: 'on'
   - condition: or
     conditions:
     - condition: state
@@ -1368,12 +1538,6 @@
     - condition: state
       entity_id: input_select.woning_status
       state: Thuis Werk
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
-  - condition: time
-    after: input_datetime.work_start
-    before: input_datetime.work_home_end
   action:
   - choose:
     - conditions:
@@ -1390,18 +1554,18 @@
       entity_id: input_select.woning_status
       data:
         option: Thuis Werk
+  max_exceeded: silent
   mode: single
 - id: house_007
   alias: Ons Huisje - Wijzig de Status - Thuis (...) UIT
   description: TBD
-  max_exceeded: silent
   trigger:
-  - platform: time
-    at: input_datetime.work_end
-  - platform: time
-    at: input_datetime.work_home_end
   - platform: state
     entity_id: calendar.verlof_agenda
+    to: 'off'
+  - platform: state
+    entity_id:
+    - schedule.werk
     to: 'off'
   condition:
   - condition: state
@@ -1414,19 +1578,25 @@
     entity_id: input_select.woning_status
     data:
       option: Thuis
+  max_exceeded: silent
   mode: single
 - id: house_008
   alias: Ons Huisje - Wijzig de Status - Op Vakantie
   description: TBD
   trigger:
-  - entity_id: proximity.home
+  - entity_id:
+    - sensor.home_nearest_distance
     platform: numeric_state
-    above: 55
+    above: 55000
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
   condition:
   - condition: state
-    entity_id: proximity.home
-    attribute: dir_of_travel
+    entity_id: sensor.home_nearest_direction_of_travel
     state: away_from
+    enabled: false
   - condition: state
     entity_id: input_select.woning_status
     state: Weg
@@ -1435,6 +1605,7 @@
     data:
       entity_id: input_select.woning_status
       option: Op Vakantie
+    enabled: true
   max_exceeded: silent
 - id: amplifier_livingroom_001
   alias: Amplifier Woonkamer - Uit - Apple TV Speelt Niet
@@ -1502,15 +1673,25 @@
   max_exceeded: silent
   mode: single
 - id: home_owner_001
-  alias: Bewoner - Thuis of Weg
+  alias: Personen - Bewoner - Thuis of Weg
   description: TBD
-  max_exceeded: silent
   trigger:
   - platform: state
-    entity_id: person.caroline,person.bert
+    entity_id:
+    - person.bert
     to: home
   - platform: state
-    entity_id: person.caroline,person.bert
+    entity_id:
+    - person.bert
+    to: not_home
+    from: home
+  - platform: state
+    entity_id:
+    - person.caroline
+    to: home
+  - platform: state
+    entity_id:
+    - person.caroline
     to: not_home
     from: home
   action:
@@ -1519,8 +1700,9 @@
       entity_id: "{% if trigger.from_state.entity_id == 'person.caroline' %}\n  script.notify_tracker_caro_thuis\n{%
         elif trigger.from_state.entity_id == 'person.bert' %}\n  script.notify_tracker_bert_thuis\n{%
         endif %}\n"
+  max_exceeded: silent
 - id: home_owner_002
-  alias: Bewoner - Thuis of Weg 2
+  alias: Personen - Bewoner - Thuis of Weg 2
   description: TBD
   max_exceeded: silent
   trigger:
@@ -1533,7 +1715,7 @@
       entity_id: "{% if trigger.from_state.entity_id == 'person.caroline' %}\n  script.notify_tracker_caro_thuis_ios_bert\n{%
         endif %}\n"
 - id: home_owner_003
-  alias: Bewoner - Thuis - Babysit
+  alias: Personen - Bewoner - Bezoeker Babysit Afmelden
   description: TBD
   max_exceeded: silent
   trigger:
@@ -1552,7 +1734,7 @@
         elif trigger.from_state.entity_id == 'person.bert' %}\n  script.notify_bezoeker_babysit_ios_bert\n{%
         endif %}\n"
 - id: home_owner_004
-  alias: Bewoner - Aan Opvang
+  alias: Personen - Bewoner - Aan Opvang
   description: TBD
   max_exceeded: silent
   trigger:
@@ -1597,9 +1779,8 @@
         elif trigger.from_state.entity_id == 'person.bert' %}\n  script.notify_tracker_bert_zones\n{%
         endif %}\n"
 - id: home_owner_005
-  alias: Bewoner - Aan Checkpoint
+  alias: Personen - Bewoner - Aan Checkpoint
   description: TBD
-  max_exceeded: silent
   trigger:
   - platform: state
     entity_id: person.caroline
@@ -1619,17 +1800,22 @@
   - condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'
-  - condition: time
-    after: input_datetime.work_mid
-    before: input_datetime.sleep_week
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: schedule.slapen
+      state: 'off'
+    - condition: time
+      after: '12:00:00'
   action:
   - service: script.turn_on
     data_template:
       entity_id: "{% if trigger.from_state.entity_id == 'person.caroline' %}\n  script.notify_tracker_caro_zones\n{%
         elif trigger.from_state.entity_id == 'person.bert' %}\n  script.notify_tracker_bert_zones\n{%
         endif %}\n"
+  max_exceeded: silent
 - id: home_owner_006
-  alias: Bewoner - Aan Hospital
+  alias: Personen - Bewoner - Aan Hospital
   description: TBD
   max_exceeded: silent
   trigger:
@@ -1653,9 +1839,8 @@
         'Hospital Edegem', 'Hospital Reet', 'Hospital Middelheim'] %}\n  script.notify_tracker_bert_zones\n{%
         endif %}\n"
 - id: home_owner_bert_001
-  alias: Bewoner - Bert - Aan Willebroek Station
+  alias: Personen - Bert - Aan Willebroek Station
   description: TBD
-  max_exceeded: silent
   trigger:
   - entity_id: person.bert
     platform: state
@@ -1665,12 +1850,13 @@
     entity_id: binary_sensor.workday_sensor
     state: 'on'
   - condition: time
-    before: input_datetime.work_mid
+    before: '12:00:00'
   action:
   - service: script.turn_on
     entity_id: script.notify_nmbs_willebroek_mechelen_ios_bert
+  max_exceeded: silent
 - id: home_owner_bert_002
-  alias: Bewoner - Bert - Aan Mechelen Station
+  alias: Personen - Bert - Aan Mechelen Station
   description: TBD
   max_exceeded: silent
   trigger:
@@ -1687,26 +1873,25 @@
       entity_id: "{% if (states('sensor.time') <= \"13:00\") %}\n  script.notify_nmbs_mechelen_brussel_ios_bert\n{%
         else %}\n  script.notify_nmbs_mechelen_willebroek_ios_bert\n{% endif %}\n"
 - id: home_owner_bert_003
-  alias: Bewoner - Bert - Aan Brussel Station
+  alias: Personen - Bert - Aan Brussel Station
   description: TBD
-  max_exceeded: silent
   trigger:
   - entity_id: person.bert
     platform: state
     to: Brussel Station
   condition:
-  - condition: time
-    after: input_datetime.work_mid
   - condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'
+  - condition: time
+    after: '12:00:00'
   action:
   - service: script.turn_on
     entity_id: script.notify_nmbs_brussel_mechelen_ios_bert
-- id: home_owner_bert_004
-  alias: Bewoner - Bert - Aan Willebroek Station Change
-  description: TBD
   max_exceeded: silent
+- id: home_owner_bert_004
+  alias: Personen - Bert - Aan Willebroek Station Change
+  description: TBD
   trigger:
   - entity_id: sensor.nmbs_template
     platform: state
@@ -1715,17 +1900,17 @@
     entity_id: person.bert
     state: Willebroek Station
   - condition: time
-    before: input_datetime.work_mid
+    before: '12:00:00'
   - condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.notify_nmbs_willebroek_mechelen_ios_bert
-- id: home_owner_bert_005
-  alias: Bewoner - Bert - Aan Mechelen Station Change Wil
-  description: TBD
   max_exceeded: silent
+- id: home_owner_bert_005
+  alias: Personen - Bert - Aan Mechelen Station Change Wil
+  description: TBD
   trigger:
   - entity_id: sensor.nmbs_3_template
     platform: state
@@ -1734,17 +1919,17 @@
     entity_id: person.bert
     state: Mechelen Station
   - condition: time
-    after: input_datetime.work_mid
+    after: '12:00:00'
   - condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.notify_nmbs_mechelen_willebroek_ios_bert
-- id: home_owner_bert_006
-  alias: Bewoner - Bert - Aan Mechelen Station Change Brus
-  description: TBD
   max_exceeded: silent
+- id: home_owner_bert_006
+  alias: Personen - Bert - Aan Mechelen Station Change Brus
+  description: TBD
   trigger:
   - entity_id: sensor.nmbs_2_template
     platform: state
@@ -1753,17 +1938,17 @@
     entity_id: person.bert
     state: Mechelen Station
   - condition: time
-    before: input_datetime.work_mid
+    before: '12:00:00'
   - condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.notify_nmbs_mechelen_brussel_ios_bert
-- id: home_owner_bert_007
-  alias: Bewoner - Bert - Aan Brussel Station Change
-  description: TBD
   max_exceeded: silent
+- id: home_owner_bert_007
+  alias: Personen - Bert - Aan Brussel Station Change
+  description: TBD
   trigger:
   - entity_id: sensor.nmbs_4_template
     platform: state
@@ -1772,15 +1957,16 @@
     entity_id: person.bert
     state: Brussel Station
   - condition: time
-    after: input_datetime.work_mid
+    after: '12:00:00'
   - condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.notify_nmbs_brussel_mechelen_ios_bert
+  max_exceeded: silent
 - id: visitor_001
-  alias: Bezoeker - Aangekomen
+  alias: Personen - Bezoeker - Aangekomen
   description: TBD
   max_exceeded: silent
   trigger:
@@ -1807,7 +1993,7 @@
       bezoeker: '{{ trigger.to_state.attributes.friendly_name }}'
       bezoeker_state: '{{ trigger.to_state.state }}'
 - id: visitor_babysit_001
-  alias: Bezoeker - Babysit - Aangekomen
+  alias: Personen - Bezoeker - Babysit Aangekomen
   description: TBD
   max_exceeded: silent
   trigger:
@@ -1820,9 +2006,13 @@
     state: 'off'
   action:
   - service: input_boolean.turn_on
-    entity_id: input_boolean.visitor
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - input_boolean.visitor
 - id: visitor_babysit_002
-  alias: Bezoeker - Babysit - Vertrokken
+  alias: Personen - Bezoeker Babysit - Vertrokken
   description: TBD
   max_exceeded: silent
   trigger:
@@ -1837,7 +2027,7 @@
   - service: script.turn_on
     entity_id: script.notify_bezoeker_babysit_ios_caro, script.notify_bezoeker_babysit_ios_bert
 - id: homeassistant_001
-  alias: HomeAssistant - Restart Check
+  alias: Herinneringen - HomeAssistant - Restart Check
   description: TBD
   max_exceeded: silent
   trigger:
@@ -1848,7 +2038,7 @@
   - service: script.turn_on
     entity_id: script.restart_hassio
 - id: homeassistant_002
-  alias: HomeAssistant - Update Beschikbaar
+  alias: Herinneringen - HomeAssistant - Update Beschikbaar
   description: TBD
   trigger:
   - platform: state
@@ -1859,7 +2049,7 @@
     entity_id: script.notify_hassio_update
   max_exceeded: silent
 - id: homeassistant_003
-  alias: HomeAssistant - Update Beschikbaar HACS
+  alias: Herinneringen - HomeAssistant - Update Beschikbaar HACS
   description: TBD
   trigger:
   - platform: numeric_state
@@ -1870,7 +2060,7 @@
     entity_id: script.notify_hacs_update
   max_exceeded: silent
 - id: homeassistant_004
-  alias: HomeAssistant - Volle toeren
+  alias: Herinneringen - HomeAssistant - Volle toeren
   description: TBD
   max_exceeded: silent
   trigger:
@@ -1932,7 +2122,6 @@
 - id: harmony_start_001
   alias: Harmony Hub - Start Tv avond
   description: TBD
-  max_exceeded: silent
   trigger:
   - platform: state
     entity_id: binary_sensor.hue_motion_sensor_3_motion
@@ -1953,9 +2142,9 @@
     - condition: state
       entity_id: input_select.woning_status
       state: Thuis Verlof
-  - condition: time
-    before: input_datetime.tv_stop
-    after: input_datetime.tv_start
+  - condition: state
+    entity_id: schedule.tv_auto_aan
+    state: 'on'
   - condition: or
     conditions:
     - condition: device
@@ -1971,10 +2160,10 @@
   action:
   - service: script.turn_on
     entity_id: script.harmony_hub_apple_tv
-- id: heating_state_house_001
-  alias: Verwarming - Woning Status - Weg dus Eco Mode
-  description: Zet de verwarming lager als we langer van huis zijn
   max_exceeded: silent
+- id: heating_state_house_001
+  alias: HVAC - Verwarming - Weg dus Eco Mode
+  description: Zet de verwarming lager als we langer van huis zijn
   trigger:
   - entity_id: input_select.woning_status
     platform: state
@@ -1987,9 +2176,10 @@
   - entity_id: person.bert
     platform: state
     to: Werk (Bert)
-  - entity_id: proximity.home
+  - entity_id:
+    - sensor.home_nearest_distance
     platform: numeric_state
-    above: 10
+    above: 10000
   condition:
   - condition: state
     entity_id: input_boolean.heating
@@ -2014,12 +2204,11 @@
         state: Werk (Bert)
     - condition: and
       conditions:
-      - entity_id: proximity.home
+      - entity_id: sensor.home_nearest_distance
         condition: numeric_state
-        above: 10
+        above: 1000
       - condition: state
-        entity_id: proximity.home
-        attribute: dir_of_travel
+        entity_id: sensor.home_nearest_direction_of_travel
         state: away_from
   - condition: not
     conditions:
@@ -2032,10 +2221,10 @@
     entity_id: script.evo_status_economy
   - service: script.turn_on
     entity_id: script.notify_heating_economy
-- id: heating_state_house_002
-  alias: Verwarming - Woning Status - Thuis of Juist Wakker dus Auto Mode
-  description: TBD
   max_exceeded: silent
+- id: heating_state_house_002
+  alias: HVAC - Verwarming - Thuis of Juist Wakker dus Auto Mode
+  description: TBD
   trigger:
   - entity_id: input_select.woning_status
     platform: state
@@ -2066,10 +2255,10 @@
   action:
   - service: script.turn_on
     entity_id: script.evo_status_auto
-- id: heating_state_house_003
-  alias: Verwarming - Woning Status - Slaper dus Lager Beneden
-  description: TBD
   max_exceeded: silent
+- id: heating_state_house_003
+  alias: HVAC - Verwarming Beneden - Slapen dus Verlagen
+  description: TBD
   trigger:
   - entity_id: input_select.woning_status
     platform: state
@@ -2081,10 +2270,10 @@
   action:
   - service: script.turn_on
     entity_id: script.evo_status_custom
-- id: heating_state_house_004
-  alias: Verwarming - Woning Status - Vakantie dus alles Uit
-  description: TBD
   max_exceeded: silent
+- id: heating_state_house_004
+  alias: HVAC - Verwarming - Vakantie dus alles Uit
+  description: TBD
   trigger:
   - entity_id: input_select.woning_status
     platform: state
@@ -2102,10 +2291,10 @@
   action:
   - service: script.turn_on
     entity_id: script.evo_status_heating_off
-- id: heating_timer_001
-  alias: Verwarming - Timer Overwrite - Badkamer - Auto Mode
-  description: TBD
   max_exceeded: silent
+- id: heating_timer_001
+  alias: HVAC - Verwarming Badkamer -  Timer Overwrite Auto Mode
+  description: TBD
   trigger:
   - platform: state
     entity_id: climate.badkamer
@@ -2130,10 +2319,10 @@
   action:
   - service: script.turn_on
     entity_id: script.evo_zone_bathroom_reset
-- id: heating_preheat_001
-  alias: Verwarming - Preheat - Button Aan
-  description: TBD
   max_exceeded: silent
+- id: heating_preheat_001
+  alias: HVAC - Verwarming Preheat - Aan
+  description: TBD
   trigger:
   - entity_id: person.bert
     platform: state
@@ -2147,14 +2336,11 @@
     - Checkpoint 3
     - Checkpoint 4
     - Checkpoint 5
-  - entity_id: proximity.home
+  - entity_id:
+    - sensor.home_nearest_distance
     platform: numeric_state
-    below: 10
+    below: 10000
   condition:
-  - condition: state
-    entity_id: proximity.home
-    attribute: dir_of_travel
-    state: towards
   - condition: state
     entity_id: input_boolean.pre_heat
     state: 'off'
@@ -2173,23 +2359,33 @@
       state: away
   action:
   - service: input_boolean.turn_on
-    data:
-      entity_id: input_boolean.pre_heat
+    metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - input_boolean.pre_heat
+  max_exceeded: silent
 - id: heating_preheat_001b
-  alias: Verwarming - Preheat - Button Aan Terug van Vakantie
+  alias: HVAC - Verwarming Preheat - Aan na Vakantie
   description: TBD
-  trigger:
-  - entity_id: proximity.home
-    platform: numeric_state
-    below: 70
-  - entity_id: proximity.home
-    platform: numeric_state
-    below: 10
-  condition:
-  - condition: state
-    entity_id: proximity.home
-    attribute: dir_of_travel
-    state: towards
+  triggers:
+  - entity_id:
+    - sensor.home_nearest_distance
+    below: 50000
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+    trigger: numeric_state
+  - entity_id:
+    - sensor.home_nearest_distance
+    below: 10000
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+    trigger: numeric_state
+  conditions:
   - condition: state
     entity_id: input_boolean.pre_heat
     state: 'off'
@@ -2209,15 +2405,18 @@
       entity_id: climate.ons_huisje
       attribute: preset_mode
       state: away
-  action:
-  - service: input_boolean.turn_on
-    data:
-      entity_id: input_boolean.pre_heat
+    enabled: false
+  actions:
+  - metadata: {}
+    data: {}
+    target:
+      entity_id:
+      - input_boolean.pre_heat
+    action: input_boolean.turn_on
   max_exceeded: silent
 - id: heating_preheat_002
-  alias: Verwarming - Preheat - Button Uit
+  alias: HVAC - Verwarming Preheat - Uit
   description: TBD
-  max_exceeded: silent
   trigger:
   - entity_id: input_select.woning_status
     platform: state
@@ -2251,10 +2450,10 @@
   - service: input_boolean.turn_off
     data:
       entity_id: input_boolean.pre_heat
-- id: heating_preheat_003
-  alias: Verwarming - Preheat - Auto Mode Aan
-  description: TBD
   max_exceeded: silent
+- id: heating_preheat_003
+  alias: HVAC - Verwarming Preheat - Auto Mode Aan
+  description: TBD
   trigger:
   - platform: state
     entity_id: input_boolean.pre_heat
@@ -2278,11 +2477,11 @@
   - service: script.turn_on
     entity_id: script.evo_status_auto
   - service: script.turn_on
-    entity_id: script.notify_preheat_status
-- id: heating_preheat_004
-  alias: Verwarming - Preheat - Auto Mode Uit
-  description: TBD
+    entity_id: script.notify_heating_preheat
   max_exceeded: silent
+- id: heating_preheat_004
+  alias: HVAC - Verwarming Preheat - Auto Mode Uit
+  description: TBD
   trigger:
   - platform: state
     entity_id: input_boolean.pre_heat
@@ -2308,31 +2507,64 @@
   action:
   - service: script.turn_on
     entity_id: script.evo_status_economy
-- id: heating_window_open_001
-  alias: Verwarming - Window Open - Kamer Elmo Koud
-  description: TBD
   max_exceeded: silent
+- id: heating_window_open_001
+  alias: HVAC - Verwarming Boven - Raam Open
+  description: TBD
   trigger:
   - platform: numeric_state
     entity_id: climate.trix
     attribute: current_temperature
-    below: 15.1
+    below: 15.5
   - platform: numeric_state
     entity_id: climate.elmo
     attribute: current_temperature
-    below: 15.1
+    below: 15.5
+  - platform: state
+    entity_id:
+    - binary_sensor.ewelink_ds01_01_opening
+    to: 'on'
+    for:
+      hours: 2
+      minutes: 0
+      seconds: 0
+  - platform: state
+    entity_id:
+    - binary_sensor.ewelink_ds01_02_opening
+    to: 'on'
+    for:
+      hours: 2
+      minutes: 0
+      seconds: 0
   condition:
-  - condition: state
-    entity_id: input_select.woning_status
-    state:
-    - Thuis
-    - Thuis Werk
-    - Thuis Verlof
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: binary_sensor.ewelink_ds01_01_opening
+      state: 'on'
+    - condition: state
+      entity_id: binary_sensor.ewelink_ds01_02_opening
+      state: 'on'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis Werk
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis Verlof
+  - condition: numeric_state
+    entity_id: sensor.hue_sensor_buiten_temperature
+    below: 15.5
   action:
   - service: script.turn_on
-    entity_id: script.notify_heating_cold_elmo
+    entity_id: script.notify_heating_upstairs
+  max_exceeded: silent
 - id: heating_outside_temp_001
-  alias: Verwarming - Boolean Change based on Outside Temperature
+  alias: HVAC - Verwarming - Aan/Uit volgens Buiten Temperatuur
   description: TBD
   trigger:
   - platform: numeric_state
@@ -2371,12 +2603,15 @@
         entity_id: input_boolean.heating
     default:
     - service: input_boolean.turn_on
-      entity_id: input_boolean.heating
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - input_boolean.heating
   max_exceeded: silent
 - id: heating_season_001
-  alias: Verwarming - Boolean Change based on Season
+  alias: HVAC - Verwarming - Aan/Uit volgens Seizoen
   description: TBD
-  max_exceeded: silent
   trigger:
   - entity_id: sensor.season
     platform: state
@@ -2391,11 +2626,15 @@
         entity_id: input_boolean.heating
     default:
     - service: input_boolean.turn_on
-      entity_id: input_boolean.heating
-- id: heating_boolean_001
-  alias: Verwarming - Boolean - Als de boolean wijzigt
-  description: TBD
+      metadata: {}
+      data: {}
+      target:
+        entity_id:
+        - input_boolean.heating
   max_exceeded: silent
+- id: heating_boolean_001
+  alias: HVAC - Verwarming - Aan/Uit volgens Boolean
+  description: TBD
   trigger:
   - entity_id: input_boolean.heating
     platform: state
@@ -2407,10 +2646,11 @@
         state: 'on'
       sequence:
       - service: script.turn_on
-        entity_id: script.evo_status_auto, script.notify_heating_hot_cold_outside
+        entity_id: script.evo_status_auto, script.notify_heating
     default:
     - service: script.turn_on
-      entity_id: script.evo_status_heating_off, script.notify_heating_hot_cold_outside
+      entity_id: script.evo_status_heating_off, script.notify_heating
+  max_exceeded: silent
 - id: light_livingroom_hue_switch_001
   alias: Licht - Hue Woonkamer - Boolean (A)
   description: TBD
@@ -2443,54 +2683,51 @@
 - id: light_porch_001
   alias: Licht - Veranda - Aan
   description: TBD
-  trigger:
-  - platform: state
-    entity_id: input_select.woning_status
+  triggers:
+  - entity_id: input_select.woning_status
     to: Juist Wakker
-  - platform: state
-    entity_id: input_select.woning_status
+    trigger: state
+  - entity_id: input_select.woning_status
     to: Juist Thuis
-  - platform: numeric_state
-    entity_id: sensor.hue_sensor_veranda_light_level
+    trigger: state
+  - entity_id: sensor.hue_sensor_veranda_light_level
     below: 40
-  - platform: numeric_state
-    entity_id: sensor.hue_sensor_veranda_light_level
+    trigger: numeric_state
+  - entity_id: sensor.hue_sensor_veranda_light_level
     above: 10
-  - platform: numeric_state
-    entity_id: sensor.hue_sensor_veranda_light_level
+    trigger: numeric_state
+  - entity_id: sensor.hue_sensor_veranda_light_level
     below: 7
-  - platform: state
-    entity_id: remote.harmony_hub
+    trigger: numeric_state
+  - entity_id: remote.harmony_hub
     attribute: current_activity
-  - platform: state
-    entity_id: input_boolean.media_kitchen
+    trigger: state
+  - entity_id: input_boolean.media_kitchen
     to: 'on'
     for:
       seconds: 35
-  - platform: state
-    entity_id: input_boolean.media_livingroom
+    trigger: state
+  - entity_id: input_boolean.media_livingroom
     to: 'on'
     for:
       seconds: 35
-  - platform: state
-    entity_id: input_boolean.media_kitchen
+    trigger: state
+  - entity_id: input_boolean.media_kitchen
     to: 'off'
     for:
       seconds: 5
-  - platform: state
-    entity_id: input_boolean.media_livingroom
+    trigger: state
+  - entity_id: input_boolean.media_livingroom
     to: 'off'
     for:
       seconds: 5
-  - platform: time
-    at: 07:15:00
-  condition:
+    trigger: state
+  - at: 07:15:00
+    trigger: time
+  conditions:
   - condition: state
     entity_id: input_boolean.light_downstairs
     state: 'on'
-  - condition: numeric_state
-    entity_id: sensor.hue_sensor_veranda_light_level
-    below: 40
   - condition: or
     conditions:
     - condition: not
@@ -2515,9 +2752,17 @@
       - condition: state
         entity_id: binary_sensor.bezoek
         state: 'on'
-  action:
-  - service: script.turn_on
-    entity_id: script.light_porch_on
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_boolean.keep_christmas_on
+      state: 'on'
+    - condition: numeric_state
+      entity_id: sensor.hue_sensor_veranda_light_level
+      below: 40
+  actions:
+  - entity_id: script.light_porch_on
+    action: script.turn_on
   max_exceeded: silent
   mode: single
 - id: light_porch_002
@@ -2567,28 +2812,27 @@
 - id: light_porch_003
   alias: Licht - Veranda - Uit
   description: TBD
-  max_exceeded: silent
-  trigger:
-  - platform: state
-    entity_id: input_select.woning_status
+  triggers:
+  - entity_id: input_select.woning_status
     to: Slapen
-  - platform: state
-    entity_id: binary_sensor.hue_motion_sensor_2_motion
+    trigger: state
+  - entity_id: binary_sensor.hue_motion_sensor_2_motion
     for:
       minutes: 15
     to: 'off'
-  - platform: state
-    entity_id: binary_sensor.hue_motion_sensor_3_motion
+    trigger: state
+  - entity_id: binary_sensor.hue_motion_sensor_3_motion
     for:
       minutes: 15
     to: 'off'
-  - platform: state
-    entity_id: input_boolean.light_downstairs
+    trigger: state
+  - entity_id: input_boolean.light_downstairs
     to: 'off'
-  - platform: numeric_state
-    entity_id: sensor.hue_sensor_veranda_light_level
+    trigger: state
+  - entity_id: sensor.hue_sensor_veranda_light_level
     above: 40
-  condition:
+    trigger: numeric_state
+  conditions:
   - condition: state
     entity_id: group.licht_veranda
     state: 'on'
@@ -2606,60 +2850,69 @@
         state: 'off'
         for:
           minutes: 15
+      - condition: state
+        entity_id: input_boolean.keep_christmas_on
+        state: 'off'
+    - condition: and
+      conditions:
+      - condition: numeric_state
+        entity_id: sensor.hue_sensor_veranda_light_level
+        above: 40
+      - condition: state
+        entity_id: input_boolean.keep_christmas_on
+        state: 'off'
     - condition: state
       entity_id: input_select.woning_status
       state: Slapen
-    - condition: numeric_state
-      entity_id: sensor.hue_sensor_veranda_light_level
-      above: 40
     - condition: state
       entity_id: input_boolean.light_downstairs
       state: 'off'
-  action:
-  - service: scene.turn_on
-    entity_id: scene.veranda_uit
+  actions:
+  - entity_id: scene.veranda_uit
+    action: scene.turn_on
+  max_exceeded: silent
   mode: single
 - id: light_kitchen_001
   alias: Licht - Keuken - Aan
   description: TBD
-  trigger:
+  triggers:
   - entity_id: binary_sensor.hue_motion_sensor_2_motion
     for:
       minutes: 5
-    platform: state
     to: 'off'
-  - platform: state
-    entity_id: input_select.woning_status
-  - platform: state
-    entity_id: input_boolean.light_downstairs
+    trigger: state
+  - entity_id: input_select.woning_status
+    trigger: state
+  - entity_id: input_boolean.light_downstairs
     to: 'on'
-  - platform: state
-    entity_id: input_boolean.media_kitchen
-    to: 'on'
-    for:
-      seconds: 35
-  - platform: state
-    entity_id: input_boolean.media_livingroom
+    trigger: state
+  - entity_id: input_boolean.media_kitchen
     to: 'on'
     for:
       seconds: 35
-  - platform: state
-    entity_id: input_boolean.media_kitchen
+    trigger: state
+  - entity_id: input_boolean.media_livingroom
+    to: 'on'
+    for:
+      seconds: 35
+    trigger: state
+  - entity_id: input_boolean.media_kitchen
     to: 'off'
     for:
       seconds: 5
-  - platform: state
-    entity_id: input_boolean.media_livingroom
+    trigger: state
+  - entity_id: input_boolean.media_livingroom
     to: 'off'
     for:
       seconds: 5
-  - platform: state
-    entity_id: remote.harmony_hub
+    trigger: state
+  - entity_id: remote.harmony_hub
     attribute: current_activity
-  condition:
+    trigger: state
+  conditions:
   - condition: numeric_state
     entity_id: sensor.hue_motion_sensor_2_light_level
-    below: 80
+    below: 105
   - condition: or
     conditions:
     - condition: not
@@ -2681,9 +2934,12 @@
       - condition: state
         entity_id: binary_sensor.bezoek
         state: 'on'
-  action:
-  - service: script.turn_on
-    entity_id: script.light_kitchen_on
+  - condition: state
+    entity_id: input_boolean.light_downstairs
+    state: 'on'
+  actions:
+  - entity_id: script.light_kitchen_on
+    action: script.turn_on
   max_exceeded: silent
 - id: light_kitchen_002
   alias: Licht - Keuken - Aan Motion
@@ -2694,11 +2950,11 @@
     to: 'on'
   - platform: numeric_state
     entity_id: sensor.hue_motion_sensor_2_light_level
-    below: 80
+    below: 105
   condition:
   - condition: numeric_state
     entity_id: sensor.hue_motion_sensor_2_light_level
-    below: 80
+    below: 105
   - condition: or
     conditions:
     - condition: not
@@ -2736,47 +2992,56 @@
 - id: light_kitchen_003
   alias: Licht - Keuken - Uit
   description: TBD
-  trigger:
+  triggers:
   - entity_id: binary_sensor.hue_motion_sensor_2_motion
     for:
       minutes: 15
-    platform: state
     to: 'off'
-  - platform: numeric_state
-    entity_id: sensor.hue_motion_sensor_2_light_level
+    trigger: state
+  - entity_id: sensor.hue_motion_sensor_2_light_level
     above: 90
-  - platform: state
-    entity_id: input_boolean.light_downstairs
+    trigger: numeric_state
+  - entity_id: input_boolean.light_downstairs
     to: 'off'
     for:
       seconds: 5
-  - platform: state
-    entity_id: input_boolean.media_livingroom
+    trigger: state
+  - entity_id: input_boolean.media_livingroom
     to: 'off'
     for:
       seconds: 5
-  condition:
+    trigger: state
+  conditions:
   - condition: state
     entity_id: group.licht_keuken
     state: 'on'
-  action:
-  - service: scene.turn_on
-    entity_id: scene.keuken_uit
+  - condition: state
+    entity_id: binary_sensor.hue_motion_sensor_2_motion
+    state: 'off'
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+  actions:
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.lightstrip_keuken
   max_exceeded: silent
 - id: light_kitchen_004
   alias: Licht - Keuken - Uit - Night
   description: TBD
-  max_exceeded: silent
-  trigger:
+  triggers:
   - entity_id: binary_sensor.hue_motion_sensor_2_motion
     for: 0:01:00
-    platform: state
     to: 'off'
+    trigger: state
   - entity_id: light.lightstrip_keuken
     for: 0:05:00
-    platform: state
     to: 'on'
-  condition:
+    trigger: state
+  conditions:
   - condition: state
     entity_id: group.licht_keuken
     state: 'on'
@@ -2787,9 +3052,13 @@
     - Juist Weg
     - Weg
     - Op Vakantie
-  action:
-  - service: scene.turn_on
-    entity_id: scene.keuken_uit
+  actions:
+  - action: light.turn_off
+    metadata: {}
+    data: {}
+    target:
+      entity_id: light.lightstrip_keuken
+  max_exceeded: silent
   mode: single
 - id: light_kitchen_005
   alias: Licht - Keuken - Aan Slapen
@@ -3052,13 +3321,13 @@
 - id: light_bureau_002
   alias: Licht - Bureau - Uit
   description: TBD
-  max_exceeded: silent
   trigger:
   - entity_id: binary_sensor.hue_motion_sensor_4_motion
     for:
       minutes: 1
     platform: state
     to: 'off'
+    enabled: false
   - entity_id: binary_sensor.hue_motion_sensor_4_motion
     for:
       minutes: 3
@@ -3081,10 +3350,10 @@
   action:
   - service: scene.turn_on
     entity_id: scene.bureau_uit
+  max_exceeded: silent
 - id: light_dressing_001
   alias: Licht - Dressing - Aan
   description: TBD
-  max_exceeded: silent
   trigger:
   - entity_id: binary_sensor.hue_motion_sensor_1_motion
     platform: state
@@ -3092,7 +3361,7 @@
   condition:
   - condition: numeric_state
     entity_id: sensor.hue_motion_sensor_1_light_level
-    below: 70
+    below: 45
   - condition: or
     conditions:
     - condition: not
@@ -3128,10 +3397,10 @@
   action:
   - service: script.turn_on
     entity_id: script.light_dressing_on
+  max_exceeded: silent
 - id: light_dressing_002
   alias: Licht - Dressing - Uit
   description: TBD
-  max_exceeded: silent
   trigger:
   - entity_id: binary_sensor.hue_motion_sensor_1_motion
     for:
@@ -3168,11 +3437,13 @@
     state: 'off'
   action:
   - service: scene.turn_on
-    entity_id: scene.dressing_uit
+    target:
+      entity_id: scene.dressing_uit
+    metadata: {}
+  max_exceeded: silent
 - id: light_dressing_003
   alias: Licht - Dressing - Altijd Aan Boolean Changes
   description: TBD
-  max_exceeded: silent
   trigger:
   - entity_id: input_boolean.light_dressing_stay_on
     platform: state
@@ -3184,10 +3455,15 @@
         state: 'on'
       sequence:
       - service: scene.turn_on
-        entity_id: scene.dressing_normaal
+        target:
+          entity_id: scene.dressing_normaal
+        metadata: {}
     default:
     - service: scene.turn_on
-      entity_id: scene.dressing_uit
+      target:
+        entity_id: scene.dressing_uit
+      metadata: {}
+  max_exceeded: silent
 - id: light_dressing_004
   alias: Licht - Dressing - Altijd Aan Boolean OFF after timer
   description: TBD
@@ -3206,9 +3482,8 @@
   - service: input_boolean.turn_off
     entity_id: input_boolean.light_dressing_stay_on
 - id: light_dressing_005
-  alias: Licht - Dressing - Aan 2
+  alias: Licht - Dressing - Aan Update  kleur bij Slapen
   description: TBD
-  max_exceeded: silent
   trigger:
   - platform: state
     entity_id: input_select.woning_status
@@ -3216,7 +3491,7 @@
   condition:
   - condition: numeric_state
     entity_id: sensor.hue_motion_sensor_1_light_level
-    below: 70
+    below: 45
   - condition: or
     conditions:
     - condition: not
@@ -3252,6 +3527,7 @@
   action:
   - service: script.turn_on
     entity_id: script.light_dressing_on
+  max_exceeded: silent
 - id: light_bathroom_001
   alias: Licht - Badkamer - Aan
   description: TBD
@@ -3346,17 +3622,17 @@
     entity_id: script.light_bathroom_on
   mode: single
 - id: light_bedroom_elmo_004
-  alias: Licht - Elmo - Wekker Ochtend Week
-  description: TBD
+  alias: Licht - Elmo - Wekker Ochtend
+  description: Elmo Wakker maken als de wekker gaat
   trigger:
-  - platform: time
-    at: input_datetime.elmo_wekker_week
+  - platform: state
+    entity_id:
+    - schedule.slapen_elmo
+    from: 'on'
+    to: 'off'
   condition:
   - condition: state
     entity_id: input_boolean.kids_wekker
-    state: 'on'
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
     state: 'on'
   - condition: or
     conditions:
@@ -3369,54 +3645,13 @@
     - condition: state
       entity_id: input_select.woning_status
       state: Thuis Werk
-  action:
-  - service: script.turn_on
-    entity_id: script.notify_light_elmo
-  - delay:
-      hours: 0
-      minutes: 1
-      seconds: 2
-      milliseconds: 0
-  - condition: state
-    entity_id: input_boolean.kids_wekker
-    state: 'on'
-  - condition: state
-    entity_id: light.hue_white_and_color_ambiance_a19_gen2_1
-    state: 'off'
-  - service: script.turn_on
-    entity_id: script.light_elmo
-  - delay:
-      hours: 0
-      minutes: 10
-      seconds: 0
-      milliseconds: 0
-  - type: turn_off
-    device_id: 2dbd7ce304ab902393dcc8f4596b397a
-    entity_id: switch.hue_smart_plug_6
-    domain: switch
-  max_exceeded: silent
-  mode: single
-- id: light_bedroom_elmo_005
-  alias: Licht - Elmo - Wekker Ochtend Weekend
-  description: TBD
-  trigger:
-  - platform: time
-    at: input_datetime.elmo_wekker_weekend
-  condition:
-  - condition: state
-    entity_id: input_boolean.kids_wekker
-    state: 'on'
-  - condition: state
-    entity_id: input_select.woning_status
-    state: Thuis,Juist Thuis,Thuis Verlof
+  - condition: time
+    before: '10:00:00'
   - condition: or
     conditions:
     - condition: state
-      entity_id: input_select.woning_status
-      state: Thuis Verlof
-    - condition: state
-      entity_id: binary_sensor.workday_sensor
-      state: 'off'
+      entity_id: switch.hue_smart_plug_6
+      state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.notify_light_elmo
@@ -3474,15 +3709,18 @@
   - service: script.turn_on
     data: {}
     target:
-      entity_id: script.notify_light_elmo
+      entity_id: script.notificatie_wekker_elmo
   - condition: state
     entity_id: light.hue_white_and_color_ambiance_a19_gen2_1
     state: 'off'
   - service: scene.turn_on
-    entity_id: scene.elmo_ochtend
+    data:
+      transition: 120
+    target:
+      entity_id: scene.elmo_ochtend
   - delay:
       hours: 0
-      minutes: 2
+      minutes: 5
       seconds: 0
       milliseconds: 0
   - type: turn_off
@@ -3492,15 +3730,15 @@
   max_exceeded: silent
   mode: single
 - id: light_bedroom_trix_001
-  alias: Licht - Trix - Wekker Ochtend Week
+  alias: Licht - Trix - Wekker Ochtend
   description: TBD
   trigger:
-  - platform: time
-    at: input_datetime.trix_wekker_week
+  - platform: state
+    entity_id:
+    - schedule.slapen_trix
+    from: 'on'
+    to: 'off'
   condition:
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
   - condition: state
     entity_id: input_boolean.kids_wekker
     state: 'on'
@@ -3515,54 +3753,13 @@
     - condition: state
       entity_id: input_select.woning_status
       state: Thuis Werk
-  action:
-  - service: script.turn_on
-    entity_id: script.notify_light_elmo
-  - delay:
-      hours: 0
-      minutes: 1
-      seconds: 2
-      milliseconds: 0
-  - condition: state
-    entity_id: input_boolean.kids_wekker
-    state: 'on'
-  - condition: state
-    entity_id: light.hue_white_and_color_ambiance_a19_gen2_2
-    state: 'off'
-  - service: script.turn_on
-    entity_id: script.light_trix
-  - delay:
-      hours: 0
-      minutes: 10
-      seconds: 0
-      milliseconds: 0
-  - type: turn_off
-    device_id: 49f53c6bd982ffff9c69e47fa9c12fc0
-    entity_id: switch.hue_smart_plug_5
-    domain: switch
-  max_exceeded: silent
-  mode: single
-- id: light_bedroom_trix_002
-  alias: Licht - Trix - Wekker Ochtend Weekend
-  description: TBD
-  trigger:
-  - platform: time
-    at: input_datetime.trix_wekker_weekend
-  condition:
-  - condition: state
-    entity_id: input_boolean.kids_wekker
-    state: 'on'
-  - condition: state
-    entity_id: input_select.woning_status
-    state: Thuis,Juist Thuis,Thuis Verlof
+  - condition: time
+    before: '10:00:00'
   - condition: or
     conditions:
     - condition: state
-      entity_id: input_select.woning_status
-      state: Thuis Verlof
-    - condition: state
-      entity_id: binary_sensor.workday_sensor
-      state: 'off'
+      entity_id: switch.hue_smart_plug_5
+      state: 'on'
   action:
   - service: script.turn_on
     entity_id: script.notify_light_elmo
@@ -3599,8 +3796,6 @@
     to: 'on'
     for:
       minutes: 30
-  - platform: time
-    at: input_datetime.dutje_stop
   - platform: state
     entity_id: light.hue_white_and_color_ambiance_a19_gen2_2
     from: Unavailable
@@ -3620,15 +3815,20 @@
     entity_id: input_button.trix_alarm
   action:
   - service: script.turn_on
-    entity_id: script.notify_light_elmo
+    data: {}
+    target:
+      entity_id: script.notificatie_wekker_trix
   - condition: state
     entity_id: light.hue_white_and_color_ambiance_a19_gen2_2
     state: 'off'
   - service: scene.turn_on
-    entity_id: scene.trix_ochtend
+    data:
+      transition: 60
+    target:
+      entity_id: scene.trix_ochtend
   - delay:
       hours: 0
-      minutes: 2
+      minutes: 5
       seconds: 0
       milliseconds: 0
   - type: turn_off
@@ -3724,11 +3924,6 @@
     entity_id: input_boolean.light_garden_stay_on
     to: 'on'
   condition:
-  - condition: not
-    conditions:
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Slapen
   - condition: or
     conditions:
     - condition: state
@@ -3762,12 +3957,64 @@
       state: 'off'
   - condition: or
     conditions:
-    - condition: numeric_state
-      entity_id: sensor.hue_outdoor_sensor_3_light_level
-      below: 8
     - condition: state
       entity_id: input_boolean.light_garden_stay_on
       state: 'on'
+    - condition: and
+      conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          state: unavailable
+          entity_id: binary_sensor.hue_outdoor_sensor_2_motion
+        - condition: numeric_state
+          entity_id: sensor.hue_outdoor_sensor_2_light_level
+          below: 8
+      - condition: or
+        conditions:
+        - condition: state
+          state: unavailable
+          entity_id: binary_sensor.hue_outdoor_sensor_3_motion
+        - condition: numeric_state
+          entity_id: sensor.hue_outdoor_sensor_3_light_level
+          below: 8
+  - condition: or
+    conditions:
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Slapen
+    - condition: or
+      conditions:
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: person.bert
+          state: home
+        - condition: not
+          conditions:
+          - condition: state
+            entity_id: person.bert
+            state: home
+            for:
+              hours: 0
+              minutes: 10
+              seconds: 0
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: person.caroline
+          state: home
+        - condition: not
+          conditions:
+          - condition: state
+            entity_id: person.caroline
+            state: home
+            for:
+              hours: 0
+              minutes: 10
+              seconds: 0
   action:
   - choose:
     - conditions:
@@ -3845,6 +4092,9 @@
     - condition: numeric_state
       entity_id: sensor.hue_outdoor_sensor_2_light_level
       above: 10
+    - condition: state
+      entity_id: binary_sensor.hue_outdoor_sensor_1_motion
+      state: unavailable
   - condition: or
     conditions:
     - condition: state
@@ -3855,6 +4105,9 @@
     - condition: numeric_state
       entity_id: sensor.hue_outdoor_sensor_2_light_level
       above: 15
+    - condition: state
+      entity_id: binary_sensor.hue_outdoor_sensor_3_motion
+      state: unavailable
   - condition: or
     conditions:
     - condition: state
@@ -3865,6 +4118,9 @@
     - condition: numeric_state
       entity_id: sensor.hue_outdoor_sensor_2_light_level
       above: 2
+    - condition: state
+      entity_id: binary_sensor.hue_outdoor_sensor_2_motion
+      state: unavailable
   - condition: state
     entity_id: input_boolean.light_garden_stay_on
     state: 'off'
@@ -3932,12 +4188,27 @@
         state: 'off'
   - condition: or
     conditions:
-    - condition: numeric_state
-      entity_id: sensor.hue_outdoor_sensor_3_light_level
-      below: 8
     - condition: state
       entity_id: input_boolean.light_garden_stay_on
       state: 'on'
+    - condition: and
+      conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.hue_outdoor_sensor_3_motion
+          state: unavailable
+        - condition: numeric_state
+          entity_id: sensor.hue_outdoor_sensor_3_light_level
+          below: 8
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.hue_outdoor_sensor_2_motion
+          state: unavailable
+        - condition: numeric_state
+          entity_id: sensor.hue_outdoor_sensor_2_light_level
+          below: 8
   action:
   - choose:
     - conditions:
@@ -4068,6 +4339,9 @@
     - condition: numeric_state
       entity_id: sensor.hue_outdoor_sensor_2_light_level
       above: 15
+    - condition: state
+      entity_id: binary_sensor.hue_outdoor_sensor_3_motion
+      state: unavailable
   - condition: state
     entity_id: input_boolean.light_garden_stay_on
     state: 'off'
@@ -4139,7 +4413,7 @@
         entity_id: input_boolean.sun_up_down
   mode: single
 - id: battery_001
-  alias: Batterij - Bijna Leeg
+  alias: Herinneringen - Batterij - Bijna Leeg
   description: TBD
   max_exceeded: silent
   trigger:
@@ -4154,7 +4428,6 @@
     - sensor.hue_motion_sensor_4_power
     - sensor.hue_dimmer_switch_1_power
     - sensor.hue_dimmer_switch_2_power
-    - sensor.tradfri_shortcut_button_white_1_battery
     platform: numeric_state
   action:
   - entity_id: script.notify_battery
@@ -4163,17 +4436,10 @@
 - id: energy_solar_status_001
   alias: Energy - Solar - ON/OFF
   description: TBD
-  max_exceeded: silent
   trigger:
   - platform: numeric_state
     entity_id: sensor.solaredge_current_power
     above: 500
-  - entity_id: group.bewoners_router
-    platform: state
-    from: not_home
-    to: home
-    for:
-      minutes: 5
   condition:
   - condition: state
     entity_id: sun.sun
@@ -4187,6 +4453,7 @@
   action:
   - service: script.turn_on
     entity_id: script.notify_energy_solar_status
+  max_exceeded: silent
 - id: camera_trix_002
   alias: Camera - Trix - Notificatie
   description: Notify Papa als de camera van Trix aangaat. Ochtend
@@ -4206,15 +4473,19 @@
 - id: camera_001
   alias: Camera - Trix - Aan
   description: Zet de camera van de kinderen aan als hij niet aan staat. Avond
-  trigger:
-  - platform: time
-    at: input_datetime.trix_slapen
-  - platform: state
-    entity_id: input_select.woning_status
+  triggers:
+  - entity_id: input_select.woning_status
     to: Juist Thuis
-  condition:
-  - condition: time
-    after: input_datetime.trix_slapen
+    trigger: state
+  - entity_id:
+    - schedule.slapen_trix
+    from:
+    to: 'on'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: schedule.slapen_trix
+    state: 'on'
   - condition: or
     conditions:
     - condition: state
@@ -4226,25 +4497,58 @@
   - condition: state
     entity_id: switch.hue_smart_plug_5
     state: 'off'
-  action:
+  actions:
   - type: turn_on
     device_id: 49f53c6bd982ffff9c69e47fa9c12fc0
     entity_id: switch.hue_smart_plug_5
     domain: switch
-  - service: scene.turn_on
-    target:
+  - target:
       entity_id: scene.trix_nacht
     metadata: {}
+    action: scene.turn_on
+    data: {}
+  - type: turn_on
+    device_id: 674244c8975cc98513b28d64ee9640f8
+    entity_id: c207a4fee03cd95526e976165dcaa31b
+    domain: switch
   max_exceeded: silent
   mode: single
 - id: camera_002
   alias: Camera - Uit
   description: Zet de camera van de kinderen uit als hij nog aanstaat. Ochtend
-  max_exceeded: silent
-  trigger:
-  - platform: time
-    at: 07:30:00
-  condition:
+  triggers:
+  - at: 07:30:00
+    alias: Weekdagen
+    id: Weekdagen
+    trigger: time
+  - at: 08:00:00
+    alias: Weekend
+    id: Weekend
+    trigger: time
+  conditions:
+  - condition: or
+    conditions:
+    - condition: and
+      conditions:
+      - condition: trigger
+        id:
+        - Weekdagen
+      - condition: time
+        weekday:
+        - fri
+        - thu
+        - wed
+        - tue
+        - mon
+    - condition: and
+      conditions:
+      - condition: trigger
+        id:
+        - Weekend
+      - condition: time
+        weekday:
+        - sat
+        - sun
   - condition: or
     conditions:
     - condition: state
@@ -4253,7 +4557,10 @@
     - condition: state
       entity_id: switch.hue_smart_plug_6
       state: 'on'
-  action:
+  - condition: state
+    entity_id: input_boolean.kids_wekker
+    state: 'on'
+  actions:
   - type: turn_off
     device_id: 49f53c6bd982ffff9c69e47fa9c12fc0
     entity_id: switch.hue_smart_plug_5
@@ -4262,6 +4569,15 @@
     device_id: 49f53c6bd982ffff9c69e47fa9c12fc0
     entity_id: switch.hue_smart_plug_6
     domain: switch
+  - type: turn_off
+    device_id: 674244c8975cc98513b28d64ee9640f8
+    entity_id: c207a4fee03cd95526e976165dcaa31b
+    domain: switch
+  - type: turn_off
+    device_id: 54566db9daccc8f4c4b8c998352d4297
+    entity_id: b7dab33b8e51fdb957a9456806835ae7
+    domain: switch
+  max_exceeded: silent
   mode: single
 - id: camera_003
   alias: Camera - Toon in UI
@@ -4284,19 +4600,27 @@
         before: 07:45:00
       sequence:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.toon_camera
+        metadata: {}
+        data: {}
+        target:
+          entity_id:
+          - input_boolean.toon_camera
     - conditions:
       - condition: time
         after: '18:55:00'
         before: '22:30:00'
       sequence:
       - service: input_boolean.turn_on
-        entity_id: input_boolean.toon_camera
+        metadata: {}
+        data: {}
+        target:
+          entity_id:
+          - input_boolean.toon_camera
     default:
     - service: input_boolean.turn_off
       entity_id: input_boolean.toon_camera
 - id: alarm_001
-  alias: Notificatie Alarm - Boekje en Papje tijd
+  alias: Herinneringen - Kinderen - Boekje en Papje tijd
   description: Laat weten dat het tijd is voor een boekje en een papje
   max_exceeded: silent
   trigger:
@@ -4527,15 +4851,19 @@
 - id: '1678374330527'
   alias: Camera - Elmo - Aan
   description: Zet de camera van Elmo aan als hij niet aan staat. Avond
-  trigger:
-  - platform: time
-    at: input_datetime.elmo_slapen
-  - platform: state
-    entity_id: input_select.woning_status
+  triggers:
+  - entity_id: input_select.woning_status
     to: Juist Thuis
-  condition:
-  - condition: time
-    after: input_datetime.elmo_slapen
+    trigger: state
+  - entity_id:
+    - schedule.slapen_elmo
+    to: 'on'
+    from: 'off'
+    trigger: state
+  conditions:
+  - condition: state
+    entity_id: schedule.slapen_elmo
+    state: 'on'
   - condition: or
     conditions:
     - condition: state
@@ -4547,15 +4875,20 @@
   - condition: state
     entity_id: switch.hue_smart_plug_6
     state: 'off'
-  action:
+  actions:
   - type: turn_on
     device_id: 2dbd7ce304ab902393dcc8f4596b397a
     entity_id: switch.hue_smart_plug_6
     domain: switch
-  - service: scene.turn_on
-    target:
+  - target:
       entity_id: scene.elmo_nacht
     metadata: {}
+    action: scene.turn_on
+    data: {}
+  - type: turn_on
+    device_id: 54566db9daccc8f4c4b8c998352d4297
+    entity_id: b7dab33b8e51fdb957a9456806835ae7
+    domain: switch
   mode: single
   max_exceeded: silent
 - id: '1683790519691'
@@ -4577,3 +4910,1350 @@
   - service: script.harmony_hub_elmo_trix
     data: {}
   mode: single
+- id: '1687676493939'
+  alias: HVAC - Airco Boven - Elmo Uit voor Slapen
+  description: Zet de Airco van Elmo uit. Avond
+  trigger:
+  - platform: state
+    entity_id: input_select.woning_status
+    to: Juist Thuis
+  - platform: state
+    entity_id:
+    - schedule.slapen_elmo
+    to: 'on'
+    from: 'off'
+  - platform: device
+    type: turned_on
+    device_id: 2dbd7ce304ab902393dcc8f4596b397a
+    entity_id: c514c9bed36ede3c3e042d50d1ecd9ee
+    domain: switch
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Juist Thuis
+  - condition: state
+    entity_id: input_boolean.cooling_upstairs
+    state: 'on'
+  - condition: state
+    entity_id: climate.airco_elmo
+    attribute: hvac_action
+    state: cooling
+    enabled: true
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: schedule.slapen_elmo
+      state: 'on'
+    - condition: state
+      entity_id: switch.hue_smart_plug_6
+      state: 'on'
+  action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 20
+      milliseconds: 0
+  - device_id: 41354e684da9663012eb92a2d4684ee2
+    domain: climate
+    entity_id: 81fd6759bd3d89095b48040ae00705f2
+    type: set_hvac_mode
+    hvac_mode: 'off'
+  mode: single
+  max_exceeded: silent
+- id: '1687678022824'
+  alias: HVAC - Airco Boven - Trix Uit voor Slapen
+  description: Zet de Airco Uit als ze gaan slapen
+  trigger:
+  - platform: state
+    entity_id: input_select.woning_status
+    to: Juist Thuis
+  - platform: state
+    entity_id:
+    - schedule.slapen_trix
+    to: 'on'
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Juist Thuis
+  - condition: state
+    entity_id: input_boolean.cooling_upstairs
+    state: 'on'
+  - condition: state
+    entity_id: climate.airco_trix
+    attribute: hvac_action
+    state: cooling
+  - condition: state
+    entity_id: schedule.slapen_trix
+    state: 'on'
+  action:
+  - device_id: f0bb97139c00ae23445e7cc8eb4edd42
+    domain: climate
+    entity_id: climate.airco_trix
+    type: set_hvac_mode
+    hvac_mode: 'off'
+  mode: single
+  max_exceeded: silent
+- id: '1687683454617'
+  alias: HVAC - Airco Boven - Trix Uit
+  description: Zet de Airco Uit als ze gaan slapen of raam open
+  trigger:
+  - platform: device
+    type: turned_on
+    device_id: 49f53c6bd982ffff9c69e47fa9c12fc0
+    entity_id: switch.hue_smart_plug_5
+    domain: switch
+  - platform: state
+    entity_id:
+    - binary_sensor.ewelink_ds01_02_opening
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: climate.airco_trix
+    state: cooling
+    attribute: hvac_action
+  action:
+  - device_id: f0bb97139c00ae23445e7cc8eb4edd42
+    domain: climate
+    entity_id: climate.airco_trix
+    type: set_hvac_mode
+    hvac_mode: 'off'
+  mode: single
+  max_exceeded: silent
+- id: '1687683785709'
+  alias: HVAC - Airco Boven - Trix Aan
+  description: Zet de Airco Aan als ze uit Bed komt, of we sluiten raam
+  trigger:
+  - platform: device
+    type: turned_off
+    device_id: 49f53c6bd982ffff9c69e47fa9c12fc0
+    entity_id: switch.hue_smart_plug_5
+    domain: switch
+  - platform: state
+    entity_id:
+    - binary_sensor.ewelink_ds01_02_opening
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: input_boolean.cooling_upstairs
+    state: 'on'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Juist Thuis
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis Werk
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis Verlof
+  - condition: state
+    entity_id: climate.airco_trix
+    state: 'off'
+  - condition: state
+    entity_id: binary_sensor.ewelink_ds01_02_opening
+    state: 'off'
+  - condition: state
+    entity_id: switch.hue_smart_plug_5
+    state: 'off'
+  action:
+  - device_id: f0bb97139c00ae23445e7cc8eb4edd42
+    domain: climate
+    entity_id: climate.airco_trix
+    type: set_hvac_mode
+    hvac_mode: cool
+  - service: climate.set_temperature
+    data:
+      temperature: 21
+    target:
+      entity_id: climate.airco_trix
+  mode: single
+  max_exceeded: silent
+- id: '1687689848882'
+  alias: Deurbel - Camera Aan Mute
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.hue_smart_plug_5
+    to: 'on'
+    id: Camera Trix Aan
+  - platform: state
+    entity_id:
+    - switch.hue_smart_plug_6
+    to: 'on'
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: switch.doorbellfront_chime_active
+      state: 'on'
+    - condition: state
+      entity_id: switch.doorbellback_chime_active
+      state: 'on'
+  - condition: state
+    entity_id: group.bewoners_router
+    state: home
+  action:
+  - service: switch.turn_off
+    data: {}
+    target:
+      entity_id:
+      - switch.doorbellfront_chime_active
+      - switch.doorbellback_chime_active
+  mode: single
+- id: '1687690052231'
+  alias: Deurbel - Camera Uit Unmute
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - switch.hue_smart_plug_5
+    to: 'off'
+    id: Camera Trix Uit
+  - platform: state
+    entity_id:
+    - switch.hue_smart_plug_6
+    to: 'off'
+  - platform: state
+    entity_id:
+    - input_select.woning_status
+    to: Slapen
+  - platform: state
+    entity_id:
+    - group.bewoners_router
+    to: not_home
+  condition:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: switch.doorbellfront_chime_active
+      state: 'off'
+    - condition: state
+      entity_id: switch.doorbellback_chime_active
+      state: 'off'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+    - condition: state
+      entity_id: group.bewoners_router
+      state: not_home
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: switch.hue_smart_plug_6
+        state: 'off'
+      - condition: state
+        entity_id: switch.hue_smart_plug_5
+        state: 'off'
+  action:
+  - service: switch.turn_on
+    data: {}
+    target:
+      entity_id:
+      - switch.doorbellfront_chime_active
+      - switch.doorbellback_chime_active
+  mode: single
+- id: '1687887471984'
+  alias: Personen - Caroline - Aantal uren op Kantoor
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - person.caroline
+    to: Werk (Caro)
+    for:
+      hours: 9
+      minutes: 30
+      seconds: 0
+    id: 9u
+  - platform: state
+    entity_id:
+    - person.caroline
+    to: Werk (Caro)
+    for:
+      hours: 8
+      minutes: 30
+      seconds: 0
+    id: 8u
+  condition: []
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id: 9u
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          message: Je bent al 9 uur op kantoor. (9:30 met middagpauzes)
+          title: WELL DONE!
+          data:
+            group: bewoner
+            tag: caro-werk
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          message: Caroline is al 9 uur op haar werk
+          data:
+            group: bewoner
+            tag: caro-status
+          title: CARO 9u OP HAAR WERK
+    - conditions:
+      - condition: trigger
+        id: 8u
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          message: Je bent al 8 uur op kantoor. (8:30 met middagpauzes)
+          title: GOED GEDAAN!
+          data:
+            group: bewoner
+            tag: caro-werk
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          message: Caroline heeft haar 8 uur al gewerkt.
+          data:
+            group: bewoner
+            tag: caro-status
+          title: CARO 8u OP HAAR WERK
+  mode: single
+- id: '1688658335380'
+  alias: Personen - Caroline - Vertrokken op Werk
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - person.caroline
+    for:
+      hours: 0
+      minutes: 0
+      seconds: 0
+    id: Vertrokken
+    from: Werk (Caro)
+  condition:
+  - condition: time
+    after: '16:00:00'
+    before: '18:30:00'
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - Vertrokken
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          message: Caroline is onderweg naar huis
+          title: CARO VERTROKKEN OP WERK
+          data:
+            group: bewoner
+            tag: caro-status
+  mode: single
+- id: '1689491655055'
+  alias: HVAC - Airco Boven - Elmo Aan/Uit volgens Boolean
+  description: TBD
+  trigger:
+  - entity_id: input_boolean.cooling_upstairs
+    platform: state
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Op Vakantie
+  - condition: state
+    entity_id: schedule.slapen_elmo
+    state: 'off'
+  action:
+  - entity_id: script.notify_cooling_upstairs
+    action: script.turn_on
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.cooling_upstairs
+        state: 'on'
+      - condition: state
+        entity_id: switch.hue_smart_plug_6
+        state: 'off'
+      - condition: state
+        entity_id: climate.airco_elmo
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.ewelink_ds01_01_opening
+        state: 'off'
+      sequence:
+      - device_id: 41354e684da9663012eb92a2d4684ee2
+        domain: climate
+        entity_id: 81fd6759bd3d89095b48040ae00705f2
+        type: set_hvac_mode
+        hvac_mode: cool
+      - data:
+          temperature: 21
+        target:
+          device_id: 41354e684da9663012eb92a2d4684ee2
+        action: climate.set_temperature
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.cooling_upstairs
+        state: 'off'
+      - condition: state
+        entity_id: climate.airco_elmo
+        attribute: hvac_action
+        state: cooling
+      sequence:
+      - delay:
+          hours: 0
+          minutes: 0
+          seconds: 20
+          milliseconds: 0
+      - device_id: 41354e684da9663012eb92a2d4684ee2
+        domain: climate
+        entity_id: 81fd6759bd3d89095b48040ae00705f2
+        type: set_hvac_mode
+        hvac_mode: 'off'
+  mode: single
+  max_exceeded: silent
+- id: '1689492113424'
+  alias: HVAC - Airco Slaapkamer - Aan/Uit volgens Boolean
+  description: TBD
+  trigger:
+  - entity_id:
+    - input_boolean.cooling_attic
+    platform: state
+  - platform: state
+    entity_id:
+    - input_select.woning_status
+    from: Juist Wakker
+    for:
+      hours: 1
+      minutes: 0
+      seconds: 0
+  - platform: state
+    entity_id:
+    - input_select.woning_status
+    from: Op Vakantie
+  condition:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Op Vakantie
+  action:
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.cooling_attic
+        state: 'on'
+      - condition: state
+        entity_id: climate.airco_slaapkamer
+        state: 'off'
+      - condition: state
+        entity_id: climate.ons_huisje
+        state: 'off'
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_03_opening
+          state: 'on'
+      sequence:
+      - device_id: d0cabb78bb48d64825d28087185ebb2f
+        domain: climate
+        entity_id: 5f30af6a34bd978f852dcf474d125bb6
+        type: set_hvac_mode
+        hvac_mode: cool
+      - service: climate.set_temperature
+        data:
+          temperature: 21
+        target:
+          device_id:
+          - d0cabb78bb48d64825d28087185ebb2f
+      - service: script.turn_on
+        data: {}
+        target:
+          entity_id:
+          - script.notify_cooling_attic
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.cooling_attic
+        state: 'off'
+      - condition: state
+        entity_id: climate.airco_slaapkamer
+        attribute: hvac_action
+        state: cooling
+      sequence:
+      - device_id: d0cabb78bb48d64825d28087185ebb2f
+        domain: climate
+        entity_id: 5f30af6a34bd978f852dcf474d125bb6
+        type: set_hvac_mode
+        hvac_mode: 'off'
+      - service: script.turn_on
+        data: {}
+        target:
+          entity_id:
+          - script.notify_cooling_attic
+  mode: single
+  max_exceeded: silent
+- id: '1689492239243'
+  alias: HVAC - Airco Slaapkamer - Koelen Aan/Uit volgens Buiten Temperatuur
+  description: TBD
+  triggers:
+  - entity_id: sensor.hue_sensor_buiten_temperature
+    above: sensor.airco_slaapkamer_temperature
+    id: Zolder Warm
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    trigger: numeric_state
+  - entity_id: sensor.hue_sensor_buiten_temperature
+    below: sensor.airco_slaapkamer_temperature
+    id: Zolder Kouder
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    trigger: numeric_state
+  - entity_id: sensor.hue_sensor_buiten_temperature
+    above: 23.5
+    id: Buiten Warm
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    trigger: numeric_state
+  - entity_id: sensor.hue_sensor_buiten_temperature
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    below: 23
+    id: Buiten Kouder
+    trigger: numeric_state
+  - entity_id: climate.slaapkamer
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    above: 24
+    id: Kamer Warm
+    attribute: current_temperature
+    trigger: numeric_state
+  - entity_id: climate.slaapkamer
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    below: 20
+    id: Kamer Kouder
+    attribute: current_temperature
+    trigger: numeric_state
+  conditions:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: sensor.season
+      state: summer
+      enabled: true
+    - condition: state
+      entity_id: input_boolean.heating
+      state: 'off'
+  actions:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - Buiten Warm
+        - Zolder Warm
+        - Kamer Warm
+      - condition: or
+        conditions:
+        - condition: numeric_state
+          entity_id: sensor.hue_sensor_buiten_temperature
+          above: 23.5
+        - condition: numeric_state
+          entity_id: climate.slaapkamer
+          above: 24
+          attribute: current_temperature
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_03_opening
+          state: 'on'
+      sequence:
+      - condition: state
+        entity_id: input_boolean.cooling_attic
+        state: 'off'
+      - condition: state
+        entity_id: climate.ons_huisje
+        state: 'off'
+      - data: {}
+        target:
+          entity_id:
+          - input_boolean.cooling_attic
+        action: input_boolean.turn_on
+      alias: Aan als het te warm is
+    - conditions:
+      - condition: trigger
+        id:
+        - Kamer Kouder
+      sequence:
+      - condition: numeric_state
+        entity_id: sensor.hue_sensor_buiten_temperature
+        below: 23
+      - condition: state
+        entity_id: input_boolean.cooling_attic
+        state: 'on'
+      - data: {}
+        target:
+          entity_id:
+          - input_boolean.cooling_attic
+        action: input_boolean.turn_off
+      alias: Uit als kamer koel genoeg is
+    default:
+    - condition: state
+      entity_id: input_boolean.cooling_attic
+      state: 'on'
+    - data: {}
+      target:
+        entity_id:
+        - input_boolean.cooling_attic
+      action: input_boolean.turn_off
+  mode: single
+  max_exceeded: silent
+- id: '1689595995781'
+  alias: HVAC - Airco Slaapkamer - Uit voor Slapen
+  description: Zet de Airco uit. Avond
+  trigger:
+  - platform: state
+    entity_id:
+    - input_select.woning_status
+    to: Slapen
+  condition:
+  - condition: state
+    entity_id: input_boolean.cooling_attic
+    state: 'on'
+  - condition: state
+    entity_id: climate.airco_slaapkamer
+    attribute: hvac_action
+    state: cooling
+    enabled: true
+  action:
+  - device_id: d0cabb78bb48d64825d28087185ebb2f
+    domain: climate
+    entity_id: 5f30af6a34bd978f852dcf474d125bb6
+    type: set_hvac_mode
+    hvac_mode: 'off'
+  mode: single
+  max_exceeded: silent
+- id: '1695726677784'
+  alias: HVAC - Airco Boven - Elmo Aan
+  description: Zet de Airco Aan als hij uit Bed komt, of we sluiten raam
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.ewelink_ds01_01_opening
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: input_boolean.cooling_upstairs
+    state: 'on'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Juist Thuis
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis Werk
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis Verlof
+    alias: Test Status Woning
+  - condition: state
+    entity_id: climate.airco_elmo
+    state: 'off'
+  - condition: state
+    entity_id: binary_sensor.ewelink_ds01_01_opening
+    state: 'off'
+  - condition: state
+    entity_id: switch.hue_smart_plug_6
+    state: 'off'
+  action:
+  - device_id: 41354e684da9663012eb92a2d4684ee2
+    domain: climate
+    entity_id: 81fd6759bd3d89095b48040ae00705f2
+    type: set_hvac_mode
+    hvac_mode: cool
+  - service: climate.set_temperature
+    data:
+      temperature: 21
+    target:
+      entity_id:
+      - climate.airco_elmo
+  mode: single
+  max_exceeded: silent
+- id: '1695726976025'
+  alias: HVAC - Airco Boven - Elmo Uit
+  description: Zet de Airco Uit als ze gaan slapen of raam open
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.ewelink_ds01_01_opening
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: climate.airco_elmo
+    state: cooling
+    attribute: hvac_action
+  action:
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 20
+      milliseconds: 0
+  - device_id: 41354e684da9663012eb92a2d4684ee2
+    domain: climate
+    entity_id: 81fd6759bd3d89095b48040ae00705f2
+    type: set_hvac_mode
+    hvac_mode: 'off'
+  mode: single
+  max_exceeded: silent
+- id: '1695731298028'
+  alias: HVAC - Verwarming Boven - Trix Uit
+  description: Zet de verwarming Uit als raam open
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.ewelink_ds01_02_opening
+    to: 'on'
+  - platform: state
+    entity_id:
+    - climate.trix
+    to: heat
+  condition:
+  - condition: state
+    entity_id: climate.ons_huisje
+    state: heat
+  - condition: state
+    entity_id: climate.trix
+    state: heat
+  - condition: state
+    state: 'on'
+    entity_id: binary_sensor.ewelink_ds01_02_opening
+  action:
+  - service: script.turn_on
+    data: {}
+    target:
+      entity_id: script.notify_heating_upstairs
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - condition: state
+    entity_id: binary_sensor.ewelink_ds01_02_opening
+    state: 'on'
+  - service: climate.set_hvac_mode
+    data:
+      hvac_mode: 'off'
+    target:
+      entity_id: climate.trix
+  mode: single
+  max_exceeded: silent
+- id: '1695731606805'
+  alias: HVAC - Verwarming Boven - Trix Aan
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.ewelink_ds01_02_opening
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: climate.ons_huisje
+    state: heat
+  - condition: state
+    entity_id: climate.trix
+    state: 'off'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: binary_sensor.ewelink_ds01_02_opening
+      state: 'off'
+    - condition: state
+      entity_id: binary_sensor.ewelink_ds01_02_opening
+      state: unavailable
+  action:
+  - service: climate.set_hvac_mode
+    data:
+      hvac_mode: heat
+    target:
+      entity_id: climate.trix
+  mode: single
+- id: '1695731770797'
+  alias: HVAC - Verwarming Boven - Elmo Aan
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.ewelink_ds01_01_opening
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: climate.ons_huisje
+    state: heat
+  - condition: state
+    entity_id: climate.elmo
+    state: 'off'
+  - condition: state
+    entity_id: binary_sensor.ewelink_ds01_01_opening
+    state: 'off'
+  action:
+  - service: climate.set_hvac_mode
+    data:
+      hvac_mode: heat
+    target:
+      entity_id:
+      - climate.elmo
+  mode: single
+- id: '1695731846147'
+  alias: HVAC - Verwarming Boven - Elmo Uit
+  description: Zet de verwarming Uit als raam open
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.ewelink_ds01_01_opening
+    to: 'on'
+  - platform: state
+    entity_id:
+    - climate.elmo
+    to: heat
+  condition:
+  - condition: state
+    entity_id: climate.ons_huisje
+    state: heat
+  - condition: state
+    entity_id: climate.elmo
+    state: heat
+  - condition: state
+    state: 'on'
+    entity_id: binary_sensor.ewelink_ds01_01_opening
+  action:
+  - service: script.turn_on
+    data: {}
+    target:
+      entity_id: script.notify_heating_upstairs
+  - delay:
+      hours: 0
+      minutes: 5
+      seconds: 0
+      milliseconds: 0
+  - condition: state
+    entity_id: binary_sensor.ewelink_ds01_01_opening
+    state: 'on'
+  - service: climate.set_hvac_mode
+    data:
+      hvac_mode: 'off'
+    target:
+      entity_id:
+      - climate.elmo
+  mode: single
+  max_exceeded: silent
+- id: '1695972543527'
+  alias: Personen - Bert - Vertrokken op Werk
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - person.bert
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+    id: Vertrokken
+    from: Werk (Bert)
+  condition:
+  - condition: time
+    after: '15:20:00'
+    before: '18:30:00'
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+  action:
+  - choose:
+    - conditions:
+      - condition: trigger
+        id:
+        - Vertrokken
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          message: Bert is vertrokken op het werk
+          title: BERT VERTROKKEN OP WERK
+          data:
+            group: bewoner
+            tag: bert-status
+  mode: single
+- id: '1695974768068'
+  alias: HVAC - Verwarming Slaapkamer - Aan
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - schedule.heating_attic
+    to: 'on'
+  - platform: state
+    entity_id:
+    - input_select.woning_status
+    to: Thuis
+    for:
+      hours: 0
+      minutes: 30
+      seconds: 0
+    from: Juist Wakker
+  - platform: state
+    entity_id:
+    - input_select.woning_status
+    to: Juist Thuis
+  - platform: state
+    entity_id:
+    - input_boolean.pre_heat
+    to: 'on'
+  - platform: state
+    entity_id:
+    - input_boolean.heating
+    to: 'on'
+  - platform: numeric_state
+    entity_id:
+    - climate.slaapkamer
+    attribute: current_temperature
+    below: 15.5
+  - platform: state
+    entity_id:
+    - binary_sensor.ewelink_ds01_03_opening
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: input_boolean.heating
+    state: 'on'
+  - condition: state
+    entity_id: input_boolean.cooling_attic
+    state: 'off'
+  - alias: Test of we wel thuis zijn OF heel koud is
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Juist Thuis
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis Werk
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis Verlof
+      for:
+        hours: 0
+        minutes: 0
+        seconds: 0
+    - alias: Bevestig dat Woning Status gelijk is aan Juist Weg EN dat het koud is
+      condition: and
+      conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Juist Weg
+      - condition: numeric_state
+        entity_id: climate.slaapkamer
+        below: 15.6
+    - alias: Bevestig dat Woning Status gelijk is aan Weg EN dat het koud is
+      condition: and
+      conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Weg
+      - condition: numeric_state
+        entity_id: climate.slaapkamer
+        below: 15.6
+    - alias: Bevestig dat Woning Status gelijk is aan Vakantie EN dat het koud is
+      condition: and
+      conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Op Vakantie
+      - condition: numeric_state
+        entity_id: climate.slaapkamer
+        below: 15.6
+  - alias: Test of we NIET slapen
+    condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Juist Wakker
+    enabled: true
+  - alias: Test of verwarming schema slaapkamer aan is OF dat het te koud is
+    condition: or
+    conditions:
+    - condition: state
+      entity_id: schedule.heating_attic
+      state: 'on'
+    - condition: numeric_state
+      entity_id: climate.airco_slaapkamer
+      attribute: current_temperature
+      below: 15.6
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: binary_sensor.ewelink_ds01_03_opening
+      state: 'on'
+    alias: Test raam niet open
+  action:
+  - service: climate.turn_on
+    data: {}
+    target:
+      entity_id: climate.airco_slaapkamer
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 10
+      milliseconds: 0
+  - service: climate.set_hvac_mode
+    data:
+      hvac_mode: heat
+    target:
+      entity_id: climate.airco_slaapkamer
+  - service: climate.set_temperature
+    data:
+      temperature: 19
+    target:
+      entity_id: climate.airco_slaapkamer
+  mode: single
+- id: '1695975090500'
+  alias: HVAC - Verwarming Slaapkamer - Uit
+  description: ''
+  trigger:
+  - platform: state
+    entity_id:
+    - schedule.heating_attic
+    to: 'off'
+  - platform: state
+    entity_id:
+    - input_select.woning_status
+    to: Juist Weg
+  - platform: state
+    entity_id:
+    - input_boolean.heating
+    to: 'off'
+  - platform: state
+    entity_id:
+    - input_boolean.cooling_attic
+    to: 'on'
+  - platform: state
+    entity_id:
+    - input_select.woning_status
+    to: Slapen
+  - platform: state
+    entity_id:
+    - binary_sensor.ewelink_ds01_03_opening
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: climate.airco_slaapkamer
+    state: heat
+  - condition: not
+    conditions:
+    - condition: and
+      conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Juist Weg
+      - condition: numeric_state
+        entity_id: climate.slaapkamer
+        below: 17.9
+    alias: Test dat NIET Juist Weg & te koud
+  action:
+  - service: climate.set_hvac_mode
+    data:
+      hvac_mode: 'off'
+    target:
+      entity_id: climate.airco_slaapkamer
+  mode: single
+- id: '1700140550030'
+  alias: HVAC - Verwarming Slaapkamer - Uit Warm Genoeg
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - climate.airco_slaapkamer
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+    attribute: current_temperature
+    above: 19
+  condition:
+  - condition: state
+    entity_id: climate.airco_slaapkamer
+    state: heat
+  - condition: state
+    entity_id: schedule.heating_attic
+    state: 'off'
+  action:
+  - service: climate.set_hvac_mode
+    data:
+      hvac_mode: 'off'
+    target:
+      entity_id: climate.airco_slaapkamer
+  mode: single
+- id: '1701788959972'
+  alias: HVAC - Verwarming Slaapkamer - Uit voldoende warm
+  description: ''
+  trigger:
+  - platform: numeric_state
+    entity_id:
+    - climate.airco_slaapkamer
+    for:
+      hours: 0
+      minutes: 1
+      seconds: 0
+    attribute: current_temperature
+    above: 18
+  condition:
+  - condition: state
+    entity_id: climate.airco_slaapkamer
+    state: heat
+  - condition: state
+    entity_id: schedule.heating_attic
+    state: 'off'
+  action:
+  - service: climate.set_hvac_mode
+    data:
+      hvac_mode: 'off'
+    target:
+      entity_id: climate.airco_slaapkamer
+  mode: single
+- id: '1713336200399'
+  alias: Computer - Aan
+  description: Zet Computer aan wanneer op Bureau of Tv Aan
+  trigger:
+  - platform: state
+    entity_id:
+    - input_select.harmony_hub
+    from: PowerOff
+  - platform: state
+    entity_id:
+    - binary_sensor.hue_motion_sensor_4_motion
+    to: 'on'
+  condition:
+  - condition: state
+    entity_id: switch.wake_on_lan
+    state: 'off'
+  action:
+  - service: script.computer_on
+    metadata: {}
+    data: {}
+  mode: single
+- id: '1713760825027'
+  alias: Harmony - einde tv avond
+  description: TBD
+  triggers:
+  - at: '22:20:00'
+    trigger: time
+  conditions:
+  - condition: state
+    entity_id: input_boolean.visitor
+    state: 'off'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis Werk
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis Verlof
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - sat
+    - sun
+  - condition: device
+    type: is_on
+    device_id: d4bfe137373a4685b374eabfe782bce7
+    entity_id: bd4cea790e6faae31f4a08ae6ba449e4
+    domain: remote
+  actions:
+  - metadata: {}
+    data: {}
+    target:
+      entity_id: script.notificatie_einde_tv_avond
+    action: script.turn_on
+  - delay:
+      hours: 0
+      minutes: 9
+      seconds: 30
+      milliseconds: 0
+  - metadata: {}
+    data: {}
+    target:
+      entity_id: script.notificatie_einde_tv_avond_spreek_2
+    action: script.turn_on
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 30
+      milliseconds: 0
+  - condition: device
+    type: is_on
+    device_id: d4bfe137373a4685b374eabfe782bce7
+    entity_id: bd4cea790e6faae31f4a08ae6ba449e4
+    domain: remote
+  - data: {}
+    target:
+      entity_id:
+      - script.harmony_hub_powered_off
+    action: script.turn_on
+    enabled: false
+  mode: single
+  max_exceeded: silent
+- id: '1725361076339'
+  alias: HVAC - Airco Slaapkamer - Aan
+  description: Zet de Airco Aan als we sluiten raam
+  trigger:
+  - platform: state
+    entity_id:
+    - binary_sensor.ewelink_ds01_03_opening
+    to: 'off'
+  condition:
+  - condition: state
+    entity_id: input_boolean.cooling_attic
+    state: 'on'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Juist Thuis
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis Werk
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis Verlof
+  - condition: state
+    entity_id: climate.airco_slaapkamer
+    state: 'off'
+  - condition: state
+    entity_id: binary_sensor.ewelink_ds01_03_opening
+    state: 'off'
+  action:
+  - device_id: d0cabb78bb48d64825d28087185ebb2f
+    domain: climate
+    entity_id: 5f30af6a34bd978f852dcf474d125bb6
+    type: set_hvac_mode
+    hvac_mode: cool
+  - data:
+      temperature: 21
+    action: climate.set_temperature
+    target:
+      entity_id: climate.airco_slaapkamer
+  mode: single
+  max_exceeded: silent
+- id: '1727767498882'
+  alias: Kindjes Alarm
+  description: TBD
+  trigger:
+  - platform: state
+    entity_id:
+    - input_button.kindjes_alarm
+  condition: []
+  action:
+  - data: {}
+    action: script.turn_on
+    target:
+      entity_id: script.notify_light_elmo
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: light.hue_white_and_color_ambiance_a19_gen2_1
+      state: 'off'
+    - condition: state
+      entity_id: light.hue_white_and_color_ambiance_a19_gen2_2
+      state: 'off'
+  - data:
+      transition: 120
+    target:
+      entity_id:
+      - scene.elmo_ochtend
+      - scene.trix_ochtend
+    action: scene.turn_on
+  - delay:
+      hours: 0
+      minutes: 15
+      seconds: 0
+      milliseconds: 0
+  - type: turn_off
+    device_id: 2dbd7ce304ab902393dcc8f4596b397a
+    entity_id: switch.hue_smart_plug_6
+    domain: switch
+  - type: turn_off
+    device_id: 49f53c6bd982ffff9c69e47fa9c12fc0
+    entity_id: 9141d8d800b6ab6ebd9b8e296244a579
+    domain: switch
+  mode: single
+  max_exceeded: silent

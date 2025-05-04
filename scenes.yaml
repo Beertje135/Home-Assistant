@@ -20,18 +20,36 @@
   name: Dressing - Nacht
   entities:
     light.hue_white_filament_bulb_g93_1:
-      friendly_name: Hue Light Dressing One
-      supported_features: 41
+      supported_color_modes:
+      - brightness
+      color_mode:
+      brightness:
+      off_with_transition: false
+      off_brightness: 5
+      friendly_name: Dressing Lamp 1
+      supported_features: 40
       state: 'off'
     light.hue_white_filament_bulb_g93_2:
-      brightness: 5
-      friendly_name: Hue Light Dressing Two
-      supported_features: 41
-      state: 'on'
-    light.hue_white_filament_bulb_g93_3:
-      friendly_name: Hue Light Dressing Three
-      supported_features: 41
+      supported_color_modes:
+      - brightness
+      color_mode:
+      brightness:
+      off_with_transition: false
+      off_brightness: 5
+      friendly_name: Dressing Lamp 2
+      supported_features: 40
       state: 'off'
+    light.hue_white_filament_bulb_g93_3:
+      supported_color_modes:
+      - brightness
+      color_mode: brightness
+      brightness: 5
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Dressing Lamp 3
+      supported_features: 40
+      state: 'on'
+  metadata: {}
 - id: '1608016595510'
   name: Dressing - Normaal
   entities:
@@ -92,30 +110,6 @@
       friendly_name: Kitchen LED
       supported_features: 63
       state: 'on'
-    light.milight_keuken_bridge:
-      effect_list:
-      - colorloop
-      - night
-      - white
-      supported_color_modes:
-      - hs
-      color_mode: hs
-      brightness: 100
-      hs_color:
-      - 360
-      - 100
-      rgb_color:
-      - 255
-      - 0
-      - 0
-      xy_color:
-      - 0.701
-      - 0.299
-      assumed_state: true
-      friendly_name: Kitchen Tv LED
-      supported_features: 61
-      icon: mdi:television-clean
-      state: 'on'
 - id: '1608033168765'
   name: Keuken - Normaal
   entities:
@@ -143,30 +137,6 @@
       off_brightness:
       friendly_name: Kitchen LED
       supported_features: 63
-      state: 'on'
-    light.milight_keuken_bridge:
-      effect_list:
-      - colorloop
-      - night
-      - white
-      supported_color_modes:
-      - hs
-      color_mode: hs
-      brightness: 255
-      hs_color:
-      - 26.895
-      - 37.733
-      rgb_color:
-      - 255
-      - 201
-      - 158
-      xy_color:
-      - 0.431
-      - 0.367
-      assumed_state: true
-      friendly_name: Kitchen Tv LED
-      supported_features: 61
-      icon: mdi:television-clean
       state: 'on'
 - id: '1608033223731'
   name: Keuken - Gedimmed
@@ -196,30 +166,6 @@
       friendly_name: Kitchen LED
       supported_features: 63
       state: 'on'
-    light.milight_keuken_bridge:
-      effect_list:
-      - colorloop
-      - night
-      - white
-      supported_color_modes:
-      - hs
-      color_mode: hs
-      brightness: 255
-      hs_color:
-      - 26.895
-      - 37.733
-      rgb_color:
-      - 255
-      - 201
-      - 158
-      xy_color:
-      - 0.431
-      - 0.367
-      assumed_state: true
-      friendly_name: Kitchen Tv LED
-      supported_features: 61
-      icon: mdi:television-clean
-      state: 'on'
 - id: '1608033360773'
   name: Keuken - Film
   entities:
@@ -247,29 +193,6 @@
       off_brightness:
       friendly_name: Lightstrip Keuken On/Off
       supported_features: 63
-      state: 'on'
-    light.milight_keuken_bridge:
-      effect_list:
-      - colorloop
-      - night
-      - white
-      supported_color_modes:
-      - hs
-      color_mode: hs
-      brightness: 128
-      hs_color:
-      - 45
-      - 100
-      rgb_color:
-      - 255
-      - 191
-      - 0
-      xy_color:
-      - 0.527
-      - 0.447
-      assumed_state: true
-      friendly_name: Kitchen Tv LED
-      supported_features: 61
       state: 'on'
 - id: '1608051219785'
   name: Keuken - Televisie
@@ -299,57 +222,6 @@
       friendly_name: Kitchen LED
       supported_features: 63
       state: 'on'
-    light.milight_keuken_bridge:
-      effect_list:
-      - colorloop
-      - night
-      - white
-      supported_color_modes:
-      - hs
-      color_mode: hs
-      brightness: 255
-      hs_color:
-      - 270
-      - 57.143
-      rgb_color:
-      - 182
-      - 109
-      - 255
-      xy_color:
-      - 0.279
-      - 0.159
-      assumed_state: true
-      friendly_name: Kitchen Tv LED
-      supported_features: 61
-      icon: mdi:television-clean
-      state: 'on'
-- id: '1608033504685'
-  name: Keuken - Uit
-  entities:
-    light.lightstrip_keuken:
-      min_mireds: 155
-      max_mireds: 495
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - hs
-      off_brightness:
-      friendly_name: Kitchen LED
-      supported_features: 63
-      state: 'off'
-    light.milight_keuken_bridge:
-      effect_list:
-      - colorloop
-      - night
-      - white
-      supported_color_modes:
-      - hs
-      assumed_state: true
-      friendly_name: Kitchen Tv LED
-      supported_features: 61
-      icon: mdi:television-clean
-      state: 'off'
 - id: '1608049415666'
   name: Tuin 2 (alles) - Normaal
   entities:
@@ -359,28 +231,30 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
+      - 'off'
       - colorloop
       supported_color_modes:
       - color_temp
       - xy
+      effect: 'off'
+      color_mode: color_temp
+      brightness: 254
+      color_temp_kelvin: 3021
+      color_temp: 331
+      hs_color:
+      - 27.791
+      - 56.328
+      rgb_color:
+      - 255
+      - 178
+      - 111
+      xy_color:
+      - 0.494
+      - 0.383
       off_with_transition: false
       off_brightness:
       friendly_name: Tuin Spot 1 (L)
       supported_features: 44
-      color_mode: color_temp
-      brightness: 191
-      hs_color:
-      - 28.696
-      - 70.045
-      rgb_color:
-      - 255
-      - 161
-      - 76
-      xy_color:
-      - 0.54
-      - 0.388
-      color_temp_kelvin: 2570
-      color_temp: 389
       state: 'on'
     light.hue_lily_outdoor_spot_light_rgbcct_3:
       min_color_temp_kelvin: 2000
@@ -388,28 +262,30 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
+      - 'off'
       - colorloop
       supported_color_modes:
       - color_temp
       - xy
+      effect: 'off'
+      color_mode: color_temp
+      brightness: 254
+      color_temp_kelvin: 3021
+      color_temp: 331
+      hs_color:
+      - 27.791
+      - 56.328
+      rgb_color:
+      - 255
+      - 178
+      - 111
+      xy_color:
+      - 0.494
+      - 0.383
       off_with_transition: false
       off_brightness:
       friendly_name: Tuin Spot 3
       supported_features: 44
-      color_mode: color_temp
-      brightness: 191
-      color_temp_kelvin: 2645
-      color_temp: 378
-      hs_color:
-      - 28.518
-      - 67.51
-      rgb_color:
-      - 255
-      - 164
-      - 82
-      xy_color:
-      - 0.532
-      - 0.388
       state: 'on'
     light.hue_lily_outdoor_spot_light_rgbcct_4:
       min_color_temp_kelvin: 2000
@@ -417,28 +293,30 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
+      - 'off'
       - colorloop
       supported_color_modes:
       - color_temp
       - xy
+      effect: 'off'
       color_mode: color_temp
-      brightness: 191
+      brightness: 254
+      color_temp_kelvin: 3021
+      color_temp: 331
       hs_color:
-      - 28.502
-      - 67.279
+      - 27.791
+      - 56.328
       rgb_color:
       - 255
-      - 164
-      - 83
+      - 178
+      - 111
       xy_color:
-      - 0.532
-      - 0.387
+      - 0.494
+      - 0.383
       off_with_transition: false
       off_brightness:
       friendly_name: Tuin Spot 4
       supported_features: 44
-      color_temp_kelvin: 2652
-      color_temp: 377
       state: 'on'
     light.hue_lily_outdoor_spot_light_rgbcct_2:
       min_color_temp_kelvin: 2000
@@ -446,28 +324,30 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
+      - 'off'
       - colorloop
       supported_color_modes:
       - color_temp
       - xy
+      effect: 'off'
+      color_mode: color_temp
+      brightness: 254
+      color_temp_kelvin: 3048
+      color_temp: 328
+      hs_color:
+      - 27.748
+      - 55.607
+      rgb_color:
+      - 255
+      - 179
+      - 113
+      xy_color:
+      - 0.491
+      - 0.383
       off_with_transition: false
       off_brightness:
       friendly_name: Tuin Spot 2 (Slaapboom)
       supported_features: 44
-      color_mode: color_temp
-      brightness: 191
-      color_temp_kelvin: 2652
-      color_temp: 377
-      hs_color:
-      - 28.502
-      - 67.279
-      rgb_color:
-      - 255
-      - 164
-      - 83
-      xy_color:
-      - 0.532
-      - 0.387
       state: 'on'
     light.hue_lily_outdoor_spot_light_rgbcct_6:
       min_color_temp_kelvin: 2000
@@ -475,28 +355,30 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
+      - 'off'
       - colorloop
       supported_color_modes:
       - color_temp
       - xy
+      effect: 'off'
+      color_mode: color_temp
+      brightness: 254
+      color_temp_kelvin: 3012
+      color_temp: 332
+      hs_color:
+      - 27.806
+      - 56.57
+      rgb_color:
+      - 255
+      - 178
+      - 111
+      xy_color:
+      - 0.494
+      - 0.383
       off_with_transition: false
       off_brightness:
       friendly_name: Tuin Spot 6 (Kerselaar)
       supported_features: 44
-      color_mode: color_temp
-      brightness: 191
-      color_temp_kelvin: 2652
-      color_temp: 377
-      hs_color:
-      - 28.502
-      - 67.279
-      rgb_color:
-      - 255
-      - 164
-      - 83
-      xy_color:
-      - 0.532
-      - 0.387
       state: 'on'
     light.hue_lily_outdoor_spot_light_rgbcct_5:
       min_color_temp_kelvin: 2000
@@ -504,28 +386,92 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
+      - 'off'
       - colorloop
       supported_color_modes:
       - color_temp
       - xy
+      effect: 'off'
+      color_mode: color_temp
+      brightness: 254
+      color_temp_kelvin: 3039
+      color_temp: 329
+      hs_color:
+      - 27.762
+      - 55.846
+      rgb_color:
+      - 255
+      - 178
+      - 113
+      xy_color:
+      - 0.492
+      - 0.382
       off_with_transition: false
       off_brightness:
       friendly_name: Tuin Spot 5 (Terras)
       supported_features: 44
+      state: 'on'
+    light.hue_lily_outdoor_spot_light_rgbcct_7:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - 'off'
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect: 'off'
       color_mode: color_temp
-      brightness: 191
+      brightness: 254
+      color_temp_kelvin: 3021
+      color_temp: 331
       hs_color:
-      - 28.567
-      - 68.208
+      - 27.791
+      - 56.328
       rgb_color:
       - 255
-      - 163
-      - 81
+      - 178
+      - 111
       xy_color:
-      - 0.534
-      - 0.387
-      color_temp_kelvin: 2624
-      color_temp: 381
+      - 0.494
+      - 0.383
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Tuin Spot 7 (Grote Boom)
+      supported_features: 44
+      state: 'on'
+    light.hue_lily_outdoor_spot_light_rgbcct_8:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - 'off'
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      effect: 'off'
+      color_mode: color_temp
+      brightness: 254
+      color_temp_kelvin: 3021
+      color_temp: 331
+      hs_color:
+      - 27.791
+      - 56.328
+      rgb_color:
+      - 255
+      - 178
+      - 111
+      xy_color:
+      - 0.494
+      - 0.383
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Tuin Spot 8 (Lavendel)
+      supported_features: 44
       state: 'on'
   metadata: {}
 - id: '1608049445477'
@@ -541,6 +487,14 @@
       supported_color_modes:
       - color_temp
       - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      effect:
       off_with_transition: false
       off_brightness: 191
       friendly_name: Tuin Spot 1 (L)
@@ -556,6 +510,14 @@
       supported_color_modes:
       - color_temp
       - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      effect:
       off_with_transition: false
       off_brightness: 191
       friendly_name: Tuin Spot 3
@@ -571,6 +533,14 @@
       supported_color_modes:
       - color_temp
       - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      effect:
       off_with_transition: false
       off_brightness: 191
       friendly_name: Tuin Spot 4
@@ -586,6 +556,14 @@
       supported_color_modes:
       - color_temp
       - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      effect:
       off_with_transition: false
       off_brightness: 191
       friendly_name: Tuin Spot 2 (Slaapboom)
@@ -601,6 +579,14 @@
       supported_color_modes:
       - color_temp
       - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      effect:
       off_with_transition: false
       off_brightness: 191
       friendly_name: Tuin Spot 5 (Terras)
@@ -616,9 +602,63 @@
       supported_color_modes:
       - color_temp
       - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      effect:
       off_with_transition: false
       off_brightness: 191
       friendly_name: Tuin Spot 6 (Kerselaar)
+      supported_features: 44
+      state: 'off'
+    light.hue_lily_outdoor_spot_light_rgbcct_7:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      effect:
+      off_with_transition: false
+      off_brightness: 191
+      friendly_name: Tuin Spot 7 (Grote Boom)
+      supported_features: 44
+      state: 'off'
+    light.hue_lily_outdoor_spot_light_rgbcct_8:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
+      effect:
+      off_with_transition: false
+      off_brightness: 191
+      friendly_name: Tuin Spot 8 (Lavendel)
       supported_features: 44
       state: 'off'
   metadata: {}
@@ -635,24 +675,25 @@
       supported_color_modes:
       - color_temp
       - xy
+      effect:
+      color_mode: xy
+      brightness: 254
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 276.923
+      - 40.784
+      rgb_color:
+      - 215
+      - 151
+      - 255
+      xy_color:
+      - 0.313
+      - 0.21
       off_with_transition: false
       off_brightness:
       friendly_name: Tuin Spot 5 (Terras)
       supported_features: 44
-      color_mode: color_temp
-      brightness: 191
-      color_temp_kelvin: 2652
-      color_temp: 377
-      hs_color:
-      - 28.502
-      - 67.279
-      rgb_color:
-      - 255
-      - 164
-      - 83
-      xy_color:
-      - 0.532
-      - 0.387
       state: 'on'
   metadata: {}
 - id: '1608049519088'
@@ -678,30 +719,38 @@
   name: Tuinhuis - Normaal
   entities:
     light.hue_lightstrip_outdoor_2m_1:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
       min_mireds: 153
       max_mireds: 500
       effect_list:
+      - 'off'
       - colorloop
       supported_color_modes:
       - color_temp
-      - hs
+      - xy
+      effect: 'off'
       color_mode: color_temp
       brightness: 191
-      color_temp: 376
+      color_temp_kelvin: 2994
+      color_temp: 334
       hs_color:
-      - 28.486
-      - 67.049
+      - 27.835
+      - 57.058
       rgb_color:
       - 255
-      - 165
-      - 84
+      - 177
+      - 110
       xy_color:
-      - 0.53
-      - 0.388
+      - 0.496
+      - 0.383
+      off_with_transition: false
       off_brightness:
-      friendly_name: Hue Light Tuinhuis On/Off
-      supported_features: 63
+      icon: mdi:led-strip-variant
+      friendly_name: Tuinhuis Ledstrip
+      supported_features: 44
       state: 'on'
+  metadata: {}
 - id: '1608049578558'
   name: Tuinhuis - Uit
   entities:
@@ -726,14 +775,26 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
+      - 'off'
       - colorloop
       supported_color_modes:
       - color_temp
       - xy
+      effect:
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
       off_with_transition: false
-      off_brightness: 153
+      off_brightness: 51
       friendly_name: Elmo Staanlamp
       supported_features: 44
+      state: 'off'
+    switch.ikea_of_sweden_tretakt_smart_plug_2:
+      friendly_name: IKEA of Sweden TRETAKT Smart plug 2
       state: 'off'
   metadata: {}
 - id: '1608271612872'
@@ -776,16 +837,16 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
+      - 'off'
       - colorloop
       supported_color_modes:
       - color_temp
       - xy
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Elmo Staanlamp
-      supported_features: 44
+      effect: 'off'
       color_mode: xy
-      brightness: 153
+      brightness: 51
+      color_temp_kelvin:
+      color_temp:
       hs_color:
       - 120
       - 100
@@ -796,6 +857,13 @@
       xy_color:
       - 0.172
       - 0.747
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Elmo Staanlamp
+      supported_features: 44
+      state: 'on'
+    switch.ikea_of_sweden_tretakt_smart_plug_2:
+      friendly_name: IKEA of Sweden TRETAKT Smart plug 2
       state: 'on'
   metadata: {}
 - id: '1608273794216'
@@ -807,14 +875,12 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
+      - 'off'
       - colorloop
       supported_color_modes:
       - color_temp
       - xy
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Elmo Staanlamp
-      supported_features: 44
+      effect: 'off'
       color_mode: color_temp
       brightness: 254
       color_temp_kelvin: 2000
@@ -824,11 +890,19 @@
       - 94.547
       rgb_color:
       - 255
-      - 136
-      - 13
+      - 137
+      - 14
       xy_color:
-      - 0.599
-      - 0.382
+      - 0.598
+      - 0.383
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Elmo Staanlamp
+      supported_features: 44
+      state: 'on'
+    switch.ikea_of_sweden_tretakt_smart_plug_2:
+      icon: mdi:string-lights
+      friendly_name: Elmo Bed Lichtjes
       state: 'on'
   metadata: {}
 - id: '1608280007790'
@@ -864,15 +938,20 @@
   name: Badkamer - Nacht
   entities:
     light.lightstrip_badkamer:
+      min_color_temp_kelvin: 2020
+      max_color_temp_kelvin: 6451
       min_mireds: 155
       max_mireds: 495
       effect_list:
       - colorloop
       supported_color_modes:
       - color_temp
-      - hs
-      color_mode: hs
-      brightness: 26
+      - xy
+      effect:
+      color_mode: xy
+      brightness: 10
+      color_temp_kelvin:
+      color_temp:
       hs_color:
       - 0
       - 100
@@ -883,10 +962,12 @@
       xy_color:
       - 0.701
       - 0.299
+      off_with_transition: false
       off_brightness:
-      friendly_name: Lightstrip Badkamer On/Off
-      supported_features: 63
+      friendly_name: Badkamer Ledstrip
+      supported_features: 44
       state: 'on'
+  metadata: {}
 - id: '1608280054419'
   name: Badkamer - Normaal
   entities:
@@ -1358,17 +1439,6 @@
       friendly_name: Lightstrip Keuken On/Off
       supported_features: 63
       state: 'on'
-    light.milight_keuken_bridge:
-      effect_list:
-      - colorloop
-      - night
-      - white
-      supported_color_modes:
-      - hs
-      assumed_state: true
-      friendly_name: Kitchen Tv LED
-      supported_features: 61
-      state: 'off'
 - id: '1641399091432'
   name: Badkamer - Normaal Dag
   entities:
@@ -1413,16 +1483,19 @@
       - xy
       color_mode: xy
       brightness: 191
+      color_temp_kelvin:
+      color_temp:
       hs_color:
-      - 210.364
-      - 96.863
+      - 276.923
+      - 40.784
       rgb_color:
-      - 8
-      - 130
+      - 215
+      - 151
       - 255
       xy_color:
-      - 0.141
-      - 0.137
+      - 0.313
+      - 0.21
+      effect:
       off_with_transition: false
       off_brightness:
       friendly_name: Tuin Spot 4
@@ -1438,22 +1511,25 @@
       supported_color_modes:
       - color_temp
       - xy
+      color_mode: xy
+      brightness: 191
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 276.923
+      - 40.784
+      rgb_color:
+      - 215
+      - 151
+      - 255
+      xy_color:
+      - 0.313
+      - 0.21
+      effect:
       off_with_transition: false
       off_brightness:
       friendly_name: Tuin Spot 1 (L)
       supported_features: 44
-      color_mode: xy
-      brightness: 191
-      hs_color:
-      - 219.588
-      - 76.078
-      rgb_color:
-      - 61
-      - 127
-      - 255
-      xy_color:
-      - 0.155489
-      - 0.136629
       state: 'on'
     light.hue_lily_outdoor_spot_light_rgbcct_5:
       min_color_temp_kelvin: 2000
@@ -1465,22 +1541,25 @@
       supported_color_modes:
       - color_temp
       - xy
+      color_mode: xy
+      brightness: 191
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 276.923
+      - 40.784
+      rgb_color:
+      - 215
+      - 151
+      - 255
+      xy_color:
+      - 0.313
+      - 0.21
+      effect:
       off_with_transition: false
       off_brightness:
       friendly_name: Tuin Spot 5 (Terras)
       supported_features: 44
-      color_mode: xy
-      brightness: 191
-      hs_color:
-      - 210.364
-      - 96.863
-      rgb_color:
-      - 8
-      - 130
-      - 255
-      xy_color:
-      - 0.141
-      - 0.137
       state: 'on'
     light.hue_lily_outdoor_spot_light_rgbcct_6:
       min_color_temp_kelvin: 2000
@@ -1492,22 +1571,25 @@
       supported_color_modes:
       - color_temp
       - xy
+      color_mode: xy
+      brightness: 191
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 276.923
+      - 40.784
+      rgb_color:
+      - 215
+      - 151
+      - 255
+      xy_color:
+      - 0.313
+      - 0.21
+      effect:
       off_with_transition: false
       off_brightness:
       friendly_name: Tuin Spot 6 (Kerselaar)
       supported_features: 44
-      color_mode: xy
-      brightness: 191
-      hs_color:
-      - 219.588
-      - 76.078
-      rgb_color:
-      - 61
-      - 127
-      - 255
-      xy_color:
-      - 0.155489
-      - 0.136629
       state: 'on'
     light.hue_lily_outdoor_spot_light_rgbcct_3:
       min_color_temp_kelvin: 2000
@@ -1519,22 +1601,25 @@
       supported_color_modes:
       - color_temp
       - xy
+      color_mode: xy
+      brightness: 191
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 276.923
+      - 40.784
+      rgb_color:
+      - 215
+      - 151
+      - 255
+      xy_color:
+      - 0.313
+      - 0.21
+      effect:
       off_with_transition: false
       off_brightness:
       friendly_name: Tuin Spot 3
       supported_features: 44
-      color_mode: xy
-      brightness: 191
-      hs_color:
-      - 210.364
-      - 96.863
-      rgb_color:
-      - 8
-      - 130
-      - 255
-      xy_color:
-      - 0.141
-      - 0.137
       state: 'on'
     light.hue_lily_outdoor_spot_light_rgbcct_2:
       min_color_temp_kelvin: 2000
@@ -1546,22 +1631,85 @@
       supported_color_modes:
       - color_temp
       - xy
+      color_mode: xy
+      brightness: 191
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 277.5
+      - 40.784
+      rgb_color:
+      - 216
+      - 151
+      - 255
+      xy_color:
+      - 0.313191
+      - 0.210483
+      effect:
       off_with_transition: false
       off_brightness:
       friendly_name: Tuin Spot 2 (Slaapboom)
       supported_features: 44
+      state: 'on'
+    light.hue_lily_outdoor_spot_light_rgbcct_7:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
       color_mode: xy
       brightness: 191
+      color_temp_kelvin:
+      color_temp:
       hs_color:
-      - 219.588
-      - 76.078
+      - 276.923
+      - 40.784
       rgb_color:
-      - 61
-      - 127
+      - 215
+      - 151
       - 255
       xy_color:
-      - 0.155489
-      - 0.136629
+      - 0.313
+      - 0.21
+      effect:
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Tuin Spot 7 (Grote Boom)
+      supported_features: 44
+      state: 'on'
+    light.hue_lily_outdoor_spot_light_rgbcct_8:
+      min_color_temp_kelvin: 2000
+      max_color_temp_kelvin: 6535
+      min_mireds: 153
+      max_mireds: 500
+      effect_list:
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 191
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 276.923
+      - 40.784
+      rgb_color:
+      - 215
+      - 151
+      - 255
+      xy_color:
+      - 0.313
+      - 0.21
+      effect:
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Tuin Spot 8 (Lavendel)
+      supported_features: 44
       state: 'on'
   metadata: {}
 - id: '1670224195753'
@@ -1577,22 +1725,26 @@
       supported_color_modes:
       - color_temp
       - xy
+      color_mode: color_temp
+      brightness: 254
+      color_temp_kelvin: 2967
+      color_temp: 337
+      hs_color:
+      - 27.881
+      - 57.799
+      rgb_color:
+      - 255
+      - 176
+      - 107
+      xy_color:
+      - 0.499
+      - 0.384
+      effect:
       off_with_transition: false
       off_brightness:
-      friendly_name: Hue Light Tuinhuis On/Off
+      icon: mdi:led-strip-variant
+      friendly_name: Tuinhuis Ledstrip
       supported_features: 44
-      color_mode: xy
-      brightness: 191
-      hs_color:
-      - 179.765
-      - 100
-      rgb_color:
-      - 0
-      - 255
-      - 254
-      xy_color:
-      - 0.151
-      - 0.343
       state: 'on'
   metadata: {}
 - id: '1670225022374'
@@ -1608,22 +1760,25 @@
       supported_color_modes:
       - color_temp
       - xy
+      color_mode: xy
+      brightness: 191
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 277.5
+      - 40.784
+      rgb_color:
+      - 216
+      - 151
+      - 255
+      xy_color:
+      - 0.313191
+      - 0.210483
+      effect:
       off_with_transition: false
       off_brightness:
       friendly_name: Tuin Spot 5 (Terras)
       supported_features: 44
-      color_mode: xy
-      brightness: 191
-      hs_color:
-      - 210.364
-      - 96.863
-      rgb_color:
-      - 8
-      - 130
-      - 255
-      xy_color:
-      - 0.141
-      - 0.137
       state: 'on'
   metadata: {}
 - id: '1678194949780'
@@ -1647,7 +1802,7 @@
       supported_color_modes:
       - brightness
       color_mode: brightness
-      brightness: 38
+      brightness: 26
       off_with_transition: false
       off_brightness:
       friendly_name: Bureau Lamp
@@ -1661,7 +1816,7 @@
       supported_color_modes:
       - brightness
       color_mode: brightness
-      brightness: 89
+      brightness: 76
       off_with_transition: false
       off_brightness:
       friendly_name: Bureau Lamp
@@ -1720,14 +1875,12 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
+      - 'off'
       - colorloop
       supported_color_modes:
       - color_temp
       - xy
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Trix Staanlamp
-      supported_features: 44
+      effect: 'off'
       color_mode: color_temp
       brightness: 254
       color_temp_kelvin: 2000
@@ -1737,11 +1890,19 @@
       - 94.547
       rgb_color:
       - 255
-      - 136
-      - 13
+      - 137
+      - 14
       xy_color:
-      - 0.599
-      - 0.382
+      - 0.598
+      - 0.383
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Trix Staanlamp
+      supported_features: 44
+      state: 'on'
+    switch.ikea_of_sweden_tretakt_smart_plug_1:
+      icon: mdi:string-lights
+      friendly_name: Trix Bed Lampjes
       state: 'on'
   metadata: {}
 - id: '1678350158898'
@@ -1753,16 +1914,16 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
+      - 'off'
       - colorloop
       supported_color_modes:
       - color_temp
       - xy
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Trix Staanlamp
-      supported_features: 44
+      effect: 'off'
       color_mode: xy
       brightness: 13
+      color_temp_kelvin:
+      color_temp:
       hs_color:
       - 120
       - 100
@@ -1773,6 +1934,13 @@
       xy_color:
       - 0.172
       - 0.747
+      off_with_transition: false
+      off_brightness:
+      friendly_name: Trix Staanlamp
+      supported_features: 44
+      state: 'on'
+    switch.ikea_of_sweden_tretakt_smart_plug_1:
+      friendly_name: IKEA of Sweden TRETAKT Smart plug 1
       state: 'on'
   metadata: {}
 - id: '1678350180385'
@@ -1784,13 +1952,79 @@
       min_mireds: 153
       max_mireds: 500
       effect_list:
+      - 'off'
       - colorloop
       supported_color_modes:
       - color_temp
       - xy
+      effect:
+      color_mode:
+      brightness:
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      rgb_color:
+      xy_color:
       off_with_transition: false
-      off_brightness: 153
+      off_brightness: 13
       friendly_name: Trix Staanlamp
       supported_features: 44
       state: 'off'
+    switch.ikea_of_sweden_tretakt_smart_plug_1:
+      friendly_name: IKEA of Sweden TRETAKT Smart plug 1
+      state: 'off'
+  metadata: {}
+- id: '1696235365938'
+  name: Woonkamer - Gaming
+  entities:
+    switch.hue_smart_plug_1:
+      icon: mdi:led-strip-variant
+      friendly_name: Woonkamer LED Lichtjes
+      state: 'on'
+    switch.hue_smart_plug_2:
+      icon: mdi:space-invaders
+      friendly_name: Space Walker
+      state: 'off'
+    light.hue_white_filament_globe_g125_1:
+      supported_color_modes:
+      - brightness
+      color_mode:
+      brightness:
+      off_with_transition: false
+      off_brightness: 254
+      icon: mdi:ceiling-light
+      friendly_name: Woonkamer Lamp
+      supported_features: 40
+      state: 'off'
+    light.lightstrip_woonkamer_tv:
+      min_color_temp_kelvin: 2020
+      max_color_temp_kelvin: 6451
+      min_mireds: 155
+      max_mireds: 495
+      effect_list:
+      - colorloop
+      supported_color_modes:
+      - color_temp
+      - xy
+      color_mode: xy
+      brightness: 191
+      color_temp_kelvin:
+      color_temp:
+      hs_color:
+      - 276.923
+      - 40.784
+      rgb_color:
+      - 215
+      - 151
+      - 255
+      xy_color:
+      - 0.313
+      - 0.21
+      effect:
+      off_with_transition: false
+      off_brightness:
+      icon: mdi:light
+      friendly_name: TV Verlichting
+      supported_features: 44
+      state: 'on'
   metadata: {}

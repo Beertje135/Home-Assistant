@@ -15,6 +15,7 @@ logger:
 api:
  
 ota:
+  - platform: esphome
  
 time:
   - platform: homeassistant
@@ -58,7 +59,6 @@ switch:
   - platform: template
     name: Doorbellback Chime Active
     id: chime_active
-    restore_state: false
     turn_on_action:
       - globals.set:
           id: chime

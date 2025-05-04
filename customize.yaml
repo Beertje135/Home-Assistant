@@ -1,5 +1,3 @@
-light.milight_keuken_bridge:
-  friendly_name: Lampje
 sensor.nmbs:
   icon: mdi:train
   friendly_name: NMBS WILL-MECH
@@ -34,7 +32,7 @@ sensor.ons_huisje_sensor_gas:
   unit_of_measurement: m³
   state_class: total_increasing
   device_class: gas
-proximity.bert:
+sensor.home_iphone_van_bert_distance:
   friendly_name: Bert
-proximity.caroline:
+sensor.home_iphone_van_caroline_distance:
   friendly_name: Caroline

@@ -26,6 +26,30 @@
       - media_player.apple_homepod_mini_zwart_1
       - media_player.apple_homepod_mini_wit_1
       - media_player.apple_homepod_mini_wit_2
+      - media_player.apple_homepod_mini_wit_3
+
+  heating:
+    name: Verwarmen
+    icon: mdi:heat-wave
+    entities:
+      - input_boolean.heating
+      - input_boolean.pre_heat
+
+  cooling:
+    name: Koelen
+    icon: mdi:snowflake-alert
+    entities:
+      - input_boolean.cooling_downstairs
+      - input_boolean.cooling_upstairs
+      - input_boolean.cooling_attic
+
+  windows:
+    name: Ramen
+    icon: mdi:window-closed-variant
+    entities:
+      - binary_sensor.ewelink_ds01_01_opening
+      - binary_sensor.ewelink_ds01_02_opening
+      - binary_sensor.ewelink_ds01_03_opening
 
   computer:
     name: Computer
@@ -39,7 +63,6 @@
   licht_keuken:
     icon: mdi:stove
     entities:
-      - light.milight_keuken_bridge
       - light.lightstrip_keuken
 
   licht_badkamer:
@@ -65,7 +88,7 @@
   licht_slaapkamer:
     icon: mdi:home-roof
     entities:
-      - climate.slaapkamer
+      - climate.airco_slaapkamer
 
   licht_veranda:
     icon: mdi:floor-lamp
@@ -79,13 +102,15 @@
     entities:
       - light.hue_white_and_color_ambiance_a19_gen2_2
       - light.hue_white_filament_globe_g125_2
-      - switch.hue_smart_plug_5
+      - switch.ikea_of_sweden_tretakt_smart_plug_1
+      - climate.airco_trix
 
   licht_slaapkamer2:
     icon: mdi:bed-empty
     entities:
       - light.hue_white_and_color_ambiance_a19_gen2_1
-      - switch.hue_smart_plug_6
+      - switch.ikea_of_sweden_tretakt_smart_plug_2
+      - climate.airco_elmo
 
   licht_slaapkamer2_group1:
     icon: mdi:lightbulb-multiple
@@ -96,6 +121,7 @@
     icon: mdi:desk
     entities:
       - light.hue_white_b22_1
+      - switch.wake_on_lan
 
   licht_tuin:
     icon: mdi:flower
@@ -107,7 +133,10 @@
       - light.hue_lily_outdoor_spot_light_rgbcct_4
       - light.hue_lily_outdoor_spot_light_rgbcct_5
       - light.hue_lily_outdoor_spot_light_rgbcct_6
+      - light.hue_lily_outdoor_spot_light_rgbcct_7
+      - light.hue_lily_outdoor_spot_light_rgbcct_8
       - input_boolean.light_garden_stay_on
+      - input_boolean.eve_aqua_ec68
 
   licht_tuin_group1:
     icon: mdi:flower
@@ -123,6 +152,8 @@
       - light.hue_lily_outdoor_spot_light_rgbcct_3
       - light.hue_lily_outdoor_spot_light_rgbcct_4
       - light.hue_lily_outdoor_spot_light_rgbcct_6
+      - light.hue_lily_outdoor_spot_light_rgbcct_7
+      - light.hue_lily_outdoor_spot_light_rgbcct_8
 
   licht_tuin_tuinhuis:
     icon: mdi:shovel
@@ -130,12 +161,14 @@
       - light.hue_lightstrip_outdoor_2m_1
 
   notifications:
-    name: Notifications
+    name: Notificaties
     icon: mdi:bell
     entities:
       - input_boolean.notify_bert
       - input_boolean.notify_caro
       - input_boolean.notify_speak
+      - switch.doorbellback_chime_active
+      - switch.doorbellfront_chime_active
 
   internet_safety:
     name: Internet Safety

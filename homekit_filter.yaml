@@ -22,6 +22,7 @@ exclude_domains:
 include_entities:
   - input_button.elmo_alarm
   - input_button.trix_alarm
+  - input_button.kindjes_alarm
   - binary_sensor.hue_motion_sensor_2_motion
   - binary_sensor.hue_motion_sensor_1_motion
   - binary_sensor.hue_motion_sensor_3_motion
@@ -29,6 +30,9 @@ include_entities:
   - binary_sensor.hue_outdoor_sensor_3_motion
   - binary_sensor.hue_outdoor_sensor_1_motion
   - binary_sensor.hue_outdoor_sensor_2_motion
+  - binary_sensor.ewelink_ds01_01_opening
+  - binary_sensor.ewelink_ds01_02_opening
+  - binary_sensor.ewelink_ds01_03_opening
   - binary_sensor.bezoek
   - sensor.hue_motion_sensor_2_light_level
   - sensor.hue_motion_sensor_1_light_level
@@ -48,6 +52,8 @@ include_entities:
   - sensor.hue_outdoor_sensor_2_temperature
   - device_tracker.router_iphone_bert
   - device_tracker.router_iphone_caro
+  - switch.doorbellback_chime_active
+  - switch.doorbellfront_chime_active
   - switch.wake_on_lan
   - switch.adguard_safe_browsing
   - switch.adguard_safe_search
@@ -60,10 +66,9 @@ include_entities:
   - switch.hue_smart_plug_4
   - switch.hue_smart_plug_5
   - switch.hue_smart_plug_6
-  - input_boolean.muziek_keuken
-  - input_boolean.muziek_badkamer
-  - input_boolean.muziek_woonkamer
-  - input_boolean.muziek_slaapkamer
+  - switch.ikea_of_sweden_tretakt_smart_plug_1
+  - switch.ikea_of_sweden_tretakt_smart_plug_2
+  - light.hue_white_b22_2
   - input_boolean.vacuum_clean_today
   - input_boolean.kids_wekker
   - input_boolean.visitor
@@ -78,5 +83,9 @@ include_entities:
   - input_select.woning_status
   - input_select.harmony_hub
   - input_boolean.pre_heat
+  - input_boolean.eve_aqua_ec68
 exclude_entities:
   - climate.ons_huisje
+  - climate.airco_trix
+  - climate.airco_elmo
+  - climate.airco_slaapkamer

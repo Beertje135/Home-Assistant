@@ -26,6 +26,20 @@
   - sensor.hue_outdoor_sensor_1_temperature
   - sensor.hue_outdoor_sensor_2_temperature
 
+
+# SENSORS USED TO DIPLAY ONLY CURRENT TEMPERATURE ON FRONTEND (ELSE YOU HAVE SET TEMPERATURE)
+
+- platform: template
+  sensors:
+    climate_elmo_attribute_current_temperature:
+      unique_id: elmo_temp
+      value_template: "{{ (state_attr('climate.elmo', 'current_temperature') | float ) | round(2) }}"
+      unit_of_measurement: '°C'
+    climate_trix_attribute_current_temperature:
+      unique_id: trix_temp
+      value_template: "{{ (state_attr('climate.trix', 'current_temperature') | float ) | round(2) }}"
+      unit_of_measurement: '°C'
+
 # SENSORS USED IN LONG TERM DATA TO SEE INFLUENCE OF DELTA TEMPERATURES ON GAS USE
 
 - platform: template
@@ -66,30 +80,6 @@
 
 # SENSOR TO MONITOR TRAIN CONNECTION
 
-- platform: nmbs
-  station_from: "Willebroek"
-  station_to: "Mechelen"
-  exclude_vias: true
-  name: nmbs
-
-- platform: nmbs
-  station_from: "Mechelen"
-  station_to: "Willebroek"
-  exclude_vias: true
-  name: nmbs_3
-
-- platform: nmbs
-  station_from: "Brussel-Centraal"
-  station_to: "Mechelen"
-  exclude_vias: true
-  name: nmbs_4
-
-- platform: nmbs
-  station_from: "Mechelen"
-  station_to: "Brussel-Centraal"
-  exclude_vias: true
-  name: nmbs_2
-
 - platform: template
   sensors:
     nmbs_template:
@@ -128,13 +118,13 @@
 
 # SENSOR TO CHECK STATE OF RASPBERRY PI
 
-- platform: systemmonitor
-  resources:
-    - type: disk_use_percent
-      arg: /home
-    - type: memory_use_percent
-    - type: processor_use
-    - type: last_boot
+#- platform: systemmonitor
+#  resources:
+#    - type: disk_use_percent
+#      arg: /home
+#    - type: memory_use_percent
+#    - type: processor_use
+#    - type: last_boot
 
 # SENSOR TO USE DATE AND TIME
 

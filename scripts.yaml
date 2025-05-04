@@ -6,9 +6,16 @@ empty:
 all_switch_off:
   alias: All - Switch - Uit
   sequence:
-  - service: switch.turn_off
-    entity_id: switch.hue_smart_plug_1, switch.hue_smart_plug_2, switch.hue_smart_plug_3,
-      switch.hue_smart_plug_4
+  - data: {}
+    target:
+      entity_id:
+      - switch.hue_smart_plug_1
+      - switch.hue_smart_plug_2
+      - switch.hue_smart_plug_3
+      - switch.hue_smart_plug_4
+      - switch.ikea_of_sweden_tretakt_smart_plug_1
+      - switch.ikea_of_sweden_tretakt_smart_plug_2
+    action: switch.turn_off
   mode: single
 all_remote_off:
   alias: All - Remote - Uit
@@ -50,27 +57,45 @@ all_music_off:
 all_light_off:
   alias: All - Light - Uit
   sequence:
-  - service: light.turn_off
-    entity_id: light.hue_white_filament_globe_g125_1, light.hue_white_and_color_ambiance_a19_gen2_1,
-      light.hue_white_b22_2, light.hue_white_and_color_ambiance_a19_gen2_2, light.milight_keuken_bridge,
-      light.lightstrip_woonkamer_tv
-  - service: switch.turn_off
-    entity_id: switch.hue_smart_plug_1, switch.hue_smart_plug_2, switch.hue_smart_plug_3,
-      switch.hue_smart_plug_4
+  - action: light.turn_off
+    data: {}
+    target:
+      entity_id:
+      - light.hue_white_filament_globe_g125_1
+      - light.hue_white_filament_globe_g125_2
+      - light.hue_white_and_color_ambiance_a19_gen2_1
+      - light.hue_white_and_color_ambiance_a19_gen2_2
+      - light.hue_white_b22_2
+      - light.lightstrip_woonkamer_tv
+  - action: switch.turn_off
+    data: {}
+    target:
+      entity_id:
+      - switch.ikea_of_sweden_tretakt_smart_plug_1
+      - switch.ikea_of_sweden_tretakt_smart_plug_2
+      - switch.hue_smart_plug_1
+      - switch.hue_smart_plug_2
+      - switch.hue_smart_plug_3
+      - switch.hue_smart_plug_4
   mode: single
 all_all_off:
   alias: All - All - Uit
   sequence:
   - service: script.turn_on
-    entity_id: script.all_light_off, script.all_music_off, script.all_remote_off,
-      script.all_switch_off
+    data: {}
+    target:
+      entity_id:
+      - script.all_light_off
+      - script.all_music_off
+      - script.all_remote_off
+      - script.all_switch_off
   mode: single
 dusty_on:
   alias: Dusty - Aan
   sequence:
-  - condition: time
-    after: input_datetime.dusty_start
-    before: input_datetime.dusty_stop
+  - condition: state
+    entity_id: schedule.dusty
+    state: 'on'
   - condition: numeric_state
     entity_id: sensor.hue_motion_sensor_2_light_level
     above: '10'
@@ -609,7 +634,7 @@ radio_kitchen_volume:
           entity_id: media_player.apple_homepod_mini_wit_1
     - conditions:
       - condition: time
-        before: 07:30:00
+        before: 08:30:00
       sequence:
       - service: media_player.volume_set
         data:
@@ -622,7 +647,7 @@ radio_kitchen_volume:
       sequence:
       - service: media_player.volume_set
         data:
-          volume_level: 0.06
+          volume_level: 0.04
         target:
           entity_id: media_player.apple_homepod_mini_wit_1
     - conditions:
@@ -635,7 +660,7 @@ radio_kitchen_volume:
         entity_id: person.bert
         state: home
       - condition: time
-        after: 07:30:00
+        after: 08:00:00
       sequence:
       - service: media_player.volume_set
         data:
@@ -655,7 +680,7 @@ radio_kitchen_volume:
     default:
     - service: media_player.volume_set
       data:
-        volume_level: 0.2
+        volume_level: 0.04
       target:
         entity_id: media_player.apple_homepod_mini_wit_1
   max: 10
@@ -766,6 +791,12 @@ light_bathroom_on:
   mode: single
   max_exceeded: silent
   sequence:
+  - wait_template: '{{ not is_state(''light.lightstrip_badkamer'', ''unavailable'')}}'
+    continue_on_timeout: false
+    timeout: 00:05:00
+  - wait_template: '{{ not is_state(''light.lightstrip_badkamer'', ''unknown'')}}'
+    continue_on_timeout: false
+    timeout: 00:05:00
   - choose:
     - conditions:
       - condition: state
@@ -777,8 +808,8 @@ light_bathroom_on:
         after: 05:00:00
         before: '23:00:00'
       sequence:
-      - service: scene.turn_on
-        entity_id: scene.badkamer_gedimmed
+      - entity_id: scene.badkamer_gedimmed
+        action: scene.turn_on
     - conditions:
       - condition: state
         entity_id: input_select.woning_status
@@ -787,39 +818,42 @@ light_bathroom_on:
         after: 05:00:00
         before: '23:00:00'
       sequence:
-      - service: scene.turn_on
-        entity_id: scene.badkamer_normaal
+      - entity_id: scene.badkamer_normaal
+        action: scene.turn_on
     - conditions:
       - condition: state
         entity_id: input_select.woning_status
         state: Slapen
       sequence:
-      - service: scene.turn_on
-        entity_id: scene.badkamer_nacht
+      - entity_id: scene.badkamer_nacht
+        action: scene.turn_on
     - conditions:
       - condition: state
         entity_id: input_select.woning_status
         state: Juist Wakker
       sequence:
-      - service: scene.turn_on
-        entity_id: scene.badkamer_gedimmed
+      - action: scene.turn_on
+        data: {}
+        target:
+          entity_id:
+          - scene.badkamer_normaal
     - conditions:
       - condition: time
         after: '21:40:00'
         before: 06:10:00
       sequence:
-      - service: scene.turn_on
-        entity_id: scene.badkamer_gedimmed
+      - entity_id: scene.badkamer_gedimmed
+        action: scene.turn_on
     - conditions:
       - condition: state
         entity_id: input_boolean.sun_up_down
         state: 'on'
       sequence:
-      - service: scene.turn_on
-        entity_id: scene.badkamer_normaal_dag
+      - entity_id: scene.badkamer_normaal_dag
+        action: scene.turn_on
     default:
-    - service: scene.turn_on
-      entity_id: scene.badkamer_normaal
+    - entity_id: scene.badkamer_normaal
+      action: scene.turn_on
 light_dressing_on:
   alias: Licht - Dressing - Aan
   sequence:
@@ -830,9 +864,77 @@ light_dressing_on:
         elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time')
         >= '21:51' or states('sensor.time') <= '05:00') %}\n  scene.dressing_nacht\n{%
         elif states('input_select.woning_status') in ['Juist Wakker'] %}\n  scene.dressing_gedimmed\n{%
-        elif states('sensor.time') >= '21:40' or states('sensor.time') <= '06:45'
-        %}\n  scene.dressing_gedimmed\n{% else %}\n  scene.dressing_normaal\n{% endif
-        %}\n"
+        elif (states('switch.hue_smart_plug_6') in ['on'] or states('switch.hue_smart_plug_5')
+        in ['on']) and (states('sensor.time') > '17:00' and states('sensor.time')
+        < '09:00') %}\n  scene.dressing_gedimmed\n{% elif states('sensor.time') >=
+        '21:40' or states('sensor.time') <= '06:45' %}\n  scene.dressing_gedimmed\n{%
+        else %}\n  scene.dressing_normaal\n{% endif %}\n"
+    enabled: false
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Slapen
+      - condition: time
+        after: 05:00:00
+        before: '21:50:00'
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.dressing_nacht
+        metadata: {}
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Slapen
+      - condition: time
+        after: '21:50:00'
+        before: 05:00:00
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.dressing_nacht
+        metadata: {}
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: switch.hue_smart_plug_5
+          state: 'on'
+        - condition: state
+          entity_id: switch.hue_smart_plug_6
+          state: 'on'
+      - condition: time
+        after: '17:00:00'
+        before: 09:00:00
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.dressing_nacht
+        metadata: {}
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Juist Wakker
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.dressing_gedimmed
+        metadata: {}
+    - conditions:
+      - condition: time
+        after: '21:50:00'
+        before: 06:45:00
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.dressing_gedimmed
+        metadata: {}
+    default:
+    - service: scene.turn_on
+      target:
+        entity_id: scene.dressing_normaal
+      metadata: {}
 light_bureau_on:
   alias: Licht - Bureau - Aan
   sequence:
@@ -846,6 +948,72 @@ light_bureau_on:
         elif states('sensor.time') >= '21:40' or states('sensor.time') <= '06:45'
         %}\n  scene.bureau_gedimmed\n{% else %}\n  scene.bureau_normaal\n{% endif
         %}\n"
+    enabled: false
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Slapen
+      - condition: time
+        after: 05:00:00
+        before: '21:50:00'
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.bureau_nacht
+        metadata: {}
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Slapen
+      - condition: time
+        after: '21:50:00'
+        before: 05:00:00
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.bureau_nacht
+        metadata: {}
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: switch.hue_smart_plug_5
+          state: 'on'
+        - condition: state
+          entity_id: switch.hue_smart_plug_6
+          state: 'on'
+      - condition: time
+        after: '17:00:00'
+        before: 09:00:00
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.bureau_nacht
+        metadata: {}
+    - conditions:
+      - condition: state
+        entity_id: input_select.woning_status
+        state: Juist Wakker
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.bureau_gedimmed
+        metadata: {}
+    - conditions:
+      - condition: time
+        after: '21:50:00'
+        before: 06:45:00
+      sequence:
+      - service: scene.turn_on
+        target:
+          entity_id: scene.bureau_gedimmed
+        metadata: {}
+    default:
+    - service: scene.turn_on
+      target:
+        entity_id: scene.bureau_normaal
+      metadata: {}
   mode: single
   max_exceeded: silent
 light_kitchen_on:
@@ -858,13 +1026,13 @@ light_kitchen_on:
         elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time')
         >= '23:01' or states('sensor.time') <= '05:00') %}\n  scene.keuken_nacht\n{%
         elif states('input_boolean.sun_up_down') in ['off'] and states('input_select.woning_status')
-        in ['Juist Wakker'] %}\n scene.keuken_gedimmed\n{% elif states('sensor.time')
-        >= states('input_datetime.elmo_slapen') and states('input_boolean.media_livingroom')
-        in ['on'] %}\n  scene.keuken_film\n{% elif (states('sensor.time') >= '20:30'
-        and states('sensor.time') <= '06:30') %}\n  scene.keuken_gedimmed\n{% elif
-        states('sensor.hue_motion_sensor_2_light_level') < '100' and states('binary_sensor.hue_motion_sensor_2_motion')
-        in ['off'] and states('input_select.woning_status') in ['Thuis', 'Juist Thuis',
-        'Thuis Werk', 'Thuis Verlof'] %}\n  scene.keuken_gedimmed\n{% elif states('input_boolean.sun_up_down')
+        in ['Juist Wakker'] %}\n scene.keuken_gedimmed\n{% elif states('schedule.slapen_elmo')
+        in ['on'] and states('input_boolean.media_livingroom') in ['on'] %}\n  scene.keuken_film\n{%
+        elif (states('sensor.time') >= '20:30' and states('sensor.time') <= '06:30')
+        %}\n  scene.keuken_gedimmed\n{% elif states('sensor.hue_motion_sensor_2_light_level')
+        < '100' and states('binary_sensor.hue_motion_sensor_2_motion') in ['off']
+        and states('input_select.woning_status') in ['Thuis', 'Juist Thuis', 'Thuis
+        Werk', 'Thuis Verlof'] %}\n  scene.keuken_gedimmed\n{% elif states('input_boolean.sun_up_down')
         in ['on'] %}\n  scene.keuken_normaal_dag\n{% elif states('input_boolean.sun_up_down')
         in ['off'] and states('sensor.time') > '20:00' and states('sensor.time') <
         '06:55' %}\n scene.keuken_gedimmed\n{% else %}\n  scene.keuken_normaal\n{%
@@ -879,24 +1047,20 @@ light_elmo:
       - condition: state
         entity_id: light.hue_white_and_color_ambiance_a19_gen2_1
         state: 'off'
-      - condition: or
+      - condition: and
         conditions:
-        - condition: and
+        - condition: state
+          entity_id: schedule.slapen_elmo
+          state: 'off'
+        - condition: not
           conditions:
           - condition: state
-            entity_id: binary_sensor.workday_sensor
-            state: 'on'
-          - condition: time
-            after: input_datetime.elmo_wekker_week
-            before: 08:01:00
-        - condition: and
-          conditions:
-          - condition: state
-            entity_id: binary_sensor.workday_sensor
+            entity_id: schedule.slapen_elmo
             state: 'off'
-          - condition: time
-            after: input_datetime.elmo_wekker_weekend
-            before: 08:01:00
+            for:
+              hours: 1
+              minutes: 0
+              seconds: 0
       sequence:
       - service: scene.turn_on
         data:
@@ -905,27 +1069,9 @@ light_elmo:
       - condition: state
         entity_id: light.hue_white_and_color_ambiance_a19_gen2_1
         state: 'off'
-      - condition: or
-        conditions:
-        - condition: time
-          after: input_datetime.dutje_start
-          before: input_datetime.dutje_stop
-        - condition: and
-          conditions:
-          - condition: state
-            entity_id: binary_sensor.workday_sensor
-            state: 'on'
-          - condition: time
-            after: input_datetime.elmo_slapen
-            before: input_datetime.elmo_wekker_week
-        - condition: and
-          conditions:
-          - condition: state
-            entity_id: binary_sensor.workday_sensor
-            state: 'off'
-          - condition: time
-            after: input_datetime.elmo_slapen
-            before: input_datetime.elmo_wekker_weekend
+      - condition: state
+        entity_id: schedule.slapen_elmo
+        state: 'on'
       sequence:
       - service: scene.turn_on
         data:
@@ -951,24 +1097,11 @@ light_trix:
       - condition: state
         entity_id: light.hue_white_and_color_ambiance_a19_gen2_2
         state: 'off'
-      - condition: or
-        conditions:
-        - condition: and
-          conditions:
-          - condition: state
-            entity_id: binary_sensor.workday_sensor
-            state: 'on'
-          - condition: time
-            after: input_datetime.trix_wekker_week
-            before: 08:01:00
-        - condition: and
-          conditions:
-          - condition: state
-            entity_id: binary_sensor.workday_sensor
-            state: 'off'
-          - condition: time
-            after: input_datetime.trix_wekker_weekend
-            before: 08:01:00
+      - condition: state
+        entity_id: schedule.slapen_trix
+        state: 'off'
+      - condition: time
+        before: 08:00:00
       sequence:
       - service: scene.turn_on
         data:
@@ -977,27 +1110,9 @@ light_trix:
       - condition: state
         entity_id: light.hue_white_and_color_ambiance_a19_gen2_2
         state: 'off'
-      - condition: or
-        conditions:
-        - condition: time
-          after: input_datetime.dutje_start
-          before: input_datetime.dutje_stop
-        - condition: and
-          conditions:
-          - condition: state
-            entity_id: binary_sensor.workday_sensor
-            state: 'on'
-          - condition: time
-            after: input_datetime.trix_slapen
-            before: input_datetime.trix_wekker_week
-        - condition: and
-          conditions:
-          - condition: state
-            entity_id: binary_sensor.workday_sensor
-            state: 'off'
-          - condition: time
-            after: input_datetime.trix_slapen
-            before: input_datetime.trix_wekker_weekend
+      - condition: state
+        entity_id: schedule.slapen_trix
+        state: 'on'
       sequence:
       - service: scene.turn_on
         data:
@@ -1024,14 +1139,15 @@ light_porch_on:
         > '05:01' and states('sensor.time') < '23:00') %}\n  scene.veranda_gedimmed\n{%
         elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time')
         >= '23:01' or states('sensor.time') <= '05:00') %}\n  scene.veranda_nacht\n{%
-        elif states('sensor.time') >= states('input_datetime.elmo_slapen') and states('input_boolean.media_livingroom')
-        in ['on'] %}\n  scene.veranda_film\n{% elif states('sensor.time') >= states('input_datetime.elmo_slapen')
-        and state_attr('remote.harmony_hub', 'current_activity') in ['TV Decoder','WebOS','Apple
-        tv'] %}\n  scene.veranda_televisie\n{% elif states('input_boolean.media_kitchen')
+        elif states('schedule.slapen_elmo') in ['on'] and states('input_boolean.media_livingroom')
+        in ['on'] %}\n  scene.veranda_film\n{% elif states('schedule.slapen_elmo')
+        in ['on'] and state_attr('remote.harmony_hub', 'current_activity') in ['TV
+        Decoder','WebOS','Apple tv'] %}\n  scene.veranda_televisie\n{% elif states('input_boolean.media_kitchen')
         in ['on'] %}\n  scene.veranda_gedimmed\n{% elif states('sensor.time') >= '21:40'
         %}\n  scene.veranda_gedimmed\n{% elif states('sensor.time') < '07:15' %}\n
         \ scene.veranda_gedimmed\n{% else %}\n  scene.veranda_normaal\n{% endif %}\n"
   mode: single
+  max_exceeded: silent
 light_livingroom_on:
   alias: Licht - Woonkamer - Aan
   mode: single
@@ -1043,12 +1159,14 @@ light_livingroom_on:
         > '05:01' and states('sensor.time') < '23:00') %}\n  scene.woonkamer_gedimmed\n{%
         elif states('input_select.woning_status') in ['Slapen'] and (states('sensor.time')
         >= '23:01' or states('sensor.time') <= '05:00') %}\n  scene.woonkamer_nacht\n{%
-        elif states('sensor.time') >= states('input_datetime.elmo_slapen') and states('input_boolean.media_livingroom')
+        elif states('schedule.slapen_elmo') in ['on'] and states('input_boolean.media_livingroom')
         in ['on'] %}\n  scene.woonkamer_film\n{% elif state_attr('remote.harmony_hub',
         'current_activity') in ['TV Decoder','WebOS','Apple tv'] %}\n  scene.woonkamer_televisie\n{%
-        elif states('sensor.time') >= '21:40' %}\n  scene.woonkamer_gedimmed\n{% elif
-        (states('sensor.hue_motion_sensor_3_light_level') | float(0)) > 26 %}\n  scene.woonkamer_gedimmed\n{%
-        else %}\n  scene.woonkamer_normaal\n{% endif %}\n"
+        elif state_attr('remote.harmony_hub', 'current_activity') in ['Nintendo Switch']
+        %}\n  scene.woonkamer_gaming\n{% elif states('sensor.time') >= '21:40' %}\n
+        \ scene.woonkamer_gedimmed\n{% elif (states('sensor.hue_motion_sensor_3_light_level')
+        | float(0)) > 26 %}\n  scene.woonkamer_gedimmed\n{% else %}\n  scene.woonkamer_normaal\n{%
+        endif %}\n"
 light_livingroom_off:
   alias: Licht - Woonkamer - Uit
   sequence:
@@ -1148,9 +1266,12 @@ evo_status_auto:
 evo_zone_bathroom_reset:
   alias: Evohome - Badkamer - Reset
   sequence:
-  - condition: template
-    value_template: '{{ (state_attr(''climate.badkamer'', ''preset_mode'') != ''none''
-      ) }}'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: climate.badkamer
+      attribute: preset_mode
+      state: none
   - service: climate.set_preset_mode
     data:
       entity_id: climate.badkamer
@@ -1206,168 +1327,14 @@ evo_zone_livingroom_rise:
 notify_battery:
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_battery_ios_bert
-    - script.notify_battery_speak
+    data: {}
+    target:
+      entity_id:
+      - script.notify_battery_ios_bert
+      - script.notify_battery_speak
   alias: Notificatie - Batterij
   mode: single
 notify_battery_speak:
-  sequence:
-  - condition: state
-    entity_id: input_boolean.notify_speak
-    state: 'on'
-  - condition: template
-    value_template: '{{ states(''group.bewoners'') in [''home''] }}'
-  - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
-      }}'
-  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
-    timeout: 00:05:00
-    continue_on_timeout: false
-  - service: script.turn_on
-    entity_id: script.notify_prepare_media
-  - delay: 00:00:02
-  - service: tts.google_translate_say
-    data:
-      entity_id:
-      - media_player.apple_homepod_mini_wit_1
-      - media_player.apple_homepod_mini_zwart_1
-      - media_player.apple_homepod_mini_wit_2
-      message: Er is een batterij bijna leeg
-  - service: script.turn_on
-    entity_id:
-    - script.notify_resume_media
-  alias: Notificatie - Batterij - Spreek
-  mode: single
-notify_battery_ios_bert:
-  sequence:
-  - condition: state
-    entity_id: input_boolean.notify_bert
-    state: 'on'
-  - service: notify.mobile_app_iphone_van_bert
-    data:
-      title: BATTERIJ
-      message: Er is een batterij bijna leeg
-      data:
-        group: huis
-  alias: Notificatie - Batterij - iOS Bert
-  mode: single
-notify_bezoeker_babysit_ios_bert:
-  sequence:
-  - condition: state
-    entity_id: input_boolean.notify_bert
-    state: 'on'
-  - service: notify.mobile_app_iphone_van_bert
-    data:
-      title: BABYSIT
-      message: Mag babysit afgemeld worden?
-      data:
-        group: bezoek
-        tag: babysit-status
-  alias: Notificatie - Bezoeker Babysit - iOS Bert
-  mode: single
-notify_bezoeker_babysit_ios_caro:
-  sequence:
-  - condition: state
-    entity_id: input_boolean.notify_caro
-    state: 'on'
-  - service: notify.mobile_app_iphone_van_caroline
-    data:
-      title: BABYSIT
-      message: Mag babysit afgemeld worden?
-      data:
-        group: bezoek
-        tag: babysit-status
-  alias: Notificatie - Bezoeker Babysit - iOS Caroline
-  mode: single
-notify_cooling_downstairs:
-  sequence:
-  - service: script.turn_on
-    entity_id:
-    - script.notify_cooling_downstairs_ios_bert
-    - script.notify_cooling_downstairs_ios_caro
-    - script.notify_cooling_downstairs_speak
-  alias: Notificatie - Ventilatie Beneden
-  mode: single
-notify_cooling_downstairs_speak:
-  sequence:
-  - condition: state
-    entity_id: input_boolean.notify_speak
-    state: 'on'
-  - condition: template
-    value_template: '{{ states(''group.bewoners'') in [''home''] }}'
-  - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
-      }}'
-  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
-    timeout: 00:05:00
-    continue_on_timeout: false
-  - service: script.turn_on
-    entity_id: script.notify_prepare_media
-  - delay: 00:00:02
-  - service: tts.google_translate_say
-    data_template:
-      entity_id:
-      - media_player.apple_homepod_mini_wit_1
-      - media_player.apple_homepod_mini_zwart_1
-      - media_player.apple_homepod_mini_wit_2
-      message: "{% if states('input_boolean.cooling_downstairs') == 'on' %}\n  'Het
-        is buiten kouder dan in de keuken. Misschien een raam open zetten?'\n{% else
-        %}\n  'Het is buiten warm aan het worden. Best de ramen sluiten.'\n{% endif
-        %}\n"
-  - service: script.turn_on
-    entity_id:
-    - script.notify_resume_media
-  alias: Notificatie - Ventilatie Beneden - Spreek
-  mode: single
-notify_cooling_downstairs_ios_bert:
-  sequence:
-  - condition: state
-    entity_id: input_boolean.notify_bert
-    state: 'on'
-  - condition: state
-    entity_id: person.bert
-    state: home
-  - service: notify.mobile_app_iphone_van_bert
-    data_template:
-      title: VERLUCHTING
-      message: "{% if states('input_boolean.cooling_downstairs') == 'on' %}\n  Het
-        is buiten frisser dan in de keuken. Misschien even verluchten?\n{% else %}\n
-        \ Het is buiten warm aan het worden. Best de ramen sluiten.\n{% endif %}\n"
-      data:
-        group: huis
-        tag: verwarming-beneden-status
-  alias: Notificatie - Ventilatie Beneden - iOS Bert
-  mode: single
-notify_cooling_downstairs_ios_caro:
-  sequence:
-  - condition: state
-    entity_id: input_boolean.notify_caro
-    state: 'on'
-  - condition: state
-    entity_id: person.caroline
-    state: home
-  - service: notify.mobile_app_iphone_van_caroline
-    data_template:
-      title: VERLUCHTING
-      message: "{% if states('input_boolean.cooling_downstairs') == 'on' %}\n  Het
-        is buiten frisser dan in de keuken. Misschien even verluchten?\n{% else %}\n
-        \ Het is buiten warm aan het worden. Best de ramen sluiten.\n{% endif %}\n"
-      data:
-        group: huis
-        tag: verwarming-beneden-status
-  alias: Notificatie - Ventilatie Beneden - iOS Caroline
-  mode: single
-notify_cooling_upstairs:
-  sequence:
-  - service: script.turn_on
-    entity_id:
-    - script.notify_cooling_upstairs_ios_bert
-    - script.notify_cooling_upstairs_ios_caro
-    - script.notify_cooling_upstairs_speak
-  alias: Notificatie - Ventilatie Boven
-  mode: single
-notify_cooling_upstairs_speak:
   sequence:
   - condition: state
     entity_id: input_boolean.notify_speak
@@ -1386,70 +1353,72 @@ notify_cooling_upstairs_speak:
   - service: script.turn_on
     entity_id: script.notify_prepare_media
   - delay: 00:00:02
-  - service: tts.google_translate_say
-    data_template:
+  - service: tts.cloud_say
+    data:
+      language: nl-NL
+      cache: true
       entity_id:
       - media_player.apple_homepod_mini_wit_1
       - media_player.apple_homepod_mini_zwart_1
       - media_player.apple_homepod_mini_wit_2
-      message: "{% if states('input_boolean.cooling_upstairs') == 'on' %}\n  'Het
-        is koud buiten. Misschien de kinderkamers verluchten?'\n{% else %}\n  'Het
-        word warm buiten. Miischien de airconditioning opzetten in de kinderen hun
-        kamer?'\n{% endif %}\n"
+      message: Er is een batterij bijna leeg
   - service: script.turn_on
     entity_id:
     - script.notify_resume_media
-  alias: Notificatie - Ventilatie Boven - Spreek
+  alias: Notificatie - Batterij - Spreek
   mode: single
-notify_cooling_upstairs_ios_bert:
+notify_battery_ios_bert:
   sequence:
   - condition: state
     entity_id: input_boolean.notify_bert
     state: 'on'
-  - condition: state
-    entity_id: person.bert
-    state: home
   - service: notify.mobile_app_iphone_van_bert
-    data_template:
-      title: VERLUCHTING
-      message: "{% if states('input_boolean.cooling_upstairs') == 'on' %}\n  Het is
-        buiten frisser. Misschien even verluchten op de kamers?\n{% else %}\n  Het
-        is buiten warm aan het worden. Misschien de Airco opzetten op de kamers?\n{%
-        endif %}\n"
+    data:
+      title: BATTERIJ BIJNA LEEG
+      message: Er is een batterij bijna leeg
       data:
         group: huis
-        tag: verwarming-boven-status
-  alias: Notificatie - Ventilatie Boven - iOS Bert
+  alias: Notificatie - Batterij - iOS Bert
   mode: single
-notify_cooling_upstairs_ios_caro:
+notify_bezoeker_babysit_ios_bert:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - service: notify.mobile_app_iphone_van_bert
+    data:
+      title: BABYSIT AFMELDEN?
+      message: Mag babysit afgemeld worden?
+      data:
+        group: bezoek
+        tag: babysit-status
+  alias: Notificatie - Bezoeker Babysit - iOS Bert
+  mode: single
+notify_bezoeker_babysit_ios_caro:
   sequence:
   - condition: state
     entity_id: input_boolean.notify_caro
     state: 'on'
-  - condition: state
-    entity_id: person.caroline
-    state: home
   - service: notify.mobile_app_iphone_van_caroline
-    data_template:
-      title: VERLUCHTING
-      message: "{% if states('input_boolean.cooling_upstairs') == 'on' %}\n  Het is
-        buiten frisser. Misschien even verluchten op de kamers?\n{% else %}\n  Het
-        is buiten warm aan het worden. Misschien de Airco opzetten op de kamers?\n{%
-        endif %}\n"
+    data:
+      title: BABYSIT AFMELDEN?
+      message: Mag babysit afgemeld worden?
       data:
-        group: huis
-        tag: verwarming-boven-status
-  alias: Notificatie - Ventilatie Boven - iOS Caroline
+        group: bezoek
+        tag: babysit-status
+  alias: Notificatie - Bezoeker Babysit - iOS Caroline
   mode: single
 notify_deurbel:
   alias: Notificatie - Deurbel
   mode: single
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_deurbel_ios_bert
-    - script.notify_deurbel_ios_caro
-    - script.notify_deurbel_speak
+    data: {}
+    target:
+      entity_id:
+      - script.notify_deurbel_ios_bert
+      - script.notify_deurbel_ios_caro
+      - script.notify_deurbel_speak
 notify_deurbel_speak:
   alias: Notificatie - Deurbel - Spreek
   mode: single
@@ -1457,24 +1426,42 @@ notify_deurbel_speak:
   - condition: state
     entity_id: input_boolean.notify_speak
     state: 'on'
-  - condition: template
-    value_template: '{{ states(''group.bewoners_router'') in [''home''] or states(''binary_sensor.bezoek'')
-      in [''on'']}}'
-  - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
-      }}'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: group.bewoners_router
+      state: home
+    - condition: state
+      entity_id: binary_sensor.bezoek
+      state: 'on'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
   - service: script.turn_on
     entity_id: script.notify_prepare_media
   - delay: 00:00:02
-  - service: tts.google_translate_say
+  - service: tts.cloud_say
     data:
-      entity_id:
-      - media_player.apple_homepod_mini_wit_1
-      - media_player.apple_homepod_mini_wit_2
-      - media_player.apple_homepod_mini_zwart_1
+      language: nl-NL
+      cache: true
+      entity_id: media_player.apple_homepod_mini_wit_1
       message: Er staat iemand aan de voordeur
   - service: script.turn_on
     entity_id: script.notify_resume_media
+  - service: tts.cloud_say
+    data:
+      language: nl-NL
+      cache: true
+      message: Er staat iemand aan de voordeur
+      entity_id: media_player.apple_homepod_mini_wit_3
+  - service: tts.cloud_say
+    data:
+      language: nl-NL
+      cache: true
+      message: Er staat iemand aan de voordeur
+      entity_id: media_player.apple_homepod_mini_zwart_1
 notify_deurbel_ios_bert:
   alias: Notificatie - Deurbel - iOS Bert
   mode: single
@@ -1482,12 +1469,13 @@ notify_deurbel_ios_bert:
   - condition: state
     entity_id: input_boolean.notify_bert
     state: 'on'
-  - service: notify.mobile_app_iphone_van_bert
-    data_template:
-      title: VOORDEUR
-      message: Ding Dong! Er staat iemand aan de voordeur.
+  - data_template:
+      title: BEL VOORDEUR
+      message: Ding Dong! Er staat iemand aan de voordeur. ({{as_timestamp(state_attr('automation.deurbel_voordeur_als_deurbel_gaat',
+        'last_triggered')) | timestamp_custom('%H:%M', local=true)}})
       data:
         group: huis
+    action: notify.mobile_app_iphone_van_bert
 notify_deurbel_ios_caro:
   alias: Notificatie - Deurbel - iOS Caroline
   mode: single
@@ -1510,7 +1498,7 @@ notify_deurbel_ios_caro:
         state: not_home
   - service: notify.mobile_app_iphone_van_caroline
     data_template:
-      title: VOORDEUR
+      title: BEL VOORDEUR
       message: Ding Dong! Er staat iemand aan de voordeur.
       data:
         group: huis
@@ -1519,10 +1507,12 @@ notify_deurbel_back:
   mode: single
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_deurbel_back_ios_bert
-    - script.notify_deurbel_back_ios_caro
-    - script.notify_deurbel_back_speak
+    data: {}
+    target:
+      entity_id:
+      - script.notify_deurbel_back_ios_bert
+      - script.notify_deurbel_back_ios_caro
+      - script.notify_deurbel_back_speak
 notify_deurbel_back_speak:
   alias: Notificatie - Deurbel Achter - Spreek
   mode: single
@@ -1530,17 +1520,26 @@ notify_deurbel_back_speak:
   - condition: state
     entity_id: input_boolean.notify_speak
     state: 'on'
-  - condition: template
-    value_template: '{{ states(''group.bewoners_router'') in [''home''] or states(''binary_sensor.bezoek'')
-      in [''on'']}}'
-  - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
-      }}'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: group.bewoners_router
+      state: home
+    - condition: state
+      entity_id: binary_sensor.bezoek
+      state: 'on'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
   - service: script.turn_on
     entity_id: script.notify_prepare_media
   - delay: 00:00:02
-  - service: tts.google_translate_say
+  - service: tts.cloud_say
     data:
+      language: nl-NL
+      cache: true
       entity_id:
       - media_player.apple_homepod_mini_wit_1
       - media_player.apple_homepod_mini_zwart_1
@@ -1556,12 +1555,13 @@ notify_deurbel_back_ios_bert:
   - condition: state
     entity_id: input_boolean.notify_bert
     state: 'on'
-  - service: notify.mobile_app_iphone_van_bert
-    data_template:
-      title: ACHTERDEUR
-      message: Ding Dong! Er staat iemand aan de ACHTERdeur.
+  - data_template:
+      title: BEL ACHTERDEUR
+      message: Ding Dong! Er staat iemand aan de ACHTERdeur. ({{as_timestamp(state_attr('automation.deurbel_achterdeur_als_deurbel_gaat',
+        'last_triggered')) | timestamp_custom('%H:%M', local=true)}})
       data:
         group: huis
+    action: notify.mobile_app_iphone_van_bert
 notify_deurbel_back_ios_caro:
   alias: Notificatie - Deurbel Achter - iOS Caroline
   mode: single
@@ -1584,136 +1584,17 @@ notify_deurbel_back_ios_caro:
         state: not_home
   - service: notify.mobile_app_iphone_van_caroline
     data_template:
-      title: ACHTERDEUR
+      title: BEL ACHTERDEUR
       message: Ding Dong! Er staat iemand aan de ACHTERdeur.
       data:
         group: huis
-notify_heating_hot_cold_outside:
-  sequence:
-  - service: script.turn_on
-    entity_id:
-    - script.notify_heating_hot_cold_outside_ios_bert
-    - script.notify_heating_hot_cold_outside_ios_caro
-    - script.notify_heating_hot_cold_outside_speak
-  alias: Notificatie - Verwarming Buitentemperatuur
-  mode: single
-notify_heating_hot_cold_outside_speak:
-  sequence:
-  - condition: state
-    entity_id: input_boolean.notify_speak
-    state: 'on'
-  - condition: template
-    value_template: '{{ states(''group.bewoners'') in [''home''] }}'
-  - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
-      }}'
-  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
-    timeout: 00:05:00
-    continue_on_timeout: false
-  - service: script.turn_on
-    entity_id: script.notify_prepare_media
-  - delay: 00:00:02
-  - service: tts.google_translate_say
-    data_template:
-      entity_id:
-      - media_player.apple_homepod_mini_wit_1
-      - media_player.apple_homepod_mini_zwart_1
-      - media_player.apple_homepod_mini_wit_2
-      message: "{% if states('input_boolean.heating') == 'on' %}\n  'Het is koud buiten...
-        Ik zal de verwarming opzetten.'\n{% else %}\n  'Het is warm buiten... Ik zal
-        de verwarming afzetten'\n{% endif %}\n"
-  - service: script.turn_on
-    entity_id:
-    - script.notify_resume_media
-  alias: Notificatie - Verwarming Buitentemperatuur - Spreek
-  mode: single
-notify_heating_hot_cold_outside_ios_bert:
-  sequence:
-  - condition: state
-    entity_id: input_boolean.notify_bert
-    state: 'on'
-  - condition: state
-    entity_id: person.bert
-    state: home
-  - service: notify.mobile_app_iphone_van_bert
-    data_template:
-      title: VERWARMING
-      message: "{% if states('input_boolean.heating') == 'on' %}\n  Het is wat frisser
-        buiten. Ik zet de verwarming aan.\n{% else %}\n  Het lijkt buiten voldoende
-        warm te zijn, ik zet de verwarming uit.\n{% endif %}\n"
-      data:
-        group: huis
-        tag: verwarming-status
-  alias: Notificatie - Verwarming Buitentemperatuur - iOS Bert
-  mode: single
-notify_heating_hot_cold_outside_ios_caro:
-  sequence:
-  - condition: state
-    entity_id: input_boolean.notify_caro
-    state: 'on'
-  - condition: state
-    entity_id: person.caroline
-    state: home
-  - service: notify.mobile_app_iphone_van_caroline
-    data_template:
-      title: VERWARMING
-      message: "{% if states('input_boolean.heating') == 'on' %}\n  Het is wat frisser
-        buiten. Ik zet de verwarming aan.\n{% else %}\n  Het lijkt buiten voldoende
-        warm te zijn, ik zet de verwarming uit.\n{% endif %}\n"
-      data:
-        group: huis
-        tag: verwarming-status
-  alias: Notificatie - Verwarming Buitentemperatuur - iOS Caroline
-  mode: single
-notify_heating_economy:
-  sequence:
-  - service: script.turn_on
-    entity_id:
-    - script.notify_heating_economy_ios_bert
-    - script.notify_heating_economy_ios_caro
-  alias: Notificatie - Verwarming Economy
-  mode: single
-notify_heating_economy_ios_bert:
-  sequence:
-  - condition: state
-    entity_id: input_boolean.notify_bert
-    state: 'on'
-  - service: notify.mobile_app_iphone_van_bert
-    data_template:
-      title: VERWARMING
-      message: Het lijkt dat jullie een tijdje weg zijn, ik zet de verwarming lager
-      data:
-        group: huis
-        tag: verwarming-status
-  alias: Notificatie - Verwarming Economy - iOS Bert
-  mode: single
-notify_heating_economy_ios_caro:
-  sequence:
-  - condition: state
-    entity_id: input_boolean.notify_caro
-    state: 'on'
-  - service: notify.mobile_app_iphone_van_caroline
-    data_template:
-      title: VERWARMING
-      message: Het lijkt dat jullie een tijdje weg zijn, ik zet de verwarming lager
-      data:
-        group: huis
-        tag: verwarming-status
-  alias: Notificatie - Verwarming Economy - iOS Caroline
-  mode: single
-notify_entity_list:
-  sequence:
-  - service: notify.entity_log
-    data_template:
-      message: "{% for state in states %}\n  - {{- state.entity_id -}}\n{% endfor
-        %}\n"
-  alias: Export - Lijst Entiteiten
-  mode: single
 notify_hacs_update:
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_hacs_update_ios_bert
+    data: {}
+    target:
+      entity_id:
+      - script.notify_hacs_update_ios_bert
   alias: Notificatie - HACS Update
   mode: single
 notify_hacs_update_ios_bert:
@@ -1733,8 +1614,10 @@ notify_hacs_update_ios_bert:
 notify_hassio_overtime:
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_hassio_overtime_ios_bert
+    data: {}
+    target:
+      entity_id:
+      - script.notify_hassio_overtime_ios_bert
   alias: Notificatie - HASSiO Overdrive
   mode: single
 notify_hassio_overtime_ios_bert:
@@ -1750,8 +1633,10 @@ notify_hassio_overtime_ios_bert:
 notify_hassio_restart:
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_hassio_restart_ios_bert
+    data: {}
+    target:
+      entity_id:
+      - script.notify_hassio_restart_ios_bert
   alias: Notificatie - HASSiO Restart
   mode: single
 notify_hassio_restart_ios_bert:
@@ -1771,8 +1656,10 @@ notify_hassio_restart_ios_bert:
 notify_hassio_update:
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_hassio_update_ios_bert
+    data: {}
+    target:
+      entity_id:
+      - script.notify_hassio_update_ios_bert
   alias: Notificatie - HASSiO Update
   mode: single
 notify_hassio_update_ios_bert:
@@ -1789,84 +1676,14 @@ notify_hassio_update_ios_bert:
         tag: server-update
   alias: Notificatie - HASSiO Update - iOS Bert
   mode: single
-notify_heating_cold_elmo:
-  sequence:
-  - service: script.turn_on
-    entity_id:
-    - script.notify_heating_cold_elmo_ios_bert
-    - script.notify_heating_cold_elmo_ios_caro
-    - script.notify_heating_cold_elmo_speak
-  alias: Notificatie - Verwarming Elmo Koud
-  mode: single
-notify_heating_cold_elmo_speak:
-  sequence:
-  - condition: state
-    entity_id: input_boolean.notify_speak
-    state: 'on'
-  - condition: template
-    value_template: '{{ states(''group.bewoners'') in [''home''] }}'
-  - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
-      }}'
-  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
-    timeout: 00:05:00
-    continue_on_timeout: false
-  - service: script.turn_on
-    entity_id: script.notify_prepare_media
-  - delay: 00:00:02
-  - service: tts.google_translate_say
-    data:
-      entity_id:
-      - media_player.apple_homepod_mini_wit_1
-      - media_player.apple_homepod_mini_zwart_1
-      - media_player.apple_homepod_mini_wit_2
-      message: Het is koud aan het worden in de kinderen hun kamer. Staat er misschien
-        nog een raam open?
-  - service: script.turn_on
-    entity_id:
-    - script.notify_resume_media
-  alias: Notificatie - Verwarming Elmo Koud - Spreek
-  mode: single
-notify_heating_cold_elmo_ios_bert:
-  sequence:
-  - condition: state
-    entity_id: input_boolean.notify_bert
-    state: 'on'
-  - condition: state
-    entity_id: person.bert
-    state: home
-  - service: notify.mobile_app_iphone_van_bert
-    data_template:
-      title: VERWARMING
-      message: Het is koud op Elmo zijn kamer! Staat er nog een raam open?
-      data:
-        group: huis
-        tag: elmo-status
-  alias: Notificatie - Verwarming Elmo Koud - iOS Bert
-  mode: single
-notify_heating_cold_elmo_ios_caro:
-  sequence:
-  - condition: state
-    entity_id: input_boolean.notify_caro
-    state: 'on'
-  - condition: state
-    entity_id: person.caroline
-    state: home
-  - service: notify.mobile_app_iphone_van_caroline
-    data_template:
-      title: VERWARMING
-      message: Het is koud op Elmo zijn kamer! Staat er nog een raam open?
-      data:
-        group: huis
-        tag: elmo-status
-  alias: Notificatie - Verwarming Elmo Koud - iOS Caroline
-  mode: single
 notify_waste:
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_waste_ios_bert
-    - script.notify_waste_ios_caro
+    data: {}
+    target:
+      entity_id:
+      - script.notify_waste_ios_bert
+      - script.notify_waste_ios_caro
   alias: Notificatie - Afval
   mode: single
 notify_waste_speak:
@@ -1874,20 +1691,29 @@ notify_waste_speak:
   - condition: state
     entity_id: input_boolean.notify_speak
     state: 'on'
-  - condition: template
-    value_template: '{{ states(''group.bewoners_router'') in [''home''] or states(''binary_sensor.bezoek'')
-      in [''on'']}}'
-  - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
-      }}'
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: group.bewoners
+      state: home
+    - condition: state
+      entity_id: binary_sensor.bezoek
+      state: 'on'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
   - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
     timeout: 00:05:00
     continue_on_timeout: true
   - service: script.turn_on
     entity_id: script.notify_prepare_media
   - delay: 00:00:02
-  - service: tts.google_translate_say
+  - service: tts.cloud_say
     data_template:
+      language: nl-NL
+      cache: true
       entity_id:
       - media_player.apple_homepod_mini_wit_1
       - media_player.apple_homepod_mini_zwart_1
@@ -2286,7 +2112,7 @@ notify_waste_ios_bert:
       sequence:
       - service: notify.mobile_app_iphone_van_bert
         data:
-          title: VUILZAKKEN
+          title: ZET GLAS BUITEN
           message: Zet GLAS buiten, ze komen deze ophalen.
           data:
             group: huis
@@ -2311,7 +2137,7 @@ notify_waste_ios_bert:
       sequence:
       - service: notify.mobile_app_iphone_van_bert
         data:
-          title: VUILZAKKEN
+          title: ZET PAPIER BUITEN
           message: Zet PAPIER buiten, ze komen deze ophalen.
           data:
             group: huis
@@ -2336,7 +2162,7 @@ notify_waste_ios_bert:
       sequence:
       - service: notify.mobile_app_iphone_van_bert
         data:
-          title: VUILZAKKEN
+          title: ZET PMD BUITEN
           message: Zet het PMD buiten, ze komen deze ophalen.
           data:
             group: huis
@@ -2361,7 +2187,7 @@ notify_waste_ios_bert:
       sequence:
       - service: notify.mobile_app_iphone_van_bert
         data:
-          title: VUILZAKKEN
+          title: ZET RESTAFVAL BUITEN
           message: Zet het RESTAFVAL buiten, ze komen deze ophalen.
           data:
             group: huis
@@ -2680,7 +2506,7 @@ notify_waste_ios_caro:
       sequence:
       - service: notify.mobile_app_iphone_van_caroline
         data:
-          title: VUILZAKKEN
+          title: ZET GLAS BUITEN
           message: Zet GLAS buiten, ze komen deze ophalen.
           data:
             group: huis
@@ -2705,7 +2531,7 @@ notify_waste_ios_caro:
       sequence:
       - service: notify.mobile_app_iphone_van_caroline
         data:
-          title: VUILZAKKEN
+          title: ZET PAPIER BUITEN
           message: Zet PAPIER buiten, ze komen deze ophalen.
           data:
             group: huis
@@ -2730,7 +2556,7 @@ notify_waste_ios_caro:
       sequence:
       - service: notify.mobile_app_iphone_van_caroline
         data:
-          title: VUILZAKKEN
+          title: ZET PMD BUITEN
           message: Zet het PMD buiten, ze komen deze ophalen.
           data:
             group: huis
@@ -2755,7 +2581,7 @@ notify_waste_ios_caro:
       sequence:
       - service: notify.mobile_app_iphone_van_caroline
         data:
-          title: VUILZAKKEN
+          title: ZET RESTAFVAL BUITEN
           message: Zet het RESTAFVAL buiten, ze komen deze ophalen.
           data:
             group: huis
@@ -2773,9 +2599,11 @@ notify_waste_ios_caro:
 notify_woning_status:
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_woning_status_ios_bert
-    - script.notify_woning_status_ios_caro
+    data: {}
+    target:
+      entity_id:
+      - script.notify_woning_status_ios_bert
+      - script.notify_woning_status_ios_caro
   mode: single
   alias: Notificatie - Woning Status
 notify_woning_status_speak:
@@ -2819,8 +2647,10 @@ notify_woning_status_speak:
   - service: script.turn_on
     entity_id: script.notify_prepare_media
   - delay: 00:00:02
-  - service: tts.google_translate_say
+  - service: tts.cloud_say
     data_template:
+      language: nl-NL
+      cache: true
       entity_id:
       - media_player.apple_homepod_mini_wit_1
       - media_player.apple_homepod_mini_zwart_1
@@ -2871,7 +2701,7 @@ notify_woning_status_ios_bert:
     state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
-      title: STATUS WONING
+      title: WONING STATUS {{ states('input_select.woning_status') }}
       message: "{% if states('input_select.woning_status') in ['Op Vakantie'] %}\n
         \ Het lijkt alsof jullie op vakantie zijn. Fijne vakantie geniet er van en
         binnenkort.\n{% else %}\n  Het lijkt alsof je nog thuis bent vandaag. Ik zal
@@ -2915,7 +2745,7 @@ notify_woning_status_ios_caro:
     state: 'on'
   - service: notify.mobile_app_iphone_van_caroline
     data_template:
-      title: STATUS WONING
+      title: WONING STATUS {{ states('input_select.woning_status') }}
       message: "{% if states('input_select.woning_status') in ['Op Vakantie'] %}\n
         \ Het lijkt alsof jullie op vakantie zijn. Fijne vakantie geniet er van en
         binnenkort.\n{% else %}\n  Het lijkt alsof je nog thuis bent vandaag. Ik zal
@@ -2942,24 +2772,26 @@ notify_light_elmo_speak:
   - condition: state
     entity_id: input_boolean.notify_speak
     state: 'on'
-  - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
-      }}'
-  - condition: template
-    value_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
-  - service: script.turn_on
-    entity_id: script.notify_prepare_media
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+  - condition: state
+    entity_id: group.bewoners_router
+    state: home
+  - entity_id: script.notify_prepare_media
+    action: script.turn_on
   - delay: 00:00:02
-  - service: tts.google_translate_say
-    data:
-      entity_id:
-      - media_player.apple_homepod_mini_wit_1
-      - media_player.apple_homepod_mini_zwart_1
-      - media_player.apple_homepod_mini_wit_2
-      message: Het is bijna tijd om Elmo en Trix wakker te maken.
-  - service: script.turn_on
-    entity_id:
+  - data:
+      language: nl-NL
+      cache: true
+      entity_id: media_player.apple_homepod_mini_wit_1
+      message: Ok, Ik doe de kindjes hun lichtje aan.
+    action: tts.cloud_say
+  - entity_id:
     - script.notify_resume_media
+    action: script.turn_on
   - delay:
       hours: 0
       minutes: 20
@@ -2976,14 +2808,14 @@ notify_light_elmo_ios_bert:
   - condition: state
     entity_id: person.bert
     state: home
-  - service: notify.mobile_app_iphone_van_bert
-    data_template:
-      title: ELMO
-      message: Het is tijd om Elmo en Trix te gaan halen, ik doe binnen 1 minuut het
-        licht aan.
+  - data_template:
+      title: KINDJES WAKKER MAKEN
+      message: Het is tijd om Elmo en Trix te gaan halen, ik doe zo meteen hun lichtjes
+        aan
       data:
         group: huis
         tag: elmo-wekker
+    action: notify.mobile_app_iphone_van_bert
   - delay:
       hours: 0
       minutes: 20
@@ -3000,14 +2832,14 @@ notify_light_elmo_ios_caro:
   - condition: state
     entity_id: person.caroline
     state: home
-  - service: notify.mobile_app_iphone_van_caroline
-    data_template:
-      title: ELMO
-      message: Het is tijd om Elmo en Trix te gaan halen, ik doe binnen 1 minuut het
-        licht aan.
+  - data_template:
+      title: KINDJES WAKKER MAKEN
+      message: Het is tijd om Elmo en Trix te gaan halen, ik doe zo meteen hun lichtjes
+        aan
       data:
         group: huis
         tag: elmo-wekker
+    action: notify.mobile_app_iphone_van_caroline
   - delay:
       hours: 0
       minutes: 20
@@ -3023,7 +2855,7 @@ notify_nmbs_brussel_mechelen_ios_bert:
     state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
-      title: TREIN BRUS-MECH
+      title: 'IN {{ state_attr(''sensor.nmbs_4'', ''departure'') }} TREIN BRUS-MECH '
       message: "{% if state_attr('sensor.nmbs_4', 'platform_arriving') in ['1', '3',
         '5', '10', '8'] %}\n  spoor {{ state_attr('sensor.nmbs_4', 'platform_departing')
         }}, {{ state_attr('sensor.nmbs_4', 'departure') }}.\n  {{ state_attr('sensor.nmbs_4',
@@ -3042,7 +2874,7 @@ notify_nmbs_mechelen_brussel_ios_bert:
     state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
-      title: TREIN MECH-BRUS
+      title: IN {{ state_attr('sensor.nmbs_2', 'departure') }} TREIN MECH-BRUS"
       message: "{% if state_attr('sensor.nmbs_2', 'platform_arriving') in ['12', '10',
         '8', '6', '4', '2'] %}\n  spoor {{ state_attr('sensor.nmbs_2', 'platform_departing')
         }}, {{ state_attr('sensor.nmbs_2', 'departure') }},\n  {{ state_attr('sensor.nmbs_2',
@@ -3061,7 +2893,7 @@ notify_nmbs_mechelen_willebroek_ios_bert:
     state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
-      title: TREIN MECH-WILL
+      title: IN {{ state_attr('sensor.nmbs_3', 'departure') }} TREIN MECH-WILL"
       message: "{% if state_attr('sensor.nmbs_3', 'platform_arriving') in ['1'] %}\n
         \ spoor {{ state_attr('sensor.nmbs_3', 'platform_departing') }}, {{ state_attr('sensor.nmbs_3',
         'departure') }},\n  {{ state_attr('sensor.nmbs_3', 'direction') }} --> Links\n{%
@@ -3080,7 +2912,7 @@ notify_nmbs_willebroek_mechelen_ios_bert:
     state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
-      title: TREIN WILL-MECH
+      title: IN {{ state_attr('sensor.nmbs', 'departure') }} TREIN WILL-MECH"
       message: "{% if state_attr('sensor.nmbs', 'platform_arriving') in ['1', '3',
         '5', '10', '8'] %}\n  spoor {{ state_attr('sensor.nmbs', 'platform_departing')
         }}, {{ state_attr('sensor.nmbs', 'departure') }}.\n  {{ state_attr('sensor.nmbs',
@@ -3095,9 +2927,11 @@ notify_nmbs_willebroek_mechelen_ios_bert:
 notify_printer:
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_printer_ios_bert
-    - script.notify_printer_ios_caro
+    data: {}
+    target:
+      entity_id:
+      - script.notify_printer_ios_bert
+      - script.notify_printer_ios_caro
   alias: Notificatie - Printer
   mode: single
 notify_printer_ios_bert:
@@ -3107,7 +2941,7 @@ notify_printer_ios_bert:
     state: 'on'
   - service: notify.mobile_app_iphone_van_bert
     data_template:
-      title: PRINTER
+      title: PRINTER INKT BIJNA OP
       message: "{% if (states('sensor.hp_deskjet_3700_series_black_ink') | float(0)
         < 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float(0)
         < 25)%}\n  'De Printer zit bijna zonder inkt, bestel zowel zwart als kleuren
@@ -3128,7 +2962,7 @@ notify_printer_ios_caro:
     state: 'on'
   - service: notify.mobile_app_iphone_van_caroline
     data_template:
-      title: PRINTER
+      title: PRINTER INKT BIJNA OP
       message: "{% if (states('sensor.hp_deskjet_3700_series_black_ink') | float(0)
         < 25) and (states('sensor.hp_deskjet_3700_series_tri_color_ink') | float(0)
         < 25)%}\n  'De Printer zit bijna zonder inkt, bestel zowel zwart als kleuren
@@ -3144,10 +2978,37 @@ notify_printer_ios_caro:
   mode: single
 notify_tracker_bert_thuis:
   sequence:
-  - service: script.turn_on
-    entity_id:
-    - script.notify_tracker_bert_thuis_ios_caro
-    - script.notify_tracker_bert_thuis_speak
+  - choose:
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: time
+          weekday:
+          - mon
+          - tue
+          - thu
+          - fri
+          after: '15:25:00'
+          before: '16:00:00'
+        - condition: time
+          after: '12:00:00'
+          before: '12:30:00'
+          weekday:
+          - wed
+      sequence:
+      - service: script.turn_on
+        data: {}
+        target:
+          entity_id:
+          - script.notify_tracker_bert_thuis_ios_caro
+          - script.notificatie_bert_tracker_thuis_spreek_elmo
+    default:
+    - service: script.turn_on
+      data: {}
+      target:
+        entity_id:
+        - script.notify_tracker_bert_thuis_ios_caro
+        - script.notify_tracker_bert_thuis_speak
   alias: Notificatie - Bert Tracker Thuis
   mode: single
 notify_tracker_bert_thuis_speak:
@@ -3179,8 +3040,10 @@ notify_tracker_bert_thuis_speak:
   - service: script.turn_on
     entity_id: script.notify_prepare_media
   - delay: 00:00:02
-  - service: tts.google_translate_say
+  - service: tts.cloud_say
     data:
+      language: nl-NL
+      cache: true
       entity_id:
       - media_player.apple_homepod_mini_wit_1
       message: Dag Bert, Welkom thuis.
@@ -3194,22 +3057,43 @@ notify_tracker_bert_thuis_ios_caro:
   - condition: state
     entity_id: input_boolean.notify_caro
     state: 'on'
-  - service: notify.mobile_app_iphone_van_caroline
-    data_template:
-      title: BERT STATUS
-      message: "{% if states('person.bert') in ['home'] %}\n  Bert is aangekomen thuis.\n{%
-        else %}\n  Bert is thuis vertrokken.\n{% endif %}\n"
-      data:
-        group: bewoner
-        tag: bert-status
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: person.bert
+        state: home
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: BERT AANGEKOMEN THUIS
+          message: Bert is Thuis.
+          data:
+            group: bewoner
+            tag: bert-status
+    - conditions:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: person.bert
+          state: home
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: BERT VERTROKKEN THUIS
+          message: Bert is thuis vertrokken.
+          data:
+            group: bewoner
+            tag: bert-status
   alias: Notificatie - Bert Tracker Thuis - iOS Caroline
   mode: single
 notify_tracker_bert_zones:
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_tracker_bert_zones_ios_caro
-    - script.notify_tracker_bert_zones_speak
+    data: {}
+    target:
+      entity_id:
+      - script.notify_tracker_bert_zones_ios_caro
+      - script.notify_tracker_bert_zones_speak
   alias: Notificatie - Bert Tracker Zones
   mode: single
 notify_tracker_bert_zones_speak:
@@ -3217,15 +3101,22 @@ notify_tracker_bert_zones_speak:
   - condition: state
     entity_id: input_boolean.notify_speak
     state: 'on'
-  - condition: template
-    value_template: '{{ states(''input_boolean.notify_caro'') in [''on''] }}'
-  - condition: template
-    value_template: '{{ states(''group.bewoners'') in [''home''] }}'
-  - condition: template
-    value_template: '{{ states(''person.bert'') not in [''home''] }}'
-  - condition: template
-    value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'']
-      }}'
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - condition: state
+    entity_id: group.bewoners
+    state: home
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: person.bert
+      state: home
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
   - wait_template: '{{ states(''device_tracker.router_iphone_caro'') == ''home'' and
       state_attr(''device_tracker.router_iphone_caro'', ''ap_mac'') == ''60:22:32:e4:6c:99''
       }}'
@@ -3234,8 +3125,10 @@ notify_tracker_bert_zones_speak:
   - service: script.turn_on
     entity_id: script.notify_prepare_media
   - delay: 00:00:02
-  - service: tts.google_translate_say
+  - service: tts.cloud_say
     data_template:
+      language: nl-NL
+      cache: true
       entity_id:
       - media_player.apple_homepod_mini_wit_1
       - media_player.apple_homepod_mini_zwart_1
@@ -3258,28 +3151,97 @@ notify_tracker_bert_zones_ios_caro:
   - condition: state
     entity_id: input_boolean.notify_caro
     state: 'on'
-  - service: notify.mobile_app_iphone_van_caroline
-    data_template:
-      title: BERT STATUS
-      message: "{% if states('person.bert') in ['Daycare', 'School De Wingerd', 'BKO
-        Toverbos', 'Nona & Pepe', 'Mimi & Fleri'] %}\n  Bert is aangekomen bij {{
-        states('person.bert') }}.\n{% elif states('person.bert') in ['Hospital St-Augustinus',
-        'Hospital Edegem', 'Hospital Reet', 'Hospital Middelheim'] %}\n  Geen paniek
-        maar Bert is nabij het {{ states('person.bert') }}.\n{% elif states('person.bert')
-        in ['Willebroek Station', 'Mechelen Station'] %}\n  Bert is aangekomen in
-        {{ states('person.bert') }}.\n{% elif states('person.bert') in ['Checkpoint
-        3'] %}\n  Bert is bijna thuis. (Fort Breendonck)\n{% endif %}\n"
-      data:
-        group: bewoner
-        tag: bert-status
+  - choose:
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: person.bert
+          state: Daycare
+        - condition: state
+          entity_id: person.bert
+          state: BKO Toverbos
+        - condition: state
+          entity_id: person.bert
+          state: School De Wingerd
+        - condition: state
+          entity_id: person.bert
+          state: Nona & Pepe
+        - condition: state
+          entity_id: person.bert
+          state: Mimi & Fleri
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data_template:
+          title: BERT BIJ {{ states('person.bert') }}
+          message: Bert is aangekomen bij {{ states('person.bert') }}.
+          data:
+            group: bewoner
+            tag: bert-status
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: person.bert
+          state: Hospital St-Augustinus
+        - condition: state
+          entity_id: person.bert
+          state: Hospital Edegem
+        - condition: state
+          entity_id: person.bert
+          state: Hospital Reet
+        - condition: state
+          entity_id: person.bert
+          state: Hospital Middelheim
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data_template:
+          title: ALERT!! BERT NABIJ {{ states('person.bert') }}
+          message: Geen paniek maar Caroline is nabij het {{ states('person.bert')
+            }}.
+          data:
+            group: bewoner
+            tag: bert-status
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: person.bert
+          state: Willebroek Station
+        - condition: state
+          entity_id: person.bert
+          state: Mechelen Station
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data_template:
+          title: BERT AANGEKOMEN IN HET {{ states('person.bert') }}
+          message: Bert is onderweg naar huis en aangekomen in het {{ states('person.bert')
+            }}.
+          data:
+            group: bewoner
+            tag: bert-status
+    - conditions:
+      - condition: state
+        entity_id: person.bert
+        state: Checkpoint 3
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data_template:
+          title: BERT AAN HET FORT VAN BREENDONCK
+          message: Bert is bijna huis.
+          data:
+            group: bewoner
+            tag: bert-status
   alias: Notificatie - Bert Tracker Zones - iOS Caroline
   mode: single
 notify_tracker_bezoeker_thuis:
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_tracker_bezoeker_thuis_ios_caro
-    - script.notify_tracker_bezoeker_thuis_ios_bert
+    data: {}
+    target:
+      entity_id:
+      - script.notify_tracker_bezoeker_thuis_ios_caro
+      - script.notify_tracker_bezoeker_thuis_ios_bert
   alias: Notificatie - Bezoeker Tracker Thuis
   mode: single
 notify_tracker_bezoeker_thuis_ios_bert:
@@ -3326,10 +3288,39 @@ notify_tracker_caro_thuis:
   mode: single
   max_exceeded: silent
   sequence:
-  - service: script.turn_on
-    entity_id:
-    - script.notify_tracker_caro_thuis_ios_bert
-    - script.notify_tracker_caro_thuis_speak
+  - choose:
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: time
+          weekday:
+          - mon
+          - tue
+          - thu
+          - fri
+          after: '15:25:00'
+          before: '16:00:00'
+        - condition: time
+          after: '12:00:00'
+          before: '12:30:00'
+          weekday:
+          - wed
+      sequence:
+      - service: script.turn_on
+        data: {}
+        target:
+          entity_id:
+          - script.notify_tracker_caro_thuis_ios_bert
+          - script.1702555276686
+          - script.notificatie_caroline_tracker_thuis_spreek_thuis
+    default:
+    - service: script.turn_on
+      data: {}
+      target:
+        entity_id:
+        - script.notify_tracker_caro_thuis_ios_bert
+        - script.notify_tracker_caro_thuis_speak
+        - script.notificatie_caroline_tracker_thuis_spreek_thuis
   alias: Notificatie - Caroline Tracker Thuis
 notify_tracker_caro_thuis_speak:
   mode: single
@@ -3363,8 +3354,10 @@ notify_tracker_caro_thuis_speak:
   - service: script.turn_on
     entity_id: script.notify_prepare_media
   - delay: 00:00:02
-  - service: tts.google_translate_say
+  - service: tts.cloud_say
     data:
+      language: nl-NL
+      cache: true
       entity_id:
       - media_player.apple_homepod_mini_wit_1
       message: Hallo Caroline, Welkom thuis.
@@ -3379,21 +3372,42 @@ notify_tracker_caro_thuis_ios_bert:
   - condition: state
     entity_id: input_boolean.notify_bert
     state: 'on'
-  - service: notify.mobile_app_iphone_van_bert
-    data_template:
-      title: CARO STATUS
-      message: "{% if states('person.caroline') in ['home'] %}\n  Caroline is aangekomen
-        thuis.\n{% else %}\n  Caroline is thuis vertrokken.\n{% endif %}\n"
-      data:
-        group: bewoner
-        tag: caro-status
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: person.caroline
+        state: home
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: CARO AANGEKOMEN THUIS
+          message: Caroline is Thuis.
+          data:
+            group: bewoner
+            tag: caro-status
+    - conditions:
+      - condition: not
+        conditions:
+        - condition: state
+          entity_id: person.caroline
+          state: home
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: CARO VERTROKKEN THUIS
+          message: Caroline is thuis vertrokken.
+          data:
+            group: bewoner
+            tag: caro-status
   alias: Notificatie - Caroline Tracker Thuis - iOS Bert
 notify_tracker_caro_zones:
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_tracker_caro_zones_ios_bert
-    - script.notify_tracker_caro_zones_speak
+    data: {}
+    target:
+      entity_id:
+      - script.notify_tracker_caro_zones_ios_bert
+      - script.notify_tracker_caro_zones_speak
   alias: Notificatie - Caroline Tracker Zones
   mode: single
 notify_tracker_caro_zones_speak:
@@ -3423,8 +3437,10 @@ notify_tracker_caro_zones_speak:
   - service: script.turn_on
     entity_id: script.notify_prepare_media
   - delay: 00:00:02
-  - service: tts.google_translate_say
+  - service: tts.cloud_say
     data_template:
+      language: nl-NL
+      cache: true
       entity_id:
       - media_player.apple_homepod_mini_wit_1
       - media_player.apple_homepod_mini_zwart_1
@@ -3449,33 +3465,128 @@ notify_tracker_caro_zones_ios_bert:
   - condition: state
     entity_id: input_boolean.notify_bert
     state: 'on'
-  - service: notify.mobile_app_iphone_van_bert
-    data_template:
-      title: CARO STATUS
-      message: "{% if states('person.caroline') in ['Daycare', 'BKO Toverbos', 'School
-        De Wingerd', 'Nona & Pepe', 'Mimi & Fleri'] %}\n  Caroline is aangekomen bij
-        {{ states('person.caroline') }}.\n{% elif states('person.caroline') in ['Hospital
-        St-Augustinus', 'Hospital Edegem', 'Hospital Reet', 'Hospital Middelheim']
-        %}\n  Geen paniek maar Caroline is nabij het {{ states('person.caroline')
-        }}.\n{% elif states('person.caroline') in ['Checkpoint 1'] %}\n  Caroline
-        is onderweg naar huis. (Ikea Wilrijk)\n{% elif states('person.caroline') in
-        ['Checkpoint 2'] %}\n  Caroline is bijna thuis. (Sleuf)\n{% elif states('person.caroline')
-        in ['Checkpoint 3'] %}\n  Caroline is bijna thuis. (Fort Breendonck)\n{% elif
-        states('person.caroline') in ['Checkpoint 4'] %}\n  Caroline is onderweg naar
-        huis. (Edegem)\n{% elif states('person.caroline') in ['Checkpoint 5'] %}\n
-        \ Caroline is bijna thuis. (Rumst E19)\n{% endif %}\n"
-      data:
-        group: bewoner
-        tag: caro-status
+  - choose:
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: person.caroline
+          state: Daycare
+        - condition: state
+          entity_id: person.caroline
+          state: BKO Toverbos
+        - condition: state
+          entity_id: person.caroline
+          state: School De Wingerd
+        - condition: state
+          entity_id: person.caroline
+          state: Nona & Pepe
+        - condition: state
+          entity_id: person.caroline
+          state: Mimi & Fleri
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data_template:
+          title: CARO BIJ {{ states('person.caroline') }}
+          message: Caroline is aangekomen bij {{ states('person.caroline') }}.
+          data:
+            group: bewoner
+            tag: caro-status
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: person.caroline
+          state: Hospital St-Augustinus
+        - condition: state
+          entity_id: person.caroline
+          state: Hospital Edegem
+        - condition: state
+          entity_id: person.caroline
+          state: Hospital Reet
+        - condition: state
+          entity_id: person.caroline
+          state: Hospital Middelheim
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data_template:
+          title: ALERT!! CARO NABIJ {{ states('person.caroline') }}
+          message: Geen paniek maar Caroline is nabij het {{ states('person.caroline')
+            }}.
+          data:
+            group: bewoner
+            tag: caro-status
+    - conditions:
+      - condition: state
+        entity_id: person.caroline
+        state: Checkpoint 1
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data_template:
+          title: CARO AAN IKEA WILRIJK
+          message: Caroline is onderweg naar huis.
+          data:
+            group: bewoner
+            tag: caro-status
+    - conditions:
+      - condition: state
+        entity_id: person.caroline
+        state: Checkpoint 2
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data_template:
+          title: CARO IN SLEUF
+          message: Caroline is bijna huis.
+          data:
+            group: bewoner
+            tag: caro-status
+    - conditions:
+      - condition: state
+        entity_id: person.caroline
+        state: Checkpoint 3
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data_template:
+          title: CARO AAN FORT BREENDONCK
+          message: Caroline is bijna huis.
+          data:
+            group: bewoner
+            tag: caro-status
+    - conditions:
+      - condition: state
+        entity_id: person.caroline
+        state: Checkpoint 4
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data_template:
+          title: CARO IN EDEGEM
+          message: Caroline is onderweg naar huis.
+          data:
+            group: bewoner
+            tag: caro-status
+    - conditions:
+      - condition: state
+        entity_id: person.caroline
+        state: Checkpoint 5
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data_template:
+          title: CARO AAN AFRIT RUMST E19
+          message: Caroline is bijna huis.
+          data:
+            group: bewoner
+            tag: caro-status
   alias: Notificatie - Caroline Tracker Zones - iOS Bert
   mode: single
 notify_vacuum:
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_vacuum_ios_bert
-    - script.notify_vacuum_ios_caro
-    - script.notify_vacuum_speak
+    data: {}
+    target:
+      entity_id:
+      - script.notify_vacuum_ios_bert
+      - script.notify_vacuum_ios_caro
+      - script.notify_vacuum_speak
   alias: Notificatie - Stofzuiger
   mode: single
 notify_vacuum_speak:
@@ -3513,8 +3624,10 @@ notify_vacuum_speak:
   - service: script.turn_on
     entity_id: script.notify_prepare_media
   - delay: 00:00:02
-  - service: tts.google_translate_say
+  - service: tts.cloud_say
     data_template:
+      language: nl-NL
+      cache: true
       entity_id:
       - media_player.apple_homepod_mini_wit_1
       - media_player.apple_homepod_mini_zwart_1
@@ -3606,9 +3719,11 @@ notify_vacuum_ios_caro:
 notify_energy_solar_status:
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_energy_solar_status_ios_bert
-    - script.notify_energy_solar_status_ios_caro
+    data: {}
+    target:
+      entity_id:
+      - script.notify_energy_solar_status_ios_bert
+      - script.notify_energy_solar_status_ios_caro
   alias: Notificatie - Zonne-energie
   mode: single
 notify_energy_solar_status_speak:
@@ -3636,8 +3751,10 @@ notify_energy_solar_status_speak:
       - service: script.turn_on
         entity_id: script.notify_prepare_media
       - delay: 00:00:02
-      - service: tts.google_translate_say
+      - service: tts.cloud_say
         data:
+          language: nl-NL
+          cache: true
           entity_id:
           - media_player.apple_homepod_mini_wit_1
           - media_player.apple_homepod_mini_zwart_1
@@ -3650,8 +3767,10 @@ notify_energy_solar_status_speak:
     - service: script.turn_on
       entity_id: script.notify_prepare_media
     - delay: 00:00:02
-    - service: tts.google_translate_say
+    - service: tts.cloud_say
       data:
+        language: nl-NL
+        cache: true
         entity_id:
         - media_player.apple_homepod_mini_wit_1
         - media_player.apple_homepod_mini_zwart_1
@@ -3677,20 +3796,20 @@ notify_energy_solar_status_ios_bert:
         above: 500
       sequence:
       - service: notify.mobile_app_iphone_van_bert
-        data_template:
-          title: ENERGIE
+        data:
           message: Er is voldoende zonne energie.
           data:
             group: energie
             tag: energie-status
+          title: VOLDOENDE ZON
     default:
     - service: notify.mobile_app_iphone_van_bert
-      data_template:
-        title: ENERGIE
+      data:
         message: Er is onvoldoende zonne energie.
         data:
           group: energie
           tag: energie-status
+        title: ONVOLDOENDE ZON
   alias: Notificatie - Zonne-energie - iOS Bert
   mode: single
 notify_energy_solar_status_ios_caro:
@@ -3708,17 +3827,17 @@ notify_energy_solar_status_ios_caro:
         above: 500
       sequence:
       - service: notify.mobile_app_iphone_van_caroline
-        data_template:
-          title: ENERGIE
-          message: Er is voldoende zonne energie. Tijd om te wassen.
+        data:
+          title: VOLDOENDE ZON
+          message: Er is voldoende zonne-energie. Tijd om te wassen.
           data:
             group: energie
             tag: energie-status
     default:
     - service: notify.mobile_app_iphone_van_caroline
-      data_template:
-        title: ENERGIE
-        message: Er is onvoldoende zonne energie. Ja kan STOPPEN met wassen.
+      data:
+        title: ONVOLDOENDE ZON
+        message: Er is onvoldoende zonne-energie.
         data:
           group: energie
           tag: energie-status
@@ -3744,10 +3863,12 @@ notify_camera_trix_ios_bert:
 notify_time_book_pap:
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_time_book_pap_speak
-    - script.notify_time_book_pap_ios_bert
-    - script.notify_time_book_pap_ios_caro
+    data: {}
+    target:
+      entity_id:
+      - script.notify_time_book_pap_speak
+      - script.notify_time_book_pap_ios_bert
+      - script.notify_time_book_pap_ios_caro
   alias: Notificatie - Boek & Pap Elmo & Trix
   mode: single
 notify_time_book_pap_speak:
@@ -3769,8 +3890,10 @@ notify_time_book_pap_speak:
   - service: script.turn_on
     entity_id: script.notify_prepare_media
   - delay: 00:00:02
-  - service: tts.google_translate_say
+  - service: tts.cloud_say
     data:
+      language: nl-NL
+      cache: true
       entity_id:
       - media_player.apple_homepod_mini_wit_1
       - media_player.apple_homepod_mini_zwart_1
@@ -3789,9 +3912,9 @@ notify_time_book_pap_ios_bert:
     entity_id: person.bert
     state: home
   - service: notify.mobile_app_iphone_van_bert
-    data_template:
-      title: ELMO
-      message: Het is tijd voor 'Boekje Papje'
+    data:
+      title: BOEKJE & PAPJE
+      message: Het is tijd voor Boekje en een Papje
       data:
         group: huis
         tag: elmo-wekker
@@ -3806,59 +3929,25 @@ notify_time_book_pap_ios_caro:
     entity_id: person.caroline
     state: home
   - service: notify.mobile_app_iphone_van_caroline
-    data_template:
-      title: ELMO
-      message: Het is tijd voor 'Boekje Papje'
+    data:
+      title: BOEKJE & PAPJE
+      message: Het is tijd voor Boekje en een Papje
       data:
         group: huis
         tag: elmo-wekker
   alias: Notificatie - Boek & Pap Elmo & Trix - iOS Caroline
-  mode: single
-notify_preheat_status:
-  sequence:
-  - service: script.turn_on
-    entity_id:
-    - script.notify_preheat_status_ios_bert
-    - script.notify_preheat_status_ios_caro
-  alias: Notificatie - Verwarming Preheat
-  mode: single
-notify_preheat_status_ios_bert:
-  sequence:
-  - condition: state
-    entity_id: input_boolean.notify_bert
-    state: 'on'
-  - service: notify.mobile_app_iphone_van_bert
-    data_template:
-      title: STATUS WONING
-      message: Ik zal de woning voorverwarmen voor je thuiskomst
-      data:
-        group: huis
-        tag: huis-status
-  alias: Notificatie - Verwarming Preheat - iOS Bert
-  mode: single
-notify_preheat_status_ios_caro:
-  sequence:
-  - condition: state
-    entity_id: input_boolean.notify_caro
-    state: 'on'
-  - service: notify.mobile_app_iphone_van_caroline
-    data_template:
-      title: STATUS WONING
-      message: Ik zal de woning voorverwarmen voor je thuiskomst
-      data:
-        group: huis
-        tag: huis-status
-  alias: Notificatie - Verwarming Preheat - iOS Caroline
   mode: single
 notify_prepare_media:
   alias: Notificatie - Voorbereiden Muziek Volume
   mode: single
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_prepare_media_kitchen
-    - script.notify_prepare_media_livingroom
-    - script.notify_prepare_media_bathroom
+    data: {}
+    target:
+      entity_id:
+      - script.notify_prepare_media_kitchen
+      - script.notify_prepare_media_livingroom
+      - script.notify_prepare_media_bathroom
 notify_prepare_media_kitchen:
   alias: Notificatie - Voorbereiden Muziek Volume - Keuken
   mode: single
@@ -3965,11 +4054,12 @@ notify_resume_media:
   alias: Notificatie - Hervat Muziek
   mode: single
   sequence:
-  - service: script.turn_on
-    entity_id:
-    - script.notify_resume_media_kitchen
-    - script.notify_resume_media_livingroom
-    - script.notify_resume_media_bathroom
+  - data: {}
+    target:
+      entity_id:
+      - script.notify_resume_media_kitchen
+      - script.notify_resume_media_bathroom
+    action: script.turn_on
 notify_resume_media_kitchen:
   alias: Notificatie - Hervat Muziek - Keuken
   mode: single
@@ -3998,26 +4088,28 @@ notify_resume_media_livingroom:
   alias: Notificatie - Hervat Muziek - Woonkamer
   mode: single
   sequence:
-  - service: script.turn_on
-    entity_id: script.radio_livingroom_volume
+  - entity_id: script.radio_livingroom_volume
+    action: script.turn_on
   - condition: state
     state: playing
     entity_id: media_player.apple_homepod_mini_zwart_1
     for:
-      seconds: 30
-  - service: media_player.media_play
-    data: {}
+      hours: 0
+      minutes: 0
+      seconds: 40
+  - data: {}
     target:
       entity_id: media_player.apple_homepod_mini_zwart_1
-  - service: script.turn_on
-    entity_id: script.radio_livingroom_volume
-  - service: input_boolean.turn_on
-    data:
+    action: media_player.media_play
+  - entity_id: script.radio_livingroom_volume
+    action: script.turn_on
+  - data:
       entity_id: input_boolean.muziek_woonkamer
+    action: input_boolean.turn_on
   - delay: 00:00:30
-  - service: input_boolean.turn_off
-    data:
+  - data:
       entity_id: input_boolean.muziek_woonkamer
+    action: input_boolean.turn_off
 notify_resume_media_bathroom:
   alias: Notificatie - Hervat Muziek - Badkamer
   mode: single
@@ -4044,10 +4136,12 @@ notify_resume_media_bathroom:
 notify_energy_use_high:
   sequence:
   - service: script.turn_on
-    entity_id:
-    - script.notify_energy_use_high_speak
-    - script.notify_energy_use_high_ios_bert
-    - script.notify_energy_use_high_ios_caro
+    data: {}
+    target:
+      entity_id:
+      - script.notify_energy_use_high_speak
+      - script.notify_energy_use_high_ios_bert
+      - script.notify_energy_use_high_ios_caro
   alias: Notificatie - Energie Verbruik
   mode: single
 notify_energy_use_high_speak:
@@ -4069,8 +4163,10 @@ notify_energy_use_high_speak:
   - service: script.turn_on
     entity_id: script.notify_prepare_media
   - delay: 00:00:02
-  - service: tts.google_translate_say
+  - service: tts.cloud_say
     data:
+      language: nl-NL
+      cache: true
       entity_id:
       - media_player.apple_homepod_mini_wit_1
       - media_player.apple_homepod_mini_zwart_1
@@ -4090,7 +4186,7 @@ notify_energy_use_high_ios_bert:
     state: home
   - service: notify.mobile_app_iphone_van_bert
     data_template:
-      title: ENERGIE
+      title: ENERGIEVERBRUIK HOOG
       message: Het Energieverbuik is te hoog.
       data:
         group: energie
@@ -4107,10 +4203,1050 @@ notify_energy_use_high_ios_caro:
     state: home
   - service: notify.mobile_app_iphone_van_caroline
     data_template:
-      title: ENERGIE
+      title: ENERGIEVERBRUIK HOOG
       message: Het Energieverbuik is te hoog.
       data:
         group: energie
         tag: energie-status
   alias: Notificatie - Energie Verbruik - iOS Caroline
+  mode: single
+notify_cooling_attic_speak:
+  alias: Notificatie - HVAC - Airco Slaapkamer - Spreek
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
+  - condition: state
+    entity_id: group.bewoners
+    state: home
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
+    timeout: 00:05:00
+    continue_on_timeout: false
+  - service: script.turn_on
+    entity_id: script.notify_prepare_media
+  - delay: 00:00:02
+  - service: tts.cloud_say
+    data_template:
+      language: nl-NL
+      cache: true
+      entity_id:
+      - media_player.apple_homepod_mini_wit_1
+      - media_player.apple_homepod_mini_zwart_1
+      - media_player.apple_homepod_mini_wit_2
+      message: "{% if states('input_boolean.cooling_attic') == 'on' %}\n  'Het is
+        buiten warm aan het worden. Best de ramen sluiten en Airco op.'\n{% else %}\n
+        \ 'Het is buiten frisser dan op de zolder. Tijd om te verluchten.'\n{% endif
+        %}\n"
+  - service: script.turn_on
+    entity_id:
+    - script.notify_resume_media
+  mode: single
+notify_cooling_attic_ios_caro:
+  alias: Notificatie - HVAC - Airco Slaapkamer - iOS Caroline
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - condition: state
+    entity_id: person.caroline
+    state: home
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.cooling_attic
+        state: 'on'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: SLAAPKAMER RAMEN TOE AUB
+          message: Het is warm aan het worden buiten.
+          data:
+            group: huis
+            tag: hvac-status-zolder
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.cooling_attic
+        state: 'off'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: SLAAPKAMER VERLUCHTEN AUB
+          message: Tijd om te verluchten het is buiten frisser.
+          data:
+            group: huis
+            tag: hvac-status-zolder
+  mode: single
+notify_cooling_attic_ios_bert:
+  alias: Notificatie - HVAC - Airco Slaapkamer - iOS Bert
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - condition: state
+    entity_id: person.bert
+    state: home
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.cooling_attic
+        state: 'on'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: SLAAPKAMER RAMEN TOE AUB
+          message: Het is warm aan het worden buiten.
+          data:
+            group: huis
+            tag: hvac-status-zolder
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.cooling_attic
+        state: 'off'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: SLAAPKAMER VERLUCHTEN AUB
+          message: Tijd om te verluchten het is buiten frisser.
+          data:
+            group: huis
+            tag: hvac-status-zolder
+  mode: single
+notify_cooling_attic:
+  alias: Notificatie - HVAC - Airco Slaapkamer
+  sequence:
+  - service: script.turn_on
+    data: {}
+    target:
+      entity_id:
+      - script.notify_cooling_attic_speak
+      - script.notify_cooling_attic_ios_bert
+      - script.notify_cooling_attic_ios_caro
+  mode: single
+notify_cooling_downstairs:
+  sequence:
+  - service: script.turn_on
+    data: {}
+    target:
+      entity_id:
+      - script.notify_cooling_downstairs_ios_bert
+      - script.notify_cooling_downstairs_ios_caro
+      - script.notify_cooling_downstairs_speak
+  alias: Notificatie - HVAC - Airco Beneden
+  mode: single
+notify_cooling_downstairs_speak:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
+  - condition: state
+    entity_id: group.bewoners
+    state: home
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
+    timeout: 00:05:00
+    continue_on_timeout: false
+  - service: script.turn_on
+    entity_id: script.notify_prepare_media
+  - delay: 00:00:02
+  - service: tts.cloud_say
+    data_template:
+      language: nl-NL
+      cache: true
+      entity_id:
+      - media_player.apple_homepod_mini_wit_1
+      - media_player.apple_homepod_mini_zwart_1
+      - media_player.apple_homepod_mini_wit_2
+      message: "{% if states('input_boolean.cooling_downstairs') == 'on' %}\n  'Het
+        is buiten warm aan het worden. Best de ramen sluiten.'\n{% else %}\n  'Het
+        is buiten frisser dan in de keuken. Tijd om te verluchten.'\n{% endif %}\n"
+  - service: script.turn_on
+    entity_id:
+    - script.notify_resume_media
+  alias: Notificatie - HVAC - Airco Beneden - Spreek
+  mode: single
+notify_cooling_downstairs_ios_bert:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - condition: state
+    entity_id: person.bert
+    state: home
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.cooling_downstairs
+        state: 'on'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: BENEDEN RAMEN TOE AUB
+          message: Het is warm aan het worden buiten.
+          data:
+            group: huis
+            tag: hvac-status
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.cooling_downstairs
+        state: 'off'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: BENEDEN VERLUCHTEN AUB
+          message: Tijd om te verluchten het is buiten frisser.
+          data:
+            group: huis
+            tag: hvac-status
+  alias: Notificatie - HVAC - Airco Beneden - iOS Bert
+  mode: single
+notify_cooling_downstairs_ios_caro:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - condition: state
+    entity_id: person.caroline
+    state: home
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.cooling_downstairs
+        state: 'on'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: BENEDEN RAMEN TOE AUB
+          message: Het is warm aan het worden buiten.
+          data:
+            group: huis
+            tag: hvac-status
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.cooling_downstairs
+        state: 'off'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: BENEDEN VERLUCHTEN AUB
+          message: Tijd om te verluchten het is buiten frisser.
+          data:
+            group: huis
+            tag: hvac-status
+  alias: Notificatie - HVAC - Airco Beneden - iOS Caroline
+  mode: single
+notify_cooling_upstairs:
+  sequence:
+  - condition: and
+    conditions:
+    - condition: state
+      entity_id: switch.hue_smart_plug_6
+      state: 'off'
+    - condition: state
+      entity_id: switch.hue_smart_plug_5
+      state: 'off'
+  - data: {}
+    target:
+      entity_id:
+      - script.notify_cooling_upstairs_ios_bert
+      - script.notify_cooling_upstairs_ios_caro
+      - script.notify_cooling_upstairs_speak
+    action: script.turn_on
+  alias: Notificatie - HVAC - Airco Boven
+  mode: single
+notify_cooling_upstairs_speak:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
+  - condition: state
+    entity_id: group.bewoners
+    state: home
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
+    timeout: 00:05:00
+    continue_on_timeout: false
+  - service: script.turn_on
+    entity_id: script.notify_prepare_media
+  - delay: 00:00:02
+  - service: tts.cloud_say
+    data_template:
+      language: nl-NL
+      cache: true
+      entity_id:
+      - media_player.apple_homepod_mini_wit_1
+      - media_player.apple_homepod_mini_zwart_1
+      - media_player.apple_homepod_mini_wit_2
+      message: "{% if states('input_boolean.cooling_upstairs') == 'on' %}\n  'Het
+        is buiten warm aan het worden. Best de ramen sluiten en Airco op.'\n{% else
+        %}\n  'Het is buiten frisser dan in de kinderkamers. Tijd om te verluchten.'\n{%
+        endif %}\n"
+  - service: script.turn_on
+    entity_id:
+    - script.notify_resume_media
+  alias: Notificatie - HVAC - Airco Boven - Spreek
+  mode: single
+notify_cooling_upstairs_ios_bert:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - condition: state
+    entity_id: person.bert
+    state: home
+  - choose:
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_01_opening
+          state: 'on'
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_02_opening
+          state: 'on'
+      - condition: state
+        entity_id: input_boolean.cooling_upstairs
+        state: 'on'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: KINDERKAMERS RAMEN TOE AUB
+          message: Het is warm aan het worden buiten.
+          data:
+            group: huis
+            tag: hvac-status-boven
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_01_opening
+          state: 'off'
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_02_opening
+          state: 'off'
+      - condition: state
+        entity_id: input_boolean.cooling_upstairs
+        state: 'off'
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: schedule.slapen_elmo
+          state: 'off'
+        - condition: state
+          entity_id: schedule.slapen_trix
+          state: 'off'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: KINDERKAMERS VERLUCHTEN AUB
+          message: Tijd om te verluchten het is buiten frisser.
+          data:
+            group: huis
+            tag: hvac-status-boven
+  alias: Notificatie - HVAC - Airco Boven - iOS Bert
+  mode: single
+notify_cooling_upstairs_ios_caro:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - condition: state
+    entity_id: person.caroline
+    state: home
+  - choose:
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_01_opening
+          state: 'on'
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_02_opening
+          state: 'on'
+      - condition: state
+        entity_id: input_boolean.cooling_upstairs
+        state: 'on'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: KINDERKAMERS RAMEN TOE AUB
+          message: Het is warm aan het worden buiten.
+          data:
+            group: huis
+            tag: hvac-status-boven
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_01_opening
+          state: 'off'
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_02_opening
+          state: 'off'
+      - condition: state
+        entity_id: input_boolean.cooling_upstairs
+        state: 'off'
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: schedule.slapen_elmo
+          state: 'off'
+        - condition: state
+          entity_id: schedule.slapen_trix
+          state: 'off'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: KINDERKAMERS VERLUCHTEN AUB
+          message: Tijd om te verluchten het is buiten frisser.
+          data:
+            group: huis
+            tag: hvac-status-boven
+  alias: Notificatie - HVAC - Airco Boven - iOS Caroline
+  mode: single
+notify_heating_upstairs:
+  sequence:
+  - service: script.turn_on
+    data: {}
+    target:
+      entity_id:
+      - script.notify_heating_upstairs_ios_bert
+      - script.notify_heating_upstairs_ios_caro
+      - script.notify_heating_upstairs_speak
+  alias: Notificatie - HVAC - Verwarming Boven
+  mode: single
+notify_heating_upstairs_speak:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
+  - condition: state
+    entity_id: group.bewoners
+    state: home
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
+    timeout: 00:05:00
+    continue_on_timeout: false
+  - entity_id: script.notify_prepare_media
+    action: script.turn_on
+  - delay: 00:00:02
+  - data:
+      language: nl-NL
+      cache: true
+      entity_id: media_player.apple_homepod_mini_wit_1
+      message: Het is koud aan het worden in de kinderen hun kamer. Staat er misschien
+        nog een raam open?
+    action: tts.cloud_say
+  - entity_id: script.notify_resume_media
+    action: script.turn_on
+  alias: Notificatie - HVAC - Verwarming Boven - Spreek
+  mode: single
+notify_heating_upstairs_ios_bert:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - condition: state
+    entity_id: person.bert
+    state: home
+  - service: notify.mobile_app_iphone_van_bert
+    data:
+      title: KINDERKAMERS RAMEN TOE AUB
+      message: Dan zal ik de verwarming aanzetten daar!
+      data:
+        group: huis
+        tag: hvac-status-boven
+  alias: Notificatie - HVAC - Verwarming Boven - iOS Bert
+  mode: single
+notify_heating_upstairs_ios_caro:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - condition: state
+    entity_id: person.caroline
+    state: home
+  - service: notify.mobile_app_iphone_van_caroline
+    data:
+      title: KINDERKAMERS RAMEN TOE AUB
+      message: Dan zal ik de verwarming aanzetten daar!
+      data:
+        group: huis
+        tag: hvac-status-boven
+  alias: Notificatie - HVAC - Verwarming Boven - iOS Caroline
+  mode: single
+notify_heating:
+  sequence:
+  - service: script.turn_on
+    data: {}
+    target:
+      entity_id:
+      - script.notify_heating_ios_bert
+      - script.notify_heating_ios_caro
+      - script.notify_heating_speak
+  alias: Notificatie - HVAC - Verwarming
+  mode: single
+notify_heating_speak:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
+  - condition: state
+    entity_id: group.bewoners
+    state: home
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
+    timeout: 00:05:00
+    continue_on_timeout: false
+  - service: script.turn_on
+    entity_id: script.notify_prepare_media
+  - delay: 00:00:02
+  - service: tts.cloud_say
+    data_template:
+      language: nl-NL
+      cache: true
+      entity_id:
+      - media_player.apple_homepod_mini_wit_1
+      - media_player.apple_homepod_mini_zwart_1
+      - media_player.apple_homepod_mini_wit_2
+      message: "{% if states('input_boolean.heating') == 'on' %}\n  'Het is koud buiten...
+        Ik zal de verwarming opzetten.'\n{% else %}\n  'Het is warm buiten... Ik zal
+        de verwarming afzetten'\n{% endif %}\n"
+  - service: script.turn_on
+    entity_id:
+    - script.notify_resume_media
+  alias: Notificatie - HVAC - Verwarming - Spreek
+  mode: single
+notify_heating_ios_bert:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - condition: state
+    entity_id: person.bert
+    state: home
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.heating
+        state: 'on'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_01_opening
+          state: 'on'
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_02_opening
+          state: 'on'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: climate.elmo
+          attribute: status
+          state: heat
+        - condition: state
+          entity_id: climate.trix
+          attribute: status
+          state: heat
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: KINDERKAMERS RAMEN TOE AUB
+          message: Dan zet ik de verwarming aan.
+          data:
+            group: huis
+            tag: hvac-status-boven
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.heating
+        state: 'on'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: VERWARMING AAN
+          message: Ik zet de verwarming aan.
+          data:
+            group: huis
+            tag: hvac-status
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.heating
+        state: 'off'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_01_opening
+          state: 'off'
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_02_opening
+          state: 'off'
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: schedule.slapen_elmo
+          state: 'off'
+        - condition: state
+          entity_id: schedule.slapen_trix
+          state: 'off'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: KINDERKAMERS VERLUCHTEN AUB
+          message: Je kan verluchten boven, het is warm genoeg buiten.
+          data:
+            group: huis
+            tag: hvac-status-boven
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.heating
+        state: 'off'
+      sequence:
+      - service: notify.mobile_app_iphone_van_bert
+        data:
+          title: VERWARMING UIT
+          message: Ik zet de warming uit.
+          data:
+            group: huis
+            tag: hvac-status
+  alias: Notificatie - HVAC - Verwarming - iOS Bert
+  mode: single
+notify_heating_ios_caro:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - condition: state
+    entity_id: person.caroline
+    state: home
+  - choose:
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.heating
+        state: 'on'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_01_opening
+          state: 'on'
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_02_opening
+          state: 'on'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: KINDERKAMERS RAMEN TOE AUB
+          message: Dan zet ik de verwarming aan.
+          data:
+            group: huis
+            tag: hvac-status-boven
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.heating
+        state: 'on'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: VERWARMING AAN
+          message: Ik de verwarming aan.
+          data:
+            group: huis
+            tag: hvac-status
+    - conditions:
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_01_opening
+          state: 'off'
+        - condition: state
+          entity_id: binary_sensor.ewelink_ds01_02_opening
+          state: 'off'
+      - condition: state
+        entity_id: input_boolean.heating
+        state: 'off'
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: schedule.slapen_elmo
+          state: 'off'
+        - condition: state
+          entity_id: schedule.slapen_trix
+          state: 'off'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: KINDERKAMERS VERLUCHTEN AUB
+          message: Je kan verluchten boven, het is warm genoeg buiten.
+          data:
+            group: huis
+            tag: hvac-status-boven
+    - conditions:
+      - condition: state
+        entity_id: input_boolean.heating
+        state: 'off'
+      sequence:
+      - service: notify.mobile_app_iphone_van_caroline
+        data:
+          title: VERWARMING UIT
+          message: Ik zet de warming uit.
+          data:
+            group: huis
+            tag: hvac-status
+  alias: Notificatie - HVAC - Verwarming - iOS Caroline
+  mode: single
+notify_heating_economy:
+  sequence:
+  - service: script.turn_on
+    data: {}
+    target:
+      entity_id:
+      - script.notify_heating_economy_ios_bert
+      - script.notify_heating_economy_ios_caro
+  alias: Notificatie - HVAC - Verwarming Economy
+  mode: single
+notify_heating_economy_ios_bert:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: VERWARMING OP ECO
+      message: Het lijkt dat jullie een tijdje weg zijn, ik zet de verwarming lager.
+      data:
+        group: huis
+        tag: hvac-status
+  alias: Notificatie - HVAC - Verwarming Economy - iOS Bert
+  mode: single
+notify_heating_economy_ios_caro:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - service: notify.mobile_app_iphone_van_caroline
+    data_template:
+      title: VERWARMING OP ECO
+      message: Het lijkt dat jullie een tijdje weg zijn, ik zet de verwarming lager.
+      data:
+        group: huis
+        tag: hvac-status
+  alias: Notificatie - HVAC - Verwarming Economy - iOS Caroline
+  mode: single
+notify_heating_preheat:
+  sequence:
+  - service: script.turn_on
+    data: {}
+    target:
+      entity_id:
+      - script.notify_heating_preheat_ios_bert
+      - script.notify_heating_preheat_ios_caro
+  alias: Notificatie - HVAC - Verwarming Preheat
+  mode: single
+notify_heating_preheat_ios_bert:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - service: notify.mobile_app_iphone_van_bert
+    data_template:
+      title: VERWARMING AL AAN
+      message: Ik zal de woning voorverwarmen voor je thuiskomst. Veilig Thuis.
+      data:
+        group: huis
+        tag: hvac-status
+  alias: Notificatie - HVAC - Verwarming Preheat - iOS Bert
+  mode: single
+notify_heating_preheat_ios_caro:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_caro
+    state: 'on'
+  - service: notify.mobile_app_iphone_van_caroline
+    data_template:
+      title: VERWARMING AL AAN
+      message: Ik zal de woning voorverwarmen voor je thuiskomst. Veilig Thuis.
+      data:
+        group: huis
+        tag: hvac-status
+  alias: Notificatie - HVAC - Verwarming Preheat - iOS Caroline
+  mode: single
+notificatie_bert_tracker_thuis_spreek_elmo:
+  alias: Notificatie - Bert Tracker Thuis - Spreek (Elmo)
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
+  - wait_template: '{{ states(''device_tracker.router_iphone_bert'') == ''home'' and
+      state_attr(''device_tracker.router_iphone_bert'', ''ap_mac'') == ''60:22:32:e4:6c:99''}}'
+    timeout: 00:10:00
+    continue_on_timeout: false
+  - delay: 00:00:10
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+  - condition: or
+    conditions:
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: person.caroline
+        state: home
+    - condition: state
+      entity_id: person.caroline
+      state: home
+      for: 0:10:00
+  - service: script.turn_on
+    entity_id: script.notify_prepare_media
+  - delay: 00:00:02
+  - service: tts.cloud_say
+    data:
+      language: nl-NL
+      cache: true
+      entity_id: media_player.apple_homepod_mini_wit_1
+      message: Dag Papa en Elmo, Welkom thuis.
+  - service: script.turn_on
+    entity_id:
+    - script.notify_resume_media
+  mode: single
+'1702555276686':
+  alias: Notificatie - Caroline Tracker Thuis - Spreek (Elmo)
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
+  - wait_template: '{{ states(''device_tracker.router_iphone_caro'') == ''home'' and
+      state_attr(''device_tracker.router_iphone_caro'', ''ap_mac'') == ''60:22:32:e4:6c:99''
+      }}'
+    timeout: 00:10:00
+    continue_on_timeout: false
+  - delay: 00:00:10
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+  - condition: or
+    conditions:
+    - condition: not
+      conditions:
+      - condition: state
+        entity_id: person.bert
+        state: home
+    - condition: state
+      entity_id: person.bert
+      state: home
+      for: 0:10:00
+  - service: script.turn_on
+    entity_id: script.notify_prepare_media
+  - delay: 00:00:02
+  - service: tts.cloud_say
+    data:
+      language: nl-NL
+      cache: true
+      entity_id: media_player.apple_homepod_mini_wit_1
+      message: Hallo Mama en Elmo, Welkom thuis.
+  - service: script.turn_on
+    entity_id:
+    - script.notify_resume_media
+  mode: single
+  max_exceeded: silent
+notificatie_caroline_tracker_thuis_spreek_thuis:
+  alias: Notificatie - Caroline Tracker Thuis - Spreek (Thuis)
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
+  - wait_template: '{{ states(''device_tracker.router_iphone_caro'') == ''home'' and
+      not state_attr(''device_tracker.router_iphone_caro'', ''ap_mac'') == ''60:22:32:e4:6c:99''
+      }}'
+    timeout: 00:10:00
+    continue_on_timeout: false
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: person.bert
+      state: home
+      for: 0:10:00
+  - service: script.turn_on
+    entity_id: script.notify_prepare_media
+  - delay: 00:00:02
+  - service: tts.cloud_say
+    data_template:
+      language: nl-NL
+      cache: true
+      entity_id:
+      - media_player.apple_homepod_mini_wit_1
+      - media_player.apple_homepod_mini_zwart_1
+      - media_player.apple_homepod_mini_wit_2
+      message: Mama is Thuis
+  - service: script.turn_on
+    entity_id:
+    - script.notify_resume_media
+  mode: single
+  max_exceeded: silent
+notificatie_wekker_elmo:
+  alias: Notificatie - Wekker Elmo
+  sequence:
+  - service: script.turn_on
+    data: {}
+    target:
+      entity_id: script.notificatie_wekker_elmo_spreek
+  mode: single
+  max_exceeded: silent
+notificatie_wekker_trix:
+  alias: Notificatie - Wekker Trix
+  sequence:
+  - service: script.turn_on
+    data: {}
+    target:
+      entity_id: script.notificatie_wekker_trix_spreek
+  mode: single
+  max_exceeded: silent
+notificatie_wekker_elmo_spreek:
+  alias: Notificatie - Wekker Elmo - Spreek
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+  - condition: state
+    entity_id: group.bewoners_router
+    state: home
+  - service: script.turn_on
+    entity_id: script.notify_prepare_media
+  - delay: 00:00:02
+  - service: tts.cloud_say
+    data:
+      language: nl-NL
+      cache: true
+      entity_id: media_player.apple_homepod_mini_wit_1
+      message: Ok, ik doe Elmo zijn licht aan.
+  - service: script.turn_on
+    target:
+      entity_id: script.notify_resume_media
+    data: {}
+  - delay:
+      hours: 0
+      minutes: 20
+      seconds: 0
+      milliseconds: 0
+  mode: single
+  max_exceeded: silent
+notificatie_wekker_trix_spreek:
+  alias: Notificatie - Wekker Trix - Spreek
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+  - condition: state
+    entity_id: group.bewoners_router
+    state: home
+  - service: script.turn_on
+    entity_id: script.notify_prepare_media
+  - delay: 00:00:02
+  - service: tts.cloud_say
+    data:
+      language: nl-NL
+      cache: true
+      entity_id: media_player.apple_homepod_mini_wit_1
+      message: Ok, Ik doe Trix haar lichtje aan.
+  - service: script.turn_on
+    entity_id: script.notify_resume_media
+  - delay:
+      hours: 0
+      minutes: 20
+      seconds: 0
+      milliseconds: 0
+  mode: single
+  max_exceeded: silent
+notificatie_einde_tv_avond:
+  alias: Notificatie - Einde Tv Avond
+  sequence:
+  - service: script.turn_on
+    data: {}
+    target:
+      entity_id: script.notificatie_einde_tv_avond_spreek
+  mode: single
+notificatie_einde_tv_avond_spreek:
+  alias: Notificatie - Einde Tv avond - Spreek
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+  - service: script.turn_on
+    data: {}
+    target:
+      entity_id:
+      - script.notify_prepare_media_livingroom
+  - delay: 00:00:02
+  - service: tts.cloud_say
+    data:
+      language: nl-NL
+      cache: true
+      entity_id: media_player.apple_homepod_mini_zwart_1
+      message: Het is tijd om te gaan slapen. Ik zet binnen 10 minuten de tv uit.
+  mode: single
+notificatie_einde_tv_avond_spreek_2:
+  alias: Notificatie - Einde Tv avond - Spreek 2
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+  - service: script.turn_on
+    data: {}
+    target:
+      entity_id:
+      - script.notify_prepare_media_livingroom
+  - delay: 00:00:02
+  - service: tts.cloud_say
+    data:
+      language: nl-NL
+      cache: true
+      entity_id: media_player.apple_homepod_mini_zwart_1
+      message: Slaapwel tot morgen
   mode: single

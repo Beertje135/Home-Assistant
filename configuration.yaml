@@ -2,12 +2,6 @@ homeassistant:
   customize: !include customize.yaml
 #lovelace in yaml mode
 lovelace:
-  mode: yaml
-  resources:
-    - url: /hacsfiles/lovelace-card-tools/card-tools.js
-      type: module
-    - url: /hacsfiles/lovelace-layout-card/layout-card.js
-      type: module
 
 # Start with a default configuration (will start new things when available)
 default_config:
@@ -18,119 +12,34 @@ automation: !include automations.yaml
 # (default)
 scene: !include scenes.yaml
 
-# (default) Enables configuration UI
-config:
-
-# (default) Allows you to issue voice commands from the frontend in enabled browsers
-conversation:
-
-# (default)
-history: !include history.yaml
-
 # (default)
 logbook: !include logbook.yaml
 
-#(default)
-cloud:
-
 # (default)
-map:
-
-# (default)
-mobile_app:
-
-# (default) Person component
-person:
-
-# (default)
-# script: !include_dir_named scripts/
 script: !include scripts.yaml
 
-# (default) Track the sun
-sun:
-
 # (default)
-system_health:
-
-# Discover some devices automatically
-discovery:
+zone: !include zones.yaml
 
 hassio:
 
 sensor: !include sensors.yaml
 
-zone: !include zones.yaml
-
 group: !include groups.yaml
 
-ffmpeg:
 
-stream:
 
 zha:
   zigpy_config:
     ota:
-      ikea_provider: true                        # Auto update Trådfri devices
-
-proximity:
-  home:
-    zone: home
-    ignored_zones:
-      - Werk (Bert)
-      - Werk (Caro)
-    devices:
-      - device_tracker.iphone_van_bert
-      - device_tracker.iphone_van_caroline
-    tolerance: 50
-    unit_of_measurement: km
-  caroline:
-    zone: home
-    ignored_zones:
-      - Werk (Caro)
-    devices:
-      - device_tracker.iphone_van_caroline
-    tolerance: 50
-    unit_of_measurement: km
-  bert:
-    zone: home
-    ignored_zones:
-      - Werk (Bert)
-    devices:
-      - device_tracker.iphone_van_bert
-    tolerance: 50
-    unit_of_measurement: km
-
-command_line:
-  - sensor:
-      name: CPU Temperature
-      command: "cat /sys/class/thermal/thermal_zone0/temp"
-      # If errors occur, make sure configuration file is encoded as UTF-8
-      unit_of_measurement: '°C'
-      value_template: "{{ value | multiply(0.001) | round(1) }}"
+      extra_providers:
+       - type: z2m
+#      ikea_provider: true                # Auto update Trådfri devices
 
 evohome:
   username: !secret username_evohome
   password: !secret password_evohome
   scan_interval: 120
-
-logger:
-  default: info
-  logs:
-    homeassistant.core: critical
-    homeassistant.components.zha: debug
-    zigpy: debug
-
-# Text to speech
-tts:
-  - platform: google_translate
-    language: "nl"
-
-notify:
-  - platform: file
-    name: entity_log
-    filename: /config/www/entity_log.txt
-    timestamp: false
-
 
 # Enables Homekit
 homekit:
@@ -149,7 +58,6 @@ binary_sensor:
           {% else %}
             off
           {% endif %}
-
 
 # Enable Utility meter
 utility_meter:
@@ -178,9 +86,8 @@ utility_meter:
     tariffs:
       - peak
 
+#Used for short term data (recorder is only for 1 week, influxdb wil keep indefintely)
 recorder:
-  purge_keep_days: 7
-  commit_interval: 5
   exclude:
     domains:
       - sun
@@ -198,13 +105,11 @@ recorder:
       - zone
     entities:
       - group.computer
-      - media_player.nesthub8526
       - media_player.spotify_bert_verlinden
       - media_player.this_device
   include:
     domains:
       - automation
-      - proximity
       - script
       - climate
       - group
@@ -214,121 +119,60 @@ recorder:
       - remote
       - scene
       - vacuum
+    entity_globs:
+      - binary_sensor.hue_motion_sensor_*_motion
+      - binary_sensor.hue_outdoor_sensor_*_motion
+      - binary_sensor.ewelink_ds01_*_opening
+      - binary_sensor.airco_*_open_window
+      - input_boolean.muziek_*
+      - sensor.hue_dimmer_switch_*_power
+      - sensor.hue_motion_sensor_*_light_level
+      - sensor.hue_motion_sensor_*_temperature
+      - sensor.hue_motion_sensor_*_power
+      - sensor.hue_outdoor_sensor_*_light_level
+      - sensor.hue_outdoor_sensor_*_temperature
+      - sensor.hue_outdoor_sensor_*_power
+      - sensor.airco_*_temperature
+      - sensor.home_*_distance
+      - sensor.airco_*_humidity
+      - sensor.ons_huisje_*
+      - sensor.solaredge_*
+      - sensor.adguard_*
+      - switch.harmony_hub_*
+      - switch.hue_smart_plug_*
     entities:
-      - binary_sensor.hue_motion_sensor_1_motion
-      - binary_sensor.hue_motion_sensor_2_motion
-      - binary_sensor.hue_motion_sensor_3_motion
-      - binary_sensor.hue_motion_sensor_4_motion
-      - binary_sensor.hue_outdoor_sensor_3_motion
-      - binary_sensor.hue_outdoor_sensor_1_motion
-      - binary_sensor.hue_outdoor_sensor_2_motion
       - binary_sensor.rpi_power_status
       - binary_sensor.remote_ui
       - binary_sensor.bezoek
       - input_boolean.notify_bert
       - input_boolean.notify_caro
       - input_boolean.pre_heat
-      - input_boolean.muziek_keuken
-      - input_boolean.muziek_badkamer
-      - input_boolean.muziek_woonkamer
-      - input_boolean.muziek_slaapkamer
+      - input_boolean.cooling_downstairs
+      - input_boolean.cooling_upstairs
+      - input_boolean.cooling_attic
+      - input_boolean.eve_aqua_ec68
       - input_select.harmony_hub
       - input_select.woning_status
       - sensor.cpu_temperature
-      - sensor.tradfri_shortcut_button_white_1_battery
       - sensor.dusty_battery_level
       - sensor.disk_use_percent_home
       - sensor.hp_deskjet_3700_series_black_ink
       - sensor.hp_deskjet_3700_series_tri_color_ink
-      - sensor.hue_dimmer_switch_1_power
-      - sensor.hue_motion_sensor_1_light_level
-      - sensor.hue_motion_sensor_1_temperature
-      - sensor.hue_motion_sensor_1_power
-      - sensor.hue_motion_sensor_2_light_level
-      - sensor.hue_motion_sensor_2_temperature
-      - sensor.hue_motion_sensor_2_power
-      - sensor.hue_motion_sensor_3_light_level
-      - sensor.hue_motion_sensor_3_temperature
-      - sensor.hue_motion_sensor_3_power
-      - sensor.hue_motion_sensor_4_light_level
-      - sensor.hue_motion_sensor_4_temperature
-      - sensor.hue_motion_sensor_4_power
-      - sensor.hue_outdoor_sensor_3_light_level
-      - sensor.hue_outdoor_sensor_3_temperature
-      - sensor.hue_outdoor_sensor_3_power
-      - sensor.hue_outdoor_sensor_2_light_level
-      - sensor.hue_outdoor_sensor_2_temperature
-      - sensor.hue_outdoor_sensor_2_power
-      - sensor.hue_outdoor_sensor_1_light_level
-      - sensor.hue_outdoor_sensor_1_temperature
-      - sensor.hue_outdoor_sensor_1_power
       - sensor.hue_sensor_veranda_light_level
       - sensor.hue_sensor_buiten_temperature
+      - sensor.climate_trix_attribute_current_temperature
+      - sensor.climate_elmo_attribute_current_temperature
       - sensor.memory_use_percent
       - sensor.meter_gas_monthly_peak
-      - sensor.ons_huisje_always_on_active_power
-      - sensor.ons_huisje_always_on_today
-      - sensor.ons_huisje_eta
-      - sensor.ons_huisje_sensor_gas
-      - sensor.ons_huisje_sensor_water
-      - sensor.ons_huisje_total_consumption_active_power
-      - sensor.ons_huisje_total_consumption_current_hour
-      - sensor.ons_huisje_total_consumption_last_5_minutes
-      - sensor.ons_huisje_total_consumption_today
-      - sensor.ons_huisje_total_consumption_today_cost
       - sensor.processor_use
-      - sensor.solaredge_batteries
-      - sensor.solaredge_consumption_power
-      - sensor.solaredge_current_power
-      - sensor.solaredge_energy_this_month
-      - sensor.solaredge_energy_this_month_template
-      - sensor.solaredge_energy_this_year
-      - sensor.solaredge_energy_this_year_template
-      - sensor.solaredge_energy_today
-      - sensor.solaredge_energy_today_template
-      - sensor.solaredge_exported_power
-      - sensor.solaredge_gateways
-      - sensor.solaredge_grid_power
-      - sensor.solaredge_imported_power
-      - sensor.solaredge_inverters
-      - sensor.solaredge_lifetime_energy
-      - sensor.solaredge_lifetime_energy_template
-      - sensor.solaredge_meters
-      - sensor.solaredge_power_consumption
-      - sensor.solaredge_production_power
-      - sensor.solaredge_selfconsumption_power
-      - sensor.solaredge_sensors
-      - sensor.solaredge_site_details
-      - sensor.solaredge_solar_power
-      - sensor.solaredge_storage_level
-      - sensor.solaredge_storage_power
       - sensor.template_delta_set_temperature
       - sensor.template_delta_temperature
       - sensor.template_ons_huisje_set_temperature
-      - sensor.adguard_average_processing_speed
-      - sensor.adguard_dns_queries
-      - sensor.adguard_dns_queries_blocked_ratio
-      - sensor.adguard_parental_control_blocked
-      - sensor.adguard_safe_browsing_blocked
-      - sensor.adguard_safe_searches_enforced
-      - switch.adguard_filtering
-      - switch.adguard_parental_control
-      - switch.adguard_protection
-      - switch.adguard_safe_browsing
-      - switch.adguard_safe_search
-      - switch.harmony_hub_alexa
-      - switch.harmony_hub_apple_tv
-      - switch.harmony_hub_nintendo_switch
-      - switch.harmony_hub_tv_decoder
-      - switch.harmony_hub_webos
       - switch.wake_on_lan
-      - switch.hue_smart_plug_1
-      - switch.hue_smart_plug_2
-      - switch.hue_smart_plug_3
-      - switch.hue_smart_plug_4
-      - switch.hue_smart_plug_5
-      - switch.hue_smart_plug_6
+      - switch.doorbellback_chime_active
+      - switch.doorbellfront_chime_active
 
+#Used for long term data (recorder is only for 1 week, influxdb wil keep indefintely)
 influxdb:
   host: a0d7b954-influxdb
   port: !secret port_influxdb
@@ -389,15 +233,6 @@ influxdb:
 smappee:
   client_id: !secret client_id_smappee
   client_secret: !secret client_secret_smappee
-
-light:
-  - platform: limitlessled
-    bridges:
-    - host: !secret ip_milight_bridge_2
-      groups:
-      - number: 1
-        type: bridge-led
-        name: milight_keuken_bridge
   
 switch:
   - platform: wake_on_lan
@@ -405,3 +240,46 @@ switch:
     host: !secret ip_computer_lan
     turn_off:
       service: script.computer_off
+
+# (default) Enables configuration UI
+#config:
+
+#(default)
+#cloud:
+
+# (default)
+#map:
+
+# (default)
+#mobile_app:
+
+# (default) Person component
+#person:
+
+# (default)
+#history:
+
+# (default) Track the sun
+#sun:
+
+# (default)
+#system_health:
+
+# (default) Allows you to issue voice commands from the frontend in enabled browsers
+#conversation:
+
+#(default)
+#stream:
+
+#(default)
+#logger:
+#  default: info
+#  logs:
+#    homeassistant.core: critical
+#    homeassistant.components.zha: debug
+#    zigpy: debug
+
+# Text to speech
+#tts:
+#  - platform: google_translate
+#    language: "nl"

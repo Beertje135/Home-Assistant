@@ -35,6 +35,7 @@
       - remote
       - vacuum
     entities:
+      - climate.keuken
       - input_boolean.notify_bert
       - input_boolean.notify_caro
       - input_boolean.media_livingroom
@@ -43,10 +44,12 @@
       - input_boolean.muziek_badkamer
       - input_boolean.muziek_woonkamer
       - input_boolean.muziek_slaapkamer
+      - input_boolean.eve_aqua_ec68
       - input_select.harmony_hub
       - input_boolean.pre_heat
       - input_select.woning_status
       - binary_sensor.bezoek
+      - binary_sensor.airco_trix_open_window
       - switch.adguard_filtering
       - switch.adguard_parental_control
       - switch.adguard_protection
@@ -64,6 +67,8 @@
       - switch.hue_smart_plug_4
       - switch.hue_smart_plug_5
       - switch.hue_smart_plug_6
+      - switch.doorbellback_chime_active
+      - switch.doorbellfront_chime_active
 
 #Gebruik dit sjabloon om entiteiten te vinden:
 # {% for e in states.sensor if not e.entity_id.startswith('sensor.dark_sky') %}
