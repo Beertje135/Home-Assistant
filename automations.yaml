@@ -1510,23 +1510,17 @@
 - id: house_006
   alias: Ons Huisje - Wijzig de Status - Thuis (...) AAN (als Thuis)
   description: TBD
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - schedule.werk
     to: 'on'
-  - platform: state
-    entity_id: input_select.woning_status
+    trigger: state
+  - entity_id: input_select.woning_status
     to: Thuis
     for:
       minutes: 1
-  - platform: state
-    entity_id: calendar.verlof_agenda
-    to: 'on'
-  condition:
-  - condition: state
-    entity_id: binary_sensor.workday_sensor
-    state: 'on'
+    trigger: state
+  conditions:
   - condition: state
     entity_id: schedule.werk
     state: 'on'
@@ -1538,46 +1532,46 @@
     - condition: state
       entity_id: input_select.woning_status
       state: Thuis Werk
-  action:
+  actions:
   - choose:
     - conditions:
       - condition: state
-        entity_id: calendar.verlof_agenda
-        state: 'on'
+        entity_id: binary_sensor.workday_sensor
+        state: 'off'
       sequence:
-      - service: input_select.select_option
-        entity_id: input_select.woning_status
+      - entity_id: input_select.woning_status
         data:
           option: Thuis Verlof
+        action: input_select.select_option
     default:
-    - service: input_select.select_option
-      entity_id: input_select.woning_status
+    - entity_id: input_select.woning_status
       data:
         option: Thuis Werk
+      action: input_select.select_option
   max_exceeded: silent
   mode: single
 - id: house_007
   alias: Ons Huisje - Wijzig de Status - Thuis (...) UIT
   description: TBD
-  trigger:
-  - platform: state
-    entity_id: calendar.verlof_agenda
-    to: 'off'
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - schedule.werk
     to: 'off'
-  condition:
-  - condition: state
-    entity_id: input_select.woning_status
-    state:
-    - Thuis Verlof
-    - Thuis Werk
-  action:
-  - service: input_select.select_option
-    entity_id: input_select.woning_status
+    trigger: state
+  conditions:
+  - condition: or
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis Verlof
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Thuis Werk
+  actions:
+  - entity_id: input_select.woning_status
     data:
       option: Thuis
+    action: input_select.select_option
   max_exceeded: silent
   mode: single
 - id: house_008
@@ -6257,3 +6251,18 @@
     domain: switch
   mode: single
   max_exceeded: silent
+- id: '1746536804143'
+  alias: Herinneringen - Kinderen - School tijd
+  description: ''
+  triggers:
+  - trigger: time
+    at: 08:00:00
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  actions:
+  - action: script.notificatie_school_vertrekken_elmo_trix
+    metadata: {}
+    data: {}
+  mode: single
