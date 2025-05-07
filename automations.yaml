@@ -1333,13 +1333,12 @@
 - id: house_003
   alias: Ons Huisje - Wijzig de Status - Bewoner of Bezoeker
   description: TBD
-  max_exceeded: silent
-  trigger:
-  - platform: state
-    entity_id: group.bewoners
-  - platform: state
-    entity_id: binary_sensor.bezoek
-  condition:
+  triggers:
+  - entity_id: group.bewoners
+    trigger: state
+  - entity_id: binary_sensor.bezoek
+    trigger: state
+  conditions:
   - condition: or
     conditions:
     - condition: and
@@ -1390,9 +1389,6 @@
       - condition: state
         entity_id: input_select.woning_status
         state: Juist Thuis
-      - condition: state
-        entity_id: calendar.verlof_agenda
-        state: 'on'
       - condition: or
         conditions:
         - condition: state
@@ -1401,6 +1397,15 @@
         - condition: state
           entity_id: binary_sensor.bezoek
           state: 'on'
+      - condition: and
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.workday_sensor
+          state: 'off'
+        - condition: state
+          entity_id: schedule.werk
+          state: 'on'
+        alias: Wanneer Verlof
     - condition: and
       conditions:
       - condition: state
@@ -1414,9 +1419,8 @@
         - condition: state
           entity_id: binary_sensor.bezoek
           state: 'on'
-  action:
-  - service: input_select.select_option
-    entity_id: input_select.woning_status
+  actions:
+  - entity_id: input_select.woning_status
     data_template:
       option: "{% if (states('input_select.woning_status') in ['Weg', 'Op Vakantie']
         and states('group.bewoners') in ['home']) or (states('input_select.woning_status')
@@ -1425,22 +1429,24 @@
         Werk', 'Thuis Verlof'] and states('group.bewoners') in ['not_home'] and states('binary_sensor.bezoek')
         in ['off'] %}\n  Juist Weg\n{% elif states('input_select.woning_status') in
         ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('binary_sensor.bezoek')
-        in ['on']) and states('calendar.verlof_agenda') in ['on'] %}\n  Thuis Verlof\n{%
-        elif states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners')
-        in ['home'] or states('binary_sensor.bezoek') in ['on']) and states('schedule.werk')
-        in ['on'] and (('binary_sensor.workday_sensor') in ['on']) %}\n  Thuis Werk\n{%
-        elif states('input_select.woning_status') in ['Juist Weg'] and (states('group.bewoners')
-        in ['home'] or states('binary_sensor.bezoek') in ['on']) %}\n  Thuis\n{% elif
-        states('input_select.woning_status') in ['Juist Weg'] %}\n  Juist Weg\n{%
-        elif states('input_select.woning_status') in ['Juist Thuis'] %}\n  Juist Thuis\n{%
-        elif states('input_select.woning_status') in ['Juist Wakker'] %}\n  Juist
-        Wakker\n{% elif states('input_select.woning_status') in ['Thuis'] %}\n  Thuis\n{%
-        elif states('input_select.woning_status') in ['Thuis Verlof'] %}\n  Thuis
-        Verlof\n{% elif states('input_select.woning_status') in ['Thuis Werk'] %}\n
-        \ Thuis Werk\n{% elif states('input_select.woning_status') in ['Weg'] %}\n
-        \ Weg\n{% elif states('input_select.woning_status') in ['Slapen'] %}\n  Slapen\n{%
-        elif states('input_select.woning_status') in ['Op Vakantie'] %}\n  Op Vakantie\n{%
-        endif %}\n"
+        in ['on']) and (states('binary_sensor.workday_sensor') in ['off'] and states('schedule.werk')
+        in ['on']) %}\n  Thuis Verlof\n{% elif states('input_select.woning_status')
+        in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('binary_sensor.bezoek')
+        in ['on']) and states('schedule.werk') in ['on'] and (states('binary_sensor.workday_sensor')
+        in ['on']) %}\n  Thuis Werk\n{% elif states('input_select.woning_status')
+        in ['Juist Weg'] and (states('group.bewoners') in ['home'] or states('binary_sensor.bezoek')
+        in ['on']) %}\n  Thuis\n{% elif states('input_select.woning_status') in ['Juist
+        Weg'] %}\n  Juist Weg\n{% elif states('input_select.woning_status') in ['Juist
+        Thuis'] %}\n  Juist Thuis\n{% elif states('input_select.woning_status') in
+        ['Juist Wakker'] %}\n  Juist Wakker\n{% elif states('input_select.woning_status')
+        in ['Thuis'] %}\n  Thuis\n{% elif states('input_select.woning_status') in
+        ['Thuis Verlof'] %}\n  Thuis Verlof\n{% elif states('input_select.woning_status')
+        in ['Thuis Werk'] %}\n  Thuis Werk\n{% elif states('input_select.woning_status')
+        in ['Weg'] %}\n  Weg\n{% elif states('input_select.woning_status') in ['Slapen']
+        %}\n  Slapen\n{% elif states('input_select.woning_status') in ['Op Vakantie']
+        %}\n  Op Vakantie\n{% endif %}\n"
+    action: input_select.select_option
+  max_exceeded: silent
 - id: house_004
   alias: Ons Huisje - Wijzig de Status - Timer
   description: TBD
@@ -1479,7 +1485,7 @@
     entity_id: input_select.woning_status
     data_template:
       option: "{% if states('input_select.woning_status') in ['Juist Thuis', 'Juist
-        Wakker'] and states('calendar.verlof_agenda') in ['on'] and (('binary_sensor.workday_sensor')
+        Wakker'] and (states('binary_sensor.workday_sensor') in ['off'] and states('schedule.werk')
         in ['on']) %}\n  Thuis Verlof\n{% elif (states('input_select.woning_status')
         in ['Juist Thuis', 'Juist Wakker']) and states('schedule.werk') in ['on']
         and (('binary_sensor.workday_sensor') in ['on']) %}\n  Thuis Werk\n{% elif
@@ -6252,7 +6258,7 @@
   mode: single
   max_exceeded: silent
 - id: '1746536804143'
-  alias: Herinneringen - Kinderen - School tijd
+  alias: Herinneringen - Kinderen - School Vertrekken
   description: ''
   triggers:
   - trigger: time
@@ -6262,7 +6268,51 @@
     entity_id: binary_sensor.workday_sensor
     state: 'on'
   actions:
-  - action: script.notificatie_school_vertrekken_elmo_trix
+  - action: script.turn_on
     metadata: {}
     data: {}
+    target:
+      entity_id: script.notificatie_school_vertrekken_elmo_trix
+  mode: single
+- id: '1746601817340'
+  alias: Herinneringen - Kinderen - School Ophalen
+  description: ''
+  triggers:
+  - trigger: time
+    at: '15:00:00'
+    id: Volledige Schooldag
+  - trigger: time
+    at: '11:40:00'
+    id: Halve Schooldag
+  conditions:
+  - condition: state
+    entity_id: binary_sensor.workday_sensor
+    state: 'on'
+  - condition: or
+    conditions:
+    - condition: and
+      conditions:
+      - condition: trigger
+        id:
+        - Volledige Schooldag
+      - condition: time
+        weekday:
+        - mon
+        - tue
+        - thu
+        - fri
+    - condition: and
+      conditions:
+      - condition: trigger
+        id:
+        - Halve Schooldag
+      - condition: time
+        weekday:
+        - wed
+  actions:
+  - action: script.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: script.notificatie_school_ophalen_elmo_trix
   mode: single
