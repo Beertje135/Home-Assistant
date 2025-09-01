@@ -8,64 +8,46 @@
       - sun
       - vacuum
       - weather
+      - utility_meter
+    entity_globs:
+      - sensor.nutsmeter_*
+      - sensor.solaredge_*
+      - sensor.elektriciteit_meter_*
+      - group.licht_*
     entities:
       - group.bewoners
       - group.bewoners_router
-      - group.bezoekers
-      - group.licht_keuken
-      - group.licht_badkamer
-      - group.licht_dressing
-      - group.licht_woonkamer
-      - group.licht_veranda
-      - group.licht_slaapkamer2
+      - binary_sensor.bezoek
       - device_tracker.router_iphone_bert
       - device_tracker.router_iphone_caro
       - device_tracker.iphone_van_bert
-      - device_tracker.iphone_van_caro
-      - sensor.babysit
-      - sensor.bezoek
+      - device_tracker.iphone_van_caroline
       - sensor.disk_use_percent_home
       - sensor.hue_motion_sensor_1_light_level
-      - sensor.hue_motion_sensor_1_temperature
       - sensor.hue_motion_sensor_2_light_level
-      - sensor.hue_motion_sensor_2_temperature
-      - sensor.kuishulp
       - sensor.hue_motion_sensor_3_light_level
+      - sensor.hue_motion_sensor_4_light_level
+      - sensor.hue_sensor_veranda_light_level
+      - sensor.hue_outdoor_sensor_1_light_level
+      - sensor.hue_outdoor_sensor_2_light_level
+      - sensor.hue_outdoor_sensor_3_light_level
+      - sensor.hue_motion_sensor_1_temperature
+      - sensor.hue_motion_sensor_2_temperature
       - sensor.hue_motion_sensor_3_temperature
+      - sensor.hue_motion_sensor_4_temperature
+      - sensor.hue_sensor_veranda_temperature
+      - sensor.hue_sensor_buiten_temperature
+      - sensor.hue_outdoor_sensor_1_temperature
+      - sensor.hue_outdoor_sensor_2_temperature
+      - sensor.hue_outdoor_sensor_3_temperature
       - sensor.memory_use_percent
       - sensor.processor_use
-      - sensor.cpu_temperature
-      - sensor.ons_huisje_total_consumption_active_power
-      - sensor.ons_huisje_always_on_today
-      - sensor.ons_huisje_always_on_active_power
-      - sensor.ons_huisje_total_consumption_current_hour
-      - sensor.ons_huisje_total_consumption_today
-      - sensor.ons_huisje_total_consumption_last_5_minutes
-      - sensor.ons_huisje_sensor_water
-      - sensor.ons_huisje_sensor_gas
+      - sensor.water_meter
+      - sensor.gas_meter
       - sensor.template_delta_temperature
       - sensor.template_delta_set_temperature
       - sensor.template_ons_huisje_set_temperature
-      - sensor.solaredge_current_power
-      - sensor.solaredge_energy_this_month
-      - sensor.solaredge_energy_this_year
-      - sensor.solaredge_energy_today
-      - sensor.solaredge_lifetime_energy
-      - sensor.solaredge_energy_this_month_template
-      - sensor.solaredge_energy_this_year_template
-      - sensor.solaredge_energy_today_template
-      - sensor.solaredge_lifetime_energy_template
       - switch.wake_on_lan
-      - sensor.meter_elektricity_monthly_peak
-      - sensor.meter_elektricity_yearly_peak
-      - sensor.meter_gas_monthly_peak
-      - sensor.meter_gas_yearly_peak
-      - sensor.meter_net_use_monthly_peak
-      - sensor.meter_net_use_yearly_peak
-      - sensor.meter_water_monthly_peak
-      - sensor.meter_water_yearly_peak
-      - sensor.meter_zon_monthly_peak
-      - sensor.meter_zon_yearly_peak
 
 #Gebruik dit sjabloon om entiteiten te vinden:
 # {% for e in states.sensor if not e.entity_id.startswith('sensor.dark_sky') %}

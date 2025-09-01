@@ -13,9 +13,18 @@ all_switch_off:
       - switch.hue_smart_plug_2
       - switch.hue_smart_plug_3
       - switch.hue_smart_plug_4
-      - switch.ikea_of_sweden_tretakt_smart_plug_1
       - switch.ikea_of_sweden_tretakt_smart_plug_2
     action: switch.turn_off
+  - if:
+    - condition: state
+      entity_id: switch.hue_smart_plug_5
+      state: 'off'
+    then:
+    - action: switch.turn_off
+      metadata: {}
+      data: {}
+      target:
+        entity_id: switch.ikea_of_sweden_tretakt_smart_plug_1
   mode: single
 all_remote_off:
   alias: All - Remote - Uit
@@ -155,192 +164,6 @@ computer_on:
   - service: switch.turn_on
     entity_id: switch.wake_on_lan
   mode: single
-harmony_hub_elmo_trix:
-  alias: Harmony Hub - Televisie - Elmo Trix
-  sequence:
-  - type: turn_on
-    device_id: d4bfe137373a4685b374eabfe782bce7
-    entity_id: switch.harmony_hub_apple_tv
-    domain: switch
-    enabled: false
-  - service: script.turn_on
-    data: {}
-    target:
-      entity_id: script.harmony_hub_apple_tv
-    enabled: false
-  - condition: device
-    device_id: d4bfe137373a4685b374eabfe782bce7
-    domain: select
-    entity_id: select.harmony_hub_activities
-    type: selected_option
-    option: Apple tv
-  - wait_for_trigger:
-    - platform: device
-      type: turned_on
-      device_id: d4bfe137373a4685b374eabfe782bce7
-      entity_id: switch.harmony_hub_apple_tv
-      domain: switch
-    continue_on_timeout: true
-    timeout:
-      hours: 0
-      minutes: 0
-      seconds: 10
-      milliseconds: 0
-  - service: remote.send_command
-    data:
-      hold_secs: 0
-      delay_secs: 2
-      command: menu
-    alias: Apple TV - Menu
-    target:
-      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
-    enabled: true
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 2
-      milliseconds: 0
-  - service: remote.send_command
-    data:
-      hold_secs: 0
-      delay_secs: 2
-      command: top_menu
-    alias: Apple TV - Top Menu
-    target:
-      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
-  - service: remote.send_command
-    data:
-      device: Pioneer AV Receiver
-      command: VolumeDown
-      num_repeats: 30
-      delay_secs: 0.4
-    target:
-      device_id: d4bfe137373a4685b374eabfe782bce7
-    alias: Pioneer - Volume Down
-  - service: remote.send_command
-    data:
-      hold_secs: 0
-      command: home
-      delay_secs: 1
-      num_repeats: 1
-    alias: Apple TV - Home
-    target:
-      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
-  - service: remote.send_command
-    data:
-      num_repeats: 1
-      delay_secs: 0.4
-      hold_secs: 0
-      command: right
-    alias: Apple TV - Rechts
-    target:
-      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
-  - service: remote.send_command
-    data:
-      num_repeats: 1
-      delay_secs: 0.4
-      hold_secs: 0
-      command: select
-    alias: Apple TV - Enter
-    target:
-      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
-  - service: remote.send_command
-    data:
-      hold_secs: 0
-      delay_secs: 1
-      num_repeats: 1
-      command: menu
-    alias: Apple TV - Return
-    target:
-      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
-  - service: remote.send_command
-    data:
-      num_repeats: 3
-      delay_secs: 0.4
-      hold_secs: 0
-      command: left
-    alias: Apple TV - Left
-    target:
-      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
-  - service: remote.send_command
-    data:
-      num_repeats: 3
-      delay_secs: 0.4
-      hold_secs: 0
-      command: up
-    alias: Apple TV - Up
-    target:
-      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
-  - service: remote.send_command
-    data:
-      num_repeats: 1
-      delay_secs: 0.4
-      hold_secs: 0
-      command: select
-    alias: Apple TV - Enter
-    target:
-      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
-  - service: remote.send_command
-    data:
-      delay_secs: 0.4
-      hold_secs: 0
-      command: right
-      num_repeats: 4
-    alias: Apple TV - Rechts
-    target:
-      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
-  - service: remote.send_command
-    data:
-      num_repeats: 1
-      delay_secs: 0.4
-      hold_secs: 0
-      command: select
-    alias: Apple TV - Enter
-    target:
-      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 2
-      milliseconds: 0
-  - service: remote.send_command
-    data:
-      delay_secs: 0.4
-      hold_secs: 0
-      command: down
-      num_repeats: 2
-    alias: Apple TV - Down
-    target:
-      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
-  - service: remote.send_command
-    data:
-      num_repeats: 2
-      delay_secs: 0.4
-      hold_secs: 0
-      command: select
-    alias: Apple TV - Enter
-    target:
-      device_id: 58dc0df9cd72a2fd6268ebd85cdfcf27
-  - service: remote.send_command
-    data:
-      num_repeats: 24
-      delay_secs: 0.4
-      hold_secs: 0
-      device: Pioneer AV Receiver
-      command: VolumeUp
-    target:
-      device_id: d4bfe137373a4685b374eabfe782bce7
-    alias: Pioneer - Volume Up
-  mode: restart
-  icon: mdi:youtube-tv
-harmony_hub_alexa:
-  alias: Harmony Hub - Alexa
-  sequence:
-  - service: input_select.select_option
-    entity_id: input_select.harmony_hub
-    data:
-      option: Alexa
-  mode: single
 harmony_hub_powered_off:
   alias: Harmony Hub - PowerOff
   sequence:
@@ -348,14 +171,6 @@ harmony_hub_powered_off:
     entity_id: input_select.harmony_hub
     data:
       option: PowerOff
-  mode: single
-harmony_hub_tv_decoder:
-  alias: Harmony Hub - TV Decoder
-  sequence:
-  - service: input_select.select_option
-    entity_id: input_select.harmony_hub
-    data:
-      option: TV Decoder
   mode: single
 harmony_hub_apple_tv:
   alias: Harmony Hub - Apple TV
@@ -373,15 +188,6 @@ remote_harmony_hub_apple_tv_pause:
       entity_id: remote.harmony_hub
       command: Pause
       device: Apple TV
-  mode: single
-remote_harmony_hub_belgacom_dvr_pause:
-  alias: Harmony Hub Remote - Belgacom DVR - Pause
-  sequence:
-  - service: remote.send_command
-    data:
-      entity_id: remote.living_room
-      command: Pause
-      device: Belgacom DVR
   mode: single
 remote_harmony_hub_lg_tv_pause:
   alias: Harmony Hub Remote - LG Tv - Pause
@@ -5016,18 +4822,18 @@ notificatie_bert_tracker_thuis_spreek_elmo:
       entity_id: person.caroline
       state: home
       for: 0:10:00
-  - service: script.turn_on
-    entity_id: script.notify_prepare_media
+  - entity_id: script.notify_prepare_media
+    action: script.turn_on
   - delay: 00:00:02
-  - service: tts.cloud_say
-    data:
+  - data:
       language: nl-NL
       cache: true
       entity_id: media_player.apple_homepod_mini_wit_1
-      message: Dag Papa en Elmo, Welkom thuis.
-  - service: script.turn_on
-    entity_id:
+      message: Dag Papa, Elmo en Trix, Welkom thuis.
+    action: tts.cloud_say
+  - entity_id:
     - script.notify_resume_media
+    action: script.turn_on
   mode: single
 '1702555276686':
   alias: Notificatie - Caroline Tracker Thuis - Spreek (Elmo)
@@ -5057,18 +4863,18 @@ notificatie_bert_tracker_thuis_spreek_elmo:
       entity_id: person.bert
       state: home
       for: 0:10:00
-  - service: script.turn_on
-    entity_id: script.notify_prepare_media
+  - entity_id: script.notify_prepare_media
+    action: script.turn_on
   - delay: 00:00:02
-  - service: tts.cloud_say
-    data:
+  - data:
       language: nl-NL
       cache: true
       entity_id: media_player.apple_homepod_mini_wit_1
-      message: Hallo Mama en Elmo, Welkom thuis.
-  - service: script.turn_on
-    entity_id:
+      message: Hallo Mama, Elmo en Trix, Welkom thuis.
+    action: tts.cloud_say
+  - entity_id:
     - script.notify_resume_media
+    action: script.turn_on
   mode: single
   max_exceeded: silent
 notificatie_caroline_tracker_thuis_spreek_thuis:
@@ -5213,18 +5019,19 @@ notificatie_einde_tv_avond_spreek:
     - condition: state
       entity_id: input_select.woning_status
       state: Slapen
-  - service: script.turn_on
-    data: {}
+  - data: {}
     target:
       entity_id:
       - script.notify_prepare_media_livingroom
+    action: script.turn_on
   - delay: 00:00:02
-  - service: tts.cloud_say
-    data:
+  - data:
       language: nl-NL
       cache: true
       entity_id: media_player.apple_homepod_mini_zwart_1
-      message: Het is tijd om te gaan slapen. Ik zet binnen 10 minuten de tv uit.
+      message: Binnen een half uur zouden jullie in bed moeten liggen. Best de Tv
+        uitzetten.
+    action: tts.cloud_say
   mode: single
 notificatie_einde_tv_avond_spreek_2:
   alias: Notificatie - Einde Tv avond - Spreek 2
@@ -5237,18 +5044,19 @@ notificatie_einde_tv_avond_spreek_2:
     - condition: state
       entity_id: input_select.woning_status
       state: Slapen
-  - service: script.turn_on
-    data: {}
+  - data: {}
     target:
       entity_id:
       - script.notify_prepare_media_livingroom
+    action: script.turn_on
   - delay: 00:00:02
-  - service: tts.cloud_say
-    data:
+  - data:
       language: nl-NL
       cache: true
       entity_id: media_player.apple_homepod_mini_zwart_1
-      message: Slaapwel tot morgen
+      message: Zitten jullie hier nu nog? Jullie zouden je moeten klaarmaken om te
+        slapen.
+    action: tts.cloud_say
   mode: single
 notificatie_school_vertrekken_elmo_trix_spreek:
   sequence:
@@ -5273,7 +5081,7 @@ notificatie_school_vertrekken_elmo_trix_spreek:
       language: nl-NL
       cache: true
       entity_id: media_player.apple_homepod_mini_wit_1
-      message: Het is tijd om de schoenen aan te doen en naar school te vertrekken.
+      message: Het is tijd om de schoenen aan te doen en naar de opvang te vertrekken.
     action: tts.cloud_say
   - entity_id:
     - script.notify_resume_media
@@ -5406,4 +5214,180 @@ notificatie_school_ophalen_elmo_trix:
       - script.notificatie_school_ophalen_elmo_trix_spreek
   alias: Notificatie - School ophalen Elmo & Trix
   mode: single
+  description: ''
+notificatie_bmw:
+  sequence:
+  - data: {}
+    target:
+      entity_id:
+      - script.notify_bmw_ios_bert
+      - script.notify_bmw_speak
+    action: script.turn_on
+  alias: Notificatie - BMW
+  mode: single
+  description: ''
+notificatie_bmw_ios_bert:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - choose:
+    - conditions:
+      - type: is_plugged_in
+        condition: device
+        device_id: 434db51bde3ecc19c537723ff1668fa5
+        entity_id: aed98106d00cdc4d2b1c575cdba93278
+        domain: binary_sensor
+        for:
+          hours: 4
+          minutes: 45
+          seconds: 0
+      sequence:
+      - action: notify.mobile_app_iphone_van_bert
+        metadata: {}
+        data:
+          message: Tijd is om. Vezet je auto of betaal een BOETE
+          title: BMW NU VERPLAATSEN!!!
+          data:
+            group: auto
+    default:
+    - action: notify.mobile_app_iphone_van_bert
+      metadata: {}
+      data:
+        message: Tijd is bijna om. Vezet je auto aub.
+        title: BMW VERPLAATSEN AUB
+        data:
+          group: auto
+  alias: Notificatie - BMW - iOS Bert
+  mode: single
+  description: ''
+notificatie_bmw_spreek:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_speak
+    state: 'on'
+  - condition: state
+    entity_id: group.bewoners
+    state: home
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+  - wait_template: '{{ is_state(''group.bewoners_router'', ''home'') }}'
+    timeout: 00:05:00
+    continue_on_timeout: false
+  - entity_id: script.notify_prepare_media
+    action: script.turn_on
+  - delay: 00:00:02
+  - choose:
+    - conditions:
+      - type: is_plugged_in
+        condition: device
+        device_id: 434db51bde3ecc19c537723ff1668fa5
+        entity_id: aed98106d00cdc4d2b1c575cdba93278
+        domain: binary_sensor
+        for:
+          hours: 4
+          minutes: 45
+          seconds: 0
+      sequence:
+      - data:
+          language: nl-NL
+          cache: true
+          entity_id: media_player.apple_homepod_mini_wit_1
+          message: Bert verzet je auto nu of je gaat een boete krijgen!
+        action: tts.cloud_say
+      - data:
+          language: nl-NL
+          cache: true
+          entity_id: media_player.apple_homepod_mini_wit_2
+          message: Bert verzet je auto nu of je gaat een boete krijgen!
+        action: tts.cloud_say
+      - data:
+          language: nl-NL
+          cache: true
+          entity_id: media_player.apple_homepod_mini_zwart_1
+          message: Bert verzet je auto nu of je gaat een boete krijgen!
+        action: tts.cloud_say
+    default:
+    - data:
+        language: nl-NL
+        cache: true
+        entity_id: media_player.apple_homepod_mini_wit_1
+        message: Bert verzet je auto aub
+      action: tts.cloud_say
+    - data:
+        language: nl-NL
+        cache: true
+        entity_id: media_player.apple_homepod_mini_wit_2
+        message: Bert verzet je auto aub
+      action: tts.cloud_say
+    - data:
+        language: nl-NL
+        cache: true
+        entity_id: media_player.apple_homepod_mini_zwart_1
+        message: Bert verzet je auto aub
+      action: tts.cloud_say
+  - action: script.turn_on
+    metadata: {}
+    data: {}
+    target:
+      entity_id: script.notify_resume_media
+  alias: Notificatie - BMW - Spreek
+  mode: single
+  description: ''
+notificatie_airco_trix_werkt_niet_ios_bert:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - condition: state
+    entity_id: person.bert
+    state: home
+  - data_template:
+      title: AIRCO ERROR
+      message: Airco bij Trix niet beschikbaar
+      data:
+        group: huis
+        tag: airco-trix
+    action: notify.mobile_app_iphone_van_bert
+  mode: single
+  alias: Notificatie - Airco Trix werkt niet - iOS Bert
+  description: ''
+notificatie_airco_elmo_werkt_niet_ios_bert:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - condition: state
+    entity_id: person.bert
+    state: home
+  - data_template:
+      title: AIRCO ERROR
+      message: Airco bij Elmo niet beschikbaar
+      data:
+        group: huis
+        tag: airco-elmo
+    action: notify.mobile_app_iphone_van_bert
+  mode: single
+  alias: Notificatie - Airco Elmo werkt niet - iOS Bert
+  description: ''
+notificatie_airco_slaapkamer_werkt_niet_ios_bert:
+  sequence:
+  - condition: state
+    entity_id: input_boolean.notify_bert
+    state: 'on'
+  - condition: state
+    entity_id: person.bert
+    state: home
+  - data_template:
+      title: AIRCO ERROR
+      message: Airco bij Slaapkamer niet beschikbaar
+      data:
+        group: huis
+        tag: airco-slaapkamer
+    action: notify.mobile_app_iphone_van_bert
+  mode: single
+  alias: Notificatie - Airco Slaapkamer werkt niet - iOS Bert
   description: ''

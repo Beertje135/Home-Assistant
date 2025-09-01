@@ -1443,31 +1443,37 @@
   name: Badkamer - Normaal Dag
   entities:
     light.lightstrip_badkamer:
+      min_color_temp_kelvin: 2020
+      max_color_temp_kelvin: 6451
       min_mireds: 155
       max_mireds: 495
       effect_list:
+      - 'off'
       - colorloop
       supported_color_modes:
       - color_temp
-      - hs
+      - xy
+      effect: 'off'
       color_mode: color_temp
       brightness: 254
+      color_temp_kelvin: 3508
       color_temp: 285
       hs_color:
       - 27.165
       - 44.6
       rgb_color:
       - 255
-      - 192
+      - 193
       - 141
       xy_color:
-      - 0.454
-      - 0.373
+      - 0.453
+      - 0.374
+      off_with_transition: false
       off_brightness:
-      friendly_name: Bathroom LED
-      supported_features: 63
-      icon: mdi:led-strip-variant
+      friendly_name: Badkamer Ledstrip
+      supported_features: 44
       state: 'on'
+  metadata: {}
 - id: '1670224110259'
   name: Tuin - Kerstmis
   entities:

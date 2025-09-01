@@ -59,33 +59,6 @@ binary_sensor:
             off
           {% endif %}
 
-# Enable Utility meter
-utility_meter:
-  meter_gas_monthly:
-    source: sensor.ons_huisje_sensor_gas
-    cycle: monthly
-    # Gas
-    tariffs:
-      - peak
-  meter_gas_yearly:
-    source: sensor.ons_huisje_sensor_gas
-    cycle: yearly
-    # Gas
-    tariffs:
-      - peak
-  meter_water_monthly:
-    source: sensor.ons_huisje_sensor_water
-    cycle: monthly
-    # Water
-    tariffs:
-      - peak
-  meter_water_yearly:
-    source: sensor.ons_huisje_sensor_water
-    cycle: yearly
-    # Water
-    tariffs:
-      - peak
-
 #Used for short term data (recorder is only for 1 week, influxdb wil keep indefintely)
 recorder:
   exclude:
@@ -135,11 +108,11 @@ recorder:
       - sensor.airco_*_temperature
       - sensor.home_*_distance
       - sensor.airco_*_humidity
-      - sensor.ons_huisje_*
       - sensor.solaredge_*
       - sensor.adguard_*
-      - switch.harmony_hub_*
       - switch.hue_smart_plug_*
+      - sensor.elektriciteit_meter_*
+      - sensor.nutsmeter_*
     entities:
       - binary_sensor.rpi_power_status
       - binary_sensor.remote_ui
@@ -163,7 +136,6 @@ recorder:
       - sensor.climate_trix_attribute_current_temperature
       - sensor.climate_elmo_attribute_current_temperature
       - sensor.memory_use_percent
-      - sensor.meter_gas_monthly_peak
       - sensor.processor_use
       - sensor.template_delta_set_temperature
       - sensor.template_delta_temperature
@@ -171,6 +143,8 @@ recorder:
       - switch.wake_on_lan
       - switch.doorbellback_chime_active
       - switch.doorbellfront_chime_active
+      - sensor.gas_meter
+      - sensor.water_meter
 
 #Used for long term data (recorder is only for 1 week, influxdb wil keep indefintely)
 influxdb:
@@ -190,10 +164,6 @@ influxdb:
       override_measurement: percent
     sensor.processor_use:
       override_measurement: percent
-    sensor.ons_huisje_sensor_water:
-      override_measurement: m³
-    sensor.ons_huisje_sensor_gas:
-      override_measurement: m³
   component_config_glob:
     sensor.*temperature:
       override_measurement: celsius
@@ -229,10 +199,6 @@ influxdb:
       override_measurement: state_vacuum
     weather.*:
       override_measurement: celsius_weather
-
-smappee:
-  client_id: !secret client_id_smappee
-  client_secret: !secret client_secret_smappee
   
 switch:
   - platform: wake_on_lan

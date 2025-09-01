@@ -12,26 +12,6 @@ sensor.nmbs_4:
   friendly_name: NMBS BRUS-MECH
 sensor.solaredge_energy_today_template:
   device_class: enery
-sensor.meter_gas_monthly_peak:
-  friendly_name: GAS MAAND
-  icon: mdi:fire
-sensor.meter_gas_yearly_peak:
-  friendly_name: GAS JAAR
-  icon: mdi:fire
-sensor.meter_water_monthly_peak:
-  friendly_name: WATER MAAND
-  icon: mdi:water
-sensor.meter_water_yearly_peak:
-  friendly_name: WATER JAAR
-  icon: mdi:water
-sensor.ons_huisje_sensor_water:
-  unit_of_measurement: L
-  state_class: total_increasing
-  device_class: water
-sensor.ons_huisje_sensor_gas:
-  unit_of_measurement: m³
-  state_class: total_increasing
-  device_class: gas
 sensor.home_iphone_van_bert_distance:
   friendly_name: Bert
 sensor.home_iphone_van_caroline_distance:

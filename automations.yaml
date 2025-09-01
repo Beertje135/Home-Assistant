@@ -856,10 +856,10 @@
 - id: ventilation_upstairs_002
   alias: HVAC - Airco Boven - Trix Aan/Uit volgens Boolean
   description: TBD
-  trigger:
+  triggers:
   - entity_id: input_boolean.cooling_upstairs
-    platform: state
-  condition:
+    trigger: state
+  conditions:
   - condition: not
     conditions:
     - condition: state
@@ -871,7 +871,7 @@
   - condition: state
     entity_id: schedule.slapen_trix
     state: 'off'
-  action:
+  actions:
   - choose:
     - conditions:
       - condition: state
@@ -884,20 +884,38 @@
         entity_id: climate.airco_trix
         attribute: hvac_action
         state: 'off'
-      - condition: state
-        entity_id: binary_sensor.ewelink_ds01_02_opening
-        state: 'off'
+      - condition: and
+        conditions:
+        - alias: Als raam niet open is
+          condition: or
+          conditions:
+          - condition: state
+            entity_id: binary_sensor.ewelink_ds01_02_opening
+            state: 'off'
+          - condition: state
+            entity_id: binary_sensor.ewelink_ds01_02_opening
+            state: unavailable
+        - condition: or
+          conditions:
+          - condition: state
+            entity_id: binary_sensor.ewelink_ds01_01_opening
+            state: 'off'
+          - condition: state
+            entity_id: binary_sensor.ewelink_ds01_01_opening
+            state: unavailable
+          alias: Als raam niet open is
+        alias: Als ramen toe zijn
       sequence:
       - device_id: f0bb97139c00ae23445e7cc8eb4edd42
         domain: climate
         entity_id: climate.airco_trix
         type: set_hvac_mode
         hvac_mode: cool
-      - service: climate.set_temperature
-        data:
-          temperature: 22
+      - data:
+          temperature: 20
         target:
           entity_id: climate.airco_trix
+        action: climate.set_temperature
     - conditions:
       - condition: state
         entity_id: input_boolean.cooling_upstairs
@@ -2122,12 +2140,12 @@
 - id: harmony_start_001
   alias: Harmony Hub - Start Tv avond
   description: TBD
-  trigger:
-  - platform: state
-    entity_id: binary_sensor.hue_motion_sensor_3_motion
+  triggers:
+  - entity_id: binary_sensor.hue_motion_sensor_3_motion
     from: 'off'
     to: 'on'
-  condition:
+    trigger: state
+  conditions:
   - condition: state
     entity_id: input_boolean.visitor
     state: 'off'
@@ -2152,14 +2170,9 @@
       device_id: d4bfe137373a4685b374eabfe782bce7
       entity_id: remote.harmony_hub
       domain: remote
-    - condition: device
-      type: is_on
-      device_id: d4bfe137373a4685b374eabfe782bce7
-      entity_id: switch.harmony_hub_alexa
-      domain: switch
-  action:
-  - service: script.turn_on
-    entity_id: script.harmony_hub_apple_tv
+  actions:
+  - entity_id: script.harmony_hub_apple_tv
+    action: script.turn_on
   max_exceeded: silent
 - id: heating_state_house_001
   alias: HVAC - Verwarming - Weg dus Eco Mode
@@ -3078,25 +3091,25 @@
 - id: light_livingroom_001
   alias: Licht - Woonkamer - Aan
   description: TBD
-  max_exceeded: silent
-  trigger:
-  - platform: state
-    entity_id: input_boolean.media_livingroom
+  triggers:
+  - entity_id: input_boolean.media_livingroom
     to: 'on'
     for:
       seconds: 30
-  - platform: state
-    entity_id: input_boolean.media_livingroom
+    trigger: state
+  - entity_id: input_boolean.media_livingroom
     to: 'off'
     for:
       seconds: 5
-  - platform: state
-    entity_id: remote.harmony_hub
+    trigger: state
+  - entity_id: remote.harmony_hub
     attribute: current_activity
-  - platform: numeric_state
-    entity_id: sensor.hue_motion_sensor_3_light_level
-    above: 20
-  condition:
+    trigger: state
+  - entity_id:
+    - sensor.hue_motion_sensor_3_light_level
+    above: 30
+    trigger: numeric_state
+  conditions:
   - condition: state
     entity_id: input_boolean.light_downstairs
     state: 'on'
@@ -3124,9 +3137,10 @@
       - condition: state
         entity_id: binary_sensor.bezoek
         state: 'on'
-  action:
-  - service: script.turn_on
-    entity_id: script.light_livingroom_on
+  actions:
+  - entity_id: script.light_livingroom_on
+    action: script.turn_on
+  max_exceeded: silent
 - id: light_livingroom_002
   alias: Licht - Woonkamer - Aan Motion
   description: TBD
@@ -4634,8 +4648,8 @@
   alias: Notificatie Verbruik - Energie te hoog voor capaciteitsverbruik
   description: Een melding geven voor te hoog vebruik als er capaciteitstarief is
   trigger:
-  - above: '4000'
-    entity_id: sensor.ons_huisje_total_consumption_active_power
+  - above: '3000'
+    entity_id: sensor.elektriciteit_meter_p1_vermogen
     platform: numeric_state
     for:
       hours: 0
@@ -4891,25 +4905,6 @@
     domain: switch
   mode: single
   max_exceeded: silent
-- id: '1683790519691'
-  alias: Harmony Hub - Start Tv Elmo
-  description: ''
-  trigger:
-  - platform: device
-    type: turned_on
-    device_id: d4bfe137373a4685b374eabfe782bce7
-    entity_id: switch.harmony_hub_alexa
-    domain: switch
-  condition: []
-  action:
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 3
-      milliseconds: 0
-  - service: script.harmony_hub_elmo_trix
-    data: {}
-  mode: single
 - id: '1687676493939'
   alias: HVAC - Airco Boven - Elmo Uit voor Slapen
   description: Zet de Airco van Elmo uit. Avond
@@ -5032,54 +5027,85 @@
 - id: '1687683785709'
   alias: HVAC - Airco Boven - Trix Aan
   description: Zet de Airco Aan als ze uit Bed komt, of we sluiten raam
-  trigger:
-  - platform: device
-    type: turned_off
+  triggers:
+  - type: turned_off
     device_id: 49f53c6bd982ffff9c69e47fa9c12fc0
     entity_id: switch.hue_smart_plug_5
     domain: switch
-  - platform: state
-    entity_id:
+    trigger: device
+  - entity_id:
     - binary_sensor.ewelink_ds01_02_opening
     to: 'off'
-  condition:
-  - condition: state
-    entity_id: input_boolean.cooling_upstairs
-    state: 'on'
-  - condition: or
+    trigger: state
+  - entity_id:
+    - climate.trix
+    above: 23
+    id: Trix Kamer Warm
+    attribute: current_temperature
+    trigger: numeric_state
+  - trigger: state
+    entity_id:
+    - schedule.slapen_trix
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+  - entity_id:
+    - binary_sensor.ewelink_ds01_01_opening
+    to: 'off'
+    trigger: state
+  conditions:
+  - condition: not
     conditions:
     - condition: state
       entity_id: input_select.woning_status
-      state: Thuis
+      state: Slapen
     - condition: state
       entity_id: input_select.woning_status
-      state: Juist Thuis
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Thuis Werk
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Thuis Verlof
+      state: Op Vakantie
+    alias: Woning niet Slapen of op Vakantie
   - condition: state
-    entity_id: climate.airco_trix
-    state: 'off'
-  - condition: state
-    entity_id: binary_sensor.ewelink_ds01_02_opening
-    state: 'off'
+    entity_id: input_boolean.cooling_upstairs
+    state: 'on'
   - condition: state
     entity_id: switch.hue_smart_plug_5
     state: 'off'
-  action:
+  - condition: state
+    entity_id: climate.airco_trix
+    state: 'off'
+  - condition: and
+    conditions:
+    - alias: Als raam niet open is
+      condition: or
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.ewelink_ds01_02_opening
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.ewelink_ds01_02_opening
+        state: unavailable
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.ewelink_ds01_01_opening
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.ewelink_ds01_01_opening
+        state: unavailable
+      alias: Als raam niet open is
+    alias: Als ramen toe zijn
+  actions:
   - device_id: f0bb97139c00ae23445e7cc8eb4edd42
     domain: climate
     entity_id: climate.airco_trix
     type: set_hvac_mode
     hvac_mode: cool
-  - service: climate.set_temperature
-    data:
-      temperature: 21
+  - data:
+      temperature: 19
     target:
       entity_id: climate.airco_trix
+    action: climate.set_temperature
   mode: single
   max_exceeded: silent
 - id: '1687689848882'
@@ -5272,10 +5298,10 @@
 - id: '1689491655055'
   alias: HVAC - Airco Boven - Elmo Aan/Uit volgens Boolean
   description: TBD
-  trigger:
+  triggers:
   - entity_id: input_boolean.cooling_upstairs
-    platform: state
-  condition:
+    trigger: state
+  conditions:
   - condition: not
     conditions:
     - condition: state
@@ -5287,7 +5313,7 @@
   - condition: state
     entity_id: schedule.slapen_elmo
     state: 'off'
-  action:
+  actions:
   - entity_id: script.notify_cooling_upstairs
     action: script.turn_on
   - choose:
@@ -5301,9 +5327,27 @@
       - condition: state
         entity_id: climate.airco_elmo
         state: 'off'
-      - condition: state
-        entity_id: binary_sensor.ewelink_ds01_01_opening
-        state: 'off'
+      - condition: and
+        conditions:
+        - alias: Als raam niet open is
+          condition: or
+          conditions:
+          - condition: state
+            entity_id: binary_sensor.ewelink_ds01_02_opening
+            state: 'off'
+          - condition: state
+            entity_id: binary_sensor.ewelink_ds01_02_opening
+            state: unavailable
+        - condition: or
+          conditions:
+          - condition: state
+            entity_id: binary_sensor.ewelink_ds01_01_opening
+            state: 'off'
+          - condition: state
+            entity_id: binary_sensor.ewelink_ds01_01_opening
+            state: unavailable
+          alias: Als raam niet open is
+        alias: Als ramen toe zijn
       sequence:
       - device_id: 41354e684da9663012eb92a2d4684ee2
         domain: climate
@@ -5311,7 +5355,7 @@
         type: set_hvac_mode
         hvac_mode: cool
       - data:
-          temperature: 21
+          temperature: 20
         target:
           device_id: 41354e684da9663012eb92a2d4684ee2
         action: climate.set_temperature
@@ -5339,23 +5383,23 @@
 - id: '1689492113424'
   alias: HVAC - Airco Slaapkamer - Aan/Uit volgens Boolean
   description: TBD
-  trigger:
+  triggers:
   - entity_id:
     - input_boolean.cooling_attic
-    platform: state
-  - platform: state
-    entity_id:
+    trigger: state
+  - entity_id:
     - input_select.woning_status
     from: Juist Wakker
     for:
       hours: 1
       minutes: 0
       seconds: 0
-  - platform: state
-    entity_id:
+    trigger: state
+  - entity_id:
     - input_select.woning_status
     from: Op Vakantie
-  condition:
+    trigger: state
+  conditions:
   - condition: not
     conditions:
     - condition: state
@@ -5364,7 +5408,7 @@
     - condition: state
       entity_id: input_select.woning_status
       state: Op Vakantie
-  action:
+  actions:
   - choose:
     - conditions:
       - condition: state
@@ -5387,17 +5431,17 @@
         entity_id: 5f30af6a34bd978f852dcf474d125bb6
         type: set_hvac_mode
         hvac_mode: cool
-      - service: climate.set_temperature
-        data:
-          temperature: 21
+      - data:
+          temperature: 20
         target:
           device_id:
           - d0cabb78bb48d64825d28087185ebb2f
-      - service: script.turn_on
-        data: {}
+        action: climate.set_temperature
+      - data: {}
         target:
           entity_id:
           - script.notify_cooling_attic
+        action: script.turn_on
     - conditions:
       - condition: state
         entity_id: input_boolean.cooling_attic
@@ -5412,11 +5456,11 @@
         entity_id: 5f30af6a34bd978f852dcf474d125bb6
         type: set_hvac_mode
         hvac_mode: 'off'
-      - service: script.turn_on
-        data: {}
+      - data: {}
         target:
           entity_id:
           - script.notify_cooling_attic
+        action: script.turn_on
   mode: single
   max_exceeded: silent
 - id: '1689492239243'
@@ -5500,11 +5544,6 @@
           entity_id: climate.slaapkamer
           above: 24
           attribute: current_temperature
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: binary_sensor.ewelink_ds01_03_opening
-          state: 'on'
       sequence:
       - condition: state
         entity_id: input_boolean.cooling_attic
@@ -5574,51 +5613,86 @@
 - id: '1695726677784'
   alias: HVAC - Airco Boven - Elmo Aan
   description: Zet de Airco Aan als hij uit Bed komt, of we sluiten raam
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - type: turned_off
+    device_id: 2dbd7ce304ab902393dcc8f4596b397a
+    entity_id: c514c9bed36ede3c3e042d50d1ecd9ee
+    domain: switch
+    trigger: device
+  - entity_id:
     - binary_sensor.ewelink_ds01_01_opening
     to: 'off'
-  condition:
-  - condition: state
-    entity_id: input_boolean.cooling_upstairs
-    state: 'on'
-  - condition: or
+    trigger: state
+  - entity_id:
+    - binary_sensor.ewelink_ds01_02_opening
+    to: 'off'
+    trigger: state
+  - entity_id:
+    - climate.elmo
+    attribute: current_temperature
+    above: 23
+    id: Elmo Kamer Warm
+    trigger: numeric_state
+  - trigger: state
+    entity_id:
+    - schedule.slapen_elmo
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+  conditions:
+  - condition: not
     conditions:
     - condition: state
       entity_id: input_select.woning_status
-      state: Thuis
+      state: Slapen
     - condition: state
       entity_id: input_select.woning_status
-      state: Juist Thuis
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Thuis Werk
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Thuis Verlof
-    alias: Test Status Woning
+      state: Op Vakantie
+    alias: Woning niet Slapen of op Vakantie
   - condition: state
-    entity_id: climate.airco_elmo
-    state: 'off'
-  - condition: state
-    entity_id: binary_sensor.ewelink_ds01_01_opening
-    state: 'off'
+    entity_id: input_boolean.cooling_upstairs
+    state: 'on'
   - condition: state
     entity_id: switch.hue_smart_plug_6
     state: 'off'
-  action:
+  - condition: state
+    entity_id: climate.airco_elmo
+    state: 'off'
+  - condition: and
+    conditions:
+    - alias: Als raam niet open is
+      condition: or
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.ewelink_ds01_02_opening
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.ewelink_ds01_02_opening
+        state: unavailable
+    - condition: or
+      conditions:
+      - condition: state
+        entity_id: binary_sensor.ewelink_ds01_01_opening
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.ewelink_ds01_01_opening
+        state: unavailable
+      alias: Als raam niet open is
+    alias: Als ramen toe zijn
+  actions:
   - device_id: 41354e684da9663012eb92a2d4684ee2
     domain: climate
     entity_id: 81fd6759bd3d89095b48040ae00705f2
     type: set_hvac_mode
     hvac_mode: cool
-  - service: climate.set_temperature
-    data:
-      temperature: 21
+  - data:
+      temperature: 19
     target:
       entity_id:
       - climate.airco_elmo
+    action: climate.set_temperature
   mode: single
   max_exceeded: silent
 - id: '1695726976025'
@@ -6105,7 +6179,7 @@
   alias: Harmony - einde tv avond
   description: TBD
   triggers:
-  - at: '22:20:00'
+  - at: '21:30:00'
     trigger: time
   conditions:
   - condition: state
@@ -6143,9 +6217,29 @@
     action: script.turn_on
   - delay:
       hours: 0
-      minutes: 9
-      seconds: 30
+      minutes: 10
+      seconds: 0
       milliseconds: 0
+  - condition: device
+    type: is_on
+    device_id: d4bfe137373a4685b374eabfe782bce7
+    entity_id: bd4cea790e6faae31f4a08ae6ba449e4
+    domain: remote
+  - metadata: {}
+    data: {}
+    target:
+      entity_id: script.notificatie_einde_tv_avond_spreek_2
+    action: script.turn_on
+  - delay:
+      hours: 0
+      minutes: 10
+      seconds: 0
+      milliseconds: 0
+  - condition: device
+    type: is_on
+    device_id: d4bfe137373a4685b374eabfe782bce7
+    entity_id: bd4cea790e6faae31f4a08ae6ba449e4
+    domain: remote
   - metadata: {}
     data: {}
     target:
@@ -6154,13 +6248,8 @@
   - delay:
       hours: 0
       minutes: 0
-      seconds: 30
+      seconds: 15
       milliseconds: 0
-  - condition: device
-    type: is_on
-    device_id: d4bfe137373a4685b374eabfe782bce7
-    entity_id: bd4cea790e6faae31f4a08ae6ba449e4
-    domain: remote
   - data: {}
     target:
       entity_id:
@@ -6172,43 +6261,61 @@
 - id: '1725361076339'
   alias: HVAC - Airco Slaapkamer - Aan
   description: Zet de Airco Aan als we sluiten raam
-  trigger:
-  - platform: state
-    entity_id:
+  triggers:
+  - entity_id:
     - binary_sensor.ewelink_ds01_03_opening
     to: 'off'
-  condition:
+    trigger: state
+  - entity_id: climate.slaapkamer
+    for:
+      hours: 0
+      minutes: 5
+      seconds: 0
+    above: 24
+    id: Kamer Warm
+    attribute: current_temperature
+    trigger: numeric_state
+  - trigger: state
+    entity_id:
+    - input_select.woning_status
+    from: Juist Wakker
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+  conditions:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Op Vakantie
+    alias: Woning niet Slapen of op Vakantie
   - condition: state
     entity_id: input_boolean.cooling_attic
     state: 'on'
   - condition: or
     conditions:
     - condition: state
-      entity_id: input_select.woning_status
-      state: Thuis
+      entity_id: binary_sensor.ewelink_ds01_03_opening
+      state: 'off'
     - condition: state
-      entity_id: input_select.woning_status
-      state: Juist Thuis
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Thuis Werk
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Thuis Verlof
+      entity_id: binary_sensor.ewelink_ds01_03_opening
+      state: unavailable
+    alias: Als raam Slaapkamer niet open is
   - condition: state
     entity_id: climate.airco_slaapkamer
     state: 'off'
-  - condition: state
-    entity_id: binary_sensor.ewelink_ds01_03_opening
-    state: 'off'
-  action:
+  actions:
   - device_id: d0cabb78bb48d64825d28087185ebb2f
     domain: climate
     entity_id: 5f30af6a34bd978f852dcf474d125bb6
     type: set_hvac_mode
     hvac_mode: cool
   - data:
-      temperature: 21
+      temperature: 19
     action: climate.set_temperature
     target:
       entity_id: climate.airco_slaapkamer
@@ -6267,6 +6374,10 @@
   - condition: state
     entity_id: binary_sensor.workday_sensor
     state: 'on'
+  - condition: template
+    value_template: '{{ now().month != 8 }}'
+  - condition: template
+    value_template: '{{ now().month != 7 }}'
   actions:
   - action: script.turn_on
     metadata: {}
@@ -6309,6 +6420,10 @@
       - condition: time
         weekday:
         - wed
+  - condition: template
+    value_template: '{{ now().month != 8 }}'
+  - condition: template
+    value_template: '{{ now().month != 7 }}'
   actions:
   - action: script.turn_on
     metadata: {}
@@ -6316,3 +6431,73 @@
     target:
       entity_id: script.notificatie_school_ophalen_elmo_trix
   mode: single
+- id: '1756447202034'
+  alias: Airco Trix niet beschikbaar
+  description: Notify Papa als de airco niet beschikbaar is
+  triggers:
+  - trigger: state
+    entity_id:
+    - climate.airco_trix
+    to: unavailable
+  - trigger: state
+    entity_id:
+    - input_select.woning_status
+    to: Juist Thuis
+  conditions:
+  - condition: state
+    entity_id: climate.airco_trix
+    state: unavailable
+  actions:
+  - action: script.turn_on
+    data: {}
+    target:
+      entity_id: script.notificatie_airco_trix_werkt_niet_ios_bert
+  mode: single
+  max_exceeded: silent
+- id: '1756465588446'
+  alias: Airoc niet beschikbaar - Elmo - Notificatie
+  description: Notify Papa als de airco niet beschikbaar is
+  triggers:
+  - trigger: state
+    entity_id:
+    - climate.airco_elmo
+    to: unavailable
+  - trigger: state
+    entity_id:
+    - input_select.woning_status
+    to: Juist Thuis
+  conditions:
+  - condition: state
+    entity_id: climate.airco_elmo
+    state: unavailable
+  actions:
+  - action: script.turn_on
+    data: {}
+    target:
+      entity_id:
+      - script.notificatie_airco_elmo_werkt_niet_ios_bert
+  mode: single
+  max_exceeded: silent
+- id: '1756465652019'
+  alias: 'Airco niet beschikbaar - Slaapkamer - Notificatie '
+  description: Notify Papa als de airco niet beschikbaar is
+  triggers:
+  - trigger: state
+    entity_id:
+    - climate.airco_slaapkamer
+    to: unavailable
+  - trigger: state
+    entity_id:
+    - input_select.woning_status
+    to: Juist Thuis
+  conditions:
+  - condition: state
+    state: unavailable
+    entity_id: climate.airco_slaapkamer
+  actions:
+  - action: script.turn_on
+    data: {}
+    target:
+      entity_id: script.notificatie_airco_slaapkamer_werkt_niet_ios_bert
+  mode: single
+  max_exceeded: silent

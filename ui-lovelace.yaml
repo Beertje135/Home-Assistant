@@ -128,10 +128,11 @@ views:
           - type: glance
             columns: 4
             entities:
-              - sensor.ons_huisje_total_consumption_today
+              - sensor.elektriciteit_meter_p1_energy_import
+              - sensor.elektriciteit_meter_p1_energie_export
               - sensor.solaredge_energy_today_template
-              - sensor.ons_huisje_sensor_gas
-              - sensor.ons_huisje_sensor_water
+              - sensor.gas_meter
+              - sensor.water_meter
             show_header_toggle: false
             show_name: false
       - id: tracker_entity

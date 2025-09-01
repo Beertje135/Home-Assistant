@@ -102,19 +102,28 @@
     solaredge_energy_today_template:
       unique_id: solaredge_energy_today_template
       value_template: "{{ (states('sensor.solaredge_energy_today') | float(0) / 1000) | round(2) }}"
-      unit_of_measurement: 'kWh'
+      unit_of_measurement: kWh
+      device_class: energy
     solaredge_energy_this_month_template:
       unique_id: solaredge_energy_this_month_template
       value_template: "{{ (states('sensor.solaredge_energy_this_month') | float(0) / 1000) | round(2) }}"
-      unit_of_measurement: 'kWh'
+      unit_of_measurement: kWh
+      device_class: energy
     solaredge_energy_this_year_template:
       unique_id: solaredge_energy_this_year_template
       value_template: "{{ (states('sensor.solaredge_energy_this_year') | float(0) / 1000) | round(2) }}"
-      unit_of_measurement: 'kWh'
+      unit_of_measurement: kWh
+      device_class: energy
+    solaredge_lifetime_energy_2_template:
+      unique_id: solaredge_lifetime_energy_2_template
+      value_template: "{{ (states('sensor.solaredge_lifetime_energy') | float(0) / 1000) | round(2) }}"
+      unit_of_measurement: kWh
+      device_class: energy
     solaredge_lifetime_energy_template:
       unique_id: solaredge_lifetime_energy_template
       value_template: "{{ (states('sensor.solaredge_lifetime_energy') | float(0) / 1000000) | round(2) }}"
-      unit_of_measurement: 'MWh'
+      unit_of_measurement: MWh
+      device_class: energy
 
 # SENSOR TO CHECK STATE OF RASPBERRY PI
 
