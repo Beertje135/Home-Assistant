@@ -1,1992 +1,600 @@
 - id: '1608016531053'
   name: Dressing - Gedimmed
   entities:
-    light.hue_white_filament_bulb_g93_1:
-      brightness: 10
-      friendly_name: Hue Light Dressing One
-      supported_features: 41
+    light.hue_white_filament_bulb_g93_1: &id001
       state: 'on'
-    light.hue_white_filament_bulb_g93_2:
       brightness: 10
-      friendly_name: Hue Light Dressing Two
-      supported_features: 41
-      state: 'on'
-    light.hue_white_filament_bulb_g93_3:
-      brightness: 10
-      friendly_name: Hue Light Dressing Three
-      supported_features: 41
-      state: 'on'
+    light.hue_white_filament_bulb_g93_2: *id001
+    light.hue_white_filament_bulb_g93_3: *id001
 - id: '1608016565504'
   name: Dressing - Nacht
   entities:
     light.hue_white_filament_bulb_g93_1:
-      supported_color_modes:
-      - brightness
-      color_mode:
-      brightness:
-      off_with_transition: false
-      off_brightness: 5
-      friendly_name: Dressing Lamp 1
-      supported_features: 40
       state: 'off'
     light.hue_white_filament_bulb_g93_2:
-      supported_color_modes:
-      - brightness
-      color_mode:
-      brightness:
-      off_with_transition: false
-      off_brightness: 5
-      friendly_name: Dressing Lamp 2
-      supported_features: 40
       state: 'off'
     light.hue_white_filament_bulb_g93_3:
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 5
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Dressing Lamp 3
-      supported_features: 40
       state: 'on'
+      brightness: 5
   metadata: {}
 - id: '1608016595510'
   name: Dressing - Normaal
   entities:
-    light.hue_white_filament_bulb_g93_1:
-      brightness: 255
-      friendly_name: Hue Light Dressing One
-      supported_features: 41
+    light.hue_white_filament_bulb_g93_1: &id002
       state: 'on'
-    light.hue_white_filament_bulb_g93_2:
       brightness: 255
-      friendly_name: Hue Light Dressing Two
-      supported_features: 41
-      state: 'on'
-    light.hue_white_filament_bulb_g93_3:
-      brightness: 255
-      friendly_name: Hue Light Dressing Three
-      supported_features: 41
-      state: 'on'
+    light.hue_white_filament_bulb_g93_2: *id002
+    light.hue_white_filament_bulb_g93_3: *id002
 - id: '1608016667601'
   name: Dressing - Uit
   entities:
-    light.hue_white_filament_bulb_g93_1:
-      friendly_name: Hue Light Dressing One
-      supported_features: 41
+    light.hue_white_filament_bulb_g93_1: &id003
       state: 'off'
-    light.hue_white_filament_bulb_g93_3:
-      friendly_name: Hue Light Dressing Three
-      supported_features: 41
-      state: 'off'
-    light.hue_white_filament_bulb_g93_2:
-      friendly_name: Hue Light Dressing Two
-      supported_features: 41
-      state: 'off'
+    light.hue_white_filament_bulb_g93_2: *id003
+    light.hue_white_filament_bulb_g93_3: *id003
 - id: '1608032972711'
   name: Keuken - Nacht
   entities:
     light.lightstrip_keuken:
-      min_mireds: 155
-      max_mireds: 495
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: hs
+      state: 'on'
       brightness: 38
-      hs_color:
-      - 360
-      - 100
-      rgb_color:
-      - 255
-      - 0
-      - 0
+      color_mode: xy
       xy_color:
       - 0.701
       - 0.299
-      off_brightness:
-      friendly_name: Kitchen LED
-      supported_features: 63
-      state: 'on'
+  metadata: {}
 - id: '1608033168765'
   name: Keuken - Normaal
   entities:
     light.lightstrip_keuken:
-      min_mireds: 155
-      max_mireds: 495
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: color_temp
-      brightness: 254
-      color_temp: 375
-      hs_color:
-      - 28.47
-      - 66.821
-      rgb_color:
-      - 255
-      - 165
-      - 84
-      xy_color:
-      - 0.53
-      - 0.388
-      off_brightness:
-      friendly_name: Kitchen LED
-      supported_features: 63
       state: 'on'
+      brightness: 254
+      color_mode: color_temp
+      color_temp_kelvin: 3500
+  metadata: {}
 - id: '1608033223731'
   name: Keuken - Gedimmed
   entities:
     light.lightstrip_keuken:
-      min_mireds: 155
-      max_mireds: 495
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: color_temp
-      brightness: 38
-      color_temp: 375
-      hs_color:
-      - 28.47
-      - 66.821
-      rgb_color:
-      - 255
-      - 165
-      - 84
-      xy_color:
-      - 0.53
-      - 0.388
-      off_brightness:
-      friendly_name: Kitchen LED
-      supported_features: 63
       state: 'on'
+      brightness: 38
+      color_mode: color_temp
+      color_temp_kelvin: 2666
+  metadata: {}
 - id: '1608033360773'
   name: Keuken - Film
   entities:
     light.lightstrip_keuken:
-      min_mireds: 155
-      max_mireds: 495
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: color_temp
-      brightness: 38
-      color_temp: 370
-      hs_color:
-      - 28.391
-      - 65.659
-      rgb_color:
-      - 255
-      - 166
-      - 87
-      xy_color:
-      - 0.526
-      - 0.387
-      off_brightness:
-      friendly_name: Lightstrip Keuken On/Off
-      supported_features: 63
       state: 'on'
+      brightness: 41
+      color_mode: color_temp
+      color_temp_kelvin: 2702
+  metadata: {}
 - id: '1608051219785'
   name: Keuken - Televisie
   entities:
     light.lightstrip_keuken:
-      min_mireds: 155
-      max_mireds: 495
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: color_temp
-      brightness: 64
-      color_temp: 375
-      hs_color:
-      - 28.47
-      - 66.821
-      rgb_color:
-      - 255
-      - 165
-      - 84
-      xy_color:
-      - 0.53
-      - 0.388
-      off_brightness:
-      friendly_name: Kitchen LED
-      supported_features: 63
       state: 'on'
+      brightness: 76
+      color_mode: color_temp
+      color_temp_kelvin: 2666
+  metadata: {}
 - id: '1608049415666'
-  name: Tuin 2 (alles) - Normaal
+  name: Tuin (alles) - Normaal
   entities:
-    light.hue_lily_outdoor_spot_light_rgbcct_1:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - 'off'
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect: 'off'
-      color_mode: color_temp
-      brightness: 254
-      color_temp_kelvin: 3021
-      color_temp: 331
-      hs_color:
-      - 27.791
-      - 56.328
-      rgb_color:
-      - 255
-      - 178
-      - 111
-      xy_color:
-      - 0.494
-      - 0.383
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 1 (L)
-      supported_features: 44
+    light.hue_lily_outdoor_spot_light_rgbcct_1: &id004
       state: 'on'
-    light.hue_lily_outdoor_spot_light_rgbcct_3:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - 'off'
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect: 'off'
-      color_mode: color_temp
       brightness: 254
-      color_temp_kelvin: 3021
-      color_temp: 331
-      hs_color:
-      - 27.791
-      - 56.328
-      rgb_color:
-      - 255
-      - 178
-      - 111
-      xy_color:
-      - 0.494
-      - 0.383
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 3
-      supported_features: 44
-      state: 'on'
-    light.hue_lily_outdoor_spot_light_rgbcct_4:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - 'off'
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect: 'off'
       color_mode: color_temp
-      brightness: 254
-      color_temp_kelvin: 3021
-      color_temp: 331
-      hs_color:
-      - 27.791
-      - 56.328
-      rgb_color:
-      - 255
-      - 178
-      - 111
-      xy_color:
-      - 0.494
-      - 0.383
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 4
-      supported_features: 44
-      state: 'on'
-    light.hue_lily_outdoor_spot_light_rgbcct_2:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - 'off'
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect: 'off'
-      color_mode: color_temp
-      brightness: 254
-      color_temp_kelvin: 3048
-      color_temp: 328
-      hs_color:
-      - 27.748
-      - 55.607
-      rgb_color:
-      - 255
-      - 179
-      - 113
-      xy_color:
-      - 0.491
-      - 0.383
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 2 (Slaapboom)
-      supported_features: 44
-      state: 'on'
-    light.hue_lily_outdoor_spot_light_rgbcct_6:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - 'off'
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect: 'off'
-      color_mode: color_temp
-      brightness: 254
-      color_temp_kelvin: 3012
-      color_temp: 332
-      hs_color:
-      - 27.806
-      - 56.57
-      rgb_color:
-      - 255
-      - 178
-      - 111
-      xy_color:
-      - 0.494
-      - 0.383
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 6 (Kerselaar)
-      supported_features: 44
-      state: 'on'
-    light.hue_lily_outdoor_spot_light_rgbcct_5:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - 'off'
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect: 'off'
-      color_mode: color_temp
-      brightness: 254
-      color_temp_kelvin: 3039
-      color_temp: 329
-      hs_color:
-      - 27.762
-      - 55.846
-      rgb_color:
-      - 255
-      - 178
-      - 113
-      xy_color:
-      - 0.492
-      - 0.382
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 5 (Terras)
-      supported_features: 44
-      state: 'on'
-    light.hue_lily_outdoor_spot_light_rgbcct_7:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - 'off'
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect: 'off'
-      color_mode: color_temp
-      brightness: 254
-      color_temp_kelvin: 3021
-      color_temp: 331
-      hs_color:
-      - 27.791
-      - 56.328
-      rgb_color:
-      - 255
-      - 178
-      - 111
-      xy_color:
-      - 0.494
-      - 0.383
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 7 (Grote Boom)
-      supported_features: 44
-      state: 'on'
-    light.hue_lily_outdoor_spot_light_rgbcct_8:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - 'off'
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect: 'off'
-      color_mode: color_temp
-      brightness: 254
-      color_temp_kelvin: 3021
-      color_temp: 331
-      hs_color:
-      - 27.791
-      - 56.328
-      rgb_color:
-      - 255
-      - 178
-      - 111
-      xy_color:
-      - 0.494
-      - 0.383
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 8 (Lavendel)
-      supported_features: 44
-      state: 'on'
+      color_temp_kelvin: 3000
+    light.hue_lily_outdoor_spot_light_rgbcct_2: *id004
+    light.hue_lily_outdoor_spot_light_rgbcct_3: *id004
+    light.hue_lily_outdoor_spot_light_rgbcct_4: *id004
+    light.hue_lily_outdoor_spot_light_rgbcct_5: *id004
+    light.hue_lily_outdoor_spot_light_rgbcct_6: *id004
+    light.hue_lily_outdoor_spot_light_rgbcct_7: *id004
+    light.hue_lily_outdoor_spot_light_rgbcct_8: *id004
   metadata: {}
 - id: '1608049445477'
-  name: Tuin 2 (alles) - Uit
+  name: Tuin (alles) - Uit
   entities:
-    light.hue_lily_outdoor_spot_light_rgbcct_1:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode:
-      brightness:
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      rgb_color:
-      xy_color:
-      effect:
-      off_with_transition: false
-      off_brightness: 191
-      friendly_name: Tuin Spot 1 (L)
-      supported_features: 44
+    light.hue_lily_outdoor_spot_light_rgbcct_1: &id005
       state: 'off'
-    light.hue_lily_outdoor_spot_light_rgbcct_3:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode:
-      brightness:
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      rgb_color:
-      xy_color:
-      effect:
-      off_with_transition: false
-      off_brightness: 191
-      friendly_name: Tuin Spot 3
-      supported_features: 44
-      state: 'off'
-    light.hue_lily_outdoor_spot_light_rgbcct_4:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode:
-      brightness:
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      rgb_color:
-      xy_color:
-      effect:
-      off_with_transition: false
-      off_brightness: 191
-      friendly_name: Tuin Spot 4
-      supported_features: 44
-      state: 'off'
-    light.hue_lily_outdoor_spot_light_rgbcct_2:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode:
-      brightness:
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      rgb_color:
-      xy_color:
-      effect:
-      off_with_transition: false
-      off_brightness: 191
-      friendly_name: Tuin Spot 2 (Slaapboom)
-      supported_features: 44
-      state: 'off'
-    light.hue_lily_outdoor_spot_light_rgbcct_5:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode:
-      brightness:
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      rgb_color:
-      xy_color:
-      effect:
-      off_with_transition: false
-      off_brightness: 191
-      friendly_name: Tuin Spot 5 (Terras)
-      supported_features: 44
-      state: 'off'
-    light.hue_lily_outdoor_spot_light_rgbcct_6:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode:
-      brightness:
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      rgb_color:
-      xy_color:
-      effect:
-      off_with_transition: false
-      off_brightness: 191
-      friendly_name: Tuin Spot 6 (Kerselaar)
-      supported_features: 44
-      state: 'off'
-    light.hue_lily_outdoor_spot_light_rgbcct_7:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode:
-      brightness:
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      rgb_color:
-      xy_color:
-      effect:
-      off_with_transition: false
-      off_brightness: 191
-      friendly_name: Tuin Spot 7 (Grote Boom)
-      supported_features: 44
-      state: 'off'
-    light.hue_lily_outdoor_spot_light_rgbcct_8:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode:
-      brightness:
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      rgb_color:
-      xy_color:
-      effect:
-      off_with_transition: false
-      off_brightness: 191
-      friendly_name: Tuin Spot 8 (Lavendel)
-      supported_features: 44
-      state: 'off'
+    light.hue_lily_outdoor_spot_light_rgbcct_2: *id005
+    light.hue_lily_outdoor_spot_light_rgbcct_3: *id005
+    light.hue_lily_outdoor_spot_light_rgbcct_4: *id005
+    light.hue_lily_outdoor_spot_light_rgbcct_5: *id005
+    light.hue_lily_outdoor_spot_light_rgbcct_6: *id005
+    light.hue_lily_outdoor_spot_light_rgbcct_7: *id005
+    light.hue_lily_outdoor_spot_light_rgbcct_8: *id005
   metadata: {}
 - id: '1608049487168'
-  name: Tuin 1 (deel) - Normaal
+  name: Tuin (deel) - Normaal
   entities:
     light.hue_lily_outdoor_spot_light_rgbcct_5:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect:
-      color_mode: xy
-      brightness: 254
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      - 276.923
-      - 40.784
-      rgb_color:
-      - 215
-      - 151
-      - 255
-      xy_color:
-      - 0.313
-      - 0.21
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 5 (Terras)
-      supported_features: 44
       state: 'on'
+      brightness: 254
+      color_mode: color_temp
+      color_temp_kelvin: 3000
   metadata: {}
 - id: '1608049519088'
-  name: Tuin 1 (deel) - Uit
+  name: Tuin (deel) - Uit
   entities:
     light.hue_lily_outdoor_spot_light_rgbcct_5:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      off_with_transition: false
-      off_brightness: 191
-      friendly_name: Tuin Spot 5 (Terras)
-      supported_features: 44
       state: 'off'
   metadata: {}
 - id: '1608049557900'
   name: Tuinhuis - Normaal
   entities:
     light.hue_lightstrip_outdoor_2m_1:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - 'off'
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect: 'off'
-      color_mode: color_temp
-      brightness: 191
-      color_temp_kelvin: 2994
-      color_temp: 334
-      hs_color:
-      - 27.835
-      - 57.058
-      rgb_color:
-      - 255
-      - 177
-      - 110
-      xy_color:
-      - 0.496
-      - 0.383
-      off_with_transition: false
-      off_brightness:
-      icon: mdi:led-strip-variant
-      friendly_name: Tuinhuis Ledstrip
-      supported_features: 44
       state: 'on'
-  metadata: {}
+      brightness: 191
+      color_mode: color_temp
+      color_temp_kelvin: 3000
 - id: '1608049578558'
   name: Tuinhuis - Uit
   entities:
     light.hue_lightstrip_outdoor_2m_1:
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - hs
-      off_brightness:
-      friendly_name: Hue Light Tuinhuis On/Off
-      supported_features: 63
       state: 'off'
 - id: '1608271507499'
   name: Elmo - Uit
   entities:
     light.hue_white_and_color_ambiance_a19_gen2_1:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - 'off'
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect:
-      color_mode:
-      brightness:
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      rgb_color:
-      xy_color:
-      off_with_transition: false
-      off_brightness: 51
-      friendly_name: Elmo Staanlamp
-      supported_features: 44
       state: 'off'
-    switch.ikea_of_sweden_tretakt_smart_plug_2:
-      friendly_name: IKEA of Sweden TRETAKT Smart plug 2
+    light.ikea_of_sweden_tretakt_smart_plug_3:
+      state: 'off'
+    light.ikea_of_sweden_tretakt_smart_plug_2:
       state: 'off'
   metadata: {}
 - id: '1608271612872'
   name: Elmo - Nacht
   entities:
     light.hue_white_and_color_ambiance_a19_gen2_1:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Elmo Staanlamp
-      supported_features: 44
-      color_mode: xy
+      state: 'on'
       brightness: 38
-      hs_color:
-      - 0
-      - 100
-      rgb_color:
-      - 255
-      - 0
-      - 0
+      color_mode: xy
       xy_color:
       - 0.701
       - 0.299
-      state: 'on'
-  metadata: {}
+    light.ikea_of_sweden_tretakt_smart_plug_2:
+      state: 'off'
+    light.ikea_of_sweden_tretakt_smart_plug_3:
+      state: 'off'
 - id: '1608271655220'
   name: Elmo - Ochtend
   entities:
     light.hue_white_and_color_ambiance_a19_gen2_1:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - 'off'
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect: 'off'
-      color_mode: xy
+      state: 'on'
       brightness: 51
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      - 120
-      - 100
-      rgb_color:
-      - 0
-      - 255
-      - 0
+      color_mode: xy
       xy_color:
       - 0.172
       - 0.747
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Elmo Staanlamp
-      supported_features: 44
+    light.ikea_of_sweden_tretakt_smart_plug_2:
       state: 'on'
-    switch.ikea_of_sweden_tretakt_smart_plug_2:
-      friendly_name: IKEA of Sweden TRETAKT Smart plug 2
+    light.ikea_of_sweden_tretakt_smart_plug_3:
       state: 'on'
-  metadata: {}
 - id: '1608273794216'
   name: Elmo - Normaal
   entities:
     light.hue_white_and_color_ambiance_a19_gen2_1:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - 'off'
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect: 'off'
-      color_mode: color_temp
+      state: 'on'
       brightness: 254
+      color_mode: color_temp
       color_temp_kelvin: 2000
-      color_temp: 500
-      hs_color:
-      - 30.601
-      - 94.547
-      rgb_color:
-      - 255
-      - 137
-      - 14
-      xy_color:
-      - 0.598
-      - 0.383
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Elmo Staanlamp
-      supported_features: 44
+    light.ikea_of_sweden_tretakt_smart_plug_2:
       state: 'on'
-    switch.ikea_of_sweden_tretakt_smart_plug_2:
-      icon: mdi:string-lights
-      friendly_name: Elmo Bed Lichtjes
+    light.ikea_of_sweden_tretakt_smart_plug_3:
       state: 'on'
-  metadata: {}
 - id: '1608280007790'
   name: Badkamer - Gedimmed
   entities:
     light.lightstrip_badkamer:
-      min_mireds: 155
-      max_mireds: 495
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: color_temp
-      brightness: 64
-      color_temp: 495
-      hs_color:
-      - 30.512
-      - 93.472
-      rgb_color:
-      - 255
-      - 137
-      - 16
-      xy_color:
-      - 0.597
-      - 0.383
-      off_brightness:
-      friendly_name: Bathroom LED
-      supported_features: 63
-      icon: mdi:led-strip-variant
       state: 'on'
-- id: '1608280031081'
+      brightness: 64
+      color_mode: color_temp
+      color_temp_kelvin: 2020
+- id: '160828031081'
   name: Badkamer - Nacht
   entities:
     light.lightstrip_badkamer:
-      min_color_temp_kelvin: 2020
-      max_color_temp_kelvin: 6451
-      min_mireds: 155
-      max_mireds: 495
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect:
-      color_mode: xy
+      state: 'on'
       brightness: 10
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      - 0
-      - 100
-      rgb_color:
-      - 255
-      - 0
-      - 0
+      color_mode: xy
       xy_color:
       - 0.701
       - 0.299
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Badkamer Ledstrip
-      supported_features: 44
-      state: 'on'
   metadata: {}
 - id: '1608280054419'
   name: Badkamer - Normaal
   entities:
     light.lightstrip_badkamer:
-      min_mireds: 155
-      max_mireds: 495
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: color_temp
-      brightness: 254
-      color_temp: 495
-      hs_color:
-      - 30.512
-      - 93.472
-      rgb_color:
-      - 255
-      - 137
-      - 16
-      xy_color:
-      - 0.597
-      - 0.383
-      off_brightness:
-      friendly_name: Bathroom LED
-      supported_features: 63
-      icon: mdi:led-strip-variant
       state: 'on'
+      brightness: 235
+      color_mode: color_temp
+      color_temp_kelvin: 2298
+  metadata: {}
 - id: '1608280375574'
-  name: Veranda - Uit
+  name: Veranda Uit
   entities:
     switch.hue_smart_plug_4:
-      icon: mdi:led-strip-variant
-      friendly_name: Veranda LED Lichtjes
       state: 'off'
     switch.hue_smart_plug_3:
-      icon: mdi:led-strip-variant
-      friendly_name: Eetkamer LED Lichtjes
       state: 'off'
     light.hue_white_b22_2:
-      supported_color_modes:
-      - brightness
-      off_with_transition: false
-      off_brightness: 254
-      friendly_name: Veranda Staanlamp
-      supported_features: 40
       state: 'off'
   metadata: {}
 - id: '1608281388233'
   name: Veranda - Normaal
   entities:
     switch.hue_smart_plug_4:
-      icon: mdi:led-strip-variant
-      friendly_name: Veranda LED Lichtjes
       state: 'on'
     switch.hue_smart_plug_3:
-      icon: mdi:led-strip-variant
-      friendly_name: Eetkamer LED Lichtjes
       state: 'on'
     light.hue_white_b22_2:
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 254
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Veranda Staanlamp
-      supported_features: 40
       state: 'on'
+      brightness: 254
   metadata: {}
 - id: '1608281440716'
   name: Veranda - Televisie
   entities:
     switch.hue_smart_plug_3:
-      icon: mdi:led-strip-variant
-      friendly_name: Eetkamer LED Lichtjes
       state: 'on'
     switch.hue_smart_plug_4:
-      icon: mdi:led-strip-variant
-      friendly_name: Veranda LED Lichtjes
       state: 'on'
     light.hue_white_b22_2:
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 76
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Veranda Staanlamp
-      supported_features: 40
       state: 'on'
+      brightness: 76
   metadata: {}
 - id: '1608281477256'
   name: Veranda - Film
   entities:
     switch.hue_smart_plug_3:
-      icon: mdi:led-strip-variant
-      friendly_name: Eetkamer LED Lichtjes
       state: 'on'
     switch.hue_smart_plug_4:
-      icon: mdi:led-strip-variant
-      friendly_name: Veranda LED Lichtjes
       state: 'on'
     light.hue_white_b22_2:
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 76
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Veranda Staanlamp
-      supported_features: 40
       state: 'on'
+      brightness: 76
   metadata: {}
 - id: '1608281539261'
   name: Veranda - Nacht
   entities:
     switch.hue_smart_plug_3:
-      icon: mdi:led-strip-variant
-      friendly_name: Eetkamer LED Lichtjes
       state: 'on'
     switch.hue_smart_plug_4:
-      icon: mdi:led-strip-variant
-      friendly_name: Veranda LED Lichtjes
       state: 'on'
     light.hue_white_b22_2:
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 13
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Veranda Staanlamp
-      supported_features: 40
       state: 'on'
+      brightness: 13
   metadata: {}
 - id: '1608281585888'
   name: Veranda - Gedimmed
   entities:
     switch.hue_smart_plug_3:
-      icon: mdi:led-strip-variant
-      friendly_name: Eetkamer LED Lichtjes
       state: 'on'
     switch.hue_smart_plug_4:
-      icon: mdi:led-strip-variant
-      friendly_name: Veranda LED Lichtjes
       state: 'on'
     light.hue_white_b22_2:
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 76
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Veranda Staanlamp
-      supported_features: 40
       state: 'on'
+      brightness: 76
   metadata: {}
 - id: '1608317682155'
-  name: Woonkamer - Gedimmed
+  name: Woonkamer Gedimmed
   entities:
     light.hue_white_filament_globe_g125_1:
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
+      state: 'on'
       brightness: 10
-      off_brightness:
-      friendly_name: Hue Light Woonkamer On/Off
-      supported_features: 41
-      state: 'on'
     switch.hue_smart_plug_1:
-      friendly_name: Hue Smart Plug Woonkamer One On/Off
       state: 'on'
     switch.hue_smart_plug_2:
-      friendly_name: Hue Smart Plug Woonkamer Two On/Off
       state: 'off'
     light.lightstrip_woonkamer_tv:
-      min_mireds: 155
-      max_mireds: 495
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: color_temp
+      state: 'on'
       brightness: 38
-      color_temp: 470
-      hs_color:
-      - 30.069
-      - 88.053
-      rgb_color:
-      - 255
-      - 142
-      - 30
-      xy_color:
-      - 0.587
-      - 0.386
-      off_brightness:
-      friendly_name: Lightstrip Woonkamer Tv On/Off
-      supported_features: 63
-      state: 'on'
-- id: '1608317777471'
-  name: Woonkamer - Nacht
-  entities:
-    switch.hue_smart_plug_1:
-      friendly_name: Livingroom LED
-      supported_features: 40
-      icon: mdi:string-lights
-      display_categories: light
-      state: 'off'
-    switch.hue_smart_plug_2:
-      friendly_name: Livingroom Spacewalker
-      supported_features: 40
-      icon: mdi:floor-lamp
-      display_categories: light
-      state: 'off'
-    light.hue_white_filament_globe_g125_1:
-      friendly_name: Livingroom Light
-      supported_features: 41
-      icon: mdi:globe-light
-      state: 'off'
-    light.lightstrip_woonkamer_tv:
-      effect_list:
-      - colorloop
-      - night
-      - white
-      brightness: 200
-      hs_color:
-      - 0
-      - 100
-      rgb_color:
-      - 255
-      - 0
-      - 0
-      xy_color:
-      - 0.701
-      - 0.299
-      friendly_name: Livingroom Tv LED
-      assumed_state: true
-      supported_features: 61
-      icon: mdi:television-clean
-      state: 'on'
-- id: '1608317939981'
-  name: Woonkamer - Film
+      color_mode: color_temp
+      color_temp_kelvin: 2127
+  metadata: {}
+- id: '1609317682155'
+  name: Woonkamer Nacht
   entities:
     light.hue_white_filament_globe_g125_1:
       supported_color_modes:
       - brightness
+      color_mode:
+      brightness:
       off_with_transition: false
-      off_brightness: 254
-      friendly_name: Hue Light Woonkamer On/Off
+      off_brightness: 51
+      icon: mdi:ceiling-light
+      friendly_name: Woonkamer Lamp
       supported_features: 40
       state: 'off'
     switch.hue_smart_plug_1:
-      friendly_name: Hue Smart Plug Woonkamer One On/Off
-      state: 'on'
+      icon: mdi:led-strip-variant
+      friendly_name: Woonkamer LED Lichtjes
+      state: 'off'
     switch.hue_smart_plug_2:
-      friendly_name: Hue Smart Plug Woonkamer Two On/Off
+      icon: mdi:space-invaders
+      friendly_name: Space Walker
       state: 'off'
     light.lightstrip_woonkamer_tv:
       min_color_temp_kelvin: 2020
       max_color_temp_kelvin: 6451
-      min_mireds: 155
-      max_mireds: 495
       effect_list:
+      - 'off'
       - colorloop
       supported_color_modes:
       - color_temp
       - xy
-      color_mode: color_temp
-      brightness: 102
-      color_temp_kelvin: 2127
-      color_temp: 470
+      effect: 'off'
+      color_mode: xy
+      brightness: 26
+      color_temp_kelvin:
       hs_color:
-      - 30.069
-      - 88.053
+      - 358.525
+      - 95.686
       rgb_color:
       - 255
-      - 142
-      - 30
+      - 11
+      - 17
       xy_color:
-      - 0.587
-      - 0.386
+      - 0.697
+      - 0.299
       off_with_transition: false
       off_brightness:
-      friendly_name: Lightstrip Woonkamer Tv On/Off
+      icon: mdi:television
+      friendly_name: TV Verlichting
       supported_features: 44
       state: 'on'
+  metadata: {}
+- id: '1608317939981'
+  name: Woonkamer Film
+  entities:
+    light.hue_white_filament_globe_g125_1:
+      state: 'off'
+    switch.hue_smart_plug_1:
+      state: 'on'
+    switch.hue_smart_plug_2:
+      state: 'on'
+    light.lightstrip_woonkamer_tv:
+      state: 'on'
+      brightness: 102
+      color_mode: color_temp
+      color_temp_kelvin: 3508
   metadata: {}
 - id: '1608318017627'
-  name: Woonkamer - Televisie
+  name: Woonkamer Televisie
   entities:
     switch.hue_smart_plug_1:
-      friendly_name: Hue Smart Plug Woonkamer One On/Off
       state: 'on'
     switch.hue_smart_plug_2:
-      friendly_name: Hue Smart Plug Woonkamer Two On/Off
-      state: 'off'
+      state: 'on'
     light.hue_white_filament_globe_g125_1:
-      supported_color_modes:
-      - brightness
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Hue Light Woonkamer On/Off
-      supported_features: 40
-      color_mode: brightness
-      brightness: 51
       state: 'on'
+      brightness: 51
     light.lightstrip_woonkamer_tv:
-      min_color_temp_kelvin: 2020
-      max_color_temp_kelvin: 6451
-      min_mireds: 155
-      max_mireds: 495
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode: color_temp
-      brightness: 51
-      color_temp_kelvin: 2173
-      color_temp: 460
-      hs_color:
-      - 29.895
-      - 85.88
-      rgb_color:
-      - 255
-      - 145
-      - 36
-      xy_color:
-      - 0.581
-      - 0.388
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Lightstrip Woonkamer Tv On/Off
-      supported_features: 44
       state: 'on'
+      brightness: 51
+      color_mode: color_temp
+      color_temp_kelvin: 2173
   metadata: {}
 - id: '1608318063934'
-  name: Woonkamer - Uit
+  name: Woonkamer Uit
   entities:
     light.hue_white_filament_globe_g125_1:
-      supported_color_modes:
-      - brightness
-      off_brightness:
-      friendly_name: Hue Light Woonkamer On/Off
-      supported_features: 41
       state: 'off'
     switch.hue_smart_plug_1:
-      friendly_name: Hue Smart Plug Woonkamer One On/Off
       state: 'off'
     switch.hue_smart_plug_2:
-      friendly_name: Hue Smart Plug Woonkamer Two On/Off
       state: 'off'
     light.lightstrip_woonkamer_tv:
-      min_mireds: 155
-      max_mireds: 495
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - hs
-      off_brightness:
-      friendly_name: Lightstrip Woonkamer Tv On/Off
-      supported_features: 63
       state: 'off'
+  metadata: {}
 - id: '1608318126154'
-  name: Woonkamer - Normaal
+  name: Woonkamer Normaal
   entities:
     light.hue_white_filament_globe_g125_1:
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
+      state: 'on'
       brightness: 254
-      off_brightness:
-      friendly_name: Hue Light Woonkamer On/Off
-      supported_features: 41
-      state: 'on'
     switch.hue_smart_plug_1:
-      friendly_name: Hue Smart Plug Woonkamer One On/Off
       state: 'on'
     switch.hue_smart_plug_2:
-      friendly_name: Hue Smart Plug Woonkamer Two On/Off
       state: 'on'
     light.lightstrip_woonkamer_tv:
-      min_mireds: 155
-      max_mireds: 495
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: color_temp
+      state: 'on'
       brightness: 191
-      color_temp: 460
-      hs_color:
-      - 29.895
-      - 85.88
-      rgb_color:
-      - 255
-      - 145
-      - 36
-      xy_color:
-      - 0.581
-      - 0.388
-      off_brightness:
-      friendly_name: Lightstrip Woonkamer Tv On/Off
-      supported_features: 63
-      state: 'on'
+      color_mode: color_temp
+      color_temp_kelvin: 2173
+  metadata: {}
 - id: '1608318958178'
-  name: Woonkamer - Uit Kerstmis
+  name: Woonkamer Uit Kerstmis
   entities:
-    light.hue_white_filament_globe_g125_1:
-      supported_color_modes:
-      - brightness
-      off_with_transition: false
-      off_brightness: 51
-      friendly_name: Hue Light Woonkamer On/Off
-      supported_features: 40
-      state: 'off'
     switch.hue_smart_plug_1:
-      friendly_name: Hue Smart Plug Woonkamer One On/Off
       state: 'on'
     switch.hue_smart_plug_2:
-      friendly_name: Hue Smart Plug Woonkamer Two On/Off
+      state: 'off'
+    light.hue_white_filament_globe_g125_1:
       state: 'off'
     light.lightstrip_woonkamer_tv:
-      min_color_temp_kelvin: 2020
-      max_color_temp_kelvin: 6451
-      min_mireds: 155
-      max_mireds: 495
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      off_with_transition: false
-      off_brightness: 51
-      friendly_name: Lightstrip Woonkamer Tv On/Off
-      supported_features: 44
       state: 'off'
   metadata: {}
 - id: '1641383280311'
   name: Keuken - Normaal Dag
   entities:
     light.lightstrip_keuken:
-      min_mireds: 155
-      max_mireds: 495
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - hs
-      color_mode: color_temp
-      brightness: 254
-      color_temp: 315
-      hs_color:
-      - 27.561
-      - 52.364
-      rgb_color:
-      - 255
-      - 182
-      - 121
-      xy_color:
-      - 0.481
-      - 0.38
-      off_brightness:
-      friendly_name: Lightstrip Keuken On/Off
-      supported_features: 63
       state: 'on'
+      brightness: 254
+      color_mode: color_temp
+      color_temp_kelvin: 4975
+  metadata: {}
 - id: '1641399091432'
   name: Badkamer - Normaal Dag
   entities:
     light.lightstrip_badkamer:
-      min_color_temp_kelvin: 2020
-      max_color_temp_kelvin: 6451
-      min_mireds: 155
-      max_mireds: 495
-      effect_list:
-      - 'off'
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect: 'off'
-      color_mode: color_temp
-      brightness: 254
-      color_temp_kelvin: 3508
-      color_temp: 285
-      hs_color:
-      - 27.165
-      - 44.6
-      rgb_color:
-      - 255
-      - 193
-      - 141
-      xy_color:
-      - 0.453
-      - 0.374
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Badkamer Ledstrip
-      supported_features: 44
       state: 'on'
+      brightness: 254
+      color_mode: color_temp
+      color_temp_kelvin: 3508
   metadata: {}
 - id: '1670224110259'
-  name: Tuin - Kerstmis
+  name: Tuin (alles) - Kerstmis
   entities:
-    light.hue_lily_outdoor_spot_light_rgbcct_4:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode: xy
-      brightness: 191
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      - 276.923
-      - 40.784
-      rgb_color:
-      - 215
-      - 151
-      - 255
-      xy_color:
-      - 0.313
-      - 0.21
-      effect:
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 4
-      supported_features: 44
-      state: 'on'
     light.hue_lily_outdoor_spot_light_rgbcct_1:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode: xy
-      brightness: 191
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      - 276.923
-      - 40.784
-      rgb_color:
-      - 215
-      - 151
-      - 255
-      xy_color:
-      - 0.313
-      - 0.21
-      effect:
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 1 (L)
-      supported_features: 44
       state: 'on'
-    light.hue_lily_outdoor_spot_light_rgbcct_5:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
+      brightness: 220
       color_mode: xy
-      brightness: 191
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      - 276.923
-      - 40.784
-      rgb_color:
-      - 215
-      - 151
-      - 255
       xy_color:
-      - 0.313
-      - 0.21
-      effect:
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 5 (Terras)
-      supported_features: 44
-      state: 'on'
-    light.hue_lily_outdoor_spot_light_rgbcct_6:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode: xy
-      brightness: 191
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      - 276.923
-      - 40.784
-      rgb_color:
-      - 215
-      - 151
-      - 255
-      xy_color:
-      - 0.313
-      - 0.21
-      effect:
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 6 (Kerselaar)
-      supported_features: 44
-      state: 'on'
+      - 0.67
+      - 0.29
     light.hue_lily_outdoor_spot_light_rgbcct_3:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode: xy
-      brightness: 191
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      - 276.923
-      - 40.784
-      rgb_color:
-      - 215
-      - 151
-      - 255
-      xy_color:
-      - 0.313
-      - 0.21
-      effect:
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 3
-      supported_features: 44
       state: 'on'
-    light.hue_lily_outdoor_spot_light_rgbcct_2:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
+      brightness: 220
       color_mode: xy
-      brightness: 191
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      - 277.5
-      - 40.784
-      rgb_color:
-      - 216
-      - 151
-      - 255
       xy_color:
-      - 0.313191
-      - 0.210483
-      effect:
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 2 (Slaapboom)
-      supported_features: 44
+      - 0.67
+      - 0.29
+    light.hue_lily_outdoor_spot_light_rgbcct_5:
       state: 'on'
+      brightness: 220
+      color_mode: xy
+      xy_color:
+      - 0.67
+      - 0.29
     light.hue_lily_outdoor_spot_light_rgbcct_7:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode: xy
-      brightness: 191
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      - 276.923
-      - 40.784
-      rgb_color:
-      - 215
-      - 151
-      - 255
-      xy_color:
-      - 0.313
-      - 0.21
-      effect:
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 7 (Grote Boom)
-      supported_features: 44
       state: 'on'
+      brightness: 220
+      color_mode: xy
+      xy_color:
+      - 0.67
+      - 0.29
+    light.hue_lily_outdoor_spot_light_rgbcct_2:
+      state: 'on'
+      brightness: 220
+      color_mode: xy
+      xy_color:
+      - 0.21
+      - 0.71
+    light.hue_lily_outdoor_spot_light_rgbcct_4:
+      state: 'on'
+      brightness: 220
+      color_mode: xy
+      xy_color:
+      - 0.21
+      - 0.71
+    light.hue_lily_outdoor_spot_light_rgbcct_6:
+      state: 'on'
+      brightness: 220
+      color_mode: xy
+      xy_color:
+      - 0.21
+      - 0.71
     light.hue_lily_outdoor_spot_light_rgbcct_8:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode: xy
-      brightness: 191
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      - 276.923
-      - 40.784
-      rgb_color:
-      - 215
-      - 151
-      - 255
-      xy_color:
-      - 0.313
-      - 0.21
-      effect:
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 8 (Lavendel)
-      supported_features: 44
       state: 'on'
+      brightness: 220
+      color_mode: xy
+      xy_color:
+      - 0.21
+      - 0.71
   metadata: {}
 - id: '1670224195753'
   name: Tuinhuis - Kerstmis
   entities:
     light.hue_lightstrip_outdoor_2m_1:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode: color_temp
-      brightness: 254
-      color_temp_kelvin: 2967
-      color_temp: 337
-      hs_color:
-      - 27.881
-      - 57.799
-      rgb_color:
-      - 255
-      - 176
-      - 107
-      xy_color:
-      - 0.499
-      - 0.384
-      effect:
-      off_with_transition: false
-      off_brightness:
-      icon: mdi:led-strip-variant
-      friendly_name: Tuinhuis Ledstrip
-      supported_features: 44
       state: 'on'
+      brightness: 180
+      color_mode: xy
+      xy_color:
+      - 0.21
+      - 0.71
   metadata: {}
 - id: '1670225022374'
-  name: Tuin 1 (deel) - Kerstmis
+  name: Tuin (deel) - Kerstmis
   entities:
     light.hue_lily_outdoor_spot_light_rgbcct_5:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      color_mode: xy
-      brightness: 191
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      - 277.5
-      - 40.784
-      rgb_color:
-      - 216
-      - 151
-      - 255
-      xy_color:
-      - 0.313191
-      - 0.210483
-      effect:
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Tuin Spot 5 (Terras)
-      supported_features: 44
       state: 'on'
+      brightness: 220
+      color_mode: xy
+      xy_color:
+      - 0.67
+      - 0.29
   metadata: {}
 - id: '1678194949780'
   name: Bureau - Normaal
   entities:
     light.hue_white_b22_1:
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 204
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Bureau Lamp
-      supported_features: 40
       state: 'on'
+      brightness: 204
   metadata: {}
 - id: '1678195003562'
   name: Bureau - Nacht
   entities:
     light.hue_white_b22_1:
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 26
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Bureau Lamp
-      supported_features: 40
       state: 'on'
+      brightness: 26
   metadata: {}
 - id: '1678195061124'
   name: Bureau - Gedimmed
   entities:
     light.hue_white_b22_1:
-      supported_color_modes:
-      - brightness
-      color_mode: brightness
-      brightness: 76
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Bureau Lamp
-      supported_features: 40
       state: 'on'
+      brightness: 76
   metadata: {}
 - id: '1678195734064'
   name: Bureau - Uit
   entities:
     light.hue_white_b22_1:
-      supported_color_modes:
-      - brightness
-      off_with_transition: false
-      off_brightness: 254
-      friendly_name: Bureau Lamp
-      supported_features: 40
       state: 'off'
   metadata: {}
 - id: '1678350041240'
   name: Trix - Nacht
   entities:
     light.hue_white_and_color_ambiance_a19_gen2_2:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Trix Staanlamp
-      supported_features: 44
-      color_mode: xy
+      state: 'on'
       brightness: 26
-      hs_color:
-      - 0
-      - 100
-      rgb_color:
-      - 255
-      - 0
-      - 0
+      color_mode: xy
       xy_color:
       - 0.701
       - 0.299
-      state: 'on'
   metadata: {}
 - id: '1678350103954'
   name: Trix - Normaal
   entities:
     light.hue_white_and_color_ambiance_a19_gen2_2:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - 'off'
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect: 'off'
-      color_mode: color_temp
-      brightness: 254
-      color_temp_kelvin: 2000
-      color_temp: 500
-      hs_color:
-      - 30.601
-      - 94.547
-      rgb_color:
-      - 255
-      - 137
-      - 14
-      xy_color:
-      - 0.598
-      - 0.383
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Trix Staanlamp
-      supported_features: 44
       state: 'on'
+      brightness: 254
+      color_mode: color_temp
+      color_temp_kelvin: 2000
     switch.ikea_of_sweden_tretakt_smart_plug_1:
-      icon: mdi:string-lights
-      friendly_name: Trix Bed Lampjes
       state: 'on'
   metadata: {}
 - id: '1678350158898'
   name: Trix - Ochtend
   entities:
     light.hue_white_and_color_ambiance_a19_gen2_2:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - 'off'
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect: 'off'
-      color_mode: xy
+      state: 'on'
       brightness: 13
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      - 120
-      - 100
-      rgb_color:
-      - 0
-      - 255
-      - 0
+      color_mode: xy
       xy_color:
       - 0.172
       - 0.747
-      off_with_transition: false
-      off_brightness:
-      friendly_name: Trix Staanlamp
-      supported_features: 44
-      state: 'on'
     switch.ikea_of_sweden_tretakt_smart_plug_1:
-      friendly_name: IKEA of Sweden TRETAKT Smart plug 1
       state: 'on'
   metadata: {}
 - id: '1678350180385'
   name: Trix - Uit
   entities:
     light.hue_white_and_color_ambiance_a19_gen2_2:
-      min_color_temp_kelvin: 2000
-      max_color_temp_kelvin: 6535
-      min_mireds: 153
-      max_mireds: 500
-      effect_list:
-      - 'off'
-      - colorloop
-      supported_color_modes:
-      - color_temp
-      - xy
-      effect:
-      color_mode:
-      brightness:
-      color_temp_kelvin:
-      color_temp:
-      hs_color:
-      rgb_color:
-      xy_color:
-      off_with_transition: false
-      off_brightness: 13
-      friendly_name: Trix Staanlamp
-      supported_features: 44
       state: 'off'
     switch.ikea_of_sweden_tretakt_smart_plug_1:
-      friendly_name: IKEA of Sweden TRETAKT Smart plug 1
       state: 'off'
   metadata: {}
 - id: '1696235365938'
-  name: Woonkamer - Gaming
+  name: Woonkamer Gaming
   entities:
     switch.hue_smart_plug_1:
       icon: mdi:led-strip-variant
       friendly_name: Woonkamer LED Lichtjes
-      state: 'on'
+      state: 'off'
     switch.hue_smart_plug_2:
       icon: mdi:space-invaders
       friendly_name: Space Walker
@@ -1994,28 +602,27 @@
     light.hue_white_filament_globe_g125_1:
       supported_color_modes:
       - brightness
-      color_mode:
-      brightness:
+      color_mode: brightness
+      brightness: 26
       off_with_transition: false
-      off_brightness: 254
+      off_brightness:
       icon: mdi:ceiling-light
       friendly_name: Woonkamer Lamp
       supported_features: 40
-      state: 'off'
+      state: 'on'
     light.lightstrip_woonkamer_tv:
       min_color_temp_kelvin: 2020
       max_color_temp_kelvin: 6451
-      min_mireds: 155
-      max_mireds: 495
       effect_list:
+      - 'off'
       - colorloop
       supported_color_modes:
       - color_temp
       - xy
+      effect: 'off'
       color_mode: xy
-      brightness: 191
+      brightness: 230
       color_temp_kelvin:
-      color_temp:
       hs_color:
       - 276.923
       - 40.784
@@ -2026,11 +633,338 @@
       xy_color:
       - 0.313
       - 0.21
-      effect:
       off_with_transition: false
       off_brightness:
-      icon: mdi:light
+      icon: mdi:television
       friendly_name: TV Verlichting
       supported_features: 44
       state: 'on'
+  metadata: {}
+- id: '1762368787619'
+  name: Tuin (alles) - Herfst
+  entities:
+    light.hue_lily_outdoor_spot_light_rgbcct_1:
+      state: 'on'
+      brightness: 180
+      color_mode: xy
+      xy_color:
+      - 0.59
+      - 0.38
+    light.hue_lily_outdoor_spot_light_rgbcct_2:
+      state: 'on'
+      brightness: 180
+      color_mode: xy
+      xy_color:
+      - 0.59
+      - 0.38
+    light.hue_lily_outdoor_spot_light_rgbcct_3:
+      state: 'on'
+      brightness: 180
+      color_mode: xy
+      xy_color:
+      - 0.59
+      - 0.38
+    light.hue_lily_outdoor_spot_light_rgbcct_4:
+      state: 'on'
+      brightness: 180
+      color_mode: xy
+      xy_color:
+      - 0.59
+      - 0.38
+    light.hue_lily_outdoor_spot_light_rgbcct_5:
+      state: 'on'
+      brightness: 180
+      color_mode: xy
+      xy_color:
+      - 0.59
+      - 0.38
+    light.hue_lily_outdoor_spot_light_rgbcct_6:
+      state: 'on'
+      brightness: 180
+      color_mode: xy
+      xy_color:
+      - 0.59
+      - 0.38
+    light.hue_lily_outdoor_spot_light_rgbcct_7:
+      state: 'on'
+      brightness: 180
+      color_mode: xy
+      xy_color:
+      - 0.59
+      - 0.38
+    light.hue_lily_outdoor_spot_light_rgbcct_8:
+      state: 'on'
+      brightness: 180
+      color_mode: xy
+      xy_color:
+      - 0.59
+      - 0.38
+  metadata: {}
+- id: '1762368894717'
+  name: Tuin (deel) - Herfst
+  entities:
+    light.hue_lily_outdoor_spot_light_rgbcct_5:
+      state: 'on'
+      brightness: 180
+      color_mode: xy
+      xy_color:
+      - 0.59
+      - 0.38
+  metadata: {}
+- id: '1762368936109'
+  name: Tuinhuis - Herfst
+  entities:
+    light.hue_lightstrip_outdoor_2m_1:
+      state: 'on'
+      brightness: 140
+      color_mode: xy
+      xy_color:
+      - 0.59
+      - 0.38
+  metadata: {}
+- id: '1762418440489'
+  name: Tuin (deel) - Winter
+  entities:
+    light.hue_lily_outdoor_spot_light_rgbcct_5:
+      state: 'on'
+      brightness: 150
+      color_mode: xy
+      xy_color:
+      - 0.2
+      - 0.24
+  metadata: {}
+- id: '1762418827639'
+  name: Tuin (alles) - Winter
+  entities:
+    light.hue_lily_outdoor_spot_light_rgbcct_1:
+      state: 'on'
+      brightness: 150
+      color_mode: xy
+      xy_color:
+      - 0.2
+      - 0.24
+    light.hue_lily_outdoor_spot_light_rgbcct_2:
+      state: 'on'
+      brightness: 150
+      color_mode: xy
+      xy_color:
+      - 0.2
+      - 0.24
+    light.hue_lily_outdoor_spot_light_rgbcct_3:
+      state: 'on'
+      brightness: 150
+      color_mode: xy
+      xy_color:
+      - 0.2
+      - 0.24
+    light.hue_lily_outdoor_spot_light_rgbcct_4:
+      state: 'on'
+      brightness: 150
+      color_mode: xy
+      xy_color:
+      - 0.2
+      - 0.24
+    light.hue_lily_outdoor_spot_light_rgbcct_5:
+      state: 'on'
+      brightness: 150
+      color_mode: xy
+      xy_color:
+      - 0.2
+      - 0.24
+    light.hue_lily_outdoor_spot_light_rgbcct_6:
+      state: 'on'
+      brightness: 150
+      color_mode: xy
+      xy_color:
+      - 0.2
+      - 0.24
+    light.hue_lily_outdoor_spot_light_rgbcct_7:
+      state: 'on'
+      brightness: 150
+      color_mode: xy
+      xy_color:
+      - 0.2
+      - 0.24
+    light.hue_lily_outdoor_spot_light_rgbcct_8:
+      state: 'on'
+      brightness: 150
+      color_mode: xy
+      xy_color:
+      - 0.2
+      - 0.24
+  metadata: {}
+- id: '1762418866374'
+  name: Tuin (alles) - Zomer
+  entities:
+    light.hue_lily_outdoor_spot_light_rgbcct_1:
+      state: 'on'
+      brightness: 254
+      color_mode: xy
+      xy_color:
+      - 0.45
+      - 0.41
+    light.hue_lily_outdoor_spot_light_rgbcct_2:
+      state: 'on'
+      brightness: 254
+      color_mode: xy
+      xy_color:
+      - 0.45
+      - 0.41
+    light.hue_lily_outdoor_spot_light_rgbcct_3:
+      state: 'on'
+      brightness: 254
+      color_mode: xy
+      xy_color:
+      - 0.45
+      - 0.41
+    light.hue_lily_outdoor_spot_light_rgbcct_4:
+      state: 'on'
+      brightness: 254
+      color_mode: xy
+      xy_color:
+      - 0.45
+      - 0.41
+    light.hue_lily_outdoor_spot_light_rgbcct_5:
+      state: 'on'
+      brightness: 254
+      color_mode: xy
+      xy_color:
+      - 0.45
+      - 0.41
+    light.hue_lily_outdoor_spot_light_rgbcct_6:
+      state: 'on'
+      brightness: 254
+      color_mode: xy
+      xy_color:
+      - 0.45
+      - 0.41
+    light.hue_lily_outdoor_spot_light_rgbcct_7:
+      state: 'on'
+      brightness: 254
+      color_mode: xy
+      xy_color:
+      - 0.45
+      - 0.41
+    light.hue_lily_outdoor_spot_light_rgbcct_8:
+      state: 'on'
+      brightness: 254
+      color_mode: xy
+      xy_color:
+      - 0.45
+      - 0.41
+  metadata: {}
+- id: '1762418886688'
+  name: Tuin (alles) - Lente
+  entities:
+    light.hue_lily_outdoor_spot_light_rgbcct_1:
+      state: 'on'
+      brightness: 200
+      color_mode: xy
+      xy_color:
+      - 0.3
+      - 0.6
+    light.hue_lily_outdoor_spot_light_rgbcct_2:
+      state: 'on'
+      brightness: 200
+      color_mode: xy
+      xy_color:
+      - 0.3
+      - 0.6
+    light.hue_lily_outdoor_spot_light_rgbcct_3:
+      state: 'on'
+      brightness: 200
+      color_mode: xy
+      xy_color:
+      - 0.3
+      - 0.6
+    light.hue_lily_outdoor_spot_light_rgbcct_4:
+      state: 'on'
+      brightness: 200
+      color_mode: xy
+      xy_color:
+      - 0.3
+      - 0.6
+    light.hue_lily_outdoor_spot_light_rgbcct_5:
+      state: 'on'
+      brightness: 200
+      color_mode: xy
+      xy_color:
+      - 0.3
+      - 0.6
+    light.hue_lily_outdoor_spot_light_rgbcct_6:
+      state: 'on'
+      brightness: 200
+      color_mode: xy
+      xy_color:
+      - 0.3
+      - 0.6
+    light.hue_lily_outdoor_spot_light_rgbcct_7:
+      state: 'on'
+      brightness: 200
+      color_mode: xy
+      xy_color:
+      - 0.3
+      - 0.6
+    light.hue_lily_outdoor_spot_light_rgbcct_8:
+      state: 'on'
+      brightness: 200
+      color_mode: xy
+      xy_color:
+      - 0.3
+      - 0.6
+  metadata: {}
+- id: '1762418937904'
+  name: Tuin (deel) - Lente
+  entities:
+    light.hue_lily_outdoor_spot_light_rgbcct_5:
+      state: 'on'
+      brightness: 200
+      color_mode: xy
+      xy_color:
+      - 0.3
+      - 0.6
+  metadata: {}
+- id: '1762418970934'
+  name: Tuin (deel) - Zomer
+  entities:
+    light.hue_lily_outdoor_spot_light_rgbcct_5:
+      state: 'on'
+      brightness: 254
+      color_mode: xy
+      xy_color:
+      - 0.45
+      - 0.41
+  metadata: {}
+- id: '1762419010532'
+  name: Tuinhuis - Lente
+  entities:
+    light.hue_lightstrip_outdoor_2m_1:
+      state: 'on'
+      brightness: 150
+      color_mode: xy
+      xy_color:
+      - 0.3
+      - 0.6
+  metadata: {}
+- id: '1762419033732'
+  name: Tuinhuis - Zomer
+  entities:
+    light.hue_lightstrip_outdoor_2m_1:
+      state: 'on'
+      brightness: 200
+      color_mode: xy
+      xy_color:
+      - 0.45
+      - 0.41
+  metadata: {}
+- id: '1762419060760'
+  name: Tuinhuis - Winter
+  entities:
+    light.hue_lightstrip_outdoor_2m_1:
+      state: 'on'
+      brightness: 120
+      color_mode: xy
+      xy_color:
+      - 0.2
+      - 0.24
   metadata: {}

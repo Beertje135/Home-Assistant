@@ -27,8 +27,6 @@ sensor: !include sensors.yaml
 
 group: !include groups.yaml
 
-
-
 zha:
   zigpy_config:
     ota:
@@ -46,31 +44,15 @@ homekit:
   name: Ons Huisje
   filter: !include homekit_filter.yaml
 
-binary_sensor:
-  - platform: template
-    sensors:
-      bezoek:
-        device_class: occupancy
-        unique_id: bezoek
-        value_template: >-
-          {% if is_state("input_boolean.visitor", "on") or is_state("calendar.kuishulp_agenda", "on") or is_state("calendar.babysit_agenda", "on")%}
-            on
-          {% else %}
-            off
-          {% endif %}
-
 #Used for short term data (recorder is only for 1 week, influxdb wil keep indefintely)
 recorder:
+  purge_keep_days: 7
   exclude:
     domains:
       - sun
       - binary_sensor
       - calendar
       - device_tracker
-      - input_boolean
-      - input_datetime
-      - input_select
-      - input_text
       - sensor
       - switch
       - utility_meter
@@ -80,6 +62,10 @@ recorder:
       - group.computer
       - media_player.spotify_bert_verlinden
       - media_player.this_device
+      - sensor.processor_use          # <-- Uitgesloten: voorkomt een vicieuze cirkel van belasting
+      - sensor.memory_use_percent      # <-- Uitgesloten
+      - sensor.disk_use_percent_home   # <-- Uitgesloten
+      - sensor.cpu_temperature         # <-- Uitgesloten
   include:
     domains:
       - automation
@@ -92,12 +78,15 @@ recorder:
       - remote
       - scene
       - vacuum
+      - input_boolean
+      - input_datetime
+      - input_select
+      - input_text
     entity_globs:
       - binary_sensor.hue_motion_sensor_*_motion
       - binary_sensor.hue_outdoor_sensor_*_motion
       - binary_sensor.ewelink_ds01_*_opening
       - binary_sensor.airco_*_open_window
-      - input_boolean.muziek_*
       - sensor.hue_dimmer_switch_*_power
       - sensor.hue_motion_sensor_*_light_level
       - sensor.hue_motion_sensor_*_temperature
@@ -110,28 +99,33 @@ recorder:
       - sensor.airco_*_humidity
       - sensor.solaredge_*
       - sensor.adguard_*
-      - switch.hue_smart_plug_*
       - sensor.elektriciteit_meter_*
       - sensor.nutsmeter_*
+      - switch.hue_smart_plug_*
+      - switch.ikea_of_sweden_tretakt_smart_plug_*
+      - switch.adguard_*
+      - binary_sensor.aqara_raamsensor_*
+      - select.zendure_manager_*
+      - sensor.solarflow_2400_*
+      - sensor.ab3000_*
+      - binary_sensor.ab3000_*
     entities:
+      - group.bewoners
+      - group.bewoners_router
       - binary_sensor.rpi_power_status
       - binary_sensor.remote_ui
       - binary_sensor.bezoek
-      - input_boolean.notify_bert
-      - input_boolean.notify_caro
-      - input_boolean.pre_heat
-      - input_boolean.cooling_downstairs
-      - input_boolean.cooling_upstairs
-      - input_boolean.cooling_attic
-      - input_boolean.eve_aqua_ec68
-      - input_select.harmony_hub
-      - input_select.woning_status
+      - device_tracker.router_iphone_bert
+      - device_tracker.router_iphone_caro
+      - device_tracker.iphone_van_bert
+      - device_tracker.iphone_van_caroline
       - sensor.cpu_temperature
       - sensor.dusty_battery_level
       - sensor.disk_use_percent_home
       - sensor.hp_deskjet_3700_series_black_ink
       - sensor.hp_deskjet_3700_series_tri_color_ink
       - sensor.hue_sensor_veranda_light_level
+      - sensor.hue_sensor_veranda_temperature
       - sensor.hue_sensor_buiten_temperature
       - sensor.climate_trix_attribute_current_temperature
       - sensor.climate_elmo_attribute_current_temperature
@@ -140,19 +134,21 @@ recorder:
       - sensor.template_delta_set_temperature
       - sensor.template_delta_temperature
       - sensor.template_ons_huisje_set_temperature
+      - sensor.gas_meter
+      - sensor.water_meter
       - switch.wake_on_lan
       - switch.doorbellback_chime_active
       - switch.doorbellfront_chime_active
-      - sensor.gas_meter
-      - sensor.water_meter
+      - sensor.huis_verbruik_actueel
+      - sensor.woning_hvac_modus
 
 #Used for long term data (recorder is only for 1 week, influxdb wil keep indefintely)
 influxdb:
-  host: a0d7b954-influxdb
-  port: !secret port_influxdb
-  database: HomeAssistant
-  username: !secret username_influxdb
-  password: !secret password_influxdb
+#  host: a0d7b954-influxdb
+#  port: !secret port_influxdb
+#  database: HomeAssistant
+#  username: !secret username_influxdb
+#  password: !secret password_influxdb
   max_retries: 3
   default_measurement: state
   include: !include influxdb_filter_include.yaml
@@ -205,7 +201,150 @@ switch:
     mac: !secret mac_computer_lan
     host: !secret ip_computer_lan
     turn_off:
-      service: script.computer_off
+      - action: hassio.addon_stdin
+        data:
+          addon: core_rpc_shutdown
+          input: pc_bert_lan
+
+template:
+  - sensor:
+      - name: "Woning HVAC Modus"
+        unique_id: woning_hvac_modus
+        icon: mdi:thermostat-cog
+        state: >
+          {% set koelen = is_state('input_boolean.hvac_koeling_aan_uit', 'on') %}
+          {% set verwarmen = is_state('input_boolean.heating', 'on') %}
+          
+          {% if koelen and not verwarmen %}
+            Koelen
+          {% elif verwarmen and not koelen %}
+            Verwarmen
+          {% else %}
+            Verluchten
+          {% endif %}
+  - binary_sensor:
+      - name: bezoek
+        unique_id: bezoek
+        device_class: occupancy
+        state: >-
+          {% if is_state("input_boolean.visitor", "on") or is_state("calendar.kuishulp_agenda", "on") or is_state("calendar.babysit_agenda", "on")%}
+            on
+          {% else %}
+            off
+          {% endif %}
+  - trigger:
+      - trigger: time_pattern
+        minutes: "/30"
+    action:
+      - action: weather.get_forecasts
+        data:
+          type: daily
+        target:
+          entity_id: weather.pirateweather
+        response_variable: daily
+    sensor:
+      - name: Pirate Weather Daily
+        unique_id: pirateweather_daily
+        state: "{{ daily['weather.pirateweather'].forecast[0].condition }}"
+        attributes:
+          forecast: >
+            {% set ns = namespace(local_forecast=[]) %}
+            {% for f in daily['weather.pirateweather'].forecast %}
+              {% set local_time = as_local(as_datetime(f.datetime)).isoformat() %}
+              {% set ns.local_forecast = ns.local_forecast + [dict(f, datetime=local_time)] %}
+            {% endfor %}
+            {{ ns.local_forecast }}
+  - trigger:
+      - trigger: time_pattern
+        minutes: "/30"
+    action:
+      - action: weather.get_forecasts
+        data:
+          type: hourly
+        target:
+          entity_id: weather.pirateweather
+        response_variable: hourly
+    sensor:
+      - name: Pirate Weather Hourly
+        unique_id: pirateweather_hourly
+        state: "{{ hourly['weather.pirateweather'].forecast[0].condition }}"
+        attributes:
+          forecast: >
+            {% set ns = namespace(local_forecast=[]) %}
+            {% for f in hourly['weather.pirateweather'].forecast %}
+              {% set local_time = as_local(as_datetime(f.datetime)).isoformat() %}
+              {% set ns.local_forecast = ns.local_forecast + [dict(f, datetime=local_time)] %}
+            {% endfor %}
+            {{ ns.local_forecast }}
+  - sensor:
+      - name: climate_elmo_attribute_current_temperature
+        unique_id: elmo_temp
+        state: "{{ (state_attr('climate.elmo', 'current_temperature') | float(21.0) ) | round(2) }}"
+        unit_of_measurement: '°C'
+      - name: climate_trix_attribute_current_temperature
+        unique_id: trix_temp
+        state: "{{ (state_attr('climate.trix', 'current_temperature') | float(21.0) ) | round(2) }}"
+        unit_of_measurement: '°C'
+      - name: template_ons_huisje_set_temperature
+        unique_id: template_ons_huisje_set_temperature
+        state: "{{ (((state_attr('climate.badkamer', 'temperature') | float(0) ) + (state_attr('climate.slaapkamer', 'temperature') | float(0) ) + (state_attr('climate.keuken', 'temperature') | float(0) ) + (state_attr('climate.woonkamer', 'temperature') | float(0) ) + (state_attr('climate.dressing', 'temperature') | float(0) ) + (state_attr('climate.trix', 'temperature') | float(0) ) + (state_attr('climate.elmo', 'temperature') | float(0) )) / 7) | round(2) }}"
+        unit_of_measurement: '°C'
+      - name: template_delta_set_temperature
+        unique_id: template_delta_set_temperature
+        state: >
+          {% set diffa = ((states('sensor.template_ons_huisje_set_temperature') | float(0) ) - (states('sensor.hue_outdoor_sensor_2_temperature') | float(0) )) | round (2) %}
+          {{ diffa if diffa > 0 else (diffa * -1)}}
+        unit_of_measurement: '°C'
+      - name: template_delta_temperature
+        unique_id: template_delta_temperature
+        state: >
+          {% set diffb = ((state_attr('climate.ons_huisje', 'current_temperature') | float(0) ) - (states('sensor.hue_outdoor_sensor_2_temperature') | float(0) )) | round (2) %}
+          {{ diffb if diffb > 0 else (diffb * -1)}}
+        unit_of_measurement: '°C'
+      - name: hue_sensor_veranda_light_level
+        unique_id: hue_sensor_veranda_light_level
+        state: >
+          {{ (((states('sensor.hue_motion_sensor_2_light_level') | float(0)) + (states('sensor.hue_motion_sensor_2_light_level') | float(0)) + (states('sensor.hue_motion_sensor_3_light_level') | float(0))) / 3) | round(2) }}
+        unit_of_measurement: 'lx'
+      - name: hue_sensor_veranda_temperature
+        unique_id: hue_sensor_veranda_temperature
+        state: "{{ (((state_attr('climate.woonkamer', 'current_temperature') | float(0) ) + (state_attr('climate.keuken', 'current_temperature') | float(0) )) / 2) | round(2) }}"
+        unit_of_measurement: '°C'
+      - name: nmbs_template
+        unique_id: nmbs_template
+        state: "{{ state_attr('sensor.nmbs', 'vehicle_id') }}"
+      - name: nmbs_2_template
+        unique_id: nmbs_2_template
+        state: "{{ state_attr('sensor.nmbs_2', 'vehicle_id') }}"
+      - name: nmbs_3_template
+        unique_id: nmbs_3_template
+        state: "{{ state_attr('sensor.nmbs_3', 'vehicle_id') }}"
+      - name: nmbs_4_template
+        unique_id: nmbs_4_template
+        state: "{{ state_attr('sensor.nmbs_4', 'vehicle_id') }}"
+      - name: "Huis Verbruik Actueel"
+        unique_id: huis_verbruik_actueel_template
+        unit_of_measurement: "W"
+        device_class: power
+        state_class: measurement
+        icon: mdi:home-lightning-bolt
+        state: >
+          {# 1. Haal de live waarden op en zet ze om naar een getal (float) #}
+          {% set zon = states('sensor.solaredge_current_power') | float(0) %}
+          {% set p1 = states('sensor.elektriciteit_meter_p1_vermogen') | float(0) %}
+          {% set bat = states('sensor.solarflow_2400_ac_bat_in_out') | float(0) %}
+          
+          {# 2. De berekening #}
+          {# Opmerking: p1 is negatief bij export, bat is negatief bij opladen #}
+          {% set verbruik = zon + p1 + bat %}
+          
+          {# 3. Failsafe: Het verbruik kan nooit onder 0 zakken #}
+          {% if verbruik < 0 %}
+            0
+          {% else %}
+            {{ verbruik | round(0) }}
+          {% endif %}
+
 
 # (default) Enables configuration UI
 #config:
@@ -238,12 +377,15 @@ switch:
 #stream:
 
 #(default)
-#logger:
-#  default: info
-#  logs:
+logger:
+  default: warning
+  logs:
+    custom_components.zendure_ha: warning
+    pyatv.support.http: error
 #    homeassistant.core: critical
 #    homeassistant.components.zha: debug
 #    zigpy: debug
+
 
 # Text to speech
 #tts:

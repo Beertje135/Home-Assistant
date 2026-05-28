@@ -1,0 +1,1250 @@
+2025-11-05 19:39:40.961 WARNING (SyncWorker_0) [homeassistant.loader] We found a custom integration ai_automation_suggester which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
+2025-11-05 19:39:40.967 WARNING (SyncWorker_0) [homeassistant.loader] We found a custom integration afvalbeheer which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
+2025-11-05 19:39:40.973 WARNING (SyncWorker_0) [homeassistant.loader] We found a custom integration pirateweather which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
+2025-11-05 19:39:40.978 WARNING (SyncWorker_0) [homeassistant.loader] We found a custom integration hacs which has not been tested by Home Assistant. This component might cause stability problems, be sure to disable it if you experience issues with Home Assistant
+2025-11-05 19:39:48.066 ERROR (MainThread) [homeassistant.helpers.translation] Validation of translation placeholders for localized (nl) string component.homeassistant_sky_connect.options.progress.install_firmware failed: ({'model', 'firmware_name'} != {'firmware_name'})
+2025-11-05 19:39:48.100 ERROR (MainThread) [homeassistant.helpers.translation] Validation of translation placeholders for localized (nl) string component.mqtt.config_subentries.device.step.mqtt_platform_config.sections.climate_preset_mode_settings.data_description.preset_mode_command_template failed: (set() != {'command_templating_url'})
+2025-11-05 19:39:48.101 ERROR (MainThread) [homeassistant.helpers.translation] Validation of translation placeholders for localized (nl) string component.mqtt.config_subentries.device.step.mqtt_platform_config.sections.climate_preset_mode_settings.data_description.preset_mode_value_template failed: (set() != {'value_templating_url'})
+2025-11-05 19:39:48.115 ERROR (MainThread) [homeassistant.helpers.translation] Validation of translation placeholders for localized (nl) string component.homeassistant_sky_connect.config.progress.install_firmware failed: ({'model', 'firmware_name'} != {'firmware_name'})
+2025-11-05 19:40:28.052 WARNING (MainThread) [homeassistant.util.loop] Detected blocking call to open with args ('/root/.netrc',) inside the event loop by integration 'google_generative_ai_conversation' at homeassistant/components/google_generative_ai_conversation/__init__.py, line 165: await client.aio.models.get( (offender: /usr/local/lib/python3.13/netrc.py, line 87: with open(file, encoding="utf-8") as fp:), please create a bug report at https://github.com/home-assistant/core/issues?q=is%3Aopen+is%3Aissue+label%3A%22integration%3A+google_generative_ai_conversation%22
+For developers, please see https://developers.home-assistant.io/docs/asyncio_blocking_operations/#open
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/usr/src/homeassistant/homeassistant/__main__.py", line 229, in <module>
+    sys.exit(main())
+  File "/usr/src/homeassistant/homeassistant/__main__.py", line 215, in main
+    exit_code = runner.run(runtime_conf)
+  File "/usr/src/homeassistant/homeassistant/runner.py", line 271, in run
+    return loop.run_until_complete(setup_and_run_hass(runtime_config))
+  File "/usr/local/lib/python3.13/asyncio/base_events.py", line 712, in run_until_complete
+    self.run_forever()
+  File "/usr/local/lib/python3.13/asyncio/base_events.py", line 683, in run_forever
+    self._run_once()
+  File "/usr/local/lib/python3.13/asyncio/base_events.py", line 2050, in _run_once
+    handle._run()
+  File "/usr/local/lib/python3.13/asyncio/events.py", line 89, in _run
+    self._context.run(self._callback, *self._args)
+  File "/usr/src/homeassistant/homeassistant/config_entries.py", line 906, in async_setup_locked
+    await self.async_setup(hass, integration=integration)
+  File "/usr/src/homeassistant/homeassistant/config_entries.py", line 672, in async_setup
+    await self.__async_setup_with_context(hass, integration)
+  File "/usr/src/homeassistant/homeassistant/config_entries.py", line 761, in __async_setup_with_context
+    result = await component.async_setup_entry(hass, self)
+  File "/usr/src/homeassistant/homeassistant/components/google_generative_ai_conversation/__init__.py", line 165, in async_setup_entry
+    await client.aio.models.get(
+
+2025-11-05 19:40:47.640 ERROR (MainThread) [homeassistant.components.esphome.coordinator] Error requesting ESPHome Dashboard data: Cannot connect to host 127.0.0.1:65408 ssl:default [Connect call failed ('127.0.0.1', 65408)]
+2025-11-05 19:40:47.641 ERROR (MainThread) [homeassistant.components.esphome.dashboard] Dashboard unavailable; skipping reauth: Cannot connect to host 127.0.0.1:65408 ssl:default [Connect call failed ('127.0.0.1', 65408)]
+2025-11-05 19:40:57.476 WARNING (MainThread) [homeassistant.bootstrap] Waiting on integrations to complete setup: {('workday', 'f6bf0edc7366466ab78a9d55868e2acd'): 246.305426112, ('pirateweather', '01K7C15A0JMCP6P4PD7C69ME4E'): 258.082262733, ('forecast_solar', '2902997fa0e21c8fe4658f79f1411f2d'): 258.137845124, ('season', 'f57bc65be3cd9236dfc3536a87de407c'): 258.146570726, ('hacs', '1904e418f20d423c8d7c1e3c94737f5b'): 259.858298698, ('solaredge', '7d8a1718ff8246efb0c5bdf5babe5499'): 260.17971579, ('proximity', '7e58ec973950cbe235643bb93fa5b832'): 260.820846361, ('esphome', '6d9d87bc6ef90a5c4547e116d720f692'): 261.936295277, ('esphome', 'f96abc45914bddae3481f8389afacb52'): 261.937301995, ('zha', '1371bb1db26134140aaf55d358234196'): 266.214708533, ('homeassistant_sky_connect', '6215efcea12cb303490fbd95a7a65c88'): 266.24199927}
+2025-11-05 19:41:14.639 WARNING (MainThread) [homeassistant.components.otbr.config_flow] Failed to communicate with OTBR@http://core-silabs-multiprotocol:8081: Cannot connect to host core-silabs-multiprotocol:8081 ssl:default [Connect call failed ('172.30.32.1', 8081)]
+2025-11-05 19:41:53.304 ERROR (MainThread) [homeassistant.components.mobile_app.notify] Error sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification: ClientConnectorDNSError(ConnectionKey(host='mobile-apps.home-assistant.io', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None), OSError(None, 'Timeout while contacting DNS servers'))
+2025-11-05 19:42:19.496 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 19:42:19.501 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-05 19:42:19.506 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 19:42:19.508 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-05 19:42:19.509 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 19:42:19.510 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-05 19:42:19.511 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 19:42:19.516 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-05 19:42:54.163 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 19:42:54.165 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-05 19:42:54.168 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 19:42:54.169 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-05 19:42:54.172 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 19:42:54.172 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-05 19:42:54.198 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 19:42:54.199 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-05 19:44:21.822 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:44:41.743 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:44:46.418 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:44:56.421 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:45:01.435 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:45:06.430 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:45:11.449 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:45:15.332 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:45:20.343 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:45:25.348 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:45:35.341 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:45:45.353 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:48:16.363 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:48:26.366 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:48:31.372 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:48:36.371 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:48:41.370 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:48:46.378 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:49:13.118 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:49:18.121 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:49:23.133 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:49:28.242 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-05 19:49:33.133 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 19:49:43.145 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 20:09:46.352 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 20:10:00.333 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 20:10:05.325 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 20:10:10.369 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 20:10:11.467 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 20:10:21.475 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 20:10:26.023 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 20:10:31.032 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 20:10:36.044 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 20:10:46.033 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 20:10:56.035 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 20:27:02.630 WARNING (MainThread) [homeassistant.components.script.radio_livingroom_off] Muziek - Woonkamer - Uit: Already running
+2025-11-05 20:41:39.486 ERROR (MainThread) [homeassistant.components.mobile_app.notify] Error sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification: ClientConnectorDNSError(ConnectionKey(host='mobile-apps.home-assistant.io', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None), OSError(None, 'Timeout while contacting DNS servers'))
+2025-11-05 20:42:00.751 ERROR (MainThread) [evohome.credentials] Unable to contact the vendor's server. Check your network and review the vendor's status page, https://status.resideo.com.
+2025-11-05 20:42:00.752 ERROR (MainThread) [homeassistant.components.evohome] Error fetching evohome_coordinator data: Authenticator response is invalid: Cannot connect to host tccna.resideo.com:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 20:42:00.868 ERROR (MainThread) [homeassistant.components.template.template_entity] TemplateError('ValueError: Template error: float got invalid input 'None' when rendering template '{{ (state_attr('climate.elmo', 'current_temperature') | float ) | round(2) }}' but no default was specified') while processing template 'Template<template=({{ (state_attr('climate.elmo', 'current_temperature') | float ) | round(2) }}) renders=10>' for attribute '_attr_native_value' in entity 'sensor.climate_elmo_attribute_current_temperature'
+2025-11-05 20:42:00.884 ERROR (MainThread) [homeassistant.components.template.template_entity] TemplateError('ValueError: Template error: float got invalid input 'None' when rendering template '{{ (state_attr('climate.trix', 'current_temperature') | float ) | round(2) }}' but no default was specified') while processing template 'Template<template=({{ (state_attr('climate.trix', 'current_temperature') | float ) | round(2) }}) renders=6>' for attribute '_attr_native_value' in entity 'sensor.climate_trix_attribute_current_temperature'
+2025-11-05 20:45:19.839 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 20:45:19.840 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-05 20:45:19.841 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 20:45:19.841 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-05 20:45:19.844 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 20:45:19.847 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-05 20:45:19.857 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 20:45:19.858 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-05 21:41:39.358 ERROR (MainThread) [homeassistant.components.mobile_app.notify] Error sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification: ClientConnectorDNSError(ConnectionKey(host='mobile-apps.home-assistant.io', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None), OSError(None, 'Timeout while contacting DNS servers'))
+2025-11-05 21:50:09.473 ERROR (MainThread) [root] Failed to parse metadata
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/site-packages/pyatv/protocols/raop/audio_source.py", line 264, in get_buffered_io_metadata
+    return await get_metadata(buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/pyatv/support/metadata.py", line 33, in get_metadata
+    tag = await loop.run_in_executor(None, _open_file, file)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/usr/local/lib/python3.13/site-packages/pyatv/support/metadata.py", line 16, in _open_file
+    in_file = TinyTag.get(file_obj=file)
+  File "/usr/local/lib/python3.13/site-packages/tinytag/tinytag.py", line 144, in get
+    parser_class = cls._get_parser_class(filename_str, file_obj)
+  File "/usr/local/lib/python3.13/site-packages/tinytag/tinytag.py", line 256, in _get_parser_class
+    raise UnsupportedFormatError(
+        'No tag reader found to support file type')
+tinytag.tinytag.UnsupportedFormatError: No tag reader found to support file type
+2025-11-05 22:02:24.324 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_woonkamer_tv, using color_temp (mireds) as fallback
+2025-11-05 22:18:59.784 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:19:09.242 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:19:14.246 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:19:24.245 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:19:34.248 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:20:42.814 WARNING (paho-mqtt-client-3172890C90721730) [roombapy.roomba] Unexpectedly disconnected from Roomba 192.168.2.15, code The connection was lost
+2025-11-05 22:24:28.728 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:24:38.723 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:24:42.651 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:24:47.657 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:24:52.645 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:25:02.646 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:25:12.646 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:31:08.078 ERROR (MainThread) [root] Failed to parse metadata
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/site-packages/pyatv/protocols/raop/audio_source.py", line 264, in get_buffered_io_metadata
+    return await get_metadata(buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/pyatv/support/metadata.py", line 33, in get_metadata
+    tag = await loop.run_in_executor(None, _open_file, file)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/usr/local/lib/python3.13/site-packages/pyatv/support/metadata.py", line 16, in _open_file
+    in_file = TinyTag.get(file_obj=file)
+  File "/usr/local/lib/python3.13/site-packages/tinytag/tinytag.py", line 144, in get
+    parser_class = cls._get_parser_class(filename_str, file_obj)
+  File "/usr/local/lib/python3.13/site-packages/tinytag/tinytag.py", line 256, in _get_parser_class
+    raise UnsupportedFormatError(
+        'No tag reader found to support file type')
+tinytag.tinytag.UnsupportedFormatError: No tag reader found to support file type
+2025-11-05 22:31:08.134 ERROR (MainThread) [root] Failed to parse metadata
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/site-packages/pyatv/protocols/raop/audio_source.py", line 264, in get_buffered_io_metadata
+    return await get_metadata(buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/pyatv/support/metadata.py", line 33, in get_metadata
+    tag = await loop.run_in_executor(None, _open_file, file)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/usr/local/lib/python3.13/site-packages/pyatv/support/metadata.py", line 16, in _open_file
+    in_file = TinyTag.get(file_obj=file)
+  File "/usr/local/lib/python3.13/site-packages/tinytag/tinytag.py", line 144, in get
+    parser_class = cls._get_parser_class(filename_str, file_obj)
+  File "/usr/local/lib/python3.13/site-packages/tinytag/tinytag.py", line 256, in _get_parser_class
+    raise UnsupportedFormatError(
+        'No tag reader found to support file type')
+tinytag.tinytag.UnsupportedFormatError: No tag reader found to support file type
+2025-11-05 22:31:16.984 WARNING (MainThread) [pyatv.support.http] Got response without having a request: HttpResponse(protocol='RTSP', version='1.0', code=200, message='OK', headers={'Date': 'Wed, 05 Nov 2025 21:31:16 GMT', 'Content-Length': '0', 'Server': 'AirTunes/870.14.1', 'CSeq': '14', 'X-Apple-ProcessingTime': '0', 'X-Apple-RequestReceivedTimestamp': '4899901961'}, body='')
+2025-11-05 22:31:17.050 WARNING (MainThread) [pyatv.support.http] Got response without having a request: HttpResponse(protocol='RTSP', version='1.0', code=200, message='OK', headers={'Date': 'Wed, 05 Nov 2025 21:31:17 GMT', 'Content-Length': '0', 'Server': 'AirTunes/870.14.1', 'CSeq': '14', 'X-Apple-ProcessingTime': '0', 'X-Apple-RequestReceivedTimestamp': '5484091705'}, body='')
+2025-11-05 22:31:21.642 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:31:35.574 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:31:40.582 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:31:45.585 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:31:55.584 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:32:05.585 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:35:18.452 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:35:28.457 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:35:33.459 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:35:38.456 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:35:43.457 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:35:48.456 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:35:50.716 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:35:55.719 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:36:00.710 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:36:10.711 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:36:20.723 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-05 22:36:56.709 ERROR (MainThread) [plexwebsocket] AIOHTTP websocket error
+2025-11-05 22:37:32.709 ERROR (MainThread) [plexwebsocket] Websocket connection failed, retrying in 15s: Connection timeout to host wss://192-168-2-11.4073b7f74af34eea85758479ebb59e8f.plex.direct:32400/:/websockets/notifications?X-Plex-Token=GRVG8voiYfkF9pc49U9z
+2025-11-05 22:37:50.792 ERROR (MainThread) [plexwebsocket] Websocket connection failed, retrying in 30s: Cannot connect to host 192-168-2-11.4073b7f74af34eea85758479ebb59e8f.plex.direct:32400 ssl:default [Connect call failed ('192.168.2.11', 32400)]
+2025-11-05 22:38:23.848 ERROR (MainThread) [plexwebsocket] Websocket connection failed, retrying in 60s: Cannot connect to host 192-168-2-11.4073b7f74af34eea85758479ebb59e8f.plex.direct:32400 ssl:default [Connect call failed ('192.168.2.11', 32400)]
+2025-11-05 22:39:26.920 ERROR (MainThread) [plexwebsocket] Websocket connection failed, retrying in 120s: Cannot connect to host 192-168-2-11.4073b7f74af34eea85758479ebb59e8f.plex.direct:32400 ssl:default [Connect call failed ('192.168.2.11', 32400)]
+2025-11-05 22:40:57.898 ERROR (MainThread) [homeassistant.components.plex.server] Could not connect to Plex server: BERT'S PLEX (HTTPSConnectionPool(host='192-168-2-11.4073b7f74af34eea85758479ebb59e8f.plex.direct', port=32400): Max retries exceeded with url: /clients (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x7f2db96990>: Failed to establish a new connection: [Errno 113] Host is unreachable')))
+2025-11-05 22:41:29.993 ERROR (MainThread) [plexwebsocket] Websocket connection failed, retrying in 240s: Cannot connect to host 192-168-2-11.4073b7f74af34eea85758479ebb59e8f.plex.direct:32400 ssl:default [Connect call failed ('192.168.2.11', 32400)]
+2025-11-05 22:41:55.536 ERROR (MainThread) [homeassistant.components.mobile_app.notify] Error sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification: ClientConnectorDNSError(ConnectionKey(host='mobile-apps.home-assistant.io', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None), OSError(None, 'Timeout while contacting DNS servers'))
+2025-11-05 22:45:32.328 ERROR (MainThread) [homeassistant.components.plex] Websocket to BERT'S PLEX failed, aborting [Error: Too many retries]
+2025-11-05 22:45:32.329 ERROR (MainThread) [homeassistant.components.plex] Websocket to BERT'S PLEX failed, aborting [Error: Too many retries]
+2025-11-05 23:30:20.709 ERROR (MainThread) [aiounifi.interfaces.connectivity] UniFi websocket error: 'No PONG received after 7.5 seconds'
+2025-11-05 23:30:20.713 ERROR (MainThread) [homeassistant.components.unifi] Websocket disconnected
+2025-11-05 23:31:21.136 WARNING (MainThread) [homeassistant.components.unifi] Exception on update Call https://192.168.2.7:8443/v2/api/site/default/trafficrules received 503 service unavailable
+2025-11-05 23:31:21.145 WARNING (MainThread) [homeassistant.components.unifi] Exception on update Call https://192.168.2.7:8443/v2/api/site/default/trafficroutes received 503 service unavailable
+2025-11-05 23:32:01.710 WARNING (MainThread) [homeassistant.components.unifi] Exception on update Error requesting data from https://192.168.2.7:8443/v2/api/site/default/trafficrules: Connection timeout to host https://192.168.2.7:8443/v2/api/site/default/trafficrules
+2025-11-05 23:32:01.713 WARNING (MainThread) [homeassistant.components.unifi] Exception on update Error requesting data from https://192.168.2.7:8443/v2/api/site/default/trafficroutes: Connection timeout to host https://192.168.2.7:8443/v2/api/site/default/trafficroutes
+2025-11-05 23:32:42.709 WARNING (MainThread) [homeassistant.components.unifi] Exception on update Error requesting data from https://192.168.2.7:8443/v2/api/site/default/trafficrules: Connection timeout to host https://192.168.2.7:8443/v2/api/site/default/trafficrules
+2025-11-05 23:32:42.710 WARNING (MainThread) [homeassistant.components.unifi] Exception on update Error requesting data from https://192.168.2.7:8443/v2/api/site/default/trafficroutes: Connection timeout to host https://192.168.2.7:8443/v2/api/site/default/trafficroutes
+2025-11-05 23:33:05.048 WARNING (MainThread) [homeassistant.components.unifi] Exception on update Error requesting data from https://192.168.2.7:8443/v2/api/site/default/trafficrules: Cannot connect to host 192.168.2.7:8443 ssl:False [Connection reset by peer]
+2025-11-05 23:33:05.048 WARNING (MainThread) [homeassistant.components.unifi] Exception on update Error requesting data from https://192.168.2.7:8443/v2/api/site/default/trafficroutes: Cannot connect to host 192.168.2.7:8443 ssl:False [Connection reset by peer]
+2025-11-05 23:33:14.835 WARNING (MainThread) [homeassistant.components.unifi] Exception on update Error requesting data from https://192.168.2.7:8443/v2/api/site/default/trafficrules: Cannot connect to host 192.168.2.7:8443 ssl:False [Connect call failed ('192.168.2.7', 8443)]
+2025-11-05 23:33:14.836 WARNING (MainThread) [homeassistant.components.unifi] Exception on update Error requesting data from https://192.168.2.7:8443/v2/api/site/default/trafficroutes: Cannot connect to host 192.168.2.7:8443 ssl:False [Connect call failed ('192.168.2.7', 8443)]
+2025-11-05 23:33:24.832 WARNING (MainThread) [homeassistant.components.unifi] Exception on update Error requesting data from https://192.168.2.7:8443/v2/api/site/default/trafficrules: Cannot connect to host 192.168.2.7:8443 ssl:False [Connect call failed ('192.168.2.7', 8443)]
+2025-11-05 23:33:24.833 WARNING (MainThread) [homeassistant.components.unifi] Exception on update Error requesting data from https://192.168.2.7:8443/v2/api/site/default/trafficroutes: Cannot connect to host 192.168.2.7:8443 ssl:False [Connect call failed ('192.168.2.7', 8443)]
+2025-11-05 23:33:34.834 WARNING (MainThread) [homeassistant.components.unifi] Exception on update Error requesting data from https://192.168.2.7:8443/v2/api/site/default/trafficrules: Cannot connect to host 192.168.2.7:8443 ssl:False [Connect call failed ('192.168.2.7', 8443)]
+2025-11-05 23:33:34.834 WARNING (MainThread) [homeassistant.components.unifi] Exception on update Error requesting data from https://192.168.2.7:8443/v2/api/site/default/trafficroutes: Cannot connect to host 192.168.2.7:8443 ssl:False [Connect call failed ('192.168.2.7', 8443)]
+2025-11-05 23:35:14.853 WARNING (MainThread) [homeassistant.components.unifi] Exception on update Call https://192.168.2.7:8443/proxy/network/v2/api/site/default/trafficrules received 404 Not Found
+2025-11-05 23:35:14.855 WARNING (MainThread) [homeassistant.components.unifi] Exception on update Call https://192.168.2.7:8443/proxy/network/v2/api/site/default/trafficroutes received 404 Not Found
+2025-11-05 23:41:40.331 ERROR (MainThread) [homeassistant.components.mobile_app.notify] Error sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification: ClientConnectorDNSError(ConnectionKey(host='mobile-apps.home-assistant.io', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None), OSError(None, 'Timeout while contacting DNS servers'))
+2025-11-05 23:42:11.561 ERROR (MainThread) [evohome.auth] Unable to contact the vendor's server. Check your network and review the vendor's status page, https://status.resideo.com.
+2025-11-05 23:42:11.563 ERROR (MainThread) [homeassistant.components.evohome] Error fetching evohome_coordinator data: GET https://tccna.resideo.com/WebAPI/emea/api/v1/location/780562/status?includeTemperatureControlSystems=True: Cannot connect to host tccna.resideo.com:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 23:42:11.637 ERROR (MainThread) [homeassistant.components.template.template_entity] TemplateError('ValueError: Template error: float got invalid input 'None' when rendering template '{{ (state_attr('climate.elmo', 'current_temperature') | float ) | round(2) }}' but no default was specified') while processing template 'Template<template=({{ (state_attr('climate.elmo', 'current_temperature') | float ) | round(2) }}) renders=14>' for attribute '_attr_native_value' in entity 'sensor.climate_elmo_attribute_current_temperature'
+2025-11-05 23:42:11.660 ERROR (MainThread) [homeassistant.components.template.template_entity] TemplateError('ValueError: Template error: float got invalid input 'None' when rendering template '{{ (state_attr('climate.trix', 'current_temperature') | float ) | round(2) }}' but no default was specified') while processing template 'Template<template=({{ (state_attr('climate.trix', 'current_temperature') | float ) | round(2) }}) renders=10>' for attribute '_attr_native_value' in entity 'sensor.climate_trix_attribute_current_temperature'
+2025-11-05 23:42:50.163 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 23:42:50.164 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-05 23:42:50.174 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 23:42:50.174 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-05 23:42:50.176 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 23:42:50.176 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-05 23:42:50.179 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-05 23:42:50.195 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 00:41:41.407 ERROR (MainThread) [homeassistant.components.mobile_app.notify] Error sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification: ClientConnectorDNSError(ConnectionKey(host='mobile-apps.home-assistant.io', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None), OSError(None, 'Timeout while contacting DNS servers'))
+2025-11-06 00:43:11.776 ERROR (MainThread) [evohome.auth] Unable to contact the vendor's server. Check your network and review the vendor's status page, https://status.resideo.com.
+2025-11-06 00:43:11.777 ERROR (MainThread) [homeassistant.components.evohome] Error fetching evohome_coordinator data: GET https://tccna.resideo.com/WebAPI/emea/api/v1/location/780562/status?includeTemperatureControlSystems=True: Cannot connect to host tccna.resideo.com:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 00:43:11.838 ERROR (MainThread) [homeassistant.components.template.template_entity] TemplateError('ValueError: Template error: float got invalid input 'None' when rendering template '{{ (state_attr('climate.elmo', 'current_temperature') | float ) | round(2) }}' but no default was specified') while processing template 'Template<template=({{ (state_attr('climate.elmo', 'current_temperature') | float ) | round(2) }}) renders=18>' for attribute '_attr_native_value' in entity 'sensor.climate_elmo_attribute_current_temperature'
+2025-11-06 00:43:11.841 ERROR (MainThread) [homeassistant.components.template.template_entity] TemplateError('ValueError: Template error: float got invalid input 'None' when rendering template '{{ (state_attr('climate.trix', 'current_temperature') | float ) | round(2) }}' but no default was specified') while processing template 'Template<template=({{ (state_attr('climate.trix', 'current_temperature') | float ) | round(2) }}) renders=18>' for attribute '_attr_native_value' in entity 'sensor.climate_trix_attribute_current_temperature'
+2025-11-06 01:41:41.403 ERROR (MainThread) [homeassistant.components.mobile_app.notify] Error sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification: ClientConnectorDNSError(ConnectionKey(host='mobile-apps.home-assistant.io', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None), OSError(None, 'Timeout while contacting DNS servers'))
+2025-11-06 01:42:10.422 ERROR (MainThread) [evohome.auth] Unable to contact the vendor's server. Check your network and review the vendor's status page, https://status.resideo.com.
+2025-11-06 01:42:10.422 ERROR (MainThread) [homeassistant.components.evohome] Error fetching evohome_coordinator data: GET https://tccna.resideo.com/WebAPI/emea/api/v1/location/780562/status?includeTemperatureControlSystems=True: Cannot connect to host tccna.resideo.com:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 01:42:10.456 ERROR (MainThread) [homeassistant.components.template.template_entity] TemplateError('ValueError: Template error: float got invalid input 'None' when rendering template '{{ (state_attr('climate.elmo', 'current_temperature') | float ) | round(2) }}' but no default was specified') while processing template 'Template<template=({{ (state_attr('climate.elmo', 'current_temperature') | float ) | round(2) }}) renders=32>' for attribute '_attr_native_value' in entity 'sensor.climate_elmo_attribute_current_temperature'
+2025-11-06 01:42:10.466 ERROR (MainThread) [homeassistant.components.template.template_entity] TemplateError('ValueError: Template error: float got invalid input 'None' when rendering template '{{ (state_attr('climate.trix', 'current_temperature') | float ) | round(2) }}' but no default was specified') while processing template 'Template<template=({{ (state_attr('climate.trix', 'current_temperature') | float ) | round(2) }}) renders=28>' for attribute '_attr_native_value' in entity 'sensor.climate_trix_attribute_current_temperature'
+2025-11-06 01:44:20.248 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 01:44:20.249 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 01:44:20.250 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 01:44:20.250 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 01:44:20.251 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 01:44:20.258 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 01:44:20.259 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 01:44:20.259 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 01:45:55.637 ERROR (MainThread) [homeassistant.components.version] Error fetching version data: Error fetching version information from haio Cannot connect to host www.home-assistant.io:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 02:05:44.902 WARNING (paho-mqtt-client-3172890C90721730) [roombapy.remote_client] Unknown disconnection error: ID=16.Kindly use https://github.com/pschmitt/roombapy/issues/new
+2025-11-06 02:05:44.912 WARNING (paho-mqtt-client-3172890C90721730) [roombapy.roomba] Unexpectedly disconnected from Roomba 192.168.2.15, code UNKNOWN_ERROR
+2025-11-06 02:05:44.915 WARNING (paho-mqtt-client-3172890C90721730) [roombapy.remote_client] Unknown disconnection error: ID=16.Kindly use https://github.com/pschmitt/roombapy/issues/new
+2025-11-06 02:05:44.915 WARNING (paho-mqtt-client-3172890C90721730) [roombapy.roomba] Unexpectedly disconnected from Roomba 192.168.2.15, code UNKNOWN_ERROR
+2025-11-06 02:41:23.253 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 02:41:23.254 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 02:41:23.256 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 02:41:23.256 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 02:41:23.258 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 02:41:23.259 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 02:41:23.273 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 02:41:23.274 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 02:41:41.320 ERROR (MainThread) [homeassistant.components.mobile_app.notify] Error sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification: ClientConnectorDNSError(ConnectionKey(host='mobile-apps.home-assistant.io', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None), OSError(None, 'Timeout while contacting DNS servers'))
+2025-11-06 03:41:23.274 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 03:41:23.280 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 03:41:23.292 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 03:41:23.292 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 03:41:23.293 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 03:41:23.293 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 03:41:23.312 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 03:41:23.312 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 03:41:41.426 ERROR (MainThread) [homeassistant.components.mobile_app.notify] Error sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification: ClientConnectorDNSError(ConnectionKey(host='mobile-apps.home-assistant.io', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None), OSError(None, 'Timeout while contacting DNS servers'))
+2025-11-06 03:44:12.400 ERROR (MainThread) [evohome.auth] Unable to contact the vendor's server. Check your network and review the vendor's status page, https://status.resideo.com.
+2025-11-06 03:44:12.401 ERROR (MainThread) [homeassistant.components.evohome] Error fetching evohome_coordinator data: GET https://tccna.resideo.com/WebAPI/emea/api/v1/location/780562/status?includeTemperatureControlSystems=True: Cannot connect to host tccna.resideo.com:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 03:44:12.450 ERROR (MainThread) [homeassistant.components.template.template_entity] TemplateError('ValueError: Template error: float got invalid input 'None' when rendering template '{{ (state_attr('climate.elmo', 'current_temperature') | float ) | round(2) }}' but no default was specified') while processing template 'Template<template=({{ (state_attr('climate.elmo', 'current_temperature') | float ) | round(2) }}) renders=40>' for attribute '_attr_native_value' in entity 'sensor.climate_elmo_attribute_current_temperature'
+2025-11-06 03:44:12.454 ERROR (MainThread) [homeassistant.components.template.template_entity] TemplateError('ValueError: Template error: float got invalid input 'None' when rendering template '{{ (state_attr('climate.trix', 'current_temperature') | float ) | round(2) }}' but no default was specified') while processing template 'Template<template=({{ (state_attr('climate.trix', 'current_temperature') | float ) | round(2) }}) renders=52>' for attribute '_attr_native_value' in entity 'sensor.climate_trix_attribute_current_temperature'
+2025-11-06 03:45:56.102 ERROR (MainThread) [homeassistant.components.version] Error fetching version data: Error fetching version information from haio Cannot connect to host www.home-assistant.io:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 04:18:02.124 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 04:22:31.886 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 04:22:32.097 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 04:22:32.128 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 04:41:41.222 ERROR (MainThread) [homeassistant.components.mobile_app.notify] Error sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification: ClientConnectorDNSError(ConnectionKey(host='mobile-apps.home-assistant.io', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None), OSError(None, 'Timeout while contacting DNS servers'))
+2025-11-06 04:41:53.782 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 04:41:53.783 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 04:41:53.784 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 04:41:53.785 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 04:41:53.786 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 04:41:53.786 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 04:41:53.801 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 04:41:53.802 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 04:42:23.847 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 04:42:23.848 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 04:42:23.849 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 04:42:23.849 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 04:42:23.850 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 04:42:23.854 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 04:42:23.855 ERROR (MainThread) [pyrail.irail] Request failed due to an exception: Cannot connect to host api.irail.be:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 04:42:23.856 WARNING (MainThread) [homeassistant.components.nmbs.sensor] API failed in NMBSSensor
+2025-11-06 04:43:12.576 ERROR (MainThread) [evohome.auth] Unable to contact the vendor's server. Check your network and review the vendor's status page, https://status.resideo.com.
+2025-11-06 04:43:12.577 ERROR (MainThread) [homeassistant.components.evohome] Error fetching evohome_coordinator data: GET https://tccna.resideo.com/WebAPI/emea/api/v1/location/780562/status?includeTemperatureControlSystems=True: Cannot connect to host tccna.resideo.com:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 04:43:12.619 ERROR (MainThread) [homeassistant.components.template.template_entity] TemplateError('ValueError: Template error: float got invalid input 'None' when rendering template '{{ (state_attr('climate.elmo', 'current_temperature') | float ) | round(2) }}' but no default was specified') while processing template 'Template<template=({{ (state_attr('climate.elmo', 'current_temperature') | float ) | round(2) }}) renders=44>' for attribute '_attr_native_value' in entity 'sensor.climate_elmo_attribute_current_temperature'
+2025-11-06 04:43:12.624 ERROR (MainThread) [homeassistant.components.template.template_entity] TemplateError('ValueError: Template error: float got invalid input 'None' when rendering template '{{ (state_attr('climate.trix', 'current_temperature') | float ) | round(2) }}' but no default was specified') while processing template 'Template<template=({{ (state_attr('climate.trix', 'current_temperature') | float ) | round(2) }}) renders=64>' for attribute '_attr_native_value' in entity 'sensor.climate_trix_attribute_current_temperature'
+2025-11-06 05:12:02.591 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:12:02.601 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:12:02.604 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:12:02.608 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:13:32.593 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:13:32.603 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:13:32.607 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:13:32.609 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:15:02.595 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:15:02.606 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:15:02.609 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:15:02.611 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:16:32.596 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:16:32.608 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:16:32.611 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:16:32.614 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:18:02.599 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:18:02.610 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:18:02.613 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:18:02.616 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:19:32.601 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:19:32.613 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:19:32.616 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:19:32.619 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:21:02.603 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:21:02.615 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:21:02.618 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:21:02.620 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:22:32.604 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:22:32.618 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:22:32.622 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:22:32.623 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:24:02.607 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:24:02.619 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:24:02.622 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:24:02.625 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:25:32.609 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:25:32.622 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:25:32.625 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:25:32.628 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:27:02.615 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:27:02.624 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:27:02.626 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:27:02.631 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:28:32.619 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:28:32.625 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:28:32.628 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:28:32.632 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:30:02.619 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:30:02.628 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:30:02.629 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:30:02.634 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:31:32.622 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:31:32.629 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:31:32.632 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:31:32.635 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:33:02.623 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:33:02.632 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:33:02.634 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:33:02.637 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:34:32.626 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:34:32.634 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:34:32.637 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:34:32.640 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:36:02.627 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:36:02.635 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:36:02.639 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:36:02.642 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:37:32.628 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:37:32.636 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:37:32.642 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:37:32.644 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:39:02.630 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:39:02.638 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:39:02.644 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:39:02.646 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:40:32.631 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:40:32.640 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:40:32.645 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:40:32.651 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:41:41.242 ERROR (MainThread) [homeassistant.components.mobile_app.notify] Error sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification: ClientConnectorDNSError(ConnectionKey(host='mobile-apps.home-assistant.io', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None), OSError(None, 'Timeout while contacting DNS servers'))
+2025-11-06 05:42:02.634 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:42:02.648 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:42:02.658 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:42:02.668 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:42:10.473 ERROR (MainThread) [evohome.auth] Unable to contact the vendor's server. Check your network and review the vendor's status page, https://status.resideo.com.
+2025-11-06 05:42:10.474 ERROR (MainThread) [homeassistant.components.evohome] Error fetching evohome_coordinator data: GET https://tccna.resideo.com/WebAPI/emea/api/v1/location/780562/status?includeTemperatureControlSystems=True: Cannot connect to host tccna.resideo.com:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 05:42:10.534 ERROR (MainThread) [homeassistant.components.template.template_entity] TemplateError('ValueError: Template error: float got invalid input 'None' when rendering template '{{ (state_attr('climate.elmo', 'current_temperature') | float ) | round(2) }}' but no default was specified') while processing template 'Template<template=({{ (state_attr('climate.elmo', 'current_temperature') | float ) | round(2) }}) renders=48>' for attribute '_attr_native_value' in entity 'sensor.climate_elmo_attribute_current_temperature'
+2025-11-06 05:42:10.538 ERROR (MainThread) [homeassistant.components.template.template_entity] TemplateError('ValueError: Template error: float got invalid input 'None' when rendering template '{{ (state_attr('climate.trix', 'current_temperature') | float ) | round(2) }}' but no default was specified') while processing template 'Template<template=({{ (state_attr('climate.trix', 'current_temperature') | float ) | round(2) }}) renders=68>' for attribute '_attr_native_value' in entity 'sensor.climate_trix_attribute_current_temperature'
+2025-11-06 05:43:32.638 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:43:32.652 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:43:32.683 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:43:32.712 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:45:02.639 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:45:02.654 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:45:02.698 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:45:02.742 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:46:32.641 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:46:32.655 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:46:32.734 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:46:32.744 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:48:02.643 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:48:02.657 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:48:02.736 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:48:02.746 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:49:32.645 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:49:32.659 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:49:32.753 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:49:32.755 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:51:02.647 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:51:02.659 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:51:02.755 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:51:02.760 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:52:32.648 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:52:32.662 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:52:32.759 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:52:32.761 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:54:02.664 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:54:02.761 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:54:02.763 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:55:32.654 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:55:32.668 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:55:32.765 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:55:32.767 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:57:02.669 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:57:02.766 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:57:02.771 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 05:58:32.659 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 05:58:32.671 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 05:58:32.769 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 05:58:32.778 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:00:02.661 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:00:02.674 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:00:02.772 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:00:02.779 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:01:32.664 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:01:32.675 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:01:32.772 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:01:32.785 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:03:02.666 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:03:02.677 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:03:02.774 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:03:02.787 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:04:32.669 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:04:32.679 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:04:32.776 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:04:32.789 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:06:02.670 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:06:02.680 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:06:02.779 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:06:02.790 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:07:32.673 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:07:32.681 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:07:32.782 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:07:32.795 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:09:02.675 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:09:02.683 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:09:02.789 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:09:02.797 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:10:32.676 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:10:32.686 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:10:32.791 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:10:32.798 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:12:02.678 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:12:02.687 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:12:02.794 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:12:02.803 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:13:32.679 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:13:32.688 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:13:32.797 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:13:32.805 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:13:55.711 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:14:02.696 ERROR (MainThread) [root] Failed to parse metadata
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/site-packages/pyatv/protocols/raop/audio_source.py", line 264, in get_buffered_io_metadata
+    return await get_metadata(buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/pyatv/support/metadata.py", line 33, in get_metadata
+    tag = await loop.run_in_executor(None, _open_file, file)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/usr/local/lib/python3.13/site-packages/pyatv/support/metadata.py", line 16, in _open_file
+    in_file = TinyTag.get(file_obj=file)
+  File "/usr/local/lib/python3.13/site-packages/tinytag/tinytag.py", line 144, in get
+    parser_class = cls._get_parser_class(filename_str, file_obj)
+  File "/usr/local/lib/python3.13/site-packages/tinytag/tinytag.py", line 256, in _get_parser_class
+    raise UnsupportedFormatError(
+        'No tag reader found to support file type')
+tinytag.tinytag.UnsupportedFormatError: No tag reader found to support file type
+2025-11-06 06:14:02.745 ERROR (MainThread) [root] Failed to parse metadata
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/site-packages/pyatv/protocols/raop/audio_source.py", line 264, in get_buffered_io_metadata
+    return await get_metadata(buffer)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/pyatv/support/metadata.py", line 33, in get_metadata
+    tag = await loop.run_in_executor(None, _open_file, file)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/concurrent/futures/thread.py", line 59, in run
+    result = self.fn(*self.args, **self.kwargs)
+  File "/usr/local/lib/python3.13/site-packages/pyatv/support/metadata.py", line 16, in _open_file
+    in_file = TinyTag.get(file_obj=file)
+  File "/usr/local/lib/python3.13/site-packages/tinytag/tinytag.py", line 144, in get
+    parser_class = cls._get_parser_class(filename_str, file_obj)
+  File "/usr/local/lib/python3.13/site-packages/tinytag/tinytag.py", line 256, in _get_parser_class
+    raise UnsupportedFormatError(
+        'No tag reader found to support file type')
+tinytag.tinytag.UnsupportedFormatError: No tag reader found to support file type
+2025-11-06 06:14:05.396 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:14:10.400 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:14:13.677 WARNING (MainThread) [pyatv.support.http] Got response without having a request: HttpResponse(protocol='RTSP', version='1.0', code=200, message='OK', headers={'Date': 'Thu, 06 Nov 2025 05:14:13 GMT', 'Content-Length': '0', 'Server': 'AirTunes/870.14.1', 'CSeq': '15', 'X-Apple-ProcessingTime': '0', 'X-Apple-RequestReceivedTimestamp': '4927678438'}, body='')
+2025-11-06 06:14:20.401 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:14:30.423 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:15:02.682 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:15:02.690 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:15:02.800 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:15:02.807 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:16:32.686 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:16:32.693 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:16:32.802 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:16:32.812 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:18:02.686 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:18:02.693 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:18:02.809 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:18:02.814 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:18:46.054 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:18:56.043 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:19:01.045 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:19:06.039 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:19:11.092 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:19:16.097 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:19:26.097 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:19:32.688 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:19:32.696 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:19:32.837 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:19:32.839 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:19:36.096 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:21:02.690 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:21:02.838 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:21:02.841 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:22:32.691 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:22:32.700 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:22:32.843 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:22:32.845 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:24:02.694 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:24:02.702 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:24:02.858 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:24:02.861 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:24:04.529 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:24:19.975 ERROR (MainThread) [homeassistant.components.script.light_bathroom_on] Licht - Badkamer - Aan: Choose at step 3: default: Error executing script. Error for call_service at pos 1: Failed to send request: device did not respond
+2025-11-06 06:24:19.976 ERROR (MainThread) [homeassistant.components.script.light_bathroom_on] Licht - Badkamer - Aan: Error executing script. Error for choose at pos 3: Failed to send request: device did not respond
+2025-11-06 06:24:19.980 ERROR (MainThread) [homeassistant] Error doing job: Task exception was never retrieved (None)
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/site-packages/zigpy/device.py", line 603, in request
+    return await future
+           ^^^^^^^^^^^^
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/local/lib/python3.13/site-packages/zha/zigbee/cluster_handlers/__init__.py", line 68, in wrap_zigpy_exceptions
+    yield
+  File "/usr/local/lib/python3.13/site-packages/zha/zigbee/cluster_handlers/__init__.py", line 88, in wrapper
+    return await RETRYABLE_REQUEST_DECORATOR(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/zigpy/util.py", line 133, in retry
+    return await func()
+           ^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/zigpy/zcl/__init__.py", line 401, in request
+    return await self._endpoint.request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/usr/local/lib/python3.13/site-packages/zigpy/endpoint.py", line 234, in request
+    return await self.device.request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+    )
+    ^
+  File "/usr/local/lib/python3.13/site-packages/zigpy/device.py", line 602, in request
+    async with asyncio_timeout(timeout):
+               ~~~~~~~~~~~~~~~^^^^^^^^^
+  File "/usr/local/lib/python3.13/asyncio/timeouts.py", line 116, in __aexit__
+    raise TimeoutError from exc_val
+TimeoutError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/src/homeassistant/homeassistant/components/zha/helpers.py", line 1383, in handler
+    return await func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/components/zha/light.py", line 184, in async_turn_on
+    await self.entity_data.entity.async_turn_on(
+    ...<6 lines>...
+    )
+  File "/usr/local/lib/python3.13/site-packages/zha/application/platforms/light/__init__.py", line 388, in async_turn_on
+    result = await self._level_cluster_handler.move_to_level_with_on_off(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )
+    ^
+  File "/usr/local/lib/python3.13/site-packages/zha/zigbee/cluster_handlers/__init__.py", line 87, in wrapper
+    with wrap_zigpy_exceptions():
+         ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/usr/local/lib/python3.13/contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/zha/zigbee/cluster_handlers/__init__.py", line 70, in wrap_zigpy_exceptions
+    raise ZHAException("Failed to send request: device did not respond") from exc
+zha.exceptions.ZHAException: Failed to send request: device did not respond
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/usr/src/homeassistant/homeassistant/components/script/__init__.py", line 707, in _async_run
+    return await self.script.async_run(script_vars, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 1836, in async_run
+    return await asyncio.shield(create_eager_task(run.async_run()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 460, in async_run
+    await self._async_step(log_exceptions=False)
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 526, in _async_step
+    self._handle_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        ex, continue_on_error, self._log_exceptions or log_exceptions
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 556, in _handle_exception
+    raise exception
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 524, in _async_step
+    await getattr(self, handler)()
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 727, in _async_step_choose
+    await self._async_run_script(choose_data["default"])
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 636, in _async_run_script
+    result = await self._async_run_long_action(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 624, in _async_run_long_action
+    return await long_task
+           ^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 1836, in async_run
+    return await asyncio.shield(create_eager_task(run.async_run()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 460, in async_run
+    await self._async_step(log_exceptions=False)
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 526, in _async_step
+    self._handle_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        ex, continue_on_error, self._log_exceptions or log_exceptions
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 556, in _handle_exception
+    raise exception
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 524, in _async_step
+    await getattr(self, handler)()
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 1012, in _async_step_call_service
+    response_data = await self._async_run_long_action(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 624, in _async_run_long_action
+    return await long_task
+           ^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/core.py", line 2835, in async_call
+    response_data = await coro
+                    ^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/core.py", line 2878, in _execute_service
+    return await target(service_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 852, in entity_service_call
+    single_response = await _handle_entity_call(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        hass, entity, func, data, call.context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 924, in _handle_entity_call
+    result = await task
+             ^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/components/scene/__init__.py", line 158, in _async_activate
+    await self.async_activate(**kwargs)
+  File "/usr/src/homeassistant/homeassistant/components/homeassistant/scene.py", line 366, in async_activate
+    await async_reproduce_state(
+    ...<4 lines>...
+    )
+  File "/usr/src/homeassistant/homeassistant/helpers/state.py", line 69, in async_reproduce_state
+    await asyncio.gather(
+        *(worker(domain, data) for domain, data in to_call.items())
+    )
+  File "/usr/src/homeassistant/homeassistant/helpers/state.py", line 63, in worker
+    await platform.async_reproduce_states(
+        hass, states_by_domain, context=context, reproduce_options=reproduce_options
+    )
+  File "/usr/src/homeassistant/homeassistant/components/light/reproduce_state.py", line 178, in async_reproduce_states
+    await asyncio.gather(
+    ...<6 lines>...
+    )
+  File "/usr/src/homeassistant/homeassistant/components/light/reproduce_state.py", line 165, in _async_reproduce_state
+    await hass.services.async_call(
+        DOMAIN, service, service_data, context=context, blocking=True
+    )
+  File "/usr/src/homeassistant/homeassistant/core.py", line 2835, in async_call
+    response_data = await coro
+                    ^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/core.py", line 2878, in _execute_service
+    return await target(service_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 852, in entity_service_call
+    single_response = await _handle_entity_call(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        hass, entity, func, data, call.context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 924, in _handle_entity_call
+    result = await task
+             ^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/components/light/__init__.py", line 651, in async_handle_light_on_service
+    await light.async_turn_on(**filter_turn_on_params(light, params))
+  File "/usr/src/homeassistant/homeassistant/components/zha/helpers.py", line 1385, in handler
+    raise HomeAssistantError(err) from err
+homeassistant.exceptions.HomeAssistantError: Failed to send request: device did not respond
+2025-11-06 06:24:24.410 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:24:39.849 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:24:43.405 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:24:48.416 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:24:50.936 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:25:00.951 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:25:05.618 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:25:10.628 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:25:15.627 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:25:25.632 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:25:32.697 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:25:32.704 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:25:32.865 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:25:32.866 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:25:35.631 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:27:01.478 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:27:02.698 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:27:02.705 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:27:02.867 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:27:02.870 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:27:11.484 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:27:15.624 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:27:20.635 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:27:25.639 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:27:35.634 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:27:45.636 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:28:32.700 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:28:32.707 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:28:32.868 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:28:32.872 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:30:02.710 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:30:02.870 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:30:02.876 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:31:32.704 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:31:32.711 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:31:32.872 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:31:32.878 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:33:02.713 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:33:02.880 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:34:32.707 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:34:32.715 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:34:32.884 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:34:32.887 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:36:02.709 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:36:02.717 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:36:02.887 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:36:02.890 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:37:32.712 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:37:32.719 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:37:32.889 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:37:32.890 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:39:02.713 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:39:02.721 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:39:02.891 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:39:02.894 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:40:32.715 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:40:32.722 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:40:32.900 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:40:32.902 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:41:44.293 ERROR (MainThread) [homeassistant.components.mobile_app.notify] Error sending notification to https://mobile-apps.home-assistant.io/api/sendPushNotification: ClientConnectorDNSError(ConnectionKey(host='mobile-apps.home-assistant.io', port=443, is_ssl=True, ssl=True, proxy=None, proxy_auth=None, proxy_headers_hash=None), OSError(None, 'Timeout while contacting DNS servers'))
+2025-11-06 06:42:02.718 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:42:02.728 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:42:02.904 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:42:02.910 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:43:02.340 ERROR (MainThread) [evohome.auth] Unable to contact the vendor's server. Check your network and review the vendor's status page, https://status.resideo.com.
+2025-11-06 06:43:02.340 ERROR (MainThread) [homeassistant.components.evohome] Error fetching evohome_coordinator data: GET https://tccna.resideo.com/WebAPI/emea/api/v1/location/780562/status?includeTemperatureControlSystems=True: Cannot connect to host tccna.resideo.com:443 ssl:default [Timeout while contacting DNS servers]
+2025-11-06 06:43:02.398 ERROR (MainThread) [homeassistant.components.template.template_entity] TemplateError('ValueError: Template error: float got invalid input 'None' when rendering template '{{ (state_attr('climate.elmo', 'current_temperature') | float ) | round(2) }}' but no default was specified') while processing template 'Template<template=({{ (state_attr('climate.elmo', 'current_temperature') | float ) | round(2) }}) renders=56>' for attribute '_attr_native_value' in entity 'sensor.climate_elmo_attribute_current_temperature'
+2025-11-06 06:43:02.439 ERROR (MainThread) [homeassistant.components.template.template_entity] TemplateError('ValueError: Template error: float got invalid input 'None' when rendering template '{{ (state_attr('climate.trix', 'current_temperature') | float ) | round(2) }}' but no default was specified') while processing template 'Template<template=({{ (state_attr('climate.trix', 'current_temperature') | float ) | round(2) }}) renders=80>' for attribute '_attr_native_value' in entity 'sensor.climate_trix_attribute_current_temperature'
+2025-11-06 06:43:32.725 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:43:32.731 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:43:32.907 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:43:32.923 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:45:02.727 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:45:02.916 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:45:02.926 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:46:32.728 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:46:32.739 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:46:32.922 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:46:32.926 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:48:02.731 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:48:02.743 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:48:02.926 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:48:02.932 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:49:32.734 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:49:32.742 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:49:32.944 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:49:33.000 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:51:02.736 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs is taking over 10 seconds
+2025-11-06 06:51:02.745 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_3 is taking over 10 seconds
+2025-11-06 06:51:02.952 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_4 is taking over 10 seconds
+2025-11-06 06:51:03.014 WARNING (MainThread) [homeassistant.helpers.entity] Update of sensor.nmbs_2 is taking over 10 seconds
+2025-11-06 06:51:12.427 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:51:22.430 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:51:27.563 WARNING (MainThread) [homeassistant.components.light.reproduce_state] Color mode color_temp specified but attribute color_temp_kelvin missing for: light.lightstrip_badkamer, using color_temp (mireds) as fallback
+2025-11-06 06:51:32.787 ERROR (MainThread) [homeassistant.components.script.light_bathroom_on] Licht - Badkamer - Aan: Choose at step 3: default: Error executing script. Unexpected error for call_service at pos 1: 'NoneType' object has no attribute 'aps_data_request'
+Traceback (most recent call last):
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 524, in _async_step
+    await getattr(self, handler)()
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 1012, in _async_step_call_service
+    response_data = await self._async_run_long_action(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 624, in _async_run_long_action
+    return await long_task
+           ^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/core.py", line 2835, in async_call
+    response_data = await coro
+                    ^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/core.py", line 2878, in _execute_service
+    return await target(service_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 852, in entity_service_call
+    single_response = await _handle_entity_call(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        hass, entity, func, data, call.context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 924, in _handle_entity_call
+    result = await task
+             ^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/components/scene/__init__.py", line 158, in _async_activate
+    await self.async_activate(**kwargs)
+  File "/usr/src/homeassistant/homeassistant/components/homeassistant/scene.py", line 366, in async_activate
+    await async_reproduce_state(
+    ...<4 lines>...
+    )
+  File "/usr/src/homeassistant/homeassistant/helpers/state.py", line 69, in async_reproduce_state
+    await asyncio.gather(
+        *(worker(domain, data) for domain, data in to_call.items())
+    )
+  File "/usr/src/homeassistant/homeassistant/helpers/state.py", line 63, in worker
+    await platform.async_reproduce_states(
+        hass, states_by_domain, context=context, reproduce_options=reproduce_options
+    )
+  File "/usr/src/homeassistant/homeassistant/components/light/reproduce_state.py", line 178, in async_reproduce_states
+    await asyncio.gather(
+    ...<6 lines>...
+    )
+  File "/usr/src/homeassistant/homeassistant/components/light/reproduce_state.py", line 165, in _async_reproduce_state
+    await hass.services.async_call(
+        DOMAIN, service, service_data, context=context, blocking=True
+    )
+  File "/usr/src/homeassistant/homeassistant/core.py", line 2835, in async_call
+    response_data = await coro
+                    ^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/core.py", line 2878, in _execute_service
+    return await target(service_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 852, in entity_service_call
+    single_response = await _handle_entity_call(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        hass, entity, func, data, call.context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 924, in _handle_entity_call
+    result = await task
+             ^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/components/light/__init__.py", line 651, in async_handle_light_on_service
+    await light.async_turn_on(**filter_turn_on_params(light, params))
+  File "/usr/src/homeassistant/homeassistant/components/zha/helpers.py", line 1383, in handler
+    return await func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/components/zha/light.py", line 184, in async_turn_on
+    await self.entity_data.entity.async_turn_on(
+    ...<6 lines>...
+    )
+  File "/usr/local/lib/python3.13/site-packages/zha/application/platforms/light/__init__.py", line 427, in async_turn_on
+    if not await self.async_handle_color_commands(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    ):
+    ^
+  File "/usr/local/lib/python3.13/site-packages/zha/application/platforms/light/__init__.py", line 572, in async_handle_color_commands
+    result = await self._color_cluster_handler.move_to_color_temp(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )
+    ^
+  File "/usr/local/lib/python3.13/site-packages/zha/zigbee/cluster_handlers/__init__.py", line 88, in wrapper
+    return await RETRYABLE_REQUEST_DECORATOR(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/zigpy/util.py", line 133, in retry
+    return await func()
+           ^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/zigpy/zcl/__init__.py", line 401, in request
+    return await self._endpoint.request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/usr/local/lib/python3.13/site-packages/zigpy/endpoint.py", line 234, in request
+    return await self.device.request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+    )
+    ^
+  File "/usr/local/lib/python3.13/site-packages/zigpy/device.py", line 601, in request
+    await send_request()
+  File "/usr/local/lib/python3.13/site-packages/zigpy/application.py", line 890, in request
+    await self.send_packet(
+    ...<14 lines>...
+    )
+  File "/usr/local/lib/python3.13/site-packages/zigpy_deconz/zigbee/application.py", line 521, in send_packet
+    await self._api.aps_data_request(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'aps_data_request'
+2025-11-06 06:51:32.834 ERROR (MainThread) [homeassistant.components.script.light_bathroom_on] Licht - Badkamer - Aan: Error executing script. Unexpected error for choose at pos 3: 'NoneType' object has no attribute 'aps_data_request'
+Traceback (most recent call last):
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 524, in _async_step
+    await getattr(self, handler)()
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 727, in _async_step_choose
+    await self._async_run_script(choose_data["default"])
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 636, in _async_run_script
+    result = await self._async_run_long_action(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 624, in _async_run_long_action
+    return await long_task
+           ^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 1836, in async_run
+    return await asyncio.shield(create_eager_task(run.async_run()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 460, in async_run
+    await self._async_step(log_exceptions=False)
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 526, in _async_step
+    self._handle_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        ex, continue_on_error, self._log_exceptions or log_exceptions
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 556, in _handle_exception
+    raise exception
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 524, in _async_step
+    await getattr(self, handler)()
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 1012, in _async_step_call_service
+    response_data = await self._async_run_long_action(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 624, in _async_run_long_action
+    return await long_task
+           ^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/core.py", line 2835, in async_call
+    response_data = await coro
+                    ^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/core.py", line 2878, in _execute_service
+    return await target(service_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 852, in entity_service_call
+    single_response = await _handle_entity_call(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        hass, entity, func, data, call.context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 924, in _handle_entity_call
+    result = await task
+             ^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/components/scene/__init__.py", line 158, in _async_activate
+    await self.async_activate(**kwargs)
+  File "/usr/src/homeassistant/homeassistant/components/homeassistant/scene.py", line 366, in async_activate
+    await async_reproduce_state(
+    ...<4 lines>...
+    )
+  File "/usr/src/homeassistant/homeassistant/helpers/state.py", line 69, in async_reproduce_state
+    await asyncio.gather(
+        *(worker(domain, data) for domain, data in to_call.items())
+    )
+  File "/usr/src/homeassistant/homeassistant/helpers/state.py", line 63, in worker
+    await platform.async_reproduce_states(
+        hass, states_by_domain, context=context, reproduce_options=reproduce_options
+    )
+  File "/usr/src/homeassistant/homeassistant/components/light/reproduce_state.py", line 178, in async_reproduce_states
+    await asyncio.gather(
+    ...<6 lines>...
+    )
+  File "/usr/src/homeassistant/homeassistant/components/light/reproduce_state.py", line 165, in _async_reproduce_state
+    await hass.services.async_call(
+        DOMAIN, service, service_data, context=context, blocking=True
+    )
+  File "/usr/src/homeassistant/homeassistant/core.py", line 2835, in async_call
+    response_data = await coro
+                    ^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/core.py", line 2878, in _execute_service
+    return await target(service_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 852, in entity_service_call
+    single_response = await _handle_entity_call(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        hass, entity, func, data, call.context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 924, in _handle_entity_call
+    result = await task
+             ^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/components/light/__init__.py", line 651, in async_handle_light_on_service
+    await light.async_turn_on(**filter_turn_on_params(light, params))
+  File "/usr/src/homeassistant/homeassistant/components/zha/helpers.py", line 1383, in handler
+    return await func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/components/zha/light.py", line 184, in async_turn_on
+    await self.entity_data.entity.async_turn_on(
+    ...<6 lines>...
+    )
+  File "/usr/local/lib/python3.13/site-packages/zha/application/platforms/light/__init__.py", line 427, in async_turn_on
+    if not await self.async_handle_color_commands(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    ):
+    ^
+  File "/usr/local/lib/python3.13/site-packages/zha/application/platforms/light/__init__.py", line 572, in async_handle_color_commands
+    result = await self._color_cluster_handler.move_to_color_temp(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )
+    ^
+  File "/usr/local/lib/python3.13/site-packages/zha/zigbee/cluster_handlers/__init__.py", line 88, in wrapper
+    return await RETRYABLE_REQUEST_DECORATOR(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/zigpy/util.py", line 133, in retry
+    return await func()
+           ^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/zigpy/zcl/__init__.py", line 401, in request
+    return await self._endpoint.request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/usr/local/lib/python3.13/site-packages/zigpy/endpoint.py", line 234, in request
+    return await self.device.request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+    )
+    ^
+  File "/usr/local/lib/python3.13/site-packages/zigpy/device.py", line 601, in request
+    await send_request()
+  File "/usr/local/lib/python3.13/site-packages/zigpy/application.py", line 890, in request
+    await self.send_packet(
+    ...<14 lines>...
+    )
+  File "/usr/local/lib/python3.13/site-packages/zigpy_deconz/zigbee/application.py", line 521, in send_packet
+    await self._api.aps_data_request(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'aps_data_request'
+2025-11-06 06:51:32.879 ERROR (MainThread) [homeassistant] Error doing job: Task exception was never retrieved (None)
+Traceback (most recent call last):
+  File "/usr/src/homeassistant/homeassistant/components/script/__init__.py", line 707, in _async_run
+    return await self.script.async_run(script_vars, context)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 1836, in async_run
+    return await asyncio.shield(create_eager_task(run.async_run()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 460, in async_run
+    await self._async_step(log_exceptions=False)
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 526, in _async_step
+    self._handle_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        ex, continue_on_error, self._log_exceptions or log_exceptions
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 556, in _handle_exception
+    raise exception
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 524, in _async_step
+    await getattr(self, handler)()
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 727, in _async_step_choose
+    await self._async_run_script(choose_data["default"])
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 636, in _async_run_script
+    result = await self._async_run_long_action(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<6 lines>...
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 624, in _async_run_long_action
+    return await long_task
+           ^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 1836, in async_run
+    return await asyncio.shield(create_eager_task(run.async_run()))
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 460, in async_run
+    await self._async_step(log_exceptions=False)
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 526, in _async_step
+    self._handle_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~^
+        ex, continue_on_error, self._log_exceptions or log_exceptions
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 556, in _handle_exception
+    raise exception
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 524, in _async_step
+    await getattr(self, handler)()
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 1012, in _async_step_call_service
+    response_data = await self._async_run_long_action(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/script.py", line 624, in _async_run_long_action
+    return await long_task
+           ^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/core.py", line 2835, in async_call
+    response_data = await coro
+                    ^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/core.py", line 2878, in _execute_service
+    return await target(service_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 852, in entity_service_call
+    single_response = await _handle_entity_call(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        hass, entity, func, data, call.context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 924, in _handle_entity_call
+    result = await task
+             ^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/components/scene/__init__.py", line 158, in _async_activate
+    await self.async_activate(**kwargs)
+  File "/usr/src/homeassistant/homeassistant/components/homeassistant/scene.py", line 366, in async_activate
+    await async_reproduce_state(
+    ...<4 lines>...
+    )
+  File "/usr/src/homeassistant/homeassistant/helpers/state.py", line 69, in async_reproduce_state
+    await asyncio.gather(
+        *(worker(domain, data) for domain, data in to_call.items())
+    )
+  File "/usr/src/homeassistant/homeassistant/helpers/state.py", line 63, in worker
+    await platform.async_reproduce_states(
+        hass, states_by_domain, context=context, reproduce_options=reproduce_options
+    )
+  File "/usr/src/homeassistant/homeassistant/components/light/reproduce_state.py", line 178, in async_reproduce_states
+    await asyncio.gather(
+    ...<6 lines>...
+    )
+  File "/usr/src/homeassistant/homeassistant/components/light/reproduce_state.py", line 165, in _async_reproduce_state
+    await hass.services.async_call(
+        DOMAIN, service, service_data, context=context, blocking=True
+    )
+  File "/usr/src/homeassistant/homeassistant/core.py", line 2835, in async_call
+    response_data = await coro
+                    ^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/core.py", line 2878, in _execute_service
+    return await target(service_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 852, in entity_service_call
+    single_response = await _handle_entity_call(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^
+        hass, entity, func, data, call.context
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/usr/src/homeassistant/homeassistant/helpers/service.py", line 924, in _handle_entity_call
+    result = await task
+             ^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/components/light/__init__.py", line 651, in async_handle_light_on_service
+    await light.async_turn_on(**filter_turn_on_params(light, params))
+  File "/usr/src/homeassistant/homeassistant/components/zha/helpers.py", line 1383, in handler
+    return await func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/src/homeassistant/homeassistant/components/zha/light.py", line 184, in async_turn_on
+    await self.entity_data.entity.async_turn_on(
+    ...<6 lines>...
+    )
+  File "/usr/local/lib/python3.13/site-packages/zha/application/platforms/light/__init__.py", line 427, in async_turn_on
+    if not await self.async_handle_color_commands(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+    ):
+    ^
+  File "/usr/local/lib/python3.13/site-packages/zha/application/platforms/light/__init__.py", line 572, in async_handle_color_commands
+    result = await self._color_cluster_handler.move_to_color_temp(
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )
+    ^
+  File "/usr/local/lib/python3.13/site-packages/zha/zigbee/cluster_handlers/__init__.py", line 88, in wrapper
+    return await RETRYABLE_REQUEST_DECORATOR(func)(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/zigpy/util.py", line 133, in retry
+    return await func()
+           ^^^^^^^^^^^^
+  File "/usr/local/lib/python3.13/site-packages/zigpy/zcl/__init__.py", line 401, in request
+    return await self._endpoint.request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<9 lines>...
+    )
+    ^
+  File "/usr/local/lib/python3.13/site-packages/zigpy/endpoint.py", line 234, in request
+    return await self.device.request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<11 lines>...
+    )
+    ^
+  File "/usr/local/lib/python3.13/site-packages/zigpy/device.py", line 601, in request
+    await send_request()
+  File "/usr/local/lib/python3.13/site-packages/zigpy/application.py", line 890, in request
+    await self.send_packet(
+    ...<14 lines>...
+    )
+  File "/usr/local/lib/python3.13/site-packages/zigpy_deconz/zigbee/application.py", line 521, in send_packet
+    await self._api.aps_data_request(
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'NoneType' object has no attribute 'aps_data_request'

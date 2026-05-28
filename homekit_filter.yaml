@@ -66,8 +66,6 @@ include_entities:
   - switch.hue_smart_plug_4
   - switch.hue_smart_plug_5
   - switch.hue_smart_plug_6
-  - switch.ikea_of_sweden_tretakt_smart_plug_1
-  - switch.ikea_of_sweden_tretakt_smart_plug_2
   - light.hue_white_b22_2
   - input_boolean.vacuum_clean_today
   - input_boolean.kids_wekker
@@ -84,8 +82,11 @@ include_entities:
   - input_select.harmony_hub
   - input_boolean.pre_heat
   - input_boolean.eve_aqua_ec68
+  - binary_sensor.aqara_raamsensor_1
+  - binary_sensor.aqara_raamsensor_2
+  - binary_sensor.aqara_raamsensor_3
+  - binary_sensor.aqara_raamsensor_4
+  - binary_sensor.aqara_raamsensor_5
+  - binary_sensor.aqara_raamsensor_6
 exclude_entities:
   - climate.ons_huisje
-  - climate.airco_trix
-  - climate.airco_elmo
-  - climate.airco_slaapkamer

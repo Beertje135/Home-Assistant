@@ -12,6 +12,13 @@
       - device_tracker.router_iphone_bert
       - device_tracker.router_iphone_caro
 
+  bewoners_tracker:
+    name: Bewoners Tracker
+    icon: mdi:account-multiple
+    entities:
+      - device_tracker.iphone_van_bert
+      - device_tracker.iphone_van_caroline
+
   media_players:
     name: Media Players
     icon: mdi:video-vintage
@@ -50,6 +57,12 @@
       - binary_sensor.ewelink_ds01_01_opening
       - binary_sensor.ewelink_ds01_02_opening
       - binary_sensor.ewelink_ds01_03_opening
+      - binary_sensor.aqara_raamsensor_1
+      - binary_sensor.aqara_raamsensor_2
+      - binary_sensor.aqara_raamsensor_3
+      - binary_sensor.aqara_raamsensor_4
+      - binary_sensor.aqara_raamsensor_5
+      - binary_sensor.aqara_raamsensor_6
 
   computer:
     name: Computer
@@ -102,14 +115,15 @@
     entities:
       - light.hue_white_and_color_ambiance_a19_gen2_2
       - light.hue_white_filament_globe_g125_2
-      - switch.ikea_of_sweden_tretakt_smart_plug_1
+      - light.ikea_of_sweden_tretakt_smart_plug_1
       - climate.airco_trix
 
   licht_slaapkamer2:
     icon: mdi:bed-empty
     entities:
       - light.hue_white_and_color_ambiance_a19_gen2_1
-      - switch.ikea_of_sweden_tretakt_smart_plug_2
+      - light.ikea_of_sweden_tretakt_smart_plug_2
+      - light.ikea_of_sweden_tretakt_smart_plug_3
       - climate.airco_elmo
 
   licht_slaapkamer2_group1:

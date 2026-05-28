@@ -4,11 +4,6 @@
       - binary_sensor
       - calendar
       - device_tracker
-      - input_boolean
-      - input_datetime
-      - input_select
-      - input_text
-      - light
       - sensor
       - switch
       - utility_meter
@@ -27,46 +22,34 @@
     domains:
       - automation
       - script
-      - scene
       - climate
       - group
+      - light
       - media_player
       - person
       - remote
+      - scene
       - vacuum
+      - input_boolean
+      - input_datetime
+      - input_select
+      - input_text
+    entity_globs:
+      - binary_sensor.hue_motion_sensor_*_motion
+      - binary_sensor.hue_outdoor_sensor_*_motion
+      - binary_sensor.ewelink_ds01_*_opening
+      - binary_sensor.airco_*_open_window
+      - switch.hue_smart_plug_*
+      - switch.ikea_of_sweden_tretakt_smart_plug_*
+      - binary_sensor.aqara_raamsensor_*
     entities:
-      - climate.keuken
-      - input_boolean.notify_bert
-      - input_boolean.notify_caro
-      - input_boolean.media_livingroom
-      - input_boolean.media_kitchen
-      - input_boolean.muziek_keuken
-      - input_boolean.muziek_badkamer
-      - input_boolean.muziek_woonkamer
-      - input_boolean.muziek_slaapkamer
-      - input_boolean.eve_aqua_ec68
-      - input_select.harmony_hub
-      - input_boolean.pre_heat
-      - input_select.woning_status
       - binary_sensor.bezoek
-      - binary_sensor.airco_trix_open_window
       - switch.adguard_filtering
       - switch.adguard_parental_control
       - switch.adguard_protection
       - switch.adguard_safe_browsing
       - switch.adguard_safe_search
-      - switch.harmony_hub_alexa
-      - switch.harmony_hub_apple_tv
-      - switch.harmony_hub_nintendo_switch
-      - switch.harmony_hub_tv_decoder
-      - switch.harmony_hub_webos
       - switch.wake_on_lan
-      - switch.hue_smart_plug_1
-      - switch.hue_smart_plug_2
-      - switch.hue_smart_plug_3
-      - switch.hue_smart_plug_4
-      - switch.hue_smart_plug_5
-      - switch.hue_smart_plug_6
       - switch.doorbellback_chime_active
       - switch.doorbellfront_chime_active
 

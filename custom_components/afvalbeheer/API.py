@@ -8,10 +8,10 @@ from homeassistant.components import persistent_notification
 from .const import *
 from .models import WasteCollectionRepository
 from .collectors import (
-    XimmioCollector, BurgerportaalCollector, OpzetCollector,
-    AfvalAlertCollector, AfvalwijzerCollector, CirculusCollector, CleanprofsCollector,
-    DeAfvalAppCollector, LimburgNetCollector, MontferlandNetCollector, OmrinCollector,
-    RD4Collector, RecycleApp, ROVACollector, StraatbeeldCollector
+    XimmioCollector, BurgerportaalCollector, OpzetCollector, KlikogroepCollector,
+    AfvalAlertCollector, AfvalwijzerCollector, AmsterdamCollector, CirculusCollector, CleanprofsCollector,
+    DeAfvalAppCollector, LimburgNetCollector, IradoCollector, MontferlandNetCollector, OmrinCollector,
+    RD4Collector, RecycleApp, ReinisCollector, ROVACollector, StraatbeeldCollector
 )
 
 
@@ -23,7 +23,7 @@ class WasteData(object):
     Manages waste data and schedules updates.
     """
 
-    def __init__(self, hass, waste_collector, city_name, postcode, street_name, street_number, suffix, custom_mapping, address_id, print_waste_type, print_waste_type_slugs, update_interval, customer_id):
+    def __init__(self, hass, waste_collector, city_name, postcode, street_name, street_number, suffix, custom_mapping, address_id, print_waste_type, print_waste_type_slugs, update_interval, customer_id, email=None, password=None):
         self.hass = hass
         self.waste_collector = waste_collector
         self.city_name = city_name
@@ -37,6 +37,8 @@ class WasteData(object):
         self.collector = None
         self.update_interval = update_interval
         self.customer_id = customer_id
+        self.email = email
+        self.password = password
         self.custom_mapping = custom_mapping
         self.__select_collector()
 
@@ -47,20 +49,24 @@ class WasteData(object):
         collector_mapping = {
             **{key: (XimmioCollector, common_args + [self.address_id, self.customer_id]) for key in XIMMIO_COLLECTOR_IDS.keys()},
             "mijnafvalwijzer": (AfvalwijzerCollector, common_args),
-            "afvalstoffendienstkalender": (AfvalwijzerCollector, common_args),
+            # "afvalstoffendienstkalender": (AfvalwijzerCollector, common_args),
             "afvalalert": (AfvalAlertCollector, common_args),
+            "amsterdam": (AmsterdamCollector, common_args),
             "deafvalapp": (DeAfvalAppCollector, common_args),
             "circulus": (CirculusCollector, common_args),
             "limburg.net": (LimburgNetCollector, common_args + [self.street_name, self.city_name]),
+            "irado": (IradoCollector, common_args),
             "montferland": (MontferlandNetCollector, common_args),
-            "omrin": (OmrinCollector, common_args),
+            "omrin": (OmrinCollector, common_args + [self.email, self.password]),
             "recycleapp": (RecycleApp, common_args + [self.street_name]),
+            "reinis": (ReinisCollector, common_args),
             "rd4": (RD4Collector, common_args),
             "cleanprofs": (CleanprofsCollector, common_args),
             "rova": (ROVACollector, common_args),
             "drimmelen": (StraatbeeldCollector, common_args),
             **{key: (BurgerportaalCollector, common_args) for key in BURGERPORTAAL_COLLECTOR_IDS.keys()},
             **{key: (OpzetCollector, common_args) for key in OPZET_COLLECTOR_URLS.keys()},
+            **{key: (KlikogroepCollector, common_args) for key in KLIKOGROEP_COLLECTOR_IDS.keys()},
         }
 
         collector_class, args = collector_mapping.get(self.waste_collector, (None, None))
@@ -121,6 +127,8 @@ def get_wastedata_from_config(hass, config):
     print_waste_type_slugs = config.get(CONF_PRINT_AVAILABLE_WASTE_TYPE_SLUGS)
     update_interval = config.get(CONF_UPDATE_INTERVAL)
     customer_id = config.get(CONF_CUSTOMER_ID)
+    email = config.get(CONF_EMAIL)
+    password = config.get(CONF_PASSWORD)
     custom_mapping = config.get(CONF_CUSTOM_MAPPING)
     config["id"] = _format_id(waste_collector, postcode, street_number)
 
@@ -165,6 +173,8 @@ def get_wastedata_from_config(hass, config):
         print_waste_type_slugs,
         update_interval,
         customer_id,
+        email,
+        password,
     )
 
 

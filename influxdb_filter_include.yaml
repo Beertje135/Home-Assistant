@@ -13,7 +13,19 @@
       - sensor.nutsmeter_*
       - sensor.solaredge_*
       - sensor.elektriciteit_meter_*
+      - sensor.elektriciteit_meter_p1_*
       - group.licht_*
+      - sensor.hue_dimmer_switch_*_power
+      - sensor.hue_motion_sensor_*_light_level
+      - sensor.hue_motion_sensor_*_temperature
+      - sensor.hue_motion_sensor_*_power
+      - sensor.hue_outdoor_sensor_*_light_level
+      - sensor.hue_outdoor_sensor_*_temperature
+      - sensor.hue_outdoor_sensor_*_power
+      - select.zendure_manager_*
+      - sensor.solarflow_2400_*
+      - sensor.ab3000_*
+      - binary_sensor.ab3000_*
     entities:
       - group.bewoners
       - group.bewoners_router
@@ -23,23 +35,9 @@
       - device_tracker.iphone_van_bert
       - device_tracker.iphone_van_caroline
       - sensor.disk_use_percent_home
-      - sensor.hue_motion_sensor_1_light_level
-      - sensor.hue_motion_sensor_2_light_level
-      - sensor.hue_motion_sensor_3_light_level
-      - sensor.hue_motion_sensor_4_light_level
       - sensor.hue_sensor_veranda_light_level
-      - sensor.hue_outdoor_sensor_1_light_level
-      - sensor.hue_outdoor_sensor_2_light_level
-      - sensor.hue_outdoor_sensor_3_light_level
-      - sensor.hue_motion_sensor_1_temperature
-      - sensor.hue_motion_sensor_2_temperature
-      - sensor.hue_motion_sensor_3_temperature
-      - sensor.hue_motion_sensor_4_temperature
       - sensor.hue_sensor_veranda_temperature
       - sensor.hue_sensor_buiten_temperature
-      - sensor.hue_outdoor_sensor_1_temperature
-      - sensor.hue_outdoor_sensor_2_temperature
-      - sensor.hue_outdoor_sensor_3_temperature
       - sensor.memory_use_percent
       - sensor.processor_use
       - sensor.water_meter

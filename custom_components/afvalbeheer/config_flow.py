@@ -12,22 +12,22 @@ from .const import (
     CONF_DATE_OBJECT, CONF_BUILT_IN_ICONS, CONF_BUILT_IN_ICONS_NEW, CONF_DISABLE_ICONS,
     CONF_TRANSLATE_DAYS, CONF_DAY_OF_WEEK, CONF_DAY_OF_WEEK_ONLY, CONF_ALWAYS_SHOW_DAY,
     CONF_STREET_NAME, CONF_CITY_NAME, CONF_ADDRESS_ID, CONF_CUSTOMER_ID, CONF_UPDATE_INTERVAL,
-    CONF_CUSTOM_MAPPING, DEFAULT_CONFIG, XIMMIO_COLLECTOR_IDS
+    CONF_CUSTOM_MAPPING, DEFAULT_CONFIG, XIMMIO_COLLECTOR_IDS, CONF_EMAIL, CONF_PASSWORD
 )
 
 _LOGGER = logging.getLogger(__name__)
 
 WASTE_COLLECTORS = [
     "ACV", "Afval3xBeter", "Afvalstoffendienstkalender", "AfvalAlert",
-    "Almere", "AlphenAanDenRijn", "AreaReiniging", "Assen", "Avalex", "Avri", "BAR",
+    "Almere", "AlphenAanDenRijn", "Amsterdam", "AreaReiniging", "Assen", "Avalex", "Avri", "BAR",
     "Berkelland", "Blink", "Circulus", "Cleanprofs", "Cranendonck",
     "Cyclus", "DAR", "DeAfvalApp", "DeFryskeMarren", "DenHaag", "Drimmelen", "GAD",
-    "Groningen", "Hellendoorn", "HVC", "Limburg.NET", "Lingewaard", "Meerlanden",
+    "Groningen", "Hellendoorn", "HVC", "Irado", "Limburg.NET", "Lingewaard", "Maassluis", "Meerlanden",
     "Middelburg-Vlissingen", "MijnAfvalwijzer", "Mijnafvalzaken", "Montferland",
-    "Montfoort", "Offalkalinder", "Omrin", "PeelEnMaas", "PreZero", "Purmerend",
-    "RAD", "RecycleApp", "RD4", "RWM", "Reinis", "ROVA", "RMN", "Saver",
-    "Schouwen-Duiveland", "Sliedrecht", "Spaarnelanden", "SudwestFryslan",
-    "TwenteMilieu", "Venray", "Voorschoten", "Waalre", "Waardlanden", "Westland",
+    "Montfoort", "Nijkerk", "Offalkalinder", "Omrin", "Oostzaan", "OudeIJsselstreek", "PeelEnMaas", "PreZero",
+    "Purmerend", "RAD", "RecycleApp", "RD4", "RWM", "Reinis", "ROVA", "RMN", "Saver",
+    "Schouwen-Duiveland", "Sliedrecht", "Spaarnelanden", "SudwestFryslan", "Tilburg",
+    "TwenteMilieu", "Uithoorn", "Venlo","Venray", "Voorschoten", "Waalre", "Waardlanden", "Westland",
     "Woerden", "ZRD"
 ]
 
@@ -36,6 +36,11 @@ class AfvalbeheerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     
     VERSION = 3  # Increment this when config structure changes  
     MINOR_VERSION = 1
+    
+    def __init__(self):
+        super().__init__()
+        self._custom_mapping = {}
+        self._omrin_credentials = {}
     
 
     async def async_step_import(self, import_config):
@@ -238,9 +243,104 @@ class AfvalbeheerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             self._address_input = {CONF_WASTE_COLLECTOR: self._collector, **user_input}
-            return await self.async_step_resources()
+            if self._collector == "Omrin":
+                return await self.async_step_omrin_credentials()
+            return await self.async_step_mapping()
         return self.async_show_form(
             step_id="address",
+            data_schema=vol.Schema(schema_dict),
+            errors=errors,
+        )
+
+    async def async_step_omrin_credentials(self, user_input=None):
+        """Optional credentials step for Omrin users (enables diftar data)."""
+        errors = {}
+        if user_input is not None:
+            self._omrin_credentials = user_input
+            return await self.async_step_mapping()
+
+        schema_dict = {
+            vol.Optional(CONF_EMAIL, default=""): selector.TextSelector(
+                selector.TextSelectorConfig(type=selector.TextSelectorType.EMAIL)
+            ),
+            vol.Optional(CONF_PASSWORD, default=""): selector.TextSelector(
+                selector.TextSelectorConfig(type=selector.TextSelectorType.PASSWORD)
+            ),
+        }
+
+        return self.async_show_form(
+            step_id="omrin_credentials",
+            data_schema=vol.Schema(schema_dict),
+            errors=errors,
+        )
+
+    async def async_step_mapping(self, user_input=None):
+        """Handle the custom mapping step."""
+        errors = {}
+        
+        if user_input is not None:
+            # Check if user wants to use custom mapping
+            use_custom_mapping = user_input.get("use_custom_mapping", False)
+            
+            if use_custom_mapping and CONF_CUSTOM_MAPPING in user_input:
+                # Validate and parse custom mapping JSON
+                try:
+                    mapping_str = user_input[CONF_CUSTOM_MAPPING].strip()
+                    if mapping_str == "":
+                        self._custom_mapping = {}
+                    else:
+                        self._custom_mapping = json.loads(mapping_str)
+                except json.JSONDecodeError:
+                    errors["base"] = "invalid_custom_mapping"
+                    
+                    # Re-show form with error
+                    schema_dict = {
+                        vol.Required("use_custom_mapping", default=True): selector.BooleanSelector(),
+                        vol.Optional(CONF_CUSTOM_MAPPING, default=mapping_str): selector.TextSelector(
+                            selector.TextSelectorConfig(
+                                multiline=True,
+                                type=selector.TextSelectorType.TEXT
+                            )
+                        ),
+                    }
+                    
+                    return self.async_show_form(
+                        step_id="mapping",
+                        data_schema=vol.Schema(schema_dict),
+                        errors=errors,
+                    )
+            elif use_custom_mapping and CONF_CUSTOM_MAPPING not in user_input:
+                # User wants custom mapping but form doesn't have the field yet
+                # Show the form with the custom mapping field
+                schema_dict = {
+                    vol.Required("use_custom_mapping", default=True): selector.BooleanSelector(),
+                    vol.Optional(CONF_CUSTOM_MAPPING, default="{}"): selector.TextSelector(
+                        selector.TextSelectorConfig(
+                            multiline=True,
+                            type=selector.TextSelectorType.TEXT
+                        )
+                    ),
+                }
+                
+                return self.async_show_form(
+                    step_id="mapping",
+                    data_schema=vol.Schema(schema_dict),
+                    errors=errors,
+                )
+            else:
+                # No custom mapping
+                self._custom_mapping = {}
+            
+            # Proceed to resource selection
+            return await self.async_step_resources()
+        
+        # Show the initial custom mapping form
+        schema_dict = {
+            vol.Required("use_custom_mapping", default=False): selector.BooleanSelector(),
+        }
+        
+        return self.async_show_form(
+            step_id="mapping",
             data_schema=vol.Schema(schema_dict),
             errors=errors,
         )
@@ -248,7 +348,11 @@ class AfvalbeheerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_resources(self, user_input=None):
         errors = {}
         address = self._address_input
-        result = await self._async_get_available_resources(address)
+        
+        # Get custom mapping if it was set in previous step
+        custom_mapping = getattr(self, '_custom_mapping', {})
+        
+        result = await self._async_get_available_resources(address, custom_mapping)
         
         if result["error"]:
             error_map = {
@@ -265,24 +369,14 @@ class AfvalbeheerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         is_ximmio_collector = collector_lower in XIMMIO_COLLECTOR_IDS
         
         if user_input is not None:
-            # Validate and parse custom mapping JSON
-            if CONF_CUSTOM_MAPPING in user_input:
-                try:
-                    mapping_str = user_input[CONF_CUSTOM_MAPPING].strip()
-                    if mapping_str == "":
-                        user_input[CONF_CUSTOM_MAPPING] = {}
-                    else:
-                        user_input[CONF_CUSTOM_MAPPING] = json.loads(mapping_str)
-                except json.JSONDecodeError:
-                    errors["base"] = "invalid_custom_mapping"
-                    return self.async_show_form(
-                        step_id="resources",
-                        data_schema=vol.Schema(schema_dict),
-                        errors=errors,
-                    )
-            
             if not errors:
                 data = {**self._address_input, **user_input}
+                # Add custom mapping to data
+                data[CONF_CUSTOM_MAPPING] = custom_mapping
+                # Add Omrin credentials if provided
+                omrin_creds = getattr(self, '_omrin_credentials', {})
+                if omrin_creds:
+                    data.update(omrin_creds)
                 # Generate unique ID for this configuration entry
                 data[CONF_ID] = str(uuid.uuid4())
                 return self.async_create_entry(
@@ -346,21 +440,13 @@ class AfvalbeheerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 vol.Optional(CONF_CUSTOMER_ID, default=DEFAULT_CONFIG[CONF_CUSTOMER_ID]): selector.TextSelector(),
             })
         
-        # Custom mapping - show as textarea for JSON input
-        schema_dict[vol.Optional(CONF_CUSTOM_MAPPING, default="{}")] = selector.TextSelector(
-            selector.TextSelectorConfig(
-                multiline=True,
-                type=selector.TextSelectorType.TEXT
-            )
-        )
-        
         return self.async_show_form(
             step_id="resources",
             data_schema=vol.Schema(schema_dict),
             errors=errors,
         )
 
-    async def _async_get_available_resources(self, address):        
+    async def _async_get_available_resources(self, address, custom_mapping=None):        
         try:
             from .API import get_wastedata_from_config
         except ImportError as e:
@@ -373,6 +459,7 @@ class AfvalbeheerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             CONF_STREET_NUMBER: address[CONF_STREET_NUMBER],
             CONF_SUFFIX: address.get(CONF_SUFFIX, ""),
             CONF_RESOURCES: ["restafval"],
+            CONF_CUSTOM_MAPPING: custom_mapping or {},
         }
         collector_lower = address[CONF_WASTE_COLLECTOR].lower()
         if collector_lower == "limburg.net":
@@ -396,6 +483,15 @@ class AfvalbeheerConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                               address[CONF_WASTE_COLLECTOR], address[CONF_POSTCODE], address[CONF_STREET_NUMBER])
                 return {"error": "no_resources", "resources": []}
             
+            # Apply custom mapping to resources if provided
+            if custom_mapping:
+                mapped_resources = []
+                for resource in resources:
+                    # If there's a mapping for this resource, use the mapped name
+                    mapped_name = custom_mapping.get(resource, resource)
+                    mapped_resources.append(mapped_name)
+                resources = mapped_resources
+            
             _LOGGER.debug("Found %d waste types for %s: %s", len(resources), address[CONF_WASTE_COLLECTOR], resources)
             return {"error": None, "resources": resources}
             
@@ -413,6 +509,8 @@ class AfvalbeheerOptionsFlowHandler(config_entries.OptionsFlow):
     def __init__(self):
         self._collector = None
         self._address_input = {}
+        self._custom_mapping = {}
+        self._omrin_credentials = {}
 
     @property
     def config_entry(self):
@@ -463,16 +561,127 @@ class AfvalbeheerOptionsFlowHandler(config_entries.OptionsFlow):
 
         if user_input is not None:
             self._address_input = {CONF_WASTE_COLLECTOR: self._collector, **user_input}
-            return await self.async_step_resources()
+            if self._collector == "Omrin":
+                return await self.async_step_omrin_credentials()
+            return await self.async_step_mapping()
 
         return self.async_show_form(step_id="address", data_schema=vol.Schema(schema_dict))
 
+    async def async_step_omrin_credentials(self, user_input=None):
+        """Optional credentials step for Omrin users."""
+        errors = {}
+        current = {**self.config_entry.data, **self.config_entry.options}
+
+        if user_input is not None:
+            self._omrin_credentials = user_input
+            return await self.async_step_mapping()
+
+        schema_dict = {
+            vol.Optional(CONF_EMAIL, default=current.get(CONF_EMAIL, "")): selector.TextSelector(
+                selector.TextSelectorConfig(type=selector.TextSelectorType.EMAIL)
+            ),
+            vol.Optional(CONF_PASSWORD, default=current.get(CONF_PASSWORD, "")): selector.TextSelector(
+                selector.TextSelectorConfig(type=selector.TextSelectorType.PASSWORD)
+            ),
+        }
+
+        return self.async_show_form(
+            step_id="omrin_credentials",
+            data_schema=vol.Schema(schema_dict),
+            errors=errors,
+        )
+
+    async def async_step_mapping(self, user_input=None):
+        """Handle the custom mapping step for options flow."""
+        errors = {}
+        current = {**self.config_entry.data, **self.config_entry.options}
+        
+        if user_input is not None:
+            # Check if user wants to use custom mapping
+            use_custom_mapping = user_input.get("use_custom_mapping", False)
+            
+            if use_custom_mapping and CONF_CUSTOM_MAPPING in user_input:
+                # Validate and parse custom mapping JSON
+                try:
+                    mapping_str = user_input[CONF_CUSTOM_MAPPING].strip()
+                    if mapping_str == "":
+                        self._custom_mapping = {}
+                    else:
+                        self._custom_mapping = json.loads(mapping_str)
+                except json.JSONDecodeError:
+                    errors["base"] = "invalid_custom_mapping"
+                    
+                    # Re-show form with error
+                    schema_dict = {
+                        vol.Required("use_custom_mapping", default=True): selector.BooleanSelector(),
+                        vol.Optional(CONF_CUSTOM_MAPPING, default=mapping_str): selector.TextSelector(
+                            selector.TextSelectorConfig(
+                                multiline=True,
+                                type=selector.TextSelectorType.TEXT
+                            )
+                        ),
+                    }
+                    
+                    return self.async_show_form(
+                        step_id="mapping",
+                        data_schema=vol.Schema(schema_dict),
+                        errors=errors,
+                    )
+            elif use_custom_mapping and CONF_CUSTOM_MAPPING not in user_input:
+                # User wants custom mapping but form doesn't have the field yet
+                current_mapping = current.get(CONF_CUSTOM_MAPPING, {})
+                if isinstance(current_mapping, dict):
+                    current_mapping_str = json.dumps(current_mapping, indent=2) if current_mapping else "{}"
+                else:
+                    current_mapping_str = str(current_mapping)
+                    
+                # Show the form with the custom mapping field
+                schema_dict = {
+                    vol.Required("use_custom_mapping", default=True): selector.BooleanSelector(),
+                    vol.Optional(CONF_CUSTOM_MAPPING, default=current_mapping_str): selector.TextSelector(
+                        selector.TextSelectorConfig(
+                            multiline=True,
+                            type=selector.TextSelectorType.TEXT
+                        )
+                    ),
+                }
+                
+                return self.async_show_form(
+                    step_id="mapping",
+                    data_schema=vol.Schema(schema_dict),
+                    errors=errors,
+                )
+            else:
+                # No custom mapping
+                self._custom_mapping = {}
+            
+            # Proceed to resource selection
+            return await self.async_step_resources()
+        
+        # Check if we have existing custom mapping
+        current_mapping = current.get(CONF_CUSTOM_MAPPING, {})
+        has_current_mapping = bool(current_mapping)
+        
+        # Show the initial custom mapping form
+        schema_dict = {
+            vol.Required("use_custom_mapping", default=has_current_mapping): selector.BooleanSelector(),
+        }
+        
+        return self.async_show_form(
+            step_id="mapping",
+            data_schema=vol.Schema(schema_dict),
+            errors=errors,
+        )
+
     async def async_step_resources(self, user_input=None):
         errors = {}
+        # Get custom mapping if it was set in previous step
+        custom_mapping = getattr(self, '_custom_mapping', {})
+        
         # Create a temporary instance to access the shared helper method
         temp_flow = AfvalbeheerConfigFlow()
         temp_flow.hass = self.hass
-        result = await temp_flow._async_get_available_resources(self._address_input)
+        result = await temp_flow._async_get_available_resources(self._address_input, custom_mapping)
         
         if result["error"]:
             error_map = {
@@ -508,19 +717,20 @@ class AfvalbeheerOptionsFlowHandler(config_entries.OptionsFlow):
             current[CONF_RESOURCES] = matched_resources
 
         if user_input is not None:
-            # Validate and parse custom mapping JSON
-            if CONF_CUSTOM_MAPPING in user_input:
-                try:
-                    mapping_str = user_input[CONF_CUSTOM_MAPPING].strip()
-                    if mapping_str == "":
-                        user_input[CONF_CUSTOM_MAPPING] = {}
-                    else:
-                        user_input[CONF_CUSTOM_MAPPING] = json.loads(mapping_str)
-                except json.JSONDecodeError:
-                    errors["base"] = "invalid_custom_mapping"
-                    
             if not errors:
                 data = {**self._address_input, **user_input}
+                # Add custom mapping to data
+                data[CONF_CUSTOM_MAPPING] = custom_mapping
+                # Add Omrin credentials if provided
+                omrin_creds = getattr(self, '_omrin_credentials', {})
+                if omrin_creds:
+                    data.update(omrin_creds)
+                
+                # Check if custom mapping changed and clean up old entities if needed
+                old_mapping = self.config_entry.options.get(CONF_CUSTOM_MAPPING, self.config_entry.data.get(CONF_CUSTOM_MAPPING, {}))
+                if old_mapping != custom_mapping:
+                    await self._cleanup_entities_on_mapping_change(old_mapping, custom_mapping)
+                
                 return self.async_create_entry(title="", data=data)
 
         # Build schema with conditional fields
@@ -575,22 +785,97 @@ class AfvalbeheerOptionsFlowHandler(config_entries.OptionsFlow):
                 vol.Optional(CONF_CUSTOMER_ID, default=current.get(CONF_CUSTOMER_ID, DEFAULT_CONFIG[CONF_CUSTOMER_ID])): selector.TextSelector(),
             })
         
-        # Custom mapping - show as textarea for JSON input
-        current_mapping = current.get(CONF_CUSTOM_MAPPING, DEFAULT_CONFIG[CONF_CUSTOM_MAPPING])
-        if isinstance(current_mapping, dict):
-            current_mapping_str = json.dumps(current_mapping, indent=2) if current_mapping else "{}"
-        else:
-            current_mapping_str = str(current_mapping)
-            
-        schema_dict[vol.Optional(CONF_CUSTOM_MAPPING, default=current_mapping_str)] = selector.TextSelector(
-            selector.TextSelectorConfig(
-                multiline=True,
-                type=selector.TextSelectorType.TEXT
-            )
-        )
+        # Custom mapping is now handled in the mapping step
 
         return self.async_show_form(
             step_id="resources",
             data_schema=vol.Schema(schema_dict),
             errors=errors,
         )
+    
+    async def _cleanup_entities_on_mapping_change(self, old_mapping, new_mapping):
+        """Clean up entities when custom mapping changes."""
+        from homeassistant.helpers import entity_registry as er
+        
+        # Only clean up if mapping actually changed
+        if old_mapping == new_mapping:
+            return
+            
+        _LOGGER.info("Custom mapping changed from %s to %s, cleaning up old entities", old_mapping, new_mapping)
+        
+        entity_registry = er.async_get(self.hass)
+        current_config = {**self.config_entry.data, **self.config_entry.options}
+        
+        # Find entities that belong to this config entry
+        entities_to_remove = []
+        for entity in entity_registry.entities.values():
+            if (entity.domain == "sensor" and 
+                entity.platform == DOMAIN and 
+                entity.config_entry_id == self.config_entry.entry_id):
+                
+                # Check if this entity was created with old custom mapping
+                should_remove = self._entity_uses_old_mapping(entity, old_mapping, new_mapping, current_config)
+                if should_remove:
+                    entities_to_remove.append(entity.entity_id)
+                    _LOGGER.info("Marking entity for removal: %s (unique_id: %s)", entity.entity_id, entity.unique_id)
+        
+        # Remove the entities
+        removed_count = 0
+        for entity_id in entities_to_remove:
+            try:
+                _LOGGER.info("Removing entity with old custom mapping: %s", entity_id)
+                entity_registry.async_remove(entity_id)
+                removed_count += 1
+            except Exception as e:
+                _LOGGER.error("Failed to remove entity %s: %s", entity_id, e)
+        
+        if removed_count > 0:
+            _LOGGER.info("Removed %d entities due to custom mapping change", removed_count)
+            # Small delay to ensure registry is updated
+            import asyncio
+            await asyncio.sleep(0.1)
+    
+    def _entity_uses_old_mapping(self, entity, old_mapping, new_mapping, current_config):
+        """Check if an entity was created using old custom mapping."""
+        # If there was no old mapping, don't remove anything
+        if not old_mapping:
+            return False
+            
+        # If new mapping is the same as old, don't remove
+        if old_mapping == new_mapping:
+            return False
+            
+        # If custom mapping was completely removed (new_mapping is empty),
+        # remove all entities that were created with custom mapping
+        if not new_mapping:
+            # Check if entity name/unique_id contains any old mapped values
+            entity_name_lower = entity.entity_id.lower()
+            unique_id_lower = (entity.unique_id or "").lower()
+            
+            for original_type, mapped_name in old_mapping.items():
+                mapped_name_formatted = mapped_name.lower().replace(" ", "_").replace("-", "_")
+                # If the entity contains the old custom mapped name, it should be removed
+                if (mapped_name_formatted in entity_name_lower or 
+                    mapped_name_formatted in unique_id_lower):
+                    return True
+        else:
+            # Custom mapping changed - check if this specific entity's mapping changed
+            entity_name_lower = entity.entity_id.lower() 
+            unique_id_lower = (entity.unique_id or "").lower()
+            
+            for original_type, old_mapped_name in old_mapping.items():
+                old_mapped_formatted = old_mapped_name.lower().replace(" ", "_").replace("-", "_")
+                
+                # If this entity was created with the old mapping for this waste type
+                if (old_mapped_formatted in entity_name_lower or 
+                    old_mapped_formatted in unique_id_lower):
+                    
+                    # Check if the mapping for this waste type changed
+                    new_mapped_name = new_mapping.get(original_type, original_type)
+                    new_mapped_formatted = new_mapped_name.lower().replace(" ", "_").replace("-", "_")
+                    
+                    # If the mapping changed, remove the old entity
+                    if old_mapped_formatted != new_mapped_formatted:
+                        return True
+        
+        return False
