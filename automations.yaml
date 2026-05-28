@@ -994,21 +994,19 @@
   alias: 'Stofzuiger: Dusty - Starten'
   description: Start Dusty wanneer aan alle voorwaarden (opdracht, afwezigheid, gedockt
     en licht) is voldaan.
-  mode: single
-  max_exceeded: silent
-  trigger:
-  - platform: state
-    entity_id: input_boolean.vacuum_clean_today
+  triggers:
+  - entity_id: input_boolean.vacuum_clean_today
     to: 'on'
-  - platform: state
-    entity_id: input_select.woning_status
+    trigger: state
+  - entity_id: input_select.woning_status
     to: Weg
     for: 01:30:00
-  - platform: numeric_state
-    entity_id: sensor.hue_motion_sensor_2_light_level
+    trigger: state
+  - entity_id: sensor.hue_motion_sensor_2_light_level
     above: 10
     for: 00:04:00
-  condition:
+    trigger: numeric_state
+  conditions:
   - condition: state
     entity_id: input_boolean.vacuum_clean_today
     state: 'on'
@@ -1021,10 +1019,12 @@
   - condition: numeric_state
     entity_id: sensor.hue_motion_sensor_2_light_level
     above: 10
-  action:
-  - action: script.turn_on
+  actions:
+  - action: vacuum.start
     target:
-      entity_id: script.dusty_on
+      entity_id: vacuum.dusty
+  mode: single
+  max_exceeded: silent
 - id: vacuum_007
   alias: 'Stofzuiger: Dusty - Opdracht Inplannen'
   description: Zet de schoonmaak-boolean op 'on' wanneer Bert of Caro op het werk
@@ -9954,8 +9954,8 @@
 - id: '1779709809010'
   alias: 'HVAC: Centraal - Modus Manager'
   description: Bepaalt ALTIJD de hoofdmodus van de woning (Koelen, Verwarmen of Verluchten)
-    op basis van temperatuurverschillen. Triggered bij wijzigingen, maar voert acties
-    alleen uit als de modus daadwerkelijk verandert.
+    op basis van temperatuurverschillen. Schakelt de booleans om; de template-sensor  volgt
+    automatisch.
   triggers:
   - trigger: time
     at: 06:00:00
@@ -9973,7 +9973,7 @@
       t_buiten: '{{ states(''sensor.hue_sensor_buiten_temperature'') | float(20) }}'
       t_binnen: '{{ state_attr(''climate.ons_huisje'', ''current_temperature'') |
         float(21) }}'
-      huidige_modus: '{{ states(''input_select.woning_hvac_modus'') }}'
+      huidige_modus: '{{ states(''sensor.woning_hvac_modus'') }}'
       berekende_modus: "{% if t_binnen > 22.0 and (t_buiten >= t_binnen or (t_binnen
         - t_buiten) < 3.0) %}\n  Koelen\n{% elif is_state('input_boolean.zon_verwarming_blokkade',
         'off') and not is_state('sensor.season', 'summer') and t_buiten < (t_binnen
@@ -9992,11 +9992,6 @@
       - action: input_boolean.turn_on
         target:
           entity_id: input_boolean.hvac_koeling_aan_uit
-      - action: input_select.select_option
-        target:
-          entity_id: input_select.woning_hvac_modus
-        data:
-          option: Koelen
     - conditions:
       - condition: template
         value_template: '{{ berekende_modus == ''Verwarmen'' }}'
@@ -10007,22 +10002,12 @@
       - action: input_boolean.turn_on
         target:
           entity_id: input_boolean.heating
-      - action: input_select.select_option
-        target:
-          entity_id: input_select.woning_hvac_modus
-        data:
-          option: Verwarmen
     default:
     - action: input_boolean.turn_off
       target:
         entity_id:
         - input_boolean.hvac_koeling_aan_uit
         - input_boolean.heating
-    - action: input_select.select_option
-      target:
-        entity_id: input_select.woning_hvac_modus
-      data:
-        option: Verluchten
 - id: '1779712395054'
   alias: 'HVAC: Centraal - Pre-Condition Systeem Manager'
   description: Regelt het klimaat (Evohome bij verwarmen, Airco's bij koelen) wanneer

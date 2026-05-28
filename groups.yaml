@@ -35,21 +35,6 @@
       - media_player.apple_homepod_mini_wit_2
       - media_player.apple_homepod_mini_wit_3
 
-  heating:
-    name: Verwarmen
-    icon: mdi:heat-wave
-    entities:
-      - input_boolean.heating
-      - input_boolean.pre_heat
-
-  cooling:
-    name: Koelen
-    icon: mdi:snowflake-alert
-    entities:
-      - input_boolean.cooling_downstairs
-      - input_boolean.cooling_upstairs
-      - input_boolean.cooling_attic
-
   windows:
     name: Ramen
     icon: mdi:window-closed-variant
