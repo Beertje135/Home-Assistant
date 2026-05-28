@@ -8385,3 +8385,1173 @@
     continue_on_error: true
   mode: single
   max_exceeded: silent
+- id: '1779962284052'
+  alias: 'Licht: Dressing - Centraal Beheer'
+  description: 'Combineert alle dressing-automatiseringen: Aan op beweging, Uit na
+    1 minuut,  Altijd Aan (Boolean + 45min Auto-Reset) en updates bij de status Slapen.'
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.hue_motion_sensor_1_motion
+    to: 'on'
+    id: beweging_aan
+  - trigger: state
+    entity_id: binary_sensor.hue_motion_sensor_1_motion
+    to: 'off'
+    for: 00:01:00
+    id: beweging_uit
+  - trigger: state
+    entity_id: input_boolean.light_dressing_stay_on
+    id: stay_on_toggle
+  - trigger: state
+    entity_id: binary_sensor.hue_motion_sensor_1_motion
+    to: 'off'
+    for: 00:45:00
+    id: stay_on_autoreset
+  - trigger: state
+    entity_id: input_select.woning_status
+    to: Slapen
+    id: status_slapen
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''beweging_aan'' }}'
+      - condition: numeric_state
+        entity_id: sensor.hue_motion_sensor_1_light_level
+        below: 45
+      - condition: template
+        value_template: '{{ states(''input_select.woning_status'') not in [''Juist
+          Weg'', ''Weg'', ''Op Vakantie''] }}'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: light.hue_white_filament_bulb_g93_1
+          state: 'off'
+        - condition: state
+          entity_id: light.hue_white_filament_bulb_g93_2
+          state: 'off'
+        - condition: state
+          entity_id: light.hue_white_filament_bulb_g93_3
+          state: 'off'
+      sequence:
+      - action: script.turn_on
+        target:
+          entity_id: script.light_dressing_on
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''beweging_uit'' }}'
+      - condition: state
+        entity_id: input_boolean.light_dressing_stay_on
+        state: 'off'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: light.hue_white_filament_bulb_g93_1
+          state: 'on'
+        - condition: state
+          entity_id: light.hue_white_filament_bulb_g93_2
+          state: 'on'
+        - condition: state
+          entity_id: light.hue_white_filament_bulb_g93_3
+          state: 'on'
+      sequence:
+      - action: scene.turn_on
+        target:
+          entity_id: scene.dressing_uit
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''stay_on_toggle'' }}'
+      sequence:
+      - action: scene.turn_on
+        target:
+          entity_id: "{% if is_state('input_boolean.light_dressing_stay_on', 'on')
+            %}\n  scene.dressing_normaal\n{% else %}\n  scene.dressing_uit\n{% endif
+            %}"
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''stay_on_autoreset'' }}'
+      - condition: state
+        entity_id: input_boolean.light_dressing_stay_on
+        state: 'on'
+      sequence:
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.light_dressing_stay_on
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''status_slapen'' }}'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: light.hue_white_filament_bulb_g93_1
+          state: 'on'
+        - condition: state
+          entity_id: light.hue_white_filament_bulb_g93_2
+          state: 'on'
+        - condition: state
+          entity_id: light.hue_white_filament_bulb_g93_3
+          state: 'on'
+      sequence:
+      - action: script.turn_on
+        target:
+          entity_id: script.light_dressing_on
+  mode: queued
+  max: 10
+- id: '1779962402856'
+  alias: 'Licht: Bureau - Centraal Beheer'
+  description: 'Combineert de bureau-automatiseringen: Aan op beweging (indien donker
+    genoeg en thuis)  en Uit na 10 minuten geen beweging.'
+  triggers:
+  - trigger: state
+    entity_id: binary_sensor.hue_motion_sensor_4_motion
+    to: 'on'
+    id: beweging_aan
+  - trigger: state
+    entity_id: binary_sensor.hue_motion_sensor_4_motion
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 10
+      seconds: 0
+    id: beweging_uit
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''beweging_aan'' }}'
+      - condition: numeric_state
+        entity_id: sensor.hue_motion_sensor_4_light_level
+        below: 70
+      - condition: state
+        entity_id: light.hue_white_b22_1
+        state: 'off'
+      - condition: template
+        value_template: '{{ states(''input_select.woning_status'') not in [''Juist
+          Weg'', ''Weg'', ''Op Vakantie''] }}'
+      sequence:
+      - action: script.turn_on
+        target:
+          entity_id: script.light_bureau_on
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''beweging_uit'' }}'
+      - condition: state
+        entity_id: light.hue_white_b22_1
+        state: 'on'
+      sequence:
+      - action: scene.turn_on
+        target:
+          entity_id: scene.bureau_uit
+  mode: queued
+  max: 10
+- id: '1779962621052'
+  alias: 'Licht: Keuken - Centraal Beheer'
+  description: Master-automatisering voor de keuken. Combineert Basis-aan, Motion-aan,  de
+    reguliere uitschakeling (15 min) en de snelle nacht/afwezigheids-uitschakeling
+    (1 min).
+  triggers:
+  - trigger: state
+    entity_id: input_select.woning_status
+    id: trigger_basis_aan
+  - trigger: state
+    entity_id: input_boolean.light_downstairs
+    to: 'on'
+    id: trigger_basis_aan
+  - trigger: state
+    entity_id:
+    - input_boolean.media_kitchen
+    - input_boolean.media_livingroom
+    to: 'on'
+    for: 00:00:35
+    id: trigger_basis_aan
+  - trigger: state
+    entity_id:
+    - input_boolean.media_kitchen
+    - input_boolean.media_livingroom
+    to: 'off'
+    for: 00:00:05
+    id: trigger_basis_aan
+  - trigger: state
+    entity_id: remote.harmony_hub
+    attribute: current_activity
+    id: trigger_basis_aan
+  - trigger: state
+    entity_id: binary_sensor.hue_motion_sensor_2_motion
+    to: 'on'
+    id: trigger_motion_aan
+  - trigger: numeric_state
+    entity_id: sensor.hue_motion_sensor_2_light_level
+    below: 105
+    id: trigger_motion_aan
+  - trigger: state
+    entity_id: binary_sensor.hue_motion_sensor_2_motion
+    to: 'off'
+    for: 00:15:00
+    id: trigger_uit_normaal
+  - trigger: numeric_state
+    entity_id: sensor.hue_motion_sensor_2_light_level
+    above: 90
+    id: trigger_uit_normaal
+  - trigger: state
+    entity_id: input_boolean.light_downstairs
+    to: 'off'
+    id: trigger_uit_normaal
+  - trigger: state
+    entity_id: input_boolean.media_livingroom
+    to: 'off'
+    for: 00:00:05
+    id: trigger_uit_normaal
+  - trigger: state
+    entity_id: binary_sensor.hue_motion_sensor_2_motion
+    to: 'off'
+    for: 00:01:00
+    id: trigger_uit_nacht
+  - trigger: state
+    entity_id: light.lightstrip_keuken
+    to: 'on'
+    for: 00:05:00
+    id: trigger_uit_nacht
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''trigger_basis_aan'' }}'
+      - condition: numeric_state
+        entity_id: sensor.hue_motion_sensor_2_light_level
+        below: 105
+      - condition: state
+        entity_id: input_boolean.light_downstairs
+        state: 'on'
+      - condition: template
+        value_template: '{{ states(''input_select.woning_status'') not in [''Juist
+          Weg'', ''Weg'', ''Op Vakantie''] }}'
+      sequence:
+      - action: script.turn_on
+        target:
+          entity_id: script.light_kitchen_on
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''trigger_motion_aan'' }}'
+      - condition: numeric_state
+        entity_id: sensor.hue_motion_sensor_2_light_level
+        below: 105
+      - condition: state
+        entity_id: binary_sensor.hue_motion_sensor_2_motion
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.light_downstairs
+        state: 'on'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: group.licht_keuken
+          state: 'off'
+        - condition: numeric_state
+          entity_id: light.lightstrip_keuken
+          attribute: brightness
+          below: 250
+      sequence:
+      - action: script.turn_on
+        target:
+          entity_id: script.light_kitchen_on
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''trigger_uit_normaal'' }}'
+      - condition: state
+        entity_id: group.licht_keuken
+        state: 'on'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.hue_motion_sensor_2_motion
+          state: 'off'
+          for: 00:01:00
+        - condition: state
+          entity_id: input_boolean.light_downstairs
+          state: 'off'
+      - condition: template
+        value_template: '{{ states(''input_select.woning_status'') not in [''Slapen'',
+          ''Juist Weg'', ''Weg'', ''Op Vakantie''] }}'
+      sequence:
+      - action: light.turn_off
+        target:
+          entity_id: light.lightstrip_keuken
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''trigger_uit_nacht'' }}'
+      - condition: template
+        value_template: '{{ states(''input_select.woning_status'') in [''Slapen'',
+          ''Juist Weg'', ''Weg'', ''Op Vakantie''] }}'
+      sequence:
+      - action: light.turn_off
+        target:
+          entity_id: light.lightstrip_keuken
+  mode: queued
+  max: 10
+- id: '1779962879182'
+  alias: 'Licht: Tuin - Centraal Beheer'
+  description: 'Combineert alle tuin-automatiseringen: Stay-On Reset, Sfeerlicht (Deel)
+    Aan/Uit,  en Volledige tuinverlichting (Alles) Aan/Uit met seizoens- en kerstlogica.'
+  triggers:
+  - trigger: state
+    entity_id: input_select.woning_status
+    to:
+    - Weg
+    - Op Vakantie
+    id: trigger_stayon_reset
+  - trigger: state
+    entity_id: input_select.woning_status
+    to: Slapen
+    for: 00:03:00
+    id: trigger_stayon_reset
+  - trigger: state
+    entity_id: input_boolean.light_garden_stay_on
+    to: 'on'
+    for: 05:00:00
+    id: trigger_stayon_reset
+  - trigger: state
+    entity_id: input_boolean.sun_up_down
+    to: 'on'
+    id: trigger_stayon_reset
+  - trigger: state
+    entity_id:
+    - binary_sensor.hue_outdoor_sensor_1_motion
+    - binary_sensor.hue_outdoor_sensor_2_motion
+    - binary_sensor.hue_outdoor_sensor_3_motion
+    - binary_sensor.aqara_raamsensor_5
+    to: 'on'
+    id: trigger_alles_aan
+  - trigger: state
+    entity_id: input_boolean.light_garden_stay_on
+    to: 'on'
+    id: trigger_alles_aan
+  - trigger: state
+    entity_id: input_select.woning_status
+    to: Slapen
+    for: 00:05:00
+    id: trigger_alles_uit
+  - trigger: numeric_state
+    entity_id: sensor.hue_outdoor_sensor_3_light_level
+    above: 10
+    id: trigger_alles_uit
+  - trigger: state
+    entity_id:
+    - binary_sensor.hue_outdoor_sensor_1_motion
+    - binary_sensor.hue_outdoor_sensor_3_motion
+    to: 'off'
+    for: 00:06:00
+    id: trigger_alles_uit
+  - trigger: state
+    entity_id: binary_sensor.hue_outdoor_sensor_2_motion
+    to: 'off'
+    for: 00:16:00
+    id: trigger_alles_uit
+  - trigger: state
+    entity_id: input_select.woning_status
+    to:
+    - Thuis
+    - Thuis Werk
+    - Thuis Verlof
+    id: trigger_deel_aan
+  - trigger: state
+    entity_id:
+    - binary_sensor.hue_outdoor_sensor_1_motion
+    - binary_sensor.hue_outdoor_sensor_3_motion
+    - binary_sensor.hue_motion_sensor_2_motion
+    to: 'on'
+    id: trigger_deel_aan
+  - trigger: state
+    entity_id: input_boolean.light_garden_stay_on
+    to: 'on'
+    id: trigger_deel_aan
+  - trigger: numeric_state
+    entity_id: sensor.hue_outdoor_sensor_2_light_level
+    below: 11
+    id: trigger_deel_aan
+  - trigger: state
+    entity_id: input_boolean.light_garden_stay_on
+    to: 'off'
+    id: trigger_deel_uit
+  - trigger: time
+    at: input_datetime.light_garden_off
+    id: trigger_deel_uit
+  - trigger: state
+    entity_id: remote.harmony_hub
+    attribute: current_activity
+    to:
+    - TV Decoder
+    - WebOS
+    - Apple tv
+    id: trigger_deel_uit
+  - trigger: state
+    entity_id:
+    - binary_sensor.hue_outdoor_sensor_1_motion
+    - binary_sensor.hue_outdoor_sensor_3_motion
+    to: 'off'
+    for: 00:02:00
+    id: trigger_deel_uit
+  - trigger: state
+    entity_id: binary_sensor.hue_motion_sensor_2_motion
+    to: 'off'
+    for: 00:06:00
+    id: trigger_deel_uit
+  - trigger: state
+    entity_id: input_boolean.light_downstairs
+    to: 'off'
+    id: trigger_deel_uit
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''trigger_stayon_reset'' }}'
+      - condition: state
+        entity_id: input_boolean.light_garden_stay_on
+        state: 'on'
+      sequence:
+      - action: input_boolean.turn_off
+        target:
+          entity_id: input_boolean.light_garden_stay_on
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''trigger_alles_aan'' }}'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: binary_sensor.bezoek
+          state: 'on'
+        - condition: state
+          entity_id: group.bewoners
+          state: home
+        - condition: numeric_state
+          entity_id: sensor.home_nearest_distance
+          below: 2
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: light.hue_lily_outdoor_spot_light_rgbcct_1
+          state: 'off'
+        - condition: template
+          value_template: "{{ is_state('light.hue_lily_outdoor_spot_light_rgbcct_1',
+            'on') and \n   (now() - states.scene.tuin2_normaal.last_changed).total_seconds()
+            > 300 }}\n"
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: input_boolean.light_garden_stay_on
+          state: 'on'
+        - condition: and
+          conditions:
+          - condition: or
+            conditions:
+            - condition: state
+              entity_id: binary_sensor.hue_outdoor_sensor_2_motion
+              state: unavailable
+            - condition: numeric_state
+              entity_id: sensor.hue_outdoor_sensor_2_light_level
+              below: 8
+          - condition: or
+            conditions:
+            - condition: state
+              entity_id: binary_sensor.hue_outdoor_sensor_3_motion
+              state: unavailable
+            - condition: numeric_state
+              entity_id: sensor.hue_outdoor_sensor_3_light_level
+              below: 8
+      - condition: or
+        conditions:
+        - condition: not
+          conditions:
+          - condition: state
+            entity_id: input_select.woning_status
+            state: Slapen
+        - condition: template
+          value_template: '{% set b_home = is_state(''person.bert'', ''home'') and
+            (now() - states.person.bert.last_changed).total_seconds() < 600 %} {%
+            set c_home = is_state(''person.caroline'', ''home'') and (now() - states.person.caroline.last_changed).total_seconds()
+            < 600 %} {{ b_home or c_home }}
+
+            '
+      sequence:
+      - choose:
+        - conditions:
+          - condition: template
+            value_template: "{{ (is_state('person.bert', 'home') and (now() - states.person.bert.last_changed).total_seconds()
+              < 300) or\n   (is_state('person.caroline', 'home') and (now() - states.person.caroline.last_changed).total_seconds()
+              < 300) }}\n"
+          sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.tuin2_normaal
+            data:
+              transition: 2
+        - conditions:
+          - condition: state
+            entity_id: input_boolean.keep_christmas_on
+            state: 'on'
+          sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.tuin2_kerstmis
+            data:
+              transition: 5
+          - action: light.turn_on
+            target:
+              entity_id:
+              - light.hue_lily_outdoor_spot_light_rgbcct_1
+              - light.hue_lily_outdoor_spot_light_rgbcct_2
+              - light.hue_lily_outdoor_spot_light_rgbcct_3
+              - light.hue_lily_outdoor_spot_light_rgbcct_4
+              - light.hue_lily_outdoor_spot_light_rgbcct_5
+              - light.hue_lily_outdoor_spot_light_rgbcct_6
+              - light.hue_lily_outdoor_spot_light_rgbcct_7
+              - light.hue_lily_outdoor_spot_light_rgbcct_8
+            data:
+              effect: sparkle
+        - conditions:
+          - condition: state
+            entity_id: sensor.season
+            state: autumn
+          sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.tuin_2_alles_herfst
+            data:
+              transition: 5
+        - conditions:
+          - condition: state
+            entity_id: sensor.season
+            state: winter
+          sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.tuin_alles_winter
+            data:
+              transition: 5
+        - conditions:
+          - condition: state
+            entity_id: sensor.season
+            state: spring
+          sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.tuin_alles_lente
+            data:
+              transition: 5
+        - conditions:
+          - condition: state
+            entity_id: sensor.season
+            state: summer
+          sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.tuin_alles_zomer
+            data:
+              transition: 5
+        default:
+        - action: scene.turn_on
+          target:
+            entity_id: scene.tuin2_normaal
+          data:
+            transition: 5
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''trigger_alles_uit'' }}'
+      - condition: state
+        entity_id: input_boolean.light_garden_stay_on
+        state: 'off'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: group.licht_tuin_group1
+          state: 'on'
+        - condition: state
+          entity_id: group.licht_tuin_group2
+          state: 'on'
+      - condition: state
+        entity_id: binary_sensor.hue_outdoor_sensor_1_motion
+        state: 'off'
+        for: 00:05:00
+      - condition: state
+        entity_id: binary_sensor.hue_outdoor_sensor_3_motion
+        state: 'off'
+        for: 00:05:00
+      sequence:
+      - action: scene.turn_on
+        target:
+          entity_id: scene.tuin2_uit
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''trigger_deel_aan'' }}'
+      - condition: state
+        entity_id: group.licht_tuin_group2
+        state: 'off'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: light.hue_lily_outdoor_spot_light_rgbcct_2
+          state: 'off'
+        - condition: state
+          entity_id: light.hue_lily_outdoor_spot_light_rgbcct_5
+          state: 'off'
+        - condition: state
+          entity_id: light.hue_lily_outdoor_spot_light_rgbcct_6
+          state: 'off'
+      - condition: or
+        conditions:
+        - condition: not
+          conditions:
+          - condition: state
+            entity_id: input_select.woning_status
+            state: Slapen
+        - condition: state
+          entity_id: binary_sensor.hue_motion_sensor_2_motion
+          state: 'off'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: input_boolean.light_garden_stay_on
+          state: 'on'
+        - condition: and
+          conditions:
+          - condition: or
+            conditions:
+            - condition: state
+              entity_id: binary_sensor.hue_outdoor_sensor_3_motion
+              state: unavailable
+            - condition: numeric_state
+              entity_id: sensor.hue_outdoor_sensor_3_light_level
+              below: 8
+          - condition: or
+            conditions:
+            - condition: state
+              entity_id: binary_sensor.hue_outdoor_sensor_2_motion
+              state: unavailable
+            - condition: numeric_state
+              entity_id: sensor.hue_outdoor_sensor_2_light_level
+              below: 8
+      - condition: state
+        entity_id: input_boolean.light_downstairs
+        state: 'on'
+      sequence:
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: input_boolean.keep_christmas_on
+            state: 'on'
+          sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.tuin1_kerstmis
+            data:
+              transition: 5
+        - conditions:
+          - condition: state
+            entity_id: sensor.season
+            state: autumn
+          sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.tuin_2_deel_herfst
+            data:
+              transition: 5
+        - conditions:
+          - condition: state
+            entity_id: sensor.season
+            state: winter
+          sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.tuin_deel_winter
+            data:
+              transition: 5
+        - conditions:
+          - condition: state
+            entity_id: sensor.season
+            state: spring
+          sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.tuin_deel_lente
+            data:
+              transition: 5
+        - conditions:
+          - condition: state
+            entity_id: sensor.season
+            state: summer
+          sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.tuin_deel_zomer
+            data:
+              transition: 5
+        default:
+        - action: scene.turn_on
+          target:
+            entity_id: scene.tuin1_normaal
+          data:
+            transition: 5
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''trigger_deel_uit'' }}'
+      - condition: state
+        entity_id: group.licht_tuin_group1
+        state: 'on'
+      - condition: state
+        entity_id: group.licht_tuin_group2
+        state: 'off'
+      - condition: state
+        entity_id: input_boolean.light_garden_stay_on
+        state: 'off'
+      sequence:
+      - action: scene.turn_on
+        target:
+          entity_id: scene.tuin1_uit
+  mode: queued
+  max: 10
+- id: '1779962987525'
+  alias: 'Licht: Tuinhuis - Centraal Beheer'
+  description: 'Combineert de tuinhuis-automatiseringen: Aan op basis van beweging
+    (indien pikdonker)  met seizoensscènes, en Uit na 4 minuten geen beweging of bij
+    daglicht.'
+  triggers:
+  - trigger: state
+    entity_id:
+    - binary_sensor.hue_outdoor_sensor_1_motion
+    - binary_sensor.hue_outdoor_sensor_3_motion
+    to: 'on'
+    id: tuinhuis_aan
+  - trigger: numeric_state
+    entity_id: sensor.hue_outdoor_sensor_1_light_level
+    above: 2
+    id: tuinhuis_uit
+  - trigger: state
+    entity_id:
+    - binary_sensor.hue_outdoor_sensor_1_motion
+    - binary_sensor.hue_outdoor_sensor_3_motion
+    to: 'off'
+    for: 00:04:00
+    id: tuinhuis_uit
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''tuinhuis_aan'' }}'
+      - condition: state
+        entity_id: light.hue_lightstrip_outdoor_2m_1
+        state: 'off'
+      - condition: numeric_state
+        entity_id: sensor.hue_outdoor_sensor_1_light_level
+        below: 2
+      sequence:
+      - choose:
+        - conditions:
+          - condition: state
+            entity_id: input_boolean.keep_christmas_on
+            state: 'on'
+          sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.tuinhuis_kerstmis
+            data:
+              transition: 10
+        - conditions:
+          - condition: state
+            entity_id: sensor.season
+            state: autumn
+          sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.tuinhuis_herfst
+            data:
+              transition: 10
+        - conditions:
+          - condition: state
+            entity_id: sensor.season
+            state: winter
+          sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.tuinhuis_winter
+            data:
+              transition: 10
+        - conditions:
+          - condition: state
+            entity_id: sensor.season
+            state: spring
+          sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.tuinhuis_lente
+            data:
+              transition: 10
+        - conditions:
+          - condition: state
+            entity_id: sensor.season
+            state: summer
+          sequence:
+          - action: scene.turn_on
+            target:
+              entity_id: scene.tuinhuis_zomer
+            data:
+              transition: 10
+        default:
+        - action: scene.turn_on
+          target:
+            entity_id: scene.tuinhuis_normaal
+          data:
+            transition: 10
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''tuinhuis_uit'' }}'
+      - condition: state
+        entity_id: light.hue_lightstrip_outdoor_2m_1
+        state: 'on'
+      - condition: state
+        entity_id: binary_sensor.hue_outdoor_sensor_1_motion
+        state: 'off'
+      - condition: state
+        entity_id: binary_sensor.hue_outdoor_sensor_3_motion
+        state: 'off'
+      sequence:
+      - action: scene.turn_on
+        target:
+          entity_id: scene.tuinhuis_uit
+  mode: queued
+  max: 10
+- id: '1779963102876'
+  alias: 'Licht: Veranda - Centraal Beheer'
+  description: 'Combineert alle veranda-automatiseringen: Basis-aan (media/tijd/status),  Motion-aan
+    (beweging) en de uitgebreide Uit-logica met kerst-override.'
+  triggers:
+  - trigger: state
+    entity_id: input_select.woning_status
+    to:
+    - Juist Wakker
+    - Juist Thuis
+    id: veranda_basis_aan
+  - trigger: numeric_state
+    entity_id: sensor.hue_sensor_veranda_light_level
+    below: 40
+    id: veranda_basis_aan
+  - trigger: state
+    entity_id: remote.harmony_hub
+    attribute: current_activity
+    id: veranda_basis_aan
+  - trigger: state
+    entity_id:
+    - input_boolean.media_kitchen
+    - input_boolean.media_livingroom
+    to: 'on'
+    for: 00:00:35
+    id: veranda_basis_aan
+  - trigger: state
+    entity_id:
+    - input_boolean.media_kitchen
+    - input_boolean.media_livingroom
+    to: 'off'
+    for: 00:00:05
+    id: veranda_basis_aan
+  - trigger: time
+    at: 07:15:00
+    id: veranda_basis_aan
+  - trigger: state
+    entity_id: binary_sensor.hue_motion_sensor_2_motion
+    to: 'on'
+    id: veranda_motion_aan
+  - trigger: state
+    entity_id: input_select.woning_status
+    to: Slapen
+    id: veranda_uit
+  - trigger: state
+    entity_id:
+    - binary_sensor.hue_motion_sensor_2_motion
+    - binary_sensor.hue_motion_sensor_3_motion
+    to: 'off'
+    for: 00:15:00
+    id: veranda_uit
+  - trigger: state
+    entity_id: input_boolean.light_downstairs
+    to: 'off'
+    id: veranda_uit
+  - trigger: numeric_state
+    entity_id: sensor.hue_sensor_veranda_light_level
+    above: 40
+    id: veranda_uit
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''veranda_basis_aan'' }}'
+      - condition: state
+        entity_id: input_boolean.light_downstairs
+        state: 'on'
+      - condition: template
+        value_template: '{{ states(''input_select.woning_status'') not in [''Juist
+          Weg'', ''Weg'', ''Slapen'', ''Op Vakantie''] }}'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: input_boolean.keep_christmas_on
+          state: 'on'
+        - condition: numeric_state
+          entity_id: sensor.hue_sensor_veranda_light_level
+          below: 40
+      sequence:
+      - action: script.turn_on
+        target:
+          entity_id: script.light_porch_on
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''veranda_motion_aan'' }}'
+      - condition: state
+        entity_id: group.licht_veranda
+        state: 'off'
+      - condition: numeric_state
+        entity_id: sensor.hue_sensor_veranda_light_level
+        below: 40
+      sequence:
+      - action: script.turn_on
+        target:
+          entity_id: script.light_porch_on
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''veranda_uit'' }}'
+      - condition: state
+        entity_id: group.licht_veranda
+        state: 'on'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: input_select.woning_status
+          state: Slapen
+        - condition: state
+          entity_id: input_boolean.light_downstairs
+          state: 'off'
+        - condition: and
+          conditions:
+          - condition: state
+            entity_id: input_boolean.keep_christmas_on
+            state: 'off'
+          - condition: or
+            conditions:
+            - condition: numeric_state
+              entity_id: sensor.hue_sensor_veranda_light_level
+              above: 40
+            - condition: and
+              conditions:
+              - condition: state
+                entity_id: binary_sensor.hue_motion_sensor_2_motion
+                state: 'off'
+                for: 00:15:00
+              - condition: state
+                entity_id: binary_sensor.hue_motion_sensor_3_motion
+                state: 'off'
+                for: 00:15:00
+      sequence:
+      - action: scene.turn_on
+        target:
+          entity_id: scene.veranda_uit
+  mode: queued
+  max: 10
+- id: '1779963339249'
+  alias: 'Licht: Woonkamer - Centraal Beheer'
+  description: 'Master-automatisering voor de woonkamer. Bundelt 6 automatiseringen:
+    Basis-aan,  Kerst-aan, Motion-aan, Uit via Lux/Downstairs, Uit via Geen Beweging
+    (TV check) en Uit Nacht.'
+  triggers:
+  - trigger: state
+    entity_id: input_boolean.media_livingroom
+    to: 'on'
+    for: 00:00:30
+    id: trigger_basis_aan
+  - trigger: state
+    entity_id: input_boolean.media_livingroom
+    to: 'off'
+    for: 00:00:05
+    id: trigger_basis_aan
+  - trigger: state
+    entity_id: remote.harmony_hub
+    attribute: current_activity
+    id: trigger_basis_aan
+  - trigger: numeric_state
+    entity_id: sensor.hue_motion_sensor_3_light_level
+    above: 30
+    id: trigger_basis_aan
+  - trigger: state
+    entity_id: input_select.woning_status
+    to:
+    - Juist Wakker
+    - Juist Thuis
+    id: trigger_kerst_aan
+  - trigger: state
+    entity_id: binary_sensor.hue_motion_sensor_3_motion
+    to: 'on'
+    id: trigger_motion_aan
+  - trigger: numeric_state
+    entity_id: sensor.hue_motion_sensor_3_light_level
+    above: 50
+    id: trigger_uit_lux_downstairs
+  - trigger: state
+    entity_id: input_boolean.light_downstairs
+    to: 'off'
+    id: trigger_uit_lux_downstairs
+  - trigger: state
+    entity_id: binary_sensor.hue_motion_sensor_3_motion
+    to: 'off'
+    for: 00:10:00
+    id: trigger_uit_beweging
+  - trigger: state
+    entity_id: binary_sensor.hue_motion_sensor_3_motion
+    to: 'off'
+    for: 00:01:00
+    id: trigger_uit_nacht
+  - trigger: state
+    entity_id: group.licht_woonkamer
+    to: 'on'
+    for: 00:02:00
+    id: trigger_uit_nacht
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''trigger_basis_aan'' }}'
+      - condition: state
+        entity_id: input_boolean.light_downstairs
+        state: 'on'
+      - condition: numeric_state
+        entity_id: sensor.hue_motion_sensor_3_light_level
+        below: 20
+      - condition: template
+        value_template: '{{ states(''input_select.woning_status'') not in [''Juist
+          Weg'', ''Weg'', ''Op Vakantie''] }}'
+      sequence:
+      - action: script.turn_on
+        target:
+          entity_id: script.light_livingroom_on
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''trigger_kerst_aan'' }}'
+      - condition: state
+        entity_id: input_boolean.light_downstairs
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.keep_christmas_on
+        state: 'on'
+      sequence:
+      - action: script.turn_on
+        target:
+          entity_id: script.light_livingroom_off
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''trigger_motion_aan'' }}'
+      - condition: state
+        entity_id: input_boolean.light_downstairs
+        state: 'on'
+      - condition: numeric_state
+        entity_id: sensor.hue_motion_sensor_3_light_level
+        below: 20
+      - condition: template
+        value_template: '{{ states(''input_select.woning_status'') not in [''Juist
+          Weg'', ''Weg'', ''Op Vakantie''] }}'
+      - condition: or
+        conditions:
+        - condition: state
+          entity_id: group.licht_woonkamer
+          state: 'off'
+        - condition: and
+          conditions:
+          - condition: state
+            entity_id: light.hue_white_filament_globe_g125_1
+            state: 'off'
+          - condition: state
+            entity_id: switch.hue_smart_plug_2
+            state: 'off'
+      sequence:
+      - action: script.turn_on
+        target:
+          entity_id: script.light_livingroom_on
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''trigger_uit_lux_downstairs'' }}'
+      - condition: state
+        entity_id: group.licht_woonkamer
+        state: 'on'
+      sequence:
+      - action: script.turn_on
+        target:
+          entity_id: script.light_livingroom_off
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''trigger_uit_beweging'' }}'
+      - condition: state
+        entity_id: group.licht_woonkamer
+        state: 'on'
+      - condition: state
+        entity_id: remote.harmony_hub
+        attribute: current_activity
+        state:
+        - PowerOff
+        - Alexa
+      sequence:
+      - action: script.turn_on
+        target:
+          entity_id: script.light_livingroom_off
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''trigger_uit_nacht'' }}'
+      - condition: state
+        entity_id: group.licht_woonkamer
+        state: 'on'
+      - condition: template
+        value_template: '{{ states(''input_select.woning_status'') in [''Slapen'',
+          ''Juist Weg'', ''Weg''] }}'
+      sequence:
+      - action: script.turn_on
+        target:
+          entity_id: script.light_livingroom_off
+  mode: queued
+  max: 10
+- id: '1779963472966'
+  alias: 'Licht: Woonkamer - Status Synchronisatie'
+  description: Houdt de fysieke Hue-filamentlamp en de Home Assistant helper-boolean  perfect
+    in sync in beide richtingen, met uitsluiting van netwerkfouten (unavailable).
+  triggers:
+  - trigger: state
+    entity_id: light.hue_white_filament_globe_g125_1
+    id: sync_naar_boolean
+  - trigger: state
+    entity_id: input_boolean.light_livingroom
+    id: sync_naar_lamp
+  conditions:
+  - condition: template
+    value_template: '{{ trigger.to_state.state in [''on'', ''off''] }}'
+  actions:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''sync_naar_boolean'' }}'
+      - condition: template
+        value_template: '{{ states(''input_boolean.light_livingroom'') != trigger.to_state.state
+          }}'
+      sequence:
+      - action: input_boolean.turn_{{ trigger.to_state.state }}
+        target:
+          entity_id: input_boolean.light_livingroom
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''sync_naar_lamp'' }}'
+      - condition: template
+        value_template: '{{ states(''light.hue_white_filament_globe_g125_1'') != trigger.to_state.state
+          }}'
+      sequence:
+      - action: light.turn_{{ trigger.to_state.state }}
+        target:
+          entity_id: light.hue_white_filament_globe_g125_1
+  mode: single

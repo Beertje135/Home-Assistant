@@ -416,13 +416,16 @@ radio_bathroom_volume:
         volume_level: 0.02
 light_bathroom_on:
   alias: 'Licht: Badkamer - Aan'
-  description: Bepaalt de juiste badkamerscene op basis van status, tijd en zonlicht.
+  description: Bepaalt de juiste badkamerscene op basis van status, tijd en zonlicht
+    (met de juiste lenzen-beveiliging).
   icon: mdi:lightbulb-auto
   mode: single
   max_exceeded: silent
   sequence:
-  - wait_template: '{{ not is_state(''light.lightstrip_badkamer'', [''unavailable'',
-      ''unknown'']) }}'
+  - wait_for_trigger:
+    - trigger: template
+      value_template: '{{ states(''light.lightstrip_badkamer'') not in [''unavailable'',
+        ''unknown''] }}'
     timeout: 00:05:00
     continue_on_timeout: false
   - choose:
@@ -546,8 +549,8 @@ light_dressing_on:
         transition: 3
 light_bureau_on:
   alias: 'Licht: Bureau - Aan'
-  description: Delt het licht op basis van woningstatus en of de camera's van de kinderen
-    (smart plugs) aan staan.
+  description: Bepaalt het licht in het bureau op basis van woningstatus, tijd en
+    of de  camera's van de kinderen (smart plugs) actief zijn.
   icon: mdi:desk
   mode: single
   max_exceeded: silent
@@ -564,7 +567,8 @@ light_bureau_on:
         data:
           transition: 3
     - conditions:
-      - or:
+      - condition: or
+        conditions:
         - condition: state
           entity_id: switch.hue_smart_plug_5
           state: 'on'
@@ -581,7 +585,8 @@ light_bureau_on:
         data:
           transition: 3
     - conditions:
-      - or:
+      - condition: or
+        conditions:
         - condition: state
           entity_id: input_select.woning_status
           state: Juist Wakker
@@ -658,14 +663,10 @@ light_kitchen_on:
         target:
           entity_id: scene.keuken_gedimmed
     - conditions:
-      - condition: state
-        entity_id: input_select.woning_status
-        state:
-        - Thuis
-        - Juist Thuis
-        - Thuis Werk
-        - Thuis Verlof
-        - Op Vakantie (Bezoek)
+      - condition: template
+        value_template: '{{ states(''input_select.woning_status'') in [''Thuis'',
+          ''Juist Thuis'', ''Thuis Werk'', ''Thuis Verlof'', ''Op Vakantie (Bezoek)'']
+          }}'
       - condition: numeric_state
         entity_id: sensor.hue_motion_sensor_2_light_level
         below: 100
@@ -700,8 +701,9 @@ light_kitchen_on:
       target:
         entity_id: scene.keuken_normaal
 light_elmo:
-  alias: 'Licht: Slaapkamer Elmo'
-  description: Schakelt de juiste scene voor Elmo op basis van zijn slaapschema.
+  alias: 'Licht: Slaapkamer Elmo - Aan'
+  description: Schakelt de juiste scene voor Elmo op basis van zijn slaapschema met
+    een slimme ochtend-timer.
   icon: mdi:baby-carriage
   mode: single
   sequence:
@@ -709,25 +711,20 @@ light_elmo:
     - conditions:
       - condition: state
         entity_id: light.hue_white_and_color_ambiance_a19_gen2_1
-        state: 'off'
+        state: 'on'
+      sequence: []
+    - conditions:
       - condition: state
         entity_id: schedule.slapen_elmo
         state: 'off'
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: schedule.slapen_elmo
-          state: 'off'
-          for:
-            hours: 1
+      - condition: template
+        value_template: '{{ (as_timestamp(now()) - as_timestamp(states.schedule.slapen_elmo.last_changed))
+          < 3600 }}'
       sequence:
       - action: scene.turn_on
         target:
           entity_id: scene.elmo_ochtend
     - conditions:
-      - condition: state
-        entity_id: light.hue_white_and_color_ambiance_a19_gen2_1
-        state: 'off'
       - condition: state
         entity_id: schedule.slapen_elmo
         state: 'on'
@@ -735,20 +732,12 @@ light_elmo:
       - action: scene.turn_on
         target:
           entity_id: scene.elmo_nacht
-    - conditions:
-      - condition: state
-        entity_id: light.hue_white_and_color_ambiance_a19_gen2_1
-        state: 'off'
-      sequence:
-      - action: scene.turn_on
-        target:
-          entity_id: scene.elmo_normaal
     default:
     - action: scene.turn_on
       target:
         entity_id: scene.elmo_uit
 light_trix:
-  alias: 'Licht: Slaapkamer Trix'
+  alias: 'Licht: Slaapkamer Trix - Aan'
   description: Schakelt de juiste scene voor Trix op basis van haar slaapschema en
     de tijd.
   icon: mdi:human-child
@@ -758,7 +747,9 @@ light_trix:
     - conditions:
       - condition: state
         entity_id: light.hue_white_and_color_ambiance_a19_gen2_2
-        state: 'off'
+        state: 'on'
+      sequence: []
+    - conditions:
       - condition: state
         entity_id: schedule.slapen_trix
         state: 'off'
@@ -770,23 +761,12 @@ light_trix:
           entity_id: scene.trix_ochtend
     - conditions:
       - condition: state
-        entity_id: light.hue_white_and_color_ambiance_a19_gen2_2
-        state: 'off'
-      - condition: state
         entity_id: schedule.slapen_trix
         state: 'on'
       sequence:
       - action: scene.turn_on
         target:
           entity_id: scene.trix_nacht
-    - conditions:
-      - condition: state
-        entity_id: light.hue_white_and_color_ambiance_a19_gen2_2
-        state: 'off'
-      sequence:
-      - action: scene.turn_on
-        target:
-          entity_id: scene.trix_normaal
     default:
     - action: scene.turn_on
       target:
@@ -846,7 +826,8 @@ light_porch_on:
         target:
           entity_id: scene.veranda_televisie
     - conditions:
-      - or:
+      - condition: or
+        conditions:
         - condition: state
           entity_id: input_boolean.media_kitchen
           state: 'on'
@@ -923,7 +904,8 @@ light_livingroom_on:
         target:
           entity_id: scene.woonkamer_gaming
     - conditions:
-      - or:
+      - condition: or
+        conditions:
         - condition: time
           after: '21:40:00'
         - condition: numeric_state
@@ -951,15 +933,10 @@ light_livingroom_off:
       - condition: state
         entity_id: input_boolean.light_downstairs
         state: 'on'
-      - condition: state
-        entity_id: input_select.woning_status
-        state:
-        - Thuis
-        - Juist Thuis
-        - Thuis Verlof
-        - Thuis Werk
-        - Juist Wakker
-        - Op Vakantie (Bezoek)
+      - condition: template
+        value_template: '{{ states(''input_select.woning_status'') in [''Thuis'',
+          ''Juist Thuis'', ''Thuis Verlof'', ''Thuis Werk'', ''Juist Wakker'', ''Op
+          Vakantie (Bezoek)''] }}'
       sequence:
       - action: scene.turn_on
         target:
