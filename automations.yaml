@@ -596,64 +596,11 @@
   - delay: 00:00:15
   max_exceeded: silent
   mode: single
-- id: ventilation_downstairs_001
-  alias: 'HVAC: Airco Beneden - Koelen Aan/Uit'
-  description: Schakelt de koel-modus voor de benedenverdieping aan of uit op basis
-    van het verschil tussen binnen- en buitentemperatuur.
-  mode: single
-  max_exceeded: silent
-  trigger:
-  - platform: template
-    value_template: "{{ states('sensor.hue_sensor_buiten_temperature') | float(0)
-      - 1 \n   > state_attr('climate.keuken', 'current_temperature') | float(0) }}\n"
-    id: Warmte_Trigger
-  - platform: template
-    value_template: "{{ states('sensor.hue_sensor_buiten_temperature') | float(0)
-      + 1 \n   < state_attr('climate.keuken', 'current_temperature') | float(0) }}\n"
-    id: Koude_Trigger
-  - platform: numeric_state
-    entity_id: sensor.hue_sensor_buiten_temperature
-    above: 23.5
-    for: 00:05:00
-    id: Warmte_Trigger
-  - platform: numeric_state
-    entity_id: sensor.hue_sensor_buiten_temperature
-    below: 23.0
-    for: 00:05:00
-    id: Koude_Trigger
-  action:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: Warmte_Trigger
-      - condition: numeric_state
-        entity_id: sensor.hue_sensor_buiten_temperature
-        above: 23.5
-      - condition: state
-        entity_id: climate.ons_huisje
-        state: 'off'
-      - condition: state
-        entity_id: input_boolean.cooling_downstairs
-        state: 'off'
-      sequence:
-      - action: input_boolean.turn_on
-        target:
-          entity_id: input_boolean.cooling_downstairs
-    - conditions:
-      - condition: trigger
-        id: Koude_Trigger
-      - condition: state
-        entity_id: input_boolean.cooling_downstairs
-        state: 'on'
-      sequence:
-      - action: input_boolean.turn_off
-        target:
-          entity_id: input_boolean.cooling_downstairs
 - id: ventilation_downstairs_002
   alias: 'HVAC: Airco Keuken - Notificatie'
   description: Stuurt een slimme notificatie wanneer we moeten koelen (met ramen open)
-    of wanneer we kunnen verluchten (met ramen nog dicht). Houdt rekening met de zon,  de
-    tijd en de specifieke gevels (hitte-eiland / ochtendzon).
+    of wanneer we kunnen verluchten (met ramen nog dicht). Houdt rekening met de zon,
+    de tijd en de specifieke gevels beneden.
   triggers:
   - trigger: state
     entity_id: sensor.woning_hvac_modus
@@ -695,32 +642,32 @@
     data:
       task_name: Airco en Ramen Check Beneden
       entity_id: ai_task.google_ai_task
-      instructions: "Je bent Siri en beheert het klimaat in het huis van Bert en Caroline.\nSITUATIE
-        1 (Huidige modus is 'Koelen'): De woning staat in koelmodus,  maar er staan
-        beneden nog ramen of deuren open (schuifraam of achterdeur).  Vertel ze op
-        een grappige, dringende manier dat de ramen beneden dicht moeten  om te voorkomen
-        dat we de vogels buiten aan het koelen zijn.\nSITUATIE 2 (Huidige modus is
-        'Verluchten'): Het is buiten officieel  minstens 3 graden frisser dan binnen!
-        De airco's zijn uit, maar de ramen  beneden zijn nog dicht. Moedig ze aan
-        om te verluchten, maar pas de  volgende STRIKTE GEVEL-LOGICA toe op basis
-        van het weer en de tijd:\n- Schijnt de zon? (Huidige status zon: {{ states('sensor.solaredge_current_power')
-        | float(0) > 1000 }}). - Als de zon NIET schijnt (of het is nacht), adviseer
-        dan om schuifraam en achterdeur heerlijk open te zetten. - Als de zon WEL
-        schijnt, geef dan dit specifieke geveladvies op basis van de tijd (Het is
-        nu {{ now().strftime('%H:%M') }}):\n  1. In de VOORMIDDAG (vóór 12:00u): Waarschuw
-        dat de ochtendzon vol op de VOORGEVEL staat. Adviseer om ENKEL de achterzijde
-        (schuifraam/achterdeur) open te zetten waar schaduw is.\n  2. In de NAMIDDAG/AVOND
-        (vanaf 12:00u): Waarschuw dat de zon nu aan de achterkant staat én dat de
-        voorgevel aan de straatkant een 'hitte-eiland' is door het warme asfalt. Adviseer
-        om strategisch te verluchten waar nu schaduw is.\n\nHUIDIGE STATUS BENEDEN:
-        - Centrale HVAC Modus: {{ states('sensor.woning_hvac_modus') }} - Achterdeur
-        (sensor 5): {{ states('binary_sensor.aqara_raamsensor_5') }} - Schuifraam
-        (sensor 1): {{ states('binary_sensor.aqara_raamsensor_1') }}\nSTRIKTE FORMATTERING
-        REGELS: 1. Geef DIRECT de tekst van de melding. Typ GEEN introductie zoals
-        \"Hier is je advies:\". 2. Gebruik NOOIT Markdown-opmaak (geen sterretjes
-        voor vetgedrukte tekst). 3. De output moet pure, schone platte tekst zijn
-        die geschikt is voor een pushnotificatie en HomePod TTS. 4. Hoe het voldoende
-        kort voor een iOS notificatie en spraak notificatie via HomePods."
+      instructions: "Je bent Siri und beheert het klimaat in het huis van Bert en
+        Caroline.\nSITUATIE 1 (Huidige modus is 'Koelen'): De woning staat in koelmodus,
+        \ maar er staan beneden nog ramen of deuren open (schuifraam of achterdeur).
+        \ Vertel ze op een grappige, dringende manier dat de ramen beneden dicht moeten
+        \ om te voorkomen dat we de vogels buiten aan het koelen zijn.\nSITUATIE 2
+        (Huidige modus is 'Verluchten'): Het is buiten officieel  minstens 3 graden
+        frisser dan binnen! De airco's zijn uit, maar de ramen  beneden zijn nog dicht.
+        Moedig ze aan om te verluchten, maar pas de  volgende STRIKTE GEVEL-LOGICA
+        toe op basis van het weer en de tijd:\n- Schijnt de zon? (Huidige status zon:
+        {{ states('sensor.solaredge_current_power') | float(0) > 1000 }}). - Als de
+        zon NIET schijnt (of het is nacht), adviseer dan om schuifraam en achterdeur
+        heerlijk open te zetten. - Als de zon WEL schijnt, geef dan dit specifieke
+        geveladvies op basis van de tijd (Het is nu {{ now().strftime('%H:%M') }}):\n
+        \ 1. In de VOORMIDDAG (vóór 12:00u): Waarschuw dat de ochtendzon vol op de
+        VOORGEVEL staat. Adviseer om ENKEL de achterzijde (schuifraam/achterdeur)
+        open te zetten waar schaduw is.\n  2. In de NAMIDDAG/AVOND (vanaf 12:00u):
+        Waarschuw dat de zon nu aan de achterkant staat én dat de voorgevel aan de
+        straatkant een 'hitte-eiland' is door het warme asfalt. Adviseer om strategisch
+        te verluchten waar nu schaduw is.\n\nHUIDIGE STATUS BENEDEN: - Centrale HVAC
+        Modus: {{ states('sensor.woning_hvac_modus') }} - Achterdeur (sensor 5): {{
+        states('binary_sensor.aqara_raamsensor_5') }} - Schuifraam (sensor 1): {{
+        states('binary_sensor.aqara_raamsensor_1') }}\nSTRIKTE FORMATTERING REGELS:
+        1. Geef DIRECT de tekst van de melding. Typ GEEN introductie. 2. Gebruik NOOIT
+        Markdown-opmaak (geen sterretjes). 3. De output moet pure, schone platte tekst
+        zijn die geschikt is voor een pushnotificatie en HomePod TTS. 4. Hou het voldoende
+        kort voor een iOS notificatie en spraaknotificatie via HomePods."
     response_variable: ai_antwoord
   - action: script.turn_on
     target:
@@ -741,6 +688,8 @@
         melding_tag: hvac-status-beneden
         melding_group: huis
     continue_on_error: true
+  mode: single
+  max_exceeded: silent
 - id: media_keuken_001
   alias: 'Media: Keuken - Update Media Status'
   description: Zet de keuken media-boolean aan of uit op basis van de afspeelstatus
@@ -1052,7 +1001,7 @@
     target:
       entity_id: input_boolean.vacuum_clean_today
 - id: printer_001
-  alias: 'Herinneringen: Printer - Inkt bijna op'
+  alias: 'Computer: Printer - Inkt bijna op'
   description: Stuurt een notificatie-script aan wanneer het inktniveau van de zwarte
     of kleuren-cartridge onder de 10% zakt.
   triggers:
@@ -2692,546 +2641,10 @@
       preset_mode: none
   mode: single
   max_exceeded: silent
-- id: heating_preheat_001
-  alias: 'HVAC: Pre-heat - Aan (Onderweg)'
-  description: Zet de pre-heat aan op basis van locaties of afstand en stuurt een
-    schone AI-notificatie.
-  triggers:
-  - trigger: state
-    entity_id: person.bert
-    to: Mechelen Station
-    id: bert_onderweg
-  - trigger: state
-    entity_id: person.bert
-    to: Willebroek Station
-    id: bert_onderweg
-  - trigger: state
-    entity_id: person.caroline
-    to: Checkpoint 2
-    id: caro_onderweg
-  - trigger: state
-    entity_id: person.caroline
-    to: Checkpoint 4
-    id: caro_onderweg
-  - trigger: numeric_state
-    entity_id: sensor.home_nearest_distance
-    below: 80
-    id: afstand_bereikt
-  conditions:
-  - condition: state
-    entity_id: input_boolean.pre_heat
-    state: 'off'
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: climate.ons_huisje
-      attribute: preset_mode
-      state: eco
-    - condition: state
-      entity_id: climate.ons_huisje
-      attribute: preset_mode
-      state: away
-  actions:
-  - action: input_boolean.turn_on
-    target:
-      entity_id: input_boolean.pre_heat
-  - action: ai_task.generate_data
-    continue_on_error: true
-    data:
-      task_name: Pre-heat Geactiveerd
-      entity_id: ai_task.google_ai_task
-      instructions: 'Je bent Siri en beheert het klimaat van het huis van Bert en
-        Caroline. De pre-heat is zojuist automatisch ingeschakeld omdat er iemand
-        onderweg is naar huis.  Meld dit op een enthousiaste en vlotte manier. Vertel
-        ze dat het huis lekker warm zal zijn tegen dat ze aankomen.
-
-        STRIKTE FORMATTERING REGELS: 1. Geef DIRECT de tekst van de melding. Typ GEEN
-        introductie zoals "Hier is de melding:" of "Oké, ik heb dit gemaakt:". 2.
-        Gebruik NOOIT Markdown-opmaak. Gebruik GEEN sterretjes (**) voor vetgedrukte
-        tekst.  3. De output moet pure, schone platte tekst zijn die direct in een
-        pushnotificatie past.
-
-        '
-    response_variable: ai_antwoord
-  - action: script.turn_on
-    target:
-      entity_id: script.centraal_universele_notificatie_spraak
-    data:
-      variables:
-        melding_titel: "\U0001F525 Pre-heat Geactiveerd!"
-        melding_tekst: "{% set lokale_modus = is_state('input_boolean.lokale_notificaties',
-          'on') %} {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
-          is defined and ai_antwoord.data | trim != \"\" %}\n{% if not lokale_modus
-          and ai_beschikbaar %}\n  {{ ai_antwoord.data }}\n{% else %}\n  ⚠️ [Lokaal]
-          De pre-heat is ingeschakeld. Het huis wordt vast opgemaakt voor jullie aankomst.\n{%
-          endif %}"
-        prioriteit: Geen
-        melding_tag: hvac-preheat-status
-        melding_group: huis
-    continue_on_error: true
-  mode: single
-  max_exceeded: silent
-- id: heating_preheat_001b
-  alias: 'HVAC: Pre-heat - Aan (Vakantie)'
-  description: Zet de pre-heat alvast aan als we de 100km grens naderen bij terugkomst
-    van vakantie en stuurt een schone AI-notificatie.
-  triggers:
-  - trigger: numeric_state
-    entity_id: sensor.home_nearest_distance
-    below: 100
-    for: 00:01:00
-  conditions:
-  - condition: state
-    entity_id: input_select.woning_status
-    state: Op Vakantie
-  - condition: state
-    entity_id: input_boolean.pre_heat
-    state: 'off'
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  actions:
-  - action: input_boolean.turn_on
-    target:
-      entity_id: input_boolean.pre_heat
-  - action: ai_task.generate_data
-    continue_on_error: true
-    data:
-      task_name: Pre-heat Vakantie Geactiveerd
-      entity_id: ai_task.google_ai_task
-      instructions: 'Je bent Siri en beheert het klimaat van het huis van Bert en
-        Caroline. Ze zijn momenteel aan het terugkeren van vakantie en hebben de 100
-        km-grens van hun huis bereikt. De pre-heat is zojuist ingeschakeld. Heten
-        ze van harte welkom terug en meld op een gezellige,  warme manier dat het
-        huis perfect op temperatuur zal zijn tegen dat ze binnenstappen.
-
-        STRIKTE FORMATTERING REGELS: 1. Geef DIRECT de tekst van de melding. Typ GEEN
-        introductie zoals "Hier is de melding:" of "Oké, ik heb dit gemaakt:". 2.
-        Gebruik NOOIT Markdown-opmaak. Gebruik GEEN sterretjes (**) voor vetgedrukte
-        tekst.  3. De output moet pure, schone platte tekst zijn die direct in een
-        pushnotificatie past.
-
-        '
-    response_variable: ai_antwoord
-  - action: script.turn_on
-    target:
-      entity_id: script.centraal_universele_notificatie_spraak
-    data:
-      variables:
-        melding_titel: "\U0001F9F3 Welkom thuis! (Pre-heat Aan)"
-        melding_tekst: "{% set lokale_modus = is_state('input_boolean.lokale_notificaties',
-          'on') %} {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
-          is defined and ai_antwoord.data | trim != \"\" %}\n{% if not lokale_modus
-          and ai_beschikbaar %}\n  {{ ai_antwoord.data }}\n{% else %}\n  ⚠️ [Lokaal]
-          Jullie zijn bijna thuis! De pre-heat is ingeschakeld om het huis op te warmen
-          na de vakantie.\n{% endif %}"
-        prioriteit: Geen
-        melding_tag: hvac-preheat-status
-        melding_group: huis
-    continue_on_error: true
-  mode: single
-  max_exceeded: silent
-- id: heating_preheat_002
-  alias: 'HVAC: Pre-heat - Uit (Thuis)'
-  description: Schakelt de pre-heat boolean automatisch uit zodra de bewoners gedurende
-    1 minuut thuis of wakker zijn.
-  triggers:
-  - trigger: state
-    entity_id: input_select.woning_status
-    to: Thuis
-    for: 00:01:00
-  - trigger: state
-    entity_id: input_select.woning_status
-    to: Thuis Werk
-    for: 00:01:00
-  - trigger: state
-    entity_id: input_select.woning_status
-    to: Thuis Verlof
-    for: 00:01:00
-  - trigger: state
-    entity_id: input_select.woning_status
-    to: Juist Thuis
-    for: 00:01:00
-  - trigger: state
-    entity_id: input_select.woning_status
-    to: Juist Wakker
-    for: 00:01:00
-  conditions:
-  - condition: state
-    entity_id: input_boolean.pre_heat
-    state: 'on'
-  actions:
-  - action: input_boolean.turn_off
-    target:
-      entity_id: input_boolean.pre_heat
-  mode: single
-  max_exceeded: silent
-- id: heating_preheat_003
-  alias: 'HVAC: Pre-heat - Start Verwarming'
-  description: Zet de Evohome hoofdthermostaat direct terug op Auto (schema) zodra
-    de pre-heat boolean wordt ingeschakeld.
-  triggers:
-  - trigger: state
-    entity_id: input_boolean.pre_heat
-    from: 'off'
-    to: 'on'
-  conditions:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: climate.ons_huisje
-      attribute: preset_mode
-      state: eco
-    - condition: state
-      entity_id: climate.ons_huisje
-      attribute: preset_mode
-      state: away
-  actions:
-  - action: evohome.set_system_mode
-    data:
-      mode: Auto
-  mode: single
-  max_exceeded: silent
-- id: heating_preheat_004
-  alias: 'HVAC: Pre-heat - Stop (Terug naar Eco)'
-  description: Zet het Evohome-systeem terug op AutoWithEco zodra de pre-heat handmatig
-    of automatisch wordt uitgeschakeld en de bewoners nog weg zijn.
-  triggers:
-  - trigger: state
-    entity_id: input_boolean.pre_heat
-    from: 'on'
-    to: 'off'
-  conditions:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: state
-    entity_id: input_select.woning_status
-    state: Weg
-  actions:
-  - action: evohome.set_system_mode
-    data:
-      mode: AutoWithEco
-  mode: single
-  max_exceeded: silent
-- id: heating_window_open_001
-  alias: 'HVAC: Verwarming Boven - Ramen en Temperatuur Beheer'
-  description: Regelt de verwarming van Elmo en Trix op basis van openstaande ramen,
-    stuurt waarschuwingen bij diepe temperatuurdalingen en herstelt de boel zodra
-    alles dicht is.
-  triggers:
-  - trigger: state
-    entity_id: binary_sensor.aqara_raamsensor_3
-    to: 'on'
-    id: elmo_raam_open
-  - trigger: state
-    entity_id: climate.elmo
-    to: heat
-    for: 00:02:00
-    id: elmo_verwarming_aan
-  - trigger: state
-    entity_id: binary_sensor.aqara_raamsensor_2
-    to: 'on'
-    id: trix_raam_open
-  - trigger: state
-    entity_id: climate.trix
-    to: heat
-    for: 00:02:00
-    id: trix_verwarming_aan
-  - trigger: state
-    entity_id: binary_sensor.aqara_raamsensor_3
-    to: 'on'
-    for: 02:00:00
-    id: escalatie_waarschuwing
-  - trigger: state
-    entity_id: binary_sensor.aqara_raamsensor_2
-    to: 'on'
-    for: 02:00:00
-    id: escalatie_waarschuwing
-  - trigger: numeric_state
-    entity_id: climate.elmo
-    attribute: current_temperature
-    below: 15.5
-    id: escalatie_waarschuwing
-  - trigger: numeric_state
-    entity_id: climate.trix
-    attribute: current_temperature
-    below: 15.5
-    id: escalatie_waarschuwing
-  - trigger: state
-    entity_id: binary_sensor.aqara_raamsensor_3
-    to: 'off'
-    id: elmo_raam_toe
-  - trigger: state
-    entity_id: binary_sensor.aqara_raamsensor_2
-    to: 'off'
-    id: trix_raam_toe
-  conditions:
-  - condition: state
-    entity_id: sensor.woning_hvac_modus
-    state: Verwarmen
-  actions:
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ trigger.id in [''elmo_raam_open'', ''elmo_verwarming_aan'',
-          ''trix_raam_open'', ''trix_verwarming_aan''] }}'
-      - condition: template
-        value_template: "{{ (is_state('binary_sensor.aqara_raamsensor_3', 'on') and
-          is_state('climate.elmo', 'heat')) or\n   (is_state('binary_sensor.aqara_raamsensor_2',
-          'on') and is_state('climate.trix', 'heat')) }}"
-      sequence:
-      - action: ai_task.generate_data
-        continue_on_error: true
-        data:
-          task_name: Raam open boven
-          entity_id: ai_task.google_ai_task
-          instructions: 'Je bent Siri, de slimme assistent van het huis. Er staat
-            een raam open boven terwijl de verwarming op die kamer probeert te stoken.  Laat
-            de bewoners weten dat de verwarming op de getroffen kamer(s) over 3 minuten
-            automatisch wordt uitgeschakeld om energieverspilling te voorkomen als
-            het raam open blijft. HUIDIGE STATUS: - Raam Trix: {{ states(''binary_sensor.aqara_raamsensor_2'')
-            }} - Verwarming Trix: {{ states(''climate.trix'') }} - Raam Elmo: {{ states(''binary_sensor.aqara_raamsensor_3'')
-            }} - Verwarming Elmo: {{ states(''climate.elmo'') }} STRIKTE FORMATTERING
-            REGELS: Pure schone platte tekst zonder Markdown (geen **), geen introductie.
-            direct de melding.'
-        response_variable: ai_antwoord
-      - action: script.turn_on
-        target:
-          entity_id: script.centraal_universele_notificatie_spraak
-        data:
-          variables:
-            melding_titel: ⚠️ Verwarming Slaapkamers
-            melding_tekst: '{% set lokale_modus = is_state(''input_boolean.lokale_notificaties'',
-              ''on'') %} {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
-              is defined and ai_antwoord.data | trim != "" %} {% if not lokale_modus
-              and ai_beschikbaar %} {{ ai_antwoord.data }} {% else %} ⚠️ [Lokaal]
-              Er staat boven een raam open terwijl de verwarming actief is. De verwarming
-              sluit over 3 minuten automatisch. {% endif %}'
-            prioriteit: Push Alleen
-            melding_tag: hvac-status-kamers
-            melding_group: huis
-      - delay: 00:03:00
-      - if:
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_3
-          state: 'on'
-        then:
-        - action: climate.set_hvac_mode
-          target:
-            entity_id: climate.elmo
-          data:
-            hvac_mode: 'off'
-      - if:
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_2
-          state: 'on'
-        then:
-        - action: climate.set_hvac_mode
-          target:
-            entity_id: climate.trix
-          data:
-            hvac_mode: 'off'
-    - conditions:
-      - condition: trigger
-        id: escalatie_waarschuwing
-      - condition: or
-        conditions:
-        - condition: state
-          entity_id: input_select.woning_status
-          state: Thuis
-        - condition: state
-          entity_id: input_select.woning_status
-          state: Thuis Werk
-        - condition: state
-          entity_id: input_select.woning_status
-          state: Thuis Verlof
-      - condition: numeric_state
-        entity_id: sensor.hue_sensor_buiten_temperature
-        below: 15.5
-      - condition: template
-        value_template: '{{ states(''binary_sensor.aqara_raamsensor_2'') in [''on'',
-          ''unavailable''] or states(''binary_sensor.aqara_raamsensor_3'') in [''on'',
-          ''unavailable''] }}'
-      sequence:
-      - action: ai_task.generate_data
-        continue_on_error: true
-        data:
-          task_name: Raam open boven status
-          entity_id: ai_task.google_ai_task
-          instructions: 'Je bent Siri. Er staat al een hele tijd een raam open op
-            de bovenverdieping, of de temperatuur zakt onder de 15.5 graden.  Vertel
-            Bert, Caroline of bezoek dat de verwarming op de kamers van Elmo en Trix
-            pas weer zal aanspringen zodra de ramen volledig gesloten zijn, om te
-            voorkomen dat het ijskoud wordt. STRIKTE FORMATTERING: Pure schone platte
-            tekst, geen Markdown (**), direct de melding.'
-        response_variable: ai_antwoord
-      - action: script.turn_on
-        target:
-          entity_id: script.centraal_universele_notificatie_spraak
-        data:
-          variables:
-            melding_titel: "Verwarming Slaapkamers \U0001F321️"
-            melding_tekst: '{% set lokale_modus = is_state(''input_boolean.lokale_notificaties'',
-              ''on'') %} {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
-              is defined and ai_antwoord.data | trim != "" %} {% if not lokale_modus
-              and ai_beschikbaar %} {{ ai_antwoord.data }} {% else %} ⚠️ [Lokaal]
-              De temperatuur boven zakt te diep. Sluit de ramen van de kinderkamers
-              zodat de verwarming weer kan starten. {% endif %}'
-            prioriteit: Geen
-            melding_tag: hvac-status-kamers
-            melding_group: huis
-      - delay: 00:30:00
-    - conditions:
-      - condition: template
-        value_template: '{{ trigger.id in [''elmo_raam_toe'', ''trix_raam_toe''] }}'
-      - condition: template
-        value_template: "{{ (is_state('climate.elmo', 'off') and states('binary_sensor.aqara_raamsensor_3')
-          in ['off', 'unavailable']) or\n   (is_state('climate.trix', 'off') and states('binary_sensor.aqara_raamsensor_2')
-          in ['off', 'unavailable']) }}"
-      sequence:
-      - action: ai_task.generate_data
-        continue_on_error: true
-        data:
-          task_name: Raam gesloten boven
-          entity_id: ai_task.google_ai_task
-          instructions: 'Je bent Siri. Er is zojuist een raam gesloten op de bovenverdieping.
-            Meld Bert, Caroline of bezoek dat de verwarming op de slaapkamers van
-            Elmo en/of Trix weer is ingeschakeld en bedank ze vriendelijk. STRIKTE
-            FORMATTERING: Pure schone platte tekst, geen Markdown (**), direct de
-            melding.'
-        response_variable: ai_antwoord
-      - action: script.turn_on
-        target:
-          entity_id: script.centraal_universele_notificatie_spraak
-        data:
-          variables:
-            melding_titel: "Verwarming Slaapkamers \U0001F321️"
-            melding_tekst: '{% set lokale_modus = is_state(''input_boolean.lokale_notificaties'',
-              ''on'') %} {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
-              is defined and ai_antwoord.data | trim != "" %} {% if not lokale_modus
-              and ai_beschikbaar %} {{ ai_antwoord.data }} {% else %} ⚠️ [Lokaal]
-              De ramen zijn weer gesloten. De verwarming boven is geactiveerd. Bedankt!
-              {% endif %}'
-            prioriteit: Push Alleen
-            melding_tag: hvac-status-kamers
-            melding_group: huis
-      - if:
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_3
-          state: 'off'
-        then:
-        - action: climate.set_hvac_mode
-          target:
-            entity_id: climate.elmo
-          data:
-            hvac_mode: heat
-      - if:
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_2
-          state: 'off'
-        then:
-        - action: climate.set_hvac_mode
-          target:
-            entity_id: climate.trix
-          data:
-            hvac_mode: heat
-  mode: queued
-  max: 10
-- id: heating_outside_temp_001
-  alias: 'HVAC: Verwarming - Auto Aan/Uit (Temp)'
-  description: 'Fijnafstelling overgangsseizoenen: Schakelt de verwarming uit boven
-    21.5°C en aan onder 21°C buitentemperatuur.'
-  triggers:
-  - trigger: numeric_state
-    entity_id: sensor.hue_sensor_buiten_temperature
-    below: 21
-    id: kouder_buiten
-  - trigger: numeric_state
-    entity_id: sensor.hue_sensor_buiten_temperature
-    above: 21.5
-    id: warmer_buiten
-  conditions:
-  - condition: not
-    conditions:
-    - condition: state
-      entity_id: sensor.season
-      state: summer
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Op Vakantie
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Op Vakantie (Bezoek)
-  actions:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: kouder_buiten
-      sequence:
-      - condition: state
-        entity_id: input_boolean.heating
-        state: 'off'
-      - action: input_boolean.turn_on
-        target:
-          entity_id: input_boolean.heating
-    - conditions:
-      - condition: trigger
-        id: warmer_buiten
-      sequence:
-      - condition: state
-        entity_id: input_boolean.heating
-        state: 'on'
-      - action: input_boolean.turn_off
-        target:
-          entity_id: input_boolean.heating
-  mode: single
-  max_exceeded: silent
-- id: heating_season_001
-  alias: 'HVAC: Verwarming - Auto Aan/Uit (Seizoen)'
-  description: Zet de centrale verwarming aan of uit op basis van het kalenderseizoen.
-  triggers:
-  - trigger: state
-    entity_id: sensor.season
-  conditions:
-  - condition: template
-    value_template: '{{ trigger.to_state.state in [''summer'', ''winter'', ''autumn'',
-      ''spring''] }}'
-  actions:
-  - choose:
-    - conditions:
-      - condition: template
-        value_template: '{{ trigger.to_state.state == ''summer'' }}'
-      sequence:
-      - condition: state
-        entity_id: input_boolean.heating
-        state: 'on'
-      - action: input_boolean.turn_off
-        target:
-          entity_id: input_boolean.heating
-    - conditions:
-      - condition: template
-        value_template: '{{ trigger.to_state.state in [''winter'', ''autumn'', ''spring'']
-          }}'
-      sequence:
-      - condition: state
-        entity_id: input_boolean.heating
-        state: 'off'
-      - action: input_boolean.turn_on
-        target:
-          entity_id: input_boolean.heating
-  mode: single
-  max_exceeded: silent
 - id: heating_boolean_001
-  alias: 'HVAC: EvoHome - Status Uitvoeren'
+  alias: 'HVAC: Centraal - Modus Uitvoeren en EvoHome Status Aanpassen'
   description: Zet Evohome op Auto of HeatingOff en stuurt een slimme AI-notificatie
-    op basis of het huis centraal op Verwarmen staat of niet.
+    op basis van de kinderkamerramen boven als de modus verandert.
   triggers:
   - trigger: state
     entity_id: sensor.woning_hvac_modus
@@ -3259,36 +2672,35 @@
     data:
       task_name: Verwarming Melding op Maat
       entity_id: ai_task.google_ai_task
-      instructions: 'Je bent Siri en beheert het klimaat in het huis van Bert en Caroline.
-        De centrale verwarmingsmodus is zojuist aangepast en je moet een statusmelding
-        maken.
+      instructions: 'Je bent Siri en beheert het klimaat in het huis van Bert und
+        Caroline. De centrale verwarmingsmodus is zojuist aangepast en je moet een
+        statusmelding maken.
 
-        GEGEVENS VAN HET HUIS:  - Centrale HVAC Modus (sensor.woning_hvac_modus):
-        {{ states(''sensor.woning_hvac_modus'') }}  - Raam kinderkamer 2: {{ states(''binary_sensor.aqara_raamsensor_2'')
-        }} (on = open, off = dicht)  - Raam kinderkamer 3: {{ states(''binary_sensor.aqara_raamsensor_3'')
+        GEGEVENS VAN HET HUIS: - Centrale HVAC Modus (sensor.woning_hvac_modus): {{
+        states(''sensor.woning_hvac_modus'') }} - Raam kinderkamer 2: {{ states(''binary_sensor.aqara_raamsensor_2'')
+        }} (on = open, off = dicht) - Raam kinderkamer 3: {{ states(''binary_sensor.aqara_raamsensor_3'')
         }} (on = open, off = dicht)
 
-        BEPALING VAN DE TEKST:  SITUATIE A (Modus is Verwarmen en er staat minstens
-        één raam van de kinderkamers OPEN):  Meld dringend maar vriendelijk dat de
-        ramen van de kinderkamers nog openstaan terwijl de verwarming begint te draaien.
+        BEPALING VAN DE TEKST: SITUATIE A (Modus is Verwarmen en er staat minstens
+        één raam van de kinderkamers OPEN): Meld dringend maar vriendelijk dat de
+        ramen van de kinderkamers nog openstaan terwijl de  verwarming begint te draaien.
         Vraag om ze te sluiten.
 
-        SITUATIE B (Modus is Verwarmen en alle ramen boven zijn DICHT):  Meld enthousiast
+        SITUATIE B (Modus is Verwarmen en alle ramen boven zijn DICHT): Meld enthousiast
         dat de verwarming is aangezet en het huis lekker comfortabel zal worden gemaakt.
 
         SITUATIE C (Modus is Koelen of Verluchten en minstens één raam boven is nog
-        DICHT):  Meld dat de verwarming is uitgeschakeld omdat het buiten warm genoeg
-        is, en herinner hen eraan dat dit het ideale moment is om de kinderkamers
+        DICHT): Meld dat de verwarming is uitgeschakeld omdat het buiten warm genoeg
+        is, en herinner hen eraan  dat dit het ideale moment is om de kinderkamers
         lekker te verluchten.
 
-        SITUATIE D (Modus is Koelen of Verluchten en ramen zijn al open):  Meld simpelweg
+        SITUATIE D (Modus is Koelen of Verluchten en ramen zijn al open): Meld simpelweg
         dat de verwarming is uitgeschakeld om energie te besparen.
 
-        STRIKTE FORMATTERING REGELS:  1. Geef DIRECT de tekst van de melding. Typ
-        GEEN introductie.  2. Gebruik NOOIT Markdown-opmaak (geen sterretjes).   3.
-        De output moet pure, schone platte tekst zijn.
-
-        '
+        STRIKTE FORMATTERING REGELS: 1. Geef DIRECT de tekst van de melding. Typ GEEN
+        introductie. 2. Gebruik NOOIT Markdown-opmaak (geen sterretjes). 3. De output
+        moet pure, schone platte tekst zijn. 4. Hou het voldoende kort voor een iOS
+        notificatie en spraaknotificatie via HomePods.'
     response_variable: ai_antwoord
   - action: script.turn_on
     target:
@@ -3300,7 +2712,7 @@
           is_state('binary_sensor.aqara_raamsensor_3', 'on'))) else '\U0001F525 HVAC
           Status' }}"
         melding_tekst: "{% set lokale_modus = is_state('input_boolean.lokale_notificaties',
-          'on') %}  {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
+          'on') %} {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
           is defined and ai_antwoord.data | trim != \"\" %}\n{% if not lokale_modus
           and ai_beschikbaar %}\n  {{ ai_antwoord.data }}\n{% else %}\n  ⚠️ [Lokaal]
           De centrale woning modus is nu: {{ states('sensor.woning_hvac_modus') }}.
@@ -3986,77 +3398,6 @@
       target:
         entity_id: script.light_bathroom_on
   mode: restart
-- id: light_bedroom_elmo_004
-  alias: 'Licht: Elmo - Wekker Ochtend'
-  description: Elmo wakker maken via schema en een pushnotificatie naar de ouders
-    sturen.
-  triggers:
-  - entity_id: schedule.slapen_elmo
-    from: 'on'
-    to: 'off'
-    trigger: state
-  conditions:
-  - condition: state
-    entity_id: input_boolean.kids_wekker
-    state: 'on'
-  - condition: state
-    entity_id: input_select.woning_status
-    state:
-    - Thuis
-    - Juist Thuis
-    - Thuis Werk
-    - Thuis Verlof
-  - condition: time
-    before: '10:00:00'
-  - condition: state
-    entity_id: switch.hue_smart_plug_6
-    state: 'on'
-  actions:
-  - action: ai_task.generate_data
-    continue_on_error: true
-    data:
-      task_name: Wekker Ochtend Elmo Notificatie Ouders
-      entity_id: ai_task.google_ai_task
-      instructions: 'Je bent Siri. Stuur een kort, vlot en alert bericht naar Bert
-        en Caroline  om te melden dat het tijd is om hun kleine jongen te wekken.
-        Maak het  een tikkeltje ludiek of herkenbaar voor de vroege ochtend (maximaal
-        1 à 2 zinnen).
-
-        STRIKTE FORMATTERING REGELS: 1. Geef DIRECT de tekst van de melding. Geen
-        introducties zoals "Hier is je bericht". 2. Gebruik NOOIT Markdown-opmaak
-        (geen sterretjes voor vetgedrukte tekst). 3. De output moet pure, schane platte
-        tekst zijn voor een smartphone notificatie.'
-    response_variable: ai_antwoord
-  - action: script.turn_on
-    target:
-      entity_id: script.centraal_universele_notificatie_spraak
-    data:
-      variables:
-        melding_titel: ⏰ Tijd om op te staan!
-        melding_tekst: "{% set lokale_modus = is_state('input_boolean.lokale_notificaties',
-          'on') %} {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
-          is defined and ai_antwoord.data | trim != \"\" %}\n{% if not lokale_modus
-          and ai_beschikbaar %}\n  {{ ai_antwoord.data }}\n{% else %}\n  ⚠️ [Lokaal]
-          Het schema is afgelopen. Tijd om Elmo te gaan wekken!\n{% endif %}"
-        prioriteit: Geen
-        melding_tag: kids-status
-        melding_group: huis
-    continue_on_error: true
-  - delay: 00:01:02
-  - condition: state
-    entity_id: input_boolean.kids_wekker
-    state: 'on'
-  - condition: state
-    entity_id: light.hue_white_and_color_ambiance_a19_gen2_1
-    state: 'off'
-  - target:
-      entity_id: script.light_elmo
-    action: script.turn_on
-  - delay: 00:10:00
-  - target:
-      entity_id: switch.hue_smart_plug_6
-    action: switch.turn_off
-  mode: single
 - id: light_bedroom_elmo_006
   alias: 'Licht: Elmo - Uit / Nachtlamp Sync'
   triggers:
@@ -4101,98 +3442,6 @@
     - target:
         entity_id: light.ikea_of_sweden_tretakt_smart_plug_2
       action: light.turn_on
-- id: light_bedroom_elmo_003
-  alias: 'Licht: Elmo - Alarm Wekker (Handmatig)'
-  triggers:
-  - entity_id: input_button.elmo_alarm
-    trigger: state
-  actions:
-  - if:
-    - condition: state
-      entity_id: light.hue_white_and_color_ambiance_a19_gen2_1
-      state: 'off'
-    then:
-    - data:
-        transition: 120
-      target:
-        entity_id: scene.elmo_ochtend
-      action: scene.turn_on
-  - delay: 00:05:00
-  - target:
-      entity_id: switch.hue_smart_plug_6
-    action: switch.turn_off
-  mode: single
-- id: light_bedroom_trix_001
-  alias: 'Licht: Trix - Wekker Ochtend'
-  description: Trix wakker maken via schema en een pushnotificatie naar de ouders
-    sturen.
-  triggers:
-  - entity_id: schedule.slapen_trix
-    from: 'on'
-    to: 'off'
-    trigger: state
-  conditions:
-  - condition: state
-    entity_id: input_boolean.kids_wekker
-    state: 'on'
-  - condition: state
-    entity_id: input_select.woning_status
-    state:
-    - Thuis
-    - Juist Thuis
-    - Thuis Werk
-    - Thuis Verlof
-  - condition: time
-    before: '10:00:00'
-  - condition: state
-    entity_id: switch.hue_smart_plug_5
-    state: 'on'
-  actions:
-  - action: ai_task.generate_data
-    continue_on_error: true
-    data:
-      task_name: Wekker Ochtend Trix Notificatie Ouders
-      entity_id: ai_task.google_ai_task
-      instructions: 'Je bent Siri. Stuur een kort, vlot en alert bericht naar Bert
-        en Caroline  om te melden dat het tijd is om hun kleine meid te wekken. Maak
-        het  een tikkeltje ludiek of herkenbaar voor de vroege ochtend (maximaal 1
-        à 2 zinnen).
-
-        STRIKTE FORMATTERING REGELS: 1. Geef DIRECT de tekst van de melding. Geen
-        introducties. 2. Gebruik NOOIT Markdown-opmaak (geen sterretjes voor vetgedrukte
-        tekst). 3. De output moet pure, schane platte tekst zijn voor een smartphone
-        notificatie.'
-    response_variable: ai_antwoord
-  - action: script.turn_on
-    target:
-      entity_id: script.centraal_universele_notificatie_spraak
-    data:
-      variables:
-        melding_titel: ⏰ Tijd om op te staan!
-        melding_tekst: "{% set lokale_modus = is_state('input_boolean.lokale_notificaties',
-          'on') %} {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
-          is defined and ai_antwoord.data | trim != \"\" %}\n{% if not lokale_modus
-          and ai_beschikbaar %}\n  {{ ai_antwoord.data }}\n{% else %}\n  ⚠️ [Lokaal]
-          Het schema is afgelopen. Tijd om Trix te gaan wekken!\n{% endif %}"
-        prioriteit: Geen
-        melding_tag: kids-status
-        melding_group: huis
-    continue_on_error: true
-  - delay: 00:01:02
-  - condition: state
-    entity_id: input_boolean.kids_wekker
-    state: 'on'
-  - condition: state
-    entity_id: light.hue_white_and_color_ambiance_a19_gen2_2
-    state: 'off'
-  - target:
-      entity_id: script.light_trix
-    action: script.turn_on
-  - delay: 00:10:00
-  - target:
-      entity_id: switch.hue_smart_plug_5
-    action: switch.turn_off
-  mode: single
 - id: light_bedroom_trix_003
   alias: 'Licht: Trix - Uit / Nachtlamp Sync'
   description: Schakel licht uit na 30 min of na herverbinding
@@ -4239,28 +3488,6 @@
       target:
         entity_id: light.ikea_of_sweden_tretakt_smart_plug_1
       data: {}
-- id: light_bedroom_trix_004
-  alias: 'Licht: Trix - Alarm Wekker (Handmatig)'
-  description: ''
-  triggers:
-  - entity_id: input_button.trix_alarm
-    trigger: state
-  actions:
-  - if:
-    - condition: state
-      entity_id: light.hue_white_and_color_ambiance_a19_gen2_2
-      state: 'off'
-    then:
-    - data:
-        transition: 60
-      target:
-        entity_id: scene.trix_ochtend
-      action: scene.turn_on
-  - delay: 00:05:00
-  - target:
-      entity_id: switch.hue_smart_plug_5
-    action: switch.turn_off
-  mode: single
 - id: light_gardenshed_001
   alias: 'Licht: Tuinhuis - Aan'
   description: Zet de buitenstrip aan op basis van beweging en seizoen
@@ -5423,88 +4650,6 @@
       - light.ikea_of_sweden_tretakt_smart_plug_3
   mode: single
   max_exceeded: silent
-- id: '1687676493939'
-  alias: 'HVAC: Airco Boven - Elmo Uit voor Slapen'
-  description: Zet de Airco van Elmo uit zodra hij gaat slapen of de camera aangaat.
-  mode: single
-  max_exceeded: silent
-  triggers:
-  - trigger: state
-    entity_id: input_select.woning_status
-    to: Juist Thuis
-  - trigger: state
-    entity_id: schedule.slapen_elmo
-    from: 'off'
-    to: 'on'
-  - trigger: state
-    entity_id: switch.hue_smart_plug_6
-    to: 'on'
-  conditions:
-  - condition: state
-    entity_id: input_select.woning_status
-    state:
-    - Thuis
-    - Juist Thuis
-    - Thuis Verlof
-  - condition: not
-    conditions:
-    - condition: state
-      entity_id: climate.airco_elmo
-      state: 'off'
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: schedule.slapen_elmo
-      state: 'on'
-    - condition: state
-      entity_id: switch.hue_smart_plug_6
-      state: 'on'
-  actions:
-  - delay: 00:00:20
-  - action: climate.set_hvac_mode
-    target:
-      entity_id: climate.airco_elmo
-    data:
-      hvac_mode: 'off'
-- id: '1687678022824'
-  alias: 'HVAC: Airco Boven - Trix Uit voor Slapen'
-  description: Zet de Airco Uit als ze gaan slapen
-  triggers:
-  - entity_id: input_select.woning_status
-    to: Juist Thuis
-    trigger: state
-  - entity_id:
-    - schedule.slapen_trix
-    to: 'on'
-    trigger: state
-  conditions:
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Thuis
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Thuis Verlof
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Juist Thuis
-  - condition: state
-    entity_id: climate.airco_trix
-    attribute: hvac_action
-    state: cooling
-  - condition: state
-    entity_id: schedule.slapen_trix
-    state: 'on'
-  actions:
-  - action: climate.set_hvac_mode
-    metadata: {}
-    target:
-      entity_id: climate.airco_trix
-    data:
-      hvac_mode: 'off'
-  mode: single
-  max_exceeded: silent
 - id: '1687683454617'
   alias: 'HVAC: Airco Trix - Uit'
   description: Schakelt de airco van Trix uit zodra ze naar bed gaat, ramen openen,
@@ -5827,276 +4972,6 @@
         melding_tag: caro-status
         melding_group: bewoner
   mode: restart
-- id: '1689492113424'
-  alias: 'HVAC: Airco Slaapkamer - Volgens Boolean Koelen'
-  description: Stuurt de airco van de master slaapkamer aan op basis van de koel-boolean
-    en regelt slimme notificaties via het centrale script.
-  triggers:
-  - trigger: state
-    entity_id: input_boolean.cooling_attic
-  - trigger: state
-    entity_id: input_select.woning_status
-    from: Juist Wakker
-    for:
-      hours: 1
-      minutes: 0
-      seconds: 0
-  - trigger: state
-    entity_id: input_select.woning_status
-    from: Op Vakantie
-  conditions:
-  - condition: not
-    conditions:
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Slapen
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Op Vakantie
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Op Vakantie (Bezoek)
-  actions:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: input_boolean.cooling_attic
-        state: 'on'
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_4
-          state: 'on'
-      sequence:
-      - action: climate.set_hvac_mode
-        target:
-          entity_id: climate.airco_slaapkamer
-        data:
-          hvac_mode: cool
-      - action: climate.set_temperature
-        target:
-          entity_id: climate.airco_slaapkamer
-        data:
-          temperature: 19
-    - conditions:
-      - condition: state
-        entity_id: input_boolean.cooling_attic
-        state: 'off'
-      sequence:
-      - action: climate.set_hvac_mode
-        target:
-          entity_id: climate.airco_slaapkamer
-        data:
-          hvac_mode: 'off'
-  - if:
-    - condition: or
-      conditions:
-      - condition: and
-        conditions:
-        - condition: state
-          entity_id: input_boolean.cooling_attic
-          state: 'on'
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_4
-          state: 'on'
-      - condition: state
-        entity_id: input_boolean.cooling_attic
-        state: 'off'
-    then:
-    - delay:
-        hours: 0
-        minutes: 0
-        seconds: 10
-        milliseconds: 0
-    - action: ai_task.generate_data
-      continue_on_error: true
-      data:
-        task_name: Airco Boolean Notificatie Slaapkamer
-        entity_id: ai_task.google_ai_task
-        instructions: "Je bent Siri en beheert het klimaat in de hoofdslaapkamer van
-          Bert en Caroline.\nSITUATIE 1 (cooling_attic is 'on'): Het wordt buiten
-          warm en de airco in de slaapkamer moet gaan koelen, maar het raam staat
-          daar nog open! Vertel ze op een gevatte manier dat het raam dicht moet zodat
-          de kamer lekker koel kan worden.\nSITUATIE 2 (cooling_attic is 'off'): De
-          actieve koeling stopt omdat het buiten frisser is geworden. Moedig ze op
-          een vrolijke manier aan om het slaapkamerraam open te zetten om lekker gratis
-          te verluchten.\nHUIDIGE STATUS: - Centrale koeling zolder/slaapkamer (cooling_attic):
-          {{ states('input_boolean.cooling_attic') }} - Raamsensor slaapkamer: {{
-          states('binary_sensor.aqara_raamsensor_4') }}\nHoud het kort, vlot en perfect
-          geschikt voor een iOS notificatie en een HomePod spraakbericht.\nSTRIKTE
-          FORMATTERING REGELS:\n1. Geef DIRECT de tekst van de melding. Typ GEEN introductie
-          zoals \"Hier is de melding:\" of \"Oké, ik heb dit gemaakt:\".\n2. Gebruik
-          NOOIT Markdown-opmaak. Gebruik GEEN sterretjes (**) voor vetgedrukte tekst.
-          \n3. De output moet pure, schone platte tekst zijn die direct in een pushnotificatie
-          past."
-      response_variable: ai_antwoord
-    - action: script.turn_on
-      target:
-        entity_id: script.centraal_universele_notificatie_spraak
-      data:
-        variables:
-          melding_titel: "{{ '\U0001F6CF️ SLAAPKAMER RAMEN TOE AUB' if is_state('input_boolean.cooling_attic',
-            'on') else '\U0001F32C️ SLAAPKAMER VERLUCHTEN AUB' }}"
-          melding_tekst: "{% set lokale_modus = is_state('input_boolean.lokale_notificaties',
-            'on') %} {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
-            is defined and ai_antwoord.data | trim != \"\" %}\n{% if not lokale_modus
-            and ai_beschikbaar %}\n  {{ ai_antwoord.data }}\n{% else %}\n  ⚠️ [Lokaal]
-            {% if is_state('input_boolean.cooling_attic', 'on') %}Het wordt warm.
-            Sluit het slaapkamerraam zodat de airco kan koelen!{% else %}Het is buiten
-            frisser. Zet het slaapkamerraam open om te verluchten!{% endif %}\n{%
-            endif %}"
-          prioriteit: Geen
-          melding_tag: hvac-status-slaapkamer
-          melding_group: huis
-      continue_on_error: true
-  mode: single
-  max_exceeded: silent
-- id: '1689492239243'
-  alias: 'HVAC: Airco Slaapkamer - Koelen Aan/Uit volgens Buiten Temperatuur'
-  description: TBD
-  triggers:
-  - entity_id: sensor.hue_sensor_buiten_temperature
-    above: sensor.airco_slaapkamer_temperature
-    id: Zolder Warm
-    for:
-      hours: 0
-      minutes: 5
-      seconds: 0
-    trigger: numeric_state
-  - entity_id: sensor.hue_sensor_buiten_temperature
-    below: sensor.airco_slaapkamer_temperature
-    id: Zolder Kouder
-    for:
-      hours: 0
-      minutes: 5
-      seconds: 0
-    trigger: numeric_state
-  - entity_id: sensor.hue_sensor_buiten_temperature
-    above: 23.5
-    id: Buiten Warm
-    for:
-      hours: 0
-      minutes: 5
-      seconds: 0
-    trigger: numeric_state
-  - entity_id: sensor.hue_sensor_buiten_temperature
-    for:
-      hours: 0
-      minutes: 5
-      seconds: 0
-    below: 23
-    id: Buiten Kouder
-    trigger: numeric_state
-  - entity_id:
-    - climate.slaapkamer
-    for:
-      hours: 0
-      minutes: 5
-      seconds: 0
-    above: 22
-    id: Kamer Warm
-    attribute: current_temperature
-    trigger: numeric_state
-  - entity_id: climate.slaapkamer
-    for:
-      hours: 0
-      minutes: 5
-      seconds: 0
-    below: 20
-    id: Kamer Kouder
-    attribute: current_temperature
-    trigger: numeric_state
-  conditions:
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: sensor.season
-      state: summer
-      enabled: true
-    - condition: state
-      entity_id: input_boolean.heating
-      state: 'off'
-  actions:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id:
-        - Buiten Warm
-        - Zolder Warm
-        - Kamer Warm
-      - condition: or
-        conditions:
-        - condition: numeric_state
-          entity_id: sensor.hue_sensor_buiten_temperature
-          above: 23.5
-        - condition: numeric_state
-          entity_id: climate.slaapkamer
-          above: 24
-          attribute: current_temperature
-      sequence:
-      - condition: state
-        entity_id: input_boolean.cooling_attic
-        state: 'off'
-      - condition: state
-        entity_id: climate.ons_huisje
-        state: 'off'
-      - data: {}
-        target:
-          entity_id:
-          - input_boolean.cooling_attic
-        action: input_boolean.turn_on
-      alias: Aan als het te warm is
-    - conditions:
-      - condition: trigger
-        id:
-        - Kamer Kouder
-      sequence:
-      - condition: numeric_state
-        entity_id: sensor.hue_sensor_buiten_temperature
-        below: 23
-      - condition: state
-        entity_id: input_boolean.cooling_attic
-        state: 'on'
-      - data: {}
-        target:
-          entity_id:
-          - input_boolean.cooling_attic
-        action: input_boolean.turn_off
-      alias: Uit als kamer koel genoeg is
-    default:
-    - condition: state
-      entity_id: input_boolean.cooling_attic
-      state: 'on'
-    - data: {}
-      target:
-        entity_id:
-        - input_boolean.cooling_attic
-      action: input_boolean.turn_off
-  mode: single
-  max_exceeded: silent
-- id: '1689595995781'
-  alias: 'HVAC: Airco Slaapkamer - Uit voor Slapen'
-  description: Zet de Airco uit. Avond
-  triggers:
-  - entity_id:
-    - input_select.woning_status
-    to: Slapen
-    trigger: state
-  conditions:
-  - condition: state
-    entity_id: climate.airco_slaapkamer
-    attribute: hvac_action
-    state: cooling
-    enabled: true
-  actions:
-  - action: climate.set_hvac_mode
-    metadata: {}
-    target:
-      entity_id: climate.airco_slaapkamer
-    data:
-      hvac_mode: 'off'
-  mode: single
-  max_exceeded: silent
 - id: '1695726677784'
   alias: 'HVAC: Airco Elmo - Aan'
   description: Stuurt de airco van Elmo aan voor comfort (koelen) of nood-vorstbeveiliging.
@@ -6299,244 +5174,6 @@
           hvac_mode: heat
   mode: queued
   max: 5
-- id: '1695731770797'
-  alias: 'HVAC: Verwarming Boven - Ramen Toe Dus Verwarming Aan'
-  description: Zet de specifieke kamerverwarming weer aan zodra het bijbehorende raam
-    gesloten is.
-  triggers:
-  - trigger: state
-    entity_id: binary_sensor.aqara_raamsensor_3
-    to: 'off'
-    id: elmo_raam_toe
-  - trigger: state
-    entity_id: binary_sensor.aqara_raamsensor_2
-    to: 'off'
-    id: trix_raam_toe
-  conditions:
-  - condition: state
-    entity_id: climate.ons_huisje
-    state: heat
-  - condition: or
-    conditions:
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: climate.elmo
-        state: 'off'
-      - condition: or
-        conditions:
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_3
-          state: 'off'
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_3
-          state: unavailable
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: climate.trix
-        state: 'off'
-      - condition: or
-        conditions:
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_2
-          state: 'off'
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_2
-          state: unavailable
-  actions:
-  - action: ai_task.generate_data
-    continue_on_error: true
-    data:
-      task_name: Raam gesloten boven
-      entity_id: ai_task.google_ai_task
-      instructions: 'Je bent Siri, een behulpzame home assistant. Er is zojuist een
-        raam gesloten op de bovenverdieping. Meld de bewoners (Bert, Caroline of bezoek)
-        dat de verwarming op de slaapkamers van Elmo en/of Trix weer is ingeschakeld
-        en bedank ze vriendelijk voor het sluiten van de ramen.
-
-        HUIDIGE STATUS: - Raam Trix: {{ states(''binary_sensor.aqara_raamsensor_2'')
-        }} - Verwarming Trix: {{ states(''climate.trix'') }} - Raam Elmo: {{ states(''binary_sensor.aqara_raamsensor_3'')
-        }} - Verwarming Elmo: {{ states(''climate.elmo'') }} - Bert: {{ states(''person.bert'')
-        }} - Caroline: {{ states(''person.caroline'') }} - Bezoek: {{ states(''binary_sensor.bezoek'')
-        }}
-
-        STRIKTE FORMATTERING REGELS: 1. Geef DIRECT de tekst van de melding. Typ GEEN
-        introductie. 2. Gebruik NOOIT Markdown-opmaak. Gebruik GEEN sterretjes (**).  3.
-        De output moet pure, schone platte tekst zijn die direct in een pushnotificatie
-        past.'
-    response_variable: ai_antwoord
-  - action: script.turn_on
-    target:
-      entity_id: script.centraal_universele_notificatie_spraak
-    data:
-      variables:
-        melding_titel: "Verwarming Slaapkamers \U0001F321️"
-        melding_tekst: "{% set lokale_modus = is_state('input_boolean.lokale_notificaties',
-          'on') %} {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
-          is defined and ai_antwoord.data | trim != \"\" %}\n{% if not lokale_modus
-          and ai_beschikbaar %}\n  {{ ai_antwoord.data }}\n{% else %}\n  ⚠️ [Lokaal]
-          De ramen zijn weer gesloten. De verwarming boven is geactiveerd. Bedankt!\n{%
-          endif %}"
-        prioriteit: Push Alleen
-        melding_tag: hvac-status-kamers
-        melding_group: huis
-    continue_on_error: true
-  - if:
-    - condition: state
-      entity_id: climate.elmo
-      state: 'off'
-    - condition: or
-      conditions:
-      - condition: state
-        entity_id: binary_sensor.aqara_raamsensor_3
-        state: 'off'
-      - condition: state
-        entity_id: binary_sensor.aqara_raamsensor_3
-        state: unavailable
-    then:
-    - action: climate.set_hvac_mode
-      target:
-        entity_id: climate.elmo
-      data:
-        hvac_mode: heat
-  - if:
-    - condition: state
-      entity_id: climate.trix
-      state: 'off'
-    - condition: or
-      conditions:
-      - condition: state
-        entity_id: binary_sensor.aqara_raamsensor_2
-        state: 'off'
-      - condition: state
-        entity_id: binary_sensor.aqara_raamsensor_2
-        state: unavailable
-    then:
-    - action: climate.set_hvac_mode
-      target:
-        entity_id: climate.trix
-      data:
-        hvac_mode: heat
-  mode: queued
-  max: 10
-- id: '1695731846147'
-  alias: 'HVAC: Verwarming Boven - Raam Open Dus Verwarming Uit'
-  description: Zet de specifieke kamerverwarming uit als het raam openstaat en Evohome
-    actief is.
-  triggers:
-  - trigger: state
-    entity_id: binary_sensor.aqara_raamsensor_3
-    to: 'on'
-    id: elmo_raam_open
-  - trigger: state
-    entity_id: climate.elmo
-    to: heat
-    for: 00:02:00
-    id: elmo_verwarming_aan
-  - trigger: state
-    entity_id: binary_sensor.aqara_raamsensor_2
-    to: 'on'
-    id: trix_raam_open
-  - trigger: state
-    entity_id: climate.trix
-    to: heat
-    for: 00:02:00
-    id: trix_verwarming_aan
-  conditions:
-  - condition: state
-    entity_id: climate.ons_huisje
-    state: heat
-  - condition: or
-    conditions:
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: binary_sensor.aqara_raamsensor_3
-        state: 'on'
-      - condition: state
-        entity_id: climate.elmo
-        state: heat
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: binary_sensor.aqara_raamsensor_2
-        state: 'on'
-      - condition: state
-        entity_id: climate.trix
-        state: heat
-  actions:
-  - action: ai_task.generate_data
-    continue_on_error: true
-    data:
-      task_name: Raam open boven
-      entity_id: ai_task.google_ai_task
-      instructions: 'Je bent Siri, de slimme assistent van het huis. Er staat een
-        raam open boven terwijl de verwarming op die kamer probeert te stoken. Laat
-        de aanwezige bewoners weten dat de verwarming op de getroffen kamer(s) over
-        3 minutes  automatisch wordt uitgeschakeld om energieverspilling te voorkomen
-        als het raam open blijft.
-
-        HUIDIGE STATUS: - Raam Trix (kamersensor 2): {{ states(''binary_sensor.aqara_raamsensor_2'')
-        }} (on = open, off = dicht) - Verwarming Trix: {{ states(''climate.trix'')
-        }} - Raam Elmo (kamersensor 3): {{ states(''binary_sensor.aqara_raamsensor_3'')
-        }} (on = open, off = dicht) - Verwarming Elmo: {{ states(''climate.elmo'')
-        }} - Bert Thuis: {{ states(''person.bert'') }} - Caroline Thuis: {{ states(''person.caroline'')
-        }} - Bezoek Thuis: {{ states(''binary_sensor.bezoek'') }}
-
-        STRIKTE FORMATTERING REGELS: 1. Geef DIRECT de tekst van de melding. Typ GEEN
-        introductie zoals "Hier is de melding:" of "Oké, ik heb dit gemaakt:". 2.
-        Gebruik NOOIT Markdown-opmaak. Gebruik GEEN sterretjes (**) voor vetgedrukte
-        tekst.  3. De output moet pure, schone platte tekst zijn die direct in een
-        pushnotificatie past.
-
-        '
-    response_variable: ai_antwoord
-  - action: script.turn_on
-    target:
-      entity_id: script.centraal_universele_notificatie_spraak
-    data:
-      variables:
-        melding_titel: ⚠️ Verwarming Slaapkamers
-        melding_tekst: "{% set lokale_modus = is_state('input_boolean.lokale_notificaties',
-          'on') %} {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
-          is defined and ai_antwoord.data | trim != \"\" %}\n{% if not lokale_modus
-          and ai_beschikbaar %}\n  {{ ai_antwoord.data }}\n{% else %}\n  ⚠️ [Lokaal]
-          Er staat boven een raam open terwijl de verwarming actief is. De verwarming
-          sluit over 3 minuten automatisch.\n{% endif %}"
-        prioriteit: Push Alleen
-        melding_tag: hvac-status-kamers
-        melding_group: huis
-    continue_on_error: true
-  - delay: 00:03:00
-  - if:
-    - condition: state
-      entity_id: binary_sensor.aqara_raamsensor_3
-      state: 'on'
-    - condition: state
-      entity_id: climate.elmo
-      state: heat
-    then:
-    - action: climate.set_hvac_mode
-      target:
-        entity_id: climate.elmo
-      data:
-        hvac_mode: 'off'
-  - if:
-    - condition: state
-      entity_id: binary_sensor.aqara_raamsensor_2
-      state: 'on'
-    - condition: state
-      entity_id: climate.trix
-      state: heat
-    then:
-    - action: climate.set_hvac_mode
-      target:
-        entity_id: climate.trix
-      data:
-        hvac_mode: 'off'
-  mode: queued
-  max: 10
 - id: '1695972543527'
   alias: 'Personen: Zones (Bert Werk) - Vertrokken'
   description: Notificeert Caroline via het centrale systeem wanneer Bert vertrekt
@@ -6569,199 +5206,6 @@
         melding_tag: bert-status
         melding_group: bewoner
   mode: restart
-- id: '1695974768068'
-  alias: 'HVAC: Verwarming Slaapkamer - Aan'
-  description: Zet de airco-verwarming op de slaapkamer aan op basis van schema, status
-    of vorstbeveiliging.
-  triggers:
-  - trigger: state
-    entity_id: schedule.heating_attic
-    to: 'on'
-  - trigger: state
-    entity_id: input_select.woning_status
-    to: Thuis
-    from: Juist Wakker
-    for: 00:30:00
-  - trigger: state
-    entity_id: input_select.woning_status
-    to: Juist Thuis
-  - trigger: state
-    entity_id: input_boolean.pre_heat
-    to: 'on'
-  - trigger: state
-    entity_id: input_boolean.heating
-    to: 'on'
-  - trigger: numeric_state
-    entity_id: climate.slaapkamer
-    attribute: current_temperature
-    below: 15.5
-  - trigger: state
-    entity_id: binary_sensor.aqara_raamsensor_4
-    to: 'off'
-  conditions:
-  - condition: state
-    entity_id: input_boolean.heating
-    state: 'on'
-  - condition: state
-    entity_id: input_boolean.cooling_attic
-    state: 'off'
-  - alias: Test of we wel thuis zijn OF heel koud is
-    condition: or
-    conditions:
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Juist Thuis
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Thuis
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Thuis Werk
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Thuis Verlof
-    - alias: Bevestig dat Woning Status gelijk is aan Weg EN dat het koud is
-      condition: and
-      conditions:
-      - condition: numeric_state
-        entity_id: climate.slaapkamer
-        below: 15.6
-      - condition: or
-        conditions:
-        - condition: state
-          entity_id: input_select.woning_status
-          state: Juist Weg
-        - condition: state
-          entity_id: input_select.woning_status
-          state: Weg
-        - condition: state
-          entity_id: input_select.woning_status
-          state: Op Vakantie
-        - condition: state
-          entity_id: input_select.woning_status
-          state: Op Vakantie (Bezoek)
-  - alias: Test of we NIET slapen of juist wakker zijn
-    condition: not
-    conditions:
-    - condition: or
-      conditions:
-      - condition: state
-        entity_id: input_select.woning_status
-        state: Slapen
-      - condition: state
-        entity_id: input_select.woning_status
-        state: Juist Wakker
-  - alias: Test of verwarming schema slaapkamer aan is OF dat het te koud is
-    condition: or
-    conditions:
-    - condition: state
-      entity_id: schedule.heating_attic
-      state: 'on'
-    - condition: numeric_state
-      entity_id: climate.airco_slaapkamer
-      attribute: current_temperature
-      below: 15.6
-  - alias: Test raam niet open
-    condition: not
-    conditions:
-    - condition: state
-      entity_id: binary_sensor.aqara_raamsensor_4
-      state: 'on'
-  actions:
-  - action: climate.set_hvac_mode
-    target:
-      entity_id: climate.airco_slaapkamer
-    data:
-      hvac_mode: heat
-  - action: climate.set_temperature
-    target:
-      entity_id: climate.airco_slaapkamer
-    data:
-      temperature: 19
-  mode: single
-- id: '1695975090500'
-  alias: 'HVAC: Verwarming Slaapkamer - Uit'
-  description: Schakelt de airco-verwarming op de slaapkamer uit, met uitzondering
-    van de vorstbeveiliging bij vertrek.
-  triggers:
-  - trigger: state
-    entity_id: schedule.heating_attic
-    to: 'off'
-  - trigger: state
-    entity_id: input_select.woning_status
-    to: Juist Weg
-  - trigger: state
-    entity_id: input_select.woning_status
-    to: Slapen
-  - trigger: state
-    entity_id: input_boolean.heating
-    to: 'off'
-  - trigger: state
-    entity_id: input_boolean.cooling_attic
-    to: 'on'
-  - trigger: state
-    entity_id: binary_sensor.aqara_raamsensor_4
-    to: 'on'
-  conditions:
-  - condition: state
-    entity_id: climate.airco_slaapkamer
-    state: heat
-  actions:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: binary_sensor.aqara_raamsensor_4
-        state: 'on'
-      sequence:
-      - action: climate.set_hvac_mode
-        target:
-          entity_id: climate.airco_slaapkamer
-        data:
-          hvac_mode: 'off'
-    - conditions:
-      - condition: state
-        entity_id: input_select.woning_status
-        state: Juist Weg
-      - condition: numeric_state
-        entity_id: climate.slaapkamer
-        below: 17.9
-      sequence:
-      - stop: Airco blijft aan als vorstbeveiliging omdat het kouder is dan 17.9°C.
-    default:
-    - action: climate.set_hvac_mode
-      target:
-        entity_id: climate.airco_slaapkamer
-      data:
-        hvac_mode: 'off'
-  mode: queued
-  max: 10
-  max_exceeded: silent
-- id: '1700140550030'
-  alias: 'HVAC: Verwarming Slaapkamer - Uit Warm Genoeg'
-  description: Zet de airco-verwarming uit als de kamer stabiel warm genoeg is (19°C)
-    en het schema niet actief is.
-  triggers:
-  - trigger: numeric_state
-    entity_id: climate.slaapkamer
-    attribute: current_temperature
-    above: 19
-    for: 00:02:00
-  conditions:
-  - condition: state
-    entity_id: climate.airco_slaapkamer
-    state: heat
-  - condition: state
-    entity_id: schedule.heating_attic
-    state: 'off'
-  actions:
-  - action: climate.set_hvac_mode
-    target:
-      entity_id: climate.airco_slaapkamer
-    data:
-      hvac_mode: 'off'
-  mode: queued
-  max: 5
-  max_exceeded: silent
 - id: '1713336200399'
   alias: 'Computer: Aan'
   description: Zet Computer aan wanneer op Bureau of Tv Aan
@@ -7200,108 +5644,6 @@
         melding_tag: school
         melding_group: kindjes
     continue_on_error: true
-  mode: single
-- id: '1756804854733'
-  alias: 'HVAC: Airco Slaapkamer - Aan volgens Power'
-  description: Zet de airco van de slaapkamer aan bij zonne-overschot, mits ramen
-    dicht zijn.
-  triggers:
-  - trigger: numeric_state
-    entity_id: sensor.elektriciteit_meter_p1_vermogen
-    for:
-      minutes: 5
-    below: -500
-  - trigger: numeric_state
-    entity_id: sensor.hue_sensor_buiten_temperature
-    above: 19
-  - trigger: state
-    entity_id: binary_sensor.aqara_raamsensor_4
-    to: 'off'
-  - trigger: numeric_state
-    entity_id: climate.slaapkamer
-    above: 21
-    attribute: current_temperature
-  conditions:
-  - condition: numeric_state
-    entity_id: climate.airco_slaapkamer
-    above: 21
-    attribute: current_temperature
-  - condition: not
-    conditions:
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Slapen
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Op Vakantie
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Op Vakantie (Bezoek)
-  - condition: numeric_state
-    entity_id: sensor.hue_sensor_buiten_temperature
-    above: 19
-  - condition: numeric_state
-    entity_id: sensor.elektriciteit_meter_p1_vermogen
-    below: -200
-  - condition: state
-    entity_id: climate.airco_slaapkamer
-    state: 'off'
-  actions:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: binary_sensor.aqara_raamsensor_4
-        state: 'on'
-      sequence:
-      - action: ai_task.generate_data
-        continue_on_error: true
-        data:
-          task_name: Airco Raam Open Slaapkamer
-          entity_id: ai_task.google_ai_task
-          instructions: "Je bent Siri. Er is momenteel veel gratis zonne-energie beschikbaar
-            om de airco in de grote slaapkamer aan te zetten, maar het raam staat
-            daar nog open! Vertel de bewoners (Bert en Caroline) op een enthousiaste
-            maar dringende manier dat ze het raam van de slaapkamer moeten sluiten,
-            zodat de airco kan beginnen met koelen voor een heerlijk frisse nacht.
-            Maak er een leuk of plagend grapje van (bijvoorbeeld over een snikhete
-            kamer vanavond of dat ze de buitenlucht aan het koelen zijn). Houd het
-            kort voor een iOS melding en spraakbericht.\nCONTEXT: - Status thuis:
-            Bert ({{ states('person.bert') }}), Caroline ({{ states('person.caroline')
-            }}), Bezoek actief: {{ states('binary_sensor.bezoek') }}.\nSTRIKTE FORMATTERING
-            REGELS:\n1. Geef DIRECT de tekst van de melding. Typ GEEN introductie
-            zoals \"Hier is de melding:\" of \"Oké, ik heb dit gemaakt:\".\n2. Gebruik
-            NOOIT Markdown-opmaak. Gebruik GEEN sterretjes (**) voor vetgedrukte tekst.
-            \n3. De output moet pure, schone platte tekst zijn die direct in een pushnotificatie
-            past."
-        response_variable: ai_antwoord
-      - action: script.turn_on
-        target:
-          entity_id: script.centraal_universele_notificatie_spraak
-        data:
-          variables:
-            melding_titel: "\U0001F6CF️ SLAAPKAMER RAAM TOE AUB"
-            melding_tekst: "{% set lokale_modus = is_state('input_boolean.lokale_notificaties',
-              'on') %} {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
-              is defined and ai_antwoord.data | trim != \"\" %}\n{% if not lokale_modus
-              and ai_beschikbaar %}\n  {{ ai_antwoord.data }}\n{% else %}\n  ⚠️ [Lokaal]
-              Er is voldoende zonne-energie om de slaapkamer te koelen, maar het raam
-              staat nog open! Sluit het raam om de airco te starten.\n{% endif %}"
-            prioriteit: Geen
-            melding_tag: hvac-status-slaapkamer
-            melding_group: huis
-        continue_on_error: true
-      - delay: 01:00:00
-    default:
-    - action: climate.set_hvac_mode
-      target:
-        entity_id: climate.airco_slaapkamer
-      data:
-        hvac_mode: cool
-    - action: climate.set_temperature
-      target:
-        entity_id: climate.airco_slaapkamer
-      data:
-        temperature: 19
   mode: single
 - id: '1757946218637'
   alias: 'HVAC: Verwarming Keuken - Deuren open dus Verlagen'
@@ -8233,33 +6575,6 @@
     continue_on_error: true
   mode: single
   max_exceeded: silent
-- id: '1761203346618'
-  alias: Notificatie - Persistent naar Mobiel
-  description: Stuurt elke nieuw aangemaakte persistente notificatie door naar de
-    iPhone van Bert.
-  mode: parallel
-  max_exceeded: silent
-  triggers:
-  - trigger: event
-    event_type: call_service
-    event_data:
-      domain: persistent_notification
-      service: create
-  conditions:
-  - condition: template
-    value_template: '{{ trigger.event.data.service_data.message is defined }}'
-  actions:
-  - action: notify.mobile_app_iphone_van_bert
-    data:
-      title: '{{ trigger.event.data.service_data.title | default(''Home Assistant
-        Notificatie'') }}'
-      message: '{{ trigger.event.data.service_data.message }}'
-      data:
-        tag: '{{ trigger.event.data.service_data.notification_id | default(''ha_persistent'')
-          }}'
-        group: HA-Persistent
-        push:
-          interruption-level: active
 - id: '1764674501249'
   alias: 'Personen: Zones (Thuis) - Laatste persoon vertrekt'
   description: Activeert het AI-notificatiescript met specifieke prioriteit voor de
@@ -8524,176 +6839,6 @@
           prioriteit: Geen
           melding_tag: solar-heating-status
       continue_on_error: true
-  mode: single
-- id: '1777018613284'
-  alias: 'HVAC: Zonne-energie - Slaapkamer Klimaatbeheer'
-  description: Verwarmt of koelt de zolderslaapkamer bij zonne-overschot zodra de
-    Zendure batterij vol is, afhankelijk van de centrale woningmodus.
-  triggers:
-  - trigger: time_pattern
-    minutes: /15
-  conditions:
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: sensor.woning_hvac_modus
-      state: Verwarmen
-    - condition: state
-      entity_id: sensor.woning_hvac_modus
-      state: Koelen
-  - condition: numeric_state
-    entity_id: sensor.solarflow_2400_ac_electric_level
-    above: 95
-  - condition: numeric_state
-    entity_id: sensor.solaredge_current_power
-    above: 1300
-  - condition: numeric_state
-    entity_id: sensor.elektriciteit_meter_p1_vermogen
-    below: -1000
-  - condition: not
-    conditions:
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Slapen
-    alias: Check Woning Status
-  - condition: state
-    entity_id: binary_sensor.aqara_raamsensor_4
-    state: 'off'
-  - condition: template
-    value_template: "{% set modus = states('sensor.woning_hvac_modus') %} {% set temp
-      = state_attr('climate.slaapkamer', 'current_temperature') | float(21) %} {%
-      if modus == 'Verwarmen' and temp < 20 %}\n  true\n{% elif modus == 'Koelen'
-      and temp > 22 %}\n  true\n{% else %}\n  false\n{% endif %}"
-  actions:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: sensor.woning_hvac_modus
-        state: Verwarmen
-      sequence:
-      - action: climate.set_hvac_mode
-        target:
-          entity_id: climate.airco_slaapkamer
-        data:
-          hvac_mode: heat
-      - action: climate.set_temperature
-        target:
-          entity_id: climate.airco_slaapkamer
-        data:
-          temperature: 20
-    - conditions:
-      - condition: state
-        entity_id: sensor.woning_hvac_modus
-        state: Koelen
-      sequence:
-      - action: climate.set_hvac_mode
-        target:
-          entity_id: climate.airco_slaapkamer
-        data:
-          hvac_mode: cool
-      - action: climate.set_temperature
-        target:
-          entity_id: climate.airco_slaapkamer
-        data:
-          temperature: 18
-  - action: ai_task.generate_data
-    continue_on_error: true
-    data:
-      task_name: Universele Notificatie Klimaat
-      entity_id: ai_task.google_ai_task
-      instructions: 'Je bent Siri, een gevatte en behulpzame huisassistent voor Bert
-        en Caroline.  Meld dat we de slaapkamer op zolder momenteel GRATIS aan het
-        {{ ''voorverwarmen'' if is_state(''sensor.woning_hvac_modus'', ''Verwarmen'')
-        else ''voorkoelen'' }} zijn met de airco omdat de thuisbatterij vol is en
-        de zon hard schijnt (opbrengst: {{ states(''sensor.solaredge_current_power'')
-        }}W).  Houd het kort en gevat (max 2 zinnen).'
-    response_variable: ai_antwoord
-  - action: script.turn_on
-    target:
-      entity_id: script.centraal_universele_notificatie_spraak
-    data:
-      variables:
-        melding_titel: ☀️ Zonne-klimaat Update
-        melding_tekst: "{% set lokale_modus = is_state('input_boolean.lokale_notificaties',
-          'on') %}  {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
-          is defined and ai_antwoord.data | trim != \"\" %} {% if not lokale_modus
-          and ai_beschikbaar %}\n  {{ ai_antwoord.data }}\n{% else %}\n  ⚠️ [Lokaal]
-          De zolder wordt aangestuurd op zonne-energie.\n{% endif %}"
-        prioriteit: Geen
-        melding_tag: solar-heating-status
-  mode: single
-- id: '1777018928190'
-  alias: 'HVAC: Zonne-energie: Kinderkamers Klimaatbeheer UIT'
-  description: Schakelt de zonne-sturing van de airco's van Elmo en Trix uit zodra
-    de omstandigheden wijzigen en herstelt de Evohome indien nodig.
-  triggers:
-  - trigger: state
-    entity_id: input_select.woning_status
-    to: Slapen
-  - trigger: state
-    entity_id: input_select.woning_status
-    to: Op Vakantie
-  - trigger: state
-    entity_id: sensor.woning_hvac_modus
-    to: Verluchten
-  - trigger: numeric_state
-    entity_id:
-    - sensor.elektriciteit_meter_p1_vermogen
-    for:
-      minutes: 10
-    above: 2000
-  conditions:
-  - condition: or
-    conditions:
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.airco_elmo
-        state: 'off'
-    - condition: not
-      conditions:
-      - condition: state
-        entity_id: climate.airco_trix
-        state: 'off'
-  actions:
-  - action: climate.set_hvac_mode
-    target:
-      entity_id:
-      - climate.airco_trix
-      - climate.airco_elmo
-    data:
-      hvac_mode: 'off'
-  - if:
-    - condition: state
-      entity_id: sensor.woning_hvac_modus
-      state: Verwarmen
-    - condition: and
-      conditions:
-      - condition: or
-        conditions:
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_2
-          state: 'off'
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_2
-          state: unavailable
-      - condition: or
-        conditions:
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_3
-          state: 'off'
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_3
-          state: unavailable
-      alias: 'Check: Centraal verwarmen & ramen dicht'
-    then:
-    - action: climate.set_hvac_mode
-      target:
-        entity_id:
-        - climate.elmo
-        - climate.trix
-      data:
-        hvac_mode: heat
   mode: single
 - id: '1777019809055'
   alias: 'HVAC: Zonne-energie: Airco''s Centraal UIT'
@@ -9287,394 +7432,6 @@
         continue_on_error: true
   mode: parallel
   max: 10
-- id: '1779261248565'
-  alias: 'HVAC: Airco''s Boven - Centraal Aan volgens Power'
-  description: Regelt het inschakelen van de airco's boven (Elmo en Trix) bij zonne-overschot
-    en voorkomt dubbele raammeldingen.
-  triggers:
-  - trigger: numeric_state
-    entity_id: sensor.elektriciteit_meter_p1_vermogen
-    for:
-      minutes: 5
-    below: -500
-  - trigger: numeric_state
-    entity_id: sensor.hue_sensor_buiten_temperature
-    above: 19
-  - trigger: state
-    entity_id:
-    - binary_sensor.aqara_raamsensor_2
-    - binary_sensor.aqara_raamsensor_3
-    to: 'off'
-  - trigger: numeric_state
-    entity_id: climate.airco_elmo
-    above: 21
-    attribute: current_temperature
-  - trigger: numeric_state
-    entity_id: climate.airco_trix
-    above: 21
-    attribute: current_temperature
-  conditions:
-  - condition: not
-    conditions:
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Slapen
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Op Vakantie
-    - condition: state
-      entity_id: input_select.woning_status
-      state: Op Vakantie (Bezoek)
-  - condition: numeric_state
-    entity_id: sensor.hue_sensor_buiten_temperature
-    above: 19
-  - condition: numeric_state
-    entity_id: sensor.elektriciteit_meter_p1_vermogen
-    below: -200
-  - condition: or
-    conditions:
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: climate.airco_elmo
-        state: 'off'
-      - condition: numeric_state
-        entity_id: climate.airco_elmo
-        above: 21
-        attribute: current_temperature
-    - condition: and
-      conditions:
-      - condition: state
-        entity_id: climate.airco_trix
-        state: 'off'
-      - condition: numeric_state
-        entity_id: climate.airco_trix
-        above: 21
-        attribute: current_temperature
-  actions:
-  - delay:
-      hours: 0
-      minutes: 0
-      seconds: 20
-      milliseconds: 0
-  - choose:
-    - conditions:
-      - condition: or
-        conditions:
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_2
-          state: 'on'
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_3
-          state: 'on'
-      sequence:
-      - action: ai_task.generate_data
-        continue_on_error: true
-        data:
-          task_name: Airco Ramen Open Centraal Boven
-          entity_id: ai_task.google_ai_task
-          instructions: "Je bent Siri. Er is momenteel veel gratis zonne-energie beschikbaar
-            om de airco's boven aan te zetten, maar er staan nog ramen open in de
-            kinderkamers! Vertel de bewoners (Bert en Caroline) op een enthousiaste
-            maar dringende manier dat ze de ramen moeten sluiten, zodat de airco's
-            kunnen beginnen met koelen.\nHUIDIGE RAAMSTATUS: - Raamsensor 2 (Kamer
-            1): {{ states('binary_sensor.aqara_raamsensor_2') }} - Raamsensor 3 (Kamer
-            2): {{ states('binary_sensor.aqara_raamsensor_3') }}\nREGELS: - Als BEIDE
-            ramen openstaan, vermeld dat dan expliciet. Als er maar ééntje openstaat,
-            noem dan specifiek welke openstaat op basis van de sensors hierboven (on
-            = open, off = dicht). - Maak er een leuk grapje van (bijvoorbeeld over
-            het koelen van de vogels). Houd het kort voor een iOS melding en spraakbericht.\nCONTEXT:
-            - Status thuis: Bert ({{ states('person.bert') }}), Caroline ({{ states('person.caroline')
-            }}), Bezoek actief: {{ states('binary_sensor.bezoek') }}.\nSTRIKTE FORMATTERING
-            REGELS:\n1. Geef DIRECT de tekst van de melding. Typ GEEN introductie
-            zoals \"Hier is de melding:\" of \"Oké, ik heb dit gemaakt:\".\n2. Gebruik
-            NOOIT Markdown-opmaak. Gebruik GEEN sterretjes (**) voor vetgedrukte tekst.
-            \n3. De output moet pure, schone platte tekst zijn die direct in een pushnotificatie
-            past."
-        response_variable: ai_antwoord
-      - action: script.turn_on
-        target:
-          entity_id: script.centraal_universele_notificatie_spraak
-        data:
-          variables:
-            melding_titel: KINDERKAMERS RAMEN TOE AUB ❄️
-            melding_tekst: "{% set lokale_modus = is_state('input_boolean.lokale_notificaties',
-              'on') %} {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
-              is defined and ai_antwoord.data | trim != \"\" %}\n{% if not lokale_modus
-              and ai_beschikbaar %}\n  {{ ai_antwoord.data }}\n{% else %}\n  {% set
-              r2 = is_state('binary_sensor.aqara_raamsensor_2', 'on') %}\n  {% set
-              r3 = is_state('binary_sensor.aqara_raamsensor_3', 'on') %}\n  ⚠️ [Lokaal]
-              Er is voldoende zonne-energie voor de airco's boven, maar er staan nog
-              ramen open! \n  {%- if r2 and r3 %} Sluit aub raamsensor 2 en 3.{% elif
-              r2 %} Sluit aub raamsensor 2.{% else %} Sluit aub raamsensor 3.{% endif
-              %}\n{% endif %}"
-            prioriteit: Geen
-            melding_tag: hvac-status-boven
-            melding_group: huis
-        continue_on_error: true
-      - delay: 01:00:00
-    default:
-    - if:
-      - condition: state
-        entity_id: climate.airco_elmo
-        state: 'off'
-      - condition: numeric_state
-        entity_id: climate.airco_elmo
-        above: 21
-        attribute: current_temperature
-      then:
-      - action: climate.set_hvac_mode
-        target:
-          entity_id: climate.airco_elmo
-        data:
-          hvac_mode: cool
-      - action: climate.set_temperature
-        target:
-          entity_id: climate.airco_elmo
-        data:
-          temperature: 19
-    - if:
-      - condition: state
-        entity_id: climate.airco_trix
-        state: 'off'
-      - condition: numeric_state
-        entity_id: climate.airco_trix
-        above: 21
-        attribute: current_temperature
-      then:
-      - action: climate.set_hvac_mode
-        target:
-          entity_id: climate.airco_trix
-        data:
-          hvac_mode: cool
-      - action: climate.set_temperature
-        target:
-          entity_id: climate.airco_trix
-        data:
-          temperature: 19
-  mode: single
-  max_exceeded: silent
-- id: '1779261911035'
-  alias: 'HVAC: Airco''s Boven - Centraal volgens Boolean Koelen'
-  description: Stuurt de airco's boven aan (Elmo & Trix) op basis van de centrale
-    koel-boolean en regelt slimme notificaties via het centrale script.
-  triggers:
-  - trigger: state
-    entity_id: input_boolean.cooling_upstairs
-  conditions:
-  - condition: not
-    conditions:
-    - condition: state
-      entity_id: input_select.woning_status
-      state:
-      - Slapen
-      - Op Vakantie
-      - Op Vakantie (Bezoek)
-  actions:
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: input_boolean.cooling_upstairs
-        state: 'on'
-      - condition: or
-        conditions:
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_2
-          state:
-          - 'on'
-          - unavailable
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_3
-          state:
-          - 'on'
-          - unavailable
-      sequence:
-      - action: ai_task.generate_data
-        continue_on_error: true
-        data:
-          task_name: Airco Boolean Notificatie Boven
-          entity_id: ai_task.google_ai_task
-          instructions: "Je bent Siri en beheert het klimaat op de eerste verdieping
-            (kinderkamers van Elmo en Trix).\nSITUATIE 1 (cooling_upstairs is 'on'):
-            Het wordt buiten warm en de airco's moeten gaan koelen, maar er staan
-            nog ramen open! Vertel Bert en Caroline op een grappige maar dringende
-            manier dat de ramen boven dicht moeten om te voorkomen dat we de vogels
-            buiten aan het koelen zijn.\nSITUATIE 2 (cooling_upstairs is 'off'): Het
-            is buiten nu frisser dan binnen en de verwarming staat uit. Moedig ze
-            op een vrolijke manier aan om de ramen boven wagenwijd open te zetten
-            om gratis te verluchten en te koelen.\nHUIDIGE STATUS: - Centrale koeling
-            (cooling_upstairs): {{ states('input_boolean.cooling_upstairs') }} - Raamsensor
-            2: {{ states('binary_sensor.aqara_raamsensor_2') }} - Raamsensor 3: {{
-            states('binary_sensor.aqara_raamsensor_3') }}\nHoud het kort, vlot en
-            perfect geschikt voor een iOS notificatie en HomePod spraakbericht.\nSTRIKTE
-            FORMATTERING REGELS:\n1. Geef DIRECT de tekst van de melding. Typ GEEN
-            introductie zoals \"Hier is de melding:\" of \"Oké, ik heb dit gemaakt:\".\n2.
-            Gebruik NOOIT Markdown-opmaak. Gebruik GEEN sterretjes (**) voor vetgedrukte
-            tekst. \n3. De output moet pure, schone platte tekst zijn die direct in
-            een pushnotificatie past."
-        response_variable: ai_antwoord
-      - action: script.turn_on
-        target:
-          entity_id: script.centraal_universele_notificatie_spraak
-        data:
-          variables:
-            melding_titel: "{{ '⚠️ KINDERKAMERS RAMEN TOE AUB' if is_state('input_boolean.cooling_upstairs',
-              'on') else '\U0001F32C️ KINDERKAMERS VERLUCHTEN AUB' }}"
-            melding_tekst: "{% set lokale_modus = is_state('input_boolean.lokale_notificaties',
-              'on') %} {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
-              is defined and ai_antwoord.data | trim != \"\" %}\n{% if not lokale_modus
-              and ai_beschikbaar %}\n  {{ ai_antwoord.data }}\n{% else %}\n  ⚠️ [Lokaal]
-              {% if is_state('input_boolean.cooling_upstairs', 'on') %}Het wordt warm.
-              Sluit de ramen boven zodat de airco's kunnen koelen!{% else %}Het is
-              buiten frisser. Zet de ramen van de kinderkamers open om te verluchten!{%
-              endif %}\n{% endif %}"
-            prioriteit: Geen
-            melding_tag: hvac-status-boven
-            melding_group: huis
-        continue_on_error: true
-    - conditions:
-      - condition: state
-        entity_id: input_boolean.cooling_upstairs
-        state: 'off'
-      - condition: state
-        entity_id: input_boolean.heating
-        state: 'off'
-      - condition: or
-        conditions:
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_2
-          state:
-          - 'off'
-          - unavailable
-        - condition: state
-          entity_id: binary_sensor.aqara_raamsensor_3
-          state:
-          - 'off'
-          - unavailable
-      sequence:
-      - action: ai_task.generate_data
-        continue_on_error: true
-        data:
-          task_name: Airco Boolean Notificatie Boven
-          entity_id: ai_task.google_ai_task
-          instructions: "Je bent Siri en beheert het klimaat op de eerste verdieping
-            (kinderkamers van Elmo en Trix).\nSITUATIE 1 (cooling_upstairs is 'on'):
-            Het wordt buiten warm en de airco's moeten gaan koelen, maar er staan
-            nog ramen open! Vertel Bert en Caroline op een grappige maar dringende
-            manier dat de ramen boven dicht moeten om te voorkomen dat we de vogels
-            buiten aan het koelen zijn.\nSITUATIE 2 (cooling_upstairs is 'off'): Het
-            is buiten nu frisser dan binnen en de verwarming staat uit. Moedig ze
-            op een vrolijke manier aan om de ramen boven wagenwijd open te zetten
-            om gratis te verluchten en te koelen.\nHUIDIGE STATUS: - Centrale koeling
-            (cooling_upstairs): {{ states('input_boolean.cooling_upstairs') }} - Raamsensor
-            2: {{ states('binary_sensor.aqara_raamsensor_2') }} - Raamsensor 3: {{
-            states('binary_sensor.aqara_raamsensor_3') }}\nHoud het kort, vlot en
-            perfect geschikt voor een iOS notificatie en HomePod spraakbericht.\nSTRIKTE
-            FORMATTERING REGELS:\n1. Geef DIRECT de tekst van de melding. Typ GEEN
-            introductie zoals \"Hier is de melding:\" of \"Oké, ik heb dit gemaakt:\".\n2.
-            Gebruik NOOIT Markdown-opmaak. Gebruik GEEN sterretjes (**) voor vetgedrukte
-            tekst. \n3. De output moet pure, schone platte tekst zijn die direct in
-            een pushnotificatie past."
-        response_variable: ai_antwoord
-      - action: script.turn_on
-        target:
-          entity_id: script.centraal_universele_notificatie_spraak
-        data:
-          variables:
-            melding_titel: "{{ '⚠️ KINDERKAMERS RAMEN TOE AUB' if is_state('input_boolean.cooling_upstairs',
-              'on') else '\U0001F32C️ KINDERKAMERS VERLUCHTEN AUB' }}"
-            melding_tekst: "{% set lokale_modus = is_state('input_boolean.lokale_notificaties',
-              'on') %} {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
-              is defined and ai_antwoord.data | trim != \"\" %}\n{% if not lokale_modus
-              and ai_beschikbaar %}\n  {{ ai_antwoord.data }}\n{% else %}\n  ⚠️ [Lokaal]
-              {% if is_state('input_boolean.cooling_upstairs', 'on') %}Het wordt warm.
-              Sluit de ramen boven zodat de airco's kunnen koelen!{% else %}Het is
-              buiten frisser. Zet de ramen van de kinderkamers open om te verluchten!{%
-              endif %}\n{% endif %}"
-            prioriteit: Geen
-            melding_tag: hvac-status-boven
-            melding_group: huis
-        continue_on_error: true
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: input_boolean.cooling_upstairs
-        state: 'on'
-      - condition: state
-        entity_id: schedule.slapen_elmo
-        state: 'off'
-      - condition: state
-        entity_id: binary_sensor.aqara_raamsensor_2
-        state:
-        - 'off'
-        - unavailable
-      - condition: state
-        entity_id: binary_sensor.aqara_raamsensor_3
-        state:
-        - 'off'
-        - unavailable
-      sequence:
-      - action: climate.set_hvac_mode
-        target:
-          entity_id: climate.airco_elmo
-        data:
-          hvac_mode: cool
-      - action: climate.set_temperature
-        target:
-          entity_id: climate.airco_elmo
-        data:
-          temperature: 20
-    - conditions:
-      - condition: state
-        entity_id: input_boolean.cooling_upstairs
-        state: 'off'
-      sequence:
-      - action: climate.set_hvac_mode
-        target:
-          entity_id: climate.airco_elmo
-        data:
-          hvac_mode: 'off'
-  - choose:
-    - conditions:
-      - condition: state
-        entity_id: input_boolean.cooling_upstairs
-        state: 'on'
-      - condition: state
-        entity_id: schedule.slapen_trix
-        state: 'off'
-      - condition: state
-        entity_id: binary_sensor.aqara_raamsensor_2
-        state:
-        - 'off'
-        - unavailable
-      - condition: state
-        entity_id: binary_sensor.aqara_raamsensor_3
-        state:
-        - 'off'
-        - unavailable
-      sequence:
-      - action: climate.set_hvac_mode
-        target:
-          entity_id: climate.airco_trix
-        data:
-          hvac_mode: cool
-      - action: climate.set_temperature
-        target:
-          entity_id: climate.airco_trix
-        data:
-          temperature: 20
-    - conditions:
-      - condition: state
-        entity_id: input_boolean.cooling_upstairs
-        state: 'off'
-      sequence:
-      - action: climate.set_hvac_mode
-        target:
-          entity_id: climate.airco_trix
-        data:
-          hvac_mode: 'off'
-  mode: single
-  max_exceeded: silent
 - id: '1779262620652'
   alias: 'HVAC: Centraal - Noodrem bij Stroompiek'
   description: Zet ALLE airco's direct uit bij een stroompiek boven de 2500W op de
@@ -9735,67 +7492,6 @@
       - condition: state
         entity_id: climate.airco_slaapkamer
         state: 'off'
-    then:
-    - action: climate.set_hvac_mode
-      target:
-        entity_id: climate.airco_slaapkamer
-      data:
-        hvac_mode: 'off'
-  mode: single
-  max_exceeded: silent
-- id: '1779263109852'
-  alias: 'HVAC: Airco''s - Centraal Uit bij Maandpiek Gevaar'
-  description: 'Financiële noodrem: Zet álle airco''s uit als het netverbruik (P1)
-    de huidige maandpiek dreigt te overschrijden vanwege het capaciteitstarief.'
-  triggers:
-  - trigger: numeric_state
-    entity_id: sensor.elektriciteit_meter_p1_vermogen
-    for:
-      minutes: 3
-    above: 2500
-  conditions:
-  - condition: or
-    conditions:
-    - condition: state
-      entity_id: climate.airco_elmo
-      attribute: hvac_action
-      state: cooling
-    - condition: state
-      entity_id: climate.airco_trix
-      attribute: hvac_action
-      state: cooling
-    - condition: state
-      entity_id: climate.airco_slaapkamer
-      attribute: hvac_action
-      state: cooling
-  actions:
-  - if:
-    - condition: state
-      entity_id: climate.airco_elmo
-      attribute: hvac_action
-      state: cooling
-    then:
-    - action: climate.set_hvac_mode
-      target:
-        entity_id: climate.airco_elmo
-      data:
-        hvac_mode: 'off'
-  - if:
-    - condition: state
-      entity_id: climate.airco_trix
-      attribute: hvac_action
-      state: cooling
-    then:
-    - action: climate.set_hvac_mode
-      target:
-        entity_id: climate.airco_trix
-      data:
-        hvac_mode: 'off'
-  - if:
-    - condition: state
-      entity_id: climate.airco_slaapkamer
-      attribute: hvac_action
-      state: cooling
     then:
     - action: climate.set_hvac_mode
       target:
@@ -10590,3 +8286,102 @@
           entity_id: switch.hue_smart_plug_5
   mode: queued
   max: 10
+- id: '1779958423869'
+  alias: 'Computer: Plex Integration Aan/Uit'
+  description: Zet de Plex integratie aan of uit via Spook op basis van de computerstatus.
+  triggers:
+  - trigger: state
+    entity_id:
+    - switch.wake_on_lan
+    to: 'on'
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+    id: computer_aan
+  - trigger: state
+    entity_id:
+    - switch.wake_on_lan
+    to: 'off'
+    for:
+      hours: 0
+      minutes: 2
+      seconds: 0
+    id: computer_uit
+  conditions: []
+  actions:
+  - choose:
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''computer_aan'' }}'
+      sequence:
+      - action: homeassistant.enable_config_entry
+        data:
+          config_entry_id: 3af0f4f786e997822a4409220460b5d2
+    - conditions:
+      - condition: template
+        value_template: '{{ trigger.id == ''computer_uit'' }}'
+      sequence:
+      - action: homeassistant.disable_config_entry
+        data:
+          config_entry_id: 3af0f4f786e997822a4409220460b5d2
+  mode: single
+- id: '1779959380879'
+  alias: 'Energie: Thuisbatterij - Capaciteitstarief Waarschuwing'
+  description: Stuurt een AI-notificatie naar de ouders wanneer de Zendure thuisbatterij
+    onder de 5% zakt, om pieken in het capaciteitstarief te voorkomen.
+  triggers:
+  - trigger: numeric_state
+    entity_id: sensor.solarflow_2400_ac_electric_level
+    below: 6
+  conditions:
+  - condition: not
+    conditions:
+    - condition: state
+      entity_id: input_select.woning_status
+      state: Slapen
+  - condition: template
+    value_template: '{{ states(''input_select.woning_status'') in [''Thuis'', ''Thuis
+      Werk'', ''Thuis Verlof'', ''Juist Thuis'', ''Juist Wakker''] }}'
+  actions:
+  - action: ai_task.generate_data
+    continue_on_error: true
+    data:
+      task_name: Thuisbatterij Leeg Waarschuwing
+      entity_id: ai_task.google_ai_task
+      instructions: 'Je bent Siri en beheert de energie in het huis van Bert en Caroline.
+
+        SITUATIE: De Zendure thuisbatterij (SolarFlow 2400) is bijna volledig leeg  en
+        heeft het kritieke niveau van {{ states(''sensor.solarflow_2400_ac_electric_level'')
+        }}% bereikt.  Dit betekent dat de batterij vanaf nu GEEN stroompieken meer
+        kan opvangen om het  Vlaamse capaciteitstarief te beschermen.
+
+        Breng ze hiervan op een alerte, vlotte manier op de hoogte. Waarschuw ze  kort
+        dat ze moeten opletten met zware verbruikers (zoals oven, airco''s, droger,
+        etc.)  om een dure piek te vermijden.
+
+        STRIKTE FORMATTERING REGELS: 1. Geef DIRECT de tekst van de melding. Typ GEEN
+        introductie. 2. Gebruik NOOIT Markdown-opmaak (geen sterretjes voor vetgedrukte
+        tekst). 3. De output moet pure, schone platte tekst zijn die geschikt is voor
+        een pushnotificatie en HomePod TTS. 4. Hou het voldoende kort voor een iOS
+        notificatie en spraaknotificatie via HomePods (maximaal 1 à 2 zinnen).'
+    response_variable: ai_antwoord
+  - action: script.turn_on
+    target:
+      entity_id: script.centraal_universele_notificatie_spraak
+    data:
+      variables:
+        melding_titel: "\U0001FAAB Batterij leeg: Let op capaciteitstarief!"
+        melding_tekst: "{% set lokale_modus = is_state('input_boolean.lokale_notificaties',
+          'on') %} {% set ai_beschikbaar = ai_antwoord is defined and ai_antwoord.data
+          is defined and ai_antwoord.data | trim != \"\" %}\n{% if not lokale_modus
+          and ai_beschikbaar %}\n  {{ ai_antwoord.data }}\n{% else %}\n  ⚠️ [Lokaal]
+          De thuisbatterij is gezakt naar {{ states('sensor.solarflow_2400_ac_electric_level')
+          }}%. Let op met zware verbruikers om pieken in het capaciteitstarief te
+          voorkomen!\n{% endif %}"
+        prioriteit: Geen
+        melding_tag: energie-batterij-leeg
+        melding_group: huis
+    continue_on_error: true
+  mode: single
+  max_exceeded: silent
