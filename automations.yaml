@@ -596,91 +596,6 @@
   - delay: 00:00:15
   max_exceeded: silent
   mode: single
-- id: ventilation_upstairs_001
-  alias: 'HVAC: Airco''s Boven - Centraal Boolean Koelen Aan/Uit'
-  description: Schakelt de koel-modus (input_boolean) voor boven aan of uit op basis
-    van het verschil tussen binnen- en buitentemperatuur.
-  triggers:
-  - entity_id: sensor.hue_sensor_buiten_temperature
-    above: sensor.climate_elmo_attribute_current_temperature
-    id: Warmte_Trigger
-    trigger: numeric_state
-  - entity_id: sensor.hue_sensor_buiten_temperature
-    below: sensor.climate_elmo_attribute_current_temperature
-    id: Koude_Trigger
-    trigger: numeric_state
-  - entity_id: sensor.hue_sensor_buiten_temperature
-    above: sensor.climate_trix_attribute_current_temperature
-    id: Warmte_Trigger
-    trigger: numeric_state
-  - entity_id: sensor.hue_sensor_buiten_temperature
-    below: sensor.climate_trix_attribute_current_temperature
-    id: Koude_Trigger
-    trigger: numeric_state
-  - entity_id: sensor.hue_sensor_buiten_temperature
-    above: 23.5
-    for: 00:05:00
-    id: Warmte_Trigger
-    trigger: numeric_state
-  - entity_id: sensor.hue_sensor_buiten_temperature
-    below: 23
-    for: 00:05:00
-    id: Koude_Trigger
-    trigger: numeric_state
-  - entity_id: climate.elmo
-    attribute: current_temperature
-    below: 19
-    id: Koude_Trigger
-    trigger: numeric_state
-  - entity_id: climate.trix
-    attribute: current_temperature
-    below: 19
-    id: Koude_Trigger
-    trigger: numeric_state
-  - entity_id: climate.elmo
-    attribute: current_temperature
-    above: 21
-    id: Warmte_Trigger
-    trigger: numeric_state
-  - entity_id: climate.trix
-    attribute: current_temperature
-    above: 21
-    id: Warmte_Trigger
-    trigger: numeric_state
-  - entity_id: input_boolean.heating
-    to: 'on'
-    id: Koude_Trigger
-    trigger: state
-  actions:
-  - choose:
-    - conditions:
-      - condition: trigger
-        id: Warmte_Trigger
-      - condition: state
-        entity_id: input_boolean.heating
-        state: 'off'
-      - condition: state
-        entity_id: climate.ons_huisje
-        state: 'off'
-      - condition: state
-        entity_id: input_boolean.cooling_upstairs
-        state: 'off'
-      sequence:
-      - action: input_boolean.turn_on
-        target:
-          entity_id: input_boolean.cooling_upstairs
-    - conditions:
-      - condition: trigger
-        id: Koude_Trigger
-      - condition: state
-        entity_id: input_boolean.cooling_upstairs
-        state: 'on'
-      sequence:
-      - action: input_boolean.turn_off
-        target:
-          entity_id: input_boolean.cooling_upstairs
-  mode: single
-  max_exceeded: silent
 - id: ventilation_downstairs_001
   alias: 'HVAC: Airco Beneden - Koelen Aan/Uit'
   description: Schakelt de koel-modus voor de benedenverdieping aan of uit op basis
@@ -737,8 +652,8 @@
 - id: ventilation_downstairs_002
   alias: 'HVAC: Airco Keuken - Notificatie'
   description: Stuurt een slimme notificatie wanneer we moeten koelen (met ramen open)
-    of wanneer we kunnen verluchten (met ramen nog dicht). Alleen actief als we echt
-    thuis zijn.
+    of wanneer we kunnen verluchten (met ramen nog dicht). Houdt rekening met de zon,  de
+    tijd en de specifieke gevels (hitte-eiland / ochtendzon).
   triggers:
   - trigger: state
     entity_id: sensor.woning_hvac_modus
@@ -780,26 +695,32 @@
     data:
       task_name: Airco en Ramen Check Beneden
       entity_id: ai_task.google_ai_task
-      instructions: 'Je bent Siri en beheert het klimaat in het huis van Bert en Caroline.
-
-        SITUATIE 1 (Huidige modus is ''Koelen''): De woning staat in koelmodus,  maar
-        er staan beneden nog ramen of deuren open. Vertel ze op een grappige, dringende
-        manier dat de ramen beneden dicht moeten om te voorkomen dat we de vogels
-        buiten aan het koelen zijn.
-
-        SITUATIE 2 (Huidige modus is ''Verluchten''): Het is buiten officieel frisser
-        dan binnen! De airco''s zijn uit, maar de ramen beneden zijn nog dicht. Moedig
-        ze op een leuke manier aan om het schuifraam of de achterdeur wagenwijd open
-        te zetten om gratis te genieten van de frisse lucht.
-
-        HUIDIGE STATUS BENEDEN: - Centrale HVAC Modus: {{ states(''sensor.woning_hvac_modus'')
-        }} - Achterdeur (sensor 5): {{ states(''binary_sensor.aqara_raamsensor_5'')
-        }} - Schuifraam (sensor 1): {{ states(''binary_sensor.aqara_raamsensor_1'')
-        }}
-
-        STRIKTE FORMATTERING REGELS: 1. Geef DIRECT de tekst van de melding. Typ GEEN
-        introductie. 2. Gebruik NOOIT Markdown-opmaak (geen sterretjes). 3. Pure,
-        schone platte tekst voor een pushnotificatie en HomePod spraak.'
+      instructions: "Je bent Siri en beheert het klimaat in het huis van Bert en Caroline.\nSITUATIE
+        1 (Huidige modus is 'Koelen'): De woning staat in koelmodus,  maar er staan
+        beneden nog ramen of deuren open (schuifraam of achterdeur).  Vertel ze op
+        een grappige, dringende manier dat de ramen beneden dicht moeten  om te voorkomen
+        dat we de vogels buiten aan het koelen zijn.\nSITUATIE 2 (Huidige modus is
+        'Verluchten'): Het is buiten officieel  minstens 3 graden frisser dan binnen!
+        De airco's zijn uit, maar de ramen  beneden zijn nog dicht. Moedig ze aan
+        om te verluchten, maar pas de  volgende STRIKTE GEVEL-LOGICA toe op basis
+        van het weer en de tijd:\n- Schijnt de zon? (Huidige status zon: {{ states('sensor.solaredge_current_power')
+        | float(0) > 1000 }}). - Als de zon NIET schijnt (of het is nacht), adviseer
+        dan om schuifraam en achterdeur heerlijk open te zetten. - Als de zon WEL
+        schijnt, geef dan dit specifieke geveladvies op basis van de tijd (Het is
+        nu {{ now().strftime('%H:%M') }}):\n  1. In de VOORMIDDAG (vóór 12:00u): Waarschuw
+        dat de ochtendzon vol op de VOORGEVEL staat. Adviseer om ENKEL de achterzijde
+        (schuifraam/achterdeur) open te zetten waar schaduw is.\n  2. In de NAMIDDAG/AVOND
+        (vanaf 12:00u): Waarschuw dat de zon nu aan de achterkant staat én dat de
+        voorgevel aan de straatkant een 'hitte-eiland' is door het warme asfalt. Adviseer
+        om strategisch te verluchten waar nu schaduw is.\n\nHUIDIGE STATUS BENEDEN:
+        - Centrale HVAC Modus: {{ states('sensor.woning_hvac_modus') }} - Achterdeur
+        (sensor 5): {{ states('binary_sensor.aqara_raamsensor_5') }} - Schuifraam
+        (sensor 1): {{ states('binary_sensor.aqara_raamsensor_1') }}\nSTRIKTE FORMATTERING
+        REGELS: 1. Geef DIRECT de tekst van de melding. Typ GEEN introductie zoals
+        \"Hier is je advies:\". 2. Gebruik NOOIT Markdown-opmaak (geen sterretjes
+        voor vetgedrukte tekst). 3. De output moet pure, schone platte tekst zijn
+        die geschikt is voor een pushnotificatie en HomePod TTS. 4. Hoe het voldoende
+        kort voor een iOS notificatie en spraak notificatie via HomePods."
     response_variable: ai_antwoord
   - action: script.turn_on
     target:
@@ -818,9 +739,8 @@
           schuifraam open om gratis te verluchten.{% endif %}\n{% endif %}"
         prioriteit: Geen
         melding_tag: hvac-status-beneden
+        melding_group: huis
     continue_on_error: true
-  mode: single
-  max_exceeded: silent
 - id: media_keuken_001
   alias: 'Media: Keuken - Update Media Status'
   description: Zet de keuken media-boolean aan of uit op basis van de afspeelstatus
@@ -10034,8 +9954,8 @@
 - id: '1779709809010'
   alias: 'HVAC: Centraal - Modus Manager'
   description: Bepaalt ALTIJD de hoofdmodus van de woning (Koelen, Verwarmen of Verluchten)
-    op basis van het weer en de binnentemperatuur. Zorgt ervoor dat er in de zomer
-    ook verlucht kan worden als het buiten afkoelt.
+    op basis van temperatuurverschillen. Triggered bij wijzigingen, maar voert acties
+    alleen uit als de modus daadwerkelijk verandert.
   triggers:
   - trigger: time
     at: 06:00:00
@@ -10043,35 +9963,28 @@
     at: '10:00:00'
   - trigger: time
     at: '16:00:00'
-  - trigger: numeric_state
-    entity_id:
-    - sensor.hue_sensor_buiten_temperature
-    above: 22
-    id: warm_buiten
-  - trigger: numeric_state
-    entity_id:
-    - sensor.hue_sensor_buiten_temperature
-    below: 19
-    id: fris_buiten
-  - trigger: state
-    entity_id: input_boolean.zon_verwarming_blokkade
-    to: 'on'
-    id: zon_blokkade_actief
   - trigger: state
     entity_id: sensor.hue_sensor_buiten_temperature
+  - trigger: state
+    entity_id: input_boolean.zon_verwarming_blokkade
   conditions: []
   actions:
+  - variables:
+      t_buiten: '{{ states(''sensor.hue_sensor_buiten_temperature'') | float(20) }}'
+      t_binnen: '{{ state_attr(''climate.ons_huisje'', ''current_temperature'') |
+        float(21) }}'
+      huidige_modus: '{{ states(''input_select.woning_hvac_modus'') }}'
+      berekende_modus: "{% if t_binnen > 22.0 and (t_buiten >= t_binnen or (t_binnen
+        - t_buiten) < 3.0) %}\n  Koelen\n{% elif is_state('input_boolean.zon_verwarming_blokkade',
+        'off') and not is_state('sensor.season', 'summer') and t_buiten < (t_binnen
+        - 1.0) and t_binnen < 21.5 %}\n  Verwarmen\n{% else %}\n  Verluchten\n{% endif
+        %}"
+  - condition: template
+    value_template: '{{ berekende_modus != huidige_modus }}'
   - choose:
     - conditions:
-      - condition: or
-        conditions:
-        - condition: numeric_state
-          entity_id: sensor.hue_sensor_buiten_temperature
-          above: 22
-        - condition: template
-          value_template: '{% set t_buiten = states(''sensor.hue_sensor_buiten_temperature'')
-            | float(0) %} {% set t_binnen = state_attr(''climate.ons_huisje'', ''current_temperature'')
-            | float(0) %} {{ t_buiten > t_binnen and t_binnen > 21.5 }}'
+      - condition: template
+        value_template: '{{ berekende_modus == ''Koelen'' }}'
       sequence:
       - action: input_boolean.turn_off
         target:
@@ -10079,22 +9992,14 @@
       - action: input_boolean.turn_on
         target:
           entity_id: input_boolean.hvac_koeling_aan_uit
+      - action: input_select.select_option
+        target:
+          entity_id: input_select.woning_hvac_modus
+        data:
+          option: Koelen
     - conditions:
-      - condition: state
-        entity_id: input_boolean.zon_verwarming_blokkade
-        state: 'off'
-      - condition: not
-        conditions:
-        - condition: state
-          entity_id: sensor.season
-          state: summer
-      - condition: or
-        conditions:
-        - condition: trigger
-          id: fris_buiten
-        - condition: numeric_state
-          entity_id: sensor.hue_sensor_buiten_temperature
-          below: 19
+      - condition: template
+        value_template: '{{ berekende_modus == ''Verwarmen'' }}'
       sequence:
       - action: input_boolean.turn_off
         target:
@@ -10102,14 +10007,22 @@
       - action: input_boolean.turn_on
         target:
           entity_id: input_boolean.heating
+      - action: input_select.select_option
+        target:
+          entity_id: input_select.woning_hvac_modus
+        data:
+          option: Verwarmen
     default:
     - action: input_boolean.turn_off
       target:
         entity_id:
         - input_boolean.hvac_koeling_aan_uit
         - input_boolean.heating
-  mode: single
-  max_exceeded: silent
+    - action: input_select.select_option
+      target:
+        entity_id: input_select.woning_hvac_modus
+      data:
+        option: Verluchten
 - id: '1779712395054'
   alias: 'HVAC: Centraal - Pre-Condition Systeem Manager'
   description: Regelt het klimaat (Evohome bij verwarmen, Airco's bij koelen) wanneer
