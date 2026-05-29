@@ -1098,8 +1098,8 @@ centraal_universele_notificatie_spraak:
             push:
               sound:
                 name: default
-                critical: '{{ 1 if prioriteit in [''Kritiek'', ''Bert Kritiek''] else
-                  0 }}'
+                critical: '{{ true if prioriteit in [''Kritiek'', ''Bert Kritiek'']
+                  else false }}'
                 volume: '{{ 1.0 if prioriteit in [''Kritiek'', ''Bert Kritiek''] else
                   0.5 }}'
     - alias: Notificatie Caroline
@@ -1114,12 +1114,9 @@ centraal_universele_notificatie_spraak:
             entity_id: input_boolean.notify_caro
             state: 'on'
           - condition: template
-            value_template: '{{ prioriteit in [''Caroline Push'', ''Caroline'', ''Push
-              Alleen''] or (is_state(''person.caroline'', ''home'') and prioriteit
-              not in [''Bert Push'', ''Bert'', ''Bert Kritiek'', ''Spreek Alleen''])
-              }}
-
-              '
+            value_template: "{{ prioriteit in ['Caroline Push', 'Caroline', 'Push
+              Alleen'] or \n   (is_state('person.caroline', 'home') and prioriteit
+              not in ['Bert Push', 'Bert', 'Bert Kritiek', 'Spreek Alleen']) }}\n"
       then:
       - action: notify.mobile_app_iphone_17_van_caroline
         data:
@@ -1131,8 +1128,8 @@ centraal_universele_notificatie_spraak:
             push:
               sound:
                 name: default
-                critical: '{{ 1 if prioriteit in [''Kritiek'', ''Caroline Kritiek'']
-                  else 0 }}'
+                critical: '{{ true if prioriteit in [''Kritiek'', ''Caroline Kritiek'']
+                  else false }}'
                 volume: '{{ 1.0 if prioriteit in [''Kritiek'', ''Caroline Kritiek'']
                   else 0.5 }}'
     continue_on_error: true
@@ -1164,8 +1161,7 @@ centraal_universele_notificatie_spraak:
       conditions:
       - condition: state
         entity_id: input_select.woning_status
-        state:
-        - Slapen
+        state: Slapen
         for:
           hours: 0
           minutes: 5
@@ -1175,8 +1171,7 @@ centraal_universele_notificatie_spraak:
         state: Op Vakantie
     - condition: state
       entity_id: input_boolean.lokale_notificaties
-      state:
-      - 'off'
+      state: 'off'
     then:
     - choose:
       - alias: Overal spreken (Als de kids niet slapen)
