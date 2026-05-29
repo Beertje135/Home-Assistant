@@ -1098,8 +1098,8 @@ centraal_universele_notificatie_spraak:
             push:
               sound:
                 name: default
-                critical: '{{ true if prioriteit in [''Kritiek'', ''Bert Kritiek'']
-                  else false }}'
+                critical: '{{ 1 if prioriteit in [''Kritiek'', ''Bert Kritiek''] else
+                  0 }}'
                 volume: '{{ 1.0 if prioriteit in [''Kritiek'', ''Bert Kritiek''] else
                   0.5 }}'
     - alias: Notificatie Caroline
@@ -1128,8 +1128,8 @@ centraal_universele_notificatie_spraak:
             push:
               sound:
                 name: default
-                critical: '{{ true if prioriteit in [''Kritiek'', ''Caroline Kritiek'']
-                  else false }}'
+                critical: '{{ 1 if prioriteit in [''Kritiek'', ''Caroline Kritiek'']
+                  else 0 }}'
                 volume: '{{ 1.0 if prioriteit in [''Kritiek'', ''Caroline Kritiek'']
                   else 0.5 }}'
     continue_on_error: true
