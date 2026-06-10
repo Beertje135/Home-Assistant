@@ -41,7 +41,6 @@
     entities:
       - binary_sensor.ewelink_ds01_01_opening
       - binary_sensor.ewelink_ds01_02_opening
-      - binary_sensor.ewelink_ds01_03_opening
       - binary_sensor.aqara_raamsensor_1
       - binary_sensor.aqara_raamsensor_2
       - binary_sensor.aqara_raamsensor_3

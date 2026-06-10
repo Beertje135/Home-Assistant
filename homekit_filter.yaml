@@ -32,7 +32,6 @@ include_entities:
   - binary_sensor.hue_outdoor_sensor_2_motion
   - binary_sensor.ewelink_ds01_01_opening
   - binary_sensor.ewelink_ds01_02_opening
-  - binary_sensor.ewelink_ds01_03_opening
   - binary_sensor.bezoek
   - sensor.hue_motion_sensor_2_light_level
   - sensor.hue_motion_sensor_1_light_level
