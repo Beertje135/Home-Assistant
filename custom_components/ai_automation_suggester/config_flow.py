@@ -119,7 +119,9 @@ class ProviderValidator:
 
     async def validate_perplexity(self, api_key: str, model: str) -> Optional[str]:
         hdr = {"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"}
-        payload = {"model": model, "messages": [{"role": "user", "content": "ping"}], "max_tokens": 1}
+        # Perplexity 'sonar' models require max_tokens >= 16; a smaller value is
+        # rejected with a 400 during validation (issue #171).
+        payload = {"model": model, "messages": [{"role": "user", "content": "ping"}], "max_tokens": 16}
         try:
             resp = await self.session.post(ENDPOINT_PERPLEXITY, headers=hdr, json=payload, timeout=self.timeout)
             return None if resp.status == 200 else await resp.text()
@@ -181,6 +183,7 @@ class AIAutomationConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 "OpenRouter": self.async_step_openrouter,
                 "OpenAI Azure": self.async_step_openai_azure,
                 "Generic OpenAI": self.async_step_generic_openai,
+                "LiteLLM": self.async_step_litellm,
             }[self.provider]()
 
         return self.async_show_form(
@@ -194,6 +197,7 @@ class AIAutomationConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                             "Generic OpenAI",
                             "Google",
                             "Groq",
+                            "LiteLLM",
                             "LocalAI",
                             "Mistral AI",
                             "Ollama",
@@ -538,6 +542,29 @@ class AIAutomationConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             user_input,
         )
 
+    async def async_step_litellm(self, user_input=None):
+        """Handle the LiteLLM configuration."""
+        async def _v(ui):
+            if not ui.get(CONF_LITELLM_MODEL):
+                return "Model is required (e.g. openai/gpt-4o, anthropic/claude-sonnet-4-6)"
+
+        schema = {
+            vol.Required(CONF_LITELLM_MODEL, default=DEFAULT_MODELS["LiteLLM"]): str,
+            vol.Optional(CONF_LITELLM_API_KEY, default=""): TextSelector(TextSelectorConfig(type="password")),
+            vol.Optional(CONF_LITELLM_API_BASE, default=""): str,
+            vol.Optional(CONF_LITELLM_TEMPERATURE, default=DEFAULT_TEMPERATURE): vol.All(vol.Coerce(float), vol.Range(min=0.0, max=2.0)),
+        }
+        self._add_token_fields(schema)
+        return await self._provider_form(
+            "litellm",
+            vol.Schema(schema),
+            _v,
+            "AI Automation Suggester (LiteLLM)",
+            {},
+            {},
+            user_input,
+        )
+
     # ───────── Options flow (edit after setup) ─────────
     @staticmethod
     @callback
@@ -654,5 +681,10 @@ class AIAutomationOptionsFlowHandler(config_entries.OptionsFlow):
             schema[vol.Optional(CONF_GENERIC_OPENAI_TEMPERATURE, default=self._get_option(CONF_GENERIC_OPENAI_TEMPERATURE, DEFAULT_TEMPERATURE))] = vol.All(vol.Coerce(float), vol.Range(min=0.0, max=2.0))
             schema[vol.Optional(CONF_GENERIC_OPENAI_VALIDATION_ENDPOINT, default=self._get_option(CONF_GENERIC_OPENAI_VALIDATION_ENDPOINT, ""))] = str
             schema[vol.Optional(CONF_GENERIC_OPENAI_ENABLE_VALIDATION, default=self._get_option(CONF_GENERIC_OPENAI_ENABLE_VALIDATION, False))] = bool
+        elif provider == "LiteLLM":
+            schema[vol.Optional(CONF_LITELLM_API_KEY, default=self._get_option(CONF_LITELLM_API_KEY, ""))] = TextSelector(TextSelectorConfig(type="password"))
+            schema[vol.Optional(CONF_LITELLM_MODEL, default=self._get_option(CONF_LITELLM_MODEL, DEFAULT_MODELS["LiteLLM"]))] = str
+            schema[vol.Optional(CONF_LITELLM_API_BASE, default=self._get_option(CONF_LITELLM_API_BASE, ""))] = str
+            schema[vol.Optional(CONF_LITELLM_TEMPERATURE, default=self._get_option(CONF_LITELLM_TEMPERATURE, DEFAULT_TEMPERATURE))] = vol.All(vol.Coerce(float), vol.Range(min=0.0, max=2.0))
 
         return self.async_show_form(step_id="init", data_schema=vol.Schema(schema))
